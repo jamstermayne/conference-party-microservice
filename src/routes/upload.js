@@ -1,30 +1,21 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs').promises;
 
 const router = express.Router();
 
-// Mobile-optimized file upload config
+// Mobile-optimized upload config
 const upload = multer({
   dest: 'uploads/',
-  limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB limit for mobile
-    files: 1 // Single file upload
-  },
+  limits: { fileSize: 10 * 1024 * 1024, files: 1 },
   fileFilter: (req, file, cb) => {
     const allowedTypes = [
-      'application/pdf',
-      'text/csv',
+      'application/pdf', 'text/csv',
       'application/vnd.ms-excel',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     ];
-    
-    if (allowedTypes.includes(file.mimetype) || file.originalname.endsWith('.csv')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Invalid file type. Only PDF, CSV, XLS, XLSX allowed.'));
-    }
+    const isValid = allowedTypes.includes(file.mimetype) || file.originalname.endsWith('.csv');
+    cb(isValid ? null : new Error('Invalid file type'), isValid);
   }
 });
 
@@ -47,7 +38,6 @@ router.post('/file', upload.single('document'), async (req, res) => {
       uploadedAt: new Date().toISOString()
     };
 
-    // Mobile-optimized response
     res.json({
       success: true,
       file: fileInfo,

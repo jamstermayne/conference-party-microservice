@@ -22,9 +22,11 @@ app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Upload routes
+// API routes
 const uploadRoutes = require('./routes/upload');
+const partiesRoutes = require('./routes/parties');
 app.use('/api/upload', uploadRoutes);
+app.use('/api/parties', partiesRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -36,7 +38,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// API routes placeholder
+// API routes documentation
 app.get('/api', (req, res) => {
   res.json({
     message: 'Conference Party Microservice API',
@@ -44,13 +46,13 @@ app.get('/api', (req, res) => {
     endpoints: {
       health: '/api/health',
       upload: '/api/upload/*',
-      sessions: '/api/sessions/*',
-      parties: '/api/parties/*'
+      parties: '/api/parties/*',
+      sessions: '/api/sessions/*'
     }
   });
 });
 
-// 404 handler - FIXED
+// 404 handler
 app.use((req, res) => {
   res.status(404).json({
     error: 'Endpoint not found',
