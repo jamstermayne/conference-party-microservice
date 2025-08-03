@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * File Previewer Tool
+ * File Previewer Tool - Compact
  * Purpose: CLI tool that calls preview-service microservice
  * Pattern: Tool → Microservice (1 function = 1 result)
  * Genesis Compliance: ≤95 lines
@@ -21,16 +21,14 @@ async function runFilePreviewer() {
     }
 
     console.log('📄 FILE PREVIEW - MICROSERVICES ARCHITECTURE');
-    console.log('═'.repeat(50));
+    console.log('══════════════════════════════════════════════════');
 
     try {
-        // Check if file exists
         if (!await fileExists(filePath)) {
             console.log(`❌ File not found: ${filePath}`);
             process.exit(1);
         }
 
-        // Get file info
         const stats = await fs.promises.stat(filePath);
         const ext = path.extname(filePath).toLowerCase();
         const fileName = path.basename(filePath);
@@ -40,25 +38,19 @@ async function runFilePreviewer() {
         console.log(`📊 Size: ${fileSize}`);
         console.log(`🔍 Type: ${ext}`);
 
-        // Call appropriate microservice based on file type
+        // Call appropriate microservice
         let result;
         switch (ext) {
             case '.csv':
-                // Call CSV microservice - single function, single result
                 result = await previewCSV(filePath);
                 displayCSVResult(result);
                 break;
-                
             case '.json':
-                // TODO: Call JSON microservice when built
                 console.log('\n🔗 JSON preview microservice coming soon');
                 break;
-                
             case '.txt':
-                // TODO: Call TXT microservice when built  
                 console.log('\n📝 TXT preview microservice coming soon');
                 break;
-                
             default:
                 console.log(`\n⚠️  Unsupported file type: ${ext}`);
                 console.log('📋 Supported: .csv, .json, .txt');
@@ -79,7 +71,7 @@ function displayCSVResult(result) {
         return;
     }
 
-    const { structure, meta } = result;
+    const { structure } = result;
     
     console.log(`\n📋 CSV Structure:`);
     console.log(`   Total Rows: ${structure.totalRows}`);
@@ -89,7 +81,7 @@ function displayCSVResult(result) {
     console.log(`\n🏷️  Headers: ${structure.headers.join(', ')}`);
     
     if (structure.sampleData.length > 0) {
-        console.log('\n📊 Sample Data:');
+        console.log('\n�� Sample Data:');
         structure.sampleData.forEach((row, index) => {
             console.log(`   Row ${index + 1}: ${row.slice(0, 3).join(' | ')}`);
         });
@@ -113,7 +105,6 @@ function formatFileSize(bytes) {
     return (bytes / 1048576).toFixed(1) + ' MB';
 }
 
-// CLI execution
 if (require.main === module) {
     runFilePreviewer();
 }
