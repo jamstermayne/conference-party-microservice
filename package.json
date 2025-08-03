@@ -1,7 +1,7 @@
 {
   "name": "conference-party-microservice",
   "version": "1.0.0",
-  "description": "REST API microservice for conference and party file processing with mobile-first design",
+  "description": "TRUE microservices architecture with 1 function = 1 result principle",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
@@ -10,12 +10,15 @@
     "test:watch": "jest --watch",
     "build": "echo 'Build process - Docker container'",
     "lint": "echo 'Linting - will add ESLint later'",
+    
     "api-status": "node tools/api-inspector.js",
     "api-test": "node tools/api-tester.js",
-    "genesis-fix": "node tools/genesis-auto-fix.js",
-    "preview-file": "node tools/file-preview.js"
+    
+    "session-start": "node tools/session-starter.js",
+    "genesis-check": "node tools/genesis-checker.js",
+    "preview-file": "node tools/file-previewer.js"
   },
-  "keywords": ["microservice", "api", "conference", "party", "mobile-first"],
+  "keywords": ["microservices", "api", "conference", "party", "mobile-first", "genesis-compliant"],
   "author": "",
   "license": "ISC",
   "dependencies": {
