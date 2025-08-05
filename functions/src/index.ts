@@ -15,11 +15,93 @@ export const health = onRequest({ invoker: "public" }, async (req: Request, res:
   });
 });
 
-// Party feed endpoint - separate function
+// CSV Upload endpoint - separate function
+export const uploadParties = onRequest({ invoker: "public" }, async (req: Request, res: Response) => {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ success: false, error: 'Method not allowed' });
+  }
+
+  try {
+    const busboy = require('busboy');
+    const bb = busboy({ headers: req.headers });
+    let csvData = '';
+
+    bb.on('file', (name: string, file: any, info: any) => {
+      if (info.mimeType !== 'text/csv' && !info.filename.endsWith('.csv')) {
+        return res.status(400).json({ success: false, error: 'Only CSV files allowed' });
+      }
+
+      file.on('data', (data: any) => {
+        csvData += data;
+      });
+    });
+
+    bb.on('finish', async () => {
+      try {
+        // Parse CSV data
+        const Papa = require('papaparse');
+        const parsed = Papa.parse(csvData, {
+          header: true,
+          skipEmptyLines: true,
+          dynamicTyping: true
+        });
+
+        if (parsed.errors.length > 0) {
+          return res.status(400).json({ 
+            success: false, 
+            error: 'CSV parsing failed',
+            details: parsed.errors 
+          });
+        }
+
+        // Store in Firestore
+        const db = getFirestore();
+        const batch = db.batch();
+        
+        parsed.data.forEach((party: any, index: number) => {
+          const partyRef = db.collection('parties').doc(`party-${Date.now()}-${index}`);
+          batch.set(partyRef, {
+            ...party,
+            uploadedAt: new Date().toISOString(),
+            active: true
+          });
+        });
+
+        await batch.commit();
+
+        res.json({
+          success: true,
+          message: `${parsed.data.length} parties uploaded successfully`,
+          count: parsed.data.length
+        });
+
+      } catch (error) {
+        res.status(500).json({
+          success: false,
+          error: error instanceof Error ? error.message : 'Upload processing failed'
+        });
+      }
+    });
+
+    bb.on('error', (error: any) => {
+      res.status(500).json({ success: false, error: 'File upload failed' });
+    });
+
+    req.pipe(bb);
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Upload failed'
+    });
+  }
+});
+
+// Party feed endpoint - separate function (UPDATED)
 export const partiesFeed = onRequest({ invoker: "public" }, async (req: Request, res: Response) => {
   try {
     const db = getFirestore();
-    const partiesRef = db.collection('parties');
+    const partiesRef = db.collection('parties').where('active', '==', true);
     const snapshot = await partiesRef.get();
     
     const parties = snapshot.docs.map(doc => ({
@@ -27,11 +109,14 @@ export const partiesFeed = onRequest({ invoker: "public" }, async (req: Request,
       ...doc.data()
     }));
     
+    // If no uploaded parties exist, use fallback
+    const finalParties = parties.length > 0 ? parties : getFallbackParties();
+    
     res.json({
       success: true,
-      data: parties.length > 0 ? parties : getFallbackParties(),
+      data: finalParties,
       meta: {
-        count: parties.length || 3,
+        count: finalParties.length,
         loadTime: "45ms",
         swipeSession: `session_${Date.now()}${Math.random()}`,
         filters: { hideOld: false, limit: 10 },
@@ -39,6 +124,7 @@ export const partiesFeed = onRequest({ invoker: "public" }, async (req: Request,
       }
     });
   } catch (error) {
+    // Fallback on any error
     res.json({
       success: true,
       data: getFallbackParties(),
