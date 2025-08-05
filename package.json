@@ -1,38 +1,38 @@
 {
   "name": "conference-party-microservice",
   "version": "1.0.0",
-  "description": "TRUE microservices architecture with 1 function = 1 result principle",
+  "description": "REST API for processing conference and party files with Gemini-powered search",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "build": "echo 'Build process - Docker container'",
-    "lint": "echo 'Linting - will add ESLint later'",
-    
-    "api-status": "node tools/api-inspector.js",
-    "api-test": "node tools/api-tester.js",
-    
     "session-start": "node tools/session-starter.js",
     "genesis-check": "node tools/genesis-checker.js",
-    "preview-file": "node tools/file-previewer.js"
+    "preview-file": "node tools/file-previewer.js",
+    "api-status": "node tools/api-inspector.js",
+    "api-test": "node tools/api-tester.js",
+    "generate-service": "node tools/microservice-generator.js",
+    "generate-route": "node tools/route-generator.js",
+    "test-integration": "node tools/integration-tester.js",
+    "analyzeHybrid": "node tools/hybridAnalyzer.js",
+    "generate-firebase-service": "node tools/firebaseServiceGenerator.js",
+    "local-test": "node tools/local-tester.js"
   },
-  "keywords": ["microservices", "api", "conference", "party", "mobile-first", "genesis-compliant"],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["conference", "party", "microservice", "api", "gemini"],
+  "author": "Conference Party Team",
+  "license": "MIT",
   "dependencies": {
-    "@google-cloud/firestore": "^7.1.0",
-    "@google-cloud/storage": "^7.7.0",
-    "cors": "^2.8.5",
     "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "cors": "^2.8.5",
     "helmet": "^7.1.0",
-    "morgan": "^1.10.0",
-    "multer": "^1.4.5-lts.1"
+    "compression": "^1.7.4",
+    "express-rate-limit": "^7.1.5"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
     "nodemon": "^3.0.2",
+    "jest": "^29.7.0",
     "supertest": "^6.3.3"
   }
 }
