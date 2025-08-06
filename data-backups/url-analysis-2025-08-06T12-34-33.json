@@ -1,0 +1,813 @@
+{
+  "summary": {
+    "validURLs": 88,
+    "invalidURLs": 33,
+    "emptyURLs": 0,
+    "encodingIssues": 8,
+    "total": 121
+  },
+  "details": [
+    {
+      "eventName": "Beam & Avalanche go Gamescom",
+      "url": "https://lu.ma/9icyxru0",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Beam & Avalanche go Gamescom",
+      "url": "https://lu.ma/9icyxru0",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Cigar Lovers",
+      "url": "https://www.savoy.de/en/",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Coda Connect Cologne: D2C Happy Hour with Paysafe",
+      "url": "https://lu.ma/wnit2",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Coda Connect Cologne: D2C Happy Hour with Paysafe",
+      "url": "https://lu.ma/wnit2",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Courage Cologne @ devcom Developer Night 2025",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Courage Cologne @ devcom Developer Night 2025",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference Leadership Dinner",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference Leadership Dinner",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference pitch it! Mixer",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference pitch it! Mixer",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference Sunset Mixer",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference Sunset Mixer",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference VIP Mixer",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference VIP Mixer",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference VIP Mixer",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "devcom Developer Conference VIP Mixer",
+      "url": "https://www.eventbrite.de/e/devcom-developer-conference-2025-tickets-955859691067",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Diversion Meetup DDC Happy Hour",
+      "url": "https://www.eventbrite.com/e/diversion-meetup-ddc-happy-hour-networking-unlimited-craft-beer-tickets-1486801576539?aff=ebdssbdestsearch&_gl=1*1naduhu*_up*MQ..*_ga*MTAzNDIzNjA5NC4xNzU0MjIyNjU0*_ga_TQVES5V6SH*czE3NTQyMjI2NTQkbzEkZzAkdDE3NTQyMjI2NTQkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Diversion Meetup DDC Happy Hour",
+      "url": "https://www.eventbrite.com/e/diversion-meetup-ddc-happy-hour-networking-unlimited-craft-beer-tickets-1486801576539?aff=ebdssbdestsearch&_gl=1*1naduhu*_up*MQ..*_ga*MTAzNDIzNjA5NC4xNzU0MjIyNjU0*_ga_TQVES5V6SH*czE3NTQyMjI2NTQkbzEkZzAkdDE3NTQyMjI2NTQkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Diversity Meetup x Home of Indies @ Gamescom 2025",
+      "url": "https://www.eventbrite.com/e/diversity-meetup-x-home-of-indies-gamescom-2025-tickets-1505258772509?aff=ebdssbehomepeforyou&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Drinks@ Games From Portugal Pavilion",
+      "url": "https://lu.ma/vxrsk",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Enchant Gamescom Pitch Party + Networking After Party",
+      "url": "https://www.meetup.com/enchantstartup/events/310305599/",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Game Audio Get Together @Gamescom 2025",
+      "url": "https://www.eventbrite.com.br/e/game-audio-get-together-gamescom-2025-tickets-1001694413957",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Game Audio Get Together @Gamescom 2025",
+      "url": "https://www.eventbrite.com.br/e/game-audio-get-together-gamescom-2025-tickets-1001694413957",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Games Industry Runners Gamescom edition",
+      "url": "https://lu.ma/4b2vi",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Gamescom 2025 Happy Hour â€“ By Overwolf",
+      "url": "http://eventbrite.com/e/gamescom-2025-happy-hour-by-overwolf-tickets-1480589305469?aff=ebdssbdestsearch&_gl=1*1gdz1e9*_up*MQ..*_ga*NzI4OTgzOTAzLjE3NTQyMTg1Mzk.*_ga_TQVES5V6SH*czE3NTQyMTg1MzgkbzEkZzAkdDE3NTQyMTg1MzgkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Gamescom 2025 Happy Hour â€“ By Overwolf",
+      "url": "http://eventbrite.com/e/gamescom-2025-happy-hour-by-overwolf-tickets-1480589305469?aff=ebdssbdestsearch&_gl=1*1gdz1e9*_up*MQ..*_ga*NzI4OTgzOTAzLjE3NTQyMTg1Mzk.*_ga_TQVES5V6SH*czE3NTQyMTg1MzgkbzEkZzAkdDE3NTQyMTg1MzgkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Gamescom 2025 Networking Mixer: Metric Minds",
+      "url": "https://www.eventbrite.com/e/gamescom-2025-networking-mixer-presented-by-metric-minds-tickets-1409712240259?aff=ebdssbehomepeforyou&_gl=1*1sm9h05*_up*MQ..*_ga*MTI1MTYwODI4OS4xNzU0MjIxNDA5*_ga_TQVES5V6SH*czE3NTQyMjE0MDgkbzEkZzAkdDE3NTQyMjE0MDgkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+      "url": "https://www.eventbrite.com",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+      "url": "https://www.eventbrite.com",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+      "url": "https://www.eventbrite.com",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+      "url": "https://www.eventbrite.com",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Gamescom Launch Party",
+      "url": "https://www.gamescom.global/en",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Gamescom Launch Party",
+      "url": "https://www.gamescom.global/en",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Global XRAI Hack at Cologne, Gamescom",
+      "url": "www.eventbrite.com/e/global-xrai-hack-at-cologne-gamescom-partnering-wmeta-tickets-1451976052459",
+      "issues": [
+        "missing protocol"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Global XRAI Hack at Cologne, Gamescom",
+      "url": "www.eventbrite.com/e/global-xrai-hack-at-cologne-gamescom-partnering-wmeta-tickets-1451976052459",
+      "issues": [
+        "missing protocol"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Global XRAI Hack at Cologne, Gamescom",
+      "url": "www.eventbrite.com/e/global-xrai-hack-at-cologne-gamescom-tickets-1451976052459",
+      "issues": [
+        "missing protocol"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Global XRAI Hack at Cologne, Gamescom",
+      "url": "www.eventbrite.com/e/global-xrai-hack-at-cologne-gamescom-tickets-1451976052459",
+      "issues": [
+        "missing protocol"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Global XRAI Hack at Cologne, Gamescom",
+      "url": "www.eventbrite.com/e/xrai-hack-cologne-2025-award-ceremony-networking-tickets-1488232666969?aff=ebdssbdestsearch&_gl=1*a0ck6y*_up*MQ..*_ga*NzI4OTgzOTAzLjE3NTQyMTg1Mzk.*_ga_TQVES5V6SH*czE3NTQyMTg1MzgkbzEkZzAkdDE3NTQyMTg1MzgkajYwJGwwJGgw.eventbrite.com",
+      "issues": [
+        "missing protocol",
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Global XRAI Hack at Cologne, Gamescom",
+      "url": "www.eventbrite.com/e/xrai-hack-cologne-2025-award-ceremony-networking-tickets-1488232666969?aff=ebdssbdestsearch&_gl=1*a0ck6y*_up*MQ..*_ga*NzI4OTgzOTAzLjE3NTQyMTg1Mzk.*_ga_TQVES5V6SH*czE3NTQyMTg1MzgkbzEkZzAkdDE3NTQyMTg1MzgkajYwJGwwJGgw.eventbrite.com",
+      "issues": [
+        "missing protocol",
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Immutable Gamescom Mixer with Polygon Labs",
+      "url": "https://lu.ma/oemk",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Immutable Gamescom Mixer with Polygon Labs",
+      "url": "https://lu.ma/oemk",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Indie Developer Stammtisch",
+      "url": "https://www.eventbrite.com/e/indie-developer-stammtisch-indie-hub-meetup-august-tickets-1226392285339?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Indie Developer Stammtisch",
+      "url": "https://www.eventbrite.com/e/indie-developer-stammtisch-indie-hub-meetup-august-tickets-1226392285339?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "INDIE Reveal during Gamescom 2025",
+      "url": "https://www.eventbrite.com/e/indie-reveal-during-gamescom-2025-tickets-1492278026749?aff=ebdssbehomepeforyou&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "INDIE Reveal during Gamescom 2025",
+      "url": "https://www.eventbrite.com/e/indie-reveal-during-gamescom-2025-tickets-1492278026749?aff=ebdssbehomepeforyou&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Karaoke | The Copper Pot",
+      "url": "https://www.instagram.com/copperpotcologne/?hl=en",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Karaoke | The Jameson Irish Pub",
+      "url": "https://jamesondistillerypub.com",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Karaoke | The Jameson Irish Pub",
+      "url": "https://jamesondistillerypub.com",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "LiveOps Networking Meetup",
+      "url": "https://lu.ma/dbmx",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "LiveOps Networking Meetup",
+      "url": "https://lu.ma/dbmx",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Maraoke LIVE! @ Gamescom 2025",
+      "url": "https://lu.ma/7y0nivzd",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Maraoke LIVE! @ Gamescom 2025",
+      "url": "https://lu.ma/7y0nivzd",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Marketers In Gaming  Meetup @Gamescom 2025",
+      "url": "https://www.eventbrite.com/e/the-marketersingaming-meet-up-gamescom-2025-tickets-1366945273109?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Marketers In Gaming  Meetup @Gamescom 2025",
+      "url": "https://www.eventbrite.com/e/the-marketersingaming-meet-up-gamescom-2025-tickets-1366945273109?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Marriott Madness",
+      "url": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "issues": [
+        "encoding",
+        "very long"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Marriott Madness",
+      "url": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "issues": [
+        "encoding",
+        "very long"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Marriott Madness",
+      "url": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "issues": [
+        "encoding",
+        "very long"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Marriott Madness",
+      "url": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "issues": [
+        "encoding",
+        "very long"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Marriott Madness",
+      "url": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "issues": [
+        "encoding",
+        "very long"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Marriott Madness",
+      "url": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "issues": [
+        "encoding",
+        "very long"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Marriott Madness",
+      "url": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "issues": [
+        "encoding",
+        "very long"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Marriott Madness",
+      "url": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "issues": [
+        "encoding",
+        "very long"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "MeetToMatch The Cologne Edition 2025",
+      "url": "https://www.eventbrite.nl/e/meettomatch-the-cologne-edition-2025-powered-by-xsolla-tickets-1255633215749",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "MeetToMatch The Cologne Edition 2025",
+      "url": "https://www.eventbrite.nl/e/meettomatch-the-cologne-edition-2025-powered-by-xsolla-tickets-1255633215749",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "MeetToMatch The Cologne Edition 2025",
+      "url": "https://www.eventbrite.com/e/meettomatch-the-cologne-edition-2025-powered-by-xsolla-tickets-1255633215749?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "MeetToMatch The Cologne Edition 2025",
+      "url": "https://www.eventbrite.com/e/meettomatch-the-cologne-edition-2025-powered-by-xsolla-tickets-1255633215749?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "MeetToMatch The Cologne Edition 2025",
+      "url": "https://www.eventbrite.com/e/meettomatch-the-cologne-edition-2025-powered-by-xsolla-tickets-1255633215749?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "MeetToMatch The Cologne Edition 2025",
+      "url": "https://www.eventbrite.com/e/meettomatch-the-cologne-edition-2025-powered-by-xsolla-tickets-1255633215749?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "MeetToMatch The Cologne Edition 2025",
+      "url": "https://www.eventbrite.com/e/meettomatch-the-cologne-edition-2025-powered-by-xsolla-tickets-1255633215749?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "MeetToMatch The Cologne Edition 2025",
+      "url": "https://www.eventbrite.com/e/meettomatch-the-cologne-edition-2025-powered-by-xsolla-tickets-1255633215749?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "MeetToMatch The Cologne Edition 2025",
+      "url": "https://www.eventbrite.com/e/meettomatch-the-cologne-edition-2025-powered-by-xsolla-tickets-1255633215749?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "MeetToMatch The Cologne Edition 2025",
+      "url": "https://www.eventbrite.com/e/meettomatch-the-cologne-edition-2025-powered-by-xsolla-tickets-1255633215749?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Midday Respawn: Coffee Break at Gamescom 2025",
+      "url": "https://www.gamescom.global/en",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Midday Respawn: Coffee Break at Gamescom 2025",
+      "url": "https://www.gamescom.global/en",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Mixpanel Happy Hour At Gamescom",
+      "url": "https://www.gamescom.global/en",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Monday Multiplayer Mixer",
+      "url": "https://lu.ma/42hj6to6?_hsenc=p2ANqtz--bQhoqaLpVLA2U67srPQgQsNGKnXzhzRUtq6trO9zWigagE7Q7mIKLtMBBDbpmpFR-s0mFCdRvItZbPJNaC9kUfK4Gvw&_hsmi=374563301&utm_source=modulate",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Pet's Koln Kick-Off",
+      "url": "n/a",
+      "issues": [
+        "missing protocol"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Pet's Koln Kick-Off",
+      "url": "n/a",
+      "issues": [
+        "missing protocol"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Pet's Koln Kick-Off",
+      "url": "n/a",
+      "issues": [
+        "missing protocol"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Pet's Koln Kick-Off",
+      "url": "n/a",
+      "issues": [
+        "missing protocol"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Pet's Koln Kick-Off",
+      "url": "n/a",
+      "issues": [
+        "missing protocol"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Pet's Koln Kick-Off",
+      "url": "n/a",
+      "issues": [
+        "missing protocol"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Pocket Gamer Mobile Game Awards",
+      "url": "https://www.eventbrite.com/e/the-pocket-gamer-mobile-games-awards-2025-tickets-1312613294699?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Pocket Gamer Mobile Game Awards",
+      "url": "https://www.eventbrite.com/e/the-pocket-gamer-mobile-games-awards-2025-tickets-1312613294699?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Pocket Gamer Party Cologne 2025",
+      "url": "https://www.eventbrite.com/e/pocket-gamer-party-cologne-2025-tickets-1440511942999?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Pocket Gamer Party Cologne 2025",
+      "url": "https://www.eventbrite.com/e/pocket-gamer-party-cologne-2025-tickets-1440511942999?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "PUBG: HOT DROP Cologne 2025",
+      "url": "https://www.eventbrite.nl/e/pubg-hot-drop-cologne-2025-tickets-1430906232059",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "PUBG: HOT DROP Cologne 2025",
+      "url": "https://www.eventbrite.nl/e/pubg-hot-drop-cologne-2025-tickets-1430906232059",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Representing Games | Pitch Sessions Cologne",
+      "url": "https://www.eventbrite.com/e/representing-games-pitch-sessions-cologne-during-gamescom-25-tickets-1481161416669?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Representing Games | Pitch Sessions Cologne",
+      "url": "https://www.eventbrite.com/e/representing-games-pitch-sessions-cologne-during-gamescom-25-tickets-1481161416669?aff=ebdssbdestsearch&keep_tld=1",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Run Time: Gamescom 5km Social Run",
+      "url": "https://lu.ma/si7hz",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Run Time: Gamescom 5km Social Run",
+      "url": "https://lu.ma/si7hz",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Safe In Our World Reception at Gamescom 2025",
+      "url": "https://www.eventbrite.com",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Safe In Our World Reception at Gamescom 2025",
+      "url": "https://www.eventbrite.com",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Saga AI Agent Pop-Up Store at Gamescom",
+      "url": "https://www.eventbrite.com/e/saga-ai-agent-pop-up-store-at-gamescom-tickets-1474739859619?aff=ebdssbdestsearch&_gl=1*ukpnug*_up*MQ..*_ga*MTE3OTAxMzExNC4xNzU0MjI0MTEw*_ga_TQVES5V6SH*czE3NTQyMjQxMTAkbzEkZzAkdDE3NTQyMjQxMTAkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Saga AI Agent Pop-Up Store at Gamescom",
+      "url": "https://www.eventbrite.com/e/saga-ai-agent-pop-up-store-at-gamescom-tickets-1474739859619?aff=ebdssbdestsearch&_gl=1*ukpnug*_up*MQ..*_ga*MTE3OTAxMzExNC4xNzU0MjI0MTEw*_ga_TQVES5V6SH*czE3NTQyMjQxMTAkbzEkZzAkdDE3NTQyMjQxMTAkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Serbian Gaming Industry Meet & Drinks",
+      "url": "https://www.eventbrite.com/e/serbian-gaming-industry-meet-and-drinks-gamescom-2025-tickets-1544459302349?aff=ebdssbdestsearch&_gl=1*gpy50p*_up*MQ..*_ga*NzU4NTQxNDMuMTc1NDIyMzI3OQ..*_ga_TQVES5V6SH*czE3NTQyMjMyNzgkbzEkZzAkdDE3NTQyMjMyNzgkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Serbian Gaming Industry Meet & Drinks",
+      "url": "https://www.eventbrite.com/e/serbian-gaming-industry-meet-and-drinks-gamescom-2025-tickets-1544459302349?aff=ebdssbdestsearch&_gl=1*gpy50p*_up*MQ..*_ga*NzU4NTQxNDMuMTc1NDIyMzI3OQ..*_ga_TQVES5V6SH*czE3NTQyMjMyNzgkbzEkZzAkdDE3NTQyMjMyNzgkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "TENNO VIP GAMESCOM",
+      "url": "https://www.eventbrite.com/e/tennovip-2025-gamescom-tickets-1392651952479?aff=ebdssbdestsearch&_gl=1*1aij34v*_up*MQ..*_ga*MTE3OTAxMzExNC4xNzU0MjI0MTEw*_ga_TQVES5V6SH*czE3NTQyMjQxMTAkbzEkZzAkdDE3NTQyMjQxMTAkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "TENNO VIP GAMESCOM",
+      "url": "https://www.eventbrite.com/e/tennovip-2025-gamescom-tickets-1392651952479?aff=ebdssbdestsearch&_gl=1*1aij34v*_up*MQ..*_ga*MTE3OTAxMzExNC4xNzU0MjI0MTEw*_ga_TQVES5V6SH*czE3NTQyMjQxMTAkbzEkZzAkdDE3NTQyMjQxMTAkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "The Compound by Stash & Geeklab .AI Day 2",
+      "url": "https://lu.ma/The-c",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "The Compound by Stash & Geeklab .AI Day 2",
+      "url": "https://lu.ma/The-c",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "The Compound by Stash & Geeklab Day 1",
+      "url": "https://lu.ma/The-c",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "The Compound by Stash & Geeklab Day 1",
+      "url": "https://lu.ma/The-c",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "The Xsolla Mixer with Sensor Tower",
+      "url": "https://mobilegamer.biz/going-to-gamescom-come-to-off-the-record-cologne/",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "The Xsolla Mixer with Sensor Tower",
+      "url": "https://mobilegamer.biz/going-to-gamescom-come-to-off-the-record-cologne/",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "VIP Game Night by Polygon",
+      "url": "https://lu.ma/qncq432v",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "VIP Game Night by Polygon",
+      "url": "https://lu.ma/qncq432v",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "Women at Gamescom Breakfast & Networking",
+      "url": "https://www.eventbrite.com/e/women-at-gamescom-breakfast-networking-tickets-1494089163909?aff=ebdssbdestsearch&_gl=1*1kenvh3*_up*MQ..*_ga*MTgxMjIxMDA1My4xNzU0MjIyODY0*_ga_TQVES5V6SH*czE3NTQyMjI4NjQkbzEkZzAkdDE3NTQyMjI4NjQkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "Women at Gamescom Breakfast & Networking",
+      "url": "https://www.eventbrite.com/e/women-at-gamescom-breakfast-networking-tickets-1494089163909?aff=ebdssbdestsearch&_gl=1*1kenvh3*_up*MQ..*_ga*MTgxMjIxMDA1My4xNzU0MjIyODY0*_ga_TQVES5V6SH*czE3NTQyMjI4NjQkbzEkZzAkdDE3NTQyMjI4NjQkajYwJGwwJGgw",
+      "issues": [
+        "malformed"
+      ],
+      "isValid": false
+    },
+    {
+      "eventName": "XRAI Hack Pre-Gamescom Party",
+      "url": "https://www.xraihack.com/cologne",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "XRAI Hack Pre-Gamescom Party",
+      "url": "https://www.xraihack.com/cologne",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "You Had Me at In-Game Data by GRID & GetGud",
+      "url": "https://lu.ma/s4mxnxk5",
+      "issues": [],
+      "isValid": true
+    },
+    {
+      "eventName": "You Had Me at In-Game Data by GRID & GetGud",
+      "url": "https://lu.ma/s4mxnxk5",
+      "issues": [],
+      "isValid": true
+    }
+  ]
+}

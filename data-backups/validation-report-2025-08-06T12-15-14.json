@@ -1,0 +1,547 @@
+[
+  {
+    "id": "beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667---germany",
+    "eventName": "Beam & Avalanche go Gamescom",
+    "address": "Rheinloft Cologne, Frankenwerft 35, 50667 , Germany",
+    "validation": {
+      "valid": true,
+      "issues": []
+    }
+  },
+  {
+    "id": "beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany",
+    "eventName": "Beam & Avalanche go Gamescom",
+    "address": "Rheinloft Cologne, Frankenwerft 35, 50667, Germany",
+    "validation": {
+      "valid": true,
+      "issues": []
+    }
+  },
+  {
+    "id": "cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany",
+    "eventName": "Cigar Lovers",
+    "address": "Turiner Strabe 9, cologne, germany",
+    "validation": {
+      "valid": true,
+      "issues": []
+    }
+  },
+  {
+    "id": "coda-connect-cologne--d2c-happy-hour-with-paysafe-thu-aug-21-17-30--empty-",
+    "eventName": "Coda Connect Cologne: D2C Happy Hour with Paysafe",
+    "address": "(empty)",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Missing street number",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "coda-connect-cologne--d2c-happy-hour-with-paysafe-thu-aug-21-17-30-register-to-see-address",
+    "eventName": "Coda Connect Cologne: D2C Happy Hour with Paysafe",
+    "address": "Register to See Address",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Private address"
+      ]
+    }
+  },
+  {
+    "id": "courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstra--e-21--50825",
+    "eventName": "Courage Cologne @ devcom Developer Night 2025",
+    "address": "HERBRAND's, HerbrandstraÃŸe 21, 50825 , Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: ÃŸ, Ÿ",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-",
+    "eventName": "Courage Cologne @ devcom Developer Night 2025",
+    "address": "HERBRAND's, Herbrandstraoe 21, 50825, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-k-lnmesse-confex--k-lnmesse-confex-50",
+    "eventName": "devcom Developer Conference Leadership Dinner",
+    "address": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: š",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50",
+    "eventName": "devcom Developer Conference Leadership Dinner",
+    "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--k-lnmesse-confex-50679-k-ln-germany",
+    "eventName": "devcom Developer Conference",
+    "address": "Koelnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: š"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany",
+    "eventName": "devcom Developer Conference",
+    "address": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "validation": {
+      "valid": true,
+      "issues": []
+    }
+  },
+  {
+    "id": "devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-k-lnmesse-confex--k-lnmesse-confex-5067",
+    "eventName": "devcom Developer Conference pitch it! Mixer",
+    "address": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: š",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067",
+    "eventName": "devcom Developer Conference pitch it! Mixer",
+    "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--k-lnmesse-confex-50679-k-ln-germany",
+    "eventName": "devcom Developer Conference",
+    "address": "Koelnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: š"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany",
+    "eventName": "devcom Developer Conference",
+    "address": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "validation": {
+      "valid": true,
+      "issues": []
+    }
+  },
+  {
+    "id": "devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-k-lnmesse-confex--k-lnmesse-confex-50679-k",
+    "eventName": "devcom Developer Conference Sunset Mixer",
+    "address": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: š",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k",
+    "eventName": "devcom Developer Conference Sunset Mixer",
+    "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-tue-aug-19-09-00-k-lnmesse-confex--k-lnmesse-confex-50679-k-ln-germany",
+    "eventName": "devcom Developer Conference",
+    "address": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: š",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany",
+    "eventName": "devcom Developer Conference",
+    "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-vip-mixer-mon-aug-18-17-00-k-lnmesse-confex--k-lnmesse-confex-50679-k-ln",
+    "eventName": "devcom Developer Conference VIP Mixer",
+    "address": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: š",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln",
+    "eventName": "devcom Developer Conference VIP Mixer",
+    "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-vip-mixer-tue-aug-19-17-00-k-lnmesse-confex--k-lnmesse-confex-50679-k-ln",
+    "eventName": "devcom Developer Conference VIP Mixer",
+    "address": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: š",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln",
+    "eventName": "devcom Developer Conference VIP Mixer",
+    "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstra--e-32--50667---g",
+    "eventName": "Diversion Meetup DDC Happy Hour",
+    "address": "Craftbeer Corner Coeln, MartinstraÃŸe 32, 50667 , Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: ÃŸ, Ÿ",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger",
+    "eventName": "Diversion Meetup DDC Happy Hour",
+    "address": "Craftbeer Corner Coeln, Martinstraoe 32, 50667, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-",
+    "eventName": "Diversity Meetup x Home of Indies @ Gamescom 2025",
+    "address": "Home of Indies, Hall 10.2, E010g-D011g, Messeplatz 1, 50679 Cologne, Germany",
+    "validation": {
+      "valid": true,
+      "issues": []
+    }
+  },
+  {
+    "id": "drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne",
+    "eventName": "Drinks@ Games From Portugal Pavilion",
+    "address": "Hall 2.1 C028-D027, Koelnmesse, Cologne",
+    "validation": {
+      "valid": true,
+      "issues": []
+    }
+  },
+  {
+    "id": "enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067",
+    "eventName": "Enchant Gamescom Pitch Party + Networking After Party",
+    "address": "STARTPLATZ, Mediapark 5, 50670, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667---germany",
+    "eventName": "Game Audio Get Together @Gamescom 2025",
+    "address": "Salzgasse 2, 50667 , Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany",
+    "eventName": "Game Audio Get Together @Gamescom 2025",
+    "address": "Salzgasse 2, 50667, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--",
+    "eventName": "Games Industry Runners Gamescom edition",
+    "address": "Paolozzibrunnen, Weltjugendtagsweg, 50667, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679---german",
+    "eventName": "Gamescom 2025 Happy Hour â€“ By Overwolf",
+    "address": "Cologne Fair, Messeplatz 1, 50679 , Germany",
+    "validation": {
+      "valid": true,
+      "issues": []
+    }
+  },
+  {
+    "id": "gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany",
+    "eventName": "Gamescom 2025 Happy Hour â€“ By Overwolf",
+    "address": "Cologne Fair, Messeplatz 1, 50679, Germany",
+    "validation": {
+      "valid": true,
+      "issues": []
+    }
+  },
+  {
+    "id": "gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta",
+    "eventName": "Gamescom 2025 Networking Mixer: Metric Minds",
+    "address": "Joe Champs American Sports Bar, Constantinstrasse 96 50679 Koln Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash--messecity--luise-straus-erns",
+    "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+    "address": "The ASH  MesseCity, Luise-Straus-Ernst-StraÃŸe 4, 50679 , Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: ÃŸ, Ÿ",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst",
+    "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+    "address": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash--messecity--luise-straus-erns",
+    "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+    "address": "The ASH  MesseCity, Luise-Straus-Ernst-StraÃŸe 4, 50679 , Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: ÃŸ, Ÿ",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst",
+    "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+    "address": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672---germany",
+    "eventName": "Gamescom Launch Party",
+    "address": "rooftop58, Hohenzollernring 58, 50672 , Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany",
+    "eventName": "Gamescom Launch Party",
+    "address": "rooftop58, Hohenzollernring 58, 50672, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670---germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "address": "STARTPLATZ, Im Mediapark 5, 50670 , Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "address": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670---germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "address": "STARTPLATZ, Im Mediapark 5, 50670 , Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "address": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670---germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "address": "STARTPLATZ, Im Mediapark 5, 50670 , Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "address": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "immutable-gamescom-mixer-with-polygon-labs-thu-aug-21-17-30--empty-",
+    "eventName": "Immutable Gamescom Mixer with Polygon Labs",
+    "address": "(empty)",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Missing street number",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "immutable-gamescom-mixer-with-polygon-labs-thu-aug-21-17-30-register-to-see-address",
+    "eventName": "Immutable Gamescom Mixer with Polygon Labs",
+    "address": "Register to See Address",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Private address"
+      ]
+    }
+  },
+  {
+    "id": "indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-stra--e-39",
+    "eventName": "Indie Developer Stammtisch",
+    "address": "Hostel | the shared apartment, Richard-Wagner-StraÃŸe 39, 50674 , Germany",
+    "validation": {
+      "valid": false,
+      "issues": [
+        "Encoding issues: ÃŸ, Ÿ",
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  },
+  {
+    "id": "indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-",
+    "eventName": "Indie Developer Stammtisch",
+    "address": "Hostel | the shared apartment, Richard-Wagner-Straoe 39, 50674, Germany",
+    "validation": {
+      "valid": true,
+      "issues": [
+        "Missing city (Cologne/Köln)"
+      ]
+    }
+  }
+]

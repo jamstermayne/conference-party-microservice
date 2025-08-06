@@ -1,0 +1,153 @@
+{
+  "timestamp": "2025-08-06T13:13:17.112Z",
+  "totalEvents": 124,
+  "textFixed": 16,
+  "urlFixed": 8,
+  "totalChanges": 24,
+  "changes": [
+    {
+      "index": 6,
+      "field": "Address",
+      "before": "HERBRAND's, HerbrandstraÃŸe 21, 50825 , Germany",
+      "after": "HERBRAND's, Herbrandstraße 21, 50825 , Germany"
+    },
+    {
+      "index": 8,
+      "field": "Address",
+      "before": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+      "after": "Koelnmesse Confex, Koelnmesse Confex 50679 Kšln Germany"
+    },
+    {
+      "index": 10,
+      "field": "Address",
+      "before": "Koelnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+      "after": "Koelnmesse Confex, Koelnmesse Confex 50679 Kšln Germany"
+    },
+    {
+      "index": 12,
+      "field": "Address",
+      "before": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+      "after": "Koelnmesse Confex, Koelnmesse Confex 50679 Kšln Germany"
+    },
+    {
+      "index": 14,
+      "field": "Address",
+      "before": "Koelnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+      "after": "Koelnmesse Confex, Koelnmesse Confex 50679 Kšln Germany"
+    },
+    {
+      "index": 16,
+      "field": "Address",
+      "before": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+      "after": "Koelnmesse Confex, Koelnmesse Confex 50679 Kšln Germany"
+    },
+    {
+      "index": 18,
+      "field": "Address",
+      "before": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+      "after": "Koelnmesse Confex, Koelnmesse Confex 50679 Kšln Germany"
+    },
+    {
+      "index": 20,
+      "field": "Address",
+      "before": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+      "after": "Koelnmesse Confex, Koelnmesse Confex 50679 Kšln Germany"
+    },
+    {
+      "index": 22,
+      "field": "Address",
+      "before": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+      "after": "Koelnmesse Confex, Koelnmesse Confex 50679 Kšln Germany"
+    },
+    {
+      "index": 24,
+      "field": "Address",
+      "before": "Craftbeer Corner Coeln, MartinstraÃŸe 32, 50667 , Germany",
+      "after": "Craftbeer Corner Coeln, Martinstraße 32, 50667 , Germany"
+    },
+    {
+      "index": 35,
+      "field": "Address",
+      "before": "The ASH  MesseCity, Luise-Straus-Ernst-StraÃŸe 4, 50679 , Germany",
+      "after": "The ASH  MesseCity, Luise-Straus-Ernst-Straße 4, 50679 , Germany"
+    },
+    {
+      "index": 37,
+      "field": "Address",
+      "before": "The ASH  MesseCity, Luise-Straus-Ernst-StraÃŸe 4, 50679 , Germany",
+      "after": "The ASH  MesseCity, Luise-Straus-Ernst-Straße 4, 50679 , Germany"
+    },
+    {
+      "index": 49,
+      "field": "Address",
+      "before": "Hostel | the shared apartment, Richard-Wagner-StraÃŸe 39, 50674 , Germany",
+      "after": "Hostel | the shared apartment, Richard-Wagner-Straße 39, 50674 , Germany"
+    },
+    {
+      "index": 62,
+      "field": "Link",
+      "before": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "after": "https://www.google.com/travel/search?q=marriott by train station%2C cologne germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw"
+    },
+    {
+      "index": 63,
+      "field": "Link",
+      "before": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "after": "https://www.google.com/travel/search?q=marriott by train station%2C cologne germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw"
+    },
+    {
+      "index": 64,
+      "field": "Link",
+      "before": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "after": "https://www.google.com/travel/search?q=marriott by train station%2C cologne germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw"
+    },
+    {
+      "index": 65,
+      "field": "Link",
+      "before": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "after": "https://www.google.com/travel/search?q=marriott by train station%2C cologne germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw"
+    },
+    {
+      "index": 66,
+      "field": "Link",
+      "before": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "after": "https://www.google.com/travel/search?q=marriott by train station%2C cologne germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw"
+    },
+    {
+      "index": 67,
+      "field": "Link",
+      "before": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "after": "https://www.google.com/travel/search?q=marriott by train station%2C cologne germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw"
+    },
+    {
+      "index": 68,
+      "field": "Link",
+      "before": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "after": "https://www.google.com/travel/search?q=marriott by train station%2C cologne germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw"
+    },
+    {
+      "index": 69,
+      "field": "Link",
+      "before": "https://www.google.com/travel/search?q=marriott%20by%20train%20station%2C%20cologne%20germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw",
+      "after": "https://www.google.com/travel/search?q=marriott by train station%2C cologne germany&g2lb=4965990%2C4969803%2C72248047%2C72248048%2C72302247%2C72317059%2C72414906%2C72471280%2C72472051%2C72485658%2C72560029%2C72573224%2C72616120%2C72647020%2C72648289%2C72686036%2C72760082%2C72799179%2C72803964%2C72832976%2C72882230%2C72958624%2C72959983%2C72990342&hl=en-GB&gl=uk&ssta=1&ts=CAESCgoCCAMKAggDEAAaHhIcEhQKBwjpDxAIGAcSBwjpDxAIGAgYATIECAAQACoLCgk6A0dCUEICCC4&qs=CAEyJENoY0k5N1AybTg3cHlMQmJHZ3N2Wnk4eGRHUTNjemxmWXhBQjgLQgkRP3s3_9Q6kgdCCREOU-x24LBMw0IJEWY5ahpJTc3sWnoyeKoBdQoIL20vMDdqZHIKCS9tLzA5djBxaBABKgwiCG1hcnJpb3R0KAAyHxABIhv7wSYZK6ViyW0t8UnhS3TtgaDxR8lFwqDmuKAyLRACIiltYXJyaW90dCBieSB0cmFpbiBzdGF0aW9uIGNvbG9nbmUgZ2VybWFueQ&ap=aAE&ictx=111&ved=0CAcQh-kJahcKEwj415_UufSOAxUAAAAAHQAAAAAQJw"
+    },
+    {
+      "index": 95,
+      "field": "Address",
+      "before": "Tivoli, Hohe StraÃŸe 14, 50667 , Germany",
+      "after": "Tivoli, Hohe Straße 14, 50667 , Germany"
+    },
+    {
+      "index": 97,
+      "field": "Address",
+      "before": "Carlswerk Victoria, SchanzenstraÃŸe 6â€“20, GebÃ¤ude 3.12, 51063 , Germany",
+      "after": "Carlswerk Victoria, Schanzenstraße 6â€“20, Gebäude 3.12, 51063 , Germany"
+    },
+    {
+      "index": 99,
+      "field": "Address",
+      "before": "Dorint Hotel, PipinstraÃŸe 1, 50667 , Germany",
+      "after": "Dorint Hotel, Pipinstraße 1, 50667 , Germany"
+    }
+  ]
+}
