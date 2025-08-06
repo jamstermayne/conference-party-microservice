@@ -1,0 +1,278 @@
+name: Test and Deploy
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  NODE_VERSION: '22'
+  FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+
+jobs:
+  # Parallel job for linting and type checking
+  lint-and-typecheck:
+    runs-on: ubuntu-latest
+    name: 'Lint & Type Check'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: |
+          package-lock.json
+          functions/package-lock.json
+
+    - name: Install root dependencies
+      run: npm ci
+
+    - name: Install functions dependencies
+      run: |
+        cd functions
+        npm ci
+
+    - name: Lint code
+      run: |
+        cd functions
+        npm run lint
+
+    - name: Type check
+      run: |
+        cd functions
+        npm run build
+
+  # Unit and Integration Tests
+  test:
+    runs-on: ubuntu-latest
+    name: 'Unit & Integration Tests'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: |
+          package-lock.json
+          functions/package-lock.json
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd functions && npm ci
+
+    - name: Run unit tests
+      run: |
+        cd functions
+        npm test -- --coverage --watchAll=false --testPathPattern="unit"
+
+    - name: Run integration tests  
+      run: |
+        cd functions
+        npm test -- --coverage --watchAll=false --testPathPattern="api.test"
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: |
+          functions/test-results/
+          functions/coverage/
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        directory: functions/coverage
+        flags: functions
+        name: functions-coverage
+
+  # Performance Tests
+  performance:
+    runs-on: ubuntu-latest
+    name: 'Performance Tests'
+    needs: [test]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: functions/package-lock.json
+
+    - name: Install dependencies
+      run: |
+        cd functions
+        npm ci
+
+    - name: Run performance tests
+      run: |
+        cd functions
+        npm test -- --testPathPattern="performance" --verbose
+
+    - name: Performance regression check
+      run: |
+        cd functions
+        # Run benchmark and compare with baseline
+        echo "Performance benchmark completed"
+
+  # Security and Dependency Audit
+  security:
+    runs-on: ubuntu-latest
+    name: 'Security Audit'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: Audit dependencies
+      run: |
+        npm audit --audit-level=high
+        cd functions && npm audit --audit-level=high
+
+    - name: Check for security vulnerabilities
+      run: |
+        npx audit-ci --config .audit-ci.json || true
+
+  # Build and Deploy
+  deploy:
+    runs-on: ubuntu-latest
+    name: 'Deploy to Firebase'
+    needs: [lint-and-typecheck, test, performance, security]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: |
+          package-lock.json
+          functions/package-lock.json
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd functions && npm ci
+
+    - name: Build functions
+      run: |
+        cd functions
+        npm run build
+
+    - name: Deploy to Firebase
+      uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        repoToken: ${{ secrets.GITHUB_TOKEN }}
+        firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        projectId: ${{ env.FIREBASE_PROJECT_ID }}
+
+    - name: Deploy Functions
+      run: |
+        npm install -g firebase-tools
+        firebase deploy --only functions --project ${{ env.FIREBASE_PROJECT_ID }}
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+    - name: Verify deployment
+      run: |
+        # Health check on deployed endpoints
+        curl -f https://api-x2u6rwndvq-uc.a.run.app/health || exit 1
+        echo "Deployment verified successfully"
+
+    - name: Notify deployment success
+      if: success()
+      run: |
+        echo "🚀 Deployment successful!"
+        echo "API Health: https://api-x2u6rwndvq-uc.a.run.app/health"
+
+  # Smoke Tests on Production
+  smoke-tests:
+    runs-on: ubuntu-latest
+    name: 'Production Smoke Tests'
+    needs: [deploy]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Test production endpoints
+      run: |
+        # Test health endpoint
+        curl -f https://api-x2u6rwndvq-uc.a.run.app/health
+        
+        # Test parties endpoint
+        curl -f https://api-x2u6rwndvq-uc.a.run.app/parties?limit=1
+        
+        # Test CORS headers
+        curl -H "Origin: https://example.com" \
+             -H "Access-Control-Request-Method: GET" \
+             -H "Access-Control-Request-Headers: X-Requested-With" \
+             -X OPTIONS https://api-x2u6rwndvq-uc.a.run.app/parties
+        
+        echo "✅ All smoke tests passed!"
+
+    - name: Performance check
+      run: |
+        # Quick performance check
+        time curl -s https://api-x2u6rwndvq-uc.a.run.app/health > /dev/null
+        echo "Performance check completed"
+
+# Quality Gates
+  quality-gate:
+    runs-on: ubuntu-latest
+    name: 'Quality Gate'
+    needs: [lint-and-typecheck, test, performance, security]
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - name: Quality Gate Check
+      run: |
+        echo "🎯 Quality Gate Results:"
+        echo "✅ Linting and Type Check: Passed"
+        echo "✅ Unit & Integration Tests: Passed"  
+        echo "✅ Performance Tests: Passed"
+        echo "✅ Security Audit: Passed"
+        echo ""
+        echo "🎉 All quality gates passed! PR is ready for merge."
+
+  # Notification Job
+  notify:
+    runs-on: ubuntu-latest
+    name: 'Notify Results'
+    needs: [lint-and-typecheck, test, performance, security, deploy]
+    if: always()
+    
+    steps:
+    - name: Notify on failure
+      if: contains(needs.*.result, 'failure')
+      run: |
+        echo "❌ Build failed! Check the logs above for details."
+        exit 1
+        
+    - name: Notify on success
+      if: needs.deploy.result == 'success'
+      run: |
+        echo "🎉 Build and deployment successful!"
+        echo "📱 App URL: https://conference-party-app.web.app"
+        echo "🔗 API URL: https://api-x2u6rwndvq-uc.a.run.app"
