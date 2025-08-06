@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - Gamescom 2025</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0; padding: 20px; background: #f5f5f5; color: #333;
+        }
+        .dashboard { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .metrics-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; margin-bottom: 40px;
+        }
+        .metric-card { 
+            background: white; border-radius: 8px; padding: 20px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .metric-value { font-size: 2em; font-weight: bold; color: #ff6b6b; }
+        .metric-label { color: #666; font-size: 0.9em; margin-top: 5px; }
+        .status { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .status.good { background: #d4edda; color: #155724; }
+        .status.warning { background: #fff3cd; color: #856404; }
+        .status.poor { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>📈 Gamescom 2025 Analytics</h1>
+            <p>Privacy-compliant analytics and performance monitoring</p>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value" id="status">Loading...</div>
+                <div class="metric-label">System Status</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="events">--</div>
+                <div class="metric-label">Events Tracked</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="performance">--</div>
+                <div class="metric-label">Performance Score</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="privacy">--</div>
+                <div class="metric-label">Privacy Compliance</div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <h3>📊 Module Status</h3>
+            <div id="module-status">Loading analytics modules...</div>
+        </div>
+    </div>
+
+    <script src="/js/analytics.js"></script>
+    <script>
+        document.addEventListener('analytics-ready', (event) => {
+            const { modules } = event.detail;
+            
+            // Update status indicators
+            document.getElementById('status').innerHTML = '🟢 Active';
+            document.getElementById('events').innerHTML = modules.core ? 'Tracking' : 'Disabled';
+            document.getElementById('performance').innerHTML = modules.performance ? 'Monitoring' : 'Disabled';
+            document.getElementById('privacy').innerHTML = '✅ GDPR/CCPA';
+            
+            // Show module status
+            const moduleStatus = document.getElementById('module-status');
+            moduleStatus.innerHTML = `
+                <p>📊 Core Analytics: ${modules.core ? '✅ Active' : '❌ Inactive'}</p>
+                <p>🚀 Performance Monitor: ${modules.performance ? '✅ Active' : '❌ Inactive'}</p>
+                <p>🔒 Privacy Manager: ${modules.privacy ? '✅ Active' : '❌ Inactive'}</p>
+            `;
+        });
+
+        // Refresh dashboard every 30 seconds
+        setInterval(() => {
+            if (window.analyticsLoader) {
+                const status = window.analyticsLoader.getStatus();
+                console.log('📊 Analytics Status:', status);
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
