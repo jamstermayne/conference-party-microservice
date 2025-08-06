@@ -1,0 +1,20 @@
+{
+  "timestamp": "2025-08-06T15:39:11.228Z",
+  "duration": 15,
+  "results": {
+    "total": 66,
+    "success": 13,
+    "failed": 0,
+    "skipped": 48,
+    "emptyAddresses": 5,
+    "errors": []
+  },
+  "summary": {
+    "total": 66,
+    "successful": 13,
+    "failed": 0,
+    "skipped": 48,
+    "emptyAddresses": 5,
+    "successRate": 100
+  }
+}

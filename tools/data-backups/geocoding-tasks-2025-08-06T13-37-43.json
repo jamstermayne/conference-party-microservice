@@ -1,0 +1,821 @@
+[
+  {
+    "eventId": "beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667---germany",
+    "eventName": "Beam & Avalanche go Gamescom",
+    "originalAddress": "Rheinloft Cologne, Frankenwerft 35, 50667 , Germany",
+    "geocodableAddress": "Rheinloft Koeln, Frankenwerft 35, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany",
+    "eventName": "Beam & Avalanche go Gamescom",
+    "originalAddress": "Rheinloft Cologne, Frankenwerft 35, 50667, Germany",
+    "geocodableAddress": "Rheinloft Koeln, Frankenwerft 35, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany",
+    "eventName": "Cigar Lovers",
+    "originalAddress": "Turiner Strabe 9, cologne, germany",
+    "geocodableAddress": "Turiner Strabe 9, Koeln, germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "coda-connect-cologne--d2c-happy-hour-with-paysafe-thu-aug-21-17-30--empty-",
+    "eventName": "Coda Connect Cologne: D2C Happy Hour with Paysafe",
+    "originalAddress": "(empty)",
+    "geocodableAddress": "(empty), Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstra--e-21--50825",
+    "eventName": "Courage Cologne @ devcom Developer Night 2025",
+    "originalAddress": "HERBRAND's, HerbrandstraÃŸe 21, 50825 , Germany",
+    "geocodableAddress": "HERBRAND's, Herbrandstraße 21, 50825, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-",
+    "eventName": "Courage Cologne @ devcom Developer Night 2025",
+    "originalAddress": "HERBRAND's, Herbrandstraoe 21, 50825, Germany",
+    "geocodableAddress": "HERBRAND's, Herbrandstraße 21, 50825, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-k-lnmesse-confex--k-lnmesse-confex-50",
+    "eventName": "devcom Developer Conference Leadership Dinner",
+    "originalAddress": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50",
+    "eventName": "devcom Developer Conference Leadership Dinner",
+    "originalAddress": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--k-lnmesse-confex-50679-k-ln-germany",
+    "eventName": "devcom Developer Conference",
+    "originalAddress": "Koelnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany",
+    "eventName": "devcom Developer Conference",
+    "originalAddress": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-k-lnmesse-confex--k-lnmesse-confex-5067",
+    "eventName": "devcom Developer Conference pitch it! Mixer",
+    "originalAddress": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067",
+    "eventName": "devcom Developer Conference pitch it! Mixer",
+    "originalAddress": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--k-lnmesse-confex-50679-k-ln-germany",
+    "eventName": "devcom Developer Conference",
+    "originalAddress": "Koelnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany",
+    "eventName": "devcom Developer Conference",
+    "originalAddress": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-k-lnmesse-confex--k-lnmesse-confex-50679-k",
+    "eventName": "devcom Developer Conference Sunset Mixer",
+    "originalAddress": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k",
+    "eventName": "devcom Developer Conference Sunset Mixer",
+    "originalAddress": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-tue-aug-19-09-00-k-lnmesse-confex--k-lnmesse-confex-50679-k-ln-germany",
+    "eventName": "devcom Developer Conference",
+    "originalAddress": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany",
+    "eventName": "devcom Developer Conference",
+    "originalAddress": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-vip-mixer-mon-aug-18-17-00-k-lnmesse-confex--k-lnmesse-confex-50679-k-ln",
+    "eventName": "devcom Developer Conference VIP Mixer",
+    "originalAddress": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln",
+    "eventName": "devcom Developer Conference VIP Mixer",
+    "originalAddress": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-vip-mixer-tue-aug-19-17-00-k-lnmesse-confex--k-lnmesse-confex-50679-k-ln",
+    "eventName": "devcom Developer Conference VIP Mixer",
+    "originalAddress": "Kšlnmesse Confex, Kšlnmesse Confex 50679 Kšln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln",
+    "eventName": "devcom Developer Conference VIP Mixer",
+    "originalAddress": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Confex 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstra--e-32--50667---g",
+    "eventName": "Diversion Meetup DDC Happy Hour",
+    "originalAddress": "Craftbeer Corner Coeln, MartinstraÃŸe 32, 50667 , Germany",
+    "geocodableAddress": "Craftbeer Corner Coeln, Martinstraße 32, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger",
+    "eventName": "Diversion Meetup DDC Happy Hour",
+    "originalAddress": "Craftbeer Corner Coeln, Martinstraoe 32, 50667, Germany",
+    "geocodableAddress": "Craftbeer Corner Coeln, Martinstraße 32, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-",
+    "eventName": "Diversity Meetup x Home of Indies @ Gamescom 2025",
+    "originalAddress": "Home of Indies, Hall 10.2, E010g-D011g, Messeplatz 1, 50679 Cologne, Germany",
+    "geocodableAddress": "Home of Indies, Hall 10.2, E010g-D011g, Messeplatz 1, 50679 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne",
+    "eventName": "Drinks@ Games From Portugal Pavilion",
+    "originalAddress": "Hall 2.1 C028-D027, Koelnmesse, Cologne",
+    "geocodableAddress": "Hall 2.1 C028-D027, Koelnmesse, Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067",
+    "eventName": "Enchant Gamescom Pitch Party + Networking After Party",
+    "originalAddress": "STARTPLATZ, Mediapark 5, 50670, Germany",
+    "geocodableAddress": "STARTPLATZ, Mediapark 5, 50670, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667---germany",
+    "eventName": "Game Audio Get Together @Gamescom 2025",
+    "originalAddress": "Salzgasse 2, 50667 , Germany",
+    "geocodableAddress": "Salzgasse 2, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany",
+    "eventName": "Game Audio Get Together @Gamescom 2025",
+    "originalAddress": "Salzgasse 2, 50667, Germany",
+    "geocodableAddress": "Salzgasse 2, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--",
+    "eventName": "Games Industry Runners Gamescom edition",
+    "originalAddress": "Paolozzibrunnen, Weltjugendtagsweg, 50667, Germany",
+    "geocodableAddress": "Paolozzibrunnen, Weltjugendtagsweg, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679---german",
+    "eventName": "Gamescom 2025 Happy Hour â€“ By Overwolf",
+    "originalAddress": "Cologne Fair, Messeplatz 1, 50679 , Germany",
+    "geocodableAddress": "Koeln Fair, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany",
+    "eventName": "Gamescom 2025 Happy Hour â€“ By Overwolf",
+    "originalAddress": "Cologne Fair, Messeplatz 1, 50679, Germany",
+    "geocodableAddress": "Koeln Fair, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta",
+    "eventName": "Gamescom 2025 Networking Mixer: Metric Minds",
+    "originalAddress": "Joe Champs American Sports Bar, Constantinstrasse 96 50679 Koln Germany",
+    "geocodableAddress": "Joe Champs American Sports Bar, Constantinstraße 96 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash--messecity--luise-straus-erns",
+    "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+    "originalAddress": "The ASH  MesseCity, Luise-Straus-Ernst-StraÃŸe 4, 50679 , Germany",
+    "geocodableAddress": "The ASH MesseCity, Luise-Straus-Ernst-straße 4, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst",
+    "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+    "originalAddress": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany",
+    "geocodableAddress": "The ASH MesseCity, Luise-Straus-Ernst-straße 4, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash--messecity--luise-straus-erns",
+    "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+    "originalAddress": "The ASH  MesseCity, Luise-Straus-Ernst-StraÃŸe 4, 50679 , Germany",
+    "geocodableAddress": "The ASH MesseCity, Luise-Straus-Ernst-straße 4, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst",
+    "eventName": "Gamescom Inside: Brand Positioning Group Tour",
+    "originalAddress": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany",
+    "geocodableAddress": "The ASH MesseCity, Luise-Straus-Ernst-straße 4, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672---germany",
+    "eventName": "Gamescom Launch Party",
+    "originalAddress": "rooftop58, Hohenzollernring 58, 50672 , Germany",
+    "geocodableAddress": "rooftop58, Hohenzollernring 58, 50672, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany",
+    "eventName": "Gamescom Launch Party",
+    "originalAddress": "rooftop58, Hohenzollernring 58, 50672, Germany",
+    "geocodableAddress": "rooftop58, Hohenzollernring 58, 50672, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670---germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "originalAddress": "STARTPLATZ, Im Mediapark 5, 50670 , Germany",
+    "geocodableAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "originalAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "geocodableAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670---germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "originalAddress": "STARTPLATZ, Im Mediapark 5, 50670 , Germany",
+    "geocodableAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "originalAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "geocodableAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670---germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "originalAddress": "STARTPLATZ, Im Mediapark 5, 50670 , Germany",
+    "geocodableAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany",
+    "eventName": "Global XRAI Hack at Cologne, Gamescom",
+    "originalAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "geocodableAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "immutable-gamescom-mixer-with-polygon-labs-thu-aug-21-17-30--empty-",
+    "eventName": "Immutable Gamescom Mixer with Polygon Labs",
+    "originalAddress": "(empty)",
+    "geocodableAddress": "(empty), Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-stra--e-39",
+    "eventName": "Indie Developer Stammtisch",
+    "originalAddress": "Hostel | the shared apartment, Richard-Wagner-StraÃŸe 39, 50674 , Germany",
+    "geocodableAddress": "Hostel | the shared apartment, Richard-Wagner-straße 39, 50674, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-",
+    "eventName": "Indie Developer Stammtisch",
+    "originalAddress": "Hostel | the shared apartment, Richard-Wagner-Straoe 39, 50674, Germany",
+    "geocodableAddress": "Hostel | the shared apartment, Richard-Wagner-straße 39, 50674, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstra-e-1-50667-k-ln-",
+    "eventName": "INDIE Reveal during Gamescom 2025",
+    "originalAddress": "Filmforum NRW, Bischofsgartenstra§e 1 50667 Kšln Germany",
+    "geocodableAddress": "Filmforum NRW, Bischofsgartenstraße 1 50667 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln",
+    "eventName": "INDIE Reveal during Gamescom 2025",
+    "originalAddress": "Filmforum NRW, Bischofsgartenstrasse 1 50667 Koln Germany",
+    "geocodableAddress": "Filmforum NRW, Bischofsgartenstraße 1 50667 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667",
+    "eventName": "Karaoke | The Copper Pot",
+    "originalAddress": "Bolzengasse 7, Cologne, Germany 50667",
+    "geocodableAddress": "Bolzengasse 7, Koeln, Germany 50667",
+    "status": "ready"
+  },
+  {
+    "eventId": "karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstra-e-30-40--50670-k-ln--cologne",
+    "eventName": "Karaoke | The Jameson Irish Pub",
+    "originalAddress": "Friesenstraße 30-40, 50670 Köln, Cologne",
+    "geocodableAddress": "Friesenstraße 30-40, 50670 Koeln, Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne",
+    "eventName": "Karaoke | The Jameson Irish Pub",
+    "originalAddress": "Friesenstraue 30-40, 50670 Koln, Cologne",
+    "geocodableAddress": "Friesenstraue 30-40, 50670 Koeln, Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679---germany",
+    "eventName": "LiveOps Networking Meetup",
+    "originalAddress": "Koelnmesse Confex, Koelnmesse Halle 1, 50679 , Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Halle 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany",
+    "eventName": "LiveOps Networking Meetup",
+    "originalAddress": "Koelnmesse Confex, Koelnmesse Halle 1, 50679, Germany",
+    "geocodableAddress": "Koelnmesse Confex, Koelnmesse Halle 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676---germany",
+    "eventName": "Maraoke LIVE! @ Gamescom 2025",
+    "originalAddress": "TURISTARAMA, Mauritiussteinweg 102, 50676 , Germany",
+    "geocodableAddress": "TURISTARAMA, Mauritiussteinweg 102, 50676, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany",
+    "eventName": "Maraoke LIVE! @ Gamescom 2025",
+    "originalAddress": "TURISTARAMA, Mauritiussteinweg 102, 50676, Germany",
+    "geocodableAddress": "TURISTARAMA, Mauritiussteinweg 102, 50676, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667---g",
+    "eventName": "Marketers In Gaming  Meetup @Gamescom 2025",
+    "originalAddress": "The Copper Pot, Bolzengasse 7, 50667 , Germany",
+    "geocodableAddress": "The Copper Pot, Bolzengasse 7, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge",
+    "eventName": "Marketers In Gaming  Meetup @Gamescom 2025",
+    "originalAddress": "The Copper Pot, Bolzengasse 7, 50667, Germany",
+    "geocodableAddress": "The Copper Pot, Bolzengasse 7, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "marriott-madness-mon-aug-18-19-30-johannisstra-e-76-80--50668-k-ln--germany",
+    "eventName": "Marriott Madness",
+    "originalAddress": "Johannisstraße 76-80, 50668 Köln, Germany",
+    "geocodableAddress": "Johannisstraße 76-80, 50668 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany",
+    "eventName": "Marriott Madness",
+    "originalAddress": "Johannisstraue 76-80, 50668 Koln, Germany",
+    "geocodableAddress": "Johannisstraue 76-80, 50668 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "marriott-madness-thu-aug-21-19-30-johannisstra-e-76-80--50668-k-ln--germany",
+    "eventName": "Marriott Madness",
+    "originalAddress": "Johannisstraße 76-80, 50668 Köln, Germany",
+    "geocodableAddress": "Johannisstraße 76-80, 50668 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany",
+    "eventName": "Marriott Madness",
+    "originalAddress": "Johannisstraue 76-80, 50668 Koln, Germany",
+    "geocodableAddress": "Johannisstraue 76-80, 50668 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "marriott-madness-tue-aug-19-19-30-johannisstra-e-76-80--50668-k-ln--germany",
+    "eventName": "Marriott Madness",
+    "originalAddress": "Johannisstraße 76-80, 50668 Köln, Germany",
+    "geocodableAddress": "Johannisstraße 76-80, 50668 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany",
+    "eventName": "Marriott Madness",
+    "originalAddress": "Johannisstraue 76-80, 50668 Koln, Germany",
+    "geocodableAddress": "Johannisstraue 76-80, 50668 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "marriott-madness-wed-aug-20-19-30-johannisstra-e-76-80--50668-k-ln--germany",
+    "eventName": "Marriott Madness",
+    "originalAddress": "Johannisstraße 76-80, 50668 Köln, Germany",
+    "geocodableAddress": "Johannisstraße 76-80, 50668 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany",
+    "eventName": "Marriott Madness",
+    "originalAddress": "Johannisstraue 76-80, 50668 Koln, Germany",
+    "geocodableAddress": "Johannisstraue 76-80, 50668 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "meettomatch-the-cologne-edition-2025-fri-aug-22-09-00-koelnmesse--messeplatz-1--50679---germany",
+    "eventName": "MeetToMatch The Cologne Edition 2025",
+    "originalAddress": "Koelnmesse, Messeplatz 1, 50679 , Germany",
+    "geocodableAddress": "Koelnmesse, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "meettomatch-the-cologne-edition-2025-fri-aug-22-09-00-koelnmesse--messeplatz-1--50679--germany",
+    "eventName": "MeetToMatch The Cologne Edition 2025",
+    "originalAddress": "Koelnmesse, Messeplatz 1, 50679, Germany",
+    "geocodableAddress": "Koelnmesse, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-k-ln-germany",
+    "eventName": "MeetToMatch The Cologne Edition 2025",
+    "originalAddress": "Koelnmesse, Messeplatz 1 50679 Kšln Germany",
+    "geocodableAddress": "Koelnmesse, Messeplatz 1 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany",
+    "eventName": "MeetToMatch The Cologne Edition 2025",
+    "originalAddress": "Koelnmesse, Messeplatz 1 50679 Koln Germany",
+    "geocodableAddress": "Koelnmesse, Messeplatz 1 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679---germany",
+    "eventName": "MeetToMatch The Cologne Edition 2025",
+    "originalAddress": "Koelnmesse, Messeplatz 1, 50679 , Germany",
+    "geocodableAddress": "Koelnmesse, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany",
+    "eventName": "MeetToMatch The Cologne Edition 2025",
+    "originalAddress": "Koelnmesse, Messeplatz 1, 50679, Germany",
+    "geocodableAddress": "Koelnmesse, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-k-ln-germany",
+    "eventName": "MeetToMatch The Cologne Edition 2025",
+    "originalAddress": "Koelnmesse, Messeplatz 1 50679 Kšln Germany",
+    "geocodableAddress": "Koelnmesse, Messeplatz 1 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany",
+    "eventName": "MeetToMatch The Cologne Edition 2025",
+    "originalAddress": "Koelnmesse, Messeplatz 1 50679 Koln Germany",
+    "geocodableAddress": "Koelnmesse, Messeplatz 1 50679 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679---germany",
+    "eventName": "MeetToMatch The Cologne Edition 2025",
+    "originalAddress": "Koelnmesse, Messeplatz 1, 50679 , Germany",
+    "geocodableAddress": "Koelnmesse, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany",
+    "eventName": "MeetToMatch The Cologne Edition 2025",
+    "originalAddress": "Koelnmesse, Messeplatz 1, 50679, Germany",
+    "geocodableAddress": "Koelnmesse, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "midday-respawn--coffee-break-at-gamescom-2025-fri-aug-22-12-30--empty-",
+    "eventName": "Midday Respawn: Coffee Break at Gamescom 2025",
+    "originalAddress": "(empty)",
+    "geocodableAddress": "(empty), Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne",
+    "eventName": "Mixpanel Happy Hour At Gamescom",
+    "originalAddress": "Hall 2, Booth A034, Koelnmesse, Cologne",
+    "geocodableAddress": "Hall 2, Booth A034, Koelnmesse, Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany",
+    "eventName": "Monday Multiplayer Mixer",
+    "originalAddress": "Gilden im ZIims \"Heimat Kolscher Helden\" Cologne, Germany",
+    "geocodableAddress": "Gilden im ZIims \"Heimat Kolscher Helden\" Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pet-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany",
+    "eventName": "Pet's Koln Kick-Off",
+    "originalAddress": "Lowenbrau, Cologne, Frankenwerft 21, 50667 Koln, Germany",
+    "geocodableAddress": "Lowenbrau, Koeln, Frankenwerft 21, 50667 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pet-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--koln--frankenwerft-21--50667-k-ln--cologne---germany",
+    "eventName": "Pet's Koln Kick-Off",
+    "originalAddress": "Lowenbrau, Koln, Frankenwerft 21, 50667 Köln (Cologne), Germany",
+    "geocodableAddress": "Lowenbrau, Koeln, Frankenwerft 21, 50667 Koeln (Koeln), Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pet-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-k-ln--cologne---",
+    "eventName": "Pet's Koln Kick-Off",
+    "originalAddress": "Papa Joe's Biersalon, Alter Markt 50-52, 50667 Köln (Cologne), Germany",
+    "geocodableAddress": "Papa Joe's Biersalon, Alter Markt 50-52, 50667 Koeln (Koeln), Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pet-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany",
+    "eventName": "Pet's Koln Kick-Off",
+    "originalAddress": "Papa Joe's Biersalon, Alter Markt 50-52, 50667 Koln, Germany",
+    "geocodableAddress": "Papa Joe's Biersalon, Alter Markt 50-52, 50667 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pet-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-k-ln--germany",
+    "eventName": "Pet's Koln Kick-Off",
+    "originalAddress": "Corkonian Irish Pub, Alter Markt 51, 50667 Köln, Germany",
+    "geocodableAddress": "Corkonian Irish Pub, Alter Markt 51, 50667 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pet-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany",
+    "eventName": "Pet's Koln Kick-Off",
+    "originalAddress": "Corkonian Irish Pub, Alter Markt 51, 50667 Koln, Germany",
+    "geocodableAddress": "Corkonian Irish Pub, Alter Markt 51, 50667 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany",
+    "eventName": "Pete's Koln Kick-Off",
+    "originalAddress": "Lowenbrau, Cologne, Frankenwerft 21, 50667 Koln, Germany",
+    "geocodableAddress": "Lowenbrau, Koeln, Frankenwerft 21, 50667 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pete-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany",
+    "eventName": "Pete's Koln Kick-Off",
+    "originalAddress": "Papa Joe's Biersalon, Alter Markt 50-52, 50667 Koln, Germany",
+    "geocodableAddress": "Papa Joe's Biersalon, Alter Markt 50-52, 50667 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pete-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany",
+    "eventName": "Pete's Koln Kick-Off",
+    "originalAddress": "Corkonian Irish Pub, Alter Markt 51, 50667 Koln, Germany",
+    "geocodableAddress": "Corkonian Irish Pub, Alter Markt 51, 50667 Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pocket-gamer-mobile-game-awards-tue-aug-19-18-30-g-rzenich-k-ln--martinstra-e-29-37-50667-k-ln-germa",
+    "eventName": "Pocket Gamer Mobile Game Awards",
+    "originalAddress": "GŸrzenich Kšln, Martinstra§e 29-37 50667 Kšln Germany",
+    "geocodableAddress": "Gßrzenich Koeln, Martinstraße 29-37 50667 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pocket-gamer-mobile-game-awards-tue-aug-19-18-30-gorzenich-koln--martinstrasse-29-37-50667-koln-germ",
+    "eventName": "Pocket Gamer Mobile Game Awards",
+    "originalAddress": "Gorzenich Koln, Martinstrasse 29-37 50667 Koln Germany",
+    "geocodableAddress": "Gorzenich Koeln, Martinstraße 29-37 50667 Koeln Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-stra--e-14--50667---germany",
+    "eventName": "Pocket Gamer Party Cologne 2025",
+    "originalAddress": "Tivoli, Hohe StraÃŸe 14, 50667 , Germany",
+    "geocodableAddress": "Tivoli, Hohe straße 14, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-straoe-14--50667--germany",
+    "eventName": "Pocket Gamer Party Cologne 2025",
+    "originalAddress": "Tivoli, Hohe Straoe 14, 50667, Germany",
+    "geocodableAddress": "Tivoli, Hohe straße 14, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstra--e-6---20--geb--ude-3-",
+    "eventName": "PUBG: HOT DROP Cologne 2025",
+    "originalAddress": "Carlswerk Victoria, SchanzenstraÃŸe 6â€“20, GebÃ¤ude 3.12, 51063 , Germany",
+    "geocodableAddress": "Carlswerk Victoria, Schanzenstraße 6â€“20, Gebäude 3.12, 51063, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstraoe-6-20--gebaude-3-12--",
+    "eventName": "PUBG: HOT DROP Cologne 2025",
+    "originalAddress": "Carlswerk Victoria, Schanzenstraoe 6-20, Gebaude 3.12, 51063, Germany",
+    "geocodableAddress": "Carlswerk Victoria, Schanzenstraße 6-20, Gebaude 3.12, 51063, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstra--e-1--50667---g",
+    "eventName": "Representing Games | Pitch Sessions Cologne",
+    "originalAddress": "Dorint Hotel, PipinstraÃŸe 1, 50667 , Germany",
+    "geocodableAddress": "Dorint Hotel, Pipinstraße 1, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstraoe-1--50667--ger",
+    "eventName": "Representing Games | Pitch Sessions Cologne",
+    "originalAddress": "Dorint Hotel, Pipinstraoe 1, 50667, Germany",
+    "geocodableAddress": "Dorint Hotel, Pipinstraße 1, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667---germany",
+    "eventName": "Run Time: Gamescom 5km Social Run",
+    "originalAddress": "Cologne Cathedral, Domkloster 4, 50667 , Germany",
+    "geocodableAddress": "Koeln Cathedral, Domkloster 4, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany",
+    "eventName": "Run Time: Gamescom 5km Social Run",
+    "originalAddress": "Cologne Cathedral, Domkloster 4, 50667, Germany",
+    "geocodableAddress": "Koeln Cathedral, Domkloster 4, 50667, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679---ge",
+    "eventName": "Safe In Our World Reception at Gamescom 2025",
+    "originalAddress": "Cologne Fair, Messeplatz 1, 50679 , Germany",
+    "geocodableAddress": "Koeln Fair, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679--ger",
+    "eventName": "Safe In Our World Reception at Gamescom 2025",
+    "originalAddress": "Cologne Fair, Messeplatz 1, 50679, Germany",
+    "geocodableAddress": "Koeln Fair, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679---germany",
+    "eventName": "Saga AI Agent Pop-Up Store at Gamescom",
+    "originalAddress": "Willy-Brandt-Platz 3, 50679 , Germany",
+    "geocodableAddress": "Willy-Brandt-Platz 3, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679--germany",
+    "eventName": "Saga AI Agent Pop-Up Store at Gamescom",
+    "originalAddress": "Willy-Brandt-Platz 3, 50679, Germany",
+    "geocodableAddress": "Willy-Brandt-Platz 3, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679---germany",
+    "eventName": "Serbian Gaming Industry Meet & Drinks",
+    "originalAddress": "Cologne Fair, Messeplatz 1, 50679 , Germany",
+    "geocodableAddress": "Koeln Fair, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679--germany",
+    "eventName": "Serbian Gaming Industry Meet & Drinks",
+    "originalAddress": "Cologne Fair, Messeplatz 1, 50679, Germany",
+    "geocodableAddress": "Koeln Fair, Messeplatz 1, 50679, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "tenno-vip-gamescom-fri-aug-22-18-00--empty-",
+    "eventName": "TENNO VIP GAMESCOM",
+    "originalAddress": "(empty)",
+    "geocodableAddress": "(empty), Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "tenno-vip-gamescom-fri-aug-22-18-00-sold-out",
+    "eventName": "TENNO VIP GAMESCOM",
+    "originalAddress": "Sold Out",
+    "geocodableAddress": "Sold Out, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "the-compound-by-stash---geeklab--ai-day-2-thu-aug-21-17-00--empty-",
+    "eventName": "The Compound by Stash & Geeklab .AI Day 2",
+    "originalAddress": "(empty)",
+    "geocodableAddress": "(empty), Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "the-compound-by-stash---geeklab-day-1-wed-aug-20-17-00--empty-",
+    "eventName": "The Compound by Stash & Geeklab Day 1",
+    "originalAddress": "(empty)",
+    "geocodableAddress": "(empty), Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "the-xsolla-mixer-with-sensor-tower-mon-aug-18-14-30-hyatt-regency-cologne",
+    "eventName": "The Xsolla Mixer with Sensor Tower",
+    "originalAddress": "Hyatt Regency Cologne",
+    "geocodableAddress": "Hyatt Regency Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "the-xsolla-mixer-with-sensor-tower-mon-aug-18-14-30-hyatt-regency-cologne--",
+    "eventName": "The Xsolla Mixer with Sensor Tower",
+    "originalAddress": "Hyatt Regency Cologne, ",
+    "geocodableAddress": "Hyatt Regency Koeln,, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "vip-game-night-by-polygon-wed-aug-20-19-00--empty-",
+    "eventName": "VIP Game Night by Polygon",
+    "originalAddress": "(empty)",
+    "geocodableAddress": "(empty), Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "women-at-gamescom-breakfast---networking-wed-aug-20-08-30--empty-",
+    "eventName": "Women at Gamescom Breakfast & Networking",
+    "originalAddress": "(empty)",
+    "geocodableAddress": "(empty), Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "xrai-hack-pre-gamescom-party-tue-aug-19-19-00-startplatz--im-mediapark-5--50670---germany",
+    "eventName": "XRAI Hack Pre-Gamescom Party",
+    "originalAddress": "STARTPLATZ, Im Mediapark 5, 50670 , Germany",
+    "geocodableAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "xrai-hack-pre-gamescom-party-tue-aug-19-19-00-startplatz--im-mediapark-5--50670--germany",
+    "eventName": "XRAI Hack Pre-Gamescom Party",
+    "originalAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "geocodableAddress": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "you-had-me-at-in-game-data-by-grid---getgud-wed-aug-20-16-00-marzellenstrabe-43a--50668--cologne--ge",
+    "eventName": "You Had Me at In-Game Data by GRID & GetGud",
+    "originalAddress": "MarzellenstraBe 43a, 50668, Cologne, Germany",
+    "geocodableAddress": "MarzellenstraBe 43a, 50668, Koeln, Germany",
+    "status": "ready"
+  },
+  {
+    "eventId": "you-had-me-at-in-game-data-by-grid---getgud-wed-aug-20-16-00-marzellenstrabe-43a--50668--koln--germa",
+    "eventName": "You Had Me at In-Game Data by GRID & GetGud",
+    "originalAddress": "MarzellenstraBe 43a, 50668, Koln, Germany",
+    "geocodableAddress": "MarzellenstraBe 43a, 50668, Koeln, Germany",
+    "status": "ready"
+  }
+]
