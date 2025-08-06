@@ -1,0 +1,86 @@
+{
+  "startTime": "2025-08-06T16:21:55.239Z",
+  "totalTests": 9,
+  "passed": 9,
+  "failed": 0,
+  "warnings": 0,
+  "tests": [
+    {
+      "name": "Health endpoint status",
+      "status": "PASS",
+      "details": "200 OK",
+      "duration": 1633,
+      "timestamp": "2025-08-06T16:21:56.973Z"
+    },
+    {
+      "name": "Health response format",
+      "status": "PASS",
+      "details": "Valid health response structure",
+      "duration": null,
+      "timestamp": "2025-08-06T16:21:56.980Z"
+    },
+    {
+      "name": "Health response time",
+      "status": "PASS",
+      "details": "1633ms",
+      "duration": null,
+      "timestamp": "2025-08-06T16:21:56.981Z"
+    },
+    {
+      "name": "Health required fields",
+      "status": "PASS",
+      "details": "All required fields present",
+      "duration": null,
+      "timestamp": "2025-08-06T16:21:56.981Z"
+    },
+    {
+      "name": "Parties endpoint status",
+      "status": "PASS",
+      "details": "200 OK",
+      "duration": 1168,
+      "timestamp": "2025-08-06T16:21:58.152Z"
+    },
+    {
+      "name": "Parties data structure",
+      "status": "PASS",
+      "details": "50 events returned",
+      "duration": null,
+      "timestamp": "2025-08-06T16:21:58.152Z"
+    },
+    {
+      "name": "Parties event count",
+      "status": "PASS",
+      "details": "50 events (reasonable range)",
+      "duration": null,
+      "timestamp": "2025-08-06T16:21:58.152Z"
+    },
+    {
+      "name": "Parties pagination",
+      "status": "PASS",
+      "details": "Page 2 has 16 events",
+      "duration": null,
+      "timestamp": "2025-08-06T16:21:58.586Z"
+    },
+    {
+      "name": "Parties event schema",
+      "status": "PASS",
+      "details": "Events have expected fields",
+      "duration": null,
+      "timestamp": "2025-08-06T16:21:58.586Z"
+    }
+  ],
+  "summary": {
+    "averageResponseTime": 1401,
+    "totalTestTime": 2801,
+    "totalTests": 9,
+    "passed": 9,
+    "failed": 0,
+    "warnings": 0,
+    "successRate": 100
+  },
+  "performance": {
+    "health": 1633,
+    "parties": 1168
+  },
+  "endTime": "2025-08-06T16:21:58.587Z"
+}

@@ -1,0 +1,1427 @@
+{
+  "generated": "2025-08-06T16:39:11.851Z",
+  "summary": {
+    "totalEvents": 58,
+    "eventsWithCoordinates": 58,
+    "uniqueDates": 7,
+    "categories": [
+      "Mixer",
+      "Exec Social",
+      "Party",
+      "Meetings",
+      "Wellness",
+      "Tour",
+      "Hackathon",
+      "Game Pitches",
+      "Social",
+      "Awards Party",
+      "Bootcamp"
+    ],
+    "hosts": [
+      "Beam, Avalanche",
+      "Bring Your Own",
+      "devcom",
+      "Diversion",
+      "Content Affairs",
+      "DevGAMM, eGames",
+      "Enchant",
+      "Flutu Music",
+      "Kohort, Newzoo",
+      "Overwolf"
+    ]
+  },
+  "events": [
+    {
+      "id": "beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany",
+      "name": "Beam & Avalanche go Gamescom",
+      "date": "Wed Aug 20",
+      "time": "18:00 - 23:00",
+      "parsedDateTime": {
+        "start": "2025-08-20T18:00:00",
+        "end": "2025-08-20T23:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Rheinloft Cologne, Frankenwerft 35, 50667, Germany",
+        "coordinates": {
+          "lat": 50.9392807,
+          "lng": 6.9621832,
+          "formattedAddress": "Rheinloft Cologne - Rooftop Eventlocation für Firmenfeier, Networking, Business Events & Private Feiern, Frankenwerft 35, 50667 Köln, Germany",
+          "placeId": "ChIJ3wGupiElv0cRSYGGsRTkR2g"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Beam+%26+Avalanche+go+Gamescom&dates=20250820T180000%2F20250820T230000&details=Hosts%3A+Beam%2C+Avalanche%0ACategory%3A+Mixer%0ACoordinates%3A+50.9392807%2C+6.9621832%0AEvent+ID%3A+beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany&location=Rheinloft+Cologne+-+Rooftop+Eventlocation+f%C3%BCr+Firmenfeier%2C+Networking%2C+Business+Events+%26+Private+Feiern%2C+Frankenwerft+35%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Beam, Avalanche",
+      "category": "Mixer"
+    },
+    {
+      "id": "cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany",
+      "name": "Cigar Lovers",
+      "date": "Wed Aug 20",
+      "time": "21:00 - 23:59",
+      "parsedDateTime": {
+        "start": "2025-08-20T21:00:00",
+        "end": "2025-08-20T23:59:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Turiner Strabe 9, cologne, germany",
+        "coordinates": {
+          "lat": 50.9464205,
+          "lng": 6.957213299999999,
+          "formattedAddress": "Turiner Str. 9, 50668 Köln, Germany",
+          "placeId": "ChIJQe2lYaMlv0cRmLOrmfVA77g"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Cigar+Lovers&dates=20250820T210000%2F20250820T235900&details=Hosts%3A+Bring+Your+Own%0ACategory%3A+Exec+Social%0ACoordinates%3A+50.9464205%2C+6.957213299999999%0AEvent+ID%3A+cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany&location=Turiner+Str.+9%2C+50668+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Bring Your Own",
+      "category": "Exec Social"
+    },
+    {
+      "id": "courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-",
+      "name": "Courage Cologne @ devcom Developer Night 2025",
+      "date": "Tue Aug 19",
+      "time": "20:00 - 23:30",
+      "parsedDateTime": {
+        "start": "2025-08-19T20:00:00",
+        "end": "2025-08-19T23:30:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "HERBRAND's, Herbrandstraoe 21, 50825, Germany",
+        "coordinates": {
+          "lat": 50.9514054,
+          "lng": 6.9104472,
+          "formattedAddress": "Herbrandstraße 21, 50825 Köln, Germany",
+          "placeId": "ChIJx_o3rDklv0cRpKDhWAzfW40"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Courage+Cologne+%40+devcom+Developer+Night+2025&dates=20250819T200000%2F20250819T233000&details=Hosts%3A+devcom%0ACategory%3A+Party%0ACoordinates%3A+50.9514054%2C+6.9104472%0AEvent+ID%3A+courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-&location=Herbrandstra%C3%9Fe+21%2C+50825+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "devcom",
+      "category": "Party"
+    },
+    {
+      "id": "devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50",
+      "name": "devcom Developer Conference Leadership Dinner",
+      "date": "Mon Aug 18",
+      "time": "19:30 - 23:30",
+      "parsedDateTime": {
+        "start": "2025-08-18T19:30:00",
+        "end": "2025-08-18T23:30:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+        "coordinates": {
+          "lat": 50.94298569999999,
+          "lng": 6.9753161,
+          "formattedAddress": "Koelnmesse Halle 1, 50679 Köln, Germany",
+          "placeId": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=devcom+Developer+Conference+Leadership+Dinner&dates=20250818T193000%2F20250818T233000&details=Hosts%3A+devcom%0ACategory%3A+Mixer%0ACoordinates%3A+50.94298569999999%2C+6.9753161%0AEvent+ID%3A+devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50&location=Koelnmesse+Halle+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "devcom",
+      "category": "Mixer"
+    },
+    {
+      "id": "devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany",
+      "name": "devcom Developer Conference",
+      "date": "Mon Aug 18",
+      "time": "09:00 - 23:30",
+      "parsedDateTime": {
+        "start": "2025-08-18T09:00:00",
+        "end": "2025-08-18T23:30:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+        "coordinates": {
+          "lat": 50.94298569999999,
+          "lng": 6.9753161,
+          "formattedAddress": "Koelnmesse Halle 1, 50679 Köln, Germany",
+          "placeId": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=devcom+Developer+Conference&dates=20250818T090000%2F20250818T233000&details=Hosts%3A+devcom%0ACategory%3A+Meetings%0ACoordinates%3A+50.94298569999999%2C+6.9753161%0AEvent+ID%3A+devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany&location=Koelnmesse+Halle+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "devcom",
+      "category": "Meetings"
+    },
+    {
+      "id": "devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067",
+      "name": "devcom Developer Conference pitch it! Mixer",
+      "date": "Tue Aug 19",
+      "time": "14:30 - 17:00",
+      "parsedDateTime": {
+        "start": "2025-08-19T14:30:00",
+        "end": "2025-08-19T17:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+        "coordinates": {
+          "lat": 50.94298569999999,
+          "lng": 6.9753161,
+          "formattedAddress": "Koelnmesse Halle 1, 50679 Köln, Germany",
+          "placeId": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=devcom+Developer+Conference+pitch+it%21+Mixer&dates=20250819T143000%2F20250819T170000&details=Hosts%3A+devcom%0ACategory%3A+Meetings%0ACoordinates%3A+50.94298569999999%2C+6.9753161%0AEvent+ID%3A+devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067&location=Koelnmesse+Halle+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "devcom",
+      "category": "Meetings"
+    },
+    {
+      "id": "devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany",
+      "name": "devcom Developer Conference",
+      "date": "Sun Aug 17",
+      "time": "13:00 - 16:00",
+      "parsedDateTime": {
+        "start": "2025-08-17T13:00:00",
+        "end": "2025-08-17T16:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+        "coordinates": {
+          "lat": 50.94298569999999,
+          "lng": 6.9753161,
+          "formattedAddress": "Koelnmesse Halle 1, 50679 Köln, Germany",
+          "placeId": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=devcom+Developer+Conference&dates=20250817T130000%2F20250817T160000&details=Hosts%3A+devcom%0ACategory%3A+Meetings%0ACoordinates%3A+50.94298569999999%2C+6.9753161%0AEvent+ID%3A+devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany&location=Koelnmesse+Halle+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "devcom",
+      "category": "Meetings"
+    },
+    {
+      "id": "devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k",
+      "name": "devcom Developer Conference Sunset Mixer",
+      "date": "Mon Aug 18",
+      "time": "19:30 - 23:30",
+      "parsedDateTime": {
+        "start": "2025-08-18T19:30:00",
+        "end": "2025-08-18T23:30:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+        "coordinates": {
+          "lat": 50.94298569999999,
+          "lng": 6.9753161,
+          "formattedAddress": "Koelnmesse Halle 1, 50679 Köln, Germany",
+          "placeId": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=devcom+Developer+Conference+Sunset+Mixer&dates=20250818T193000%2F20250818T233000&details=Hosts%3A+devcom%0ACategory%3A+Mixer%0ACoordinates%3A+50.94298569999999%2C+6.9753161%0AEvent+ID%3A+devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k&location=Koelnmesse+Halle+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "devcom",
+      "category": "Mixer"
+    },
+    {
+      "id": "devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany",
+      "name": "devcom Developer Conference",
+      "date": "Tue Aug 19",
+      "time": "09:00 - 20:00",
+      "parsedDateTime": {
+        "start": "2025-08-19T09:00:00",
+        "end": "2025-08-19T20:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+        "coordinates": {
+          "lat": 50.94298569999999,
+          "lng": 6.9753161,
+          "formattedAddress": "Koelnmesse Halle 1, 50679 Köln, Germany",
+          "placeId": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=devcom+Developer+Conference&dates=20250819T090000%2F20250819T200000&details=Hosts%3A+devcom%0ACategory%3A+Meetings%0ACoordinates%3A+50.94298569999999%2C+6.9753161%0AEvent+ID%3A+devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany&location=Koelnmesse+Halle+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "devcom",
+      "category": "Meetings"
+    },
+    {
+      "id": "devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln",
+      "name": "devcom Developer Conference VIP Mixer",
+      "date": "Mon Aug 18",
+      "time": "17:00 - 1900",
+      "parsedDateTime": {
+        "start": "2025-08-18T17:00:00",
+        "end": "2025-08-18T19:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+        "coordinates": {
+          "lat": 50.94298569999999,
+          "lng": 6.9753161,
+          "formattedAddress": "Koelnmesse Halle 1, 50679 Köln, Germany",
+          "placeId": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=devcom+Developer+Conference+VIP+Mixer&dates=20250818T170000%2F20250818T190000&details=Hosts%3A+devcom%0ACategory%3A+Mixer%0ACoordinates%3A+50.94298569999999%2C+6.9753161%0AEvent+ID%3A+devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln&location=Koelnmesse+Halle+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "devcom",
+      "category": "Mixer"
+    },
+    {
+      "id": "devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln",
+      "name": "devcom Developer Conference VIP Mixer",
+      "date": "Tue Aug 19",
+      "time": "17:00 - 1900",
+      "parsedDateTime": {
+        "start": "2025-08-19T17:00:00",
+        "end": "2025-08-19T19:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany",
+        "coordinates": {
+          "lat": 50.94298569999999,
+          "lng": 6.9753161,
+          "formattedAddress": "Koelnmesse Halle 1, 50679 Köln, Germany",
+          "placeId": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=devcom+Developer+Conference+VIP+Mixer&dates=20250819T170000%2F20250819T190000&details=Hosts%3A+devcom%0ACategory%3A+Mixer%0ACoordinates%3A+50.94298569999999%2C+6.9753161%0AEvent+ID%3A+devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln&location=Koelnmesse+Halle+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "devcom",
+      "category": "Mixer"
+    },
+    {
+      "id": "diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger",
+      "name": "Diversion Meetup DDC Happy Hour",
+      "date": "Tue Aug 19",
+      "time": "18:00 - 21:00",
+      "parsedDateTime": {
+        "start": "2025-08-19T18:00:00",
+        "end": "2025-08-19T21:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Craftbeer Corner Coeln, Martinstraoe 32, 50667, Germany",
+        "coordinates": {
+          "lat": 50.9372589,
+          "lng": 6.958867199999999,
+          "formattedAddress": "Martinstraße 32, 50667 Köln, Germany",
+          "placeId": "ChIJM8AsvLElv0cRVk6tqW-dYvs"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Diversion+Meetup+DDC+Happy+Hour&dates=20250819T180000%2F20250819T210000&details=Hosts%3A+Diversion%0ACategory%3A+Mixer%0ACoordinates%3A+50.9372589%2C+6.958867199999999%0AEvent+ID%3A+diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger&location=Martinstra%C3%9Fe+32%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Diversion",
+      "category": "Mixer"
+    },
+    {
+      "id": "diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-",
+      "name": "Diversity Meetup x Home of Indies @ Gamescom 2025",
+      "date": "Sat Aug 23",
+      "time": "14:00 - 16:00",
+      "parsedDateTime": {
+        "start": "2025-08-23T14:00:00",
+        "end": "2025-08-23T16:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Home of Indies, Hall 10.2, E010g-D011g, Messeplatz 1, 50679 Cologne, Germany",
+        "coordinates": {
+          "lat": 50.94678,
+          "lng": 6.9832069,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJ_7qiEMMlv0cRTiqNZLsiIxY"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Diversity+Meetup+x+Home+of+Indies+%40+Gamescom+2025&dates=20250823T140000%2F20250823T160000&details=Hosts%3A+Content+Affairs%0ACategory%3A+Mixer%0ACoordinates%3A+50.94678%2C+6.9832069%0AEvent+ID%3A+diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Content Affairs",
+      "category": "Mixer"
+    },
+    {
+      "id": "drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne",
+      "name": "Drinks@ Games From Portugal Pavilion",
+      "date": "Thu Aug 21",
+      "time": "16:00 - 18:00",
+      "parsedDateTime": {
+        "start": "2025-08-21T16:00:00",
+        "end": "2025-08-21T18:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Hall 2.1 C028-D027, Koelnmesse, Cologne",
+        "coordinates": {
+          "lat": 50.9466048,
+          "lng": 6.980404699999999,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Drinks%40+Games+From+Portugal+Pavilion&dates=20250821T160000%2F20250821T180000&details=Hosts%3A+DevGAMM%2C+eGames%0ACategory%3A+Mixer%0ACoordinates%3A+50.9466048%2C+6.980404699999999%0AEvent+ID%3A+drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "DevGAMM, eGames",
+      "category": "Mixer"
+    },
+    {
+      "id": "enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067",
+      "name": "Enchant Gamescom Pitch Party + Networking After Party",
+      "date": "Thu Aug 21",
+      "time": "18:45 - 22:30",
+      "parsedDateTime": {
+        "start": "2025-08-21T18:45:00",
+        "end": "2025-08-21T22:30:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "STARTPLATZ, Mediapark 5, 50670, Germany",
+        "coordinates": {
+          "lat": 50.9486351,
+          "lng": 6.9447956,
+          "formattedAddress": "Im Mediapark 5, 50670 Köln, Germany",
+          "placeId": "ChIJ4QP8agolv0cRqtu_enK6PGM"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Enchant+Gamescom+Pitch+Party+%2B+Networking+After+Party&dates=20250821T184500%2F20250821T223000&details=Hosts%3A+Enchant%0ACategory%3A+Party%0ACoordinates%3A+50.9486351%2C+6.9447956%0AEvent+ID%3A+enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067&location=Im+Mediapark+5%2C+50670+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Enchant",
+      "category": "Party"
+    },
+    {
+      "id": "game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany",
+      "name": "Game Audio Get Together @Gamescom 2025",
+      "date": "Fri Aug 22",
+      "time": "19:30 - 2100",
+      "parsedDateTime": {
+        "start": "2025-08-22T19:30:00",
+        "end": "2025-08-22T21:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Salzgasse 2, 50667, Germany",
+        "coordinates": {
+          "lat": 50.9375073,
+          "lng": 6.961263799999999,
+          "formattedAddress": "Salzgasse 2, 50667 Köln, Germany",
+          "placeId": "ChIJYVJGELElv0cRY9AuUNqJ5TI"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Game+Audio+Get+Together+%40Gamescom+2025&dates=20250822T193000%2F20250822T210000&details=Hosts%3A+Flutu+Music%0ACategory%3A+Mixer%0ACoordinates%3A+50.9375073%2C+6.961263799999999%0AEvent+ID%3A+game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany&location=Salzgasse+2%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Flutu Music",
+      "category": "Mixer"
+    },
+    {
+      "id": "games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--",
+      "name": "Games Industry Runners Gamescom edition",
+      "date": "Wed Aug 20",
+      "time": "7:30 - 9:00",
+      "parsedDateTime": {
+        "start": "2025-08-20T07:30:00",
+        "end": "2025-08-20T09:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Paolozzibrunnen, Weltjugendtagsweg, 50667, Germany",
+        "coordinates": {
+          "lat": 50.94048189999999,
+          "lng": 6.962301099999999,
+          "formattedAddress": "Weltjugendtagsweg, 50667 Köln, Germany",
+          "placeId": "ChIJNyfyrOMlv0cRUJPbPRn5cM0"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Games+Industry+Runners+Gamescom+edition&dates=20250820T073000%2F20250820T090000&details=Hosts%3A+Kohort%2C+Newzoo%0ACategory%3A+Wellness%0ACoordinates%3A+50.94048189999999%2C+6.962301099999999%0AEvent+ID%3A+games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--&location=Weltjugendtagsweg%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Kohort, Newzoo",
+      "category": "Wellness"
+    },
+    {
+      "id": "gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany",
+      "name": "Gamescom 2025 Happy Hour â€“ By Overwolf",
+      "date": "Thu Aug 21",
+      "time": "16:30 - 18:00",
+      "parsedDateTime": {
+        "start": "2025-08-21T16:30:00",
+        "end": "2025-08-21T18:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Cologne Fair, Messeplatz 1, 50679, Germany",
+        "coordinates": {
+          "lat": 50.9466048,
+          "lng": 6.980404699999999,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Gamescom+2025+Happy+Hour+%C3%A2%E2%82%AC%E2%80%9C+By+Overwolf&dates=20250821T163000%2F20250821T180000&details=Hosts%3A+Overwolf%0ACategory%3A+Mixer%0ACoordinates%3A+50.9466048%2C+6.980404699999999%0AEvent+ID%3A+gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Overwolf",
+      "category": "Mixer"
+    },
+    {
+      "id": "gamescom-2025-happy-hour---by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany",
+      "name": "Gamescom 2025 Happy Hour - By Overwolf",
+      "date": "Thu Aug 21",
+      "time": "16:30 - 18:00",
+      "parsedDateTime": {
+        "start": "2025-08-21T16:30:00",
+        "end": "2025-08-21T18:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Cologne Fair, Messeplatz 1, 50679, Germany",
+        "coordinates": {
+          "lat": 50.9466048,
+          "lng": 6.980404699999999,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Gamescom+2025+Happy+Hour+-+By+Overwolf&dates=20250821T163000%2F20250821T180000&details=Hosts%3A+Overwolf%0ACategory%3A+Mixer%0ACoordinates%3A+50.9466048%2C+6.980404699999999%0AEvent+ID%3A+gamescom-2025-happy-hour---by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Overwolf",
+      "category": "Mixer"
+    },
+    {
+      "id": "gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta",
+      "name": "Gamescom 2025 Networking Mixer: Metric Minds",
+      "date": "Wed Aug 20",
+      "time": "18:00 - 21:00",
+      "parsedDateTime": {
+        "start": "2025-08-20T18:00:00",
+        "end": "2025-08-20T21:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Joe Champs American Sports Bar, Constantinstrasse 96 50679 Koln Germany",
+        "coordinates": {
+          "lat": 50.9388051,
+          "lng": 6.9779651,
+          "formattedAddress": "Constantinstraße 96, 50679 Köln, Germany",
+          "placeId": "ChIJ6ZR6Rs8lv0cRC3dKm3gGL1U"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Gamescom+2025+Networking+Mixer%3A+Metric+Minds&dates=20250820T180000%2F20250820T210000&details=Hosts%3A+Society+for+Game+Cinematics%0ACategory%3A+Mixer%0ACoordinates%3A+50.9388051%2C+6.9779651%0AEvent+ID%3A+gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta&location=Constantinstra%C3%9Fe+96%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Society for Game Cinematics",
+      "category": "Mixer"
+    },
+    {
+      "id": "gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst",
+      "name": "Gamescom Inside: Brand Positioning Group Tour",
+      "date": "Fri Aug 22",
+      "time": "13:30 - 15:00",
+      "parsedDateTime": {
+        "start": "2025-08-22T13:30:00",
+        "end": "2025-08-22T15:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany",
+        "coordinates": {
+          "lat": 50.9414488,
+          "lng": 6.978014,
+          "formattedAddress": "Luise-Straus-Ernst-Straße 4, 50679 Köln, Germany",
+          "placeId": "ChIJZ6PNb8klv0cRccALPX_q3HA"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Gamescom+Inside%3A+Brand+Positioning+Group+Tour&dates=20250822T133000%2F20250822T150000&details=Hosts%3A+Walbert-Schmitz%0ACategory%3A+Tour%0ACoordinates%3A+50.9414488%2C+6.978014%0AEvent+ID%3A+gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst&location=Luise-Straus-Ernst-Stra%C3%9Fe+4%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Walbert-Schmitz",
+      "category": "Tour"
+    },
+    {
+      "id": "gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst",
+      "name": "Gamescom Inside: Brand Positioning Group Tour",
+      "date": "Thu Aug 21",
+      "time": "13:30 - 15:00",
+      "parsedDateTime": {
+        "start": "2025-08-21T13:30:00",
+        "end": "2025-08-21T15:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany",
+        "coordinates": {
+          "lat": 50.9414488,
+          "lng": 6.978014,
+          "formattedAddress": "Luise-Straus-Ernst-Straße 4, 50679 Köln, Germany",
+          "placeId": "ChIJZ6PNb8klv0cRccALPX_q3HA"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Gamescom+Inside%3A+Brand+Positioning+Group+Tour&dates=20250821T133000%2F20250821T150000&details=Hosts%3A+Walbert-Schmitz%0ACategory%3A+Tour%0ACoordinates%3A+50.9414488%2C+6.978014%0AEvent+ID%3A+gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst&location=Luise-Straus-Ernst-Stra%C3%9Fe+4%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Walbert-Schmitz",
+      "category": "Tour"
+    },
+    {
+      "id": "gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany",
+      "name": "Gamescom Launch Party",
+      "date": "Tue Aug 19",
+      "time": "20:00 - 00:00",
+      "parsedDateTime": {
+        "start": "2025-08-19T20:00:00",
+        "end": "2025-08-19T00:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "rooftop58, Hohenzollernring 58, 50672, Germany",
+        "coordinates": {
+          "lat": 50.9399277,
+          "lng": 6.9402364,
+          "formattedAddress": "Hohenzollernring 58, 50672 Köln, Germany",
+          "placeId": "ChIJu0hTSjolv0cRAMGlOn88FxU"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Gamescom+Launch+Party&dates=20250819T200000%2F20250819T000000&details=Hosts%3A+Singular%2C+Google%2C+Stash%0ACategory%3A+Party%0ACoordinates%3A+50.9399277%2C+6.9402364%0AEvent+ID%3A+gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany&location=Hohenzollernring+58%2C+50672+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Singular, Google, Stash",
+      "category": "Party"
+    },
+    {
+      "id": "global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany",
+      "name": "Global XRAI Hack at Cologne, Gamescom",
+      "date": "Mon Aug 18",
+      "time": "9:00 - 19:00",
+      "parsedDateTime": {
+        "start": "2025-08-18T09:00:00",
+        "end": "2025-08-18T19:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+        "coordinates": {
+          "lat": 50.9486351,
+          "lng": 6.9447956,
+          "formattedAddress": "Im Mediapark 5, 50670 Köln, Germany",
+          "placeId": "ChIJ4QP8agolv0cRqtu_enK6PGM"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Global+XRAI+Hack+at+Cologne%2C+Gamescom&dates=20250818T090000%2F20250818T190000&details=Hosts%3A+XR+Bootcamp%2C+Meta%0ACategory%3A+Hackathon%0ACoordinates%3A+50.9486351%2C+6.9447956%0AEvent+ID%3A+global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany&location=Im+Mediapark+5%2C+50670+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "XR Bootcamp, Meta",
+      "category": "Hackathon"
+    },
+    {
+      "id": "global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany",
+      "name": "Global XRAI Hack at Cologne, Gamescom",
+      "date": "Sun Aug 17",
+      "time": "9:00 - 19:00",
+      "parsedDateTime": {
+        "start": "2025-08-17T09:00:00",
+        "end": "2025-08-17T19:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+        "coordinates": {
+          "lat": 50.9486351,
+          "lng": 6.9447956,
+          "formattedAddress": "Im Mediapark 5, 50670 Köln, Germany",
+          "placeId": "ChIJ4QP8agolv0cRqtu_enK6PGM"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Global+XRAI+Hack+at+Cologne%2C+Gamescom&dates=20250817T090000%2F20250817T190000&details=Hosts%3A+XR+Bootcamp%2C+Meta%0ACategory%3A+Hackathon%0ACoordinates%3A+50.9486351%2C+6.9447956%0AEvent+ID%3A+global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany&location=Im+Mediapark+5%2C+50670+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "XR Bootcamp, Meta",
+      "category": "Hackathon"
+    },
+    {
+      "id": "global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany",
+      "name": "Global XRAI Hack at Cologne, Gamescom",
+      "date": "Tue Aug 19",
+      "time": "9:00 - 19:00",
+      "parsedDateTime": {
+        "start": "2025-08-19T09:00:00",
+        "end": "2025-08-19T19:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+        "coordinates": {
+          "lat": 50.9486351,
+          "lng": 6.9447956,
+          "formattedAddress": "Im Mediapark 5, 50670 Köln, Germany",
+          "placeId": "ChIJ4QP8agolv0cRqtu_enK6PGM"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Global+XRAI+Hack+at+Cologne%2C+Gamescom&dates=20250819T090000%2F20250819T190000&details=Hosts%3A+XR+Bootcamp%2C+Meta%0ACategory%3A+Hackathon%0ACoordinates%3A+50.9486351%2C+6.9447956%0AEvent+ID%3A+global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany&location=Im+Mediapark+5%2C+50670+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "XR Bootcamp, Meta",
+      "category": "Hackathon"
+    },
+    {
+      "id": "indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-",
+      "name": "Indie Developer Stammtisch",
+      "date": "Sun Aug 17",
+      "time": "17:00 - 19:00",
+      "parsedDateTime": {
+        "start": "2025-08-17T17:00:00",
+        "end": "2025-08-17T19:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Hostel | the shared apartment, Richard-Wagner-Straoe 39, 50674, Germany",
+        "coordinates": {
+          "lat": 50.9352955,
+          "lng": 6.934854499999999,
+          "formattedAddress": "Richard-Wagner-Str. 39, 50674 Köln, Germany",
+          "placeId": "ChIJZcMOuAMlv0cRxZrvyLAmm10"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Indie+Developer+Stammtisch&dates=20250817T170000%2F20250817T190000&details=Hosts%3A+INDIE+Hub%0ACategory%3A+Mixer%0ACoordinates%3A+50.9352955%2C+6.934854499999999%0AEvent+ID%3A+indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-&location=Richard-Wagner-Str.+39%2C+50674+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "INDIE Hub",
+      "category": "Mixer"
+    },
+    {
+      "id": "indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln",
+      "name": "INDIE Reveal during Gamescom 2025",
+      "date": "Wed Aug 20",
+      "time": "19:30 - 22:00",
+      "parsedDateTime": {
+        "start": "2025-08-20T19:30:00",
+        "end": "2025-08-20T22:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Filmforum NRW, Bischofsgartenstrasse 1 50667 Koln Germany",
+        "coordinates": {
+          "lat": 50.9406276,
+          "lng": 6.9596193,
+          "formattedAddress": "Bischofsgartenstraße 1, 50667 Köln, Germany",
+          "placeId": "ChIJ0zPrg7Alv0cRNZvG0tAMVcc"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=INDIE+Reveal+during+Gamescom+2025&dates=20250820T193000%2F20250820T220000&details=Hosts%3A+INDIE+Hub+UG%0ACategory%3A+Game+Pitches%0ACoordinates%3A+50.9406276%2C+6.9596193%0AEvent+ID%3A+indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln&location=Bischofsgartenstra%C3%9Fe+1%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "INDIE Hub UG",
+      "category": "Game Pitches"
+    },
+    {
+      "id": "karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667",
+      "name": "Karaoke | The Copper Pot",
+      "date": "Wed Aug 20",
+      "time": "21:00 - 23:59",
+      "parsedDateTime": {
+        "start": "2025-08-20T21:00:00",
+        "end": "2025-08-20T23:59:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Bolzengasse 7, Cologne, Germany 50667",
+        "coordinates": {
+          "lat": 50.93670729999999,
+          "lng": 6.9597586,
+          "formattedAddress": "Bolzengasse 7, 50667 Köln, Germany",
+          "placeId": "ChIJc4x5nrElv0cRyVe5XRMTk6k"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Karaoke+%7C+The+Copper+Pot&dates=20250820T210000%2F20250820T235900&details=Hosts%3A+You+%2B+50+Friends%0ACategory%3A+Social%0ACoordinates%3A+50.93670729999999%2C+6.9597586%0AEvent+ID%3A+karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667&location=Bolzengasse+7%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "You + 50 Friends",
+      "category": "Social"
+    },
+    {
+      "id": "karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne",
+      "name": "Karaoke | The Jameson Irish Pub",
+      "date": "Fri Aug 22",
+      "time": "20:00 - 23:59",
+      "parsedDateTime": {
+        "start": "2025-08-22T20:00:00",
+        "end": "2025-08-22T23:59:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Friesenstraue 30-40, 50670 Koln, Cologne",
+        "coordinates": {
+          "lat": 50.9497351,
+          "lng": 6.943474399999999,
+          "formattedAddress": "50670 Cologne, Germany",
+          "placeId": "ChIJCYelZaAlv0cR0JElq_9gJxw"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Karaoke+%7C+The+Jameson+Irish+Pub&dates=20250822T200000%2F20250822T235900&details=Hosts%3A+You+%2B+50+Friends%0ACategory%3A+Social%0ACoordinates%3A+50.9497351%2C+6.943474399999999%0AEvent+ID%3A+karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne&location=50670+Cologne%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "You + 50 Friends",
+      "category": "Social"
+    },
+    {
+      "id": "liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany",
+      "name": "LiveOps Networking Meetup",
+      "date": "Mon Aug 18",
+      "time": "16:30 - 18:00",
+      "parsedDateTime": {
+        "start": "2025-08-18T16:30:00",
+        "end": "2025-08-18T18:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Koelnmesse Confex, Koelnmesse Halle 1, 50679, Germany",
+        "coordinates": {
+          "lat": 50.94298569999999,
+          "lng": 6.9753161,
+          "formattedAddress": "Koelnmesse Halle 1, 50679 Köln, Germany",
+          "placeId": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=LiveOps+Networking+Meetup&dates=20250818T163000%2F20250818T180000&details=Hosts%3A+Oscar+Clark%0ACategory%3A+Mixer%0ACoordinates%3A+50.94298569999999%2C+6.9753161%0AEvent+ID%3A+liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany&location=Koelnmesse+Halle+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Oscar Clark",
+      "category": "Mixer"
+    },
+    {
+      "id": "maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany",
+      "name": "Maraoke LIVE! @ Gamescom 2025",
+      "date": "Wed Aug 20",
+      "time": "19:00 - 23:59",
+      "parsedDateTime": {
+        "start": "2025-08-20T19:00:00",
+        "end": "2025-08-20T23:59:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "TURISTARAMA, Mauritiussteinweg 102, 50676, Germany",
+        "coordinates": {
+          "lat": 50.93452500000001,
+          "lng": 6.945256,
+          "formattedAddress": "Mauritiussteinweg 102, 50676 Köln, Germany",
+          "placeId": "ChIJ0xNrW6olv0cRLXezb5H-xFw"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Maraoke+LIVE%21+%40+Gamescom+2025&dates=20250820T190000%2F20250820T235900&details=Hosts%3A+Maraoke+LIVE%0ACategory%3A+Party%0ACoordinates%3A+50.93452500000001%2C+6.945256%0AEvent+ID%3A+maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany&location=Mauritiussteinweg+102%2C+50676+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Maraoke LIVE",
+      "category": "Party"
+    },
+    {
+      "id": "marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge",
+      "name": "Marketers In Gaming  Meetup @Gamescom 2025",
+      "date": "Wed Aug 20",
+      "time": "18:00 - 21:00",
+      "parsedDateTime": {
+        "start": "2025-08-20T18:00:00",
+        "end": "2025-08-20T21:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "The Copper Pot, Bolzengasse 7, 50667, Germany",
+        "coordinates": {
+          "lat": 50.9367183,
+          "lng": 6.959741999999999,
+          "formattedAddress": "Bolzengasse 7, 50667 Köln, Germany",
+          "placeId": "ChIJyXaOnrElv0cRTyoKHnAjYLU"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Marketers+In+Gaming++Meetup+%40Gamescom+2025&dates=20250820T180000%2F20250820T210000&details=Hosts%3A+1minus1%0ACategory%3A+Mixer%0ACoordinates%3A+50.9367183%2C+6.959741999999999%0AEvent+ID%3A+marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge&location=Bolzengasse+7%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "1minus1",
+      "category": "Mixer"
+    },
+    {
+      "id": "marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany",
+      "name": "Marriott Madness",
+      "date": "Mon Aug 18",
+      "time": "19:30 - 23:59",
+      "parsedDateTime": {
+        "start": "2025-08-18T19:30:00",
+        "end": "2025-08-18T23:59:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Johannisstraue 76-80, 50668 Koln, Germany",
+        "coordinates": {
+          "lat": 50.9453075,
+          "lng": 6.961333499999999,
+          "formattedAddress": "Johannisstraße 76-80, 50668 Köln, Germany",
+          "placeId": "ChIJZXMwcLslv0cRJnCGucup-Ms"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Marriott+Madness&dates=20250818T193000%2F20250818T235900&details=Hosts%3A+Marriott+Bar%0ACategory%3A+Exec+Social%0ACoordinates%3A+50.9453075%2C+6.961333499999999%0AEvent+ID%3A+marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany&location=Johannisstra%C3%9Fe+76-80%2C+50668+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Marriott Bar",
+      "category": "Exec Social"
+    },
+    {
+      "id": "marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany",
+      "name": "Marriott Madness",
+      "date": "Thu Aug 21",
+      "time": "19:30 - 23:59",
+      "parsedDateTime": {
+        "start": "2025-08-21T19:30:00",
+        "end": "2025-08-21T23:59:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Johannisstraue 76-80, 50668 Koln, Germany",
+        "coordinates": {
+          "lat": 50.9453075,
+          "lng": 6.961333499999999,
+          "formattedAddress": "Johannisstraße 76-80, 50668 Köln, Germany",
+          "placeId": "ChIJZXMwcLslv0cRJnCGucup-Ms"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Marriott+Madness&dates=20250821T193000%2F20250821T235900&details=Hosts%3A+Marriott+Bar%0ACategory%3A+Exec+Social%0ACoordinates%3A+50.9453075%2C+6.961333499999999%0AEvent+ID%3A+marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany&location=Johannisstra%C3%9Fe+76-80%2C+50668+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Marriott Bar",
+      "category": "Exec Social"
+    },
+    {
+      "id": "marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany",
+      "name": "Marriott Madness",
+      "date": "Tue Aug 19",
+      "time": "19:30 - 23:59",
+      "parsedDateTime": {
+        "start": "2025-08-19T19:30:00",
+        "end": "2025-08-19T23:59:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Johannisstraue 76-80, 50668 Koln, Germany",
+        "coordinates": {
+          "lat": 50.9453075,
+          "lng": 6.961333499999999,
+          "formattedAddress": "Johannisstraße 76-80, 50668 Köln, Germany",
+          "placeId": "ChIJZXMwcLslv0cRJnCGucup-Ms"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Marriott+Madness&dates=20250819T193000%2F20250819T235900&details=Hosts%3A+Marriott+Bar%0ACategory%3A+Exec+Social%0ACoordinates%3A+50.9453075%2C+6.961333499999999%0AEvent+ID%3A+marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany&location=Johannisstra%C3%9Fe+76-80%2C+50668+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Marriott Bar",
+      "category": "Exec Social"
+    },
+    {
+      "id": "marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany",
+      "name": "Marriott Madness",
+      "date": "Wed Aug 20",
+      "time": "19:30 - 23:59",
+      "parsedDateTime": {
+        "start": "2025-08-20T19:30:00",
+        "end": "2025-08-20T23:59:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Johannisstraue 76-80, 50668 Koln, Germany",
+        "coordinates": {
+          "lat": 50.9453075,
+          "lng": 6.961333499999999,
+          "formattedAddress": "Johannisstraße 76-80, 50668 Köln, Germany",
+          "placeId": "ChIJZXMwcLslv0cRJnCGucup-Ms"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Marriott+Madness&dates=20250820T193000%2F20250820T235900&details=Hosts%3A+Marriott+Bar%0ACategory%3A+Exec+Social%0ACoordinates%3A+50.9453075%2C+6.961333499999999%0AEvent+ID%3A+marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany&location=Johannisstra%C3%9Fe+76-80%2C+50668+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Marriott Bar",
+      "category": "Exec Social"
+    },
+    {
+      "id": "meettomatch-the-cologne-edition-2025-fri-aug-22-09-00-koelnmesse--messeplatz-1--50679--germany",
+      "name": "MeetToMatch The Cologne Edition 2025",
+      "date": "Fri Aug 22",
+      "time": "9:00 - 18:00",
+      "parsedDateTime": {
+        "start": "2025-08-22T09:00:00",
+        "end": "2025-08-22T18:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Koelnmesse, Messeplatz 1, 50679, Germany",
+        "coordinates": {
+          "lat": 50.9466048,
+          "lng": 6.980404699999999,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=MeetToMatch+The+Cologne+Edition+2025&dates=20250822T090000%2F20250822T180000&details=Hosts%3A+Xsolla%0ACategory%3A+Mixer%0ACoordinates%3A+50.9466048%2C+6.980404699999999%0AEvent+ID%3A+meettomatch-the-cologne-edition-2025-fri-aug-22-09-00-koelnmesse--messeplatz-1--50679--germany&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Xsolla",
+      "category": "Mixer"
+    },
+    {
+      "id": "meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany",
+      "name": "MeetToMatch The Cologne Edition 2025",
+      "date": "Mon Aug 18",
+      "time": "10:00 - 15:00",
+      "parsedDateTime": {
+        "start": "2025-08-18T10:00:00",
+        "end": "2025-08-18T15:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Koelnmesse, Messeplatz 1 50679 Koln Germany",
+        "coordinates": {
+          "lat": 50.9466048,
+          "lng": 6.980404699999999,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=MeetToMatch+The+Cologne+Edition+2025&dates=20250818T100000%2F20250818T150000&details=Hosts%3A+Xsolla%0ACategory%3A+Meetings%0ACoordinates%3A+50.9466048%2C+6.980404699999999%0AEvent+ID%3A+meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Xsolla",
+      "category": "Meetings"
+    },
+    {
+      "id": "meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany",
+      "name": "MeetToMatch The Cologne Edition 2025",
+      "date": "Thu Aug 21",
+      "time": "9:00 - 18:00",
+      "parsedDateTime": {
+        "start": "2025-08-21T09:00:00",
+        "end": "2025-08-21T18:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Koelnmesse, Messeplatz 1, 50679, Germany",
+        "coordinates": {
+          "lat": 50.9466048,
+          "lng": 6.980404699999999,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=MeetToMatch+The+Cologne+Edition+2025&dates=20250821T090000%2F20250821T180000&details=Hosts%3A+Xsolla%0ACategory%3A+Mixer%0ACoordinates%3A+50.9466048%2C+6.980404699999999%0AEvent+ID%3A+meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Xsolla",
+      "category": "Mixer"
+    },
+    {
+      "id": "meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany",
+      "name": "MeetToMatch The Cologne Edition 2025",
+      "date": "Tue Aug 19",
+      "time": "10:00 - 15:00",
+      "parsedDateTime": {
+        "start": "2025-08-19T10:00:00",
+        "end": "2025-08-19T15:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Koelnmesse, Messeplatz 1 50679 Koln Germany",
+        "coordinates": {
+          "lat": 50.9466048,
+          "lng": 6.980404699999999,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=MeetToMatch+The+Cologne+Edition+2025&dates=20250819T100000%2F20250819T150000&details=Hosts%3A+Xsolla%0ACategory%3A+Meetings%0ACoordinates%3A+50.9466048%2C+6.980404699999999%0AEvent+ID%3A+meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Xsolla",
+      "category": "Meetings"
+    },
+    {
+      "id": "meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany",
+      "name": "MeetToMatch The Cologne Edition 2025",
+      "date": "Wed Aug 20",
+      "time": "9:00 - 18:00",
+      "parsedDateTime": {
+        "start": "2025-08-20T09:00:00",
+        "end": "2025-08-20T18:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Koelnmesse, Messeplatz 1, 50679, Germany",
+        "coordinates": {
+          "lat": 50.9466048,
+          "lng": 6.980404699999999,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=MeetToMatch+The+Cologne+Edition+2025&dates=20250820T090000%2F20250820T180000&details=Hosts%3A+Xsolla%0ACategory%3A+Mixer%0ACoordinates%3A+50.9466048%2C+6.980404699999999%0AEvent+ID%3A+meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Xsolla",
+      "category": "Mixer"
+    },
+    {
+      "id": "mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne",
+      "name": "Mixpanel Happy Hour At Gamescom",
+      "date": "Thu Aug 21",
+      "time": "16:00 - 18:00",
+      "parsedDateTime": {
+        "start": "2025-08-21T16:00:00",
+        "end": "2025-08-21T18:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Hall 2, Booth A034, Koelnmesse, Cologne",
+        "coordinates": {
+          "lat": 50.9466048,
+          "lng": 6.980404699999999,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Mixpanel+Happy+Hour+At+Gamescom&dates=20250821T160000%2F20250821T180000&details=Hosts%3A+Mixpanel%0ACategory%3A+Mixer%0ACoordinates%3A+50.9466048%2C+6.980404699999999%0AEvent+ID%3A+mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Mixpanel",
+      "category": "Mixer"
+    },
+    {
+      "id": "monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany",
+      "name": "Monday Multiplayer Mixer",
+      "date": "Mon Aug 18",
+      "time": "18:00 - 22:00",
+      "parsedDateTime": {
+        "start": "2025-08-18T18:00:00",
+        "end": "2025-08-18T22:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Gilden im ZIims \"Heimat Kolscher Helden\" Cologne, Germany",
+        "coordinates": {
+          "lat": 50.9371911,
+          "lng": 6.9600446,
+          "formattedAddress": "Heumarkt 77, 50667 Köln, Germany",
+          "placeId": "ChIJtaxXp7Elv0cRcqy8DJiBrJQ"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Monday+Multiplayer+Mixer&dates=20250818T180000%2F20250818T220000&details=Hosts%3A+Modulate%2C+Hathora%2C+Keyword+Studios%0ACategory%3A+Mixer%0ACoordinates%3A+50.9371911%2C+6.9600446%0AEvent+ID%3A+monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany&location=Heumarkt+77%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Modulate, Hathora, Keyword Studios",
+      "category": "Mixer"
+    },
+    {
+      "id": "pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany",
+      "name": "Pete's Koln Kick-Off",
+      "date": "Mon Aug 18",
+      "time": "16:30 - 19:59",
+      "parsedDateTime": {
+        "start": "2025-08-18T16:30:00",
+        "end": "2025-08-18T19:59:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Lowenbrau, Cologne, Frankenwerft 21, 50667 Koln, Germany",
+        "coordinates": {
+          "lat": 50.93774759999999,
+          "lng": 6.962428099999999,
+          "formattedAddress": "Frankenwerft 21, 50667 Köln, Germany",
+          "placeId": "ChIJz13TJbElv0cRXwHj9J9n3_c"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pete%27s+Koln+Kick-Off&dates=20250818T163000%2F20250818T195900&details=Hosts%3A+Pete+Lovell%0ACategory%3A+Social%0ACoordinates%3A+50.93774759999999%2C+6.962428099999999%0AEvent+ID%3A+pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany&location=Frankenwerft+21%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Pete Lovell",
+      "category": "Social"
+    },
+    {
+      "id": "pete-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany",
+      "name": "Pete's Koln Kick-Off",
+      "date": "Mon Aug 18",
+      "time": "20:00 - 2300",
+      "parsedDateTime": {
+        "start": "2025-08-18T20:00:00",
+        "end": "2025-08-18T23:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Papa Joe's Biersalon, Alter Markt 50-52, 50667 Koln, Germany",
+        "coordinates": {
+          "lat": 50.9388167,
+          "lng": 6.9603972,
+          "formattedAddress": "Alter Markt 50-52, 50667 Köln, Germany",
+          "placeId": "ChIJ2dwbV7Alv0cRNszmQJizut4"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pete%27s+Koln+Kick-Off&dates=20250818T200000%2F20250818T230000&details=Hosts%3A+Pete+Lovell%0ACategory%3A+Social%0ACoordinates%3A+50.9388167%2C+6.9603972%0AEvent+ID%3A+pete-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany&location=Alter+Markt+50-52%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Pete Lovell",
+      "category": "Social"
+    },
+    {
+      "id": "pete-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany",
+      "name": "Pete's Koln Kick-Off",
+      "date": "Mon Aug 18",
+      "time": "23:00 - 23:59",
+      "parsedDateTime": {
+        "start": "2025-08-18T23:00:00",
+        "end": "2025-08-18T23:59:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Corkonian Irish Pub, Alter Markt 51, 50667 Koln, Germany",
+        "coordinates": {
+          "lat": 50.9389241,
+          "lng": 6.959760699999999,
+          "formattedAddress": "Alter Markt 51, 50667 Köln, Germany",
+          "placeId": "ChIJUdFpULAlv0cRFwvvJI41P9s"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pete%27s+Koln+Kick-Off&dates=20250818T230000%2F20250818T235900&details=Hosts%3A+Pete+Lovell%0ACategory%3A+Social%0ACoordinates%3A+50.9389241%2C+6.959760699999999%0AEvent+ID%3A+pete-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany&location=Alter+Markt+51%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Pete Lovell",
+      "category": "Social"
+    },
+    {
+      "id": "pocket-gamer-mobile-game-awards-tue-aug-19-18-30-gorzenich-koln--martinstrasse-29-37-50667-koln-germ",
+      "name": "Pocket Gamer Mobile Game Awards",
+      "date": "Tue Aug 19",
+      "time": "18:30 - 23:30",
+      "parsedDateTime": {
+        "start": "2025-08-19T18:30:00",
+        "end": "2025-08-19T23:30:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Gorzenich Koln, Martinstrasse 29-37 50667 Koln Germany",
+        "coordinates": {
+          "lat": 50.9365392,
+          "lng": 6.9586051,
+          "formattedAddress": "Martinstraße 29-37, 50667 Köln, Germany",
+          "placeId": "ChIJU0YlkbElv0cRsoKRABXwoXk"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pocket+Gamer+Mobile+Game+Awards&dates=20250819T183000%2F20250819T233000&details=Hosts%3A+Steel+Media%0ACategory%3A+Awards+Party%0ACoordinates%3A+50.9365392%2C+6.9586051%0AEvent+ID%3A+pocket-gamer-mobile-game-awards-tue-aug-19-18-30-gorzenich-koln--martinstrasse-29-37-50667-koln-germ&location=Martinstra%C3%9Fe+29-37%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Steel Media",
+      "category": "Awards Party"
+    },
+    {
+      "id": "pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-straoe-14--50667--germany",
+      "name": "Pocket Gamer Party Cologne 2025",
+      "date": "Wed Aug 20",
+      "time": "19:30 - 23:30",
+      "parsedDateTime": {
+        "start": "2025-08-20T19:30:00",
+        "end": "2025-08-20T23:30:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Tivoli, Hohe Straoe 14, 50667, Germany",
+        "coordinates": {
+          "lat": 50.9345009,
+          "lng": 6.9566433,
+          "formattedAddress": "Hohe Str. 14, 50667 Köln, Germany",
+          "placeId": "ChIJ__-vdLIlv0cR83IVQXX3xgo"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pocket+Gamer+Party+Cologne+2025&dates=20250820T193000%2F20250820T233000&details=Hosts%3A+Steel+Media%0ACategory%3A+Party%0ACoordinates%3A+50.9345009%2C+6.9566433%0AEvent+ID%3A+pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-straoe-14--50667--germany&location=Hohe+Str.+14%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Steel Media",
+      "category": "Party"
+    },
+    {
+      "id": "pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstraoe-6-20--gebaude-3-12--",
+      "name": "PUBG: HOT DROP Cologne 2025",
+      "date": "Sat Aug 23",
+      "time": "17:00 - 23:00",
+      "parsedDateTime": {
+        "start": "2025-08-23T17:00:00",
+        "end": "2025-08-23T23:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Carlswerk Victoria, Schanzenstraoe 6-20, Gebaude 3.12, 51063, Germany",
+        "coordinates": {
+          "lat": 50.9650717,
+          "lng": 7.0121199,
+          "formattedAddress": "Schanzenstraße 6-20 Gebäude 3.12, 51063 Köln, Germany",
+          "placeId": "ChIJu6uVRncnv0cRTekfPMYWAYM"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=PUBG%3A+HOT+DROP+Cologne+2025&dates=20250823T170000%2F20250823T230000&details=Hosts%3A+PUBG+Studios%2C+Krafton%0ACategory%3A+Mixer%0ACoordinates%3A+50.9650717%2C+7.0121199%0AEvent+ID%3A+pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstraoe-6-20--gebaude-3-12--&location=Schanzenstra%C3%9Fe+6-20+Geb%C3%A4ude+3.12%2C+51063+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "PUBG Studios, Krafton",
+      "category": "Mixer"
+    },
+    {
+      "id": "representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstraoe-1--50667--ger",
+      "name": "Representing Games | Pitch Sessions Cologne",
+      "date": "Tue Aug 19",
+      "time": "12:45 - 17:00",
+      "parsedDateTime": {
+        "start": "2025-08-19T12:45:00",
+        "end": "2025-08-19T17:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Dorint Hotel, Pipinstraoe 1, 50667, Germany",
+        "coordinates": {
+          "lat": 50.9354918,
+          "lng": 6.9577291,
+          "formattedAddress": "Pipinstraße 1, 50667 Köln, Germany",
+          "placeId": "ChIJcZ5KH7Ilv0cRzV34NaO4Svk"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Representing+Games+%7C+Pitch+Sessions+Cologne&dates=20250819T124500%2F20250819T170000&details=Hosts%3A+MeetToMatch%0ACategory%3A+Game+Pitches%0ACoordinates%3A+50.9354918%2C+6.9577291%0AEvent+ID%3A+representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstraoe-1--50667--ger&location=Pipinstra%C3%9Fe+1%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "MeetToMatch",
+      "category": "Game Pitches"
+    },
+    {
+      "id": "run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany",
+      "name": "Run Time: Gamescom 5km Social Run",
+      "date": "Wed Aug 20",
+      "time": "7:00 - 8:00",
+      "parsedDateTime": {
+        "start": "2025-08-20T07:00:00",
+        "end": "2025-08-20T08:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Cologne Cathedral, Domkloster 4, 50667, Germany",
+        "coordinates": {
+          "lat": 50.94127839999999,
+          "lng": 6.9582814,
+          "formattedAddress": "Domkloster 4, 50667 Köln, Germany",
+          "placeId": "ChIJLz2cNqUlv0cRxqnjljiR7Ck"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Run+Time%3A+Gamescom+5km+Social+Run&dates=20250820T070000%2F20250820T080000&details=Hosts%3A+Stephen+Hey%0ACategory%3A+Wellness%0ACoordinates%3A+50.94127839999999%2C+6.9582814%0AEvent+ID%3A+run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany&location=Domkloster+4%2C+50667+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Stephen Hey",
+      "category": "Wellness"
+    },
+    {
+      "id": "safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679--ger",
+      "name": "Safe In Our World Reception at Gamescom 2025",
+      "date": "Thu Aug 21",
+      "time": "16:00 - 19:00",
+      "parsedDateTime": {
+        "start": "2025-08-21T16:00:00",
+        "end": "2025-08-21T19:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Cologne Fair, Messeplatz 1, 50679, Germany",
+        "coordinates": {
+          "lat": 50.9466048,
+          "lng": 6.980404699999999,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Safe+In+Our+World+Reception+at+Gamescom+2025&dates=20250821T160000%2F20250821T190000&details=Hosts%3A+Safe+In+Our+World%0ACategory%3A+Mixer%0ACoordinates%3A+50.9466048%2C+6.980404699999999%0AEvent+ID%3A+safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679--ger&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Safe In Our World",
+      "category": "Mixer"
+    },
+    {
+      "id": "saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679--germany",
+      "name": "Saga AI Agent Pop-Up Store at Gamescom",
+      "date": "Wed Aug 20",
+      "time": "17:00 - 22:00",
+      "parsedDateTime": {
+        "start": "2025-08-20T17:00:00",
+        "end": "2025-08-20T22:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Willy-Brandt-Platz 3, 50679, Germany",
+        "coordinates": {
+          "lat": 50.9386488,
+          "lng": 6.9846533,
+          "formattedAddress": "Willy-Brandt-Platz 3, 50679 Köln, Germany",
+          "placeId": "ChIJrQ6dEdAlv0cReYBG9FDQiBc"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Saga+AI+Agent+Pop-Up+Store+at+Gamescom&dates=20250820T170000%2F20250820T220000&details=Hosts%3A+Saga+xyz%0ACategory%3A+Mixer%0ACoordinates%3A+50.9386488%2C+6.9846533%0AEvent+ID%3A+saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679--germany&location=Willy-Brandt-Platz+3%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Saga xyz",
+      "category": "Mixer"
+    },
+    {
+      "id": "serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679--germany",
+      "name": "Serbian Gaming Industry Meet & Drinks",
+      "date": "Wed Aug 20",
+      "time": "16:00 - 17:00",
+      "parsedDateTime": {
+        "start": "2025-08-20T16:00:00",
+        "end": "2025-08-20T17:00:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Cologne Fair, Messeplatz 1, 50679, Germany",
+        "coordinates": {
+          "lat": 50.9466048,
+          "lng": 6.980404699999999,
+          "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
+          "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Serbian+Gaming+Industry+Meet+%26+Drinks&dates=20250820T160000%2F20250820T170000&details=Hosts%3A+Serbian+Games+Association%0ACategory%3A+Mixer%0ACoordinates%3A+50.9466048%2C+6.980404699999999%0AEvent+ID%3A+serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679--germany&location=Messepl.+1%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Serbian Games Association",
+      "category": "Mixer"
+    },
+    {
+      "id": "the-xsolla-mixer-with-sensor-tower-mon-aug-18-14-30-hyatt-regency-cologne",
+      "name": "The Xsolla Mixer with Sensor Tower",
+      "date": "Mon Aug 18",
+      "time": "14:30 - 20:30",
+      "parsedDateTime": {
+        "start": "2025-08-18T14:30:00",
+        "end": "2025-08-18T20:30:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "Hyatt Regency Cologne",
+        "coordinates": {
+          "lat": 50.9404298,
+          "lng": 6.969529499999999,
+          "formattedAddress": "Kennedy-Ufer 2A, 50679 Köln, Germany",
+          "placeId": "ChIJ9US5irclv0cRbOUB4fM8Khc"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=The+Xsolla+Mixer+with+Sensor+Tower&dates=20250818T143000%2F20250818T203000&details=Hosts%3A+Moiblegamer.biz%0ACategory%3A+Mixer%0ACoordinates%3A+50.9404298%2C+6.969529499999999%0AEvent+ID%3A+the-xsolla-mixer-with-sensor-tower-mon-aug-18-14-30-hyatt-regency-cologne&location=Kennedy-Ufer+2A%2C+50679+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "Moiblegamer.biz",
+      "category": "Mixer"
+    },
+    {
+      "id": "xrai-hack-pre-gamescom-party-tue-aug-19-19-00-startplatz--im-mediapark-5--50670--germany",
+      "name": "XRAI Hack Pre-Gamescom Party",
+      "date": "Tue Aug 19",
+      "time": "19:00 - 23:30",
+      "parsedDateTime": {
+        "start": "2025-08-19T19:00:00",
+        "end": "2025-08-19T23:30:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "STARTPLATZ, Im Mediapark 5, 50670, Germany",
+        "coordinates": {
+          "lat": 50.9486351,
+          "lng": 6.9447956,
+          "formattedAddress": "Im Mediapark 5, 50670 Köln, Germany",
+          "placeId": "ChIJ4QP8agolv0cRqtu_enK6PGM"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=XRAI+Hack+Pre-Gamescom+Party&dates=20250819T190000%2F20250819T233000&details=Hosts%3A+XR+Bootcamp%0ACategory%3A+Bootcamp%0ACoordinates%3A+50.9486351%2C+6.9447956%0AEvent+ID%3A+xrai-hack-pre-gamescom-party-tue-aug-19-19-00-startplatz--im-mediapark-5--50670--germany&location=Im+Mediapark+5%2C+50670+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "XR Bootcamp",
+      "category": "Bootcamp"
+    },
+    {
+      "id": "you-had-me-at-in-game-data-by-grid---getgud-wed-aug-20-16-00-marzellenstrabe-43a--50668--cologne--ge",
+      "name": "You Had Me at In-Game Data by GRID & GetGud",
+      "date": "Wed Aug 20",
+      "time": "16:00 - 18:30",
+      "parsedDateTime": {
+        "start": "2025-08-20T16:00:00",
+        "end": "2025-08-20T18:30:00",
+        "timezone": "Europe/Berlin"
+      },
+      "location": {
+        "address": "MarzellenstraBe 43a, 50668, Cologne, Germany",
+        "coordinates": {
+          "lat": 50.9444479,
+          "lng": 6.9554357,
+          "formattedAddress": "Marzellenstraße 43a, 50668 Köln, Germany",
+          "placeId": "ChIJuRX196Qlv0cRdVnYLkYytl0"
+        },
+        "hasCoordinates": true
+      },
+      "googleCalendarUrl": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=You+Had+Me+at+In-Game+Data+by+GRID+%26+GetGud&dates=20250820T160000%2F20250820T183000&details=Hosts%3A+GRID%2C+GetGud%0ACategory%3A+Party%0ACoordinates%3A+50.9444479%2C+6.9554357%0AEvent+ID%3A+you-had-me-at-in-game-data-by-grid---getgud-wed-aug-20-16-00-marzellenstrabe-43a--50668--cologne--ge&location=Marzellenstra%C3%9Fe+43a%2C+50668+K%C3%B6ln%2C+Germany&ctz=Europe%2FBerlin",
+      "hosts": "GRID, GetGud",
+      "category": "Party"
+    }
+  ]
+}

@@ -163,7 +163,7 @@ class FirebaseManager {
         this.log('📜 Streaming Firebase function logs...', CONFIG.COLORS.BOLD);
         this.log('Press Ctrl+C to stop', CONFIG.COLORS.YELLOW);
         
-        const logProcess = spawn('firebase', ['functions:log', '--follow'], {
+        const logProcess = spawn('firebase', ['functions:log', ], {
             stdio: 'inherit'
         });
         

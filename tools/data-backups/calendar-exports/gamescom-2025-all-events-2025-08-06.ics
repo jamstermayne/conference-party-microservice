@@ -1,0 +1,705 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Party Discovery App//Gamescom 2025//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Gamescom 2025 Party Events
+X-WR-TIMEZONE:Europe/Berlin
+X-WR-CALDESC:Complete schedule of Gamescom 2025 party events
+BEGIN:VEVENT
+UID:gamescom-beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany@party-discovery.app
+DTSTART:20250820T160000Z
+DTEND:20250820T210000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Beam & Avalanche go Gamescom
+DESCRIPTION:Hosts: Beam\, Avalanche\\nCategory: Mixer\\nCoordinates: 50.9392807\, 6.9621832\\nEvent ID: beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany
+LOCATION:Rheinloft Cologne - Rooftop Eventlocation für Firmenfeier\, Networking\, Business Events & Private Feiern\, Frankenwerft 35\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany@party-discovery.app
+DTSTART:20250820T190000Z
+DTEND:20250820T215900Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Cigar Lovers
+DESCRIPTION:Hosts: Bring Your Own\\nCategory: Exec Social\\nCoordinates: 50.9464205\, 6.957213299999999\\nEvent ID: cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany
+LOCATION:Turiner Str. 9\, 50668 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-@party-discovery.app
+DTSTART:20250819T180000Z
+DTEND:20250819T213000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Courage Cologne @ devcom Developer Night 2025
+DESCRIPTION:Hosts: devcom\\nCategory: Party\\nCoordinates: 50.9514054\, 6.9104472\\nEvent ID: courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-
+LOCATION:Herbrandstraße 21\, 50825 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50@party-discovery.app
+DTSTART:20250818T173000Z
+DTEND:20250818T213000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:devcom Developer Conference Leadership Dinner
+DESCRIPTION:Hosts: devcom\\nCategory: Mixer\\nCoordinates: 50.94298569999999\, 6.9753161\\nEvent ID: devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50
+LOCATION:Koelnmesse Halle 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany@party-discovery.app
+DTSTART:20250818T070000Z
+DTEND:20250818T213000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:devcom Developer Conference
+DESCRIPTION:Hosts: devcom\\nCategory: Meetings\\nCoordinates: 50.94298569999999\, 6.9753161\\nEvent ID: devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany
+LOCATION:Koelnmesse Halle 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067@party-discovery.app
+DTSTART:20250819T123000Z
+DTEND:20250819T150000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:devcom Developer Conference pitch it! Mixer
+DESCRIPTION:Hosts: devcom\\nCategory: Meetings\\nCoordinates: 50.94298569999999\, 6.9753161\\nEvent ID: devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067
+LOCATION:Koelnmesse Halle 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany@party-discovery.app
+DTSTART:20250817T110000Z
+DTEND:20250817T140000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:devcom Developer Conference
+DESCRIPTION:Hosts: devcom\\nCategory: Meetings\\nCoordinates: 50.94298569999999\, 6.9753161\\nEvent ID: devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany
+LOCATION:Koelnmesse Halle 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k@party-discovery.app
+DTSTART:20250818T173000Z
+DTEND:20250818T213000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:devcom Developer Conference Sunset Mixer
+DESCRIPTION:Hosts: devcom\\nCategory: Mixer\\nCoordinates: 50.94298569999999\, 6.9753161\\nEvent ID: devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k
+LOCATION:Koelnmesse Halle 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany@party-discovery.app
+DTSTART:20250819T070000Z
+DTEND:20250819T180000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:devcom Developer Conference
+DESCRIPTION:Hosts: devcom\\nCategory: Meetings\\nCoordinates: 50.94298569999999\, 6.9753161\\nEvent ID: devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany
+LOCATION:Koelnmesse Halle 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln@party-discovery.app
+DTSTART:20250818T150000Z
+DTEND:20250818T170000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:devcom Developer Conference VIP Mixer
+DESCRIPTION:Hosts: devcom\\nCategory: Mixer\\nCoordinates: 50.94298569999999\, 6.9753161\\nEvent ID: devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln
+LOCATION:Koelnmesse Halle 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln@party-discovery.app
+DTSTART:20250819T150000Z
+DTEND:20250819T170000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:devcom Developer Conference VIP Mixer
+DESCRIPTION:Hosts: devcom\\nCategory: Mixer\\nCoordinates: 50.94298569999999\, 6.9753161\\nEvent ID: devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln
+LOCATION:Koelnmesse Halle 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger@party-discovery.app
+DTSTART:20250819T160000Z
+DTEND:20250819T190000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Diversion Meetup DDC Happy Hour
+DESCRIPTION:Hosts: Diversion\\nCategory: Mixer\\nCoordinates: 50.9372589\, 6.958867199999999\\nEvent ID: diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger
+LOCATION:Martinstraße 32\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-@party-discovery.app
+DTSTART:20250823T120000Z
+DTEND:20250823T140000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Diversity Meetup x Home of Indies @ Gamescom 2025
+DESCRIPTION:Hosts: Content Affairs\\nCategory: Mixer\\nCoordinates: 50.94678\, 6.9832069\\nEvent ID: diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne@party-discovery.app
+DTSTART:20250821T140000Z
+DTEND:20250821T160000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Drinks@ Games From Portugal Pavilion
+DESCRIPTION:Hosts: DevGAMM\, eGames\\nCategory: Mixer\\nCoordinates: 50.9466048\, 6.980404699999999\\nEvent ID: drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067@party-discovery.app
+DTSTART:20250821T164500Z
+DTEND:20250821T203000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Enchant Gamescom Pitch Party + Networking After Party
+DESCRIPTION:Hosts: Enchant\\nCategory: Party\\nCoordinates: 50.9486351\, 6.9447956\\nEvent ID: enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067
+LOCATION:Im Mediapark 5\, 50670 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany@party-discovery.app
+DTSTART:20250822T173000Z
+DTEND:20250822T190000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Game Audio Get Together @Gamescom 2025
+DESCRIPTION:Hosts: Flutu Music\\nCategory: Mixer\\nCoordinates: 50.9375073\, 6.961263799999999\\nEvent ID: game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany
+LOCATION:Salzgasse 2\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--@party-discovery.app
+DTSTART:20250820T053000Z
+DTEND:20250820T070000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Games Industry Runners Gamescom edition
+DESCRIPTION:Hosts: Kohort\, Newzoo\\nCategory: Wellness\\nCoordinates: 50.94048189999999\, 6.962301099999999\\nEvent ID: games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--
+LOCATION:Weltjugendtagsweg\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany@party-discovery.app
+DTSTART:20250821T143000Z
+DTEND:20250821T160000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Gamescom 2025 Happy Hour â€“ By Overwolf
+DESCRIPTION:Hosts: Overwolf\\nCategory: Mixer\\nCoordinates: 50.9466048\, 6.980404699999999\\nEvent ID: gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-gamescom-2025-happy-hour---by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany@party-discovery.app
+DTSTART:20250821T143000Z
+DTEND:20250821T160000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Gamescom 2025 Happy Hour - By Overwolf
+DESCRIPTION:Hosts: Overwolf\\nCategory: Mixer\\nCoordinates: 50.9466048\, 6.980404699999999\\nEvent ID: gamescom-2025-happy-hour---by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta@party-discovery.app
+DTSTART:20250820T160000Z
+DTEND:20250820T190000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Gamescom 2025 Networking Mixer: Metric Minds
+DESCRIPTION:Hosts: Society for Game Cinematics\\nCategory: Mixer\\nCoordinates: 50.9388051\, 6.9779651\\nEvent ID: gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta
+LOCATION:Constantinstraße 96\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst@party-discovery.app
+DTSTART:20250822T113000Z
+DTEND:20250822T130000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Gamescom Inside: Brand Positioning Group Tour
+DESCRIPTION:Hosts: Walbert-Schmitz\\nCategory: Tour\\nCoordinates: 50.9414488\, 6.978014\\nEvent ID: gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst
+LOCATION:Luise-Straus-Ernst-Straße 4\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst@party-discovery.app
+DTSTART:20250821T113000Z
+DTEND:20250821T130000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Gamescom Inside: Brand Positioning Group Tour
+DESCRIPTION:Hosts: Walbert-Schmitz\\nCategory: Tour\\nCoordinates: 50.9414488\, 6.978014\\nEvent ID: gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst
+LOCATION:Luise-Straus-Ernst-Straße 4\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany@party-discovery.app
+DTSTART:20250819T180000Z
+DTEND:20250818T220000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Gamescom Launch Party
+DESCRIPTION:Hosts: Singular\, Google\, Stash\\nCategory: Party\\nCoordinates: 50.9399277\, 6.9402364\\nEvent ID: gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany
+LOCATION:Hohenzollernring 58\, 50672 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany@party-discovery.app
+DTSTART:20250818T070000Z
+DTEND:20250818T170000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Global XRAI Hack at Cologne\, Gamescom
+DESCRIPTION:Hosts: XR Bootcamp\, Meta\\nCategory: Hackathon\\nCoordinates: 50.9486351\, 6.9447956\\nEvent ID: global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany
+LOCATION:Im Mediapark 5\, 50670 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany@party-discovery.app
+DTSTART:20250817T070000Z
+DTEND:20250817T170000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Global XRAI Hack at Cologne\, Gamescom
+DESCRIPTION:Hosts: XR Bootcamp\, Meta\\nCategory: Hackathon\\nCoordinates: 50.9486351\, 6.9447956\\nEvent ID: global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany
+LOCATION:Im Mediapark 5\, 50670 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany@party-discovery.app
+DTSTART:20250819T070000Z
+DTEND:20250819T170000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Global XRAI Hack at Cologne\, Gamescom
+DESCRIPTION:Hosts: XR Bootcamp\, Meta\\nCategory: Hackathon\\nCoordinates: 50.9486351\, 6.9447956\\nEvent ID: global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany
+LOCATION:Im Mediapark 5\, 50670 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-@party-discovery.app
+DTSTART:20250817T150000Z
+DTEND:20250817T170000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Indie Developer Stammtisch
+DESCRIPTION:Hosts: INDIE Hub\\nCategory: Mixer\\nCoordinates: 50.9352955\, 6.934854499999999\\nEvent ID: indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-
+LOCATION:Richard-Wagner-Str. 39\, 50674 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln@party-discovery.app
+DTSTART:20250820T173000Z
+DTEND:20250820T200000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:INDIE Reveal during Gamescom 2025
+DESCRIPTION:Hosts: INDIE Hub UG\\nCategory: Game Pitches\\nCoordinates: 50.9406276\, 6.9596193\\nEvent ID: indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln
+LOCATION:Bischofsgartenstraße 1\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667@party-discovery.app
+DTSTART:20250820T190000Z
+DTEND:20250820T215900Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Karaoke | The Copper Pot
+DESCRIPTION:Hosts: You + 50 Friends\\nCategory: Social\\nCoordinates: 50.93670729999999\, 6.9597586\\nEvent ID: karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667
+LOCATION:Bolzengasse 7\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne@party-discovery.app
+DTSTART:20250822T180000Z
+DTEND:20250822T215900Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Karaoke | The Jameson Irish Pub
+DESCRIPTION:Hosts: You + 50 Friends\\nCategory: Social\\nCoordinates: 50.9497351\, 6.943474399999999\\nEvent ID: karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne
+LOCATION:50670 Cologne\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany@party-discovery.app
+DTSTART:20250818T143000Z
+DTEND:20250818T160000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:LiveOps Networking Meetup
+DESCRIPTION:Hosts: Oscar Clark\\nCategory: Mixer\\nCoordinates: 50.94298569999999\, 6.9753161\\nEvent ID: liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany
+LOCATION:Koelnmesse Halle 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany@party-discovery.app
+DTSTART:20250820T170000Z
+DTEND:20250820T215900Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Maraoke LIVE! @ Gamescom 2025
+DESCRIPTION:Hosts: Maraoke LIVE\\nCategory: Party\\nCoordinates: 50.93452500000001\, 6.945256\\nEvent ID: maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany
+LOCATION:Mauritiussteinweg 102\, 50676 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge@party-discovery.app
+DTSTART:20250820T160000Z
+DTEND:20250820T190000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Marketers In Gaming  Meetup @Gamescom 2025
+DESCRIPTION:Hosts: 1minus1\\nCategory: Mixer\\nCoordinates: 50.9367183\, 6.959741999999999\\nEvent ID: marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge
+LOCATION:Bolzengasse 7\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany@party-discovery.app
+DTSTART:20250818T173000Z
+DTEND:20250818T215900Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Marriott Madness
+DESCRIPTION:Hosts: Marriott Bar\\nCategory: Exec Social\\nCoordinates: 50.9453075\, 6.961333499999999\\nEvent ID: marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany
+LOCATION:Johannisstraße 76-80\, 50668 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany@party-discovery.app
+DTSTART:20250821T173000Z
+DTEND:20250821T215900Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Marriott Madness
+DESCRIPTION:Hosts: Marriott Bar\\nCategory: Exec Social\\nCoordinates: 50.9453075\, 6.961333499999999\\nEvent ID: marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany
+LOCATION:Johannisstraße 76-80\, 50668 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany@party-discovery.app
+DTSTART:20250819T173000Z
+DTEND:20250819T215900Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Marriott Madness
+DESCRIPTION:Hosts: Marriott Bar\\nCategory: Exec Social\\nCoordinates: 50.9453075\, 6.961333499999999\\nEvent ID: marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany
+LOCATION:Johannisstraße 76-80\, 50668 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany@party-discovery.app
+DTSTART:20250820T173000Z
+DTEND:20250820T215900Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Marriott Madness
+DESCRIPTION:Hosts: Marriott Bar\\nCategory: Exec Social\\nCoordinates: 50.9453075\, 6.961333499999999\\nEvent ID: marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany
+LOCATION:Johannisstraße 76-80\, 50668 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-meettomatch-the-cologne-edition-2025-fri-aug-22-09-00-koelnmesse--messeplatz-1--50679--germany@party-discovery.app
+DTSTART:20250822T070000Z
+DTEND:20250822T160000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:MeetToMatch The Cologne Edition 2025
+DESCRIPTION:Hosts: Xsolla\\nCategory: Mixer\\nCoordinates: 50.9466048\, 6.980404699999999\\nEvent ID: meettomatch-the-cologne-edition-2025-fri-aug-22-09-00-koelnmesse--messeplatz-1--50679--germany
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany@party-discovery.app
+DTSTART:20250818T080000Z
+DTEND:20250818T130000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:MeetToMatch The Cologne Edition 2025
+DESCRIPTION:Hosts: Xsolla\\nCategory: Meetings\\nCoordinates: 50.9466048\, 6.980404699999999\\nEvent ID: meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany@party-discovery.app
+DTSTART:20250821T070000Z
+DTEND:20250821T160000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:MeetToMatch The Cologne Edition 2025
+DESCRIPTION:Hosts: Xsolla\\nCategory: Mixer\\nCoordinates: 50.9466048\, 6.980404699999999\\nEvent ID: meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany@party-discovery.app
+DTSTART:20250819T080000Z
+DTEND:20250819T130000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:MeetToMatch The Cologne Edition 2025
+DESCRIPTION:Hosts: Xsolla\\nCategory: Meetings\\nCoordinates: 50.9466048\, 6.980404699999999\\nEvent ID: meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany@party-discovery.app
+DTSTART:20250820T070000Z
+DTEND:20250820T160000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:MeetToMatch The Cologne Edition 2025
+DESCRIPTION:Hosts: Xsolla\\nCategory: Mixer\\nCoordinates: 50.9466048\, 6.980404699999999\\nEvent ID: meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne@party-discovery.app
+DTSTART:20250821T140000Z
+DTEND:20250821T160000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Mixpanel Happy Hour At Gamescom
+DESCRIPTION:Hosts: Mixpanel\\nCategory: Mixer\\nCoordinates: 50.9466048\, 6.980404699999999\\nEvent ID: mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany@party-discovery.app
+DTSTART:20250818T160000Z
+DTEND:20250818T200000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Monday Multiplayer Mixer
+DESCRIPTION:Hosts: Modulate\, Hathora\, Keyword Studios\\nCategory: Mixer\\nCoordinates: 50.9371911\, 6.9600446\\nEvent ID: monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany
+LOCATION:Heumarkt 77\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany@party-discovery.app
+DTSTART:20250818T143000Z
+DTEND:20250818T175900Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Pete's Koln Kick-Off
+DESCRIPTION:Hosts: Pete Lovell\\nCategory: Social\\nCoordinates: 50.93774759999999\, 6.962428099999999\\nEvent ID: pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany
+LOCATION:Frankenwerft 21\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-pete-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany@party-discovery.app
+DTSTART:20250818T180000Z
+DTEND:20250818T210000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Pete's Koln Kick-Off
+DESCRIPTION:Hosts: Pete Lovell\\nCategory: Social\\nCoordinates: 50.9388167\, 6.9603972\\nEvent ID: pete-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany
+LOCATION:Alter Markt 50-52\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-pete-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany@party-discovery.app
+DTSTART:20250818T210000Z
+DTEND:20250818T215900Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Pete's Koln Kick-Off
+DESCRIPTION:Hosts: Pete Lovell\\nCategory: Social\\nCoordinates: 50.9389241\, 6.959760699999999\\nEvent ID: pete-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany
+LOCATION:Alter Markt 51\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-pocket-gamer-mobile-game-awards-tue-aug-19-18-30-gorzenich-koln--martinstrasse-29-37-50667-koln-germ@party-discovery.app
+DTSTART:20250819T163000Z
+DTEND:20250819T213000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Pocket Gamer Mobile Game Awards
+DESCRIPTION:Hosts: Steel Media\\nCategory: Awards Party\\nCoordinates: 50.9365392\, 6.9586051\\nEvent ID: pocket-gamer-mobile-game-awards-tue-aug-19-18-30-gorzenich-koln--martinstrasse-29-37-50667-koln-germ
+LOCATION:Martinstraße 29-37\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-straoe-14--50667--germany@party-discovery.app
+DTSTART:20250820T173000Z
+DTEND:20250820T213000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Pocket Gamer Party Cologne 2025
+DESCRIPTION:Hosts: Steel Media\\nCategory: Party\\nCoordinates: 50.9345009\, 6.9566433\\nEvent ID: pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-straoe-14--50667--germany
+LOCATION:Hohe Str. 14\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstraoe-6-20--gebaude-3-12--@party-discovery.app
+DTSTART:20250823T150000Z
+DTEND:20250823T210000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:PUBG: HOT DROP Cologne 2025
+DESCRIPTION:Hosts: PUBG Studios\, Krafton\\nCategory: Mixer\\nCoordinates: 50.9650717\, 7.0121199\\nEvent ID: pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstraoe-6-20--gebaude-3-12--
+LOCATION:Schanzenstraße 6-20 Gebäude 3.12\, 51063 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstraoe-1--50667--ger@party-discovery.app
+DTSTART:20250819T104500Z
+DTEND:20250819T150000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Representing Games | Pitch Sessions Cologne
+DESCRIPTION:Hosts: MeetToMatch\\nCategory: Game Pitches\\nCoordinates: 50.9354918\, 6.9577291\\nEvent ID: representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstraoe-1--50667--ger
+LOCATION:Pipinstraße 1\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany@party-discovery.app
+DTSTART:20250820T050000Z
+DTEND:20250820T060000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Run Time: Gamescom 5km Social Run
+DESCRIPTION:Hosts: Stephen Hey\\nCategory: Wellness\\nCoordinates: 50.94127839999999\, 6.9582814\\nEvent ID: run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany
+LOCATION:Domkloster 4\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679--ger@party-discovery.app
+DTSTART:20250821T140000Z
+DTEND:20250821T170000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Safe In Our World Reception at Gamescom 2025
+DESCRIPTION:Hosts: Safe In Our World\\nCategory: Mixer\\nCoordinates: 50.9466048\, 6.980404699999999\\nEvent ID: safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679--ger
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679--germany@party-discovery.app
+DTSTART:20250820T150000Z
+DTEND:20250820T200000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Saga AI Agent Pop-Up Store at Gamescom
+DESCRIPTION:Hosts: Saga xyz\\nCategory: Mixer\\nCoordinates: 50.9386488\, 6.9846533\\nEvent ID: saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679--germany
+LOCATION:Willy-Brandt-Platz 3\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679--germany@party-discovery.app
+DTSTART:20250820T140000Z
+DTEND:20250820T150000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Serbian Gaming Industry Meet & Drinks
+DESCRIPTION:Hosts: Serbian Games Association\\nCategory: Mixer\\nCoordinates: 50.9466048\, 6.980404699999999\\nEvent ID: serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679--germany
+LOCATION:Messepl. 1\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-the-xsolla-mixer-with-sensor-tower-mon-aug-18-14-30-hyatt-regency-cologne@party-discovery.app
+DTSTART:20250818T123000Z
+DTEND:20250818T183000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:The Xsolla Mixer with Sensor Tower
+DESCRIPTION:Hosts: Moiblegamer.biz\\nCategory: Mixer\\nCoordinates: 50.9404298\, 6.969529499999999\\nEvent ID: the-xsolla-mixer-with-sensor-tower-mon-aug-18-14-30-hyatt-regency-cologne
+LOCATION:Kennedy-Ufer 2A\, 50679 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-xrai-hack-pre-gamescom-party-tue-aug-19-19-00-startplatz--im-mediapark-5--50670--germany@party-discovery.app
+DTSTART:20250819T170000Z
+DTEND:20250819T213000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:XRAI Hack Pre-Gamescom Party
+DESCRIPTION:Hosts: XR Bootcamp\\nCategory: Bootcamp\\nCoordinates: 50.9486351\, 6.9447956\\nEvent ID: xrai-hack-pre-gamescom-party-tue-aug-19-19-00-startplatz--im-mediapark-5--50670--germany
+LOCATION:Im Mediapark 5\, 50670 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:gamescom-you-had-me-at-in-game-data-by-grid---getgud-wed-aug-20-16-00-marzellenstrabe-43a--50668--cologne--ge@party-discovery.app
+DTSTART:20250820T140000Z
+DTEND:20250820T163000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:You Had Me at In-Game Data by GRID & GetGud
+DESCRIPTION:Hosts: GRID\, GetGud\\nCategory: Party\\nCoordinates: 50.9444479\, 6.9554357\\nEvent ID: you-had-me-at-in-game-data-by-grid---getgud-wed-aug-20-16-00-marzellenstrabe-43a--50668--cologne--ge
+LOCATION:Marzellenstraße 43a\, 50668 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

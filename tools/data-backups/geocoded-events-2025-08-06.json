@@ -6,22 +6,49 @@
           "stringValue": "beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Beam & Avalanche go Gamescom"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Rheinloft Cologne, Frankenwerft 35, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "18:00 - 23:00"
+        },
+        "hosts": {
+          "stringValue": "Beam, Avalanche"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:27.710Z"
+          "timestampValue": "2025-08-06T16:28:18.863Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9392807
+              },
+              "lng": {
+                "doubleValue": 6.9621832
+              },
+              "formattedAddress": {
+                "stringValue": "Rheinloft Cologne - Rooftop Eventlocation für Firmenfeier, Networking, Business Events & Private Feiern, Frankenwerft 35, 50667 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJ3wGupiElv0cRSYGGsRTkR2g"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -31,22 +58,49 @@
           "stringValue": "cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Cigar Lovers"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Turiner Strabe 9, cologne, germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "21:00 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Bring Your Own"
+        },
+        "category": {
+          "stringValue": "Exec Social"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:28.735Z"
+          "timestampValue": "2025-08-06T16:28:19.231Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9464205
+              },
+              "lng": {
+                "doubleValue": 6.957213299999999
+              },
+              "formattedAddress": {
+                "stringValue": "Turiner Str. 9, 50668 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJQe2lYaMlv0cRmLOrmfVA77g"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -56,13 +110,25 @@
           "stringValue": "coda-connect-cologne--d2c-happy-hour-with-paysafe-thu-aug-21-17-30--empty-"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Coda Connect Cologne: D2C Happy Hour with Paysafe"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "(empty)"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "17:30 - 20:00"
+        },
+        "hosts": {
+          "stringValue": "Coda"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:29.759Z"
+          "timestampValue": "2025-08-06T16:28:19.545Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -71,7 +137,7 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
         }
       }
     },
@@ -81,22 +147,49 @@
           "stringValue": "courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Courage Cologne @ devcom Developer Night 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "HERBRAND's, Herbrandstraoe 21, 50825, Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "20:00 - 23:30"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Party"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:30.786Z"
+          "timestampValue": "2025-08-06T16:28:19.845Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9514054
+              },
+              "lng": {
+                "doubleValue": 6.9104472
+              },
+              "formattedAddress": {
+                "stringValue": "Herbrandstraße 21, 50825 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJx_o3rDklv0cRpKDhWAzfW40"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -106,22 +199,49 @@
           "stringValue": "devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "devcom Developer Conference Leadership Dinner"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:30"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:31.814Z"
+          "timestampValue": "2025-08-06T16:28:20.172Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.94298569999999
+              },
+              "lng": {
+                "doubleValue": 6.9753161
+              },
+              "formattedAddress": {
+                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -131,22 +251,49 @@
           "stringValue": "devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "devcom Developer Conference"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "09:00 - 23:30"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Meetings"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:32.842Z"
+          "timestampValue": "2025-08-06T16:28:20.538Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.94298569999999
+              },
+              "lng": {
+                "doubleValue": 6.9753161
+              },
+              "formattedAddress": {
+                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -156,22 +303,49 @@
           "stringValue": "devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "devcom Developer Conference pitch it! Mixer"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "14:30 - 17:00"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Meetings"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:33.878Z"
+          "timestampValue": "2025-08-06T16:28:20.873Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.94298569999999
+              },
+              "lng": {
+                "doubleValue": 6.9753161
+              },
+              "formattedAddress": {
+                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -181,22 +355,49 @@
           "stringValue": "devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "devcom Developer Conference"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Sun Aug 17"
+        },
+        "time": {
+          "stringValue": "13:00 - 16:00"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Meetings"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:34.913Z"
+          "timestampValue": "2025-08-06T16:28:21.130Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.94298569999999
+              },
+              "lng": {
+                "doubleValue": 6.9753161
+              },
+              "formattedAddress": {
+                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -206,22 +407,49 @@
           "stringValue": "devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "devcom Developer Conference Sunset Mixer"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:30"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:35.940Z"
+          "timestampValue": "2025-08-06T16:28:21.384Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.94298569999999
+              },
+              "lng": {
+                "doubleValue": 6.9753161
+              },
+              "formattedAddress": {
+                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -231,22 +459,49 @@
           "stringValue": "devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "devcom Developer Conference"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "09:00 - 20:00"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Meetings"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:36.975Z"
+          "timestampValue": "2025-08-06T16:28:21.632Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.94298569999999
+              },
+              "lng": {
+                "doubleValue": 6.9753161
+              },
+              "formattedAddress": {
+                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -256,22 +511,49 @@
           "stringValue": "devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "devcom Developer Conference VIP Mixer"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "17:00 - 1900"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:38.004Z"
+          "timestampValue": "2025-08-06T16:28:21.881Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.94298569999999
+              },
+              "lng": {
+                "doubleValue": 6.9753161
+              },
+              "formattedAddress": {
+                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -281,22 +563,49 @@
           "stringValue": "devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "devcom Developer Conference VIP Mixer"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "17:00 - 1900"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:39.037Z"
+          "timestampValue": "2025-08-06T16:28:22.126Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.94298569999999
+              },
+              "lng": {
+                "doubleValue": 6.9753161
+              },
+              "formattedAddress": {
+                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -306,22 +615,49 @@
           "stringValue": "diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Diversion Meetup DDC Happy Hour"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Craftbeer Corner Coeln, Martinstraoe 32, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "18:00 - 21:00"
+        },
+        "hosts": {
+          "stringValue": "Diversion"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:40.062Z"
+          "timestampValue": "2025-08-06T16:28:22.369Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9372589
+              },
+              "lng": {
+                "doubleValue": 6.958867199999999
+              },
+              "formattedAddress": {
+                "stringValue": "Martinstraße 32, 50667 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJM8AsvLElv0cRVk6tqW-dYvs"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -331,22 +667,49 @@
           "stringValue": "diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Diversity Meetup x Home of Indies @ Gamescom 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Home of Indies, Hall 10.2, E010g-D011g, Messeplatz 1, 50679 Cologne, Germany"
+        },
+        "date": {
+          "stringValue": "Sat Aug 23"
+        },
+        "time": {
+          "stringValue": "14:00 - 16:00"
+        },
+        "hosts": {
+          "stringValue": "Content Affairs"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:41.092Z"
+          "timestampValue": "2025-08-06T16:28:22.751Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.94678
+              },
+              "lng": {
+                "doubleValue": 6.9832069
+              },
+              "formattedAddress": {
+                "stringValue": "Messepl. 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJ_7qiEMMlv0cRTiqNZLsiIxY"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -356,22 +719,49 @@
           "stringValue": "drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Drinks@ Games From Portugal Pavilion"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Hall 2.1 C028-D027, Koelnmesse, Cologne"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "16:00 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "DevGAMM, eGames"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:42.120Z"
+          "timestampValue": "2025-08-06T16:28:23.057Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9466048
+              },
+              "lng": {
+                "doubleValue": 6.980404699999999
+              },
+              "formattedAddress": {
+                "stringValue": "Messepl. 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -381,22 +771,49 @@
           "stringValue": "enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Enchant Gamescom Pitch Party + Networking After Party"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "STARTPLATZ, Mediapark 5, 50670, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "18:45 - 22:30"
+        },
+        "hosts": {
+          "stringValue": "Enchant"
+        },
+        "category": {
+          "stringValue": "Party"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:43.143Z"
+          "timestampValue": "2025-08-06T16:28:23.381Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9486351
+              },
+              "lng": {
+                "doubleValue": 6.9447956
+              },
+              "formattedAddress": {
+                "stringValue": "Im Mediapark 5, 50670 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJ4QP8agolv0cRqtu_enK6PGM"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -406,22 +823,49 @@
           "stringValue": "game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Game Audio Get Together @Gamescom 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Salzgasse 2, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Fri Aug 22"
+        },
+        "time": {
+          "stringValue": "19:30 - 2100"
+        },
+        "hosts": {
+          "stringValue": "Flutu Music"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:44.176Z"
+          "timestampValue": "2025-08-06T16:28:23.695Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9375073
+              },
+              "lng": {
+                "doubleValue": 6.961263799999999
+              },
+              "formattedAddress": {
+                "stringValue": "Salzgasse 2, 50667 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJYVJGELElv0cRY9AuUNqJ5TI"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -431,22 +875,49 @@
           "stringValue": "games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Games Industry Runners Gamescom edition"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Paolozzibrunnen, Weltjugendtagsweg, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "7:30 - 9:00"
+        },
+        "hosts": {
+          "stringValue": "Kohort, Newzoo"
+        },
+        "category": {
+          "stringValue": "Wellness"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:45.211Z"
+          "timestampValue": "2025-08-06T16:28:24.022Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.94048189999999
+              },
+              "lng": {
+                "doubleValue": 6.962301099999999
+              },
+              "formattedAddress": {
+                "stringValue": "Weltjugendtagsweg, 50667 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJNyfyrOMlv0cRUJPbPRn5cM0"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -456,22 +927,49 @@
           "stringValue": "gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Gamescom 2025 Happy Hour â€“ By Overwolf"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "16:30 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Overwolf"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:46.229Z"
+          "timestampValue": "2025-08-06T16:28:24.362Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9466048
+              },
+              "lng": {
+                "doubleValue": 6.980404699999999
+              },
+              "formattedAddress": {
+                "stringValue": "Messepl. 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -481,22 +979,49 @@
           "stringValue": "gamescom-2025-happy-hour---by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Gamescom 2025 Happy Hour - By Overwolf"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "16:30 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Overwolf"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:47.256Z"
+          "timestampValue": "2025-08-06T16:28:24.679Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9466048
+              },
+              "lng": {
+                "doubleValue": 6.980404699999999
+              },
+              "formattedAddress": {
+                "stringValue": "Messepl. 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -506,22 +1031,49 @@
           "stringValue": "gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Gamescom 2025 Networking Mixer: Metric Minds"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Joe Champs American Sports Bar, Constantinstrasse 96 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "18:00 - 21:00"
+        },
+        "hosts": {
+          "stringValue": "Society for Game Cinematics"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:48.279Z"
+          "timestampValue": "2025-08-06T16:28:24.911Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9388051
+              },
+              "lng": {
+                "doubleValue": 6.9779651
+              },
+              "formattedAddress": {
+                "stringValue": "Constantinstraße 96, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJ6ZR6Rs8lv0cRC3dKm3gGL1U"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -531,22 +1083,49 @@
           "stringValue": "gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Gamescom Inside: Brand Positioning Group Tour"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Fri Aug 22"
+        },
+        "time": {
+          "stringValue": "13:30 - 15:00"
+        },
+        "hosts": {
+          "stringValue": "Walbert-Schmitz"
+        },
+        "category": {
+          "stringValue": "Tour"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:49.294Z"
+          "timestampValue": "2025-08-06T16:28:25.298Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9414488
+              },
+              "lng": {
+                "doubleValue": 6.978014
+              },
+              "formattedAddress": {
+                "stringValue": "Luise-Straus-Ernst-Straße 4, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJZ6PNb8klv0cRccALPX_q3HA"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -556,22 +1135,49 @@
           "stringValue": "gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Gamescom Inside: Brand Positioning Group Tour"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "13:30 - 15:00"
+        },
+        "hosts": {
+          "stringValue": "Walbert-Schmitz"
+        },
+        "category": {
+          "stringValue": "Tour"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:50.308Z"
+          "timestampValue": "2025-08-06T16:28:25.634Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9414488
+              },
+              "lng": {
+                "doubleValue": 6.978014
+              },
+              "formattedAddress": {
+                "stringValue": "Luise-Straus-Ernst-Straße 4, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJZ6PNb8klv0cRccALPX_q3HA"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -581,22 +1187,49 @@
           "stringValue": "gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Gamescom Launch Party"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "rooftop58, Hohenzollernring 58, 50672, Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "20:00 - 00:00"
+        },
+        "hosts": {
+          "stringValue": "Singular, Google, Stash"
+        },
+        "category": {
+          "stringValue": "Party"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:51.331Z"
+          "timestampValue": "2025-08-06T16:28:25.885Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9399277
+              },
+              "lng": {
+                "doubleValue": 6.9402364
+              },
+              "formattedAddress": {
+                "stringValue": "Hohenzollernring 58, 50672 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJu0hTSjolv0cRAMGlOn88FxU"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -606,22 +1239,49 @@
           "stringValue": "global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Global XRAI Hack at Cologne, Gamescom"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "STARTPLATZ, Im Mediapark 5, 50670, Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "9:00 - 19:00"
+        },
+        "hosts": {
+          "stringValue": "XR Bootcamp, Meta"
+        },
+        "category": {
+          "stringValue": "Hackathon"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:52.344Z"
+          "timestampValue": "2025-08-06T16:28:26.181Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9486351
+              },
+              "lng": {
+                "doubleValue": 6.9447956
+              },
+              "formattedAddress": {
+                "stringValue": "Im Mediapark 5, 50670 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJ4QP8agolv0cRqtu_enK6PGM"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -631,22 +1291,49 @@
           "stringValue": "global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Global XRAI Hack at Cologne, Gamescom"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "STARTPLATZ, Im Mediapark 5, 50670, Germany"
+        },
+        "date": {
+          "stringValue": "Sun Aug 17"
+        },
+        "time": {
+          "stringValue": "9:00 - 19:00"
+        },
+        "hosts": {
+          "stringValue": "XR Bootcamp, Meta"
+        },
+        "category": {
+          "stringValue": "Hackathon"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:53.358Z"
+          "timestampValue": "2025-08-06T16:28:26.442Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9486351
+              },
+              "lng": {
+                "doubleValue": 6.9447956
+              },
+              "formattedAddress": {
+                "stringValue": "Im Mediapark 5, 50670 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJ4QP8agolv0cRqtu_enK6PGM"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -656,22 +1343,49 @@
           "stringValue": "global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Global XRAI Hack at Cologne, Gamescom"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "STARTPLATZ, Im Mediapark 5, 50670, Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "9:00 - 19:00"
+        },
+        "hosts": {
+          "stringValue": "XR Bootcamp, Meta"
+        },
+        "category": {
+          "stringValue": "Hackathon"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:54.373Z"
+          "timestampValue": "2025-08-06T16:28:26.660Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9486351
+              },
+              "lng": {
+                "doubleValue": 6.9447956
+              },
+              "formattedAddress": {
+                "stringValue": "Im Mediapark 5, 50670 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJ4QP8agolv0cRqtu_enK6PGM"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -681,13 +1395,25 @@
           "stringValue": "immutable-gamescom-mixer-with-polygon-labs-thu-aug-21-17-30--empty-"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Immutable Gamescom Mixer with Polygon Labs"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "(empty)"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "17:30 - 20:01"
+        },
+        "hosts": {
+          "stringValue": "Immutable, Polygon Labs"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:55.396Z"
+          "timestampValue": "2025-08-06T16:28:26.880Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -696,7 +1422,7 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
         }
       }
     },
@@ -706,22 +1432,49 @@
           "stringValue": "indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Indie Developer Stammtisch"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Hostel | the shared apartment, Richard-Wagner-Straoe 39, 50674, Germany"
+        },
+        "date": {
+          "stringValue": "Sun Aug 17"
+        },
+        "time": {
+          "stringValue": "17:00 - 19:00"
+        },
+        "hosts": {
+          "stringValue": "INDIE Hub"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:56.423Z"
+          "timestampValue": "2025-08-06T16:28:27.102Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9352955
+              },
+              "lng": {
+                "doubleValue": 6.934854499999999
+              },
+              "formattedAddress": {
+                "stringValue": "Richard-Wagner-Str. 39, 50674 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJZcMOuAMlv0cRxZrvyLAmm10"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -731,22 +1484,49 @@
           "stringValue": "indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "INDIE Reveal during Gamescom 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Filmforum NRW, Bischofsgartenstrasse 1 50667 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "19:30 - 22:00"
+        },
+        "hosts": {
+          "stringValue": "INDIE Hub UG"
+        },
+        "category": {
+          "stringValue": "Game Pitches"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:57.441Z"
+          "timestampValue": "2025-08-06T16:28:27.479Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9406276
+              },
+              "lng": {
+                "doubleValue": 6.9596193
+              },
+              "formattedAddress": {
+                "stringValue": "Bischofsgartenstraße 1, 50667 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJ0zPrg7Alv0cRNZvG0tAMVcc"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -756,22 +1536,49 @@
           "stringValue": "karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Karaoke | The Copper Pot"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Bolzengasse 7, Cologne, Germany 50667"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "21:00 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "You + 50 Friends"
+        },
+        "category": {
+          "stringValue": "Social"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:58.468Z"
+          "timestampValue": "2025-08-06T16:28:27.793Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.93670729999999
+              },
+              "lng": {
+                "doubleValue": 6.9597586
+              },
+              "formattedAddress": {
+                "stringValue": "Bolzengasse 7, 50667 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJc4x5nrElv0cRyVe5XRMTk6k"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -781,22 +1588,49 @@
           "stringValue": "karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Karaoke | The Jameson Irish Pub"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Friesenstraue 30-40, 50670 Koln, Cologne"
+        },
+        "date": {
+          "stringValue": "Fri Aug 22"
+        },
+        "time": {
+          "stringValue": "20:00 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "You + 50 Friends"
+        },
+        "category": {
+          "stringValue": "Social"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:34:59.487Z"
+          "timestampValue": "2025-08-06T16:28:28.089Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9497351
+              },
+              "lng": {
+                "doubleValue": 6.943474399999999
+              },
+              "formattedAddress": {
+                "stringValue": "50670 Cologne, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJCYelZaAlv0cR0JElq_9gJxw"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -806,22 +1640,49 @@
           "stringValue": "liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "LiveOps Networking Meetup"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Koelnmesse Confex, Koelnmesse Halle 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "16:30 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Oscar Clark"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:00.500Z"
+          "timestampValue": "2025-08-06T16:28:28.396Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.94298569999999
+              },
+              "lng": {
+                "doubleValue": 6.9753161
+              },
+              "formattedAddress": {
+                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -831,22 +1692,49 @@
           "stringValue": "maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Maraoke LIVE! @ Gamescom 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "TURISTARAMA, Mauritiussteinweg 102, 50676, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "19:00 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Maraoke LIVE"
+        },
+        "category": {
+          "stringValue": "Party"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:01.526Z"
+          "timestampValue": "2025-08-06T16:28:28.707Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.93452500000001
+              },
+              "lng": {
+                "doubleValue": 6.945256
+              },
+              "formattedAddress": {
+                "stringValue": "Mauritiussteinweg 102, 50676 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJ0xNrW6olv0cRLXezb5H-xFw"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -856,22 +1744,49 @@
           "stringValue": "marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Marketers In Gaming  Meetup @Gamescom 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "The Copper Pot, Bolzengasse 7, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "18:00 - 21:00"
+        },
+        "hosts": {
+          "stringValue": "1minus1"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:02.541Z"
+          "timestampValue": "2025-08-06T16:28:28.993Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9367183
+              },
+              "lng": {
+                "doubleValue": 6.959741999999999
+              },
+              "formattedAddress": {
+                "stringValue": "Bolzengasse 7, 50667 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJyXaOnrElv0cRTyoKHnAjYLU"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -881,22 +1796,49 @@
           "stringValue": "marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Marriott Madness"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Marriott Bar"
+        },
+        "category": {
+          "stringValue": "Exec Social"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:03.558Z"
+          "timestampValue": "2025-08-06T16:28:29.300Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9453075
+              },
+              "lng": {
+                "doubleValue": 6.961333499999999
+              },
+              "formattedAddress": {
+                "stringValue": "Johannisstraße 76-80, 50668 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJZXMwcLslv0cRJnCGucup-Ms"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -906,22 +1848,49 @@
           "stringValue": "marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Marriott Madness"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Marriott Bar"
+        },
+        "category": {
+          "stringValue": "Exec Social"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:04.576Z"
+          "timestampValue": "2025-08-06T16:28:29.581Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9453075
+              },
+              "lng": {
+                "doubleValue": 6.961333499999999
+              },
+              "formattedAddress": {
+                "stringValue": "Johannisstraße 76-80, 50668 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJZXMwcLslv0cRJnCGucup-Ms"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -931,22 +1900,49 @@
           "stringValue": "marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Marriott Madness"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Marriott Bar"
+        },
+        "category": {
+          "stringValue": "Exec Social"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:05.595Z"
+          "timestampValue": "2025-08-06T16:28:29.805Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9453075
+              },
+              "lng": {
+                "doubleValue": 6.961333499999999
+              },
+              "formattedAddress": {
+                "stringValue": "Johannisstraße 76-80, 50668 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJZXMwcLslv0cRJnCGucup-Ms"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -956,22 +1952,49 @@
           "stringValue": "marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Marriott Madness"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Marriott Bar"
+        },
+        "category": {
+          "stringValue": "Exec Social"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:06.612Z"
+          "timestampValue": "2025-08-06T16:28:30.028Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9453075
+              },
+              "lng": {
+                "doubleValue": 6.961333499999999
+              },
+              "formattedAddress": {
+                "stringValue": "Johannisstraße 76-80, 50668 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJZXMwcLslv0cRJnCGucup-Ms"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -981,22 +2004,49 @@
           "stringValue": "meettomatch-the-cologne-edition-2025-fri-aug-22-09-00-koelnmesse--messeplatz-1--50679--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "MeetToMatch The Cologne Edition 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Koelnmesse, Messeplatz 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Fri Aug 22"
+        },
+        "time": {
+          "stringValue": "9:00 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Xsolla"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:07.633Z"
+          "timestampValue": "2025-08-06T16:28:30.247Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9466048
+              },
+              "lng": {
+                "doubleValue": 6.980404699999999
+              },
+              "formattedAddress": {
+                "stringValue": "Messepl. 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -1006,22 +2056,49 @@
           "stringValue": "meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "MeetToMatch The Cologne Edition 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Koelnmesse, Messeplatz 1 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "10:00 - 15:00"
+        },
+        "hosts": {
+          "stringValue": "Xsolla"
+        },
+        "category": {
+          "stringValue": "Meetings"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:08.661Z"
+          "timestampValue": "2025-08-06T16:28:30.528Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9466048
+              },
+              "lng": {
+                "doubleValue": 6.980404699999999
+              },
+              "formattedAddress": {
+                "stringValue": "Messepl. 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -1031,22 +2108,49 @@
           "stringValue": "meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "MeetToMatch The Cologne Edition 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Koelnmesse, Messeplatz 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "9:00 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Xsolla"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:09.682Z"
+          "timestampValue": "2025-08-06T16:28:30.798Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9466048
+              },
+              "lng": {
+                "doubleValue": 6.980404699999999
+              },
+              "formattedAddress": {
+                "stringValue": "Messepl. 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -1056,22 +2160,49 @@
           "stringValue": "meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "MeetToMatch The Cologne Edition 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Koelnmesse, Messeplatz 1 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "10:00 - 15:00"
+        },
+        "hosts": {
+          "stringValue": "Xsolla"
+        },
+        "category": {
+          "stringValue": "Meetings"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:10.702Z"
+          "timestampValue": "2025-08-06T16:28:31.018Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9466048
+              },
+              "lng": {
+                "doubleValue": 6.980404699999999
+              },
+              "formattedAddress": {
+                "stringValue": "Messepl. 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -1081,22 +2212,49 @@
           "stringValue": "meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "MeetToMatch The Cologne Edition 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Koelnmesse, Messeplatz 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "9:00 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Xsolla"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:11.726Z"
+          "timestampValue": "2025-08-06T16:28:31.242Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9466048
+              },
+              "lng": {
+                "doubleValue": 6.980404699999999
+              },
+              "formattedAddress": {
+                "stringValue": "Messepl. 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -1106,13 +2264,25 @@
           "stringValue": "midday-respawn--coffee-break-at-gamescom-2025-fri-aug-22-12-30--empty-"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Midday Respawn: Coffee Break at Gamescom 2025"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "(empty)"
+        },
+        "date": {
+          "stringValue": "Fri Aug 22"
+        },
+        "time": {
+          "stringValue": "12:30 - 2:00"
+        },
+        "hosts": {
+          "stringValue": "Luisa Berlinicke"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:12.744Z"
+          "timestampValue": "2025-08-06T16:28:31.464Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -1121,7 +2291,7 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
         }
       }
     },
@@ -1131,22 +2301,49 @@
           "stringValue": "mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Mixpanel Happy Hour At Gamescom"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Hall 2, Booth A034, Koelnmesse, Cologne"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "16:00 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Mixpanel"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:13.759Z"
+          "timestampValue": "2025-08-06T16:28:31.685Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9466048
+              },
+              "lng": {
+                "doubleValue": 6.980404699999999
+              },
+              "formattedAddress": {
+                "stringValue": "Messepl. 1, 50679 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -1156,22 +2353,49 @@
           "stringValue": "monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Monday Multiplayer Mixer"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Gilden im ZIims \"Heimat Kolscher Helden\" Cologne, Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "18:00 - 22:00"
+        },
+        "hosts": {
+          "stringValue": "Modulate, Hathora, Keyword Studios"
+        },
+        "category": {
+          "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:14.780Z"
+          "timestampValue": "2025-08-06T16:28:31.949Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.9371911
+              },
+              "lng": {
+                "doubleValue": 6.9600446
+              },
+              "formattedAddress": {
+                "stringValue": "Heumarkt 77, 50667 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJtaxXp7Elv0cRcqy8DJiBrJQ"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -1181,22 +2405,49 @@
           "stringValue": "pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany"
         },
         "eventName": {
-          "stringValue": "Unknown Event"
+          "stringValue": "Pete's Koln Kick-Off"
         },
         "originalAddress": {
-          "stringValue": ""
+          "stringValue": "Lowenbrau, Cologne, Frankenwerft 21, 50667 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "16:30 - 19:59"
+        },
+        "hosts": {
+          "stringValue": "Pete Lovell"
+        },
+        "category": {
+          "stringValue": "Social"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:35:15.808Z"
+          "timestampValue": "2025-08-06T16:28:32.261Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "status": {
-          "stringValue": "failed"
+        "geocoding": {
+          "mapValue": {
+            "fields": {
+              "lat": {
+                "doubleValue": 50.93774759999999
+              },
+              "lng": {
+                "doubleValue": 6.962428099999999
+              },
+              "formattedAddress": {
+                "stringValue": "Frankenwerft 21, 50667 Köln, Germany"
+              },
+              "placeId": {
+                "stringValue": "ChIJz13TJbElv0cRXwHj9J9n3_c"
+              }
+            }
+          }
         },
-        "error": {
-          "stringValue": "Geocoding failed: INVALID_REQUEST - Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
+        "status": {
+          "stringValue": "success"
         }
       }
     },
@@ -1211,8 +2462,11 @@
         "originalAddress": {
           "stringValue": "Papa Joe's Biersalon, Alter Markt 50-52, 50667 Koln, Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "Papa Joe's Biersalon, Alter Markt 50-52, 50667 Koln, Germany"
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "20:00 - 2300"
         },
         "hosts": {
           "stringValue": "Pete Lovell"
@@ -1220,11 +2474,11 @@
         "category": {
           "stringValue": "Social"
         },
-        "date": {
-          "stringValue": "Mon Aug 18"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:32.558Z"
         },
-        "time": {
-          "stringValue": "20:00 - 2300"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -1235,23 +2489,14 @@
               "lng": {
                 "doubleValue": 6.9603972
               },
-              "placeId": {
-                "stringValue": "ChIJ2dwbV7Alv0cRNszmQJizut4"
-              },
               "formattedAddress": {
                 "stringValue": "Alter Markt 50-52, 50667 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJ2dwbV7Alv0cRNszmQJizut4"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:38:57.572Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -1269,8 +2514,11 @@
         "originalAddress": {
           "stringValue": "Corkonian Irish Pub, Alter Markt 51, 50667 Koln, Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "Corkonian Irish Pub, Alter Markt 51, 50667 Koln, Germany"
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "23:00 - 23:59"
         },
         "hosts": {
           "stringValue": "Pete Lovell"
@@ -1278,11 +2526,11 @@
         "category": {
           "stringValue": "Social"
         },
-        "date": {
-          "stringValue": "Mon Aug 18"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:32.904Z"
         },
-        "time": {
-          "stringValue": "23:00 - 23:59"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -1293,23 +2541,14 @@
               "lng": {
                 "doubleValue": 6.959760699999999
               },
-              "placeId": {
-                "stringValue": "ChIJUdFpULAlv0cRFwvvJI41P9s"
-              },
               "formattedAddress": {
                 "stringValue": "Alter Markt 51, 50667 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJUdFpULAlv0cRFwvvJI41P9s"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:38:58.769Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -1327,8 +2566,11 @@
         "originalAddress": {
           "stringValue": "Gorzenich Koln, Martinstrasse 29-37 50667 Koln Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "Gorzenich Koln, Martinstrasse 29-37 50667 Koln Germany"
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "18:30 - 23:30"
         },
         "hosts": {
           "stringValue": "Steel Media"
@@ -1336,11 +2578,11 @@
         "category": {
           "stringValue": "Awards Party"
         },
-        "date": {
-          "stringValue": "Tue Aug 19"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:33.236Z"
         },
-        "time": {
-          "stringValue": "18:30 - 23:30"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -1351,23 +2593,14 @@
               "lng": {
                 "doubleValue": 6.9586051
               },
-              "placeId": {
-                "stringValue": "ChIJU0YlkbElv0cRsoKRABXwoXk"
-              },
               "formattedAddress": {
                 "stringValue": "Martinstraße 29-37, 50667 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJU0YlkbElv0cRsoKRABXwoXk"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:38:59.951Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -1385,8 +2618,11 @@
         "originalAddress": {
           "stringValue": "Tivoli, Hohe Straoe 14, 50667, Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "Tivoli, Hohe Straoe 14, 50667, Germany"
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:30"
         },
         "hosts": {
           "stringValue": "Steel Media"
@@ -1394,11 +2630,11 @@
         "category": {
           "stringValue": "Party"
         },
-        "date": {
-          "stringValue": "Wed Aug 20"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:33.553Z"
         },
-        "time": {
-          "stringValue": "19:30 - 23:30"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -1409,23 +2645,14 @@
               "lng": {
                 "doubleValue": 6.9566433
               },
-              "placeId": {
-                "stringValue": "ChIJ__-vdLIlv0cR83IVQXX3xgo"
-              },
               "formattedAddress": {
                 "stringValue": "Hohe Str. 14, 50667 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJ__-vdLIlv0cR83IVQXX3xgo"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:39:01.071Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -1443,8 +2670,11 @@
         "originalAddress": {
           "stringValue": "Carlswerk Victoria, Schanzenstraoe 6-20, Gebaude 3.12, 51063, Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "Carlswerk Victoria, Schanzenstraoe 6-20, Gebaude 3.12, 51063, Germany"
+        "date": {
+          "stringValue": "Sat Aug 23"
+        },
+        "time": {
+          "stringValue": "17:00 - 23:00"
         },
         "hosts": {
           "stringValue": "PUBG Studios, Krafton"
@@ -1452,11 +2682,11 @@
         "category": {
           "stringValue": "Mixer"
         },
-        "date": {
-          "stringValue": "Sat Aug 23"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:33.852Z"
         },
-        "time": {
-          "stringValue": "17:00 - 23:00"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -1467,23 +2697,14 @@
               "lng": {
                 "doubleValue": 7.0121199
               },
-              "placeId": {
-                "stringValue": "ChIJu6uVRncnv0cRTekfPMYWAYM"
-              },
               "formattedAddress": {
                 "stringValue": "Schanzenstraße 6-20 Gebäude 3.12, 51063 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "GEOMETRIC_CENTER"
+              "placeId": {
+                "stringValue": "ChIJu6uVRncnv0cRTekfPMYWAYM"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:39:02.208Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -1501,8 +2722,11 @@
         "originalAddress": {
           "stringValue": "Dorint Hotel, Pipinstraoe 1, 50667, Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "Dorint Hotel, Pipinstraoe 1, 50667, Germany"
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "12:45 - 17:00"
         },
         "hosts": {
           "stringValue": "MeetToMatch"
@@ -1510,11 +2734,11 @@
         "category": {
           "stringValue": "Game Pitches"
         },
-        "date": {
-          "stringValue": "Tue Aug 19"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:34.164Z"
         },
-        "time": {
-          "stringValue": "12:45 - 17:00"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -1525,23 +2749,14 @@
               "lng": {
                 "doubleValue": 6.9577291
               },
-              "placeId": {
-                "stringValue": "ChIJcZ5KH7Ilv0cRzV34NaO4Svk"
-              },
               "formattedAddress": {
                 "stringValue": "Pipinstraße 1, 50667 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJcZ5KH7Ilv0cRzV34NaO4Svk"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:39:03.343Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -1559,8 +2774,11 @@
         "originalAddress": {
           "stringValue": "Cologne Cathedral, Domkloster 4, 50667, Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "Cologne Cathedral, Domkloster 4, 50667, Germany"
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "7:00 - 8:00"
         },
         "hosts": {
           "stringValue": "Stephen Hey"
@@ -1568,11 +2786,11 @@
         "category": {
           "stringValue": "Wellness"
         },
-        "date": {
-          "stringValue": "Wed Aug 20"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:34.496Z"
         },
-        "time": {
-          "stringValue": "7:00 - 8:00"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -1583,23 +2801,14 @@
               "lng": {
                 "doubleValue": 6.9582814
               },
-              "placeId": {
-                "stringValue": "ChIJLz2cNqUlv0cRxqnjljiR7Ck"
-              },
               "formattedAddress": {
                 "stringValue": "Domkloster 4, 50667 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJLz2cNqUlv0cRxqnjljiR7Ck"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:39:04.486Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -1617,8 +2826,11 @@
         "originalAddress": {
           "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "16:00 - 19:00"
         },
         "hosts": {
           "stringValue": "Safe In Our World"
@@ -1626,11 +2838,11 @@
         "category": {
           "stringValue": "Mixer"
         },
-        "date": {
-          "stringValue": "Thu Aug 21"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:34.784Z"
         },
-        "time": {
-          "stringValue": "16:00 - 19:00"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -1641,23 +2853,14 @@
               "lng": {
                 "doubleValue": 6.980404699999999
               },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              },
               "formattedAddress": {
                 "stringValue": "Messepl. 1, 50679 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:39:05.628Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -1675,8 +2878,11 @@
         "originalAddress": {
           "stringValue": "Willy-Brandt-Platz 3, 50679, Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "Willy-Brandt-Platz 3, 50679, Germany"
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "17:00 - 22:00"
         },
         "hosts": {
           "stringValue": "Saga xyz"
@@ -1684,11 +2890,11 @@
         "category": {
           "stringValue": "Mixer"
         },
-        "date": {
-          "stringValue": "Wed Aug 20"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:35.007Z"
         },
-        "time": {
-          "stringValue": "17:00 - 22:00"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -1699,23 +2905,14 @@
               "lng": {
                 "doubleValue": 6.9846533
               },
-              "placeId": {
-                "stringValue": "ChIJrQ6dEdAlv0cReYBG9FDQiBc"
-              },
               "formattedAddress": {
                 "stringValue": "Willy-Brandt-Platz 3, 50679 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJrQ6dEdAlv0cReYBG9FDQiBc"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:39:06.763Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -1733,8 +2930,11 @@
         "originalAddress": {
           "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "16:00 - 17:00"
         },
         "hosts": {
           "stringValue": "Serbian Games Association"
@@ -1742,11 +2942,11 @@
         "category": {
           "stringValue": "Mixer"
         },
-        "date": {
-          "stringValue": "Wed Aug 20"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:35.328Z"
         },
-        "time": {
-          "stringValue": "16:00 - 17:00"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -1757,23 +2957,14 @@
               "lng": {
                 "doubleValue": 6.980404699999999
               },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              },
               "formattedAddress": {
                 "stringValue": "Messepl. 1, 50679 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:39:07.786Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -1791,20 +2982,20 @@
         "originalAddress": {
           "stringValue": "(empty)"
         },
-        "hosts": {
-          "stringValue": "Digital Extremes"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
         "date": {
           "stringValue": "Fri Aug 22"
         },
         "time": {
           "stringValue": "18:00 - 22:00"
         },
+        "hosts": {
+          "stringValue": "Digital Extremes"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:39:08.793Z"
+          "timestampValue": "2025-08-06T16:28:35.546Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -1813,7 +3004,7 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Empty or missing address"
+          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
         }
       }
     },
@@ -1828,20 +3019,20 @@
         "originalAddress": {
           "stringValue": "(empty)"
         },
-        "hosts": {
-          "stringValue": "Stash, Geeklab"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
         "date": {
           "stringValue": "Thu Aug 21"
         },
         "time": {
           "stringValue": "17:00 - 19:00"
         },
+        "hosts": {
+          "stringValue": "Stash, Geeklab"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:39:08.803Z"
+          "timestampValue": "2025-08-06T16:28:35.767Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -1850,7 +3041,7 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Empty or missing address"
+          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
         }
       }
     },
@@ -1865,20 +3056,20 @@
         "originalAddress": {
           "stringValue": "(empty)"
         },
-        "hosts": {
-          "stringValue": "Stash, Geeklab"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
         "date": {
           "stringValue": "Wed Aug 20"
         },
         "time": {
           "stringValue": "17:00 - 19:00"
         },
+        "hosts": {
+          "stringValue": "Stash, Geeklab"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:39:08.814Z"
+          "timestampValue": "2025-08-06T16:28:35.994Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -1887,7 +3078,7 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Empty or missing address"
+          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
         }
       }
     },
@@ -1902,8 +3093,11 @@
         "originalAddress": {
           "stringValue": "Hyatt Regency Cologne"
         },
-        "cleanedAddress": {
-          "stringValue": "Hyatt Regency Cologne"
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "14:30 - 20:30"
         },
         "hosts": {
           "stringValue": "Moiblegamer.biz"
@@ -1911,11 +3105,11 @@
         "category": {
           "stringValue": "Mixer"
         },
-        "date": {
-          "stringValue": "Mon Aug 18"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:36.214Z"
         },
-        "time": {
-          "stringValue": "14:30 - 20:30"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -1926,23 +3120,14 @@
               "lng": {
                 "doubleValue": 6.969529499999999
               },
-              "placeId": {
-                "stringValue": "ChIJ9US5irclv0cRbOUB4fM8Khc"
-              },
               "formattedAddress": {
                 "stringValue": "Kennedy-Ufer 2A, 50679 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJ9US5irclv0cRbOUB4fM8Khc"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:39:08.942Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -1960,20 +3145,20 @@
         "originalAddress": {
           "stringValue": "(empty)"
         },
-        "hosts": {
-          "stringValue": "Polygon"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
         "date": {
           "stringValue": "Wed Aug 20"
         },
         "time": {
           "stringValue": "19:00 - 22:00"
         },
+        "hosts": {
+          "stringValue": "Polygon"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:39:09.950Z"
+          "timestampValue": "2025-08-06T16:28:36.509Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -1982,7 +3167,7 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Empty or missing address"
+          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
         }
       }
     },
@@ -1997,20 +3182,20 @@
         "originalAddress": {
           "stringValue": "(empty)"
         },
-        "hosts": {
-          "stringValue": "Game Changers"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
         "date": {
           "stringValue": "Wed Aug 20"
         },
         "time": {
           "stringValue": "8:30 - 10:30"
         },
+        "hosts": {
+          "stringValue": "Game Changers"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
         "timestamp": {
-          "timestampValue": "2025-08-06T15:39:09.953Z"
+          "timestampValue": "2025-08-06T16:28:36.731Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -2019,7 +3204,7 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Empty or missing address"
+          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
         }
       }
     },
@@ -2034,8 +3219,11 @@
         "originalAddress": {
           "stringValue": "STARTPLATZ, Im Mediapark 5, 50670, Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "STARTPLATZ, Im Mediapark 5, 50670, Germany"
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "19:00 - 23:30"
         },
         "hosts": {
           "stringValue": "XR Bootcamp"
@@ -2043,11 +3231,11 @@
         "category": {
           "stringValue": "Bootcamp"
         },
-        "date": {
-          "stringValue": "Tue Aug 19"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:36.956Z"
         },
-        "time": {
-          "stringValue": "19:00 - 23:30"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -2058,23 +3246,14 @@
               "lng": {
                 "doubleValue": 6.9447956
               },
-              "placeId": {
-                "stringValue": "ChIJ4QP8agolv0cRqtu_enK6PGM"
-              },
               "formattedAddress": {
                 "stringValue": "Im Mediapark 5, 50670 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJ4QP8agolv0cRqtu_enK6PGM"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:39:10.083Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -2092,8 +3271,11 @@
         "originalAddress": {
           "stringValue": "MarzellenstraBe 43a, 50668, Cologne, Germany"
         },
-        "cleanedAddress": {
-          "stringValue": "MarzellenstraBe 43a, 50668, Cologne, Germany"
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "16:00 - 18:30"
         },
         "hosts": {
           "stringValue": "GRID, GetGud"
@@ -2101,11 +3283,11 @@
         "category": {
           "stringValue": "Party"
         },
-        "date": {
-          "stringValue": "Wed Aug 20"
+        "timestamp": {
+          "timestampValue": "2025-08-06T16:28:37.177Z"
         },
-        "time": {
-          "stringValue": "16:00 - 18:30"
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "geocoding": {
           "mapValue": {
@@ -2116,23 +3298,14 @@
               "lng": {
                 "doubleValue": 6.9554357
               },
-              "placeId": {
-                "stringValue": "ChIJuRX196Qlv0cRdVnYLkYytl0"
-              },
               "formattedAddress": {
                 "stringValue": "Marzellenstraße 43a, 50668 Köln, Germany"
               },
-              "locationType": {
-                "stringValue": "ROOFTOP"
+              "placeId": {
+                "stringValue": "ChIJuRX196Qlv0cRdVnYLkYytl0"
               }
             }
           }
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T15:39:11.220Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
         },
         "status": {
           "stringValue": "success"
@@ -2140,9 +3313,10 @@
       }
     }
   },
-  "metadata": {
-    "created": "2025-08-06T15:34:27.710Z",
-    "updated": "2025-08-06T15:39:11.226Z",
-    "total": 66
+  "summary": {
+    "total": 66,
+    "successful": 58,
+    "failed": 8,
+    "processed": 66
   }
 }

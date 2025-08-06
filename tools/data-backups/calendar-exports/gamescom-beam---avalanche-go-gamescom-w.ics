@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Party Discovery App//Gamescom 2025//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Gamescom 2025 Party Event
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:gamescom-beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany@party-discovery.app
+DTSTART:20250820T160000Z
+DTEND:20250820T210000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Beam & Avalanche go Gamescom
+DESCRIPTION:Hosts: Beam\, Avalanche\\nCategory: Mixer\\nCoordinates: 50.9392807\, 6.9621832\\nEvent ID: beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany
+LOCATION:Rheinloft Cologne - Rooftop Eventlocation für Firmenfeier\, Networking\, Business Events & Private Feiern\, Frankenwerft 35\, 50667 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

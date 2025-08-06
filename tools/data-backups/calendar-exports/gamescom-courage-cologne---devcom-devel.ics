@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Party Discovery App//Gamescom 2025//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Gamescom 2025 Party Event
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:gamescom-courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-@party-discovery.app
+DTSTART:20250819T180000Z
+DTEND:20250819T213000Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Courage Cologne @ devcom Developer Night 2025
+DESCRIPTION:Hosts: devcom\\nCategory: Party\\nCoordinates: 50.9514054\, 6.9104472\\nEvent ID: courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-
+LOCATION:Herbrandstraße 21\, 50825 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

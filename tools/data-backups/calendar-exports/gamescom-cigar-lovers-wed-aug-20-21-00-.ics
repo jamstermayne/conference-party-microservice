@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Party Discovery App//Gamescom 2025//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Gamescom 2025 Party Event
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:gamescom-cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany@party-discovery.app
+DTSTART:20250820T190000Z
+DTEND:20250820T215900Z
+DTSTAMP:20250806T163911Z
+SUMMARY:Cigar Lovers
+DESCRIPTION:Hosts: Bring Your Own\\nCategory: Exec Social\\nCoordinates: 50.9464205\, 6.957213299999999\\nEvent ID: cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany
+LOCATION:Turiner Str. 9\, 50668 Köln\, Germany
+ORGANIZER:mailto:gamescom@party-discovery.app
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR
