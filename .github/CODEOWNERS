@@ -1,0 +1,36 @@
+# Code Owners for Gamescom 2025 Party Discovery
+# This file defines who must review changes to specific parts of the codebase
+
+# Global ownership - all files require review by repository owner
+* @jamstermayne
+
+# Security-critical files require additional review
+SECURITY.md @jamstermayne
+.github/SECURITY.md @jamstermayne
+test-ugc-bulletproof.sh @jamstermayne
+
+# UGC system files (security-critical)
+functions/src/ugc.ts @jamstermayne
+functions/src/index.ts @jamstermayne
+
+# Frontend security and UGC forms
+public/js/app.js @jamstermayne
+public/index.html @jamstermayne
+
+# Configuration files
+firebase.json @jamstermayne
+firestore.rules @jamstermayne
+.firebaserc @jamstermayne
+
+# Package files (dependency security)
+package.json @jamstermayne
+package-lock.json @jamstermayne
+functions/package.json @jamstermayne
+functions/package-lock.json @jamstermayne
+
+# GitHub configuration
+.github/ @jamstermayne
+
+# Documentation
+README.md @jamstermayne
+CLAUDE.md @jamstermayne

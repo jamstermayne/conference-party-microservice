@@ -1,0 +1,59 @@
+# Dependabot configuration for automated security updates
+version: 2
+updates:
+  # Enable security updates for npm dependencies in root
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "jamstermayne"
+    assignees:
+      - "jamstermayne"
+    commit-message:
+      prefix: "⬆️ [Security]"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "security"
+    
+  # Enable security updates for npm dependencies in functions directory
+  - package-ecosystem: "npm"
+    directory: "/functions"
+    schedule:
+      interval: "weekly"
+      day: "monday"  
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "jamstermayne"
+    assignees:
+      - "jamstermayne"
+    commit-message:
+      prefix: "⬆️ [Security]"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "security"
+      - "functions"
+
+  # Enable security updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "jamstermayne"
+    assignees:
+      - "jamstermayne"
+    commit-message:
+      prefix: "⬆️ [Actions]"
+    labels:
+      - "github-actions"
+      - "security"
