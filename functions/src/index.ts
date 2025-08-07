@@ -26,6 +26,7 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
   "Access-Control-Max-Age": "3600",
+  "Content-Type": "application/json",
 };
 
 // Utility functions
@@ -266,6 +267,7 @@ export const api = onRequest({
         break;
       }
 
+      setCorsHeaders(res);
       res.status(404).json({
         success: false,
         error: "Endpoint not found",
@@ -274,6 +276,7 @@ export const api = onRequest({
           "/ugc/events/create", "/ugc/events", "/referral/generate",
           "/referral/track", "/referral/stats/{userId}",
         ],
+        timestamp: new Date().toISOString(),
       });
     }
   } catch (error) {
@@ -393,7 +396,9 @@ async function handlePartiesFeed(req: Request, res: Response, startTime: number)
       },
     });
   } catch (error) {
-    // Graceful degradation - return empty array
+    console.error("handlePartiesFeed error:", error);
+    setCorsHeaders(res);
+    // Graceful degradation - return empty array with proper error handling
     res.json({
       success: true,
       data: [],
@@ -403,6 +408,7 @@ async function handlePartiesFeed(req: Request, res: Response, startTime: number)
         loadTime: `${Date.now() - startTime}ms`,
         source: "error",
         error: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString(),
       },
     });
   }
@@ -410,12 +416,14 @@ async function handlePartiesFeed(req: Request, res: Response, startTime: number)
 
 async function handleSwipeAction(req: Request, res: Response): Promise<void> { // Fixed: Renamed function
   if (req.method !== "POST") {
+    setCorsHeaders(res);
     res.status(405).json({success: false, error: "Method not allowed"});
     return;
   }
 
   const {isValid, errors} = validateRequest(req, ["partyId", "action"]);
   if (!isValid) {
+    setCorsHeaders(res);
     res.status(400).json({success: false, errors});
     return;
   }
@@ -447,9 +455,12 @@ async function handleSwipeAction(req: Request, res: Response): Promise<void> { /
       nextAction: action === "like" ? "calendar_sync_available" : null,
     });
   } catch (error) {
+    console.error("handleSwipeAction error:", error);
+    setCorsHeaders(res);
     res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : "Swipe tracking failed",
+      timestamp: new Date().toISOString(),
     });
   }
 }

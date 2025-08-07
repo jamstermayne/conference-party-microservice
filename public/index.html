@@ -8,6 +8,8 @@
     <meta name="description" content="Discover exclusive gaming industry networking events, afterparties, and community gatherings at Gamescom 2025">
     <meta name="keywords" content="Gamescom 2025, gaming events, networking, afterparty, Cologne, industry parties">
     <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/social-sharing.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,26 +19,7 @@
 </head>
 <body>
     <div id="app">
-        <!-- Navigation -->
-        <nav class="main-nav">
-            <div class="nav-container">
-                <div class="nav-brand">
-                    <h1>🎮 Gamescom Party Discovery</h1>
-                    <span class="nav-subtitle">58+ Events • Live Updates</span>
-                </div>
-                <div class="nav-actions">
-                    <button id="themeToggle" class="nav-button">
-                        🌙 Dark Mode
-                    </button>
-                    <div class="nav-links">
-                        <a href="/" class="nav-link active">🔍 Search</a>
-                        <a href="/maps.html" class="nav-link">🗺️ Maps</a>
-                        <a href="/calendar.html" class="nav-link">📅 Calendar</a>
-                        <a href="/referral.html" class="nav-link">🎉 Invite</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <!-- Navigation will be dynamically created by NavigationManager -->
 
         <!-- Hero Section -->
         <header class="hero-section">
@@ -94,8 +77,8 @@
             </div>
         </section>
 
-        <!-- Events Grid -->
-        <main class="events-main">
+        <!-- Main Content Container -->
+        <main class="main-content events-main">
             <div id="events" class="events-grid">
                 <div class="loading-state">
                     <div class="loading-spinner-large"></div>
@@ -245,6 +228,8 @@
     <script src="/js/cache-utils.js"></script>
     <script src="/js/referral-system.js"></script>
     <script src="/js/search-manager.js"></script>
+    <script src="/js/social-sharing.js"></script>
+    <script src="/js/navigation.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/pwa-init.js"></script>
     <!-- Flatpickr library -->

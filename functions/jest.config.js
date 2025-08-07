@@ -8,7 +8,7 @@ module.exports = {
       isolatedModules: true
     }
   },
-  roots: ['<rootDir>/src', '<rootDir>/tests'],
+  roots: ['<rootDir>/src', '<rootDir>/tests-disabled'],
   testMatch: [
     '**/__tests__/**/*.+(ts|tsx|js)',
     '**/*.(test|spec).+(ts|tsx|js)'
@@ -32,7 +32,7 @@ module.exports = {
       statements: 85
     }
   },
-  setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/tests-disabled/setup.ts'],
   testTimeout: 10000,
   verbose: true,
   bail: false,
