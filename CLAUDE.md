@@ -33,20 +33,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Core Structure
 This is a **microservices PWA** for Gamescom 2025 party discovery with:
-- **Firebase Functions** (`functions/src/index.ts`) - Consolidated API with 3 main functions
-- **PWA Frontend** (`public/`) - Offline-first progressive web app
-- **Tool System** (`tools/`) - 9 velocity tools for development automation
+- **Firebase Functions** (`functions/src/index.ts`) - Consolidated API with comprehensive endpoints
+- **PWA Frontend** (`public/`) - Offline-first progressive web app with viral referral system
+- **Tool System** (`tools/`) - 10 velocity tools for development automation
 
 ### Key Components
-- **Consolidated API**: Single `api` function handles all endpoints (/health, /parties, /swipe, /sync)
+- **Consolidated API**: Single `api` function handles all endpoints (/health, /parties, /swipe, /sync, /referral/*)
 - **Data Source**: Google Sheets webhook integration (Sheet ID: `1Cq-UcdgtSz2FaROahsj7Db2nmStBFCN97EZzBEHCrKg`)
 - **PWA System**: Service worker + manifest + offline search (43KB cache system)
 - **Analytics**: Privacy-compliant GDPR/CCPA tracking system
+- **Referral System**: World-class viral growth engine with trackable attribution
 
 ### Data Flow
 1. Google Sheets → Webhook → Firebase Functions → Firestore
 2. PWA → API endpoints → Cached responses
 3. Offline → Service Worker → Local cache → Background sync
+4. Referral Share → Trackable Code → Click Attribution → Conversion Analytics
 
 ## Code Conventions
 
