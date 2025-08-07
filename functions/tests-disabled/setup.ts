@@ -1,4 +1,12 @@
 // Test setup and global mocks
+import {jest} from '@jest/globals';
+
+declare global {
+  const jest: typeof import('@jest/globals')['jest'];
+  const beforeAll: typeof import('@jest/globals')['beforeAll'];
+  const afterEach: typeof import('@jest/globals')['afterEach'];
+}
+
 jest.setTimeout(10000);
 
 // Mock Firebase Admin
