@@ -7,13 +7,14 @@ class GamescomApp {
     }
 
     async init() {
-        console.log('🎮 Gamescom App Starting...');
+        console.log('🎮 Gamescom App Starting with Slack-inspired design...');
         
+        this.initTheme();
         await this.loadEvents();
         this.setupUI();
         this.registerServiceWorker();
         
-        console.log(`✅ Loaded ${this.events.length} events`);
+        console.log(`✅ Loaded ${this.events.length} events with Slack design system`);
     }
 
     async loadEvents() {
@@ -47,6 +48,39 @@ class GamescomApp {
         document.getElementById('modal').addEventListener('click', (e) => {
             if (e.target.id === 'modal') this.closeModal();
         });
+
+        // Dark mode toggle
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            this.toggleTheme();
+        });
+    }
+
+    toggleTheme() {
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const currentTheme = html.getAttribute('data-theme');
+        
+        if (currentTheme === 'dark') {
+            html.setAttribute('data-theme', 'light');
+            themeToggle.innerHTML = '🌙 Dark Mode';
+            localStorage.setItem('theme', 'light');
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '☀️ Light Mode';
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        
+        document.documentElement.setAttribute('data-theme', theme);
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.innerHTML = theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        }
     }
 
     registerServiceWorker() {
@@ -78,18 +112,23 @@ class GamescomApp {
         }
 
         container.innerHTML = this.filteredEvents.map(event => `
-            <div class="event">
-                <h3>${event.name}</h3>
-                <p>by ${event.hosts}</p>
+            <div class="event ${event.isUGC ? 'ugc-event' : ''}">
+                <div class="event-header">
+                    <h3>${event.name || event['Event Name']}</h3>
+                    ${event.isUGC ? '<span class="ugc-badge">👥 Community Event</span>' : ''}
+                </div>
+                <p>by ${event.hosts || event.Hosts || event.creator}</p>
                 
                 <div class="event-meta">
-                    <div>📅 ${this.formatDate(event.date)}</div>
-                    <div>🕐 ${event.startTime}</div>
-                    <div>📍 ${event.venue}</div>
-                    <div>🎯 ${event.category}</div>
+                    <div>📅 ${this.formatDate(event.date || event.Date)}</div>
+                    <div>🕐 ${event.startTime || event['Start Time']}</div>
+                    <div>📍 ${event.venue || event.Address}</div>
+                    <div>🎯 ${event.category || event.Category}</div>
                 </div>
                 
-                ${event.description ? `<p>${event.description}</p>` : ''}
+                ${event.description || event.Description ? `<p>${event.description || event.Description}</p>` : ''}
+                
+                ${event.isUGC && event.creator ? `<p class="creator-info">Created by: ${event.creator}</p>` : ''}
                 
                 <div class="event-actions">
                     <button class="btn-primary" onclick="app.addToCalendar('${event.id}')">
@@ -178,6 +217,144 @@ class GamescomApp {
                 this.showSuccess();
                 await this.loadEvents();
                 this.renderEvents();
+            } else if (result.duplicateWarning) {
+                // Handle duplicate detection
+                this.handleDuplicateWarning(result, eventData);
+            } else {
+                this.showError('Failed to create event: ' + result.error);
+            }
+        } catch (error) {
+            // Check if error response contains duplicate warning
+            if (error.response && error.response.status === 409) {
+                this.handleDuplicateWarning(error.response.data, eventData);
+            } else {
+                this.showError('Error creating event');
+                console.error(error);
+            }
+        } finally {
+            this.setLoadingState(submitBtn, false);
+        }
+    }
+
+    handleDuplicateWarning(result, eventData) {
+        // Show duplicate warning modal
+        this.showDuplicateWarning(result.duplicates, result.warnings, eventData);
+    }
+
+    showDuplicateWarning(duplicates, warnings, eventData) {
+        const modal = document.getElementById('duplicateModal');
+        const content = document.getElementById('duplicateContent');
+        
+        let html = `
+            <div class="duplicate-warning-intro">
+                <p><strong>We found similar events at the same venue and time.</strong> Please review them below before proceeding.</p>
+            </div>
+        `;
+        
+        if (duplicates.length > 0) {
+            html += `
+                <div class="duplicate-events-section">
+                    <h3 class="duplicate-events-title">
+                        🎯 Similar Events Found (${duplicates.length})
+                    </h3>
+                    <div class="duplicate-events-list">
+            `;
+            
+            duplicates.forEach(dup => {
+                html += `
+                    <div class="duplicate-event">
+                        <div class="duplicate-event-header">
+                            <h4 class="duplicate-event-name">${dup.name}</h4>
+                            <span class="duplicate-similarity">${Math.round(dup.similarity * 100)}% Match</span>
+                        </div>
+                        <div class="duplicate-event-meta">
+                            <div class="duplicate-event-meta-item">
+                                <strong>📍 Venue:</strong> ${dup.venue}
+                            </div>
+                            <div class="duplicate-event-meta-item">
+                                <strong>🕒 Time:</strong> ${dup.startTime}
+                            </div>
+                            <div class="duplicate-event-meta-item">
+                                <strong>👤 Organizer:</strong> ${dup.creator}
+                            </div>
+                            <div class="duplicate-event-meta-item">
+                                <strong>📊 Source:</strong> ${dup.collection === 'events' ? 'Community Event' : 'Official Event'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+        }
+        
+        if (warnings.length > 0) {
+            html += `
+                <div class="duplicate-warnings-section">
+                    <h4 class="duplicate-warnings-title">Additional Similar Events:</h4>
+            `;
+            warnings.forEach(warning => {
+                html += `<div class="duplicate-warning-item">⚠️ ${warning}</div>`;
+            });
+            html += '</div>';
+        }
+        
+        html += `
+            <div class="duplicate-question">
+                Do you still want to create this event?
+            </div>
+            <div class="duplicate-actions">
+                <button id="cancelCreate" class="btn-secondary">
+                    ↩️ Go Back & Edit
+                </button>
+                <button id="forceCreate" class="btn-primary">
+                    ✅ Create Event Anyway
+                </button>
+            </div>
+        `;
+        
+        content.innerHTML = html;
+        modal.classList.add('show');
+        
+        // Store event data for potential force creation
+        this.pendingEventData = eventData;
+        
+        // Add event listeners
+        document.getElementById('cancelCreate').addEventListener('click', () => {
+            modal.classList.remove('show');
+            this.pendingEventData = null;
+        });
+        
+        document.getElementById('forceCreate').addEventListener('click', async () => {
+            modal.classList.remove('show');
+            await this.forceCreateEvent(this.pendingEventData);
+            this.pendingEventData = null;
+        });
+        
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+                this.pendingEventData = null;
+            }
+        });
+    }
+    
+    async forceCreateEvent(eventData) {
+        const submitBtn = document.querySelector('#eventForm button[type="submit"]');
+        this.setLoadingState(submitBtn, true);
+        
+        try {
+            // Add forceCreate flag
+            const result = await window.api.createEvent({...eventData, forceCreate: true});
+            
+            if (result.success) {
+                this.showSuccess();
+                await this.loadEvents();
+                this.renderEvents();
             } else {
                 this.showError('Failed to create event: ' + result.error);
             }
@@ -190,8 +367,18 @@ class GamescomApp {
     }
 
     setLoadingState(button, loading) {
-        button.textContent = loading ? 'Creating...' : 'Create Event';
-        button.disabled = loading;
+        if (loading) {
+            button.innerHTML = `
+                <span class="loading-spinner"></span>
+                Creating Event...
+            `;
+            button.disabled = true;
+            button.style.opacity = '0.8';
+        } else {
+            button.innerHTML = 'Create Event';
+            button.disabled = false;
+            button.style.opacity = '1';
+        }
     }
 
     showSuccess() {

@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamescom 2025 Events</title>
+    <title>Gamescom 2025 Events - Slack-inspired Design</title>
     <meta name="theme-color" content="#4A154B">
+    <meta name="description" content="Professional gaming industry networking events at Gamescom 2025">
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
     <div id="app">
         <header class="header">
-            <h1>🎮 Gamescom 2025 Events</h1>
-            <p>Professional gaming industry networking</p>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                <div>
+                    <h1>🎮 Gamescom 2025 Events</h1>
+                    <p>Professional gaming industry networking</p>
+                </div>
+                <button id="themeToggle" class="slack-button" style="background: var(--slack-color-text-secondary); min-height: 32px; padding: 4px 12px; font-size: 12px;">
+                    🌙 Dark Mode
+                </button>
+            </div>
         </header>
 
         <section class="search">
@@ -32,27 +40,92 @@
 
     <div id="modal" class="modal">
         <div class="modal-content">
-            <span id="closeModal" class="close">&times;</span>
-            <h2>Create Event</h2>
-            <form id="eventForm">
-                <input type="text" name="name" placeholder="Event name" required>
-                <input type="text" name="creator" placeholder="Your name or organization" required maxlength="100">
-                <input type="date" name="date" required>
-                <input type="time" name="startTime" required>
-                <input type="text" name="venue" placeholder="Venue" required>
-                <select name="eventType">
-                    <option value="networking">Networking</option>
-                    <option value="afterparty">Afterparty</option>
-                    <option value="mixer">Mixer</option>
-                    <option value="launch">Launch</option>
-                </select>
-                <textarea name="description" placeholder="Description (optional)"></textarea>
-                <button type="submit">Create Event</button>
-            </form>
-            <div id="success" class="success hidden">
-                <h3>✅ Event Created!</h3>
-                <button onclick="app.closeModal()">Close</button>
+            <div class="modal-header">
+                <h2 class="modal-title">Create New Event</h2>
+                <button id="closeModal" class="modal-close" aria-label="Close modal">&times;</button>
             </div>
+            
+            <form id="eventForm" class="form-container">
+                <div class="form-section">
+                    <h3 class="form-section-title">Event Details</h3>
+                    
+                    <div class="form-field">
+                        <label class="form-label" for="eventName">Event Name</label>
+                        <input type="text" id="eventName" name="name" class="form-input" placeholder="Enter event name" required>
+                        <div class="form-help">Give your event a clear, descriptive name</div>
+                    </div>
+                    
+                    <div class="form-field">
+                        <label class="form-label" for="eventCreator">Organizer</label>
+                        <input type="text" id="eventCreator" name="creator" class="form-input" placeholder="Your name or organization" required maxlength="100">
+                        <div class="form-help">Your name will be displayed publicly as the event organizer</div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="form-section-title">When & Where</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-field form-field-half">
+                            <label class="form-label" for="eventDate">Date</label>
+                            <input type="date" id="eventDate" name="date" class="form-input" required>
+                        </div>
+                        <div class="form-field form-field-half">
+                            <label class="form-label" for="eventTime">Start Time</label>
+                            <input type="time" id="eventTime" name="startTime" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-field">
+                        <label class="form-label" for="eventVenue">Venue</label>
+                        <input type="text" id="eventVenue" name="venue" class="form-input" placeholder="e.g., Koelnmesse Hall 4" required>
+                        <div class="form-help">Enter the full venue name and location</div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="form-section-title">Event Type & Description</h3>
+                    
+                    <div class="form-field">
+                        <label class="form-label" for="eventType">Event Type</label>
+                        <select id="eventType" name="eventType" class="form-select">
+                            <option value="networking">🤝 Networking</option>
+                            <option value="afterparty">🎉 Afterparty</option>
+                            <option value="mixer">🍸 Mixer</option>
+                            <option value="launch">🚀 Launch Event</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-field">
+                        <label class="form-label" for="eventDescription">Description</label>
+                        <textarea id="eventDescription" name="description" class="form-textarea" placeholder="Tell attendees what to expect at your event..." rows="4"></textarea>
+                        <div class="form-help">Optional: Add details about your event</div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="app.closeModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Create Event</button>
+                </div>
+            </form>
+            
+            <div id="success" class="success-panel hidden">
+                <div class="success-icon">✅</div>
+                <h3 class="success-title">Event Created Successfully!</h3>
+                <p class="success-message">Your event has been added to the Gamescom 2025 directory and will be visible to attendees shortly.</p>
+                <button class="btn-primary" onclick="app.closeModal()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Duplicate Warning Modal -->
+    <div id="duplicateModal" class="modal">
+        <div class="modal-content modal-warning">
+            <div class="modal-header">
+                <div class="warning-icon">⚠️</div>
+                <h2 class="modal-title">Potential Duplicate Event</h2>
+            </div>
+            <div id="duplicateContent" class="duplicate-content"></div>
         </div>
     </div>
 

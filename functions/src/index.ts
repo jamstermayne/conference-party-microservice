@@ -40,6 +40,12 @@ function setCorsHeaders(res: Response): void {
   });
 }
 
+function setCacheHeaders(res: Response, maxAge: number = 300): void {
+  res.setHeader('Cache-Control', `public, max-age=${maxAge}, s-maxage=${maxAge}`);
+  res.setHeader('ETag', `"${Date.now()}-${Math.random()}"`);
+  res.setHeader('Last-Modified', new Date().toUTCString());
+}
+
 function isValidCacheEntry(entry: any): boolean {
   return entry && (Date.now() - entry.timestamp) < CONFIG.CACHE_TTL;
 }
@@ -150,8 +156,20 @@ export const api = onRequest({
   const startTime = Date.now();
   
   try {
-    // Set CORS headers for all responses
+    // Check request size limit (1MB)
+    const contentLength = req.headers['content-length'];
+    if (contentLength && parseInt(contentLength) > 1024 * 1024) {
+      setCorsHeaders(res);
+      res.status(413).json({
+        success: false,
+        error: 'Request payload too large. Maximum size is 1MB.'
+      });
+      return;
+    }
+    
+    // Set CORS headers and cache headers for all responses
     setCorsHeaders(res);
+    setCacheHeaders(res);
     
     // Handle preflight OPTIONS requests
     if (req.method === 'OPTIONS') {
@@ -199,7 +217,17 @@ export const api = onRequest({
         
       case '/ugc/events/create':
         if (req.method === 'POST') {
-          await createUGCEvent(req, res);
+          try {
+            // Basic JSON validation
+            if (!req.body || typeof req.body !== 'object') {
+              res.status(400).json({ success: false, error: 'Invalid JSON payload' });
+              return;
+            }
+            await createUGCEvent(req, res);
+          } catch (jsonError) {
+            console.error('JSON parsing error:', jsonError);
+            res.status(400).json({ success: false, error: 'Malformed JSON request' });
+          }
         } else {
           res.status(405).json({ success: false, error: 'Method not allowed' });
         }
@@ -224,11 +252,21 @@ export const api = onRequest({
   } catch (error) {
     console.error('API Error:', error);
     setCorsHeaders(res);
-    res.status(500).json({
-      success: false,
-      error: error instanceof Error ? error.message : 'Internal server error',
-      responseTime: `${Date.now() - startTime}ms`
-    });
+    
+    // Handle JSON parsing errors specifically
+    if (error instanceof SyntaxError && error.message.includes('JSON')) {
+      res.status(400).json({
+        success: false,
+        error: 'Invalid JSON format in request body',
+        responseTime: `${Date.now() - startTime}ms`
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Internal server error',
+        responseTime: `${Date.now() - startTime}ms`
+      });
+    }
   }
 });
 
@@ -238,24 +276,76 @@ async function handlePartiesFeed(req: Request, res: Response, startTime: number)
     const page = parseInt(req.query.page as string) || 1;
     const limit = Math.min(parseInt(req.query.limit as string) || 50, 100);
     const offset = (page - 1) * limit;
+    const includeUGC = req.query.includeUGC !== 'false'; // Default to true
     
     const db = getFirestore();
-    const partiesRef = db.collection('parties').where('active', '==', true);
-    const snapshot = await partiesRef.get();
     
-    const allParties = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    })) as any[];
+    // Get curated parties
+    const partiesRef = db.collection('parties').where('active', '==', true);
+    const partiesSnapshot = await partiesRef.get();
+    
+    // Get UGC events if requested
+    let ugcEvents: any[] = [];
+    if (includeUGC) {
+      const ugcRef = db.collection('events').where('status', '==', 'active').where('source', '==', 'ugc');
+      const ugcSnapshot = await ugcRef.get();
+      ugcEvents = ugcSnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          // Map UGC fields to standard party fields for compatibility
+          'Event Name': data.name,
+          'Date': data.date,
+          'Start Time': data.startTime,
+          'End Time': data.endTime || '',
+          'Address': data.venue || data.address,
+          'Category': data.category,
+          'Description': data.description,
+          'Hosts': data.hosts || data.creator,
+          'isUGC': true, // Flag to identify UGC events
+          'creator': data.creator,
+          active: true
+        };
+      });
+    }
+    
+    // Combine and sort all events
+    const allParties = [
+      ...partiesSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        isUGC: false
+      })),
+      ...ugcEvents
+    ].sort((a, b) => {
+      // Sort by date, then by start time
+      const dateA = a.Date || a.date || '';
+      const dateB = b.Date || b.date || '';
+      if (dateA !== dateB) return dateA.localeCompare(dateB);
+      
+      const timeA = a['Start Time'] || a.startTime || '';
+      const timeB = b['Start Time'] || b.startTime || '';
+      return timeA.localeCompare(timeB);
+    });
     
     // Apply pagination
     const paginatedParties = allParties.slice(offset, offset + limit);
     
-    // Determine source
-    let source = "empty";
+    // Determine source and count UGC events
+    let source = "mixed";
+    const ugcCount = allParties.filter(p => p.isUGC).length;
+    const curatedCount = allParties.length - ugcCount;
+    
     if (allParties.length > 0) {
-      const sources = [...new Set(allParties.map(p => p.source))];
-      source = sources.includes('gamescom-sheets') ? 'gamescom-sheets' : sources[0] || 'firestore';
+      if (ugcCount === 0) {
+        const sources = [...new Set(allParties.map(p => p.source))];
+        source = sources.includes('gamescom-sheets') ? 'gamescom-sheets' : sources[0] || 'firestore';
+      } else if (curatedCount === 0) {
+        source = 'ugc';
+      }
+    } else {
+      source = "empty";
     }
     
     res.json({
@@ -264,13 +354,15 @@ async function handlePartiesFeed(req: Request, res: Response, startTime: number)
       meta: {
         count: paginatedParties.length,
         total: allParties.length,
+        ugcCount,
+        curatedCount,
         page,
         limit,
         hasMore: offset + limit < allParties.length,
         loadTime: `${Date.now() - startTime}ms`,
         swipeSession: `session_${Date.now()}${Math.random()}`,
         source,
-        lastUpdated: allParties.length > 0 ? allParties[0].uploadedAt : null
+        lastUpdated: allParties.length > 0 ? (allParties[0].uploadedAt || allParties[0].createdAt) : null
       }
     });
   } catch (error) {
