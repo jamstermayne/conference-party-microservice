@@ -1,19 +1,36 @@
 {
   "name": "functions",
+  "description": "Firebase Functions for Gamescom 2025 Party Discovery App",
+  "version": "3.0.0",
+  "main": "lib/index.js",
+  "engines": {
+    "node": "22"
+  },
   "scripts": {
-    "lint": "eslint --ext .js,.ts .",
+    "lint": "eslint --ext .js,.ts . --fix",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --watchAll=false",
+    "test:unit": "jest --testPathPatterns=\"unit\" --watchAll=false",
+    "test:integration": "jest --testPathPatterns=\"api.test\" --watchAll=false",
+    "test:performance": "jest --testPathPatterns=\"performance\" --watchAll=false",
+    "test:ci": "jest --coverage --watchAll=false --ci --reporters=default --reporters=jest-junit",
+    "benchmark": "echo 'Benchmark placeholder'",
+    "dev": "npm run build:watch & firebase emulators:start --only functions",
+    "clean": "rimraf lib coverage test-results",
+    "pretest": "npm run build",
+    "posttest": "echo 'Tests completed'",
+    "coverage:check": "echo 'Coverage check placeholder'",
+    "security:audit": "npm audit --audit-level=high",
+    "quality:check": "npm run lint && npm run build && npm run test:ci && npm run security:audit"
   },
-  "engines": {
-    "node": "22"
-  },
-  "main": "lib/index.js",
   "dependencies": {
     "@google-cloud/secret-manager": "^6.1.0",
     "@types/busboy": "^1.5.4",
@@ -25,13 +42,44 @@
     "papaparse": "^5.5.3"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "@typescript-eslint/parser": "^5.12.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.19.9",
+    "@types/papaparse": "^5.3.14",
+    "@types/supertest": "^6.0.2",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.9.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.25.4",
     "firebase-functions-test": "^3.1.0",
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "rimraf": "^5.0.5",
+    "supertest": "^6.3.4",
+    "ts-jest": "^29.1.2",
     "typescript": "^5.7.3"
   },
-  "private": true
+  "jest-junit": {
+    "outputDirectory": "./test-results",
+    "outputName": "junit.xml"
+  },
+  "keywords": [
+    "firebase",
+    "functions",
+    "gamescom",
+    "party",
+    "discovery",
+    "events"
+  ],
+  "author": "Conference Party App Team",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jamstermayne/conference-party-microservice"
+  },
+  "bugs": {
+    "url": "https://github.com/jamstermayne/conference-party-microservice/issues"
+  },
+  "homepage": "https://github.com/jamstermayne/conference-party-microservice#readme"
 }

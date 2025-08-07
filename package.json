@@ -1,66 +1,70 @@
 {
   "name": "conference-party-microservice",
   "version": "1.0.0",
-  "description": "REST API for processing conference and party files with Gemini-powered search",
-  "main": "src/server.js",
+  "description": "Gamescom 2025 Party Discovery - Complete PWA with 9-Tool Velocity System",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
     "dev": "node tools/dev-accelerator.js",
-    "test": "jest",
-    "session-start": "node tools/session-starter.js",
-    "genesis-check": "node tools/genesis-checker.js",
-    "preview-file": "node tools/file-previewer.js",
-    "api-status": "node tools/api-inspector.js",
-    "api-test": "node tools/api-tester.js",
-    "generate-service": "node tools/microservice-generator.js",
-    "generate-route": "node tools/route-generator.js",
+    "build": "node tools/pwa-orchestrator.js build",
+    "deploy": "node tools/firebase-manager.js deploy",
+    "test": "node tools/api-test-suite.js",
+    "setup": "npm install && node tools/firebase-manager.js health",
+    
     "firebase:health": "node tools/firebase-manager.js health",
     "firebase:deploy": "node tools/firebase-manager.js deploy",
-    "firebase:status": "node tools/firebase-manager.js status",
     "firebase:logs": "node tools/firebase-manager.js logs",
-    "data:preview": "node tools/data-processor.js preview",
-    "data:geocode": "node tools/data-processor.js geocode",
+    
+    "data:geocode": "node tools/maps-helper.js geocode",
+    "data:process": "node tools/data-processor.js process",
     "data:validate": "node tools/data-processor.js validate",
-    "data:fix-encoding": "node tools/data-processor.js fix-encoding",
-    "api:test": "node tools/api-test-suite.js",
-    "api:test:quick": "node tools/api-test-suite.js quick",
-    "api:test:health": "node tools/api-test-suite.js health",
-    "api:test:parties": "node tools/api-test-suite.js parties",
-    "api:test:sync": "node tools/api-test-suite.js sync",
-    "api:test:webhook": "node tools/api-test-suite.js webhook",
-    "maps:geocode": "node tools/maps-helper.js geocode",
-    "maps:status": "node tools/maps-helper.js status",
-    "maps:verify": "node tools/maps-helper.js verify",
-    "maps:help": "node tools/maps-helper.js help"
+    
+    "pwa:build": "node tools/pwa-orchestrator.js build",
+    "pwa:deploy": "node tools/pwa-orchestrator.js deploy",
+    "pwa:test": "node tools/pwa-orchestrator.js test",
+    
+    "search:build": "node tools/search-filter.js build",
+    "search:test": "node tools/search-filter.js test",
+    
+    "analytics:build": "node tools/analytics-orchestrator.js build",
+    "analytics:test": "node tools/analytics-orchestrator.js test",
+    
+    "calendar:export": "node tools/calendar-helper.js export",
+    "calendar:test": "node tools/calendar-helper.js test",
+    
+    "frontend:build": "node tools/frontend-builder.js build",
+    "frontend:dev": "node tools/frontend-builder.js dev"
   },
-  "keywords": [
-    "express",
-    "rest-api",
-    "microservice",
-    "conference",
-    "gemini",
-    "ai",
-    "party",
-    "search",
-    "api",
-    "gemini"
-  ],
-  "author": "Conference Party Team",
-  "license": "MIT",
   "dependencies": {
-    "compression": "^1.7.4",
-    "cors": "^2.8.5",
     "express": "^4.18.2",
-    "express-rate-limit": "^7.1.5",
-    "helmet": "^7.1.0",
-    "multer": "^1.4.5-lts.1",
     "http-proxy-middleware": "^2.0.6",
+    "cors": "^2.8.5",
+    "compression": "^1.7.4",
+    "helmet": "^7.0.0",
+    "ws": "^8.13.0",
     "chokidar": "^3.5.3",
-    "ws": "^8.14.2"
+    "firebase-admin": "^11.10.1",
+    "firebase-functions": "^4.4.1",
+    "googleapis": "^122.0.0",
+    "node-cron": "^3.0.2"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
-    "nodemon": "^3.0.2",
-    "supertest": "^6.3.3"
-  }
+    "@types/node": "^20.4.5",
+    "typescript": "^5.1.6",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.0",
+    "eslint": "^8.45.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "gamescom",
+    "party",
+    "discovery",
+    "pwa",
+    "firebase",
+    "microservice"
+  ],
+  "author": "jamstermayne",
+  "license": "MIT"
 }

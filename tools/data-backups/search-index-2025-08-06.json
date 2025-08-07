@@ -1,5 +1,5 @@
 {
-  "generated": "2025-08-06T16:43:33.225Z",
+  "generated": "2025-08-06T19:37:41.950Z",
   "totalEvents": 58,
   "eventsWithCoordinates": 58,
   "events": [
@@ -736,7 +736,7 @@
       "id": "games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--",
       "name": "Games Industry Runners Gamescom edition",
       "date": "Wed Aug 20",
-      "time": "7:30 - 9:00",
+      "time": "07:30 - 09:00",
       "parsedDateTime": {
         "date": "2025-08-20",
         "startTime": "07:30",
@@ -757,7 +757,7 @@
         "formattedAddress": "Weltjugendtagsweg, 50667 Köln, Germany",
         "placeId": "ChIJNyfyrOMlv0cRUJPbPRn5cM0"
       },
-      "searchText": "games industry runners gamescom edition kohort, newzoo wellness paolozzibrunnen, weltjugendtagsweg, 50667, germany weltjugendtagsweg, 50667 köln, germany wed aug 20 7:30 - 9:00",
+      "searchText": "games industry runners gamescom edition kohort, newzoo wellness paolozzibrunnen, weltjugendtagsweg, 50667, germany weltjugendtagsweg, 50667 köln, germany wed aug 20 07:30 - 09:00",
       "keywords": [
         "wellness",
         "kohort",
@@ -1067,7 +1067,7 @@
       "id": "global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany",
       "name": "Global XRAI Hack at Cologne, Gamescom",
       "date": "Mon Aug 18",
-      "time": "9:00 - 19:00",
+      "time": "09:00 - 19:00",
       "parsedDateTime": {
         "date": "2025-08-18",
         "startTime": "09:00",
@@ -1088,7 +1088,7 @@
         "formattedAddress": "Im Mediapark 5, 50670 Köln, Germany",
         "placeId": "ChIJ4QP8agolv0cRqtu_enK6PGM"
       },
-      "searchText": "global xrai hack at cologne, gamescom xr bootcamp, meta hackathon startplatz, im mediapark 5, 50670, germany im mediapark 5, 50670 köln, germany mon aug 18 9:00 - 19:00",
+      "searchText": "global xrai hack at cologne, gamescom xr bootcamp, meta hackathon startplatz, im mediapark 5, 50670, germany im mediapark 5, 50670 köln, germany mon aug 18 09:00 - 19:00",
       "keywords": [
         "hackathon",
         "xr bootcamp",
@@ -1114,7 +1114,7 @@
       "id": "global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany",
       "name": "Global XRAI Hack at Cologne, Gamescom",
       "date": "Sun Aug 17",
-      "time": "9:00 - 19:00",
+      "time": "09:00 - 19:00",
       "parsedDateTime": {
         "date": "2025-08-17",
         "startTime": "09:00",
@@ -1135,7 +1135,7 @@
         "formattedAddress": "Im Mediapark 5, 50670 Köln, Germany",
         "placeId": "ChIJ4QP8agolv0cRqtu_enK6PGM"
       },
-      "searchText": "global xrai hack at cologne, gamescom xr bootcamp, meta hackathon startplatz, im mediapark 5, 50670, germany im mediapark 5, 50670 köln, germany sun aug 17 9:00 - 19:00",
+      "searchText": "global xrai hack at cologne, gamescom xr bootcamp, meta hackathon startplatz, im mediapark 5, 50670, germany im mediapark 5, 50670 köln, germany sun aug 17 09:00 - 19:00",
       "keywords": [
         "hackathon",
         "xr bootcamp",
@@ -1161,7 +1161,7 @@
       "id": "global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany",
       "name": "Global XRAI Hack at Cologne, Gamescom",
       "date": "Tue Aug 19",
-      "time": "9:00 - 19:00",
+      "time": "09:00 - 19:00",
       "parsedDateTime": {
         "date": "2025-08-19",
         "startTime": "09:00",
@@ -1182,7 +1182,7 @@
         "formattedAddress": "Im Mediapark 5, 50670 Köln, Germany",
         "placeId": "ChIJ4QP8agolv0cRqtu_enK6PGM"
       },
-      "searchText": "global xrai hack at cologne, gamescom xr bootcamp, meta hackathon startplatz, im mediapark 5, 50670, germany im mediapark 5, 50670 köln, germany tue aug 19 9:00 - 19:00",
+      "searchText": "global xrai hack at cologne, gamescom xr bootcamp, meta hackathon startplatz, im mediapark 5, 50670, germany im mediapark 5, 50670 köln, germany tue aug 19 09:00 - 19:00",
       "keywords": [
         "hackathon",
         "xr bootcamp",
@@ -1710,7 +1710,7 @@
       "id": "meettomatch-the-cologne-edition-2025-fri-aug-22-09-00-koelnmesse--messeplatz-1--50679--germany",
       "name": "MeetToMatch The Cologne Edition 2025",
       "date": "Fri Aug 22",
-      "time": "9:00 - 18:00",
+      "time": "09:00 - 18:00",
       "parsedDateTime": {
         "date": "2025-08-22",
         "startTime": "09:00",
@@ -1731,7 +1731,7 @@
         "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
         "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
       },
-      "searchText": "meettomatch the cologne edition 2025 xsolla mixer koelnmesse, messeplatz 1, 50679, germany messepl. 1, 50679 köln, germany fri aug 22 9:00 - 18:00",
+      "searchText": "meettomatch the cologne edition 2025 xsolla mixer koelnmesse, messeplatz 1, 50679, germany messepl. 1, 50679 köln, germany fri aug 22 09:00 - 18:00",
       "keywords": [
         "mixer",
         "xsolla",
@@ -1803,7 +1803,7 @@
       "id": "meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany",
       "name": "MeetToMatch The Cologne Edition 2025",
       "date": "Thu Aug 21",
-      "time": "9:00 - 18:00",
+      "time": "09:00 - 18:00",
       "parsedDateTime": {
         "date": "2025-08-21",
         "startTime": "09:00",
@@ -1824,7 +1824,7 @@
         "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
         "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
       },
-      "searchText": "meettomatch the cologne edition 2025 xsolla mixer koelnmesse, messeplatz 1, 50679, germany messepl. 1, 50679 köln, germany thu aug 21 9:00 - 18:00",
+      "searchText": "meettomatch the cologne edition 2025 xsolla mixer koelnmesse, messeplatz 1, 50679, germany messepl. 1, 50679 köln, germany thu aug 21 09:00 - 18:00",
       "keywords": [
         "mixer",
         "xsolla",
@@ -1896,7 +1896,7 @@
       "id": "meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany",
       "name": "MeetToMatch The Cologne Edition 2025",
       "date": "Wed Aug 20",
-      "time": "9:00 - 18:00",
+      "time": "09:00 - 18:00",
       "parsedDateTime": {
         "date": "2025-08-20",
         "startTime": "09:00",
@@ -1917,7 +1917,7 @@
         "formattedAddress": "Messepl. 1, 50679 Köln, Germany",
         "placeId": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
       },
-      "searchText": "meettomatch the cologne edition 2025 xsolla mixer koelnmesse, messeplatz 1, 50679, germany messepl. 1, 50679 köln, germany wed aug 20 9:00 - 18:00",
+      "searchText": "meettomatch the cologne edition 2025 xsolla mixer koelnmesse, messeplatz 1, 50679, germany messepl. 1, 50679 köln, germany wed aug 20 09:00 - 18:00",
       "keywords": [
         "mixer",
         "xsolla",
@@ -2367,7 +2367,7 @@
       "id": "run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany",
       "name": "Run Time: Gamescom 5km Social Run",
       "date": "Wed Aug 20",
-      "time": "7:00 - 8:00",
+      "time": "07:00 - 08:00",
       "parsedDateTime": {
         "date": "2025-08-20",
         "startTime": "07:00",
@@ -2388,7 +2388,7 @@
         "formattedAddress": "Domkloster 4, 50667 Köln, Germany",
         "placeId": "ChIJLz2cNqUlv0cRxqnjljiR7Ck"
       },
-      "searchText": "run time: gamescom 5km social run stephen hey wellness cologne cathedral, domkloster 4, 50667, germany domkloster 4, 50667 köln, germany wed aug 20 7:00 - 8:00",
+      "searchText": "run time: gamescom 5km social run stephen hey wellness cologne cathedral, domkloster 4, 50667, germany domkloster 4, 50667 köln, germany wed aug 20 07:00 - 08:00",
       "keywords": [
         "wellness",
         "stephen hey",
