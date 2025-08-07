@@ -1,28 +1,57 @@
-// API Client - Modular & Focused
+// Enhanced API Client with Request Deduplication
 class API {
     constructor() {
         this.baseURL = window.CONFIG?.apiBase || 'https://us-central1-conference-party-app.cloudfunctions.net';
         this.cache = new Map();
+        this.pendingRequests = new Map(); // Prevent duplicate requests
+        this.retryAttempts = 3;
+        this.retryDelay = 1000;
     }
 
     async getEvents() {
+        const cacheKey = 'events';
+        
+        // Return pending request if already in flight
+        if (this.pendingRequests.has(cacheKey)) {
+            console.log('🔄 Returning pending events request');
+            return this.pendingRequests.get(cacheKey);
+        }
+        
+        // Check cache first
+        const cached = this.cache.get(cacheKey);
+        if (cached && cached.timestamp && Date.now() - cached.timestamp < 300000) { // 5 min TTL
+            console.log('📦 Returning cached events');
+            return cached.data;
+        }
+        
+        const requestPromise = this.executeGetEvents();
+        this.pendingRequests.set(cacheKey, requestPromise);
+        
         try {
-            const cacheKey = 'events';
-            if (this.cache.has(cacheKey) && !navigator.onLine) {
-                return this.cache.get(cacheKey);
-            }
-
+            const events = await requestPromise;
+            this.cache.set(cacheKey, { data: events, timestamp: Date.now() });
+            return events;
+        } catch (error) {
+            console.error('API Error:', error);
+            return cached?.data || [];
+        } finally {
+            this.pendingRequests.delete(cacheKey);
+        }
+    }
+    
+    async executeGetEvents() {
+        try {
             const [curated, ugc] = await Promise.all([
                 this.fetchWithFallback('/api/parties'),
                 this.fetchWithFallback('/api/ugc/events', { events: [] })
             ]);
 
             const events = [...(curated.data || curated), ...(ugc.events || [])];
-            this.cache.set(cacheKey, events);
+            console.log(`✅ Loaded ${events.length} events from API`);
             return events;
         } catch (error) {
-            console.error('API Error:', error);
-            return this.cache.get('events') || [];
+            console.error('Failed to load events:', error);
+            throw error;
         }
     }
 

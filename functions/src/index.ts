@@ -241,11 +241,35 @@ export const api = onRequest({
         }
         break;
         
+      // Referral system endpoints
+      case '/referral/generate':
+        if (req.method === 'POST') {
+          await handleReferralGenerate(req, res);
+        } else {
+          res.status(405).json({ success: false, error: 'Method not allowed' });
+        }
+        break;
+        
+      case '/referral/track':
+        if (req.method === 'POST') {
+          await handleReferralTrack(req, res);
+        } else {
+          res.status(405).json({ success: false, error: 'Method not allowed' });
+        }
+        break;
+        
       default:
+        // Check for referral stats endpoint with userId parameter
+        if (req.url && req.url.startsWith('/referral/stats/') && req.method === 'GET') {
+          const userId = req.url.split('/')[3];
+          await handleReferralStats(req, res, userId);
+          break;
+        }
+        
         res.status(404).json({
           success: false,
           error: 'Endpoint not found',
-          availableEndpoints: ['/health', '/parties', '/swipe', '/sync', '/upload', '/ugc/events/create', '/ugc/events']
+          availableEndpoints: ['/health', '/parties', '/swipe', '/sync', '/upload', '/ugc/events/create', '/ugc/events', '/referral/generate', '/referral/track', '/referral/stats/{userId}']
         });
     }
     
@@ -609,6 +633,259 @@ export const setupWebhook = onRequest({ invoker: "public" }, async (req: Request
     });
   }
 });
+
+/**
+ * 🎯 REFERRAL SYSTEM HANDLERS
+ */
+
+// Handle referral code generation
+async function handleReferralGenerate(req: Request, res: Response): Promise<void> {
+  try {
+    console.log('Generating referral code:', req.body);
+    
+    const { referralCode, originalSharer, eventId, platform, shareTimestamp } = req.body;
+    
+    if (!referralCode || !originalSharer || !eventId) {
+      res.status(400).json({
+        success: false,
+        error: 'Missing required fields: referralCode, originalSharer, eventId'
+      });
+      return;
+    }
+    
+    const db = getFirestore();
+    
+    // Store referral generation record
+    const referralData = {
+      referralCode,
+      originalSharer,
+      eventId,
+      platform: platform || 'direct',
+      shareTimestamp: shareTimestamp || Date.now(),
+      status: 'active',
+      createdAt: new Date(),
+      
+      // Initialize tracking arrays
+      clicks: [],
+      conversions: [],
+      
+      // Analytics
+      totalClicks: 0,
+      totalConversions: 0,
+      conversionRate: 0
+    };
+    
+    await db.collection('referrals').doc(referralCode).set(referralData);
+    
+    res.json({
+      success: true,
+      referralCode,
+      message: 'Referral code generated successfully'
+    });
+    
+  } catch (error) {
+    console.error('Error generating referral:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to generate referral code'
+    });
+  }
+}
+
+// Handle referral tracking (clicks, conversions)
+async function handleReferralTrack(req: Request, res: Response): Promise<void> {
+  try {
+    console.log('Tracking referral action:', req.body);
+    
+    const { referralCode, action, platform, eventId, timestamp, conversionType } = req.body;
+    
+    if (!referralCode || !action) {
+      res.status(400).json({
+        success: false,
+        error: 'Missing required fields: referralCode, action'
+      });
+      return;
+    }
+    
+    const db = getFirestore();
+    const referralRef = db.collection('referrals').doc(referralCode);
+    const referralDoc = await referralRef.get();
+    
+    if (!referralDoc.exists) {
+      res.status(404).json({
+        success: false,
+        error: 'Referral code not found'
+      });
+      return;
+    }
+    
+    const referralData = referralDoc.data();
+    const trackingData = {
+      action,
+      timestamp: timestamp || Date.now(),
+      platform,
+      eventId,
+      conversionType,
+      userAgent: req.headers['user-agent'],
+      ip: req.ip
+    };
+    
+    // Update referral document based on action type
+    let updateData: any = {};
+    
+    switch (action) {
+      case 'click':
+        updateData = {
+          clicks: [...(referralData?.clicks || []), trackingData],
+          totalClicks: (referralData?.totalClicks || 0) + 1,
+          lastClickAt: new Date()
+        };
+        break;
+        
+      case 'conversion':
+        updateData = {
+          conversions: [...(referralData?.conversions || []), trackingData],
+          totalConversions: (referralData?.totalConversions || 0) + 1,
+          lastConversionAt: new Date()
+        };
+        break;
+        
+      default:
+        // Generic tracking
+        updateData = {
+          [`${action}s`]: [...(referralData?.[`${action}s`] || []), trackingData],
+          [`total${action.charAt(0).toUpperCase() + action.slice(1)}s`]: (referralData?.[`total${action.charAt(0).toUpperCase() + action.slice(1)}s`] || 0) + 1
+        };
+    }
+    
+    // Calculate conversion rate
+    if (updateData.totalClicks || updateData.totalConversions) {
+      const clicks = updateData.totalClicks || referralData?.totalClicks || 0;
+      const conversions = updateData.totalConversions || referralData?.totalConversions || 0;
+      updateData.conversionRate = clicks > 0 ? (conversions / clicks) * 100 : 0;
+    }
+    
+    await referralRef.update(updateData);
+    
+    res.json({
+      success: true,
+      action,
+      referralCode,
+      message: `${action} tracked successfully`
+    });
+    
+  } catch (error) {
+    console.error('Error tracking referral:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to track referral action'
+    });
+  }
+}
+
+// Handle referral stats retrieval
+async function handleReferralStats(req: Request, res: Response, userId: string): Promise<void> {
+  try {
+    console.log('Fetching referral stats for user:', userId);
+    
+    if (!userId) {
+      res.status(400).json({
+        success: false,
+        error: 'User ID required'
+      });
+      return;
+    }
+    
+    const db = getFirestore();
+    
+    // Get all referrals created by this user
+    const referralsSnapshot = await db.collection('referrals')
+      .where('originalSharer', '==', userId)
+      .get();
+    
+    if (referralsSnapshot.empty) {
+      res.json({
+        success: true,
+        stats: {
+          totalShares: 0,
+          clicks: 0,
+          conversions: 0,
+          conversionRate: '0%',
+          topPlatform: null,
+          topEvent: null,
+          referrals: []
+        }
+      });
+      return;
+    }
+    
+    let totalShares = 0;
+    let totalClicks = 0;
+    let totalConversions = 0;
+    const platformStats: { [key: string]: number } = {};
+    const eventStats: { [key: string]: number } = {};
+    const referralDetails: any[] = [];
+    
+    referralsSnapshot.forEach(doc => {
+      const data = doc.data();
+      totalShares++;
+      totalClicks += data.totalClicks || 0;
+      totalConversions += data.totalConversions || 0;
+      
+      // Platform stats
+      const platform = data.platform || 'direct';
+      platformStats[platform] = (platformStats[platform] || 0) + 1;
+      
+      // Event stats
+      const eventId = data.eventId;
+      eventStats[eventId] = (eventStats[eventId] || 0) + 1;
+      
+      // Referral details
+      referralDetails.push({
+        referralCode: doc.id,
+        eventId: data.eventId,
+        platform: data.platform,
+        shareTimestamp: data.shareTimestamp,
+        clicks: data.totalClicks || 0,
+        conversions: data.totalConversions || 0,
+        conversionRate: data.conversionRate || 0
+      });
+    });
+    
+    // Find top platform and event
+    const topPlatform = Object.keys(platformStats).length > 0 
+      ? Object.keys(platformStats).reduce((a, b) => platformStats[a] > platformStats[b] ? a : b)
+      : null;
+    const topEvent = Object.keys(eventStats).length > 0
+      ? Object.keys(eventStats).reduce((a, b) => eventStats[a] > eventStats[b] ? a : b)
+      : null;
+    
+    const stats = {
+      totalShares,
+      clicks: totalClicks,
+      conversions: totalConversions,
+      conversionRate: totalClicks > 0 ? `${((totalConversions / totalClicks) * 100).toFixed(1)}%` : '0%',
+      topPlatform,
+      topEvent,
+      platformBreakdown: platformStats,
+      eventBreakdown: eventStats,
+      referrals: referralDetails.sort((a, b) => b.shareTimestamp - a.shareTimestamp)
+    };
+    
+    res.json({
+      success: true,
+      userId,
+      stats
+    });
+    
+  } catch (error) {
+    console.error('Error fetching referral stats:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch referral stats'
+    });
+  }
+}
 
 // Legacy function aliases for backward compatibility
 export const health = api;

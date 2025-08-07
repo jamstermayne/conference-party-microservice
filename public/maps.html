@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Map - Gamescom 2025 Party Discovery</title>
+    <meta name="theme-color" content="#4A154B">
+    <meta name="description" content="Interactive map of gaming industry events and parties at Gamescom 2025 in Cologne">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1>🎮 Gamescom Party Discovery</h1>
+                    <span class="nav-subtitle">Interactive Event Map</span>
+                </div>
+                <div class="nav-actions">
+                    <button id="themeToggle" class="nav-button">
+                        🌙 Dark Mode
+                    </button>
+                    <div class="nav-links">
+                        <a href="/" class="nav-link">🔍 Search</a>
+                        <a href="/maps.html" class="nav-link active">🗺️ Maps</a>
+                        <a href="/calendar.html" class="nav-link">📅 Calendar</a>
+                        <a href="/referral.html" class="nav-link">🎉 Invite</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Map Controls -->
+        <div class="map-controls">
+            <div class="controls-container">
+                <div class="map-search">
+                    <input type="text" id="mapSearchInput" placeholder="Search events on map..." class="search-input">
+                </div>
+                
+                <div class="map-filters">
+                    <div class="filter-group">
+                        <label class="filter-label">Show:</label>
+                        <div class="filter-toggles">
+                            <button id="showAllEvents" class="filter-toggle active">All Events</button>
+                            <button id="showUGCOnly" class="filter-toggle">Community</button>
+                            <button id="showCuratedOnly" class="filter-toggle">Official</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Category:</label>
+                        <select id="mapCategoryFilter" class="map-select">
+                            <option value="all">All Categories</option>
+                            <option value="networking">Networking</option>
+                            <option value="afterparty">Afterparty</option>
+                            <option value="mixer">Mixer</option>
+                            <option value="launch">Launch</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="map-stats">
+                    <span id="visibleEventsCount" class="stats-text">Loading events...</span>
+                    <button id="recenterMap" class="btn-secondary btn-small">📍 Recenter</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Container -->
+        <main class="map-main">
+            <div id="map" class="google-map"></div>
+            
+            <!-- Map Loading State -->
+            <div id="mapLoading" class="map-loading">
+                <div class="loading-spinner-large"></div>
+                <p>Loading interactive map...</p>
+            </div>
+            
+            <!-- Map Error State -->
+            <div id="mapError" class="map-error hidden">
+                <div class="error-icon">🗺️</div>
+                <h3>Map Unavailable</h3>
+                <p>Unable to load the interactive map. Please check your internet connection.</p>
+                <button onclick="mapApp.retryMapLoad()" class="btn-primary">Retry</button>
+            </div>
+        </main>
+
+        <!-- Event Details Sidebar -->
+        <aside id="eventSidebar" class="event-sidebar hidden">
+            <div class="sidebar-header">
+                <h3 id="sidebarTitle">Event Details</h3>
+                <button id="closeSidebar" class="close-btn">&times;</button>
+            </div>
+            <div id="sidebarContent" class="sidebar-content">
+                <!-- Event details will be populated here -->
+            </div>
+        </aside>
+
+        <!-- Floating Action Button -->
+        <div class="fab-container">
+            <button id="toggleListView" class="fab" title="Toggle List View">
+                📋
+            </button>
+        </div>
+
+        <!-- Event List Panel (toggleable) -->
+        <div id="eventListPanel" class="event-list-panel hidden">
+            <div class="panel-header">
+                <h3>All Events</h3>
+                <button id="closeListPanel" class="close-btn">&times;</button>
+            </div>
+            <div id="eventList" class="panel-content">
+                <!-- Event list will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        window.CONFIG = { 
+            apiBase: 'https://us-central1-conference-party-app.cloudfunctions.net',
+            googleMapsApiKey: 'AIzaSyBvOkBu-916DfTLjJ6c2UDQy8rE9nQQ8g8',
+            version: '2.0.0',
+            mapCenter: { lat: 50.9429, lng: 6.9581 }, // Cologne, Germany
+            mapZoom: 13
+        };
+    </script>
+    <script src="/js/api.js"></script>
+    <script src="/js/maps.js"></script>
+    <script async defer 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvOkBu-916DfTLjJ6c2UDQy8rE9nQQ8g8&callback=initMap&libraries=geometry,places">
+    </script>
+    <script src="/js/pwa-init.js"></script>
+</body>
+</html>

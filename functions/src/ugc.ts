@@ -166,6 +166,60 @@ async function checkForDuplicates(eventData: any): Promise<{
 }
 
 /**
+ * 🔒 SECURITY UTILITIES
+ */
+const rateLimitStore = new Map<string, number[]>();
+
+function sanitizeInput(input: string): string {
+    if (!input || typeof input !== 'string') return '';
+    
+    return input
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;')
+        .replace(/\//g, '&#x2F;')
+        .replace(/javascript:/gi, '')
+        .replace(/on\w+\s*=/gi, '')
+        .trim()
+        .substring(0, 1000); // Hard limit
+}
+
+function checkRateLimit(clientIP: string, limit: number = 5, windowMs: number = 60000): boolean {
+    const now = Date.now();
+    const userRequests = rateLimitStore.get(clientIP) || [];
+    
+    // Remove old requests outside the time window
+    const recentRequests = userRequests.filter(timestamp => now - timestamp < windowMs);
+    
+    if (recentRequests.length >= limit) {
+        return false; // Rate limit exceeded
+    }
+    
+    recentRequests.push(now);
+    rateLimitStore.set(clientIP, recentRequests);
+    
+    // Cleanup old entries periodically
+    if (Math.random() < 0.01) { // 1% chance
+        cleanupRateLimitStore(now, windowMs);
+    }
+    
+    return true;
+}
+
+function cleanupRateLimitStore(now: number, windowMs: number): void {
+    for (const [ip, requests] of rateLimitStore.entries()) {
+        const recentRequests = requests.filter(timestamp => now - timestamp < windowMs);
+        if (recentRequests.length === 0) {
+            rateLimitStore.delete(ip);
+        } else {
+            rateLimitStore.set(ip, recentRequests);
+        }
+    }
+}
+
+/**
  * 🎉 CREATE UGC EVENT ENDPOINT
  * Handles user-generated event creation
  */
@@ -254,8 +308,21 @@ export const createUGCEvent = async (req: Request, res: Response): Promise<void>
             return;
         }
 
-        // Sanitize creator input
-        eventData.creator = eventData.creator.trim();
+        // Sanitize all inputs to prevent XSS
+        eventData.name = sanitizeInput(eventData.name);
+        eventData.creator = sanitizeInput(eventData.creator);
+        eventData.venue = sanitizeInput(eventData.venue);
+        eventData.description = eventData.description ? sanitizeInput(eventData.description) : '';
+        
+        // Rate limiting check
+        const clientIP = req.ip || req.connection.remoteAddress || 'unknown';
+        if (!checkRateLimit(clientIP)) {
+            res.status(429).json({
+                success: false,
+                error: 'Too many requests. Please wait before creating another event.'
+            });
+            return;
+        }
 
         // Check for duplicates unless user has confirmed
         const forceCreate = req.body.forceCreate === true;
@@ -292,7 +359,7 @@ export const createUGCEvent = async (req: Request, res: Response): Promise<void>
             date: eventData.date,
             startTime: eventData.startTime,
             venue: eventData.venue,
-            category: eventData.eventType || 'networking',
+            category: eventData.category || 'networking',
             description: eventData.description || '',
             hosts: eventData.creator.trim(),
             source: 'ugc',

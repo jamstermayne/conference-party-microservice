@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Analytics Dashboard - Gamescom 2025</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        body { 
+            padding: 20px; 
+            max-width: 1200px;
+            margin: 0 auto;
+            font-family: var(--slack-font);
+            background: var(--slack-color-background);
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--slack-color-primary), #36B37E);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .dashboard-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .dashboard-header p {
+            margin: 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: var(--slack-color-background);
+            border: 2px solid var(--slack-color-border);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        
+        .metric-card:hover {
+            border-color: var(--slack-color-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--slack-shadow-hover);
+        }
+        
+        .metric-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--slack-color-primary);
+            margin-bottom: 8px;
+        }
+        
+        .metric-label {
+            font-size: 14px;
+            color: var(--slack-color-text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .metric-change {
+            font-size: 12px;
+            margin-top: 4px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .metric-change.positive {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .metric-change.neutral {
+            background: var(--slack-color-hover);
+            color: var(--slack-color-text-secondary);
+        }
+        
+        .dashboard-section {
+            background: var(--slack-color-background);
+            border: 1px solid var(--slack-color-border);
+            border-radius: 12px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: var(--slack-color-hover);
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--slack-color-border);
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--slack-color-text);
+        }
+        
+        .section-content {
+            padding: 30px;
+        }
+        
+        .referral-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: var(--slack-color-hover);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--slack-color-primary);
+        }
+        
+        .referral-info h3 {
+            margin: 0 0 4px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--slack-color-text);
+        }
+        
+        .referral-meta {
+            font-size: 14px;
+            color: var(--slack-color-text-secondary);
+            margin: 0;
+        }
+        
+        .referral-stats {
+            display: flex;
+            gap: 20px;
+            text-align: right;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--slack-color-primary);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--slack-color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .platform-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+        
+        .platform-item {
+            text-align: center;
+            padding: 20px;
+            background: var(--slack-color-hover);
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .platform-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .platform-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--slack-color-text);
+            margin-bottom: 4px;
+        }
+        
+        .platform-count {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--slack-color-primary);
+        }
+        
+        .loading-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--slack-color-text-secondary);
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--slack-color-border);
+            border-top: 3px solid var(--slack-color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--slack-color-text-secondary);
+        }
+        
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .btn-dashboard {
+            background: var(--slack-color-primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-dashboard:hover {
+            background: var(--slack-color-primary-hover);
+            transform: translateY(-1px);
+        }
+        
+        /* Dark mode adjustments */
+        [data-theme="dark"] .metric-card {
+            background: #1A1D21;
+            border-color: #2E2E2E;
+        }
+        
+        [data-theme="dark"] .referral-item,
+        [data-theme="dark"] .platform-item {
+            background: #252525;
+        }
+        
+        [data-theme="dark"] .dashboard-section {
+            background: #1A1D21;
+            border-color: #2E2E2E;
+        }
+        
+        [data-theme="dark"] .section-header {
+            background: #252525;
+            border-color: #2E2E2E;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>🎯 Referral Analytics Dashboard</h1>
+        <p>Track your viral growth and sharing performance at Gamescom 2025</p>
+    </div>
+    
+    <div class="metrics-grid" id="metricsGrid">
+        <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <p>Loading your referral metrics...</p>
+        </div>
+    </div>
+    
+    <div class="dashboard-section">
+        <div class="section-header">
+            <h2>📊 Platform Breakdown</h2>
+        </div>
+        <div class="section-content">
+            <div class="platform-breakdown" id="platformBreakdown">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading platform data...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-section">
+        <div class="section-header">
+            <h2>🔗 Recent Referrals</h2>
+        </div>
+        <div class="section-content">
+            <div id="recentReferrals">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading referral history...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-section">
+        <div class="section-header">
+            <h2>🎮 Gaming Network Impact</h2>
+        </div>
+        <div class="section-content">
+            <div id="networkImpact">
+                <div class="empty-state">
+                    <div class="empty-state-icon">🌟</div>
+                    <h3>Professional Network Growth</h3>
+                    <p>Your sharing is helping grow the gaming community at Gamescom 2025! Every referral connects more gaming professionals and creates valuable networking opportunities.</p>
+                    <button class="btn-dashboard" onclick="goBackToApp()">Share More Events</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        class ReferralDashboard {
+            constructor() {
+                this.userId = this.getCurrentUserId();
+                this.apiBase = 'https://us-central1-conference-party-app.cloudfunctions.net';
+                this.init();
+            }
+            
+            async init() {
+                console.log('🎯 Loading referral dashboard for user:', this.userId);
+                
+                try {
+                    await this.loadReferralStats();
+                } catch (error) {
+                    console.error('Failed to load dashboard:', error);
+                    this.showError('Failed to load referral statistics. Please try again.');
+                }
+            }
+            
+            async loadReferralStats() {
+                try {
+                    const response = await fetch(`${this.apiBase}/api/referral/stats/${this.userId}`);
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.renderMetrics(data.stats);
+                        this.renderPlatformBreakdown(data.stats.platformBreakdown || {});
+                        this.renderRecentReferrals(data.stats.referrals || []);
+                    } else {
+                        throw new Error(data.error || 'Failed to load stats');
+                    }
+                } catch (error) {
+                    console.error('Stats loading error:', error);
+                    this.renderEmptyStats();
+                }
+            }
+            
+            renderMetrics(stats) {
+                const metricsGrid = document.getElementById('metricsGrid');
+                
+                const metrics = [
+                    {
+                        value: stats.totalShares || 0,
+                        label: 'Total Shares',
+                        change: 'New tracking system',
+                        changeType: 'positive'
+                    },
+                    {
+                        value: stats.clicks || 0,
+                        label: 'Total Clicks',
+                        change: `${stats.clicks > 0 ? Math.round((stats.clicks / (stats.totalShares || 1)) * 100) : 0}% click rate`,
+                        changeType: stats.clicks > 0 ? 'positive' : 'neutral'
+                    },
+                    {
+                        value: stats.conversions || 0,
+                        label: 'Conversions',
+                        change: stats.conversionRate || '0%',
+                        changeType: stats.conversions > 0 ? 'positive' : 'neutral'
+                    },
+                    {
+                        value: stats.topPlatform || 'None',
+                        label: 'Top Platform',
+                        change: stats.topPlatform ? 'Most effective' : 'Start sharing',
+                        changeType: stats.topPlatform ? 'positive' : 'neutral'
+                    }
+                ];
+                
+                metricsGrid.innerHTML = metrics.map(metric => `
+                    <div class="metric-card">
+                        <div class="metric-value">${metric.value}</div>
+                        <div class="metric-label">${metric.label}</div>
+                        <div class="metric-change ${metric.changeType}">${metric.change}</div>
+                    </div>
+                `).join('');
+            }
+            
+            renderPlatformBreakdown(platformStats) {
+                const platformBreakdown = document.getElementById('platformBreakdown');
+                
+                const platforms = [
+                    { key: 'whatsapp', name: 'WhatsApp', icon: '📱' },
+                    { key: 'twitter', name: 'Twitter', icon: '🐦' },
+                    { key: 'linkedin', name: 'LinkedIn', icon: '💼' },
+                    { key: 'native', name: 'Native Share', icon: '📲' },
+                    { key: 'direct', name: 'Direct Link', icon: '🔗' }
+                ];
+                
+                if (Object.keys(platformStats).length === 0) {
+                    platformBreakdown.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📊</div>
+                            <h3>No Sharing Data Yet</h3>
+                            <p>Start sharing events to see your platform breakdown here!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                platformBreakdown.innerHTML = platforms.map(platform => `
+                    <div class="platform-item">
+                        <div class="platform-icon">${platform.icon}</div>
+                        <div class="platform-name">${platform.name}</div>
+                        <div class="platform-count">${platformStats[platform.key] || 0}</div>
+                    </div>
+                `).join('');
+            }
+            
+            renderRecentReferrals(referrals) {
+                const recentReferrals = document.getElementById('recentReferrals');
+                
+                if (referrals.length === 0) {
+                    recentReferrals.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🔗</div>
+                            <h3>No Referrals Yet</h3>
+                            <p>When you share events, your referral links will appear here with detailed analytics.</p>
+                            <button class="btn-dashboard" onclick="goBackToApp()">Start Sharing Events</button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                recentReferrals.innerHTML = referrals.slice(0, 10).map(referral => {
+                    const shareDate = new Date(referral.shareTimestamp).toLocaleDateString();
+                    const platform = this.getPlatformDisplay(referral.platform);
+                    
+                    return `
+                        <div class="referral-item">
+                            <div class="referral-info">
+                                <h3>Event: ${referral.eventId}</h3>
+                                <p class="referral-meta">Shared via ${platform} on ${shareDate}</p>
+                            </div>
+                            <div class="referral-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">${referral.clicks}</div>
+                                    <div class="stat-label">Clicks</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${referral.conversions}</div>
+                                    <div class="stat-label">Conversions</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${referral.conversionRate.toFixed(1)}%</div>
+                                    <div class="stat-label">Rate</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            renderEmptyStats() {
+                document.getElementById('metricsGrid').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📈</div>
+                        <h3>Welcome to Referral Analytics!</h3>
+                        <p>Start sharing events to see your viral growth metrics here.</p>
+                        <button class="btn-dashboard" onclick="goBackToApp()">Share Your First Event</button>
+                    </div>
+                `;
+                
+                document.getElementById('platformBreakdown').innerHTML = `
+                    <div class="empty-state">
+                        <p>Platform data will appear when you start sharing events.</p>
+                    </div>
+                `;
+                
+                document.getElementById('recentReferrals').innerHTML = `
+                    <div class="empty-state">
+                        <p>Your referral history will appear here after your first share.</p>
+                    </div>
+                `;
+            }
+            
+            getPlatformDisplay(platform) {
+                const displays = {
+                    whatsapp: '📱 WhatsApp',
+                    twitter: '🐦 Twitter',
+                    linkedin: '💼 LinkedIn',
+                    native: '📲 Native Share',
+                    direct: '🔗 Direct Link'
+                };
+                return displays[platform] || platform;
+            }
+            
+            getCurrentUserId() {
+                let userId = localStorage.getItem('gamescom_user_id');
+                if (!userId) {
+                    userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+                    localStorage.setItem('gamescom_user_id', userId);
+                }
+                return userId;
+            }
+            
+            showError(message) {
+                document.getElementById('metricsGrid').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">❌</div>
+                        <h3>Error Loading Dashboard</h3>
+                        <p>${message}</p>
+                        <button class="btn-dashboard" onclick="location.reload()">Retry</button>
+                    </div>
+                `;
+            }
+        }
+        
+        function goBackToApp() {
+            window.location.href = '/';
+        }
+        
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new ReferralDashboard();
+        });
+    </script>
+</body>
+</html>

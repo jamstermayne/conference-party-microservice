@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGC Event Creation Test</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_purple.css">
+    <style>
+        body { padding: 20px; max-width: 800px; margin: 0 auto; }
+        .test-results { margin-top: 20px; padding: 20px; background: #f0f0f0; border-radius: 8px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🎮 UGC Event Creation Test</h1>
+    
+    <div class="form-container">
+        <h2>Test Form with Modern Date/Time Pickers</h2>
+        
+        <form id="testForm">
+            <div class="form-field">
+                <label class="form-label" for="eventName">Event Name</label>
+                <input type="text" id="eventName" name="name" class="form-input" value="Gamescom Networking Night" required>
+            </div>
+            
+            <div class="form-field">
+                <label class="form-label" for="eventCreator">Organizer</label>
+                <input type="text" id="eventCreator" name="creator" class="form-input" value="Gaming Industry Pro" required>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-field form-field-half">
+                    <label class="form-label" for="eventDate">Date</label>
+                    <input type="text" id="eventDate" name="date" class="form-input flatpickr-date" placeholder="Select date" required>
+                    <div class="form-help">🎮 Gamescom: Aug 20-24, 2025</div>
+                </div>
+                <div class="form-field form-field-half">
+                    <label class="form-label" for="eventTime">Start Time</label>
+                    <input type="text" id="eventTime" name="startTime" class="form-input flatpickr-time" placeholder="Select time" required>
+                    <div class="time-suggestions">
+                        <span class="time-chip" data-time="18:00">6:00 PM</span>
+                        <span class="time-chip" data-time="19:00">7:00 PM</span>
+                        <span class="time-chip" data-time="20:00">8:00 PM</span>
+                        <span class="time-chip" data-time="21:00">9:00 PM</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-field">
+                <label class="form-label" for="eventVenue">Venue</label>
+                <input type="text" id="eventVenue" name="venue" class="form-input" value="Koelnmesse Hall 7" required>
+            </div>
+            
+            <div class="form-field">
+                <label class="form-label" for="eventType">Event Type</label>
+                <select id="eventType" name="category" class="form-select">
+                    <option value="networking">🤝 Networking</option>
+                    <option value="afterparty">🎉 Afterparty</option>
+                    <option value="mixer">🍸 Mixer</option>
+                    <option value="launch">🚀 Launch Event</option>
+                </select>
+            </div>
+            
+            <div class="form-field">
+                <label class="form-label" for="eventDescription">Description</label>
+                <textarea id="eventDescription" name="description" class="form-textarea" rows="3">Join us for an exclusive networking event during Gamescom 2025!</textarea>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Create Event</button>
+                <button type="button" class="btn-secondary" onclick="testFieldMapping()">Test Field Mapping</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="test-results" id="testResults">
+        <h3>Test Results</h3>
+        <div id="output">Waiting for test...</div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Initialize Flatpickr
+        document.addEventListener('DOMContentLoaded', function() {
+            // Date picker with Gamescom dates highlighted
+            flatpickr('#eventDate', {
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                defaultDate: "2025-08-21",
+                onDayCreate: function(dObj, dStr, fp, dayElem) {
+                    const dateStr = dayElem.dateObj.toISOString().split('T')[0];
+                    const gamescomDates = ['2025-08-20', '2025-08-21', '2025-08-22', '2025-08-23', '2025-08-24'];
+                    
+                    if (gamescomDates.includes(dateStr)) {
+                        dayElem.classList.add('gamescom-date');
+                        dayElem.innerHTML += '<span style="position:absolute;top:-2px;right:2px;font-size:8px;">🎮</span>';
+                    }
+                }
+            });
+            
+            // Time picker
+            flatpickr('#eventTime', {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                defaultHour: 19,
+                defaultMinute: 0
+            });
+            
+            // Time chip handlers
+            document.querySelectorAll('.time-chip').forEach(chip => {
+                chip.addEventListener('click', function(e) {
+                    const time = e.target.dataset.time;
+                    document.getElementById('eventTime')._flatpickr.setDate(time, false);
+                    
+                    // Visual feedback
+                    document.querySelectorAll('.time-chip').forEach(c => {
+                        c.style.background = '';
+                        c.style.color = '';
+                    });
+                    e.target.style.background = 'var(--slack-color-primary)';
+                    e.target.style.color = 'white';
+                });
+            });
+        });
+        
+        // Test field mapping
+        function testFieldMapping() {
+            const form = document.getElementById('testForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            const output = document.getElementById('output');
+            output.innerHTML = '<h4>Field Mapping Test:</h4>';
+            output.innerHTML += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            
+            // Check required fields
+            const required = ['name', 'creator', 'date', 'startTime', 'venue'];
+            const missing = required.filter(field => !data[field]);
+            
+            if (missing.length === 0) {
+                output.innerHTML += '<p class="success">✅ All required fields present!</p>';
+            } else {
+                output.innerHTML += '<p class="error">❌ Missing fields: ' + missing.join(', ') + '</p>';
+            }
+        }
+        
+        // Handle form submission
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const eventData = Object.fromEntries(formData);
+            
+            const output = document.getElementById('output');
+            output.innerHTML = '<p>Sending to API...</p>';
+            
+            try {
+                const response = await fetch('https://us-central1-conference-party-app.cloudfunctions.net/api/ugc/events/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        ...eventData,
+                        createdAt: new Date().toISOString(),
+                        source: 'ugc'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    output.innerHTML = '<p class="success">✅ Event created successfully!</p>';
+                    output.innerHTML += '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+                } else {
+                    output.innerHTML = '<p class="error">❌ Creation failed</p>';
+                    output.innerHTML += '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+                }
+            } catch (error) {
+                output.innerHTML = '<p class="error">❌ Error: ' + error.message + '</p>';
+            }
+        });
+    </script>
+</body>
+</html>

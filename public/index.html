@@ -3,39 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamescom 2025 Events - Slack-inspired Design</title>
+    <title>Gamescom 2025 Party Discovery - Professional Gaming Network</title>
     <meta name="theme-color" content="#4A154B">
-    <meta name="description" content="Professional gaming industry networking events at Gamescom 2025">
+    <meta name="description" content="Discover exclusive gaming industry networking events, afterparties, and community gatherings at Gamescom 2025">
+    <meta name="keywords" content="Gamescom 2025, gaming events, networking, afterparty, Cologne, industry parties">
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Flatpickr for modern date/time pickers -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_purple.css">
 </head>
 <body>
     <div id="app">
-        <header class="header">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-                <div>
-                    <h1>🎮 Gamescom 2025 Events</h1>
-                    <p>Professional gaming industry networking</p>
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1>🎮 Gamescom Party Discovery</h1>
+                    <span class="nav-subtitle">58+ Events • Live Updates</span>
                 </div>
-                <button id="themeToggle" class="slack-button" style="background: var(--slack-color-text-secondary); min-height: 32px; padding: 4px 12px; font-size: 12px;">
-                    🌙 Dark Mode
-                </button>
+                <div class="nav-actions">
+                    <button id="themeToggle" class="nav-button">
+                        🌙 Dark Mode
+                    </button>
+                    <div class="nav-links">
+                        <a href="/" class="nav-link active">🔍 Search</a>
+                        <a href="/maps.html" class="nav-link">🗺️ Maps</a>
+                        <a href="/calendar.html" class="nav-link">📅 Calendar</a>
+                        <a href="/referral.html" class="nav-link">🎉 Invite</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2>Discover Gamescom 2025's Best Events</h2>
+                    <p>Connect with gaming industry professionals at exclusive networking events, afterparties, and community gatherings in Cologne.</p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number" id="totalEvents">58+</span>
+                            <span class="stat-label">Events</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="ugcEvents">4+</span>
+                            <span class="stat-label">Community</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">Live</span>
+                            <span class="stat-label">Updates</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-cta">
+                    <button id="createEventBtn" class="btn-primary btn-large">
+                        ✨ Host Your Event
+                    </button>
+                    <p class="cta-subtitle">Join the community • Free to list</p>
+                </div>
             </div>
         </header>
 
-        <section class="search">
-            <input type="text" id="searchInput" placeholder="Search events..." class="search-input">
-            <div id="filters" class="filters"></div>
+        <!-- Search & Filter Section -->
+        <section class="search-section">
+            <div class="search-container">
+                <div class="search-bar">
+                    <div class="search-input-wrapper">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="searchInput" placeholder="Search events, venues, hosts..." class="search-input">
+                        <button id="clearSearch" class="clear-search hidden">✕</button>
+                    </div>
+                </div>
+                
+                <div class="filters-section">
+                    <div class="filter-label">Filter by category:</div>
+                    <div id="filters" class="filters"></div>
+                </div>
+                
+                <div class="search-stats">
+                    <span id="searchResultsCount" class="results-count">Loading events...</span>
+                    <div class="view-options">
+                        <button id="viewGrid" class="view-btn active" title="Grid view">⊞</button>
+                        <button id="viewList" class="view-btn" title="List view">☰</button>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section id="events" class="events">
-            <div class="loading">Loading events...</div>
-        </section>
+        <!-- Events Grid -->
+        <main class="events-main">
+            <div id="events" class="events-grid">
+                <div class="loading-state">
+                    <div class="loading-spinner-large"></div>
+                    <p>Loading amazing events...</p>
+                </div>
+            </div>
+            
+            <!-- Load More -->
+            <div class="load-more-section hidden">
+                <button id="loadMoreBtn" class="btn-secondary">
+                    Load More Events
+                </button>
+            </div>
+        </main>
 
-        <section class="cta">
-            <h3>✨ Host Your Own Event</h3>
-            <button id="createBtn" class="btn-primary">Create Event</button>
-        </section>
+        <!-- Quick Actions Floating Bar -->
+        <div class="quick-actions">
+            <button id="quickCreateBtn" class="quick-action-btn" title="Create Event">
+                ✨
+            </button>
+            <button id="quickMapBtn" class="quick-action-btn" title="View Map">
+                🗺️
+            </button>
+            <button id="quickCalendarBtn" class="quick-action-btn" title="My Calendar">
+                📅
+            </button>
+        </div>
     </div>
 
     <div id="modal" class="modal">
@@ -68,11 +155,18 @@
                     <div class="form-row">
                         <div class="form-field form-field-half">
                             <label class="form-label" for="eventDate">Date</label>
-                            <input type="date" id="eventDate" name="date" class="form-input" required>
+                            <input type="text" id="eventDate" name="date" class="form-input flatpickr-date" placeholder="Select date" required>
+                            <div class="form-help">🎮 Gamescom: Aug 20-24, 2025</div>
                         </div>
                         <div class="form-field form-field-half">
                             <label class="form-label" for="eventTime">Start Time</label>
-                            <input type="time" id="eventTime" name="startTime" class="form-input" required>
+                            <input type="text" id="eventTime" name="startTime" class="form-input flatpickr-time" placeholder="Select time" required>
+                            <div class="time-suggestions">
+                                <span class="time-chip" data-time="18:00">6:00 PM</span>
+                                <span class="time-chip" data-time="19:00">7:00 PM</span>
+                                <span class="time-chip" data-time="20:00">8:00 PM</span>
+                                <span class="time-chip" data-time="21:00">9:00 PM</span>
+                            </div>
                         </div>
                     </div>
                     
@@ -88,7 +182,7 @@
                     
                     <div class="form-field">
                         <label class="form-label" for="eventType">Event Type</label>
-                        <select id="eventType" name="eventType" class="form-select">
+                        <select id="eventType" name="category" class="form-select">
                             <option value="networking">🤝 Networking</option>
                             <option value="afterparty">🎉 Afterparty</option>
                             <option value="mixer">🍸 Mixer</option>
@@ -110,10 +204,13 @@
             </form>
             
             <div id="success" class="success-panel hidden">
-                <div class="success-icon">✅</div>
+                <div class="success-icon">🎉</div>
                 <h3 class="success-title">Event Created Successfully!</h3>
                 <p class="success-message">Your event has been added to the Gamescom 2025 directory and will be visible to attendees shortly.</p>
-                <button class="btn-primary" onclick="app.closeModal()">Done</button>
+                <div class="success-actions">
+                    <button class="btn-primary" onclick="app.closeModal()">Awesome!</button>
+                    <button class="btn-secondary" onclick="app.shareEvent(app.lastCreatedEvent)">📤 Share Event</button>
+                </div>
             </div>
         </div>
     </div>
@@ -129,8 +226,27 @@
         </div>
     </div>
 
-    <script>window.CONFIG = { apiBase: 'https://us-central1-conference-party-app.cloudfunctions.net' };</script>
+    <!-- Scripts -->
+    <script>window.CONFIG = { 
+        apiBase: 'https://us-central1-conference-party-app.cloudfunctions.net',
+        googleMapsApiKey: 'AIzaSyBvOkBu-916DfTLjJ6c2UDQy8rE9nQQ8g8',
+        version: '2.0.0',
+        features: {
+            ugc: true,
+            maps: true,
+            calendar: true,
+            referrals: true,
+            analytics: true,
+            offline: true
+        }
+    };</script>
     <script src="/js/api.js"></script>
+    <script src="/js/offline-search.js"></script>
+    <script src="/js/cache-utils.js"></script>
+    <script src="/js/referral-system.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/pwa-init.js"></script>
+    <!-- Flatpickr library -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
 </html>
