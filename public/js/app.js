@@ -1460,8 +1460,13 @@ class GamescomApp {
         this.analytics.eventViews++;
         this.trackAnalytics('event_viewed', { eventId });
 
-        // Show event details modal (you can enhance this)
-        alert(`Event Details:\n${event.name || event['Event Name']}\n${event.venue || event.Address}\n${this.formatDate(event.date || event.Date)} at ${event.startTime || event['Start Time']}`);
+        // Show enhanced party details modal with maps
+        if (window.partyMapsModal) {
+            window.partyMapsModal.show(event);
+        } else {
+            // Fallback to basic alert if modal not loaded
+            alert(`Event Details:\n${event.name || event['Event Name']}\n${event.venue || event.Address}\n${this.formatDate(event.date || event.Date)} at ${event.startTime || event['Start Time']}`);
+        }
     }
 
     viewOnMap(eventId) {

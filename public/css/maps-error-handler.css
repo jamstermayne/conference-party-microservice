@@ -1,0 +1,289 @@
+/* Maps Error Handler Styles */
+
+.maps-error-fallback {
+    background: var(--bg-secondary, #f9fafb);
+    border: 2px dashed var(--border-color, #e5e7eb);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.maps-fallback-content {
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 400px;
+}
+
+.fallback-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.7;
+}
+
+.fallback-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary, #111827);
+    margin: 0 0 8px 0;
+}
+
+.fallback-message {
+    font-size: 14px;
+    color: var(--text-secondary, #6b7280);
+    margin: 0 0 24px 0;
+    line-height: 1.5;
+}
+
+.fallback-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.fallback-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    min-width: 120px;
+}
+
+.fallback-btn.retry {
+    background: var(--accent-color, #4f46e5);
+    color: white;
+}
+
+.fallback-btn.retry:hover {
+    opacity: 0.9;
+}
+
+.fallback-btn.external {
+    background: #4285f4;
+    color: white;
+}
+
+.fallback-btn.external:hover {
+    background: #3367d6;
+}
+
+.fallback-alternative {
+    border-top: 1px solid var(--border-color, #e5e7eb);
+    padding-top: 20px;
+}
+
+.fallback-alternative h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary, #111827);
+    margin: 0 0 12px 0;
+}
+
+.alternative-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.alt-btn {
+    padding: 6px 12px;
+    background: var(--bg-primary, #ffffff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-secondary, #6b7280);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.alt-btn:hover {
+    background: var(--bg-hover, #f3f4f6);
+    border-color: var(--border-hover, #d1d5db);
+    color: var(--text-primary, #111827);
+}
+
+/* Offline Notice */
+.offline-notice {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f59e0b;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    z-index: 10002;
+    display: none;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.offline-icon {
+    margin-right: 8px;
+}
+
+/* Toast Notification for Error Handler */
+.maps-error-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--text-primary, #111827);
+    color: var(--bg-primary, #ffffff);
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 10001;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 0.3s ease;
+}
+
+.maps-error-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Error State Animations */
+.maps-error-fallback .fallback-icon {
+    animation: errorBounce 2s ease-in-out infinite;
+}
+
+@keyframes errorBounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Loading States for Retry */
+.fallback-btn.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.fallback-btn.loading::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: buttonSpin 1s linear infinite;
+}
+
+@keyframes buttonSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fallback-btn.loading .btn-text {
+    margin-left: 24px;
+}
+
+/* Dark Theme Support */
+[data-theme="dark"] {
+    --bg-primary: #1f2937;
+    --bg-secondary: #374151;
+    --bg-hover: #4b5563;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --border-color: #4b5563;
+    --border-hover: #6b7280;
+    --accent-color: #6366f1;
+}
+
+[data-theme="dark"] .maps-fallback-content {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .alt-btn {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .alt-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .offline-notice {
+    background: #f59e0b;
+    color: #111827;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .maps-fallback-content {
+        padding: 30px 15px;
+    }
+    
+    .fallback-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .fallback-btn {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .alternative-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .alt-btn {
+        width: 100%;
+        max-width: 160px;
+    }
+    
+    .offline-notice {
+        left: 10px;
+        right: 10px;
+        transform: none;
+        text-align: center;
+    }
+    
+    .maps-error-toast {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .fallback-icon {
+        font-size: 36px;
+    }
+    
+    .fallback-title {
+        font-size: 18px;
+    }
+    
+    .fallback-message {
+        font-size: 13px;
+    }
+    
+    .maps-fallback-content {
+        padding: 20px 10px;
+    }
+}

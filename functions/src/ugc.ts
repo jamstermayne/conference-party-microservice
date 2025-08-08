@@ -127,8 +127,8 @@ async function checkForDuplicates(eventData: any): Promise<{
       }),
   ];
 
-  const duplicates = [];
-  const warnings = [];
+  const duplicates: any[] = [];
+  const warnings: string[] = [];
 
   for (const event of allEvents) {
     // Skip if same event (editing case)

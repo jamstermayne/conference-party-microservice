@@ -564,11 +564,11 @@ async function handleClearParties(req: Request, res: Response): Promise<void> {
 async function handleDeleteAllUGCEvents(req: Request, res: Response): Promise<void> {
   try {
     const db = getFirestore();
-    
+
     // Query for all events with source = 'ugc'
     const eventsQuery = db.collection("events").where("source", "==", "ugc");
     const snapshot = await eventsQuery.get();
-    
+
     if (snapshot.empty) {
       res.json({
         success: true,
@@ -577,25 +577,25 @@ async function handleDeleteAllUGCEvents(req: Request, res: Response): Promise<vo
       });
       return;
     }
-    
+
     // Delete in batches
     const batches: any[] = [];
     for (let i = 0; i < snapshot.docs.length; i += CONFIG.MAX_BATCH_SIZE) {
       const batch = db.batch();
       const chunk = snapshot.docs.slice(i, i + CONFIG.MAX_BATCH_SIZE);
-      
+
       chunk.forEach((doc) => {
         batch.delete(doc.ref);
       });
-      
+
       batches.push(batch);
     }
-    
+
     await Promise.all(batches.map((batch) => batch.commit()));
-    
+
     // Clear cache to reflect changes
     cache.clear();
-    
+
     res.json({
       success: true,
       message: `${snapshot.docs.length} UGC events deleted`,

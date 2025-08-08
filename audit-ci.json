@@ -1,0 +1,27 @@
+{
+  "allowlist": [
+    "GHSA-3xgq-45jj-v275",
+    "GHSA-952p-6rrq-rcjv"
+  ],
+  "advisories": [
+    "https://github.com/advisories/GHSA-3xgq-45jj-v275",
+    "https://github.com/advisories/GHSA-952p-6rrq-rcjv"
+  ],
+  "path-allowlist": [
+    "node_modules/protobufjs/*"
+  ],
+  "low": false,
+  "moderate": false,
+  "high": true,
+  "critical": true,
+  "output-format": "text",
+  "report-type": "important",
+  "registry": "https://registry.npmjs.org",
+  "retry": {
+    "count": 3,
+    "factor": 2,
+    "minTimeout": 1000,
+    "maxTimeout": 60000
+  },
+  "pass-enoaudit": true
+}

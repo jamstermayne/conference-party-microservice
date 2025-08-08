@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "timestamp": "2025-08-08T01:26:03.372Z",
+    "nodeVersion": "v22.17.0",
+    "platform": "linux",
+    "arch": "x64",
+    "cpuCount": 2,
+    "totalMemory": 8329543680,
+    "freeMemory": 1992941568
+  },
+  "execution": {
+    "totalTime": 1,
+    "startTime": "2025-08-08T01:26:03.371Z",
+    "endTime": "2025-08-08T01:26:03.372Z",
+    "testSuites": 0,
+    "totalTests": 0,
+    "passedTests": 0,
+    "failedTests": 0,
+    "skippedTests": 0
+  },
+  "performance": {
+    "slowTests": [],
+    "fastTests": [],
+    "testFiles": [],
+    "memoryUsage": [
+      {
+        "phase": "start",
+        "context": "",
+        "timestamp": 1754616363371,
+        "heapUsed": 20996064,
+        "heapTotal": 34144256,
+        "external": 2137574,
+        "rss": 80199680
+      },
+      {
+        "phase": "end",
+        "context": "",
+        "timestamp": 1754616363372,
+        "heapUsed": 21047256,
+        "heapTotal": 34144256,
+        "external": 2137614,
+        "rss": 80199680
+      }
+    ],
+    "thresholds": {
+      "slow": 1000,
+      "verySlow": 5000
+    }
+  },
+  "statistics": {
+    "error": "No test duration data available"
+  },
+  "recommendations": []
+}

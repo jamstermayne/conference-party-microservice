@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/css/design-system.css">
     <link rel="stylesheet" href="/css/social-sharing.css">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/party-maps-modal.css">
+    <link rel="stylesheet" href="/css/maps-error-handler.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Flatpickr for modern date/time pickers -->
@@ -230,9 +232,26 @@
     <script src="/js/search-manager.js"></script>
     <script src="/js/social-sharing.js"></script>
     <script src="/js/navigation.js"></script>
+    <script src="/js/maps-error-handler.js"></script>
+    <script src="/js/party-maps-modal.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/pwa-init.js"></script>
     <!-- Flatpickr library -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
+    <!-- Google Maps API -->
+    <script async defer 
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpL7nevfP-gXmYmAQ3z3Bdwz_4iCn9Lqk&libraries=geometry,places&callback=initGoogleMaps">
+    </script>
+    <script>
+        // Initialize Google Maps callback
+        window.initGoogleMaps = function() {
+            console.log('✅ Google Maps API loaded successfully');
+            // Maps functionality is now available
+            if (window.partyMapsModal) {
+                window.partyMapsModal.mapsLoaded = true;
+            }
+        };
+    </script>
 </body>
 </html>

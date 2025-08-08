@@ -1,0 +1,81 @@
+{
+  "metadata": {
+    "timestamp": "2025-08-08T01:25:11.133Z",
+    "nodeVersion": "v22.17.0",
+    "platform": "linux",
+    "arch": "x64",
+    "cpuCount": 2,
+    "totalMemory": 8329543680,
+    "freeMemory": 1855115264
+  },
+  "execution": {
+    "totalTime": 400,
+    "startTime": "2025-08-08T01:25:10.733Z",
+    "endTime": "2025-08-08T01:25:11.133Z",
+    "testSuites": 1,
+    "totalTests": 0,
+    "passedTests": 0,
+    "failedTests": 0,
+    "skippedTests": 0
+  },
+  "performance": {
+    "slowTests": [],
+    "fastTests": [],
+    "testFiles": [
+      {
+        "file": "./tests/unit/utils.test.ts",
+        "duration": 394,
+        "testCount": 0,
+        "passedTests": 0,
+        "failedTests": 0,
+        "skippedTests": 0,
+        "slowTestCount": 0,
+        "averageTestDuration": 0
+      }
+    ],
+    "memoryUsage": [
+      {
+        "phase": "start",
+        "context": "",
+        "timestamp": 1754616310733,
+        "heapUsed": 21888592,
+        "heapTotal": 34406400,
+        "external": 2115549,
+        "rss": 80474112
+      },
+      {
+        "phase": "suite-complete",
+        "context": "/workspaces/conference-party-microservice/functions/tests/unit/utils.test.ts",
+        "timestamp": 1754616311132,
+        "heapUsed": 54971072,
+        "heapTotal": 81686528,
+        "external": 4531872,
+        "rss": 140734464
+      },
+      {
+        "phase": "end",
+        "context": "",
+        "timestamp": 1754616311133,
+        "heapUsed": 55104240,
+        "heapTotal": 81948672,
+        "external": 4531872,
+        "rss": 140734464
+      }
+    ],
+    "thresholds": {
+      "slow": 1000,
+      "verySlow": 5000
+    }
+  },
+  "statistics": {
+    "error": "No test duration data available"
+  },
+  "recommendations": [
+    {
+      "type": "concurrency",
+      "severity": "info",
+      "message": "Test suites are running quickly - consider increasing parallelism",
+      "suggestion": "Increase maxWorkers in Jest configuration for faster execution"
+    }
+  ]
+}

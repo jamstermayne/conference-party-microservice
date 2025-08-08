@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Maps Test - Gamescom 2025 Events</title>
+    <link rel="stylesheet" href="/css/design-system.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/party-maps-modal.css">
+    <link rel="stylesheet" href="/css/maps-error-handler.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: var(--bg-secondary, #f9fafb);
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 32px;
+            background: var(--bg-primary, white);
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin: 32px 0;
+        }
+        
+        .event-card {
+            background: var(--bg-primary, white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color, #4f46e5);
+        }
+        
+        .event-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary, #111827);
+            margin: 0 0 8px 0;
+        }
+        
+        .event-host {
+            font-size: 14px;
+            color: var(--text-secondary, #6b7280);
+            margin: 0 0 12px 0;
+        }
+        
+        .event-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 16px 0;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: var(--text-secondary, #6b7280);
+        }
+        
+        .event-category {
+            display: inline-block;
+            background: var(--accent-color, #4f46e5);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+        
+        .maps-btn {
+            background: var(--accent-color, #4f46e5);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 12px;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        
+        .maps-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .theme-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .theme-btn {
+            background: var(--bg-primary, white);
+            border: 1px solid var(--border-color, #e5e7eb);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .status-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-primary, white);
+            border: 1px solid var(--border-color, #e5e7eb);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .loading {
+            opacity: 0.6;
+        }
+        
+        /* Dark theme support */
+        [data-theme="dark"] {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #6366f1;
+        }
+        
+        [data-theme="dark"] body {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-controls">
+        <button id="themeToggle" class="theme-btn">🌙 Dark Mode</button>
+    </div>
+
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🗺️ Real Gamescom 2025 Events - Maps Integration</h1>
+            <p>Click any event card to open the enhanced party details modal with Google Maps</p>
+            <div class="status-bar" id="statusBar">
+                Loading real event data...
+            </div>
+        </div>
+
+        <div id="eventsContainer" class="events-grid">
+            <!-- Events will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Include required scripts -->
+    <script src="/js/api.js"></script>
+    <script src="/js/maps-error-handler.js"></script>
+    <script src="/js/party-maps-modal.js"></script>
+    
+    <!-- Google Maps API -->
+    <script async defer 
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpL7nevfP-gXmYmAQ3z3Bdwz_4iCn9Lqk&libraries=geometry,places&callback=initGoogleMaps">
+    </script>
+    
+    <script>
+        let realEvents = [];
+        let mapsLoaded = false;
+        
+        // Initialize Google Maps callback
+        window.initGoogleMaps = function() {
+            console.log('✅ Google Maps API loaded successfully');
+            updateStatus('Google Maps API loaded - Ready for testing!');
+            mapsLoaded = true;
+            
+            if (window.partyMapsModal) {
+                window.partyMapsModal.mapsLoaded = true;
+            }
+        };
+        
+        // Load real events from API
+        async function loadRealEvents() {
+            updateStatus('Loading real Gamescom 2025 events...');
+            
+            try {
+                const response = await fetch('https://us-central1-conference-party-app.cloudfunctions.net/api/parties?page=1');
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    // Filter for curated events with good addresses (real Gamescom events)
+                    realEvents = data.data.filter(event => 
+                        !event.isUGC && 
+                        event.Address && 
+                        event.Address !== '(empty)' &&
+                        event.Address.length > 10
+                    );
+                    
+                    console.log(`Loaded ${realEvents.length} real Gamescom events`);
+                    updateStatus(`Loaded ${realEvents.length} real Gamescom 2025 events`);
+                    renderEvents();
+                } else {
+                    throw new Error('Failed to load events');
+                }
+            } catch (error) {
+                console.error('Error loading events:', error);
+                updateStatus('Error loading events - using sample data');
+                loadSampleEvents();
+            }
+        }
+        
+        function loadSampleEvents() {
+            // Sample real Gamescom events as fallback
+            realEvents = [
+                {
+                    id: "meettomatch-the-cologne-edition-2025",
+                    "Event Name": "MeetToMatch The Cologne Edition 2025",
+                    name: "MeetToMatch The Cologne Edition 2025",
+                    "Hosts": "Xsolla",
+                    hosts: "Xsolla",
+                    "Category": "Mixer",
+                    category: "Mixer",
+                    "Address": "Koelnmesse, Messeplatz 1, 50679, Germany",
+                    venue: "Koelnmesse, Messeplatz 1, 50679, Germany",
+                    "Start Time": "09:00",
+                    startTime: "09:00",
+                    "Date": "Fri Aug 22",
+                    date: "2025-08-22",
+                    "Price": "From £127.04",
+                    "Focus": "All",
+                    "Description": "The premier B2B matchmaking event for the gaming industry at Gamescom 2025.",
+                    description: "The premier B2B matchmaking event for the gaming industry at Gamescom 2025.",
+                    isUGC: false
+                },
+                {
+                    id: "xsolla-mixer-hyatt-regency",
+                    "Event Name": "The Xsolla Mixer with Sensor Tower",
+                    name: "The Xsolla Mixer with Sensor Tower",
+                    "Hosts": "Mobilegamer.biz",
+                    hosts: "Mobilegamer.biz",
+                    "Category": "Mixer",
+                    category: "Mixer",
+                    "Address": "Hyatt Regency Cologne",
+                    venue: "Hyatt Regency Cologne",
+                    "Start Time": "14:30",
+                    startTime: "14:30",
+                    "Date": "Mon Aug 18",
+                    date: "2025-08-18",
+                    "Price": "Request to join",
+                    "Focus": "Mobile",
+                    "Description": "Exclusive mixer for mobile gaming professionals hosted by Xsolla and Sensor Tower.",
+                    description: "Exclusive mixer for mobile gaming professionals hosted by Xsolla and Sensor Tower.",
+                    isUGC: false
+                },
+                {
+                    id: "game-audio-get-together",
+                    "Event Name": "Game Audio Get Together @Gamescom 2025",
+                    name: "Game Audio Get Together @Gamescom 2025",
+                    "Hosts": "Flutu Music",
+                    hosts: "Flutu Music",
+                    "Category": "Mixer",
+                    category: "Mixer",
+                    "Address": "Salzgasse 2, 50667, Germany",
+                    venue: "Salzgasse 2, 50667, Germany",
+                    "Start Time": "19:30",
+                    startTime: "19:30",
+                    "Date": "Fri Aug 22",
+                    date: "2025-08-22",
+                    "Price": "Free",
+                    "Focus": "Audio",
+                    "Description": "Network with game audio professionals and discover the latest in game audio technology.",
+                    description: "Network with game audio professionals and discover the latest in game audio technology.",
+                    isUGC: false
+                },
+                {
+                    id: "marriott-madness",
+                    "Event Name": "Marriott Madness",
+                    name: "Marriott Madness",
+                    "Hosts": "Marriott Bar",
+                    hosts: "Marriott Bar",
+                    "Category": "Social",
+                    category: "Social",
+                    "Address": "Johannisstrasse 76-80, 50668 Koln, Germany",
+                    venue: "Johannisstrasse 76-80, 50668 Koln, Germany",
+                    "Start Time": "19:30",
+                    startTime: "19:30",
+                    "Date": "Mon Aug 18",
+                    date: "2025-08-18",
+                    "Price": "Bar Tab",
+                    "Focus": "All",
+                    "Description": "Legendary industry gathering at the Marriott - the unofficial headquarters for Gamescom networking.",
+                    description: "Legendary industry gathering at the Marriott - the unofficial headquarters for Gamescom networking.",
+                    isUGC: false
+                }
+            ];
+            renderEvents();
+        }
+        
+        function renderEvents() {
+            const container = document.getElementById('eventsContainer');
+            container.innerHTML = '';
+            
+            realEvents.forEach((event, index) => {
+                const eventCard = createEventCard(event, index);
+                container.appendChild(eventCard);
+            });
+            
+            updateStatus(`${realEvents.length} events ready - Click any card to test maps!`);
+        }
+        
+        function createEventCard(event, index) {
+            const card = document.createElement('div');
+            card.className = 'event-card';
+            card.style.animationDelay = `${index * 100}ms`;
+            
+            const eventName = event.name || event['Event Name'];
+            const eventHosts = event.hosts || event.Hosts;
+            const eventCategory = event.category || event.Category;
+            const eventDate = event.Date || formatDate(event.date);
+            const eventTime = event['Start Time'] || event.startTime;
+            const eventVenue = event.venue || event.Address;
+            const eventPrice = event.Price || 'Free';
+            
+            card.innerHTML = `
+                <div class="event-title">${escapeHtml(eventName)}</div>
+                <div class="event-host">Hosted by ${escapeHtml(eventHosts)}</div>
+                
+                <div class="event-meta">
+                    <div class="meta-item">
+                        <span>📅</span>
+                        <span>${eventDate}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span>🕐</span>
+                        <span>${eventTime}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span>💰</span>
+                        <span>${eventPrice}</span>
+                    </div>
+                </div>
+                
+                <div class="meta-item">
+                    <span>📍</span>
+                    <span>${escapeHtml(eventVenue)}</span>
+                </div>
+                
+                <div class="event-category">${eventCategory}</div>
+                
+                <button class="maps-btn">
+                    🗺️ View on Map with Directions
+                </button>
+            `;
+            
+            card.addEventListener('click', () => {
+                openEventModal(event);
+            });
+            
+            return card;
+        }
+        
+        function openEventModal(event) {
+            updateStatus(`Opening map for ${event.name || event['Event Name']}...`);
+            
+            if (window.partyMapsModal) {
+                try {
+                    window.partyMapsModal.show(event);
+                    updateStatus('Map modal opened successfully!');
+                } catch (error) {
+                    console.error('Error opening modal:', error);
+                    updateStatus('Error opening map modal');
+                }
+            } else {
+                updateStatus('Maps modal not loaded yet - please wait...');
+            }
+        }
+        
+        function updateStatus(message) {
+            const statusBar = document.getElementById('statusBar');
+            statusBar.textContent = message;
+            
+            console.log(`[Status] ${message}`);
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function formatDate(dateStr) {
+            if (!dateStr) return 'TBD';
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) return dateStr;
+            
+            return date.toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short', 
+                day: 'numeric'
+            });
+        }
+        
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            this.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+            
+            updateStatus(`Switched to ${newTheme} theme`);
+        });
+        
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('Initializing real maps test...');
+            loadRealEvents();
+            
+            // Check component loading
+            setTimeout(() => {
+                if (window.partyMapsModal && window.mapsErrorHandler) {
+                    updateStatus('All components loaded - Ready for testing!');
+                } else {
+                    updateStatus('Some components still loading...');
+                }
+            }, 2000);
+        });
+        
+        // Handle maps API errors gracefully
+        window.addEventListener('error', function(event) {
+            if (event.message && event.message.includes('google')) {
+                console.error('Google Maps error:', event);
+                updateStatus('Maps API error - testing fallback functionality');
+            }
+        });
+        
+        // Performance monitoring
+        window.addEventListener('load', function() {
+            const loadTime = performance.now();
+            console.log(`Page loaded in ${Math.round(loadTime)}ms`);
+            
+            // Test maps functionality after everything loads
+            setTimeout(() => {
+                if (mapsLoaded && realEvents.length > 0) {
+                    updateStatus(`✅ Ready! ${realEvents.length} real events loaded with maps support`);
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

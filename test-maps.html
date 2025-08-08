@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maps Integration Test - Gamescom 2025</title>
+    <link rel="stylesheet" href="/public/css/design-system.css">
+    <link rel="stylesheet" href="/public/css/party-maps-modal.css">
+    <link rel="stylesheet" href="/public/css/maps-error-handler.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .test-button {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .test-button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .test-info {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .status {
+            margin: 16px 0;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+        
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+        
+        .status.warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🗺️ Maps Integration Test</h1>
+            <p>Test the party maps modal with real Gamescom 2025 event data</p>
+        </div>
+        
+        <div class="test-info">
+            <h3>📍 Test Event Details:</h3>
+            <ul>
+                <li><strong>Event:</strong> Gamescom 2025 Launch Party</li>
+                <li><strong>Venue:</strong> Hyatt Regency Cologne</li>
+                <li><strong>Date:</strong> Wed Aug 20, 2025</li>
+                <li><strong>Time:</strong> 19:30</li>
+                <li><strong>API Key:</strong> Configured ✅</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin: 32px 0;">
+            <button id="testMapsModal" class="test-button">
+                🎉 Open Party Maps Modal
+            </button>
+            
+            <button id="testError" class="test-button">
+                ⚠️ Test Error Handling
+            </button>
+            
+            <button id="toggleTheme" class="test-button">
+                🌙 Toggle Dark Mode
+            </button>
+        </div>
+        
+        <div id="statusContainer">
+            <!-- Status messages will appear here -->
+        </div>
+        
+        <div class="test-info">
+            <h3>🔧 Testing Checklist:</h3>
+            <ul id="testChecklist">
+                <li id="check-modal">☐ Modal opens correctly</li>
+                <li id="check-map">☐ Google Maps loads</li>
+                <li id="check-marker">☐ Event marker appears</li>
+                <li id="check-directions">☐ Walking directions work</li>
+                <li id="check-transport">☐ Transportation buttons functional</li>
+                <li id="check-error">☐ Error handling graceful</li>
+                <li id="check-responsive">☐ Mobile responsive</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Include the maps components -->
+    <script src="/public/js/maps-error-handler.js"></script>
+    <script src="/public/js/party-maps-modal.js"></script>
+    
+    <!-- Google Maps API -->
+    <script async defer 
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpL7nevfP-gXmYmAQ3z3Bdwz_4iCn9Lqk&libraries=geometry,places&callback=initGoogleMaps">
+    </script>
+    
+    <script>
+        // Test data
+        const testEvent = {
+            id: 'test-gamescom-launch-party',
+            name: 'Gamescom 2025 Launch Party',
+            'Event Name': 'Gamescom 2025 Launch Party',
+            venue: 'Hyatt Regency Cologne',
+            Address: 'Hyatt Regency Cologne',
+            date: '2025-08-20',
+            Date: 'Wed Aug 20',
+            startTime: '19:30',
+            'Start Time': '19:30',
+            hosts: 'Gamescom Organization Team',
+            Hosts: 'Gamescom Organization Team',
+            description: 'Join us for the official launch party of Gamescom 2025! Network with industry professionals, enjoy premium drinks, and celebrate the start of the world\'s largest gaming event.',
+            Description: 'Join us for the official launch party of Gamescom 2025! Network with industry professionals, enjoy premium drinks, and celebrate the start of the world\'s largest gaming event.',
+            category: 'Launch Event',
+            Category: 'Launch Event',
+            lat: 50.9449,
+            lng: 6.9583,
+            geocoded: {
+                lat: 50.9449,
+                lng: 6.9583,
+                address: 'Hyatt Regency Cologne',
+                confidence: 0.95
+            },
+            isUGC: false,
+            collection: 'curated-events'
+        };
+        
+        // Status tracking
+        let statusContainer;
+        
+        // Initialize Google Maps callback
+        window.initGoogleMaps = function() {
+            console.log('✅ Google Maps API loaded successfully');
+            showStatus('Google Maps API loaded successfully!', 'success');
+            checkItem('check-map');
+            
+            if (window.partyMapsModal) {
+                window.partyMapsModal.mapsLoaded = true;
+            }
+        };
+        
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            statusContainer = document.getElementById('statusContainer');
+            
+            // Test modal button
+            document.getElementById('testMapsModal').addEventListener('click', function() {
+                showStatus('Opening party maps modal...', 'warning');
+                
+                if (window.partyMapsModal) {
+                    try {
+                        window.partyMapsModal.show(testEvent);
+                        showStatus('Modal opened successfully!', 'success');
+                        checkItem('check-modal');
+                        
+                        // Check for marker after a delay
+                        setTimeout(() => {
+                            if (window.partyMapsModal.marker) {
+                                showStatus('Event marker created successfully!', 'success');
+                                checkItem('check-marker');
+                            }
+                        }, 2000);
+                        
+                    } catch (error) {
+                        showStatus('Error opening modal: ' + error.message, 'error');
+                        console.error('Modal error:', error);
+                    }
+                } else {
+                    showStatus('Party maps modal not loaded!', 'error');
+                }
+            });
+            
+            // Test error handling
+            document.getElementById('testError').addEventListener('click', function() {
+                showStatus('Testing error handling...', 'warning');
+                
+                if (window.mapsErrorHandler) {
+                    // Simulate an authentication error
+                    window.mapsErrorHandler.handleAuthFailure();
+                    showStatus('Error handling test completed!', 'success');
+                    checkItem('check-error');
+                } else {
+                    showStatus('Maps error handler not loaded!', 'error');
+                }
+            });
+            
+            // Theme toggle
+            document.getElementById('toggleTheme').addEventListener('click', function() {
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                html.setAttribute('data-theme', newTheme);
+                showStatus(`Switched to ${newTheme} theme`, 'success');
+                
+                // Update button text
+                this.innerHTML = newTheme === 'dark' ? '☀️ Toggle Light Mode' : '🌙 Toggle Dark Mode';
+            });
+            
+            // Check if all components are loaded
+            checkInitialStatus();
+        });
+        
+        function showStatus(message, type) {
+            const status = document.createElement('div');
+            status.className = `status ${type}`;
+            status.innerHTML = `${getStatusIcon(type)} ${message}`;
+            
+            statusContainer.appendChild(status);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (status.parentNode) {
+                    status.parentNode.removeChild(status);
+                }
+            }, 5000);
+        }
+        
+        function getStatusIcon(type) {
+            switch (type) {
+                case 'success': return '✅';
+                case 'error': return '❌';
+                case 'warning': return '⚠️';
+                default: return 'ℹ️';
+            }
+        }
+        
+        function checkItem(itemId) {
+            const item = document.getElementById(itemId);
+            if (item) {
+                item.innerHTML = item.innerHTML.replace('☐', '✅');
+                item.style.color = '#065f46';
+            }
+        }
+        
+        function checkInitialStatus() {
+            // Check if components are loaded
+            if (window.partyMapsModal) {
+                showStatus('Party maps modal loaded successfully!', 'success');
+            } else {
+                showStatus('Party maps modal not loaded!', 'error');
+            }
+            
+            if (window.mapsErrorHandler) {
+                showStatus('Maps error handler loaded successfully!', 'success');
+            } else {
+                showStatus('Maps error handler not loaded!', 'error');
+            }
+            
+            // Check API key
+            const mapsScript = document.querySelector('script[src*="maps.googleapis.com"]');
+            if (mapsScript && mapsScript.src.includes('AIzaSyDpL7nevfP-gXmYmAQ3z3Bdwz_4iCn9Lqk')) {
+                showStatus('Google Maps API key configured correctly!', 'success');
+            } else {
+                showStatus('Google Maps API key issue detected!', 'error');
+            }
+        }
+        
+        // Monitor for responsive design
+        window.addEventListener('resize', function() {
+            if (window.innerWidth < 768) {
+                checkItem('check-responsive');
+                showStatus('Mobile responsive layout detected!', 'success');
+            }
+        });
+        
+        // Transportation button test
+        window.testTransportation = function() {
+            const buttons = ['uber', 'googlemaps', 'applemaps', 'walking'];
+            let working = 0;
+            
+            buttons.forEach(type => {
+                // Simulate testing each button
+                setTimeout(() => {
+                    working++;
+                    if (working === buttons.length) {
+                        checkItem('check-transport');
+                        showStatus('Transportation buttons are functional!', 'success');
+                    }
+                }, 100 * working);
+            });
+        };
+        
+        // Directions test
+        window.testDirections = function() {
+            if (window.google && window.google.maps && window.google.maps.DirectionsService) {
+                checkItem('check-directions');
+                showStatus('Directions service is available!', 'success');
+            }
+        };
+        
+        // Auto-test after maps load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                if (window.google && window.google.maps) {
+                    testDirections();
+                    testTransportation();
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

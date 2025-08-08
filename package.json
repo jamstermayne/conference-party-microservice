@@ -9,50 +9,45 @@
     "deploy": "node tools/firebase-manager.js deploy",
     "test": "node tools/api-test-suite.js",
     "setup": "npm install && node tools/firebase-manager.js health",
-    
     "firebase:health": "node tools/firebase-manager.js health",
     "firebase:deploy": "node tools/firebase-manager.js deploy",
     "firebase:logs": "node tools/firebase-manager.js logs",
-    
     "data:geocode": "node tools/maps-helper.js geocode",
     "data:process": "node tools/data-processor.js process",
     "data:validate": "node tools/data-processor.js validate",
-    
     "pwa:build": "node tools/pwa-orchestrator.js build",
     "pwa:deploy": "node tools/pwa-orchestrator.js deploy",
     "pwa:test": "node tools/pwa-orchestrator.js test",
-    
     "search:build": "node tools/search-filter.js build",
     "search:test": "node tools/search-filter.js test",
-    
     "analytics:build": "node tools/analytics-orchestrator.js build",
     "analytics:test": "node tools/analytics-orchestrator.js test",
-    
     "calendar:export": "node tools/calendar-helper.js export",
     "calendar:test": "node tools/calendar-helper.js test",
-    
     "frontend:build": "node tools/frontend-builder.js build",
     "frontend:dev": "node tools/frontend-builder.js dev"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "http-proxy-middleware": "^2.0.6",
-    "cors": "^2.8.5",
-    "compression": "^1.7.4",
-    "helmet": "^7.0.0",
-    "ws": "^8.13.0",
+    "@googlemaps/js-api-loader": "^1.16.10",
+    "@googlemaps/react-wrapper": "^1.2.0",
     "chokidar": "^3.5.3",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
     "firebase-admin": "^11.10.1",
     "firebase-functions": "^4.4.1",
     "googleapis": "^122.0.0",
-    "node-cron": "^3.0.2"
+    "helmet": "^7.0.0",
+    "http-proxy-middleware": "^2.0.6",
+    "node-cron": "^3.0.2",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "@types/node": "^20.4.5",
-    "typescript": "^5.1.6",
+    "eslint": "^8.45.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.0",
-    "eslint": "^8.45.0"
+    "typescript": "^5.1.6"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -1,134 +1,30 @@
 {
   "events": {
-    "beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany": {
+    "ugc-1754574459635-8fpm9m2i1": {
       "fields": {
         "eventId": {
-          "stringValue": "beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany"
+          "stringValue": "ugc-1754574459635-8fpm9m2i1"
         },
         "eventName": {
-          "stringValue": "Beam & Avalanche go Gamescom"
+          "stringValue": "Test Creator Event"
         },
         "originalAddress": {
-          "stringValue": "Rheinloft Cologne, Frankenwerft 35, 50667, Germany"
+          "stringValue": "Test Venue"
         },
         "date": {
-          "stringValue": "Wed Aug 20"
+          "stringValue": "2025-08-20"
         },
         "time": {
-          "stringValue": "18:00 - 23:00"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "Beam, Avalanche"
+          "stringValue": "Claude Test"
         },
         "category": {
-          "stringValue": "Mixer"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:12.671Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9392807
-              },
-              "lng": {
-                "doubleValue": 6.9621832
-              },
-              "formattedAddress": {
-                "stringValue": "Rheinloft Cologne - Rooftop Eventlocation für Firmenfeier, Networking, Business Events & Private Feiern, Frankenwerft 35, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ3wGupiElv0cRSYGGsRTkR2g"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany"
-        },
-        "eventName": {
-          "stringValue": "Cigar Lovers"
-        },
-        "originalAddress": {
-          "stringValue": "Turiner Strabe 9, cologne, germany"
-        },
-        "date": {
-          "stringValue": "Wed Aug 20"
-        },
-        "time": {
-          "stringValue": "21:00 - 23:59"
-        },
-        "hosts": {
-          "stringValue": "Bring Your Own"
-        },
-        "category": {
-          "stringValue": "Exec Social"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:12.946Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9464205
-              },
-              "lng": {
-                "doubleValue": 6.957213299999999
-              },
-              "formattedAddress": {
-                "stringValue": "Turiner Str. 9, 50668 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJQe2lYaMlv0cRmLOrmfVA77g"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "coda-connect-cologne--d2c-happy-hour-with-paysafe-thu-aug-21-17-30--empty-": {
-      "fields": {
-        "eventId": {
-          "stringValue": "coda-connect-cologne--d2c-happy-hour-with-paysafe-thu-aug-21-17-30--empty-"
-        },
-        "eventName": {
-          "stringValue": "Coda Connect Cologne: D2C Happy Hour with Paysafe"
-        },
-        "originalAddress": {
-          "stringValue": "(empty)"
-        },
-        "date": {
-          "stringValue": "Thu Aug 21"
-        },
-        "time": {
-          "stringValue": "17:30 - 20:00"
-        },
-        "hosts": {
-          "stringValue": "Coda"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:13.189Z"
+          "timestampValue": "2025-08-08T01:42:47.961Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -137,1283 +33,35 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-": {
+    "ugc-1754575453812-lus9yr7il": {
       "fields": {
         "eventId": {
-          "stringValue": "courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-"
+          "stringValue": "ugc-1754575453812-lus9yr7il"
         },
         "eventName": {
-          "stringValue": "Courage Cologne @ devcom Developer Night 2025"
+          "stringValue": "Test Event at Koelnmesse"
         },
         "originalAddress": {
-          "stringValue": "HERBRAND's, Herbrandstraoe 21, 50825, Germany"
+          "stringValue": "Koelnmesse Hall 4"
         },
         "date": {
-          "stringValue": "Tue Aug 19"
+          "stringValue": "2025-08-20"
         },
         "time": {
-          "stringValue": "20:00 - 23:30"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "devcom"
+          "stringValue": "Duplicate Test"
         },
         "category": {
-          "stringValue": "Party"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:13.426Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9514054
-              },
-              "lng": {
-                "doubleValue": 6.9104472
-              },
-              "formattedAddress": {
-                "stringValue": "Herbrandstraße 21, 50825 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJx_o3rDklv0cRpKDhWAzfW40"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50": {
-      "fields": {
-        "eventId": {
-          "stringValue": "devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50"
-        },
-        "eventName": {
-          "stringValue": "devcom Developer Conference Leadership Dinner"
-        },
-        "originalAddress": {
-          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Mon Aug 18"
-        },
-        "time": {
-          "stringValue": "19:30 - 23:30"
-        },
-        "hosts": {
-          "stringValue": "devcom"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:13.665Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94298569999999
-              },
-              "lng": {
-                "doubleValue": 6.9753161
-              },
-              "formattedAddress": {
-                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany"
-        },
-        "eventName": {
-          "stringValue": "devcom Developer Conference"
-        },
-        "originalAddress": {
-          "stringValue": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Mon Aug 18"
-        },
-        "time": {
-          "stringValue": "09:00 - 23:30"
-        },
-        "hosts": {
-          "stringValue": "devcom"
-        },
-        "category": {
-          "stringValue": "Meetings"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:13.905Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94298569999999
-              },
-              "lng": {
-                "doubleValue": 6.9753161
-              },
-              "formattedAddress": {
-                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067": {
-      "fields": {
-        "eventId": {
-          "stringValue": "devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067"
-        },
-        "eventName": {
-          "stringValue": "devcom Developer Conference pitch it! Mixer"
-        },
-        "originalAddress": {
-          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Tue Aug 19"
-        },
-        "time": {
-          "stringValue": "14:30 - 17:00"
-        },
-        "hosts": {
-          "stringValue": "devcom"
-        },
-        "category": {
-          "stringValue": "Meetings"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:14.189Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94298569999999
-              },
-              "lng": {
-                "doubleValue": 6.9753161
-              },
-              "formattedAddress": {
-                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany"
-        },
-        "eventName": {
-          "stringValue": "devcom Developer Conference"
-        },
-        "originalAddress": {
-          "stringValue": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Sun Aug 17"
-        },
-        "time": {
-          "stringValue": "13:00 - 16:00"
-        },
-        "hosts": {
-          "stringValue": "devcom"
-        },
-        "category": {
-          "stringValue": "Meetings"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:14.433Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94298569999999
-              },
-              "lng": {
-                "doubleValue": 6.9753161
-              },
-              "formattedAddress": {
-                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k": {
-      "fields": {
-        "eventId": {
-          "stringValue": "devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k"
-        },
-        "eventName": {
-          "stringValue": "devcom Developer Conference Sunset Mixer"
-        },
-        "originalAddress": {
-          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Mon Aug 18"
-        },
-        "time": {
-          "stringValue": "19:30 - 23:30"
-        },
-        "hosts": {
-          "stringValue": "devcom"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:14.672Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94298569999999
-              },
-              "lng": {
-                "doubleValue": 6.9753161
-              },
-              "formattedAddress": {
-                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany"
-        },
-        "eventName": {
-          "stringValue": "devcom Developer Conference"
-        },
-        "originalAddress": {
-          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Tue Aug 19"
-        },
-        "time": {
-          "stringValue": "09:00 - 20:00"
-        },
-        "hosts": {
-          "stringValue": "devcom"
-        },
-        "category": {
-          "stringValue": "Meetings"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:14.918Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94298569999999
-              },
-              "lng": {
-                "doubleValue": 6.9753161
-              },
-              "formattedAddress": {
-                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln": {
-      "fields": {
-        "eventId": {
-          "stringValue": "devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln"
-        },
-        "eventName": {
-          "stringValue": "devcom Developer Conference VIP Mixer"
-        },
-        "originalAddress": {
-          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Mon Aug 18"
-        },
-        "time": {
-          "stringValue": "17:00 - 1900"
-        },
-        "hosts": {
-          "stringValue": "devcom"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:15.177Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94298569999999
-              },
-              "lng": {
-                "doubleValue": 6.9753161
-              },
-              "formattedAddress": {
-                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln": {
-      "fields": {
-        "eventId": {
-          "stringValue": "devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln"
-        },
-        "eventName": {
-          "stringValue": "devcom Developer Conference VIP Mixer"
-        },
-        "originalAddress": {
-          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Tue Aug 19"
-        },
-        "time": {
-          "stringValue": "17:00 - 1900"
-        },
-        "hosts": {
-          "stringValue": "devcom"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:15.409Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94298569999999
-              },
-              "lng": {
-                "doubleValue": 6.9753161
-              },
-              "formattedAddress": {
-                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger": {
-      "fields": {
-        "eventId": {
-          "stringValue": "diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger"
-        },
-        "eventName": {
-          "stringValue": "Diversion Meetup DDC Happy Hour"
-        },
-        "originalAddress": {
-          "stringValue": "Craftbeer Corner Coeln, Martinstraoe 32, 50667, Germany"
-        },
-        "date": {
-          "stringValue": "Tue Aug 19"
-        },
-        "time": {
-          "stringValue": "18:00 - 21:00"
-        },
-        "hosts": {
-          "stringValue": "Diversion"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:15.652Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9372589
-              },
-              "lng": {
-                "doubleValue": 6.958867199999999
-              },
-              "formattedAddress": {
-                "stringValue": "Martinstraße 32, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJM8AsvLElv0cRVk6tqW-dYvs"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-": {
-      "fields": {
-        "eventId": {
-          "stringValue": "diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-"
-        },
-        "eventName": {
-          "stringValue": "Diversity Meetup x Home of Indies @ Gamescom 2025"
-        },
-        "originalAddress": {
-          "stringValue": "Home of Indies, Hall 10.2, E010g-D011g, Messeplatz 1, 50679 Cologne, Germany"
-        },
-        "date": {
-          "stringValue": "Sat Aug 23"
-        },
-        "time": {
-          "stringValue": "14:00 - 16:00"
-        },
-        "hosts": {
-          "stringValue": "Content Affairs"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:15.992Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94678
-              },
-              "lng": {
-                "doubleValue": 6.9832069
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ_7qiEMMlv0cRTiqNZLsiIxY"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne": {
-      "fields": {
-        "eventId": {
-          "stringValue": "drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne"
-        },
-        "eventName": {
-          "stringValue": "Drinks@ Games From Portugal Pavilion"
-        },
-        "originalAddress": {
-          "stringValue": "Hall 2.1 C028-D027, Koelnmesse, Cologne"
-        },
-        "date": {
-          "stringValue": "Thu Aug 21"
-        },
-        "time": {
-          "stringValue": "16:00 - 18:00"
-        },
-        "hosts": {
-          "stringValue": "DevGAMM, eGames"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:16.350Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9466048
-              },
-              "lng": {
-                "doubleValue": 6.980404699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067": {
-      "fields": {
-        "eventId": {
-          "stringValue": "enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067"
-        },
-        "eventName": {
-          "stringValue": "Enchant Gamescom Pitch Party + Networking After Party"
-        },
-        "originalAddress": {
-          "stringValue": "STARTPLATZ, Mediapark 5, 50670, Germany"
-        },
-        "date": {
-          "stringValue": "Thu Aug 21"
-        },
-        "time": {
-          "stringValue": "18:45 - 22:30"
-        },
-        "hosts": {
-          "stringValue": "Enchant"
-        },
-        "category": {
-          "stringValue": "Party"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:16.626Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9486351
-              },
-              "lng": {
-                "doubleValue": 6.9447956
-              },
-              "formattedAddress": {
-                "stringValue": "Im Mediapark 5, 50670 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ4QP8agolv0cRqtu_enK6PGM"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany"
-        },
-        "eventName": {
-          "stringValue": "Game Audio Get Together @Gamescom 2025"
-        },
-        "originalAddress": {
-          "stringValue": "Salzgasse 2, 50667, Germany"
-        },
-        "date": {
-          "stringValue": "Fri Aug 22"
-        },
-        "time": {
-          "stringValue": "19:30 - 2100"
-        },
-        "hosts": {
-          "stringValue": "Flutu Music"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:16.962Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9375073
-              },
-              "lng": {
-                "doubleValue": 6.961263799999999
-              },
-              "formattedAddress": {
-                "stringValue": "Salzgasse 2, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJYVJGELElv0cRY9AuUNqJ5TI"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--": {
-      "fields": {
-        "eventId": {
-          "stringValue": "games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--"
-        },
-        "eventName": {
-          "stringValue": "Games Industry Runners Gamescom edition"
-        },
-        "originalAddress": {
-          "stringValue": "Paolozzibrunnen, Weltjugendtagsweg, 50667, Germany"
-        },
-        "date": {
-          "stringValue": "Wed Aug 20"
-        },
-        "time": {
-          "stringValue": "07:30 - 09:00"
-        },
-        "hosts": {
-          "stringValue": "Kohort, Newzoo"
-        },
-        "category": {
-          "stringValue": "Wellness"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:17.284Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94048189999999
-              },
-              "lng": {
-                "doubleValue": 6.962301099999999
-              },
-              "formattedAddress": {
-                "stringValue": "Weltjugendtagsweg, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJNyfyrOMlv0cRUJPbPRn5cM0"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany"
-        },
-        "eventName": {
-          "stringValue": "Gamescom 2025 Happy Hour â€“ By Overwolf"
-        },
-        "originalAddress": {
-          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
-        },
-        "date": {
-          "stringValue": "Thu Aug 21"
-        },
-        "time": {
-          "stringValue": "16:30 - 18:00"
-        },
-        "hosts": {
-          "stringValue": "Overwolf"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:17.600Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9466048
-              },
-              "lng": {
-                "doubleValue": 6.980404699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "gamescom-2025-happy-hour---by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "gamescom-2025-happy-hour---by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany"
-        },
-        "eventName": {
-          "stringValue": "Gamescom 2025 Happy Hour - By Overwolf"
-        },
-        "originalAddress": {
-          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
-        },
-        "date": {
-          "stringValue": "Thu Aug 21"
-        },
-        "time": {
-          "stringValue": "16:30 - 18:00"
-        },
-        "hosts": {
-          "stringValue": "Overwolf"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:17.860Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9466048
-              },
-              "lng": {
-                "doubleValue": 6.980404699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta": {
-      "fields": {
-        "eventId": {
-          "stringValue": "gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta"
-        },
-        "eventName": {
-          "stringValue": "Gamescom 2025 Networking Mixer: Metric Minds"
-        },
-        "originalAddress": {
-          "stringValue": "Joe Champs American Sports Bar, Constantinstrasse 96 50679 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Wed Aug 20"
-        },
-        "time": {
-          "stringValue": "18:00 - 21:00"
-        },
-        "hosts": {
-          "stringValue": "Society for Game Cinematics"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:18.086Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9388051
-              },
-              "lng": {
-                "doubleValue": 6.9779651
-              },
-              "formattedAddress": {
-                "stringValue": "Constantinstraße 96, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ6ZR6Rs8lv0cRC3dKm3gGL1U"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst": {
-      "fields": {
-        "eventId": {
-          "stringValue": "gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst"
-        },
-        "eventName": {
-          "stringValue": "Gamescom Inside: Brand Positioning Group Tour"
-        },
-        "originalAddress": {
-          "stringValue": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany"
-        },
-        "date": {
-          "stringValue": "Fri Aug 22"
-        },
-        "time": {
-          "stringValue": "13:30 - 15:00"
-        },
-        "hosts": {
-          "stringValue": "Walbert-Schmitz"
-        },
-        "category": {
-          "stringValue": "Tour"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:18.462Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9414488
-              },
-              "lng": {
-                "doubleValue": 6.978014
-              },
-              "formattedAddress": {
-                "stringValue": "Luise-Straus-Ernst-Straße 4, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJZ6PNb8klv0cRccALPX_q3HA"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst": {
-      "fields": {
-        "eventId": {
-          "stringValue": "gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst"
-        },
-        "eventName": {
-          "stringValue": "Gamescom Inside: Brand Positioning Group Tour"
-        },
-        "originalAddress": {
-          "stringValue": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany"
-        },
-        "date": {
-          "stringValue": "Thu Aug 21"
-        },
-        "time": {
-          "stringValue": "13:30 - 15:00"
-        },
-        "hosts": {
-          "stringValue": "Walbert-Schmitz"
-        },
-        "category": {
-          "stringValue": "Tour"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:18.776Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9414488
-              },
-              "lng": {
-                "doubleValue": 6.978014
-              },
-              "formattedAddress": {
-                "stringValue": "Luise-Straus-Ernst-Straße 4, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJZ6PNb8klv0cRccALPX_q3HA"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany"
-        },
-        "eventName": {
-          "stringValue": "Gamescom Launch Party"
-        },
-        "originalAddress": {
-          "stringValue": "rooftop58, Hohenzollernring 58, 50672, Germany"
-        },
-        "date": {
-          "stringValue": "Tue Aug 19"
-        },
-        "time": {
-          "stringValue": "20:00 - 00:00"
-        },
-        "hosts": {
-          "stringValue": "Singular, Google, Stash"
-        },
-        "category": {
-          "stringValue": "Party"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:19.001Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9399277
-              },
-              "lng": {
-                "doubleValue": 6.9402364
-              },
-              "formattedAddress": {
-                "stringValue": "Hohenzollernring 58, 50672 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJu0hTSjolv0cRAMGlOn88FxU"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany"
-        },
-        "eventName": {
-          "stringValue": "Global XRAI Hack at Cologne, Gamescom"
-        },
-        "originalAddress": {
-          "stringValue": "STARTPLATZ, Im Mediapark 5, 50670, Germany"
-        },
-        "date": {
-          "stringValue": "Mon Aug 18"
-        },
-        "time": {
-          "stringValue": "09:00 - 19:00"
-        },
-        "hosts": {
-          "stringValue": "XR Bootcamp, Meta"
-        },
-        "category": {
-          "stringValue": "Hackathon"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:19.271Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9486351
-              },
-              "lng": {
-                "doubleValue": 6.9447956
-              },
-              "formattedAddress": {
-                "stringValue": "Im Mediapark 5, 50670 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ4QP8agolv0cRqtu_enK6PGM"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany"
-        },
-        "eventName": {
-          "stringValue": "Global XRAI Hack at Cologne, Gamescom"
-        },
-        "originalAddress": {
-          "stringValue": "STARTPLATZ, Im Mediapark 5, 50670, Germany"
-        },
-        "date": {
-          "stringValue": "Sun Aug 17"
-        },
-        "time": {
-          "stringValue": "09:00 - 19:00"
-        },
-        "hosts": {
-          "stringValue": "XR Bootcamp, Meta"
-        },
-        "category": {
-          "stringValue": "Hackathon"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:19.579Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9486351
-              },
-              "lng": {
-                "doubleValue": 6.9447956
-              },
-              "formattedAddress": {
-                "stringValue": "Im Mediapark 5, 50670 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ4QP8agolv0cRqtu_enK6PGM"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany"
-        },
-        "eventName": {
-          "stringValue": "Global XRAI Hack at Cologne, Gamescom"
-        },
-        "originalAddress": {
-          "stringValue": "STARTPLATZ, Im Mediapark 5, 50670, Germany"
-        },
-        "date": {
-          "stringValue": "Tue Aug 19"
-        },
-        "time": {
-          "stringValue": "09:00 - 19:00"
-        },
-        "hosts": {
-          "stringValue": "XR Bootcamp, Meta"
-        },
-        "category": {
-          "stringValue": "Hackathon"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:19.802Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9486351
-              },
-              "lng": {
-                "doubleValue": 6.9447956
-              },
-              "formattedAddress": {
-                "stringValue": "Im Mediapark 5, 50670 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ4QP8agolv0cRqtu_enK6PGM"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "immutable-gamescom-mixer-with-polygon-labs-thu-aug-21-17-30--empty-": {
-      "fields": {
-        "eventId": {
-          "stringValue": "immutable-gamescom-mixer-with-polygon-labs-thu-aug-21-17-30--empty-"
-        },
-        "eventName": {
-          "stringValue": "Immutable Gamescom Mixer with Polygon Labs"
-        },
-        "originalAddress": {
-          "stringValue": "(empty)"
-        },
-        "date": {
-          "stringValue": "Thu Aug 21"
-        },
-        "time": {
-          "stringValue": "17:30 - 20:01"
-        },
-        "hosts": {
-          "stringValue": "Immutable, Polygon Labs"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:20.018Z"
+          "timestampValue": "2025-08-08T01:42:48.205Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -1422,579 +70,1043 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-": {
+    "ugc-1754576879834-53ud3d7jk": {
       "fields": {
         "eventId": {
-          "stringValue": "indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-"
+          "stringValue": "ugc-1754576879834-53ud3d7jk"
         },
         "eventName": {
-          "stringValue": "Indie Developer Stammtisch"
+          "stringValue": "Test"
         },
         "originalAddress": {
-          "stringValue": "Hostel | the shared apartment, Richard-Wagner-Straoe 39, 50674, Germany"
+          "stringValue": "Koelnmesse Hal 4"
         },
         "date": {
-          "stringValue": "Sun Aug 17"
+          "stringValue": "2025-08-20"
         },
         "time": {
-          "stringValue": "17:00 - 19:00"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "INDIE Hub"
+          "stringValue": "Test"
         },
         "category": {
-          "stringValue": "Mixer"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:20.233Z"
+          "timestampValue": "2025-08-08T01:42:48.418Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9352955
-              },
-              "lng": {
-                "doubleValue": 6.934854499999999
-              },
-              "formattedAddress": {
-                "stringValue": "Richard-Wagner-Str. 39, 50674 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJZcMOuAMlv0cRxZrvyLAmm10"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln": {
+    "ugc-1754575599587-jrwwihsi5": {
       "fields": {
         "eventId": {
-          "stringValue": "indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln"
+          "stringValue": "ugc-1754575599587-jrwwihsi5"
         },
         "eventName": {
-          "stringValue": "INDIE Reveal during Gamescom 2025"
+          "stringValue": "Duplicate Test Event"
         },
         "originalAddress": {
-          "stringValue": "Filmforum NRW, Bischofsgartenstrasse 1 50667 Koln Germany"
+          "stringValue": "Koelnmesse Hall 4"
         },
         "date": {
-          "stringValue": "Wed Aug 20"
+          "stringValue": "2025-08-20"
         },
         "time": {
-          "stringValue": "19:30 - 22:00"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "INDIE Hub UG"
+          "stringValue": "Test Creator"
         },
         "category": {
-          "stringValue": "Game Pitches"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:20.565Z"
+          "timestampValue": "2025-08-08T01:42:48.631Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9406276
-              },
-              "lng": {
-                "doubleValue": 6.9596193
-              },
-              "formattedAddress": {
-                "stringValue": "Bischofsgartenstraße 1, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ0zPrg7Alv0cRNZvG0tAMVcc"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667": {
+    "ugc-1754575476706-oakhokds7": {
       "fields": {
         "eventId": {
-          "stringValue": "karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667"
+          "stringValue": "ugc-1754575476706-oakhokds7"
         },
         "eventName": {
-          "stringValue": "Karaoke | The Copper Pot"
+          "stringValue": "Another Test Event"
         },
         "originalAddress": {
-          "stringValue": "Bolzengasse 7, Cologne, Germany 50667"
+          "stringValue": "Koelnmesse Hall 4"
         },
         "date": {
-          "stringValue": "Wed Aug 20"
+          "stringValue": "2025-08-20"
         },
         "time": {
-          "stringValue": "21:00 - 23:59"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "You + 50 Friends"
+          "stringValue": "Test User"
         },
         "category": {
-          "stringValue": "Social"
+          "stringValue": "mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:20.854Z"
+          "timestampValue": "2025-08-08T01:42:48.844Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.93670729999999
-              },
-              "lng": {
-                "doubleValue": 6.9597586
-              },
-              "formattedAddress": {
-                "stringValue": "Bolzengasse 7, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJc4x5nrElv0cRyVe5XRMTk6k"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne": {
+    "ugc-1754576880203-46skx6hxa": {
       "fields": {
         "eventId": {
-          "stringValue": "karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne"
+          "stringValue": "ugc-1754576880203-46skx6hxa"
         },
         "eventName": {
-          "stringValue": "Karaoke | The Jameson Irish Pub"
+          "stringValue": "Test"
         },
         "originalAddress": {
-          "stringValue": "Friesenstraue 30-40, 50670 Koln, Cologne"
+          "stringValue": "Koelnmesse Hall 4"
         },
         "date": {
-          "stringValue": "Fri Aug 22"
+          "stringValue": "2025-08-21"
         },
         "time": {
-          "stringValue": "20:00 - 23:59"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "You + 50 Friends"
+          "stringValue": "Test"
         },
         "category": {
-          "stringValue": "Social"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:21.125Z"
+          "timestampValue": "2025-08-08T01:42:49.058Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9497351
-              },
-              "lng": {
-                "doubleValue": 6.943474399999999
-              },
-              "formattedAddress": {
-                "stringValue": "50670 Cologne, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJCYelZaAlv0cR0JElq_9gJxw"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany": {
+    "ugc-1754577226281-dz26riiw6": {
       "fields": {
         "eventId": {
-          "stringValue": "liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany"
+          "stringValue": "ugc-1754577226281-dz26riiw6"
         },
         "eventName": {
-          "stringValue": "LiveOps Networking Meetup"
+          "stringValue": "Test"
         },
         "originalAddress": {
-          "stringValue": "Koelnmesse Confex, Koelnmesse Halle 1, 50679, Germany"
+          "stringValue": "Koelnmesse Hall 4"
         },
         "date": {
-          "stringValue": "Mon Aug 18"
+          "stringValue": "2025-08-21"
         },
         "time": {
-          "stringValue": "16:30 - 18:00"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "Oscar Clark"
+          "stringValue": "Test"
         },
         "category": {
-          "stringValue": "Mixer"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:21.388Z"
+          "timestampValue": "2025-08-08T01:42:49.269Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94298569999999
-              },
-              "lng": {
-                "doubleValue": 6.9753161
-              },
-              "formattedAddress": {
-                "stringValue": "Koelnmesse Halle 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJwYV6PQAlv0cRY-iQPYgZW3Q"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany": {
+    "ugc-1754577374749-ks6sv1foo": {
       "fields": {
         "eventId": {
-          "stringValue": "maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany"
+          "stringValue": "ugc-1754577374749-ks6sv1foo"
         },
         "eventName": {
-          "stringValue": "Maraoke LIVE! @ Gamescom 2025"
+          "stringValue": "Test"
         },
         "originalAddress": {
-          "stringValue": "TURISTARAMA, Mauritiussteinweg 102, 50676, Germany"
+          "stringValue": "Koelnmesse Hall 4"
         },
         "date": {
-          "stringValue": "Wed Aug 20"
+          "stringValue": "2025-08-21"
         },
         "time": {
-          "stringValue": "19:00 - 23:59"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "Maraoke LIVE"
+          "stringValue": "Test"
         },
         "category": {
-          "stringValue": "Party"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:21.693Z"
+          "timestampValue": "2025-08-08T01:42:49.484Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.93452500000001
-              },
-              "lng": {
-                "doubleValue": 6.945256
-              },
-              "formattedAddress": {
-                "stringValue": "Mauritiussteinweg 102, 50676 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ0xNrW6olv0cRLXezb5H-xFw"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge": {
+    "ugc-1754598111364-jhv4byvtj": {
       "fields": {
         "eventId": {
-          "stringValue": "marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge"
+          "stringValue": "ugc-1754598111364-jhv4byvtj"
         },
         "eventName": {
-          "stringValue": "Marketers In Gaming  Meetup @Gamescom 2025"
+          "stringValue": "Test Event Claude Code"
         },
         "originalAddress": {
-          "stringValue": "The Copper Pot, Bolzengasse 7, 50667, Germany"
+          "stringValue": "Test Venue Cologne"
         },
         "date": {
-          "stringValue": "Wed Aug 20"
+          "stringValue": "2025-08-21"
         },
         "time": {
-          "stringValue": "18:00 - 21:00"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "1minus1"
+          "stringValue": "Claude AI"
         },
         "category": {
-          "stringValue": "Mixer"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:21.973Z"
+          "timestampValue": "2025-08-08T01:42:49.695Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9367183
-              },
-              "lng": {
-                "doubleValue": 6.959741999999999
-              },
-              "formattedAddress": {
-                "stringValue": "Bolzengasse 7, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJyXaOnrElv0cRTyoKHnAjYLU"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany": {
+    "ugc-1754599319772-1s8l87ity": {
       "fields": {
         "eventId": {
-          "stringValue": "marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany"
+          "stringValue": "ugc-1754599319772-1s8l87ity"
         },
         "eventName": {
-          "stringValue": "Marriott Madness"
+          "stringValue": "Security Test <script>alert(\"XSS\")</script>"
         },
         "originalAddress": {
-          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+          "stringValue": "Test Venue <img src=x onerror=alert(1)>"
         },
         "date": {
-          "stringValue": "Mon Aug 18"
+          "stringValue": "2025-08-21"
         },
         "time": {
-          "stringValue": "19:30 - 23:59"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "Marriott Bar"
+          "stringValue": "Test User"
         },
         "category": {
-          "stringValue": "Exec Social"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:22.291Z"
+          "timestampValue": "2025-08-08T01:42:49.908Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9453075
-              },
-              "lng": {
-                "doubleValue": 6.961333499999999
-              },
-              "formattedAddress": {
-                "stringValue": "Johannisstraße 76-80, 50668 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJZXMwcLslv0cRJnCGucup-Ms"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany": {
+    "ugc-1754599638709-ybzwz0j41": {
       "fields": {
         "eventId": {
-          "stringValue": "marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany"
+          "stringValue": "ugc-1754599638709-ybzwz0j41"
         },
         "eventName": {
-          "stringValue": "Marriott Madness"
+          "stringValue": "Virtual Scrolling Test Event"
         },
         "originalAddress": {
-          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+          "stringValue": "Performance Testing Lab"
         },
         "date": {
-          "stringValue": "Thu Aug 21"
+          "stringValue": "2025-08-21"
         },
         "time": {
-          "stringValue": "19:30 - 23:59"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "Marriott Bar"
+          "stringValue": "Performance Tester"
         },
         "category": {
-          "stringValue": "Exec Social"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:22.609Z"
+          "timestampValue": "2025-08-08T01:42:50.120Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9453075
-              },
-              "lng": {
-                "doubleValue": 6.961333499999999
-              },
-              "formattedAddress": {
-                "stringValue": "Johannisstraße 76-80, 50668 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJZXMwcLslv0cRJnCGucup-Ms"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany": {
+    "ugc-1754577375133-qoblmt8r6": {
       "fields": {
         "eventId": {
-          "stringValue": "marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany"
+          "stringValue": "ugc-1754577375133-qoblmt8r6"
         },
         "eventName": {
-          "stringValue": "Marriott Madness"
+          "stringValue": "Test DROP TABLE events"
         },
         "originalAddress": {
-          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+          "stringValue": "Test"
         },
         "date": {
-          "stringValue": "Tue Aug 19"
+          "stringValue": "2025-08-22"
         },
         "time": {
-          "stringValue": "19:30 - 23:59"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "Marriott Bar"
+          "stringValue": "Hacker"
         },
         "category": {
-          "stringValue": "Exec Social"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:22.828Z"
+          "timestampValue": "2025-08-08T01:42:50.334Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9453075
-              },
-              "lng": {
-                "doubleValue": 6.961333499999999
-              },
-              "formattedAddress": {
-                "stringValue": "Johannisstraße 76-80, 50668 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJZXMwcLslv0cRJnCGucup-Ms"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany": {
+    "ugc-1754598226414-nt8q42c5x": {
       "fields": {
         "eventId": {
-          "stringValue": "marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany"
+          "stringValue": "ugc-1754598226414-nt8q42c5x"
         },
         "eventName": {
-          "stringValue": "Marriott Madness"
+          "stringValue": "Final Test Event - Flatpickr Integration"
         },
         "originalAddress": {
-          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+          "stringValue": "Hyatt Regency Cologne"
         },
         "date": {
-          "stringValue": "Wed Aug 20"
+          "stringValue": "2025-08-22"
         },
         "time": {
-          "stringValue": "19:30 - 23:59"
+          "stringValue": ""
         },
         "hosts": {
-          "stringValue": "Marriott Bar"
+          "stringValue": "Claude Code Team"
         },
         "category": {
-          "stringValue": "Exec Social"
+          "stringValue": "networking"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:23.046Z"
+          "timestampValue": "2025-08-08T01:42:50.546Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9453075
-              },
-              "lng": {
-                "doubleValue": 6.961333499999999
-              },
-              "formattedAddress": {
-                "stringValue": "Johannisstraße 76-80, 50668 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJZXMwcLslv0cRJnCGucup-Ms"
-              }
-            }
-          }
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754576880716-9k16k5rps": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754576880716-9k16k5rps"
+        },
+        "eventName": {
+          "stringValue": "<script>alert(1)</script>"
+        },
+        "originalAddress": {
+          "stringValue": "Safe Venue"
+        },
+        "date": {
+          "stringValue": "2025-08-22"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "XSS Test"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:50.759Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754577226660-soz6icsx6": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754577226660-soz6icsx6"
+        },
+        "eventName": {
+          "stringValue": "<script>alert(1)</script>"
+        },
+        "originalAddress": {
+          "stringValue": "Safe Venue"
+        },
+        "date": {
+          "stringValue": "2025-08-22"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "XSS Test"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:50.971Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754577375668-kvmzsa2fh": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754577375668-kvmzsa2fh"
+        },
+        "eventName": {
+          "stringValue": "<script>alert(1)</script>"
+        },
+        "originalAddress": {
+          "stringValue": "Safe Venue"
+        },
+        "date": {
+          "stringValue": "2025-08-22"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "XSS Test"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:51.184Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754576881459-6rkkow6bo": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754576881459-6rkkow6bo"
+        },
+        "eventName": {
+          "stringValue": "Event @ Köln #1 & Friends!"
+        },
+        "originalAddress": {
+          "stringValue": "Café & Bar"
+        },
+        "date": {
+          "stringValue": "2025-08-23"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "Müller & Co."
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:51.396Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754577227506-fiywoykfr": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754577227506-fiywoykfr"
+        },
+        "eventName": {
+          "stringValue": "Event @ Köln #1 & Friends!"
+        },
+        "originalAddress": {
+          "stringValue": "Café & Bar"
+        },
+        "date": {
+          "stringValue": "2025-08-23"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "Müller & Co."
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:51.609Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754577376375-6rzzdjlof": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754577376375-6rzzdjlof"
+        },
+        "eventName": {
+          "stringValue": "Event @ Köln #1 & Friends!"
+        },
+        "originalAddress": {
+          "stringValue": "Café & Bar"
+        },
+        "date": {
+          "stringValue": "2025-08-23"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "Müller & Co."
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:51.820Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754576886247-brdy9z02k": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754576886247-brdy9z02k"
+        },
+        "eventName": {
+          "stringValue": "Consistency Test Event"
+        },
+        "originalAddress": {
+          "stringValue": "Test Venue 123"
+        },
+        "date": {
+          "stringValue": "2025-08-25"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "Test Suite"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:52.033Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754577233756-ymxnawczk": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754577233756-ymxnawczk"
+        },
+        "eventName": {
+          "stringValue": "Consistency Test Event"
+        },
+        "originalAddress": {
+          "stringValue": "Test Venue 123"
+        },
+        "date": {
+          "stringValue": "2025-08-25"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "Test Suite"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:52.245Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754577382400-ohh4tgkqo": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754577382400-ohh4tgkqo"
+        },
+        "eventName": {
+          "stringValue": "Consistency Test Event"
+        },
+        "originalAddress": {
+          "stringValue": "Test Venue 123"
+        },
+        "date": {
+          "stringValue": "2025-08-25"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "Test Suite"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:52.457Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754579629752-ve1o85ero": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754579629752-ve1o85ero"
+        },
+        "eventName": {
+          "stringValue": "jamytest"
+        },
+        "originalAddress": {
+          "stringValue": "marriott "
+        },
+        "date": {
+          "stringValue": "2025-08-27"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "jamy"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:52.670Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754576890474-t5u7cu4t7": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754576890474-t5u7cu4t7"
+        },
+        "eventName": {
+          "stringValue": "🎉 Party 派对 パーティー"
+        },
+        "originalAddress": {
+          "stringValue": "🏢 Building"
+        },
+        "date": {
+          "stringValue": "2025-08-27"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "👤 User"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:52.884Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754577237951-7ao4axk88": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754577237951-7ao4axk88"
+        },
+        "eventName": {
+          "stringValue": "🎉 Party 派对 パーティー"
+        },
+        "originalAddress": {
+          "stringValue": "🏢 Building"
+        },
+        "date": {
+          "stringValue": "2025-08-27"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "👤 User"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:53.096Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754577387748-tue4azs4d": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754577387748-tue4azs4d"
+        },
+        "eventName": {
+          "stringValue": "🎉 Party 派对 パーティー"
+        },
+        "originalAddress": {
+          "stringValue": "🏢 Building"
+        },
+        "date": {
+          "stringValue": "2025-08-27"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "👤 User"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:53.307Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754576890798-kcv3x5f39": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754576890798-kcv3x5f39"
+        },
+        "eventName": {
+          "stringValue": "Midnight Event"
+        },
+        "originalAddress": {
+          "stringValue": "Late Venue"
+        },
+        "date": {
+          "stringValue": "2025-08-28"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "Night Owl"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:53.518Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754577238278-afyzinn9b": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754577238278-afyzinn9b"
+        },
+        "eventName": {
+          "stringValue": "Midnight Event"
+        },
+        "originalAddress": {
+          "stringValue": "Late Venue"
+        },
+        "date": {
+          "stringValue": "2025-08-28"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "Night Owl"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:53.729Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754577388118-xn9b6fkp9": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754577388118-xn9b6fkp9"
+        },
+        "eventName": {
+          "stringValue": "Midnight Event"
+        },
+        "originalAddress": {
+          "stringValue": "Late Venue"
+        },
+        "date": {
+          "stringValue": "2025-08-28"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "Night Owl"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:53.944Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754603275856-w090cm1zp": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754603275856-w090cm1zp"
+        },
+        "eventName": {
+          "stringValue": "scotty test"
+        },
+        "originalAddress": {
+          "stringValue": "marriott"
+        },
+        "date": {
+          "stringValue": "2025-08-28"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "jamster"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:54.156Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
@@ -2022,239 +1134,16 @@
           "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:23.263Z"
+          "timestampValue": "2025-08-08T01:42:54.369Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9466048
-              },
-              "lng": {
-                "doubleValue": 6.980404699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany"
+          "stringValue": "failed"
         },
-        "eventName": {
-          "stringValue": "MeetToMatch The Cologne Edition 2025"
-        },
-        "originalAddress": {
-          "stringValue": "Koelnmesse, Messeplatz 1 50679 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Mon Aug 18"
-        },
-        "time": {
-          "stringValue": "10:00 - 15:00"
-        },
-        "hosts": {
-          "stringValue": "Xsolla"
-        },
-        "category": {
-          "stringValue": "Meetings"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:23.551Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9466048
-              },
-              "lng": {
-                "doubleValue": 6.980404699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany"
-        },
-        "eventName": {
-          "stringValue": "MeetToMatch The Cologne Edition 2025"
-        },
-        "originalAddress": {
-          "stringValue": "Koelnmesse, Messeplatz 1, 50679, Germany"
-        },
-        "date": {
-          "stringValue": "Thu Aug 21"
-        },
-        "time": {
-          "stringValue": "09:00 - 18:00"
-        },
-        "hosts": {
-          "stringValue": "Xsolla"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:23.823Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9466048
-              },
-              "lng": {
-                "doubleValue": 6.980404699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany"
-        },
-        "eventName": {
-          "stringValue": "MeetToMatch The Cologne Edition 2025"
-        },
-        "originalAddress": {
-          "stringValue": "Koelnmesse, Messeplatz 1 50679 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Tue Aug 19"
-        },
-        "time": {
-          "stringValue": "10:00 - 15:00"
-        },
-        "hosts": {
-          "stringValue": "Xsolla"
-        },
-        "category": {
-          "stringValue": "Meetings"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:24.047Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9466048
-              },
-              "lng": {
-                "doubleValue": 6.980404699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany"
-        },
-        "eventName": {
-          "stringValue": "MeetToMatch The Cologne Edition 2025"
-        },
-        "originalAddress": {
-          "stringValue": "Koelnmesse, Messeplatz 1, 50679, Germany"
-        },
-        "date": {
-          "stringValue": "Wed Aug 20"
-        },
-        "time": {
-          "stringValue": "09:00 - 18:00"
-        },
-        "hosts": {
-          "stringValue": "Xsolla"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:24.268Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9466048
-              },
-              "lng": {
-                "doubleValue": 6.980404699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
@@ -2282,7 +1171,7 @@
           "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:24.488Z"
+          "timestampValue": "2025-08-08T01:42:54.581Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -2291,683 +1180,44 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne": {
+    "gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst": {
       "fields": {
         "eventId": {
-          "stringValue": "mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne"
+          "stringValue": "gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst"
         },
         "eventName": {
-          "stringValue": "Mixpanel Happy Hour At Gamescom"
+          "stringValue": "Gamescom Inside: Brand Positioning Group Tour"
         },
         "originalAddress": {
-          "stringValue": "Hall 2, Booth A034, Koelnmesse, Cologne"
+          "stringValue": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany"
         },
         "date": {
-          "stringValue": "Thu Aug 21"
+          "stringValue": "Fri Aug 22"
         },
         "time": {
-          "stringValue": "16:00 - 18:00"
+          "stringValue": "13:30 - 15:00"
         },
         "hosts": {
-          "stringValue": "Mixpanel"
+          "stringValue": "Walbert-Schmitz"
         },
         "category": {
-          "stringValue": "Mixer"
+          "stringValue": "Tour"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:24.704Z"
+          "timestampValue": "2025-08-08T01:42:54.795Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9466048
-              },
-              "lng": {
-                "doubleValue": 6.980404699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              }
-            }
-          }
-        },
         "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany"
+          "stringValue": "failed"
         },
-        "eventName": {
-          "stringValue": "Monday Multiplayer Mixer"
-        },
-        "originalAddress": {
-          "stringValue": "Gilden im ZIims \"Heimat Kolscher Helden\" Cologne, Germany"
-        },
-        "date": {
-          "stringValue": "Mon Aug 18"
-        },
-        "time": {
-          "stringValue": "18:00 - 22:00"
-        },
-        "hosts": {
-          "stringValue": "Modulate, Hathora, Keyword Studios"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:25.000Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9371911
-              },
-              "lng": {
-                "doubleValue": 6.9600446
-              },
-              "formattedAddress": {
-                "stringValue": "Heumarkt 77, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJtaxXp7Elv0cRcqy8DJiBrJQ"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany"
-        },
-        "eventName": {
-          "stringValue": "Pete's Koln Kick-Off"
-        },
-        "originalAddress": {
-          "stringValue": "Lowenbrau, Cologne, Frankenwerft 21, 50667 Koln, Germany"
-        },
-        "date": {
-          "stringValue": "Mon Aug 18"
-        },
-        "time": {
-          "stringValue": "16:30 - 19:59"
-        },
-        "hosts": {
-          "stringValue": "Pete Lovell"
-        },
-        "category": {
-          "stringValue": "Social"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:25.309Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.93774759999999
-              },
-              "lng": {
-                "doubleValue": 6.962428099999999
-              },
-              "formattedAddress": {
-                "stringValue": "Frankenwerft 21, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJz13TJbElv0cRXwHj9J9n3_c"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "pete-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "pete-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany"
-        },
-        "eventName": {
-          "stringValue": "Pete's Koln Kick-Off"
-        },
-        "originalAddress": {
-          "stringValue": "Papa Joe's Biersalon, Alter Markt 50-52, 50667 Koln, Germany"
-        },
-        "date": {
-          "stringValue": "Mon Aug 18"
-        },
-        "time": {
-          "stringValue": "20:00 - 2300"
-        },
-        "hosts": {
-          "stringValue": "Pete Lovell"
-        },
-        "category": {
-          "stringValue": "Social"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:25.639Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9388167
-              },
-              "lng": {
-                "doubleValue": 6.9603972
-              },
-              "formattedAddress": {
-                "stringValue": "Alter Markt 50-52, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ2dwbV7Alv0cRNszmQJizut4"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "pete-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "pete-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany"
-        },
-        "eventName": {
-          "stringValue": "Pete's Koln Kick-Off"
-        },
-        "originalAddress": {
-          "stringValue": "Corkonian Irish Pub, Alter Markt 51, 50667 Koln, Germany"
-        },
-        "date": {
-          "stringValue": "Mon Aug 18"
-        },
-        "time": {
-          "stringValue": "23:00 - 23:59"
-        },
-        "hosts": {
-          "stringValue": "Pete Lovell"
-        },
-        "category": {
-          "stringValue": "Social"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:25.977Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9389241
-              },
-              "lng": {
-                "doubleValue": 6.959760699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Alter Markt 51, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJUdFpULAlv0cRFwvvJI41P9s"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "pocket-gamer-mobile-game-awards-tue-aug-19-18-30-gorzenich-koln--martinstrasse-29-37-50667-koln-germ": {
-      "fields": {
-        "eventId": {
-          "stringValue": "pocket-gamer-mobile-game-awards-tue-aug-19-18-30-gorzenich-koln--martinstrasse-29-37-50667-koln-germ"
-        },
-        "eventName": {
-          "stringValue": "Pocket Gamer Mobile Game Awards"
-        },
-        "originalAddress": {
-          "stringValue": "Gorzenich Koln, Martinstrasse 29-37 50667 Koln Germany"
-        },
-        "date": {
-          "stringValue": "Tue Aug 19"
-        },
-        "time": {
-          "stringValue": "18:30 - 23:30"
-        },
-        "hosts": {
-          "stringValue": "Steel Media"
-        },
-        "category": {
-          "stringValue": "Awards Party"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:26.309Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9365392
-              },
-              "lng": {
-                "doubleValue": 6.9586051
-              },
-              "formattedAddress": {
-                "stringValue": "Martinstraße 29-37, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJU0YlkbElv0cRsoKRABXwoXk"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-straoe-14--50667--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-straoe-14--50667--germany"
-        },
-        "eventName": {
-          "stringValue": "Pocket Gamer Party Cologne 2025"
-        },
-        "originalAddress": {
-          "stringValue": "Tivoli, Hohe Straoe 14, 50667, Germany"
-        },
-        "date": {
-          "stringValue": "Wed Aug 20"
-        },
-        "time": {
-          "stringValue": "19:30 - 23:30"
-        },
-        "hosts": {
-          "stringValue": "Steel Media"
-        },
-        "category": {
-          "stringValue": "Party"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:26.605Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9345009
-              },
-              "lng": {
-                "doubleValue": 6.9566433
-              },
-              "formattedAddress": {
-                "stringValue": "Hohe Str. 14, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ__-vdLIlv0cR83IVQXX3xgo"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstraoe-6-20--gebaude-3-12--": {
-      "fields": {
-        "eventId": {
-          "stringValue": "pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstraoe-6-20--gebaude-3-12--"
-        },
-        "eventName": {
-          "stringValue": "PUBG: HOT DROP Cologne 2025"
-        },
-        "originalAddress": {
-          "stringValue": "Carlswerk Victoria, Schanzenstraoe 6-20, Gebaude 3.12, 51063, Germany"
-        },
-        "date": {
-          "stringValue": "Sat Aug 23"
-        },
-        "time": {
-          "stringValue": "17:00 - 23:00"
-        },
-        "hosts": {
-          "stringValue": "PUBG Studios, Krafton"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:26.935Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9650717
-              },
-              "lng": {
-                "doubleValue": 7.0121199
-              },
-              "formattedAddress": {
-                "stringValue": "Schanzenstraße 6-20 Gebäude 3.12, 51063 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJu6uVRncnv0cRTekfPMYWAYM"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstraoe-1--50667--ger": {
-      "fields": {
-        "eventId": {
-          "stringValue": "representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstraoe-1--50667--ger"
-        },
-        "eventName": {
-          "stringValue": "Representing Games | Pitch Sessions Cologne"
-        },
-        "originalAddress": {
-          "stringValue": "Dorint Hotel, Pipinstraoe 1, 50667, Germany"
-        },
-        "date": {
-          "stringValue": "Tue Aug 19"
-        },
-        "time": {
-          "stringValue": "12:45 - 17:00"
-        },
-        "hosts": {
-          "stringValue": "MeetToMatch"
-        },
-        "category": {
-          "stringValue": "Game Pitches"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:27.276Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9354918
-              },
-              "lng": {
-                "doubleValue": 6.9577291
-              },
-              "formattedAddress": {
-                "stringValue": "Pipinstraße 1, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJcZ5KH7Ilv0cRzV34NaO4Svk"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany"
-        },
-        "eventName": {
-          "stringValue": "Run Time: Gamescom 5km Social Run"
-        },
-        "originalAddress": {
-          "stringValue": "Cologne Cathedral, Domkloster 4, 50667, Germany"
-        },
-        "date": {
-          "stringValue": "Wed Aug 20"
-        },
-        "time": {
-          "stringValue": "07:00 - 08:00"
-        },
-        "hosts": {
-          "stringValue": "Stephen Hey"
-        },
-        "category": {
-          "stringValue": "Wellness"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:27.567Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.94127839999999
-              },
-              "lng": {
-                "doubleValue": 6.9582814
-              },
-              "formattedAddress": {
-                "stringValue": "Domkloster 4, 50667 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLz2cNqUlv0cRxqnjljiR7Ck"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679--ger": {
-      "fields": {
-        "eventId": {
-          "stringValue": "safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679--ger"
-        },
-        "eventName": {
-          "stringValue": "Safe In Our World Reception at Gamescom 2025"
-        },
-        "originalAddress": {
-          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
-        },
-        "date": {
-          "stringValue": "Thu Aug 21"
-        },
-        "time": {
-          "stringValue": "16:00 - 19:00"
-        },
-        "hosts": {
-          "stringValue": "Safe In Our World"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:27.845Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9466048
-              },
-              "lng": {
-                "doubleValue": 6.980404699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679--germany"
-        },
-        "eventName": {
-          "stringValue": "Saga AI Agent Pop-Up Store at Gamescom"
-        },
-        "originalAddress": {
-          "stringValue": "Willy-Brandt-Platz 3, 50679, Germany"
-        },
-        "date": {
-          "stringValue": "Wed Aug 20"
-        },
-        "time": {
-          "stringValue": "17:00 - 22:00"
-        },
-        "hosts": {
-          "stringValue": "Saga xyz"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:28.068Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9386488
-              },
-              "lng": {
-                "doubleValue": 6.9846533
-              },
-              "formattedAddress": {
-                "stringValue": "Willy-Brandt-Platz 3, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJrQ6dEdAlv0cReYBG9FDQiBc"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679--germany": {
-      "fields": {
-        "eventId": {
-          "stringValue": "serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679--germany"
-        },
-        "eventName": {
-          "stringValue": "Serbian Gaming Industry Meet & Drinks"
-        },
-        "originalAddress": {
-          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
-        },
-        "date": {
-          "stringValue": "Wed Aug 20"
-        },
-        "time": {
-          "stringValue": "16:00 - 17:00"
-        },
-        "hosts": {
-          "stringValue": "Serbian Games Association"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:28.347Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9466048
-              },
-              "lng": {
-                "doubleValue": 6.980404699999999
-              },
-              "formattedAddress": {
-                "stringValue": "Messepl. 1, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJLxCB8MMlv0cRu0Tw4eU4T3M"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
@@ -2995,7 +1245,7 @@
           "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:28.563Z"
+          "timestampValue": "2025-08-08T01:42:55.006Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -3004,35 +1254,35 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "the-compound-by-stash---geeklab--ai-day-2-thu-aug-21-17-00--empty-": {
+    "game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany": {
       "fields": {
         "eventId": {
-          "stringValue": "the-compound-by-stash---geeklab--ai-day-2-thu-aug-21-17-00--empty-"
+          "stringValue": "game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany"
         },
         "eventName": {
-          "stringValue": "The Compound by Stash & Geeklab .AI Day 2"
+          "stringValue": "Game Audio Get Together @Gamescom 2025"
         },
         "originalAddress": {
-          "stringValue": "(empty)"
+          "stringValue": "Salzgasse 2, 50667, Germany"
         },
         "date": {
-          "stringValue": "Thu Aug 21"
+          "stringValue": "Fri Aug 22"
         },
         "time": {
-          "stringValue": "17:00 - 19:00"
+          "stringValue": "19:30 - 2100"
         },
         "hosts": {
-          "stringValue": "Stash, Geeklab"
+          "stringValue": "Flutu Music"
         },
         "category": {
           "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:28.780Z"
+          "timestampValue": "2025-08-08T01:42:55.218Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -3041,35 +1291,35 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "the-compound-by-stash---geeklab-day-1-wed-aug-20-17-00--empty-": {
+    "karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne": {
       "fields": {
         "eventId": {
-          "stringValue": "the-compound-by-stash---geeklab-day-1-wed-aug-20-17-00--empty-"
+          "stringValue": "karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne"
         },
         "eventName": {
-          "stringValue": "The Compound by Stash & Geeklab Day 1"
+          "stringValue": "Karaoke | The Jameson Irish Pub"
         },
         "originalAddress": {
-          "stringValue": "(empty)"
+          "stringValue": "Friesenstraue 30-40, 50670 Koln, Cologne"
         },
         "date": {
-          "stringValue": "Wed Aug 20"
+          "stringValue": "Fri Aug 22"
         },
         "time": {
-          "stringValue": "17:00 - 19:00"
+          "stringValue": "20:00 - 23:59"
         },
         "hosts": {
-          "stringValue": "Stash, Geeklab"
+          "stringValue": "You + 50 Friends"
         },
         "category": {
-          "stringValue": "Mixer"
+          "stringValue": "Social"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:28.998Z"
+          "timestampValue": "2025-08-08T01:42:55.433Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -3078,7 +1328,118 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany"
+        },
+        "eventName": {
+          "stringValue": "devcom Developer Conference"
+        },
+        "originalAddress": {
+          "stringValue": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "09:00 - 23:30"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Meetings"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:55.643Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany"
+        },
+        "eventName": {
+          "stringValue": "Global XRAI Hack at Cologne, Gamescom"
+        },
+        "originalAddress": {
+          "stringValue": "STARTPLATZ, Im Mediapark 5, 50670, Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "09:00 - 19:00"
+        },
+        "hosts": {
+          "stringValue": "XR Bootcamp, Meta"
+        },
+        "category": {
+          "stringValue": "Hackathon"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:55.856Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany"
+        },
+        "eventName": {
+          "stringValue": "MeetToMatch The Cologne Edition 2025"
+        },
+        "originalAddress": {
+          "stringValue": "Koelnmesse, Messeplatz 1 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "10:00 - 15:00"
+        },
+        "hosts": {
+          "stringValue": "Xsolla"
+        },
+        "category": {
+          "stringValue": "Meetings"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:56.069Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
@@ -3106,59 +1467,7 @@
           "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:29.215Z"
-        },
-        "source": {
-          "stringValue": "google-maps-api"
-        },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9404298
-              },
-              "lng": {
-                "doubleValue": 6.969529499999999
-              },
-              "formattedAddress": {
-                "stringValue": "Kennedy-Ufer 2A, 50679 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ9US5irclv0cRbOUB4fM8Khc"
-              }
-            }
-          }
-        },
-        "status": {
-          "stringValue": "success"
-        }
-      }
-    },
-    "vip-game-night-by-polygon-wed-aug-20-19-00--empty-": {
-      "fields": {
-        "eventId": {
-          "stringValue": "vip-game-night-by-polygon-wed-aug-20-19-00--empty-"
-        },
-        "eventName": {
-          "stringValue": "VIP Game Night by Polygon"
-        },
-        "originalAddress": {
-          "stringValue": "(empty)"
-        },
-        "date": {
-          "stringValue": "Wed Aug 20"
-        },
-        "time": {
-          "stringValue": "19:00 - 22:00"
-        },
-        "hosts": {
-          "stringValue": "Polygon"
-        },
-        "category": {
-          "stringValue": "Mixer"
-        },
-        "timestamp": {
-          "timestampValue": "2025-08-06T19:36:29.512Z"
+          "timestampValue": "2025-08-08T01:42:56.281Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -3167,35 +1476,35 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
-    "women-at-gamescom-breakfast---networking-wed-aug-20-08-30--empty-": {
+    "liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany": {
       "fields": {
         "eventId": {
-          "stringValue": "women-at-gamescom-breakfast---networking-wed-aug-20-08-30--empty-"
+          "stringValue": "liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany"
         },
         "eventName": {
-          "stringValue": "Women at Gamescom Breakfast & Networking"
+          "stringValue": "LiveOps Networking Meetup"
         },
         "originalAddress": {
-          "stringValue": "(empty)"
+          "stringValue": "Koelnmesse Confex, Koelnmesse Halle 1, 50679, Germany"
         },
         "date": {
-          "stringValue": "Wed Aug 20"
+          "stringValue": "Mon Aug 18"
         },
         "time": {
-          "stringValue": "08:30 - 10:30"
+          "stringValue": "16:30 - 18:00"
         },
         "hosts": {
-          "stringValue": "Game Changers"
+          "stringValue": "Oscar Clark"
         },
         "category": {
           "stringValue": "Mixer"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:29.729Z"
+          "timestampValue": "2025-08-08T01:42:56.494Z"
         },
         "source": {
           "stringValue": "google-maps-api"
@@ -3204,7 +1513,1265 @@
           "stringValue": "failed"
         },
         "error": {
-          "stringValue": "Geocoding failed: Geocoding failed: ZERO_RESULTS - Unknown error"
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany"
+        },
+        "eventName": {
+          "stringValue": "Pete's Koln Kick-Off"
+        },
+        "originalAddress": {
+          "stringValue": "Lowenbrau, Cologne, Frankenwerft 21, 50667 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "16:30 - 19:59"
+        },
+        "hosts": {
+          "stringValue": "Pete Lovell"
+        },
+        "category": {
+          "stringValue": "Social"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:56.705Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln": {
+      "fields": {
+        "eventId": {
+          "stringValue": "devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln"
+        },
+        "eventName": {
+          "stringValue": "devcom Developer Conference VIP Mixer"
+        },
+        "originalAddress": {
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "17:00 - 1900"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:56.919Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany"
+        },
+        "eventName": {
+          "stringValue": "Monday Multiplayer Mixer"
+        },
+        "originalAddress": {
+          "stringValue": "Gilden im ZIims \"Heimat Kolscher Helden\" Cologne, Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "18:00 - 22:00"
+        },
+        "hosts": {
+          "stringValue": "Modulate, Hathora, Keyword Studios"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:57.132Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50": {
+      "fields": {
+        "eventId": {
+          "stringValue": "devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50"
+        },
+        "eventName": {
+          "stringValue": "devcom Developer Conference Leadership Dinner"
+        },
+        "originalAddress": {
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:30"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:57.346Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k": {
+      "fields": {
+        "eventId": {
+          "stringValue": "devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k"
+        },
+        "eventName": {
+          "stringValue": "devcom Developer Conference Sunset Mixer"
+        },
+        "originalAddress": {
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:30"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:57.558Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany"
+        },
+        "eventName": {
+          "stringValue": "Marriott Madness"
+        },
+        "originalAddress": {
+          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Marriott Bar"
+        },
+        "category": {
+          "stringValue": "Exec Social"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:57.771Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "pete-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "pete-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany"
+        },
+        "eventName": {
+          "stringValue": "Pete's Koln Kick-Off"
+        },
+        "originalAddress": {
+          "stringValue": "Papa Joe's Biersalon, Alter Markt 50-52, 50667 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "20:00 - 2300"
+        },
+        "hosts": {
+          "stringValue": "Pete Lovell"
+        },
+        "category": {
+          "stringValue": "Social"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:57.983Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "pete-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "pete-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany"
+        },
+        "eventName": {
+          "stringValue": "Pete's Koln Kick-Off"
+        },
+        "originalAddress": {
+          "stringValue": "Corkonian Irish Pub, Alter Markt 51, 50667 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Mon Aug 18"
+        },
+        "time": {
+          "stringValue": "23:00 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Pete Lovell"
+        },
+        "category": {
+          "stringValue": "Social"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:58.194Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "ugc-1754576891451-4o0cz0777": {
+      "fields": {
+        "eventId": {
+          "stringValue": "ugc-1754576891451-4o0cz0777"
+        },
+        "eventName": {
+          "stringValue": "Test"
+        },
+        "originalAddress": {
+          "stringValue": "Test"
+        },
+        "date": {
+          "stringValue": "not-a-date"
+        },
+        "time": {
+          "stringValue": ""
+        },
+        "hosts": {
+          "stringValue": "Test"
+        },
+        "category": {
+          "stringValue": "networking"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:58.406Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-": {
+      "fields": {
+        "eventId": {
+          "stringValue": "diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-"
+        },
+        "eventName": {
+          "stringValue": "Diversity Meetup x Home of Indies @ Gamescom 2025"
+        },
+        "originalAddress": {
+          "stringValue": "Home of Indies, Hall 10.2, E010g-D011g, Messeplatz 1, 50679 Cologne, Germany"
+        },
+        "date": {
+          "stringValue": "Sat Aug 23"
+        },
+        "time": {
+          "stringValue": "14:00 - 16:00"
+        },
+        "hosts": {
+          "stringValue": "Content Affairs"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:58.618Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstraoe-6-20--gebaude-3-12--": {
+      "fields": {
+        "eventId": {
+          "stringValue": "pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstraoe-6-20--gebaude-3-12--"
+        },
+        "eventName": {
+          "stringValue": "PUBG: HOT DROP Cologne 2025"
+        },
+        "originalAddress": {
+          "stringValue": "Carlswerk Victoria, Schanzenstraoe 6-20, Gebaude 3.12, 51063, Germany"
+        },
+        "date": {
+          "stringValue": "Sat Aug 23"
+        },
+        "time": {
+          "stringValue": "17:00 - 23:00"
+        },
+        "hosts": {
+          "stringValue": "PUBG Studios, Krafton"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:58.830Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany"
+        },
+        "eventName": {
+          "stringValue": "Global XRAI Hack at Cologne, Gamescom"
+        },
+        "originalAddress": {
+          "stringValue": "STARTPLATZ, Im Mediapark 5, 50670, Germany"
+        },
+        "date": {
+          "stringValue": "Sun Aug 17"
+        },
+        "time": {
+          "stringValue": "09:00 - 19:00"
+        },
+        "hosts": {
+          "stringValue": "XR Bootcamp, Meta"
+        },
+        "category": {
+          "stringValue": "Hackathon"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:59.043Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany"
+        },
+        "eventName": {
+          "stringValue": "devcom Developer Conference"
+        },
+        "originalAddress": {
+          "stringValue": "Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Sun Aug 17"
+        },
+        "time": {
+          "stringValue": "13:00 - 16:00"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Meetings"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:59.257Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-": {
+      "fields": {
+        "eventId": {
+          "stringValue": "indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-"
+        },
+        "eventName": {
+          "stringValue": "Indie Developer Stammtisch"
+        },
+        "originalAddress": {
+          "stringValue": "Hostel | the shared apartment, Richard-Wagner-Straoe 39, 50674, Germany"
+        },
+        "date": {
+          "stringValue": "Sun Aug 17"
+        },
+        "time": {
+          "stringValue": "17:00 - 19:00"
+        },
+        "hosts": {
+          "stringValue": "INDIE Hub"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:59.469Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany"
+        },
+        "eventName": {
+          "stringValue": "MeetToMatch The Cologne Edition 2025"
+        },
+        "originalAddress": {
+          "stringValue": "Koelnmesse, Messeplatz 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "09:00 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Xsolla"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:59.681Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst": {
+      "fields": {
+        "eventId": {
+          "stringValue": "gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst"
+        },
+        "eventName": {
+          "stringValue": "Gamescom Inside: Brand Positioning Group Tour"
+        },
+        "originalAddress": {
+          "stringValue": "The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "13:30 - 15:00"
+        },
+        "hosts": {
+          "stringValue": "Walbert-Schmitz"
+        },
+        "category": {
+          "stringValue": "Tour"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:42:59.893Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne": {
+      "fields": {
+        "eventId": {
+          "stringValue": "drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne"
+        },
+        "eventName": {
+          "stringValue": "Drinks@ Games From Portugal Pavilion"
+        },
+        "originalAddress": {
+          "stringValue": "Hall 2.1 C028-D027, Koelnmesse, Cologne"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "16:00 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "DevGAMM, eGames"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:00.105Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne": {
+      "fields": {
+        "eventId": {
+          "stringValue": "mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne"
+        },
+        "eventName": {
+          "stringValue": "Mixpanel Happy Hour At Gamescom"
+        },
+        "originalAddress": {
+          "stringValue": "Hall 2, Booth A034, Koelnmesse, Cologne"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "16:00 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Mixpanel"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:00.317Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679--ger": {
+      "fields": {
+        "eventId": {
+          "stringValue": "safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679--ger"
+        },
+        "eventName": {
+          "stringValue": "Safe In Our World Reception at Gamescom 2025"
+        },
+        "originalAddress": {
+          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "16:00 - 19:00"
+        },
+        "hosts": {
+          "stringValue": "Safe In Our World"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:00.527Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany"
+        },
+        "eventName": {
+          "stringValue": "Gamescom 2025 Happy Hour â€“ By Overwolf"
+        },
+        "originalAddress": {
+          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "16:30 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Overwolf"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:00.740Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "gamescom-2025-happy-hour---by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "gamescom-2025-happy-hour---by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany"
+        },
+        "eventName": {
+          "stringValue": "Gamescom 2025 Happy Hour - By Overwolf"
+        },
+        "originalAddress": {
+          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "16:30 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Overwolf"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:00.953Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "the-compound-by-stash---geeklab--ai-day-2-thu-aug-21-17-00--empty-": {
+      "fields": {
+        "eventId": {
+          "stringValue": "the-compound-by-stash---geeklab--ai-day-2-thu-aug-21-17-00--empty-"
+        },
+        "eventName": {
+          "stringValue": "The Compound by Stash & Geeklab .AI Day 2"
+        },
+        "originalAddress": {
+          "stringValue": "(empty)"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "17:00 - 19:00"
+        },
+        "hosts": {
+          "stringValue": "Stash, Geeklab"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:01.166Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "coda-connect-cologne--d2c-happy-hour-with-paysafe-thu-aug-21-17-30--empty-": {
+      "fields": {
+        "eventId": {
+          "stringValue": "coda-connect-cologne--d2c-happy-hour-with-paysafe-thu-aug-21-17-30--empty-"
+        },
+        "eventName": {
+          "stringValue": "Coda Connect Cologne: D2C Happy Hour with Paysafe"
+        },
+        "originalAddress": {
+          "stringValue": "(empty)"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "17:30 - 20:00"
+        },
+        "hosts": {
+          "stringValue": "Coda"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:01.377Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "immutable-gamescom-mixer-with-polygon-labs-thu-aug-21-17-30--empty-": {
+      "fields": {
+        "eventId": {
+          "stringValue": "immutable-gamescom-mixer-with-polygon-labs-thu-aug-21-17-30--empty-"
+        },
+        "eventName": {
+          "stringValue": "Immutable Gamescom Mixer with Polygon Labs"
+        },
+        "originalAddress": {
+          "stringValue": "(empty)"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "17:30 - 20:01"
+        },
+        "hosts": {
+          "stringValue": "Immutable, Polygon Labs"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:01.589Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067": {
+      "fields": {
+        "eventId": {
+          "stringValue": "enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067"
+        },
+        "eventName": {
+          "stringValue": "Enchant Gamescom Pitch Party + Networking After Party"
+        },
+        "originalAddress": {
+          "stringValue": "STARTPLATZ, Mediapark 5, 50670, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "18:45 - 22:30"
+        },
+        "hosts": {
+          "stringValue": "Enchant"
+        },
+        "category": {
+          "stringValue": "Party"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:01.801Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany"
+        },
+        "eventName": {
+          "stringValue": "Marriott Madness"
+        },
+        "originalAddress": {
+          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Thu Aug 21"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Marriott Bar"
+        },
+        "category": {
+          "stringValue": "Exec Social"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:02.013Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany"
+        },
+        "eventName": {
+          "stringValue": "devcom Developer Conference"
+        },
+        "originalAddress": {
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "09:00 - 20:00"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Meetings"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:02.226Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany"
+        },
+        "eventName": {
+          "stringValue": "Global XRAI Hack at Cologne, Gamescom"
+        },
+        "originalAddress": {
+          "stringValue": "STARTPLATZ, Im Mediapark 5, 50670, Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "09:00 - 19:00"
+        },
+        "hosts": {
+          "stringValue": "XR Bootcamp, Meta"
+        },
+        "category": {
+          "stringValue": "Hackathon"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:02.438Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany"
+        },
+        "eventName": {
+          "stringValue": "MeetToMatch The Cologne Edition 2025"
+        },
+        "originalAddress": {
+          "stringValue": "Koelnmesse, Messeplatz 1 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "10:00 - 15:00"
+        },
+        "hosts": {
+          "stringValue": "Xsolla"
+        },
+        "category": {
+          "stringValue": "Meetings"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:02.651Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstraoe-1--50667--ger": {
+      "fields": {
+        "eventId": {
+          "stringValue": "representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstraoe-1--50667--ger"
+        },
+        "eventName": {
+          "stringValue": "Representing Games | Pitch Sessions Cologne"
+        },
+        "originalAddress": {
+          "stringValue": "Dorint Hotel, Pipinstraoe 1, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "12:45 - 17:00"
+        },
+        "hosts": {
+          "stringValue": "MeetToMatch"
+        },
+        "category": {
+          "stringValue": "Game Pitches"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:02.862Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067": {
+      "fields": {
+        "eventId": {
+          "stringValue": "devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067"
+        },
+        "eventName": {
+          "stringValue": "devcom Developer Conference pitch it! Mixer"
+        },
+        "originalAddress": {
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "14:30 - 17:00"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Meetings"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:03.074Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln": {
+      "fields": {
+        "eventId": {
+          "stringValue": "devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln"
+        },
+        "eventName": {
+          "stringValue": "devcom Developer Conference VIP Mixer"
+        },
+        "originalAddress": {
+          "stringValue": "Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "17:00 - 1900"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:03.285Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger": {
+      "fields": {
+        "eventId": {
+          "stringValue": "diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger"
+        },
+        "eventName": {
+          "stringValue": "Diversion Meetup DDC Happy Hour"
+        },
+        "originalAddress": {
+          "stringValue": "Craftbeer Corner Coeln, Martinstraoe 32, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "18:00 - 21:00"
+        },
+        "hosts": {
+          "stringValue": "Diversion"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:03.496Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "pocket-gamer-mobile-game-awards-tue-aug-19-18-30-gorzenich-koln--martinstrasse-29-37-50667-koln-germ": {
+      "fields": {
+        "eventId": {
+          "stringValue": "pocket-gamer-mobile-game-awards-tue-aug-19-18-30-gorzenich-koln--martinstrasse-29-37-50667-koln-germ"
+        },
+        "eventName": {
+          "stringValue": "Pocket Gamer Mobile Game Awards"
+        },
+        "originalAddress": {
+          "stringValue": "Gorzenich Koln, Martinstrasse 29-37 50667 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "18:30 - 23:30"
+        },
+        "hosts": {
+          "stringValue": "Steel Media"
+        },
+        "category": {
+          "stringValue": "Awards Party"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:03.707Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
@@ -3232,31 +2799,312 @@
           "stringValue": "Bootcamp"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:29.943Z"
+          "timestampValue": "2025-08-08T01:43:03.920Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9486351
-              },
-              "lng": {
-                "doubleValue": 6.9447956
-              },
-              "formattedAddress": {
-                "stringValue": "Im Mediapark 5, 50670 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJ4QP8agolv0cRqtu_enK6PGM"
-              }
-            }
-          }
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany"
+        },
+        "eventName": {
+          "stringValue": "Marriott Madness"
+        },
+        "originalAddress": {
+          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Marriott Bar"
+        },
+        "category": {
+          "stringValue": "Exec Social"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:04.133Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-": {
+      "fields": {
+        "eventId": {
+          "stringValue": "courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-"
+        },
+        "eventName": {
+          "stringValue": "Courage Cologne @ devcom Developer Night 2025"
+        },
+        "originalAddress": {
+          "stringValue": "HERBRAND's, Herbrandstraoe 21, 50825, Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "20:00 - 23:30"
+        },
+        "hosts": {
+          "stringValue": "devcom"
+        },
+        "category": {
+          "stringValue": "Party"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:04.346Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany"
+        },
+        "eventName": {
+          "stringValue": "Gamescom Launch Party"
+        },
+        "originalAddress": {
+          "stringValue": "rooftop58, Hohenzollernring 58, 50672, Germany"
+        },
+        "date": {
+          "stringValue": "Tue Aug 19"
+        },
+        "time": {
+          "stringValue": "20:00 - 00:00"
+        },
+        "hosts": {
+          "stringValue": "Singular, Google, Stash"
+        },
+        "category": {
+          "stringValue": "Party"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:04.558Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany"
+        },
+        "eventName": {
+          "stringValue": "Run Time: Gamescom 5km Social Run"
+        },
+        "originalAddress": {
+          "stringValue": "Cologne Cathedral, Domkloster 4, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "07:00 - 08:00"
+        },
+        "hosts": {
+          "stringValue": "Stephen Hey"
+        },
+        "category": {
+          "stringValue": "Wellness"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:04.770Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--": {
+      "fields": {
+        "eventId": {
+          "stringValue": "games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--"
+        },
+        "eventName": {
+          "stringValue": "Games Industry Runners Gamescom edition"
+        },
+        "originalAddress": {
+          "stringValue": "Paolozzibrunnen, Weltjugendtagsweg, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "07:30 - 09:00"
+        },
+        "hosts": {
+          "stringValue": "Kohort, Newzoo"
+        },
+        "category": {
+          "stringValue": "Wellness"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:04.982Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "women-at-gamescom-breakfast---networking-wed-aug-20-08-30--empty-": {
+      "fields": {
+        "eventId": {
+          "stringValue": "women-at-gamescom-breakfast---networking-wed-aug-20-08-30--empty-"
+        },
+        "eventName": {
+          "stringValue": "Women at Gamescom Breakfast & Networking"
+        },
+        "originalAddress": {
+          "stringValue": "(empty)"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "08:30 - 10:30"
+        },
+        "hosts": {
+          "stringValue": "Game Changers"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:05.193Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany"
+        },
+        "eventName": {
+          "stringValue": "MeetToMatch The Cologne Edition 2025"
+        },
+        "originalAddress": {
+          "stringValue": "Koelnmesse, Messeplatz 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "09:00 - 18:00"
+        },
+        "hosts": {
+          "stringValue": "Xsolla"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:05.405Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679--germany"
+        },
+        "eventName": {
+          "stringValue": "Serbian Gaming Industry Meet & Drinks"
+        },
+        "originalAddress": {
+          "stringValue": "Cologne Fair, Messeplatz 1, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "16:00 - 17:00"
+        },
+        "hosts": {
+          "stringValue": "Serbian Games Association"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:05.617Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     },
@@ -3284,39 +3132,468 @@
           "stringValue": "Party"
         },
         "timestamp": {
-          "timestampValue": "2025-08-06T19:36:30.162Z"
+          "timestampValue": "2025-08-08T01:43:05.831Z"
         },
         "source": {
           "stringValue": "google-maps-api"
         },
-        "geocoding": {
-          "mapValue": {
-            "fields": {
-              "lat": {
-                "doubleValue": 50.9444479
-              },
-              "lng": {
-                "doubleValue": 6.9554357
-              },
-              "formattedAddress": {
-                "stringValue": "Marzellenstraße 43a, 50668 Köln, Germany"
-              },
-              "placeId": {
-                "stringValue": "ChIJuRX196Qlv0cRdVnYLkYytl0"
-              }
-            }
-          }
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679--germany"
+        },
+        "eventName": {
+          "stringValue": "Saga AI Agent Pop-Up Store at Gamescom"
+        },
+        "originalAddress": {
+          "stringValue": "Willy-Brandt-Platz 3, 50679, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "17:00 - 22:00"
+        },
+        "hosts": {
+          "stringValue": "Saga xyz"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:06.043Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
         },
         "status": {
-          "stringValue": "success"
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "the-compound-by-stash---geeklab-day-1-wed-aug-20-17-00--empty-": {
+      "fields": {
+        "eventId": {
+          "stringValue": "the-compound-by-stash---geeklab-day-1-wed-aug-20-17-00--empty-"
+        },
+        "eventName": {
+          "stringValue": "The Compound by Stash & Geeklab Day 1"
+        },
+        "originalAddress": {
+          "stringValue": "(empty)"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "17:00 - 19:00"
+        },
+        "hosts": {
+          "stringValue": "Stash, Geeklab"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:06.254Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany"
+        },
+        "eventName": {
+          "stringValue": "Beam & Avalanche go Gamescom"
+        },
+        "originalAddress": {
+          "stringValue": "Rheinloft Cologne, Frankenwerft 35, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "18:00 - 23:00"
+        },
+        "hosts": {
+          "stringValue": "Beam, Avalanche"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:06.466Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta": {
+      "fields": {
+        "eventId": {
+          "stringValue": "gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta"
+        },
+        "eventName": {
+          "stringValue": "Gamescom 2025 Networking Mixer: Metric Minds"
+        },
+        "originalAddress": {
+          "stringValue": "Joe Champs American Sports Bar, Constantinstrasse 96 50679 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "18:00 - 21:00"
+        },
+        "hosts": {
+          "stringValue": "Society for Game Cinematics"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:06.678Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge": {
+      "fields": {
+        "eventId": {
+          "stringValue": "marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge"
+        },
+        "eventName": {
+          "stringValue": "Marketers In Gaming  Meetup @Gamescom 2025"
+        },
+        "originalAddress": {
+          "stringValue": "The Copper Pot, Bolzengasse 7, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "18:00 - 21:00"
+        },
+        "hosts": {
+          "stringValue": "1minus1"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:06.891Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany"
+        },
+        "eventName": {
+          "stringValue": "Maraoke LIVE! @ Gamescom 2025"
+        },
+        "originalAddress": {
+          "stringValue": "TURISTARAMA, Mauritiussteinweg 102, 50676, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "19:00 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Maraoke LIVE"
+        },
+        "category": {
+          "stringValue": "Party"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:07.104Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "vip-game-night-by-polygon-wed-aug-20-19-00--empty-": {
+      "fields": {
+        "eventId": {
+          "stringValue": "vip-game-night-by-polygon-wed-aug-20-19-00--empty-"
+        },
+        "eventName": {
+          "stringValue": "VIP Game Night by Polygon"
+        },
+        "originalAddress": {
+          "stringValue": "(empty)"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "19:00 - 22:00"
+        },
+        "hosts": {
+          "stringValue": "Polygon"
+        },
+        "category": {
+          "stringValue": "Mixer"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:07.317Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln": {
+      "fields": {
+        "eventId": {
+          "stringValue": "indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln"
+        },
+        "eventName": {
+          "stringValue": "INDIE Reveal during Gamescom 2025"
+        },
+        "originalAddress": {
+          "stringValue": "Filmforum NRW, Bischofsgartenstrasse 1 50667 Koln Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "19:30 - 22:00"
+        },
+        "hosts": {
+          "stringValue": "INDIE Hub UG"
+        },
+        "category": {
+          "stringValue": "Game Pitches"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:07.529Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany"
+        },
+        "eventName": {
+          "stringValue": "Marriott Madness"
+        },
+        "originalAddress": {
+          "stringValue": "Johannisstraue 76-80, 50668 Koln, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Marriott Bar"
+        },
+        "category": {
+          "stringValue": "Exec Social"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:07.741Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-straoe-14--50667--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-straoe-14--50667--germany"
+        },
+        "eventName": {
+          "stringValue": "Pocket Gamer Party Cologne 2025"
+        },
+        "originalAddress": {
+          "stringValue": "Tivoli, Hohe Straoe 14, 50667, Germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "19:30 - 23:30"
+        },
+        "hosts": {
+          "stringValue": "Steel Media"
+        },
+        "category": {
+          "stringValue": "Party"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:07.954Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany": {
+      "fields": {
+        "eventId": {
+          "stringValue": "cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany"
+        },
+        "eventName": {
+          "stringValue": "Cigar Lovers"
+        },
+        "originalAddress": {
+          "stringValue": "Turiner Strabe 9, cologne, germany"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "21:00 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "Bring Your Own"
+        },
+        "category": {
+          "stringValue": "Exec Social"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:08.165Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
+        }
+      }
+    },
+    "karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667": {
+      "fields": {
+        "eventId": {
+          "stringValue": "karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667"
+        },
+        "eventName": {
+          "stringValue": "Karaoke | The Copper Pot"
+        },
+        "originalAddress": {
+          "stringValue": "Bolzengasse 7, Cologne, Germany 50667"
+        },
+        "date": {
+          "stringValue": "Wed Aug 20"
+        },
+        "time": {
+          "stringValue": "21:00 - 23:59"
+        },
+        "hosts": {
+          "stringValue": "You + 50 Friends"
+        },
+        "category": {
+          "stringValue": "Social"
+        },
+        "timestamp": {
+          "timestampValue": "2025-08-08T01:43:08.377Z"
+        },
+        "source": {
+          "stringValue": "google-maps-api"
+        },
+        "status": {
+          "stringValue": "failed"
+        },
+        "error": {
+          "stringValue": "Geocoding failed: Geocoding failed: REQUEST_DENIED - The provided API key is invalid. "
         }
       }
     }
   },
   "summary": {
-    "total": 66,
-    "successful": 58,
-    "failed": 8,
-    "processed": 66
+    "total": 97,
+    "successful": 0,
+    "failed": 97,
+    "processed": 97
   }
 }

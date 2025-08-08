@@ -1,0 +1,30 @@
+{
+  "timestamp": "2025-08-08T01:25:51.165Z",
+  "execution": {
+    "totalTime": 631,
+    "environment": "test",
+    "nodeVersion": "v22.17.0",
+    "jestWorkerId": "1"
+  },
+  "metrics": {
+    "suites": 0,
+    "tests": 0,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "totalTime": 0
+  },
+  "performance": {
+    "memoryUsage": {
+      "rss": 160919552,
+      "heapTotal": 95580160,
+      "heapUsed": 69642208,
+      "external": 4574905,
+      "arrayBuffers": 1145558
+    },
+    "cpuUsage": {
+      "user": 1189478,
+      "system": 105272
+    }
+  }
+}
