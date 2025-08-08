@@ -51,6 +51,48 @@ function isValidCacheEntry(entry: any): boolean {
   return entry && (Date.now() - entry.timestamp) < CONFIG.CACHE_TTL;
 }
 
+// Test event detection patterns
+const TEST_PATTERNS = [
+  /^test/i,
+  /test.*event/i,
+  /claude.*test/i,
+  /dummy/i,
+  /sample/i,
+  /^test$/i,
+  /<script>/i,
+  /alert\(/i,
+  /javascript:/i,
+  /drop.*table/i,
+  /xss/i,
+  /hack/i,
+];
+
+function isTestEvent(event: any): boolean {
+  const fields = [
+    event.name || event['Event Name'] || '',
+    event.creator || event['Creator'] || '',
+    event.venue || event['Address'] || event.address || '',
+    event.description || event['Description'] || '',
+    event.hosts || event['Hosts'] || ''
+  ];
+  
+  // Check for test patterns
+  const hasTestPattern = fields.some(field => 
+    TEST_PATTERNS.some(pattern => pattern.test(field))
+  );
+  
+  // Check for suspicious characteristics
+  const hasInvalidDate = (event.date || event['Date'] || '').includes('not-a-date');
+  const isDuplicateTest = (event.name || event['Event Name'] || '').toLowerCase().includes('duplicate');
+  
+  return hasTestPattern || hasInvalidDate || isDuplicateTest;
+}
+
+function filterTestEvents(events: any[], excludeTests: boolean = true): any[] {
+  if (!excludeTests) return events;
+  return events.filter(event => !isTestEvent(event));
+}
+
 function validateRequest(req: Request, requiredFields: string[] = []): { isValid: boolean; errors: string[] } {
   const errors: string[] = [];
 
@@ -342,15 +384,22 @@ async function handlePartiesFeed(req: Request, res: Response, startTime: number)
       });
     }
 
-    // Combine and sort all events
-    const allParties = [
+    // Combine all events
+    const combinedEvents = [
       ...partiesSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
         isUGC: false,
       })),
       ...ugcEvents,
-    ].sort((a, b) => {
+    ];
+
+    // Filter out test events (can be disabled with ?includeTests=true)
+    const includeTests = req.query.includeTests === "true";
+    const filteredEvents = filterTestEvents(combinedEvents, !includeTests);
+    
+    // Sort all events
+    const allParties = filteredEvents.sort((a, b) => {
       // Sort by date, then by start time
       const dateA = a.Date || a.date || "";
       const dateB = b.Date || b.date || "";
@@ -368,6 +417,7 @@ async function handlePartiesFeed(req: Request, res: Response, startTime: number)
     let source = "mixed";
     const ugcCount = allParties.filter((p) => p.isUGC).length;
     const curatedCount = allParties.length - ugcCount;
+    const filteredOutCount = combinedEvents.length - filteredEvents.length;
 
     if (allParties.length > 0) {
       if (ugcCount === 0) {
@@ -394,6 +444,8 @@ async function handlePartiesFeed(req: Request, res: Response, startTime: number)
         loadTime: `${Date.now() - startTime}ms`,
         swipeSession: `session_${Date.now()}${Math.random()}`,
         source,
+        testsFiltered: !includeTests,
+        testEventsExcluded: filteredOutCount,
         lastUpdated: allParties.length > 0 ? (allParties[0].uploadedAt || allParties[0].createdAt) : null,
       },
     });
