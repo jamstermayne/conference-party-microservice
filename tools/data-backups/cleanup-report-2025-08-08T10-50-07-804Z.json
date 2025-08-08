@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-08-08T10:50:07.804Z",
+  "summary": {
+    "totalEventsAnalyzed": 97,
+    "testEventsFound": 24,
+    "eventsDeleted": 24,
+    "deletionsFailed": 0,
+    "manualCleanupNeeded": 0,
+    "dryRun": true
+  },
+  "categories": {
+    "ugc": 20,
+    "curated": 4,
+    "security": 9,
+    "duplicates": 1,
+    "invalid": 1
+  },
+  "testPatterns": 26,
+  "recommendations": [
+    "Security test events detected - review for vulnerabilities"
+  ]
+}

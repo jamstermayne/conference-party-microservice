@@ -25,7 +25,10 @@
     "calendar:export": "node tools/calendar-helper.js export",
     "calendar:test": "node tools/calendar-helper.js test",
     "frontend:build": "node tools/frontend-builder.js build",
-    "frontend:dev": "node tools/frontend-builder.js dev"
+    "frontend:dev": "node tools/frontend-builder.js dev",
+    "cleanup:tests": "cd tools && node test-cleanup.js",
+    "cleanup:preview": "cd tools && node test-cleanup.js --dry-run --verbose",
+    "cleanup:help": "cd tools && node test-cleanup.js --help"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.10",

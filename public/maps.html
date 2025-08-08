@@ -120,19 +120,26 @@
     </div>
 
     <!-- Scripts -->
+    <script src="/js/config-loader.js"></script>
     <script>
+        // Legacy CONFIG for backward compatibility
         window.CONFIG = { 
             apiBase: 'https://us-central1-conference-party-app.cloudfunctions.net',
-            googleMapsApiKey: 'AIzaSyBvOkBu-916DfTLjJ6c2UDQy8rE9nQQ8g8',
+            googleMapsApiKey: 'YOUR_API_KEY_HERE', // Loaded via config-loader.js
             version: '2.0.0',
             mapCenter: { lat: 50.9429, lng: 6.9581 }, // Cologne, Germany
             mapZoom: 13
         };
+        
+        // Update CONFIG when secure config loads
+        window.addEventListener('configLoaded', (event) => {
+            window.CONFIG = { ...window.CONFIG, ...event.detail };
+        });
     </script>
     <script src="/js/api.js"></script>
     <script src="/js/maps.js"></script>
     <script async defer 
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvOkBu-916DfTLjJ6c2UDQy8rE9nQQ8g8&callback=initMap&libraries=geometry,places">
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&callback=initMap&libraries=geometry,places">
     </script>
     <script src="/js/pwa-init.js"></script>
 </body>

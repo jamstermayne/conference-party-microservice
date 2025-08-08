@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-08-08T10:50:44.763Z",
+  "summary": {
+    "totalEventsAnalyzed": 97,
+    "testEventsFound": 24,
+    "eventsDeleted": 20,
+    "deletionsFailed": 0,
+    "manualCleanupNeeded": 4,
+    "dryRun": false
+  },
+  "categories": {
+    "ugc": 20,
+    "curated": 4,
+    "security": 9,
+    "duplicates": 1,
+    "invalid": 1
+  },
+  "testPatterns": 26,
+  "recommendations": [
+    "Manual cleanup required for curated test events",
+    "Security test events detected - review for vulnerabilities"
+  ]
+}

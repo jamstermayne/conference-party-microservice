@@ -25,16 +25,26 @@ class GamescomMapsApp {
         console.log('🗺️ Initializing Gamescom Maps v2.0...');
         
         try {
+            // Wait for configuration to load
+            await window.configLoader.loadConfig();
+            
+            // Verify Maps API key is available
+            if (!window.configLoader.isConfigurationValid()) {
+                console.warn('⚠️ Google Maps API key not configured properly');
+                this.showError('Google Maps configuration error');
+                return;
+            }
+            
             // Initialize theme
             this.initTheme();
             
-            // Load events data
+            // Load events data (with pagination fix to get ALL events)
             await this.loadEvents();
             
             // Setup UI components
             this.setupUI();
             
-            console.log(`✅ Maps loaded with ${this.events.length} events`);
+            console.log(`✅ Maps loaded with ${this.events.length} events (pagination: unlimited)`);
             
         } catch (error) {
             console.error('❌ Maps initialization failed:', error);
