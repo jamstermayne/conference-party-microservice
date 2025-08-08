@@ -211,10 +211,10 @@ async function cleanupOldCaches() {
 async function backgroundSync() {
     try {
         console.log('🔄 Background sync started...');
-        const response = await fetch('/api/parties');
+        const response = await fetch('/api/parties?limit=100'); // Get all events for offline cache
         if (response.ok) {
             const cache = await caches.open(DATA_CACHE);
-            cache.put('/api/parties', response.clone());
+            cache.put('/api/parties?limit=100', response.clone());
             console.log('✅ Background sync completed');
         }
     } catch (error) {

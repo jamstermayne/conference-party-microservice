@@ -42,12 +42,12 @@ class API {
     async executeGetEvents() {
         try {
             const [curated, ugc] = await Promise.all([
-                this.fetchWithFallback('/api/parties'),
+                this.fetchWithFallback('/api/parties?limit=100'), // Get all events, not just first page
                 this.fetchWithFallback('/api/ugc/events', { events: [] })
             ]);
 
             const events = [...(curated.data || curated), ...(ugc.events || [])];
-            console.log(`✅ Loaded ${events.length} events from API`);
+            console.log(`✅ Loaded ${events.length} events from API (limit=100 to get all events)`);
             return events;
         } catch (error) {
             console.error('Failed to load events:', error);

@@ -89,7 +89,7 @@ class SearchManager {
         const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
 
         try {
-            const response = await fetch('/api/parties', {
+            const response = await fetch('/api/parties?limit=100', { // Get all events for search
                 signal: controller.signal,
                 headers: {
                     'Content-Type': 'application/json',
@@ -469,7 +469,7 @@ class SearchManager {
     cacheResponse(data) {
         if ('caches' in window) {
             caches.open('gamescom-events-v1').then(cache => {
-                cache.put('/api/parties', new Response(JSON.stringify(data)));
+                cache.put('/api/parties?limit=100', new Response(JSON.stringify(data)));
             });
         }
     }
