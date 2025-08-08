@@ -34,9 +34,9 @@
       "purpose": "any maskable"
     },
     {
-      "src": "/images/icon-144x144.svg",
+      "src": "/images/icon-144x144.png",
       "sizes": "144x144",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {

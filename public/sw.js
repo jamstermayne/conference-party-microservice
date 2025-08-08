@@ -2,7 +2,7 @@
  * 🚀 GAMESCOM 2025 PARTY DISCOVERY - SERVICE WORKER
  * 
  * Offline-first PWA functionality with intelligent caching
- * Generated: 2025-08-08T11:25:05.309Z
+ * Generated: 2025-08-08T11:54:27.887Z
  * Cache Version: 1.0.0
  */
 
