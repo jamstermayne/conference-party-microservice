@@ -405,14 +405,19 @@ export const getUGCEvents = async (_req: Request, res: Response): Promise<void> 
     const db = getFirestore();
     const ugcEvents = await db.collection("events")
       .where("source", "==", "ugc")
-      .where("status", "==", "active")
-      .orderBy("createdAt", "desc")
       .get();
 
-    const events = ugcEvents.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const events = ugcEvents.docs
+      .map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }))
+      .filter((event: any) => event.status === "active" || !event.status)
+      .sort((a: any, b: any) => {
+        const timeA = new Date(a.createdAt?.toDate?.() || a.createdAt || 0).getTime();
+        const timeB = new Date(b.createdAt?.toDate?.() || b.createdAt || 0).getTime();
+        return timeB - timeA; // Descending order (newest first)
+      });
 
     console.log(`Found ${events.length} UGC events`);
 

@@ -34,6 +34,17 @@ class NavigationManager {
                 title: 'Analytics',
                 icon: '📊',
                 description: 'Track your referral performance'
+            },
+            'hotspots': {
+                title: 'Hotspots',
+                icon: '🔥',
+                description: 'Professional networking hotspots'
+            },
+            'onboarding': {
+                title: 'Setup',
+                icon: '🚀',
+                description: 'Professional profile setup',
+                hideInNav: true
             }
         };
         
@@ -42,6 +53,13 @@ class NavigationManager {
 
     async init() {
         try {
+            // Check if user needs onboarding
+            const needsOnboarding = await this.checkOnboardingNeeded();
+            if (needsOnboarding) {
+                this.navigateToPage('onboarding');
+                return;
+            }
+            
             this.applyTheme();
             this.createNavigation();
             this.setupEventListeners();
@@ -49,6 +67,21 @@ class NavigationManager {
             console.log('✅ Navigation Manager initialized');
         } catch (error) {
             console.error('❌ Navigation initialization failed:', error);
+        }
+    }
+
+    async checkOnboardingNeeded() {
+        // Check if user has completed onboarding
+        const completed = localStorage.getItem('gamescom_onboarding_completed');
+        if (!completed) {
+            return true;
+        }
+        
+        try {
+            const data = JSON.parse(completed);
+            return !data.completedAt || !data.persona;
+        } catch {
+            return true;
         }
     }
 
@@ -78,7 +111,7 @@ class NavigationManager {
 
                 <div class="nav-center">
                     <div class="nav-links" id="navLinks">
-                        ${Object.entries(this.pages).map(([key, page]) => `
+                        ${Object.entries(this.pages).filter(([key, page]) => !page.hideInNav).map(([key, page]) => `
                             <a href="#${key}" class="nav-link ${key === this.currentPage ? 'active' : ''}" data-page="${key}">
                                 <span class="nav-icon">${page.icon}</span>
                                 <span class="nav-text">${page.title}</span>
@@ -339,6 +372,12 @@ class NavigationManager {
                 case 'analytics':
                     await this.loadAnalyticsPage(mainContent);
                     break;
+                case 'onboarding':
+                    await this.loadOnboardingPage(mainContent);
+                    break;
+                case 'hotspots':
+                    await this.loadHotspotsPage(mainContent);
+                    break;
                 default:
                     await this.loadEventsPage(mainContent);
             }
@@ -570,6 +609,171 @@ class NavigationManager {
 
         // Load referral stats if available
         this.loadReferralStats();
+    }
+
+    async loadOnboardingPage(container) {
+        // Load onboarding dynamically
+        if (!window.OnboardingManager) {
+            const script = document.createElement('script');
+            script.src = '/js/onboarding.js';
+            await new Promise((resolve) => {
+                script.onload = resolve;
+                document.head.appendChild(script);
+            });
+        }
+        
+        // Load onboarding styles
+        if (!document.querySelector('link[href*="onboarding.css"]')) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '/css/onboarding.css';
+            document.head.appendChild(link);
+        }
+        
+        // Initialize onboarding
+        if (window.OnboardingManager) {
+            window.onboardingManager = new window.OnboardingManager();
+        }
+    }
+
+    async loadHotspotsPage(container) {
+        container.innerHTML = `
+            <div class="page-header">
+                <h1 class="page-title">🔥 Professional Hotspots</h1>
+                <p class="page-description">See where industry professionals are networking in real-time</p>
+            </div>
+            
+            <div class="hotspots-page-content">
+                <div class="proximity-controls">
+                    <div class="control-item">
+                        <button class="btn btn-primary" id="startSharingBtn">
+                            📍 Start Sharing Location
+                        </button>
+                        <p class="control-desc">Share your location to see more detailed hotspots</p>
+                    </div>
+                    
+                    <div class="control-item">
+                        <button class="btn btn-secondary" id="privacySettingsBtn">
+                            🔒 Privacy Settings
+                        </button>
+                        <p class="control-desc">Control how your location is shared</p>
+                    </div>
+                </div>
+                
+                <div class="hotspots-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalProfessionals">156</div>
+                        <div class="stat-label">Professionals Active</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="activeVenues">8</div>
+                        <div class="stat-label">Active Venues</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="trendingSpots">3</div>
+                        <div class="stat-label">Trending Spots</div>
+                    </div>
+                </div>
+                
+                <div class="hotspots-live" id="hotspotsLive">
+                    <!-- Will be populated by proximity manager -->
+                </div>
+            </div>
+        `;
+        
+        // Initialize proximity manager integration
+        if (window.proximityManager) {
+            // Set up event handlers
+            container.querySelector('#startSharingBtn')?.addEventListener('click', () => {
+                window.proximityManager.showSettingsModal();
+            });
+            
+            container.querySelector('#privacySettingsBtn')?.addEventListener('click', () => {
+                window.proximityManager.showSettingsModal();
+            });
+            
+            // Load initial hotspots data
+            this.loadHotspotsData();
+        }
+    }
+    
+    async loadHotspotsData() {
+        const container = document.getElementById('hotspotsLive');
+        if (!container || !window.proximityManager) return;
+        
+        try {
+            const hotspots = await window.proximityManager.getHotspots();
+            
+            if (hotspots.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-hotspots">
+                        <span class="empty-icon">🌙</span>
+                        <h3>Quiet Time</h3>
+                        <p>No active hotspots right now. Check back during peak networking hours!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="hotspots-header">
+                    <h3>Live Professional Activity</h3>
+                    <div class="update-time">
+                        <span>Updated: Just now</span>
+                        <button class="refresh-btn" onclick="window.navigationManager.loadHotspotsData()">🔄</button>
+                    </div>
+                </div>
+                
+                <div class="hotspots-grid">
+                    ${hotspots.map(hotspot => `
+                        <div class="hotspot-card ${hotspot.trending ? 'trending' : ''}">
+                            <div class="hotspot-header">
+                                <div class="hotspot-venue">
+                                    <h4 class="venue-name">${hotspot.venue.name}</h4>
+                                    <span class="venue-type">${hotspot.venue.type}</span>
+                                </div>
+                                <div class="hotspot-count">
+                                    <span class="count-number">${hotspot.totalCount}</span>
+                                    <span class="count-label">people</span>
+                                </div>
+                            </div>
+                            
+                            ${hotspot.trending ? '<div class="trending-indicator">🔥 Trending Now</div>' : ''}
+                            
+                            <div class="persona-breakdown">
+                                ${Object.entries(hotspot.breakdown || {})
+                                    .filter(([_, count]) => count > 0)
+                                    .map(([persona, count]) => `
+                                        <div class="persona-item">
+                                            <span class="persona-icon">${window.proximityManager.getPersonaIcon(persona)}</span>
+                                            <span class="persona-count">${count}</span>
+                                            <span class="persona-label">${window.proximityManager.getPersonaLabel(persona)}</span>
+                                        </div>
+                                    `).join('')}
+                            </div>
+                            
+                            ${hotspot.venue.areas ? `
+                                <div class="active-areas">
+                                    <span class="areas-label">Active areas:</span>
+                                    ${hotspot.venue.areas.slice(0, 2).map(area => `
+                                        <span class="area-tag">${area}</span>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+        } catch (error) {
+            console.error('Failed to load hotspots data:', error);
+            container.innerHTML = `
+                <div class="error-state">
+                    <span class="error-icon">⚠️</span>
+                    <p>Unable to load hotspots data. Please try again.</p>
+                </div>
+            `;
+        }
     }
 
     async loadAnalyticsPage(container) {
