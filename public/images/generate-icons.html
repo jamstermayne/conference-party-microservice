@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PWA Icon Generator</title>
+</head>
+<body>
+    <canvas id="canvas" width="512" height="512"></canvas>
+    <script>
+        // Generate a simple gaming-themed icon
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Background
+        ctx.fillStyle = '#4A154B'; // Slack purple
+        ctx.fillRect(0, 0, 512, 512);
+        
+        // Gaming controller icon
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 300px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('🎮', 256, 256);
+        
+        // Generate different sizes
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        sizes.forEach(size => {
+            const smallCanvas = document.createElement('canvas');
+            smallCanvas.width = size;
+            smallCanvas.height = size;
+            const smallCtx = smallCanvas.getContext('2d');
+            
+            smallCtx.drawImage(canvas, 0, 0, 512, 512, 0, 0, size, size);
+            
+            // Convert to download link
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = smallCanvas.toDataURL();
+            link.textContent = `Download ${size}x${size}`;
+            link.click();
+        });
+    </script>
+</body>
+</html>
