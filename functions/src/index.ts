@@ -237,6 +237,8 @@ export const api = onRequest({
     case "/ugc/events":
       if (req.method === "GET") {
         await getUGCEvents(req, res);
+      } else if (req.method === "DELETE") {
+        await handleDeleteAllUGCEvents(req, res);
       } else {
         res.status(405).json({success: false, error: "Method not allowed"});
       }
@@ -273,8 +275,8 @@ export const api = onRequest({
         error: "Endpoint not found",
         availableEndpoints: [
           "/health", "/parties", "/swipe", "/sync", "/upload",
-          "/ugc/events/create", "/ugc/events", "/referral/generate",
-          "/referral/track", "/referral/stats/{userId}",
+          "/ugc/events/create", "/ugc/events", "/ugc/events (DELETE)",
+          "/referral/generate", "/referral/track", "/referral/stats/{userId}",
         ],
         timestamp: new Date().toISOString(),
       });
@@ -555,6 +557,55 @@ async function handleClearParties(req: Request, res: Response): Promise<void> {
     res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : "Clear failed",
+    });
+  }
+}
+
+async function handleDeleteAllUGCEvents(req: Request, res: Response): Promise<void> {
+  try {
+    const db = getFirestore();
+    
+    // Query for all events with source = 'ugc'
+    const eventsQuery = db.collection("events").where("source", "==", "ugc");
+    const snapshot = await eventsQuery.get();
+    
+    if (snapshot.empty) {
+      res.json({
+        success: true,
+        message: "No UGC events found to delete",
+        count: 0,
+      });
+      return;
+    }
+    
+    // Delete in batches
+    const batches: any[] = [];
+    for (let i = 0; i < snapshot.docs.length; i += CONFIG.MAX_BATCH_SIZE) {
+      const batch = db.batch();
+      const chunk = snapshot.docs.slice(i, i + CONFIG.MAX_BATCH_SIZE);
+      
+      chunk.forEach((doc) => {
+        batch.delete(doc.ref);
+      });
+      
+      batches.push(batch);
+    }
+    
+    await Promise.all(batches.map((batch) => batch.commit()));
+    
+    // Clear cache to reflect changes
+    cache.clear();
+    
+    res.json({
+      success: true,
+      message: `${snapshot.docs.length} UGC events deleted`,
+      count: snapshot.docs.length,
+    });
+  } catch (error) {
+    console.error("Delete UGC events error:", error);
+    res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : "Delete failed",
     });
   }
 }
