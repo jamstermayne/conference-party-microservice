@@ -1,7 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="0" errors="0" time="0.523">
-  <testsuite name="Dummy Tests" errors="0" failures="0" skipped="0" timestamp="2025-08-07T22:25:27" time="0.256" tests="1">
-    <testcase classname="Dummy Tests should pass" name="Dummy Tests should pass" time="0.003">
+<testsuites name="jest tests" tests="17" failures="5" errors="0" time="0.936">
+  <testsuite name="API Integration Tests" errors="0" failures="5" skipped="0" timestamp="2025-08-08T00:46:24" time="0.705" tests="17">
+    <testcase classname="API Integration Tests Health Endpoint should return healthy status" name="API Integration Tests Health Endpoint should return healthy status" time="0.003">
+    </testcase>
+    <testcase classname="API Integration Tests Health Endpoint should include response time in health check" name="API Integration Tests Health Endpoint should include response time in health check" time="0.001">
+    </testcase>
+    <testcase classname="API Integration Tests Parties Feed Endpoint should return parties with pagination" name="API Integration Tests Parties Feed Endpoint should return parties with pagination" time="0.01">
+    </testcase>
+    <testcase classname="API Integration Tests Parties Feed Endpoint should handle pagination parameters correctly" name="API Integration Tests Parties Feed Endpoint should handle pagination parameters correctly" time="0.001">
+    </testcase>
+    <testcase classname="API Integration Tests Parties Feed Endpoint should limit maximum page size" name="API Integration Tests Parties Feed Endpoint should limit maximum page size" time="0.001">
+    </testcase>
+    <testcase classname="API Integration Tests Parties Feed Endpoint should return empty array on error with graceful degradation" name="API Integration Tests Parties Feed Endpoint should return empty array on error with graceful degradation" time="0.001">
+    </testcase>
+    <testcase classname="API Integration Tests Swipe Endpoint should handle valid swipe request" name="API Integration Tests Swipe Endpoint should handle valid swipe request" time="0.002">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: ObjectContaining {&quot;message&quot;: &quot;Party saved to interested!&quot;, &quot;nextAction&quot;: &quot;calendar_sync_available&quot;, &quot;success&quot;: true, &quot;swipe&quot;: ObjectContaining {&quot;action&quot;: &quot;like&quot;, &quot;id&quot;: Any&lt;String&gt;, &quot;partyId&quot;: &quot;test-party-1&quot;, &quot;timestamp&quot;: Any&lt;String&gt;}}
+Received: {&quot;error&quot;: &quot;Database connection failed&quot;, &quot;success&quot;: false, &quot;timestamp&quot;: &quot;2025-08-08T00:46:24.658Z&quot;}
+
+Number of calls: 1
+    at Object.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/tests/api.test.ts:124:28)</failure>
+    </testcase>
+    <testcase classname="API Integration Tests Swipe Endpoint should handle pass action correctly" name="API Integration Tests Swipe Endpoint should handle pass action correctly" time="0">
+      <failure>TypeError: Cannot read properties of undefined (reading &apos;action&apos;)
+    at Object.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/tests/api.test.ts:150:29)</failure>
+    </testcase>
+    <testcase classname="API Integration Tests Swipe Endpoint should reject GET requests" name="API Integration Tests Swipe Endpoint should reject GET requests" time="0.001">
+    </testcase>
+    <testcase classname="API Integration Tests Swipe Endpoint should validate required fields" name="API Integration Tests Swipe Endpoint should validate required fields" time="0.001">
+    </testcase>
+    <testcase classname="API Integration Tests CORS Headers should set CORS headers for all requests" name="API Integration Tests CORS Headers should set CORS headers for all requests" time="0.001">
+    </testcase>
+    <testcase classname="API Integration Tests CORS Headers should handle OPTIONS preflight requests" name="API Integration Tests CORS Headers should handle OPTIONS preflight requests" time="0.001">
+    </testcase>
+    <testcase classname="API Integration Tests Error Handling should handle 404 for unknown endpoints" name="API Integration Tests Error Handling should handle 404 for unknown endpoints" time="0.003">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+- Expected
++ Received
+
+  Object {
+-   &quot;availableEndpoints&quot;: Any&lt;Array&gt;,
++   &quot;availableEndpoints&quot;: Array [
++     &quot;/health&quot;,
++     &quot;/parties&quot;,
++     &quot;/swipe&quot;,
++     &quot;/sync&quot;,
++     &quot;/upload&quot;,
++     &quot;/ugc/events/create&quot;,
++     &quot;/ugc/events&quot;,
++     &quot;/referral/generate&quot;,
++     &quot;/referral/track&quot;,
++     &quot;/referral/stats/{userId}&quot;,
++   ],
+    &quot;error&quot;: &quot;Endpoint not found&quot;,
+    &quot;success&quot;: false,
++   &quot;timestamp&quot;: &quot;2025-08-08T00:46:24.684Z&quot;,
+  },
+
+Number of calls: 1
+    at Object.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/tests/api.test.ts:215:28)</failure>
+    </testcase>
+    <testcase classname="API Integration Tests Error Handling should handle internal server errors" name="API Integration Tests Error Handling should handle internal server errors" time="0">
+    </testcase>
+    <testcase classname="API Integration Tests Error Handling should include response time in error responses" name="API Integration Tests Error Handling should include response time in error responses" time="0">
+    </testcase>
+    <testcase classname="API Integration Tests Sync Endpoint should sync parties from Google Sheets" name="API Integration Tests Sync Endpoint should sync parties from Google Sheets" time="0.002">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: ObjectContaining {&quot;count&quot;: Any&lt;Number&gt;, &quot;message&quot;: StringContaining &quot;parties synced from Google Sheets&quot;, &quot;source&quot;: &quot;gamescom-sheets&quot;, &quot;success&quot;: true, &quot;timestamp&quot;: Any&lt;String&gt;}
+Received: {&quot;error&quot;: &quot;Unexpected database error&quot;, &quot;success&quot;: false}
+
+Number of calls: 1
+    at Object.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/tests/api.test.ts:259:28)</failure>
+    </testcase>
+    <testcase classname="API Integration Tests Admin Clear Endpoint should clear all parties" name="API Integration Tests Admin Clear Endpoint should clear all parties" time="0.001">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: ObjectContaining {&quot;count&quot;: Any&lt;Number&gt;, &quot;message&quot;: StringContaining &quot;parties cleared&quot;, &quot;success&quot;: true}
+Received: {&quot;error&quot;: &quot;Unexpected database error&quot;, &quot;success&quot;: false}
+
+Number of calls: 1
+    at Object.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/tests/api.test.ts:277:28)</failure>
     </testcase>
   </testsuite>
 </testsuites>
