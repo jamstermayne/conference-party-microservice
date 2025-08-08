@@ -1,0 +1,19 @@
+{
+  "name": "gamescom-party-tools",
+  "version": "1.0.0",
+  "description": "Development and maintenance tools for Gamescom Party Microservice",
+  "scripts": {
+    "cleanup": "node test-cleanup.js",
+    "cleanup:dry-run": "node test-cleanup.js --dry-run",
+    "cleanup:verbose": "node test-cleanup.js --verbose",
+    "cleanup:preview": "node test-cleanup.js --dry-run --verbose",
+    "help": "node test-cleanup.js --help"
+  },
+  "keywords": ["gamescom", "cleanup", "testing", "automation"],
+  "author": "Claude Code",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {}
+}

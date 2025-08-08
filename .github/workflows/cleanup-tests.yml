@@ -1,0 +1,112 @@
+name: 🧹 Automated Test Cleanup
+
+on:
+  # Run daily at 2 AM UTC
+  schedule:
+    - cron: '0 2 * * *'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run mode (preview only)'
+        required: false
+        default: 'false'
+        type: boolean
+      verbose:
+        description: 'Verbose output'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  cleanup-test-events:
+    name: 🧹 Clean Test Events
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🛎️ Checkout code
+        uses: actions/checkout@v4
+        
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+          
+      - name: 📦 Install dependencies
+        run: |
+          npm install --production
+          cd tools && npm install --production || true
+          
+      - name: 🧹 Run test cleanup
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          cd tools
+          
+          # Set up cleanup options
+          if [ "${{ github.event.inputs.verbose }}" = "true" ]; then
+            VERBOSE_FLAG="--verbose"
+          else
+            VERBOSE_FLAG=""
+          fi
+          
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ] || [ "$DRY_RUN" = "true" ]; then
+            DRY_RUN_FLAG="--dry-run"
+            echo "🔍 Running in DRY RUN mode"
+          else
+            DRY_RUN_FLAG=""
+            echo "🗑️ Running actual cleanup"
+          fi
+          
+          # Execute cleanup
+          node test-cleanup.js $DRY_RUN_FLAG $VERBOSE_FLAG
+          
+      - name: 📊 Upload cleanup reports
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-cleanup-reports
+          path: tools/data-backups/*cleanup-report*.json
+          retention-days: 30
+          
+      - name: 📊 Upload backups
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-event-backups
+          path: tools/data-backups/*test-events-backup*.json
+          retention-days: 7
+
+  notify-results:
+    name: 📢 Notify Results
+    runs-on: ubuntu-latest
+    needs: cleanup-test-events
+    if: always() && !github.event.inputs.dry_run
+    
+    steps:
+      - name: 📊 Create summary
+        run: |
+          echo "## 🧹 Test Cleanup Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ${{ needs.cleanup-test-events.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Date:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "**Trigger:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.cleanup-test-events.result }}" = "success" ]; then
+            echo "✅ Test cleanup completed successfully" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Next Steps:**" >> $GITHUB_STEP_SUMMARY
+            echo "- Check artifacts for cleanup reports" >> $GITHUB_STEP_SUMMARY
+            echo "- Review any manual cleanup recommendations" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Test cleanup failed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Action Required:**" >> $GITHUB_STEP_SUMMARY
+            echo "- Review workflow logs" >> $GITHUB_STEP_SUMMARY
+            echo "- Check API accessibility" >> $GITHUB_STEP_SUMMARY
+            echo "- Verify cleanup script functionality" >> $GITHUB_STEP_SUMMARY
+          fi
