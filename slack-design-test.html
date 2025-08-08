@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slack Design System Verification</title>
+    <meta name="theme-color" content="#4A154B">
+    
+    <!-- Complete Slack Design System -->
+    <link rel="stylesheet" href="public/css/slack-design-system.css">
+    <link rel="stylesheet" href="public/css/main.css">
+    
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--slack-spacing-2xl);
+        }
+        .test-section {
+            margin-bottom: var(--slack-spacing-4xl);
+            padding: var(--slack-spacing-2xl);
+            border: 1px solid var(--slack-color-border);
+            border-radius: var(--slack-border-radius-lg);
+        }
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--slack-spacing-xl);
+            margin-top: var(--slack-spacing-lg);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 style="color: var(--slack-color-primary); font-size: var(--slack-font-size-2xl); text-align: center;">
+            🎮 Slack Design System Verification
+        </h1>
+        
+        <div style="text-align: center; margin-bottom: var(--slack-spacing-4xl);">
+            <p style="color: var(--slack-color-text-secondary); font-size: var(--slack-font-size-lg);">
+                Testing all Slack design components and colors
+            </p>
+            <button id="themeToggle" class="slack-btn slack-btn-secondary">
+                Toggle Dark Mode
+            </button>
+        </div>
+
+        <!-- Color Palette Test -->
+        <div class="test-section">
+            <h2 style="color: var(--slack-color-text);">Color Palette</h2>
+            <div class="component-grid">
+                <div style="padding: var(--slack-spacing-lg); background: var(--slack-color-primary); color: white; border-radius: var(--slack-border-radius-md);">
+                    Primary: #4A154B
+                </div>
+                <div style="padding: var(--slack-spacing-lg); background: var(--slack-color-background); border: 1px solid var(--slack-color-border); border-radius: var(--slack-border-radius-md);">
+                    Background: var(--slack-color-background)
+                </div>
+                <div style="padding: var(--slack-spacing-lg); background: var(--slack-color-surface); border-radius: var(--slack-border-radius-md);">
+                    Surface: var(--slack-color-surface)
+                </div>
+                <div style="padding: var(--slack-spacing-lg); background: var(--slack-color-success); color: white; border-radius: var(--slack-border-radius-md);">
+                    Success: var(--slack-color-success)
+                </div>
+            </div>
+        </div>
+
+        <!-- Typography Test -->
+        <div class="test-section">
+            <h2 style="color: var(--slack-color-text);">Typography (Lato Font)</h2>
+            <div style="font-family: var(--slack-font-family);">
+                <h1>Heading 1 - Font Size XL</h1>
+                <h2>Heading 2 - Font Size LG</h2>
+                <p style="font-size: var(--slack-font-size-base);">
+                    Body text using Slack's base font size (15px) and Lato font family.
+                    This should look exactly like Slack's typography.
+                </p>
+                <p style="color: var(--slack-color-text-secondary); font-size: var(--slack-font-size-sm);">
+                    Secondary text in Slack's muted color.
+                </p>
+            </div>
+        </div>
+
+        <!-- Button Components -->
+        <div class="test-section">
+            <h2 style="color: var(--slack-color-text);">Slack Buttons</h2>
+            <div class="component-grid">
+                <button class="slack-btn slack-btn-primary">Primary Button</button>
+                <button class="slack-btn slack-btn-secondary">Secondary Button</button>
+                <div class="slack-status slack-status-online">🟢 Online Status</div>
+                <div class="slack-status slack-status-busy">🔴 Busy Status</div>
+            </div>
+        </div>
+
+        <!-- Card Components -->
+        <div class="test-section">
+            <h2 style="color: var(--slack-color-text);">Slack Cards</h2>
+            <div class="component-grid">
+                <div class="slack-card">
+                    <div class="slack-card-header">Event Card</div>
+                    <div class="slack-card-body">
+                        This is a Slack-styled card component with proper borders,
+                        shadows, and hover effects matching Slack's design language.
+                    </div>
+                    <div class="slack-card-footer">Today at 2:30 PM</div>
+                </div>
+                
+                <div class="slack-card">
+                    <div class="slack-card-header">Networking Event</div>
+                    <div class="slack-card-body">
+                        Another card demonstrating the consistent styling across
+                        all card components in the system.
+                    </div>
+                    <div class="slack-card-footer">Gamescom 2025</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message/Event Components -->
+        <div class="test-section">
+            <h2 style="color: var(--slack-color-text);">Slack Message Style</h2>
+            <div class="slack-message">
+                <div class="slack-message-content">
+                    <div class="slack-message-header">
+                        <span class="slack-message-author">Event Organizer</span>
+                        <span class="slack-message-timestamp">2:30 PM</span>
+                    </div>
+                    <div class="slack-message-body">
+                        Join us for the Gamescom 2025 Opening Party! 🎮 
+                        This event will feature networking opportunities with industry professionals.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slack-message">
+                <div class="slack-message-content">
+                    <div class="slack-message-header">
+                        <span class="slack-message-author">Community Manager</span>
+                        <span class="slack-message-timestamp">3:15 PM</span>
+                    </div>
+                    <div class="slack-message-body">
+                        Don't forget to RSVP for tonight's mixer at the Hyatt Regency! 
+                        Limited spots available.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Layout Test -->
+        <div class="test-section">
+            <h2 style="color: var(--slack-color-text);">Slack Layout Pattern</h2>
+            <div class="slack-app" style="height: 400px;">
+                <div class="slack-sidebar">
+                    <div class="slack-sidebar-header">Channels</div>
+                    <a href="#" class="slack-sidebar-item active">
+                        <span>🎮</span> general
+                    </a>
+                    <a href="#" class="slack-sidebar-item">
+                        <span>🎉</span> events
+                    </a>
+                    <a href="#" class="slack-sidebar-item">
+                        <span>🗺️</span> maps
+                    </a>
+                    <a href="#" class="slack-sidebar-item">
+                        <span>📱</span> mobile
+                    </a>
+                </div>
+                <div class="slack-main">
+                    <div class="slack-content">
+                        <div class="slack-message">
+                            <div class="slack-message-content">
+                                <div class="slack-message-header">
+                                    <span class="slack-message-author">Gamescom Bot</span>
+                                    <span class="slack-message-timestamp">now</span>
+                                </div>
+                                <div class="slack-message-body">
+                                    Welcome to the Slack-style Gamescom Party Discovery app! 
+                                    The design now matches Slack's visual language.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dark Mode Test -->
+        <div class="test-section">
+            <h2 style="color: var(--slack-color-text);">Dark Mode Support</h2>
+            <p style="color: var(--slack-color-text-secondary);">
+                Click "Toggle Dark Mode" above to test Slack's dark theme colors:
+            </p>
+            <ul style="color: var(--slack-color-text-secondary);">
+                <li>Background: #1A1D21 (Slack dark background)</li>
+                <li>Surface: #36393F (Slack dark surface)</li>
+                <li>Surface Hover: #4F545C (Slack dark hover)</li>
+                <li>Text: #FFFFFF (Slack dark text)</li>
+                <li>Primary: #4A154B (Slack purple - consistent)</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: var(--slack-spacing-4xl); padding: var(--slack-spacing-2xl); background: var(--slack-color-primary-light); border-radius: var(--slack-border-radius-lg);">
+            <h3 style="color: var(--slack-color-primary); margin-bottom: var(--slack-spacing-md);">
+                ✅ Slack Design System Active
+            </h3>
+            <p style="color: var(--slack-color-text-secondary);">
+                All components now use authentic Slack colors, typography, and layout patterns.
+                Production app should display this exact design system.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            themeToggle.textContent = newTheme === 'light' ? 'Toggle Dark Mode' : 'Toggle Light Mode';
+        });
+
+        // Log design system status
+        console.log('🎨 Slack Design System Status:');
+        console.log('Primary Color:', getComputedStyle(document.documentElement).getPropertyValue('--slack-color-primary'));
+        console.log('Background:', getComputedStyle(document.documentElement).getPropertyValue('--slack-color-background'));
+        console.log('Font Family:', getComputedStyle(document.documentElement).getPropertyValue('--slack-font-family'));
+        console.log('✅ Slack design system loaded and active');
+    </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
  * 🚀 GAMESCOM 2025 PARTY DISCOVERY - SERVICE WORKER
  * 
  * Offline-first PWA functionality with intelligent caching
- * Generated: 2025-08-08T02:16:55.173Z
+ * Generated: 2025-08-08T11:25:05.309Z
  * Cache Version: 1.0.0
  */
 
@@ -211,10 +211,10 @@ async function cleanupOldCaches() {
 async function backgroundSync() {
     try {
         console.log('🔄 Background sync started...');
-        const response = await fetch('/api/parties?limit=100'); // Get all events for offline cache
+        const response = await fetch('/api/parties');
         if (response.ok) {
             const cache = await caches.open(DATA_CACHE);
-            cache.put('/api/parties?limit=100', response.clone());
+            cache.put('/api/parties', response.clone());
             console.log('✅ Background sync completed');
         }
     } catch (error) {
