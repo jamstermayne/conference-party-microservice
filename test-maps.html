@@ -137,7 +137,7 @@
     
     <!-- Google Maps API -->
     <script async defer 
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpL7nevfP-gXmYmAQ3z3Bdwz_4iCn9Lqk&libraries=geometry,places&callback=initGoogleMaps">
+            src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=geometry,places&callback=initGoogleMaps">
     </script>
     
     <script>
@@ -294,7 +294,7 @@
             
             // Check API key
             const mapsScript = document.querySelector('script[src*="maps.googleapis.com"]');
-            if (mapsScript && mapsScript.src.includes('AIzaSyDpL7nevfP-gXmYmAQ3z3Bdwz_4iCn9Lqk')) {
+            if (mapsScript && mapsScript.src.includes('YOUR_API_KEY')) {
                 showStatus('Google Maps API key configured correctly!', 'success');
             } else {
                 showStatus('Google Maps API key issue detected!', 'error');

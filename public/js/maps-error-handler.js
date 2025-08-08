@@ -216,7 +216,7 @@ class MapsErrorHandler {
         const script = document.createElement('script');
         script.async = true;
         script.defer = true;
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDpL7nevfP-gXmYmAQ3z3Bdwz_4iCn9Lqk&libraries=geometry,places&callback=initGoogleMaps`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=geometry,places&callback=initGoogleMaps`;
         script.onerror = () => {
             this.handleScriptLoadError();
         };

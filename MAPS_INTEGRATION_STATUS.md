@@ -56,7 +56,7 @@ public/test-real-maps.html          - Test page with real Gamescom events
 ```
 
 ### **API Configuration:**
-- **Google Maps API Key**: `AIzaSyDpL7nevfP-gXmYmAQ3z3Bdwz_4iCn9Lqk`
+- **Google Maps API Key**: Configured via environment variables
 - **Libraries Used**: `geometry`, `places`
 - **Environment Files**: `.env.production`, `.env.local`
 - **Error Handling**: Comprehensive fallback systems
