@@ -3,7 +3,23 @@ import {initializeApp} from "firebase-admin/app";
 import {Request, Response} from "express";
 import {getFirestore} from "firebase-admin/firestore";
 import {GoogleAuth} from "google-auth-library";
-import {createUGCEvent, getUGCEvents} from "./ugc";
+import {createUGCEvent, getUGCEvents, deleteUGCEvents} from "./ugc";
+import {
+  rateLimit,
+  sanitizeInput,
+  validateHeaders,
+  validateOrigin,
+  setSecurityHeaders,
+} from "./security";
+import {monitoring} from "./monitoring";
+import {
+  queryOptimizer,
+  costMonitor,
+  globalCache,
+  ColdStartOptimizer,
+  compressResponse,
+  COST_CONFIG,
+} from "./cost-optimizer";
 
 initializeApp();
 
@@ -150,16 +166,65 @@ async function syncPartiesToFirestore(parties: any[]): Promise<void> {
 export const api = onRequest({
   invoker: "public",
   cors: true,
-  maxInstances: 10,
-  timeoutSeconds: 60,
-  memory: "512MiB",
+  maxInstances: COST_CONFIG.MAX_INSTANCES,
+  timeoutSeconds: COST_CONFIG.TIMEOUT_SECONDS,
+  memory: "256MiB" as const,
+  minInstances: COST_CONFIG.MIN_INSTANCES,
 }, async (req: Request, res: Response) => {
   const startTime = Date.now();
 
+  // Track function invocation for cost monitoring
+  costMonitor.trackOperation("functionInvocations");
+
+  // Initialize cold start optimizations
+  await ColdStartOptimizer.initialize();
+
   try {
+    // Security checks - more lenient for basic requests
+    if (!validateHeaders(req)) {
+      console.warn("Header validation failed for request:", {
+        method: req.method,
+        url: req.url,
+        headers: Object.keys(req.headers),
+        userAgent: req.headers["user-agent"],
+      });
+
+      // For OPTIONS and basic GET requests, be more lenient
+      if (req.method === "OPTIONS" || (req.method === "GET" && req.url?.includes("/health"))) {
+        console.log("Allowing request despite header validation failure due to method/endpoint");
+      } else {
+        setSecurityHeaders(res);
+        setCorsHeaders(res);
+        res.status(400).json({
+          success: false,
+          error: "Invalid request headers",
+        });
+        return;
+      }
+    }
+
+    // Rate limiting
+    if (!rateLimit(req, res)) {
+      setSecurityHeaders(res);
+      setCorsHeaders(res);
+      return; // Response already sent by rateLimit
+    }
+
+    // Origin validation
+    const origin = req.headers.origin as string | undefined;
+    if (!validateOrigin(origin)) {
+      setSecurityHeaders(res);
+      res.status(403).json({
+        success: false,
+        error: "Origin not allowed",
+      });
+      return;
+    }
+
     // Check request size limit (1MB)
     const contentLength = req.headers["content-length"];
     if (contentLength && parseInt(contentLength) > 1024 * 1024) {
+      setSecurityHeaders(res);
       setCorsHeaders(res);
       res.status(413).json({
         success: false,
@@ -168,7 +233,13 @@ export const api = onRequest({
       return;
     }
 
-    // Set CORS headers and cache headers for all responses
+    // Sanitize request body
+    if (req.body && typeof req.body === "object") {
+      req.body = sanitizeInput(req.body);
+    }
+
+    // Set security headers, CORS headers and cache headers for all responses
+    setSecurityHeaders(res);
     setCorsHeaders(res);
     setCacheHeaders(res);
 
@@ -183,13 +254,24 @@ export const api = onRequest({
 
     switch (path) {
     case "/health":
-      res.json({
-        status: "healthy",
+      const healthStatus = monitoring.getHealthStatus();
+      const costStats = costMonitor.getEstimatedCosts();
+      const cacheStats = queryOptimizer.getStats();
+
+      const response = {
+        status: healthStatus.status,
         timestamp: new Date().toISOString(),
-        version: "3.0.0",
+        version: "3.1.0",
         environment: process.env.NODE_ENV || "production",
         responseTime: `${Date.now() - startTime}ms`,
-      });
+        monitoring: healthStatus,
+        costs: costStats,
+        optimization: cacheStats,
+        recommendations: costMonitor.getRecommendations(),
+      };
+
+      costMonitor.trackBandwidth(JSON.stringify(response).length);
+      res.json(compressResponse(response));
       break;
 
     case "/parties":
@@ -237,6 +319,8 @@ export const api = onRequest({
     case "/ugc/events":
       if (req.method === "GET") {
         await getUGCEvents(req, res);
+      } else if (req.method === "DELETE") {
+        await deleteUGCEvents(req, res);
       } else {
         res.status(405).json({success: false, error: "Method not allowed"});
       }
@@ -283,6 +367,9 @@ export const api = onRequest({
     console.error("API Error:", error);
     setCorsHeaders(res);
 
+    // Record error in monitoring
+    monitoring.recordApiRequest(req.path, req.method, Date.now() - startTime, 500);
+
     // Handle JSON parsing errors specifically
     if (error instanceof SyntaxError && error.message.includes("JSON")) {
       res.status(400).json({
@@ -297,6 +384,11 @@ export const api = onRequest({
         responseTime: `${Date.now() - startTime}ms`,
       });
     }
+  } finally {
+    // Record successful response metrics
+    if (res.statusCode && res.statusCode < 500) {
+      monitoring.recordApiRequest(req.path, req.method, Date.now() - startTime, res.statusCode);
+    }
   }
 });
 
@@ -304,37 +396,53 @@ export const api = onRequest({
 async function handlePartiesFeed(req: Request, res: Response, startTime: number): Promise<void> {
   try {
     const page = parseInt(req.query.page as string) || 1;
-    const limit = Math.min(parseInt(req.query.limit as string) || 50, 100);
+    const limit = Math.min(
+      parseInt(req.query.limit as string) || COST_CONFIG.QUERY_LIMIT_DEFAULT,
+      COST_CONFIG.QUERY_LIMIT_MAX
+    );
     const offset = (page - 1) * limit;
     const includeUGC = req.query.includeUGC !== "false"; // Default to true
 
-    const db = getFirestore();
+    // Check cache first
+    const cacheKey = `parties_${page}_${limit}_${includeUGC}`;
+    const cached = globalCache.get(cacheKey);
+    if (cached) {
+      costMonitor.trackBandwidth(JSON.stringify(cached).length);
+      res.json(compressResponse(cached));
+      return;
+    }
 
-    // Get curated parties
-    const partiesRef = db.collection("parties").where("active", "==", true);
-    const partiesSnapshot = await partiesRef.get();
+    // Use optimized queries
+    const parties = await queryOptimizer.optimizedQuery("parties", {
+      where: [["active", "==", true]],
+      limit: limit * 2, // Get more to account for pagination
+    });
+    costMonitor.trackOperation("reads", parties.length);
 
     // Get UGC events if requested
     let ugcEvents: any[] = [];
     if (includeUGC) {
-      const ugcRef = db.collection("events").where("status", "==", "active").where("source", "==", "ugc");
-      const ugcSnapshot = await ugcRef.get();
-      ugcEvents = ugcSnapshot.docs.map((doc) => {
-        const data = doc.data();
+      ugcEvents = await queryOptimizer.optimizedQuery("events", {
+        where: [["status", "==", "active"], ["source", "==", "ugc"]],
+        limit: COST_CONFIG.QUERY_LIMIT_DEFAULT,
+      });
+      costMonitor.trackOperation("reads", ugcEvents.length);
+
+      ugcEvents = ugcEvents.map((event) => {
         return {
-          "id": doc.id,
-          ...data,
+          "id": event.id,
+          ...event,
           // Map UGC fields to standard party fields for compatibility
-          "Event Name": data.name,
-          "Date": data.date,
-          "Start Time": data.startTime,
-          "End Time": data.endTime || "",
-          "Address": data.venue || data.address,
-          "Category": data.category,
-          "Description": data.description,
-          "Hosts": data.hosts || data.creator,
+          "Event Name": event.name,
+          "Date": event.date,
+          "Start Time": event.startTime,
+          "End Time": event.endTime || "",
+          "Address": event.venue || event.address,
+          "Category": event.category,
+          "Description": event.description,
+          "Hosts": event.hosts || event.creator,
           "isUGC": true, // Flag to identify UGC events
-          "creator": data.creator,
+          "creator": event.creator,
           "active": true,
         };
       });
@@ -342,9 +450,8 @@ async function handlePartiesFeed(req: Request, res: Response, startTime: number)
 
     // Combine and sort all events
     const allParties = [
-      ...partiesSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
+      ...parties.map((party) => ({
+        ...party,
         isUGC: false,
       })),
       ...ugcEvents,
@@ -378,7 +485,7 @@ async function handlePartiesFeed(req: Request, res: Response, startTime: number)
       source = "empty";
     }
 
-    res.json({
+    const response = {
       success: true,
       data: paginatedParties,
       meta: {
@@ -394,7 +501,14 @@ async function handlePartiesFeed(req: Request, res: Response, startTime: number)
         source,
         lastUpdated: allParties.length > 0 ? (allParties[0].uploadedAt || allParties[0].createdAt) : null,
       },
-    });
+    };
+
+    // Cache the response
+    globalCache.set(cacheKey, response);
+
+    // Track bandwidth and send compressed response
+    costMonitor.trackBandwidth(JSON.stringify(response).length);
+    res.json(compressResponse(response));
   } catch (error) {
     console.error("handlePartiesFeed error:", error);
     setCorsHeaders(res);
@@ -431,29 +545,39 @@ async function handleSwipeAction(req: Request, res: Response): Promise<void> { /
   try {
     const {partyId, action, timestamp, source} = req.body;
 
-    // Store swipe data
-    const db = getFirestore();
-    const swipeRef = db.collection("swipes").doc();
-    await swipeRef.set({
+    // Batch swipe data for cost optimization
+    const swipeData = {
       partyId,
       action,
       timestamp: timestamp || new Date().toISOString(),
       source: source || "pwa-app",
       sessionId: `session_${Date.now()}`,
       userAgent: req.headers["user-agent"] || "unknown",
-    });
+    };
 
-    res.json({
+    // Use batch processing for writes
+    await queryOptimizer.batchWrite("swipes", [{
+      type: "set",
+      id: `swipe_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      data: swipeData,
+    }]);
+
+    costMonitor.trackOperation("writes");
+
+    const response = {
       success: true,
       swipe: {
-        id: swipeRef.id,
+        id: `swipe_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         partyId,
         action,
         timestamp: new Date().toISOString(),
       },
       message: action === "like" ? "Party saved to interested!" : "Thanks for the feedback",
       nextAction: action === "like" ? "calendar_sync_available" : null,
-    });
+    };
+
+    costMonitor.trackBandwidth(JSON.stringify(response).length);
+    res.json(compressResponse(response));
   } catch (error) {
     console.error("handleSwipeAction error:", error);
     setCorsHeaders(res);
@@ -894,12 +1018,6 @@ async function handleReferralStats(req: Request, res: Response, userId: string):
   }
 }
 
-// Legacy function aliases for backward compatibility
-export const health = api;
-export const partiesFeed = api;
-export const handleSwipe = api; // This now points to api, which routes to handleSwipeAction
-export const syncFromGoogleDrive = api;
-export const clearAllParties = api;
-export const calendarOAuthStart = api;
-export const googleDriveWebhook = webhook;
-export const setupDriveWebhook = setupWebhook;
+// Main exports - consolidated API architecture
+// Note: All functionality is now routed through the main 'api' function
+// Legacy endpoints have been consolidated for better performance and maintenance

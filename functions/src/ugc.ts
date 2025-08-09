@@ -1,5 +1,4 @@
 import {Request, Response} from "express";
-import {getFirestore} from "firebase-admin/firestore";
 import * as admin from "firebase-admin";
 
 /**
@@ -93,36 +92,37 @@ async function checkForDuplicates(eventData: any): Promise<{
     duplicates: any[];
     warnings: string[];
 }> {
-  const db = getFirestore();
+  // Import cost optimizer if available
+  const {queryOptimizer, costMonitor} = await import("./cost-optimizer.js");
 
-  // Query events for the same date
-  const sameDate = await db.collection("events")
-    .where("date", "==", eventData.date)
-    .where("status", "==", "active")
-    .get();
+  // Use optimized queries with caching
+  const sameDate = await queryOptimizer.optimizedQuery("events", {
+    where: [["date", "==", eventData.date], ["status", "==", "active"]],
+    limit: 50,
+  });
+  costMonitor.trackOperation("reads", sameDate.length);
 
   // Also check the parties collection for existing events
-  const partiesQuery = await db.collection("parties")
-    .where("active", "==", true)
-    .get();
+  const partiesQuery = await queryOptimizer.optimizedQuery("parties", {
+    where: [["active", "==", true]],
+    limit: 100,
+  });
+  costMonitor.trackOperation("reads", partiesQuery.length);
 
   const allEvents: any[] = [
-    ...sameDate.docs.map((doc) => ({id: doc.id, ...doc.data(), collection: "events"})),
-    ...partiesQuery.docs
-      .filter((doc) => {
-        const data = doc.data();
-        return data["Date"] === eventData.date || data.date === eventData.date;
+    ...sameDate.map((event) => ({...event, collection: "events"})),
+    ...partiesQuery
+      .filter((party) => {
+        return party["Date"] === eventData.date || party.date === eventData.date;
       })
-      .map((doc) => {
-        const data = doc.data();
+      .map((party) => {
         return {
-          id: doc.id,
-          ...data,
+          ...party,
           collection: "parties",
           // Normalize field names
-          name: data["Event Name"] || data.name,
-          venue: data["Address"] || data.venue,
-          startTime: data["Start Time"] || data.startTime,
+          name: party["Event Name"] || party.name,
+          venue: party["Address"] || party.venue,
+          startTime: party["Start Time"] || party.startTime,
         };
       }),
   ];
@@ -372,19 +372,29 @@ export const createUGCEvent = async (req: Request, res: Response): Promise<void>
       address: eventData.venue,
     };
 
-    // Save to Firestore
-    const db = getFirestore();
-    await db.collection("events").doc(eventId).set(ugcEvent);
+    // Save to Firestore using batch writing for cost optimization
+    const {queryOptimizer, costMonitor} = await import("./cost-optimizer.js");
+
+    await queryOptimizer.batchWrite("events", [{
+      type: "set",
+      id: eventId,
+      data: ugcEvent,
+    }]);
+
+    costMonitor.trackOperation("writes");
 
     console.log("UGC event created successfully:", eventId);
 
     // Return success response
-    res.json({
+    const response = {
       success: true,
       eventId: eventId,
       message: "Event created successfully",
       event: ugcEvent,
-    });
+    };
+
+    costMonitor.trackBandwidth(JSON.stringify(response).length);
+    res.json(response);
   } catch (error) {
     console.error("UGC Event Creation Error:", error);
     res.status(500).json({
@@ -402,16 +412,26 @@ export const getUGCEvents = async (_req: Request, res: Response): Promise<void> 
   try {
     console.log("Fetching UGC events...");
 
-    const db = getFirestore();
-    const ugcEvents = await db.collection("events")
-      .where("source", "==", "ugc")
-      .get();
+    const {queryOptimizer, costMonitor, globalCache} = await import("./cost-optimizer.js");
 
-    const events = ugcEvents.docs
-      .map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }))
+    // Check cache first
+    const cacheKey = "ugc_events_list";
+    const cached = globalCache.get(cacheKey);
+    if (cached) {
+      costMonitor.trackBandwidth(JSON.stringify(cached).length);
+      res.json(cached);
+      return;
+    }
+
+    const ugcEvents = await queryOptimizer.optimizedQuery("events", {
+      where: [["source", "==", "ugc"]],
+      orderBy: ["createdAt", "desc"],
+      limit: 100,
+    });
+
+    costMonitor.trackOperation("reads", ugcEvents.length);
+
+    const events = ugcEvents
       .filter((event: any) => event.status === "active" || !event.status)
       .sort((a: any, b: any) => {
         const timeA = new Date(a.createdAt?.toDate?.() || a.createdAt || 0).getTime();
@@ -421,17 +441,97 @@ export const getUGCEvents = async (_req: Request, res: Response): Promise<void> 
 
     console.log(`Found ${events.length} UGC events`);
 
-    res.json({
+    const response = {
       success: true,
       events: events,
       count: events.length,
-    });
+    };
+
+    // Cache the response
+    globalCache.set(cacheKey, response, 300000); // 5 minutes cache
+
+    costMonitor.trackBandwidth(JSON.stringify(response).length);
+    res.json(response);
   } catch (error) {
     console.error("Get UGC Events Error:", error);
     res.status(500).json({
       success: false,
       events: [],
       error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+};
+
+/**
+ * 🗑️ DELETE UGC EVENTS ENDPOINT
+ * Removes all user-generated test events (admin only)
+ */
+export const deleteUGCEvents = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    console.log("🗑️ Starting UGC events cleanup...");
+
+    const db = admin.firestore();
+    const {queryOptimizer, costMonitor} = await import("./cost-optimizer.js");
+
+    // Get all UGC events
+    const ugcEvents = await queryOptimizer.optimizedQuery("events", {
+      where: [["source", "==", "ugc"]],
+      limit: 1000, // Get all UGC events
+    });
+
+    console.log(`Found ${ugcEvents.length} UGC events to delete`);
+
+    if (ugcEvents.length === 0) {
+      res.json({
+        success: true,
+        message: "No UGC events found to delete",
+        deleted: 0,
+      });
+      return;
+    }
+
+    // Delete events in batches
+    const batchSize = 500; // Firestore batch limit
+    let totalDeleted = 0;
+    const batches = [];
+
+    for (let i = 0; i < ugcEvents.length; i += batchSize) {
+      const batch = db.batch();
+      const batchEvents = ugcEvents.slice(i, i + batchSize);
+
+      batchEvents.forEach((event: any) => {
+        const docRef = db.collection("events").doc(event.id);
+        batch.delete(docRef);
+      });
+
+      batches.push(batch);
+    }
+
+    // Execute all batches
+    console.log(`Executing ${batches.length} deletion batches...`);
+    await Promise.all(batches.map((batch) => batch.commit()));
+
+    totalDeleted = ugcEvents.length;
+    costMonitor.trackOperation("deletes", totalDeleted);
+
+    // Clear cache
+    const {globalCache} = await import("./cost-optimizer.js");
+    globalCache.clear(); // Clear all cache to ensure fresh data
+
+    console.log(`✅ Successfully deleted ${totalDeleted} UGC events`);
+
+    res.json({
+      success: true,
+      message: `Successfully deleted ${totalDeleted} UGC test events`,
+      deleted: totalDeleted,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("Delete UGC Events Error:", error);
+    res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to delete UGC events",
+      deleted: 0,
     });
   }
 };

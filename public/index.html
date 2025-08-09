@@ -8,14 +8,325 @@
     <meta name="description" content="Discover exclusive gaming industry networking events, afterparties, and community gatherings at Gamescom 2025">
     <meta name="keywords" content="Gamescom 2025, gaming events, networking, afterparty, Cologne, industry parties">
     <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/tokens.css">
     <link rel="stylesheet" href="/css/design-system.css">
-    <link rel="stylesheet" href="/css/social-sharing.css">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/enhancements.css">
+    <link rel="stylesheet" href="/css/social-sharing.css">
     <link rel="stylesheet" href="/css/invite-system.css">
     <link rel="stylesheet" href="/css/proximity-system.css">
     <link rel="stylesheet" href="/css/hotspots-page.css">
     <link rel="stylesheet" href="/css/opportunity-system.css">
     <link rel="stylesheet" href="/css/conference-system.css">
+    
+    <style>
+    /* Professional Intelligence Platform UI Enhancements */
+    .professional-intelligence-app {
+        min-height: 100vh;
+        background: var(--bg-primary, #0f0f12);
+        color: var(--text-primary, #ffffff);
+        font-family: var(--font-system, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    }
+
+    /* Mobile-First Bottom Navigation */
+    .bottom-navigation {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--surface, #1a1a1f);
+        border-top: 1px solid var(--border, #2a2a35);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+        z-index: var(--z-nav, 50);
+        backdrop-filter: blur(12px);
+    }
+
+    .nav-tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: var(--text-muted, #6b6b75);
+        transition: color var(--t-fast, 150ms) var(--ease-out);
+        padding: 8px 12px;
+        border-radius: var(--r-md, 12px);
+        min-width: 60px;
+    }
+
+    .nav-tab.active {
+        color: var(--accent-primary, #6b7bff);
+        background: rgba(107, 123, 255, 0.1);
+    }
+
+    .nav-tab:hover {
+        color: var(--text-primary, #ffffff);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-tab .nav-icon {
+        font-size: 20px;
+        margin-bottom: 4px;
+    }
+
+    .nav-tab .nav-label {
+        font-size: var(--fz-xs, 12px);
+        font-weight: 500;
+    }
+
+    /* Main Content Area */
+    .main-content {
+        padding: var(--space-4, 16px);
+        padding-bottom: calc(80px + var(--space-4, 16px));
+        max-width: 768px;
+        margin: 0 auto;
+        min-height: calc(100vh - 80px);
+    }
+
+    /* Professional Connection Cards */
+    .connection-card {
+        background: var(--surface, #1a1a1f);
+        border: 1px solid var(--border, #2a2a35);
+        border-radius: var(--r-lg, 16px);
+        padding: var(--space-4, 16px);
+        margin-bottom: var(--space-3, 12px);
+        transition: all var(--t-normal, 200ms) var(--ease-out);
+    }
+
+    .connection-card:hover {
+        border-color: var(--accent-primary, #6b7bff);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.2));
+    }
+
+    .connection-header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3, 12px);
+        margin-bottom: var(--space-3, 12px);
+    }
+
+    .connection-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-success));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 600;
+        color: white;
+    }
+
+    .connection-info h3 {
+        margin: 0;
+        font-size: var(--fz-md, 16px);
+        font-weight: 600;
+        color: var(--text-primary, #ffffff);
+    }
+
+    .connection-info p {
+        margin: 2px 0 0 0;
+        font-size: var(--fz-sm, 14px);
+        color: var(--text-secondary, #a5a7ad);
+    }
+
+    .connection-actions {
+        display: flex;
+        gap: var(--space-2, 8px);
+        margin-top: var(--space-3, 12px);
+    }
+
+    .btn-connection {
+        padding: var(--space-2, 8px) var(--space-3, 12px);
+        border-radius: var(--r-sm, 8px);
+        border: none;
+        font-size: var(--fz-sm, 14px);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all var(--t-fast, 150ms) var(--ease-out);
+    }
+
+    .btn-connection.primary {
+        background: var(--accent-primary, #6b7bff);
+        color: white;
+    }
+
+    .btn-connection.secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-primary, #ffffff);
+        border: 1px solid var(--border, #2a2a35);
+    }
+
+    .btn-connection:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Loading States */
+    .loading-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-12, 48px) var(--space-4, 16px);
+        text-align: center;
+        color: var(--text-secondary, #a5a7ad);
+    }
+
+    .loading-spinner-large {
+        width: 32px;
+        height: 32px;
+        border: 3px solid var(--border, #2a2a35);
+        border-top: 3px solid var(--accent-primary, #6b7bff);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: var(--space-3, 12px);
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Route Sections */
+    .route-section {
+        display: none;
+    }
+
+    .route-section.active {
+        display: block;
+    }
+
+    /* Desktop Navigation (hidden on mobile) */
+    @media (min-width: 768px) {
+        .bottom-navigation {
+            display: none;
+        }
+        
+        .main-content {
+            padding-bottom: var(--space-4, 16px);
+            min-height: 100vh;
+        }
+    }
+
+    /* Persona Indicators */
+    .persona-developer { border-left: 4px solid var(--dev-color, #7dd3fc); }
+    .persona-publishing { border-left: 4px solid var(--pub-color, #fca5a5); }
+    .persona-investor { border-left: 4px solid var(--inv-color, #fde047); }
+    .persona-service { border-left: 4px solid var(--sp-color, #86efac); }
+
+    /* Status Indicators */
+    .status-online { 
+        position: relative;
+    }
+    
+    .status-online::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        width: 12px;
+        height: 12px;
+        background: var(--accent-success, #22c55e);
+        border: 2px solid var(--surface, #1a1a1f);
+        border-radius: 50%;
+    }
+
+    /* Event Cards */
+    .event-card {
+        background: var(--surface, #1a1a1f);
+        border: 1px solid var(--border, #2a2a35);
+        border-radius: var(--r-lg, 16px);
+        padding: var(--space-4, 16px);
+        margin-bottom: var(--space-3, 12px);
+        transition: all var(--t-normal, 200ms) var(--ease-out);
+    }
+
+    .event-card:hover {
+        border-color: var(--accent-primary, #6b7bff);
+        transform: translateY(-1px);
+    }
+
+    .event-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: var(--space-3, 12px);
+    }
+
+    .event-title {
+        font-size: var(--fz-lg, 18px);
+        font-weight: 600;
+        color: var(--text-primary, #ffffff);
+        margin: 0 0 var(--space-1, 4px) 0;
+    }
+
+    .event-meta {
+        font-size: var(--fz-sm, 14px);
+        color: var(--text-secondary, #a5a7ad);
+    }
+
+    .event-actions {
+        display: flex;
+        gap: var(--space-2, 8px);
+        margin-top: var(--space-3, 12px);
+    }
+
+    /* Opportunity Cards */
+    .opportunity-card {
+        background: linear-gradient(135deg, var(--surface, #1a1a1f), rgba(107, 123, 255, 0.05));
+        border: 1px solid var(--border, #2a2a35);
+        border-radius: var(--r-lg, 16px);
+        padding: var(--space-4, 16px);
+        margin-bottom: var(--space-3, 12px);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .opportunity-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent-primary), var(--accent-success));
+    }
+
+    /* Modal Container */
+    .modal-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(4px);
+        z-index: var(--z-modal, 70);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-4, 16px);
+    }
+
+    .modal-container.active {
+        display: flex;
+    }
+
+    .modal-content {
+        background: var(--surface, #1a1a1f);
+        border: 1px solid var(--border, #2a2a35);
+        border-radius: var(--r-lg, 16px);
+        padding: var(--space-6, 24px);
+        max-width: 480px;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Flatpickr for modern date/time pickers -->
@@ -26,193 +337,121 @@
     <div id="app">
         <!-- Navigation will be dynamically created by NavigationManager -->
 
-        <!-- Hero Section -->
-        <header class="hero-section">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h2>Discover Gamescom 2025's Best Events</h2>
-                    <p>Connect with gaming industry professionals at exclusive networking events, afterparties, and community gatherings in Cologne.</p>
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <span class="stat-number" id="totalEvents">58+</span>
-                            <span class="stat-label">Events</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number" id="ugcEvents">4+</span>
-                            <span class="stat-label">Community</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">Live</span>
-                            <span class="stat-label">Updates</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-cta">
-                    <button id="createEventBtn" class="btn-primary btn-large">
-                        ✨ Host Your Event
-                    </button>
-                    <p class="cta-subtitle">Join the community • Free to list</p>
-                </div>
-            </div>
-        </header>
 
-        <!-- Search & Filter Section -->
-        <section class="search-section">
-            <div class="search-container">
-                <div class="search-bar">
-                    <div class="search-input-wrapper">
-                        <span class="search-icon">🔍</span>
-                        <input type="text" id="searchInput" placeholder="Search events, venues, hosts..." class="search-input">
-                        <button id="clearSearch" class="clear-search hidden">✕</button>
-                    </div>
-                </div>
-                
-                <div class="filters-section">
-                    <div class="filter-label">Filter by category:</div>
-                    <div id="filters" class="filters"></div>
-                </div>
-                
-                <div class="search-stats">
-                    <span id="searchResultsCount" class="results-count">Loading events...</span>
-                    <div class="view-options">
-                        <button id="viewGrid" class="view-btn active" title="Grid view">⊞</button>
-                        <button id="viewList" class="view-btn" title="List view">☰</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Main Content Container -->
-        <main class="main-content events-main">
-            <div id="events" class="events-grid">
+        <!-- Professional Intelligence Platform Main Container -->
+        <div id="pi-app" class="professional-intelligence-app">
+            <!-- Navigation will be injected by NavigationManager -->
+            
+            <!-- Main content area that controllers will populate -->
+            <main class="main-content">
                 <div class="loading-state">
                     <div class="loading-spinner-large"></div>
-                    <p>Loading amazing events...</p>
+                    <p>Initializing Professional Intelligence Platform...</p>
                 </div>
-            </div>
+            </main>
             
-            <!-- Load More -->
-            <div class="load-more-section hidden">
-                <button id="loadMoreBtn" class="btn-secondary">
-                    Load More Events
-                </button>
-            </div>
-        </main>
-
-        <!-- Quick Actions Floating Bar -->
-        <div class="quick-actions">
-            <button id="quickCreateBtn" class="quick-action-btn" title="Create Event">
-                ✨
-            </button>
-            <button id="quickMapBtn" class="quick-action-btn" title="View Map">
-                🗺️
-            </button>
-            <button id="quickCalendarBtn" class="quick-action-btn" title="My Calendar">
-                📅
-            </button>
+            <!-- Modal container -->
+            <div id="modal-container" class="modal-container"></div>
+            
+            <!-- Bottom tab navigation for mobile -->
+            <nav class="bottom-navigation" id="bottomNav">
+                <a href="/home" class="nav-tab active" data-route="home">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Now</span>
+                </a>
+                <a href="/people" class="nav-tab" data-route="people">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">People</span>
+                </a>
+                <a href="/opportunities" class="nav-tab" data-route="opportunities">
+                    <span class="nav-icon">💼</span>
+                    <span class="nav-label">Opportunities</span>
+                </a>
+                <a href="/events" class="nav-tab" data-route="events">
+                    <span class="nav-icon">🎉</span>
+                    <span class="nav-label">Events</span>
+                </a>
+                <a href="/me" class="nav-tab" data-route="me">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profile</span>
+                </a>
+            </nav>
         </div>
+        
+        <!-- Route sections for controllers -->
+        <section data-route="home" data-controller="home" class="route-section" hidden>
+            <div class="controller-mount"></div>
+        </section>
+        
+        <section data-route="people" data-controller="people" class="route-section" hidden>
+            <div class="controller-mount"></div>
+        </section>
+        
+        <section data-route="opportunities" data-controller="opportunities" class="route-section" hidden>
+            <div class="controller-mount"></div>
+        </section>
+        
+        <section data-route="events" data-controller="events" class="route-section" hidden>
+            <div class="controller-mount"></div>
+        </section>
+        
+        <section data-route="me" data-controller="me" class="route-section" hidden>
+            <div class="controller-mount"></div>
+        </section>
+        
+        <section data-route="invite" data-controller="invite" class="route-section" hidden>
+            <div class="controller-mount"></div>
+        </section>
+
+        <section data-route="calendar" data-controller="calendar" class="route-section" hidden>
+            <div class="controller-mount"></div>
+        </section>
     </div>
 
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Create New Event</h2>
-                <button id="closeModal" class="modal-close" aria-label="Close modal">&times;</button>
+    <!-- Add template near other templates -->
+    <template id="tpl-calendar-connect">
+      <section class="card">
+        <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div>
+            <div class="text-md" style="font-weight:700">Sync Meet to Match</div>
+            <div class="text-sm" style="color:var(--text-secondary)">
+              Bring your <strong>Meet to Match</strong> meetings into the app.
             </div>
-            
-            <form id="eventForm" class="form-container">
-                <div class="form-section">
-                    <h3 class="form-section-title">Event Details</h3>
-                    
-                    <div class="form-field">
-                        <label class="form-label" for="eventName">Event Name</label>
-                        <input type="text" id="eventName" name="name" class="form-input" placeholder="Enter event name" required>
-                        <div class="form-help">Give your event a clear, descriptive name</div>
-                    </div>
-                    
-                    <div class="form-field">
-                        <label class="form-label" for="eventCreator">Organizer</label>
-                        <input type="text" id="eventCreator" name="creator" class="form-input" placeholder="Your name or organization" required maxlength="100">
-                        <div class="form-help">Your name will be displayed publicly as the event organizer</div>
-                    </div>
-                </div>
-                
-                <div class="form-section">
-                    <h3 class="form-section-title">When & Where</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-field form-field-half">
-                            <label class="form-label" for="eventDate">Date</label>
-                            <input type="text" id="eventDate" name="date" class="form-input flatpickr-date" placeholder="Select date" required>
-                            <div class="form-help">🎮 Gamescom: Aug 20-24, 2025</div>
-                        </div>
-                        <div class="form-field form-field-half">
-                            <label class="form-label" for="eventTime">Start Time</label>
-                            <input type="text" id="eventTime" name="startTime" class="form-input flatpickr-time" placeholder="Select time" required>
-                            <div class="time-suggestions">
-                                <span class="time-chip" data-time="18:00">6:00 PM</span>
-                                <span class="time-chip" data-time="19:00">7:00 PM</span>
-                                <span class="time-chip" data-time="20:00">8:00 PM</span>
-                                <span class="time-chip" data-time="21:00">9:00 PM</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-field">
-                        <label class="form-label" for="eventVenue">Venue</label>
-                        <input type="text" id="eventVenue" name="venue" class="form-input" placeholder="e.g., Koelnmesse Hall 4" required>
-                        <div class="form-help">Enter the full venue name and location</div>
-                    </div>
-                </div>
-                
-                <div class="form-section">
-                    <h3 class="form-section-title">Event Type & Description</h3>
-                    
-                    <div class="form-field">
-                        <label class="form-label" for="eventType">Event Type</label>
-                        <select id="eventType" name="category" class="form-select">
-                            <option value="networking">🤝 Networking</option>
-                            <option value="afterparty">🎉 Afterparty</option>
-                            <option value="mixer">🍸 Mixer</option>
-                            <option value="launch">🚀 Launch Event</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-field">
-                        <label class="form-label" for="eventDescription">Description</label>
-                        <textarea id="eventDescription" name="description" class="form-textarea" placeholder="Tell attendees what to expect at your event..." rows="4"></textarea>
-                        <div class="form-help">Optional: Add details about your event</div>
-                    </div>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" onclick="app.closeModal()">Cancel</button>
-                    <button type="submit" class="btn-primary">Create Event</button>
-                </div>
-            </form>
-            
-            <div id="success" class="success-panel hidden">
-                <div class="success-icon">🎉</div>
-                <h3 class="success-title">Event Created Successfully!</h3>
-                <p class="success-message">Your event has been added to the Gamescom 2025 directory and will be visible to attendees shortly.</p>
-                <div class="success-actions">
-                    <button class="btn-primary" onclick="app.closeModal()">Awesome!</button>
-                    <button class="btn-secondary" onclick="app.shareEvent(app.lastCreatedEvent)">📤 Share Event</button>
-                </div>
-            </div>
-        </div>
-    </div>
+          </div>
+        </header>
 
-    <!-- Duplicate Warning Modal -->
-    <div id="duplicateModal" class="modal">
-        <div class="modal-content modal-warning">
-            <div class="modal-header">
-                <div class="warning-icon">⚠️</div>
-                <h2 class="modal-title">Potential Duplicate Event</h2>
-            </div>
-            <div id="duplicateContent" class="duplicate-content"></div>
+        <div class="card" style="background:var(--surface);border:1px dashed var(--border);margin-bottom:12px">
+          <div class="text-sm" style="color:var(--text-secondary)">
+            Recommended: enable <strong>Meet to Match → Google Calendar</strong> inside Meet to Match,
+            then connect Google here for automatic syncing.
+          </div>
         </div>
-    </div>
+
+        <div class="stack">
+          <button class="btn btn-primary" data-action="cal.google.connect">Connect Google Calendar</button>
+
+          <div class="card" style="padding:12px">
+            <label class="auth-label" for="m2m-ics-url">Or paste your Meet to Match .ics link</label>
+            <div class="auth-input-row">
+              <input id="m2m-ics-url" class="auth-input" placeholder="https://…/meettomatch.ics" />
+              <button class="btn" data-action="cal.ics.subscribe">Subscribe</button>
+            </div>
+            <div class="text-xs" style="color:var(--text-secondary)">
+              Tip: In Meet to Match: <em>My Schedule → Export → iCalendar</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <div class="text-sm" style="font-weight:700;margin-bottom:8px">Privacy</div>
+          <div class="stack">
+            <label class="toggle-row"><input type="checkbox" id="cal-inc-titles" checked /> Include event titles</label>
+            <label class="toggle-row"><input type="checkbox" id="cal-inc-attendees" /> Include attendees (when available)</label>
+            <label class="toggle-row"><input type="checkbox" id="cal-conf-window" checked /> Only during conference dates</label>
+          </div>
+        </div>
+      </section>
+    </template>
 
     <!-- Scripts -->
     <script>window.CONFIG = { 
@@ -234,20 +473,43 @@
     <script src="/js/dom-optimizer.js"></script>
     <script src="/js/cache-manager.js"></script>
     <script src="/js/performance-monitor.js"></script>
+    <script src="/js/services/resilience.js"></script>
     
-    <!-- Core Application Layer -->
-    <script src="/js/api.js"></script>
-    <script src="/js/offline-search.js"></script>
-    <script src="/js/cache-utils.js"></script>
-    <script src="/js/referral-system.js"></script>
-    <script src="/js/search-manager.js"></script>
-    <script src="/js/social-sharing.js"></script>
+    <!-- Professional Intelligence Platform Core -->
+    <script type="module" src="/js/api.js"></script>
+    <script type="module" src="/js/services/api.js"></script>
+    <script type="module" src="/js/store.js"></script>
+    <script type="module" src="/js/router.js"></script>
+    <script type="module" src="/js/events.js"></script>
+    <script type="module" src="/js/services/nav.js"></script>
+    <script type="module" src="/js/ui/motion.js"></script>
+    <script type="module" src="/js/ui/viewTX.js"></script>
+    <script type="module" src="/js/ui/press.js"></script>
+    <script type="module" src="/js/ui/fpsWatchdog.js"></script>
+    
+    <!-- Controllers -->
+    <script type="module" src="/js/controllers/BaseController.js"></script>
+    <script type="module" src="/js/controllers/HomeController.js"></script>
+    <script type="module" src="/js/controllers/PeopleController.js"></script>
+    <script type="module" src="/js/controllers/OpportunitiesController.js"></script>
+    <script type="module" src="/js/controllers/EventController.js"></script>
+    <script type="module" src="/js/controllers/MeController.js"></script>
+    <script type="module" src="/js/controllers/InviteController.js"></script>
+    <script type="module" src="/js/controllers/CalendarController.js"></script>
+    
+    <!-- Professional Networking Services -->
     <script src="/js/invite-manager.js"></script>
     <script src="/js/proximity-manager.js"></script>
     <script src="/js/opportunity-toggle.js"></script>
     <script src="/js/conference-manager.js"></script>
+    <script src="/js/social-sharing.js"></script>
+    <script src="/js/referral-system.js"></script>
+    
+    <!-- Legacy Navigation (fallback) -->
     <script src="/js/navigation.js"></script>
-    <script src="/js/app.js"></script>
+    
+    <!-- Professional Intelligence Platform Main App -->
+    <script type="module" src="/js/app.js"></script>
     <script src="/js/pwa-init.js"></script>
     <!-- Flatpickr library -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

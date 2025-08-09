@@ -92,15 +92,11 @@ class OnboardingManager {
 
     async checkOnboardingStatus() {
         try {
-            // Use cached storage manager
-            const completed = await window.Cache.get('onboarding.status', {
-                loader: async () => {
-                    return window.StorageManager.get('onboarding.completed');
-                },
-                ttl: 60000 // Cache for 1 minute
-            });
+            const completed = localStorage.getItem('gamescom_onboarding_completed');
+            if (!completed) return false;
             
-            return completed && completed.completedAt && completed.persona;
+            const data = JSON.parse(completed);
+            return data && data.completedAt && data.persona;
         } catch (error) {
             console.error('Error checking onboarding status:', error);
             return false;
@@ -346,13 +342,17 @@ class OnboardingManager {
     }
 
     attachEventListeners() {
-        // Navigation buttons using optimized event manager
-        this.eventKeys.push(
-            window.$.on('#nextBtn', 'click', () => this.handleNext()),
-            window.$.on('#backBtn', 'click', () => this.handleBack())
-        );
+        // Navigation buttons using standard event listeners
+        const nextBtn = document.getElementById('nextBtn');
+        const backBtn = document.getElementById('backBtn');
         
-        // Dynamic listeners will be attached as steps render
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => this.handleNext());
+        }
+        
+        if (backBtn) {
+            backBtn.addEventListener('click', () => this.handleBack());
+        }
     }
 
     handleNext() {
@@ -404,35 +404,26 @@ class OnboardingManager {
 
     attachPersonaListeners() {
         document.querySelectorAll('.persona-card').forEach(card => {
-            this.eventKeys.push(
-                window.$.on(card, 'click', (e) => {
-                    // Remove previous selection using batched DOM updates
-                    document.querySelectorAll('.persona-card').forEach(c => {
-                        window.DOM.batch(c, {
-                            classes: { remove: 'selected' }
-                        });
-                        const path = c.querySelector('path');
-                        if (path) {
-                            window.DOM.batch(path, {
-                                styles: { display: 'none' }
-                            });
-                        }
-                    });
-                    
-                    // Add new selection
-                    window.DOM.batch(card, {
-                        classes: { add: 'selected' }
-                    });
-                    const path = card.querySelector('path');
+            card.addEventListener('click', (e) => {
+                // Remove previous selection
+                document.querySelectorAll('.persona-card').forEach(c => {
+                    c.classList.remove('selected');
+                    const path = c.querySelector('path');
                     if (path) {
-                        window.DOM.batch(path, {
-                            styles: { display: 'block' }
-                        });
+                        path.style.display = 'none';
                     }
-                    
-                    this.userData.persona = card.dataset.persona;
-                })
-            );
+                });
+                
+                // Add new selection
+                card.classList.add('selected');
+                const path = card.querySelector('path');
+                if (path) {
+                    path.style.display = 'block';
+                }
+                
+                this.userData.persona = card.dataset.persona;
+                console.log('Selected persona:', this.userData.persona);
+            });
         });
     }
 
@@ -488,22 +479,13 @@ class OnboardingManager {
         this.userData.completedAt = new Date().toISOString();
         
         try {
-            // Batch save using optimized storage
-            await window.StorageManager.batch({
-                'onboarding.completed': this.userData,
-                'user.persona': this.userData.persona,
-                'user.profile': this.userData.profile,
-                'user.preferences': this.userData.preferences
-            });
+            // Save to localStorage
+            localStorage.setItem('gamescom_onboarding_completed', JSON.stringify(this.userData));
+            localStorage.setItem('gamescom_user_persona', this.userData.persona);
+            localStorage.setItem('gamescom_user_profile', JSON.stringify(this.userData.profile));
+            localStorage.setItem('gamescom_user_preferences', JSON.stringify(this.userData.preferences));
             
-            // Update cache
-            await window.Cache.set('onboarding.status', this.userData, { 
-                ttl: 300000, // 5 minutes
-                persist: true 
-            });
-            
-            // TODO: Save to Firebase when backend is ready
-            // await this.saveToFirebase();
+            console.log('Onboarding completed successfully:', this.userData);
             
             // Show success animation
             this.showSuccessAnimation();
@@ -605,11 +587,10 @@ class OnboardingManager {
     }
 
     getOrCreateUserId() {
-        // Use optimized storage manager
-        let userId = window.StorageManager.get('user.id');
+        let userId = localStorage.getItem('gamescom_user_id');
         if (!userId) {
             userId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-            window.StorageManager.set('user.id', userId);
+            localStorage.setItem('gamescom_user_id', userId);
         }
         return userId;
     }
@@ -618,7 +599,7 @@ class OnboardingManager {
      * Cleanup event listeners when component is destroyed
      */
     destroy() {
-        this.eventKeys.forEach(key => window.$.off(key));
+        // Standard event listeners will be automatically removed when elements are destroyed
         this.eventKeys = [];
     }
 }

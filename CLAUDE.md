@@ -140,6 +140,91 @@ This is a **high-performance microservices PWA** for Gamescom 2025 professional 
 3. `npm run deploy` - Deploy to Firebase
 4. `npm run firebase:health` - Verify deployment
 
+## Build & Deployment
+
+### Build Process
+- `npm run build` - Complete PWA build with optimization
+- `npm run pwa:build` - Build PWA components and service worker
+- `npm run analytics:build` - Build analytics tracking system
+- `cd functions && npm run build` - Compile TypeScript Firebase Functions
+
+### Deployment Pipeline
+- `npm run deploy` - Full production deployment
+- `npm run firebase:deploy` - Deploy via CI/CD pipeline
+- `cd functions && npm run deploy` - Deploy functions only
+- **Auto-deploy**: Main branch pushes trigger automatic deployment
+
+### GitHub Repository Protection
+
+#### Branch Protection Rules (Main Branch)
+- **Require pull request reviews**: 1 required reviewer
+- **Dismiss stale PR reviews**: When new commits are pushed
+- **Require status checks**: All CI/CD checks must pass
+- **Require branches to be up to date**: Before merging
+- **Include administrators**: Rules apply to admins too
+- **Restrict pushes**: Only allow through pull requests
+
+#### Required Status Checks
+- **Build Process**: `npm run build` must succeed
+- **Test Suite**: `npm test` must pass (9/9 API tests)
+- **Linting**: `cd functions && npm run lint` must pass
+- **Security Audit**: `npm audit` must show no high/critical vulnerabilities
+- **Performance Tests**: API response time < 2000ms average
+
+#### Security Policies
+- **Dependabot**: Automated dependency updates enabled
+- **Security advisories**: GitHub security alerts enabled  
+- **Secrets scanning**: Repository secrets protection active
+- **Vulnerability alerts**: Auto-generated for dependencies
+
+### CI/CD Workflow (.github/workflows/test-and-deploy.yml)
+```yaml
+name: Test and Deploy
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - run: cd functions && npm ci && npm run lint && npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci && npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+```
+
+### Environment Secrets
+- `FIREBASE_SERVICE_ACCOUNT`: Service account JSON for deployment
+- `GITHUB_TOKEN`: Auto-generated for repository operations
+- `GOOGLE_SHEETS_API_KEY`: API key for sheets webhook integration
+- `FIREBASE_CONFIG`: Project configuration JSON
+
+### Release Management
+- **Semantic versioning**: Major.Minor.Patch (e.g., v2.1.3)
+- **Release tags**: Auto-generated on main branch merges
+- **Changelog**: Auto-generated from commit messages
+- **Deployment notifications**: Slack/email on successful deploys
+
 ## Important Notes
 
 ### Data Management
@@ -153,9 +238,15 @@ This is a **high-performance microservices PWA** for Gamescom 2025 professional 
 - **CORS enabled**: Browser access works correctly
 - **Performance**: ~1400ms average API response time
 - **Reliability**: 9/9 API tests passing consistently
+- **Uptime**: 99.9% SLA with Firebase hosting
+- **CDN**: Global edge caching enabled
 
 ### Critical Reminders
 - **Webhook expires**: January 6, 2025 - needs renewal
 - **GitHub Codespaces only**: No local development setup
 - **Tool system**: Use `npm run [tool]:help` for any tool guidance
 - **Architecture**: Consolidated from 8 functions to 3 for better performance
+- **Branch protection**: All changes must go through PR process
+- **Security**: Regular dependency updates and vulnerability scanning active
+- **CI/CD**: Automatic testing and deployment on main branch
+- **Performance monitoring**: FPS watchdog and optimization systems active

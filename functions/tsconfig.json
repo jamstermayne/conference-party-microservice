@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "commonjs",
     "esModuleInterop": true,
-    "moduleResolution": "nodenext",
+    "moduleResolution": "node",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "lib",
@@ -10,11 +10,14 @@
     "strict": true,
     "target": "es2017",
     "skipLibCheck": true,
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "rootDir": "src"
   },
   "compileOnSave": true,
   "include": [
-    "src",
-    "tests"
+    "src"
+  ],
+  "exclude": [
+    "src/enterprise"
   ]
 }
