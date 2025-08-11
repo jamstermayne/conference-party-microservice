@@ -192,7 +192,7 @@ describe("GPT-5 Foundation API", () => {
         expect.objectContaining({
           success: false,
           error: "Endpoint not found",
-          availableEndpoints: ["/health", "/invite/validate"],
+          availableEndpoints: ["/health", "/invite/validate", "/flags", "/metrics", "/parties"],
         })
       );
     });

@@ -6,7 +6,7 @@
 
 import Events from './events.js';
 import { emptyState, loadingState, errorState } from './ui-feedback.js';
-import Store from './store.js';
+import Store from './foundation/store.js';
 
 /**
  * Production API base URL

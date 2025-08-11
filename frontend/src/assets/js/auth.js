@@ -5,8 +5,8 @@
  * Based on GPT-5 architecture for Professional Intelligence Platform
  */
 
-import Store from './store.js';
-import { Events } from './events.js';
+import Store from './foundation/store.js';
+import Events from './foundation/events.js';
 
 /** =========================
  *  GOOGLE (GIS) AUTH
@@ -332,14 +332,36 @@ function updateAuthUI() {
 function initializeConfig() {
   const config = Store.get('config') || {};
   
+  // Browser-safe runtime config (no bundler). Pulls from window.__ENV.
+  const __env = (typeof window !== 'undefined' && window.__ENV) ? window.__ENV : {};
+  
   // Set default config if not already set
   if (!config.googleClientId) {
-    config.googleClientId = process.env.GOOGLE_CLIENT_ID || 'your-google-client-id.googleusercontent.com';
+    config.googleClientId = __env.GOOGLE_CLIENT_ID || '';
   }
   
   if (!config.linkedinClientId) {
-    config.linkedinClientId = process.env.LINKEDIN_CLIENT_ID || 'your-linkedin-client-id';
+    config.linkedinClientId = __env.LINKEDIN_CLIENT_ID || '';
   }
+  
+  // If IDs are missing, disable the provider buttons gracefully (no console errors).
+  function disableAuthButtonsIfUnconfigured() {
+    try {
+      if (!config.googleClientId) {
+        document.querySelectorAll('[data-provider="google"], #btn-google').forEach(b => {
+          b.setAttribute('disabled', 'true');
+          b.title = 'Google sign-in unavailable';
+        });
+      }
+      if (!config.linkedinClientId) {
+        document.querySelectorAll('[data-provider="linkedin"], #btn-linkedin').forEach(b => {
+          b.setAttribute('disabled', 'true');
+          b.title = 'LinkedIn sign-in unavailable';
+        });
+      }
+    } catch (_) {}
+  }
+  document.addEventListener('DOMContentLoaded', disableAuthButtonsIfUnconfigured);
   
   Store.set('config', config);
 }
@@ -430,7 +452,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // Additional exports for module usage
 export {
   loadGoogleSDK,
-  handleLinkedInCallbackIfPresent,
   initializeConfig
 };
 

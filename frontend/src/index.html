@@ -159,6 +159,18 @@
       <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
     </main>
   </div>
+  
+  <!-- Runtime configuration (no bundler) -->
+  <script>
+    // Fill in real IDs if you have them; leaving blank will disable the button safely.
+    window.__ENV = {
+      GOOGLE_CLIENT_ID: "",              // e.g. "123.apps.googleusercontent.com"
+      LINKEDIN_CLIENT_ID: "",            // e.g. "86xxyyzz"
+      OAUTH_REDIRECT_URL: location.origin + "/auth/callback",
+      BASE_URL: location.origin
+    };
+  </script>
+  
   <!-- Foundation spine -->
   <script type="module" src="/assets/js/foundation/app-bootstrap.js"></script>
   <script type="module" src="/assets/js/foundation/sw-register.js"></script>
