@@ -2,7 +2,7 @@
  * 🔍 GAMESCOM 2025 - OFFLINE SEARCH
  * 
  * Complete offline search functionality using cached data
- * Generated: 2025-08-11T12:21:48.935Z
+ * Generated: 2025-08-11T15:38:15.811Z
  * Events: 58
  */
 
