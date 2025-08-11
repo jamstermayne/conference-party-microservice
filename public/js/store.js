@@ -3,7 +3,7 @@
  * Simple reactive state management for Professional Intelligence Platform
  */
 
-// Deployment pipeline test - 2025-08-11T10:54:00Z
+// Deployment pipeline test - 2025-08-11T11:08:00Z - Secret format fixed
 
 const LS_KEY = 'pro-intel:v1';
 const subs = new Set();
