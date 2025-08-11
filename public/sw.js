@@ -2,14 +2,14 @@
  * 🚀 GAMESCOM 2025 PARTY DISCOVERY - SERVICE WORKER
  * 
  * Offline-first PWA functionality with intelligent caching
- * Generated: 2025-08-11T00:38:18.731Z
- * Cache Version: 2.0.0 - FORCE CACHE CLEAR
+ * Generated: 2025-08-11T08:43:29.599Z
+ * Cache Version: 1.0.0
  */
 
-const CACHE_VERSION = '2.0.0';
-const CACHE_NAME = 'gamescom-party-discovery-v2';
-const DATA_CACHE = 'gamescom-data-v2';
-const RUNTIME_CACHE = 'gamescom-runtime-v2';
+const CACHE_VERSION = '1.0.0';
+const CACHE_NAME = 'gamescom-party-discovery-v1';
+const DATA_CACHE = 'gamescom-data-v1';
+const RUNTIME_CACHE = 'gamescom-runtime-v1';
 
 // Essential files to cache immediately
 const ESSENTIAL_CACHE = [
@@ -62,15 +62,14 @@ self.addEventListener('install', event => {
 });
 
 /**
- * 🔄 SERVICE WORKER ACTIVATION - FORCE CACHE CLEAR
+ * 🔄 SERVICE WORKER ACTIVATION
  */
 self.addEventListener('activate', event => {
     console.log('✅ Service Worker activated, version:', CACHE_VERSION);
-    console.log('🧹 FORCING COMPLETE CACHE CLEAR');
     
     event.waitUntil(
         Promise.all([
-            forceCompleteCacheClear(),
+            cleanupOldCaches(),
             self.clients.claim()
         ])
     );
@@ -207,44 +206,6 @@ async function cleanupOldCaches() {
 }
 
 /**
- * 🧹 FORCE COMPLETE CACHE CLEAR
- */
-async function forceCompleteCacheClear() {
-    console.log('🧹 FORCE CLEARING ALL CACHES');
-    
-    try {
-        // Get all cache names
-        const cacheNames = await caches.keys();
-        console.log('📋 Found caches:', cacheNames);
-        
-        // Delete ALL caches (including current ones to force refresh)
-        const deletionPromises = cacheNames.map(async cacheName => {
-            console.log('🗑️ FORCE DELETING cache:', cacheName);
-            await caches.delete(cacheName);
-            return cacheName;
-        });
-        
-        const deletedCaches = await Promise.all(deletionPromises);
-        console.log('✅ FORCE DELETED all caches:', deletedCaches);
-        
-        // Notify all clients to reload
-        const clients = await self.clients.matchAll();
-        clients.forEach(client => {
-            client.postMessage({
-                type: 'CACHE_CLEARED',
-                version: CACHE_VERSION,
-                message: 'All caches cleared - please refresh'
-            });
-        });
-        
-        console.log('🎯 CACHE CLEAR COMPLETE - Fresh start guaranteed');
-        
-    } catch (error) {
-        console.error('❌ Error during force cache clear:', error);
-    }
-}
-
-/**
  * 🔄 BACKGROUND SYNC
  */
 async function backgroundSync() {
@@ -261,4 +222,4 @@ async function backgroundSync() {
     }
 }
 
-console.log('🚀 Service Worker loaded, version:', CACHE_VERSION, '- FORCE CACHE CLEAR ENABLED');
+console.log('🚀 Service Worker loaded, version:', CACHE_VERSION);
