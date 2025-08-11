@@ -1,6 +1,5 @@
 // LinkedIn auth integration (vanilla, Store/Events, Slack-dark)
-import Store from './store.js';
-import Events from './events.js';
+import { Store, Events } from './state.js';
 
 // Config: server starts OAuth (server handles client_id/secret safely)
 const LINKEDIN_START = '/api/auth/linkedin/start'; // GET -> redirect to LinkedIn with state

@@ -1,6 +1,5 @@
 // Parse /invite/:code and emit to invite system, route to Invites
-import Events from './events.js';
-import Store from './store.js';
+import { Events, Store } from './state.js';
 
 function parseInviteFromLocation(){
   const path = location.pathname.replace(/\/+$/,'');

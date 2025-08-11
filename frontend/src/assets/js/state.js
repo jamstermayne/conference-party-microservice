@@ -124,8 +124,9 @@ export const EVENTS = {
   BONUS_UNLOCKED: 'bonus-unlocked'
 };
 
-// Tiny pub/sub
-const bus = document;
+// Event system using EventTarget for proper browser compatibility
+const bus = new EventTarget();
+
 export const Events = {
   on: (t, fn) => bus.addEventListener(t, fn),
   off: (t, fn) => bus.removeEventListener(t, fn),

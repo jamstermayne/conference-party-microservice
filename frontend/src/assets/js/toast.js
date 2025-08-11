@@ -1,5 +1,5 @@
 // Central toast system + ARIA live announcements
-import Events from './events.js';
+import { Events } from './state.js';
 
 let wrap, live;
 function ensureContainers(){

@@ -100,23 +100,26 @@ function initRouter() {
   }
   
   function updateNavigation(routeInfo) {
-    document.querySelectorAll('[data-tab]').forEach(tab => {
+    // Clear all active states
+    document.querySelectorAll('.nav-item').forEach(tab => {
       tab.classList.remove('active');
     });
     
-    const tabMap = {
-      'home': 'now',
-      'people': 'people', 
+    // Map route names to data-route values
+    const routeMap = {
+      'home': 'parties',
+      'events': 'parties', 
+      'people': 'hotspots',
       'opportunities': 'opportunities',
-      'events': 'events',
+      'calendar': 'calendar',
+      'invites': 'invites',
       'me': 'me'
     };
     
-    const tabName = tabMap[routeInfo.name];
-    if (tabName) {
-      document.querySelectorAll(`[data-tab="${tabName}"]`).forEach(tab => {
-        tab.classList.add('active');
-      });
+    const routeName = routeMap[routeInfo.name] || routeInfo.name;
+    const activeTab = document.querySelector(`[data-route="${routeName}"]`);
+    if (activeTab) {
+      activeTab.classList.add('active');
     }
   }
   
@@ -125,6 +128,42 @@ function initRouter() {
     const newHash = path.startsWith('#') ? path : '#' + path;
     window.location.hash = newHash;
   });
+  
+  window.addEventListener('hashchange', route);
+  
+  // CRITICAL: Add sidebar navigation click handlers
+  function initSidebarNavigation() {
+    document.querySelectorAll('.nav-item[data-route]').forEach(navItem => {
+      navItem.addEventListener('click', (e) => {
+        e.preventDefault();
+        const routeName = navItem.dataset.route;
+        
+        // Map data-route to actual hash routes
+        const hashMap = {
+          'parties': '#/events',
+          'hotspots': '#/people', 
+          'opportunities': '#/opportunities',
+          'calendar': '#/calendar',
+          'invites': '#/invites',
+          'me': '#/me'
+        };
+        
+        const hash = hashMap[routeName] || `#/${routeName}`;
+        window.location.hash = hash;
+        
+        console.log(`🧭 Navigation: ${routeName} -> ${hash}`);
+      });
+    });
+    
+    console.log('✅ Sidebar navigation handlers attached');
+  }
+  
+  // Initialize after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSidebarNavigation);
+  } else {
+    initSidebarNavigation();
+  }
   
   window.addEventListener('hashchange', route);
   route(); // Initial route

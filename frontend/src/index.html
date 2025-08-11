@@ -138,8 +138,11 @@
     }
   </script>
   
+  <!-- CRITICAL: Emergency navigation fix loaded first -->
+  <script type="module" src="assets/js/navigation-fix.js"></script>
+  
+  <!-- SINGLE APP LOADER - CRITICAL FIX -->
   <script type="module" src="assets/js/app-bootstrap.js?v=1754872638"></script>
-  <script type="module" src="assets/js/app.js?v=1754872638"></script>
   <script type="module" src="assets/js/linkedin-auth.js"></script>
   <script type="module" src="assets/js/invite-deeplink.js"></script>
   <script type="module" src="assets/js/toast.js"></script>
