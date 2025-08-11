@@ -1,25 +1,25 @@
-// Production Feature Flags (env-guarded)
-import { getJSON } from '/assets/js/http.js';
+// featureFlags.js (production-safe)
+import { getJSON } from './http.js';
+import logger from './logger.js';
 
-const cache = Object.create(null);
-
-async function refresh() {
-  const env = window.__ENV || {};
-  if (!env.FLAGS_API) {
-    // fallback to local defaults
-    return cache;
+const Flags = {
+  _cache: {},
+  async refresh() {
+    try {
+      const url = (window.__ENV && window.__ENV.FLAGS_URL) || '/api/flags';
+      const data = await getJSON(url);
+      this._cache = data || {};
+      return this._cache;
+    } catch (err) {
+      // Only log at debug; don't pollute console in prod when endpoint not present.
+      try { logger.debug && logger.debug('flags skipped (no endpoint)'); } catch {}
+      this._cache = {};
+      return this._cache;
+    }
+  },
+  get(key, fallback = undefined) {
+    return (key in this._cache) ? this._cache[key] : fallback;
   }
-  const url = env.FLAGS_URL || '/api/flags';
-  const data = await getJSON(url).catch(() => ({}));
-  Object.assign(cache, data || {});
-  return cache;
-}
+};
 
-function get(name, defaultVal = false) {
-  const v = cache[name];
-  return typeof v === 'undefined' ? defaultVal : v;
-}
-
-function all() { return { ...cache }; }
-
-export default { refresh, get, all };
+export default Flags;

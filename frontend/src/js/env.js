@@ -6,10 +6,8 @@ window.__ENV = Object.assign({}, window.__ENV || {}, {
   INVITES_API: false,
   
   // toggle when backend endpoints are ready
-  METRICS_API: false,
-  FLAGS_API: false,
-  ACTIVITY_API: false,
-  // optional endpoints (when you flip to true)
+  METRICS_ENABLED: false,     // enables POST only when true
   METRICS_URL: '/api/metrics',
-  FLAGS_URL: '/api/flags'
+  FLAGS_URL: '/api/flags',
+  ACTIVITY_API: false
 });

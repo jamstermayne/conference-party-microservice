@@ -46,6 +46,29 @@ function mount(parent) {
   const node = host.firstElementChild;
   parent.prepend(node); // top of events route
 
+  // ARIA progress attachment (add after const bar = ...)
+  const wrap = node;
+  const aria = document.createElement('div');
+  aria.setAttribute('role', 'progressbar');
+  aria.setAttribute('aria-valuemin', '0');
+  aria.setAttribute('aria-valuemax', String(GOAL));
+  aria.setAttribute('aria-label', 'Party selection progress');
+  aria.className = 'sr-only';
+  wrap.querySelector('.ftue-progress').appendChild(aria);
+
+  function render(selected) {
+    const pct = Math.min((selected.length / GOAL) * 100, 100);
+    const bar = wrap.querySelector('.ftue-progress__bar');
+    if (bar) bar.style.width = `${pct}%`;
+    
+    const btn = wrap.querySelector('button');
+    if (btn) {
+      btn.disabled = selected.length < GOAL;
+      btn.textContent = selected.length < GOAL ? `Pick ${GOAL - selected.length} more` : 'Save & Install';
+    }
+    aria.setAttribute('aria-valuenow', String(selected.length));
+  }
+
   // Accessibility focus on first show
   setTimeout(() => node?.focus?.(), 0);
 }

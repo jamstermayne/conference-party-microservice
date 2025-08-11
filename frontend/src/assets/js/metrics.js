@@ -1,44 +1,52 @@
-// Production Metrics (env-aware, no-throw)
-const q = [];
-let flushed = false;
+// metrics.js (production-safe, backend-optional)
+import logger from './logger.js';
 
-function now() { return new Date().toISOString(); }
+const cfg = (window.__ENV || {});
+const METRICS_ENABLED = cfg.METRICS_ENABLED === true;
+const METRICS_URL = cfg.METRICS_URL || '/api/metrics'; // only used if enabled
 
-function track(event, payload = {}) {
-  q.push({ event, payload, ts: now() });
-  if (!flushed) tryFlush();
+const queue = [];
+let flushTimer = null;
+
+function startFlush() {
+  if (flushTimer) return;
+  flushTimer = setInterval(async () => {
+    if (!METRICS_ENABLED || queue.length === 0) return;
+    const batch = queue.splice(0, queue.length);
+    try {
+      const res = await fetch(METRICS_URL, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ batch, ts: Date.now() })
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      logger.info && logger.info(`📤 Flushed ${batch.length} metrics`);
+    } catch (e) {
+      // Put back if failed; but don't spam errors when backend isn't ready
+      queue.unshift(...batch);
+      logger.debug && logger.debug('metrics skipped (no endpoint yet)');
+    }
+  }, 15000);
 }
 
-function tryFlush() {
-  const env = window.__ENV || {};
-  if (!env.METRICS_API) {
-    if (!flushed) { flushed = true; console.debug('📊 Metrics in-memory only (METRICS_API=false).'); }
-    return;
+const Metrics = {
+  track(event, payload = {}) {
+    const rec = { event, payload, at: Date.now(), route: location.hash || '#' };
+    if (!METRICS_ENABLED) {
+      // No backend: keep it quiet; tiny hint for dev only
+      logger.debug && logger.debug('📊 Metric tracked:', rec);
+      return;
+    }
+    queue.push(rec);
+  },
+  trackRoute(route) {
+    this.track('route_change', { route });
+  },
+  trackInstallPromptShown(meta = {}) {
+    this.track('install_prompt_shown', meta);
   }
-  if (q.length === 0) return;
-
-  const url = env.METRICS_URL || '/api/metrics';
-  const batch = q.splice(0, q.length);
-  fetch(url, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ app: 'velocity', batch })
-  }).catch(() => {
-    // put back on failure (best-effort)
-    q.unshift(...batch);
-  });
-}
-
-// Background flush every 15s when enabled
-setInterval(tryFlush, 15000);
-
-// Expose globally for existing calls (e.g., trackInstallPromptShown already mapped)
-window.Metrics = {
-  track,
-  trackRoute: (route) => track('route', { route }),
-  trackInstallPromptShown: () => track('install_prompt_shown'),
-  trackInstallAccepted: () => track('install_accept'),
-  trackInstallDismissed: () => track('install_dismiss'),
 };
 
-export default window.Metrics;
+startFlush();
+window.Metrics = Metrics;
+export default Metrics;

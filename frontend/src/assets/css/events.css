@@ -93,3 +93,94 @@
 .install-card h4 { margin:0; color: var(--text-1); font-weight: 700; }
 .install-card p  { margin:2px 0 0; color: var(--text-2); font-size: 13px; }
 .install-card .btn { white-space: nowrap; }
+
+/* === Events: skeleton cards === */
+.event-skeleton {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px;
+  background: var(--surface);
+  margin: 8px 0;
+}
+.event-skeleton .skel-line {
+  height: 12px;
+  border-radius: 6px;
+  background: #171720;
+  position: relative;
+  overflow: hidden;
+}
+.event-skeleton .skel-line + .skel-line { margin-top: 10px; }
+.event-skeleton .skel-chip {
+  width: 64px;
+  height: 20px;
+  border-radius: 999px;
+  background: #171720;
+  display: inline-block;
+  margin-top: 12px;
+}
+.event-skeleton .skel-line::after,
+.event-skeleton .skel-chip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer { 100% { transform: translateX(100%);} }
+
+/* === Event card hover (desktop only) === */
+@media (hover:hover) and (pointer:fine) {
+  .event-card {
+    transition: transform var(--t-fast) var(--ease-out), border-color var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out);
+    will-change: transform;
+  }
+  .event-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(107,123,255,.6);
+    box-shadow: 0 8px 24px rgba(0,0,0,.35), 0 0 0 1px rgba(107,123,255,.15) inset;
+  }
+}
+
+/* === Selected state visual aid (from Patch H optional) === */
+[data-party-id].is-selected {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: -2px;
+}
+
+/* === View transition helpers (safe fallback if native not present) === */
+.viewtx-fade-enter {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.viewtx-fade-enter.viewtx-fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity var(--t-normal) var(--ease-out), transform var(--t-normal) var(--ease-out);
+}
+.viewtx-fade-exit {
+  opacity: 1;
+}
+.viewtx-fade-exit.viewtx-fade-exit-active {
+  opacity: 0;
+  transition: opacity var(--t-normal) var(--ease-out);
+}
+
+/* === Empty state card === */
+.empty-card {
+  border: 1px dashed var(--border);
+  background: #121217;
+  border-radius: var(--r-lg);
+  padding: 20px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+.empty-card strong { color: var(--text-primary); }
+
+/* === FTUE progress ARIA-friendly visual tweak === */
+.ftue-progress {
+  position: relative;
+}
+.ftue-progress [role="progressbar"] {
+  position: absolute; /* invisible overlay for screen readers only via sr-only if you prefer */
+}
