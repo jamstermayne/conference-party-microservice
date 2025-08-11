@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <meta name="theme-color" content="#1A1D21"/>
+  <meta name="theme-color" content="#6b7bff"/>
   <meta name="color-scheme" content="dark"/>
-  <meta name="description" content="Velocity — Private conference parties & professional networking for Gamescom 2025"/>
+  <meta name="description" content="Real-time parties, pro networking, and calendar sync for Gamescom. Install the PWA for one-tap access."/>
   <title>Velocity — Gamescom 2025</title>
 
   <!-- PWA -->
@@ -15,10 +15,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   
   <!-- Social -->
-  <meta property="og:title" content="Velocity — Gamescom 2025"/>
-  <meta property="og:description" content="Private conference parties & professional networking."/>
+  <meta property="og:title" content="Gamescom Parties & Pro Network"/>
+  <meta property="og:description" content="See tonight's parties, who's there, and sync your calendar."/>
   <meta property="og:image" content="social/share-default.png?v=1754872638"/>
   <meta property="og:url" content="https://conference-party-app.web.app"/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  
+  <!-- Performance preloads (safe defaults) -->
+  <link rel="preload" href="assets/css/event-cards.css" as="style">
+  <link rel="preload" href="assets/css/animations.css" as="style">
+  <link rel="preload" href="assets/css/main.css" as="style">
   
   <!-- Styles - CACHE BUSTED -->
   <link rel="stylesheet" href="assets/css/styles.css?v=1754872638"/>
@@ -26,6 +33,7 @@
   <link rel="stylesheet" href="assets/css/animations.css?v=1754872638"/>
   <link rel="stylesheet" href="assets/css/event-cards.css?v=1754872638"/>
   <link rel="stylesheet" href="assets/css/email-sync-popup.css?v=1754872638"/>
+  <link rel="stylesheet" href="assets/css/toast.css"/>
 </head>
 
 <body>
@@ -102,8 +110,9 @@
     <button id="btn-google" class="btn btn-auth">
       Sign in with Google
     </button>
-    <button id="btn-linkedin" class="btn btn-auth">
-      Sign in with LinkedIn  
+    <button class="btn btn-primary" data-provider="linkedin">
+      <img src="assets/svg/linkedin.svg" alt="" width="16" height="16" style="vertical-align:middle;margin-right:8px;">
+      Continue with LinkedIn
     </button>
     <button id="btn-demo" class="btn btn-secondary">
       Continue as Demo
@@ -131,5 +140,9 @@
   
   <script type="module" src="assets/js/app-bootstrap.js?v=1754872638"></script>
   <script type="module" src="assets/js/app.js?v=1754872638"></script>
+  <script type="module" src="assets/js/linkedin-auth.js"></script>
+  <script type="module" src="assets/js/invite-deeplink.js"></script>
+  <script type="module" src="assets/js/toast.js"></script>
+  <script type="module" src="assets/js/a11y.js"></script>
 </body>
 </html>
