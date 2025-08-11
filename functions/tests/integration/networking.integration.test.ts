@@ -6,13 +6,15 @@
 import {describe, test, expect, beforeEach, afterEach} from "@jest/globals";
 
 describe("🤝 Professional Networking Integration Tests", () => {
-  let mockDb: any;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let _mockDb: any;
   let mockUser: any;
-  let mockEventData: any;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let _mockEventData: any;
 
   beforeEach(() => {
     // Set up mock database
-    mockDb = {
+    _mockDb = {
       collection: jest.fn(() => ({
         doc: jest.fn(() => ({
           get: jest.fn(() => Promise.resolve({
@@ -34,7 +36,7 @@ describe("🤝 Professional Networking Integration Tests", () => {
 
     // Set up mock user data
     mockUser = (global as any).testUtils.createMockUser();
-    mockEventData = (global as any).testUtils.createMockEvent();
+    _mockEventData = (global as any).testUtils.createMockEvent();
   });
 
   afterEach(() => {
@@ -783,7 +785,8 @@ describe("🤝 Professional Networking Integration Tests", () => {
           } : null;
         },
 
-        async createConnection(userId: string, connectionData: any) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        async createConnection(_userId: string, _connectionData: any) {
           // Mock connection creation
           return {success: true, connectionId: `conn_${Date.now()}`};
         },
@@ -802,7 +805,9 @@ describe("🤝 Professional Networking Integration Tests", () => {
 
       // Test import
       const importResults = await networkPortability.importUserNetwork("user_456", exportedNetwork);
-      expect(importResults.imported + importResults.duplicates + importResults.errors).toBe(exportedNetwork.connections.length);
+      expect(importResults.imported + importResults.duplicates + importResults.errors).toBe(
+        exportedNetwork.connections.length
+      );
     });
   });
 
@@ -897,6 +902,10 @@ describe("🤝 Professional Networking Integration Tests", () => {
     });
 
     test("should optimize for offline networking scenarios", async () => {
+      // Mock navigator.onLine as false for this test
+      const originalNavigator = global.navigator;
+      global.navigator = {...originalNavigator, onLine: false} as any;
+      
       const offlineNetworking = {
         offlineQueue: [],
         connectionCache: new Map(),
@@ -963,7 +972,8 @@ describe("🤝 Professional Networking Integration Tests", () => {
           }
         },
 
-        async syncConnection(connectionData: any) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        async syncConnection(_connectionData: any) {
           // Simulate API call
           await new Promise((resolve) => setTimeout(resolve, 100));
           return {success: true, connectionId: `conn_${Date.now()}`};
@@ -1020,6 +1030,9 @@ describe("🤝 Professional Networking Integration Tests", () => {
       const stats = offlineNetworking.getQueueStats();
       expect(stats.total).toBe(2);
       expect(stats.completed).toBeGreaterThan(0);
+      
+      // Restore original navigator mock
+      global.navigator = originalNavigator;
     });
   });
 });

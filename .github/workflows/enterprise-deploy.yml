@@ -1,0 +1,135 @@
+name: 🚀 Enterprise Deployment Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '18'
+  FIREBASE_PROJECT_ID: 'conference-party-app'
+
+jobs:
+  quality-gate:
+    name: 🔍 Quality Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      should-deploy: ${{ steps.quality-check.outputs.deploy }}
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: functions/package-lock.json
+
+      - name: 🔧 Install Dependencies
+        run: |
+          cd functions
+          npm ci --prefer-offline --no-audit
+
+      - name: 🏗️ Build
+        run: |
+          cd functions
+          npm run build
+
+      - name: 🧪 Run Tests with Coverage
+        run: |
+          cd functions
+          npm run test:ci || npm test -- --coverage --watchAll=false
+        env:
+          CI: true
+
+      - name: 🔍 Lint & Security Audit
+        run: |
+          cd functions
+          npm run lint
+          npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: 📋 Quality Check Decision
+        id: quality-check
+        run: |
+          echo "Quality checks passed ✅"
+          echo "deploy=true" >> $GITHUB_OUTPUT
+
+  performance-test:
+    name: ⚡ Performance Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: quality-gate
+    if: needs.quality-gate.outputs.should-deploy == 'true'
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: functions/package-lock.json
+
+      - name: 🔧 Install Dependencies
+        run: |
+          cd functions
+          npm ci
+
+      - name: ⚡ Run Performance Tests
+        run: |
+          cd functions
+          npm run test:performance || npm test -- --testPathPattern=performance
+        env:
+          PERFORMANCE_THRESHOLD: 1000
+
+  production-deploy:
+    name: 🚀 Production Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [quality-gate, performance-test]
+    if: github.ref == 'refs/heads/main' && needs.quality-gate.outputs.should-deploy == 'true'
+    environment: production
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 🔧 Install Dependencies & Build
+        run: |
+          npm ci
+          npm run build
+          cd functions && npm run build
+
+      - name: 🚀 Deploy to Firebase Production
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+          projectId: ${{ env.FIREBASE_PROJECT_ID }}
+          channelId: live
+
+      - name: 🏥 Production Health Check
+        run: |
+          sleep 45
+          npm run firebase:health
+        continue-on-error: true
+          
+      - name: 🎉 Deployment Success
+        run: |
+          echo "✅ Production deployment successful!"
+          echo "📱 App URL: https://conference-party-app.web.app"

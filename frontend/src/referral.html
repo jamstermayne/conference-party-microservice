@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invite & Share - Gamescom 2025 Party Discovery</title>
+    <meta name="theme-color" content="#4A154B">
+    <meta name="description" content="Invite friends to Gamescom 2025 events. Share your favorite gaming industry parties and earn rewards for growing the community.">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1>🎮 Gamescom Party Discovery</h1>
+                    <span class="nav-subtitle">Invite Friends • Earn Rewards</span>
+                </div>
+                <div class="nav-actions">
+                    <button id="themeToggle" class="nav-button">
+                        🌙 Dark Mode
+                    </button>
+                    <div class="nav-links">
+                        <a href="/" class="nav-link">🔍 Search</a>
+                        <a href="/maps.html" class="nav-link">🗺️ Maps</a>
+                        <a href="/calendar.html" class="nav-link">📅 Calendar</a>
+                        <a href="/referral.html" class="nav-link active">🎉 Invite</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2>Share the Gaming Network</h2>
+                    <p>Invite friends to discover the best Gamescom 2025 events. Build your professional gaming network and unlock exclusive perks together.</p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number" id="totalInvites">0</span>
+                            <span class="stat-label">Friends Invited</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="successfulReferrals">0</span>
+                            <span class="stat-label">Joined</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="rewardPoints">0</span>
+                            <span class="stat-label">Points Earned</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-cta">
+                    <button id="generateInviteBtn" class="btn-primary btn-large">
+                        🔗 Generate Invite Link
+                    </button>
+                    <p class="cta-subtitle">Share with colleagues • Earn rewards</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Referral Dashboard -->
+        <section class="referral-dashboard">
+            <div class="dashboard-container">
+                <div class="referral-card active-referral">
+                    <div class="card-header">
+                        <h3>🎯 Your Referral Code</h3>
+                        <span class="status-badge active">Active</span>
+                    </div>
+                    <div class="referral-code-section">
+                        <div class="code-display">
+                            <span class="code-prefix">gamescom2025.party/</span>
+                            <span id="referralCode" class="referral-code">LOADING...</span>
+                            <button id="copyCodeBtn" class="copy-btn" title="Copy to clipboard">📋</button>
+                        </div>
+                        <div class="code-stats">
+                            <div class="stat-item">
+                                <span class="stat-value" id="codeClicks">0</span>
+                                <span class="stat-label">Clicks</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="codeConversions">0</span>
+                                <span class="stat-label">Sign-ups</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="referral-card rewards-summary">
+                    <div class="card-header">
+                        <h3>🏆 Rewards Summary</h3>
+                        <button id="redeemRewardsBtn" class="btn-secondary btn-small" disabled>
+                            Redeem Points
+                        </button>
+                    </div>
+                    <div class="rewards-content">
+                        <div class="reward-tier">
+                            <div class="tier-info">
+                                <span class="tier-name">Community Builder</span>
+                                <span class="tier-requirement">5 successful referrals</span>
+                            </div>
+                            <div class="tier-progress">
+                                <div class="progress-bar">
+                                    <div id="tierProgress" class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text" id="tierProgressText">0/5</span>
+                            </div>
+                        </div>
+                        <div class="reward-benefits">
+                            <div class="benefit-item">
+                                <span class="benefit-icon">🎫</span>
+                                <span class="benefit-text">Priority event access</span>
+                            </div>
+                            <div class="benefit-item">
+                                <span class="benefit-icon">👥</span>
+                                <span class="benefit-text">Private networking events</span>
+                            </div>
+                            <div class="benefit-item">
+                                <span class="benefit-icon">🎁</span>
+                                <span class="benefit-text">Exclusive Gamescom merch</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sharing Methods -->
+        <section class="sharing-methods">
+            <div class="sharing-container">
+                <h2 class="section-title">Share Your Invite</h2>
+                <div class="sharing-grid">
+                    <!-- Social Media Shares -->
+                    <div class="share-category">
+                        <h3>📱 Social Media</h3>
+                        <div class="share-buttons">
+                            <button class="share-btn linkedin" onclick="referralApp.shareToLinkedIn()">
+                                <span class="share-icon">💼</span>
+                                LinkedIn
+                            </button>
+                            <button class="share-btn twitter" onclick="referralApp.shareToTwitter()">
+                                <span class="share-icon">🐦</span>
+                                X (Twitter)
+                            </button>
+                            <button class="share-btn whatsapp" onclick="referralApp.shareToWhatsApp()">
+                                <span class="share-icon">💬</span>
+                                WhatsApp
+                            </button>
+                            <button class="share-btn discord" onclick="referralApp.shareToDiscord()">
+                                <span class="share-icon">🎮</span>
+                                Discord
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Direct Communication -->
+                    <div class="share-category">
+                        <h3>📧 Direct Communication</h3>
+                        <div class="share-buttons">
+                            <button class="share-btn email" onclick="referralApp.shareViaEmail()">
+                                <span class="share-icon">📧</span>
+                                Email Invite
+                            </button>
+                            <button class="share-btn sms" onclick="referralApp.shareViaSMS()">
+                                <span class="share-icon">📱</span>
+                                Text Message
+                            </button>
+                            <button class="share-btn slack" onclick="referralApp.shareToSlack()">
+                                <span class="share-icon">💼</span>
+                                Slack
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Professional Networks -->
+                    <div class="share-category">
+                        <h3>🤝 Professional</h3>
+                        <div class="share-buttons">
+                            <button class="share-btn qr" onclick="referralApp.generateQRCode()">
+                                <span class="share-icon">📱</span>
+                                QR Code
+                            </button>
+                            <button class="share-btn embed" onclick="referralApp.generateEmbedCode()">
+                                <span class="share-icon">🔗</span>
+                                Embed Widget
+                            </button>
+                            <button class="share-btn download" onclick="referralApp.downloadInviteCard()">
+                                <span class="share-icon">💳</span>
+                                Business Card
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Referral History -->
+        <section class="referral-history">
+            <div class="history-container">
+                <div class="history-header">
+                    <h2>📊 Referral Activity</h2>
+                    <div class="history-filters">
+                        <select id="historyFilter" class="history-select">
+                            <option value="all">All Time</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                        <button id="exportHistoryBtn" class="btn-secondary btn-small">
+                            📥 Export Data
+                        </button>
+                    </div>
+                </div>
+
+                <div class="activity-timeline">
+                    <div id="referralTimeline" class="timeline-container">
+                        <div class="timeline-item sample">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-action">🔗 Link shared</span>
+                                    <span class="timeline-time">2 hours ago</span>
+                                </div>
+                                <div class="timeline-details">
+                                    Shared via LinkedIn • <span class="platform-tag">Professional</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item sample">
+                            <div class="timeline-dot success"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-action">✅ Friend joined</span>
+                                    <span class="timeline-time">1 day ago</span>
+                                </div>
+                                <div class="timeline-details">
+                                    Alex M. joined via your link • <span class="reward-earned">+50 points</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item sample">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-action">📧 Email sent</span>
+                                    <span class="timeline-time">3 days ago</span>
+                                </div>
+                                <div class="timeline-details">
+                                    5 invites sent to team members
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="empty-timeline hidden">
+                            <div class="empty-icon">📊</div>
+                            <h3>No Activity Yet</h3>
+                            <p>Start sharing your referral link to see activity here!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard -->
+        <section class="referral-leaderboard">
+            <div class="leaderboard-container">
+                <h2 class="section-title">🏆 Community Leaderboard</h2>
+                <div class="leaderboard-content">
+                    <div class="leaderboard-header">
+                        <div class="ranking-tabs">
+                            <button class="ranking-tab active" data-period="month">This Month</button>
+                            <button class="ranking-tab" data-period="all">All Time</button>
+                        </div>
+                        <div class="user-rank">
+                            Your Rank: <span id="userRank">#--</span>
+                        </div>
+                    </div>
+
+                    <div class="leaderboard-list">
+                        <div class="leaderboard-item top-performer">
+                            <div class="rank-badge gold">🥇</div>
+                            <div class="user-info">
+                                <span class="user-name">Gaming Network Pro</span>
+                                <span class="user-title">Industry Veteran</span>
+                            </div>
+                            <div class="user-stats">
+                                <span class="referral-count">47 referrals</span>
+                                <span class="point-count">2,350 pts</span>
+                            </div>
+                        </div>
+
+                        <div class="leaderboard-item top-performer">
+                            <div class="rank-badge silver">🥈</div>
+                            <div class="user-info">
+                                <span class="user-name">Event Connector</span>
+                                <span class="user-title">Community Builder</span>
+                            </div>
+                            <div class="user-stats">
+                                <span class="referral-count">32 referrals</span>
+                                <span class="point-count">1,680 pts</span>
+                            </div>
+                        </div>
+
+                        <div class="leaderboard-item top-performer">
+                            <div class="rank-badge bronze">🥉</div>
+                            <div class="user-info">
+                                <span class="user-name">Party Planner</span>
+                                <span class="user-title">Social Organizer</span>
+                            </div>
+                            <div class="user-stats">
+                                <span class="referral-count">28 referrals</span>
+                                <span class="point-count">1,400 pts</span>
+                            </div>
+                        </div>
+
+                        <div class="leaderboard-more">
+                            <button id="viewFullLeaderboard" class="btn-secondary">
+                                View Full Leaderboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div id="qrModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📱 QR Code</h2>
+                <button id="closeQRModal" class="modal-close">&times;</button>
+            </div>
+            
+            <div class="qr-content">
+                <div class="qr-display">
+                    <div id="qrCodeContainer" class="qr-code-container">
+                        <!-- QR code will be generated here -->
+                        <div class="qr-placeholder">
+                            <div class="qr-icon">📱</div>
+                            <p>Generating QR code...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="qr-instructions">
+                    <h4>Share at Events</h4>
+                    <p>Show this QR code to colleagues at Gamescom 2025. They can scan it with their phone camera to instantly access the event directory.</p>
+                    
+                    <div class="qr-actions">
+                        <button id="downloadQR" class="btn-primary">📥 Download QR</button>
+                        <button id="printQR" class="btn-secondary">🖨️ Print</button>
+                        <button id="shareQR" class="btn-secondary">📤 Share Image</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Embed Code Modal -->
+    <div id="embedModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🔗 Embed Widget</h2>
+                <button id="closeEmbedModal" class="modal-close">&times;</button>
+            </div>
+            
+            <div class="embed-content">
+                <div class="embed-preview">
+                    <h4>Widget Preview</h4>
+                    <div class="widget-preview">
+                        <div class="preview-widget">
+                            <div class="widget-header">🎮 Gamescom 2025 Events</div>
+                            <div class="widget-content">
+                                <p>Discover gaming industry events at Gamescom 2025</p>
+                                <button class="widget-btn">Explore Events</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="embed-code-section">
+                    <h4>Embed Code</h4>
+                    <textarea id="embedCode" class="embed-textarea" readonly>
+&lt;iframe src="https://gamescom2025.party/widget?ref=YOUR_CODE" 
+        width="300" height="200" 
+        frameborder="0" 
+        style="border-radius: 8px;"&gt;&lt;/iframe&gt;
+                    </textarea>
+                    
+                    <div class="embed-actions">
+                        <button id="copyEmbedCode" class="btn-primary">📋 Copy Code</button>
+                        <button id="customizeWidget" class="btn-secondary">⚙️ Customize</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        window.CONFIG = { 
+            apiBase: 'https://us-central1-conference-party-app.cloudfunctions.net',
+            version: '2.0.0',
+            referrals: {
+                enabled: true,
+                pointsPerReferral: 50,
+                tierThresholds: [5, 10, 25, 50],
+                rewardsEnabled: true
+            }
+        };
+    </script>
+    <script src="/js/api.js"></script>
+    <script src="/js/referral.js"></script>
+    <script src="/js/pwa-init.js"></script>
+</body>
+</html>

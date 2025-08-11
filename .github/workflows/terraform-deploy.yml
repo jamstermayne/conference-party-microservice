@@ -152,7 +152,7 @@ jobs:
           
       - name: 'Upload Terraform Outputs'
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: terraform-outputs-development
           path: terraform/terraform-outputs-dev.json
@@ -227,7 +227,7 @@ jobs:
           
       - name: 'Upload Terraform Outputs'
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: terraform-outputs-staging
           path: terraform/terraform-outputs-staging.json
@@ -326,7 +326,7 @@ jobs:
           
       - name: 'Upload Terraform Outputs'
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: terraform-outputs-production
           path: terraform/terraform-outputs-production.json
@@ -411,7 +411,7 @@ jobs:
           echo "- Production: ${{ needs.terraform-production.result }}" >> deployment-report.md
           
       - name: 'Upload Deployment Report'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: deployment-report
           path: deployment-report.md

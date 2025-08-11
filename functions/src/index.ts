@@ -170,14 +170,7 @@ async function validateInviteCode(code: string): Promise<{
 }
 
 // Simple health check
-export const api = onRequest({
-  invoker: "public",
-  cors: false,
-  maxInstances: 20,
-  timeoutSeconds: 60,
-  memory: "256MiB" as const,
-  minInstances: 0,
-}, async (req: Request, res: Response) => {
+export const api = onRequest(async (req: Request, res: Response) => {
   // Set CORS headers immediately
   setCorsHeaders(res, req);
 
@@ -215,12 +208,38 @@ export const api = onRequest({
       await handleInviteValidation(req, res);
       break;
 
+    case "/flags":
+      // Feature flags endpoint - returns empty object in production
+      setCorsHeaders(res, req);
+      res.json({});
+      break;
+
+    case "/metrics":
+      // Metrics endpoint - accepts metrics but doesn't process them in production
+      setCorsHeaders(res, req);
+      if (req.method === "POST") {
+        res.status(200).json({ success: true });
+      } else {
+        res.status(405).json({ error: "Method not allowed. Use POST." });
+      }
+      break;
+
+    case "/parties":
+      // Parties endpoint - returns sample data for now
+      setCorsHeaders(res, req);
+      res.json({
+        success: true,
+        data: [],
+        timestamp: new Date().toISOString(),
+      });
+      break;
+
     default:
       setCorsHeaders(res);
       res.status(404).json({
         success: false,
         error: "Endpoint not found",
-        availableEndpoints: ["/health", "/invite/validate"],
+        availableEndpoints: ["/health", "/invite/validate", "/flags", "/metrics", "/parties"],
         timestamp: new Date().toISOString(),
       });
     }

@@ -1,6 +1,11 @@
-import * as dotenv from "dotenv";
-
-dotenv.config();
+// Only load dotenv in development
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const dotenv = require("dotenv");
+  dotenv.config();
+} catch {
+  // dotenv not available in production, which is fine
+}
 
 function getEnvironment(): "development" | "staging" | "production" {
   const env = process.env["NODE_ENV"] || "production";

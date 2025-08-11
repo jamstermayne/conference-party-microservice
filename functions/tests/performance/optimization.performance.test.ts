@@ -162,7 +162,9 @@ describe("⚡ Performance Optimization Systems", () => {
       }
 
       // Should stay under memory limit due to LRU eviction
-      expect(mockCacheWithMemoryPressure.getMemoryUsage()).toBeLessThanOrEqual(mockCacheWithMemoryPressure.maxMemorySize);
+      expect(mockCacheWithMemoryPressure.getMemoryUsage()).toBeLessThanOrEqual(
+        mockCacheWithMemoryPressure.maxMemorySize
+      );
       expect(mockCacheWithMemoryPressure.memoryCache.size).toBeGreaterThan(0);
       expect(mockCacheWithMemoryPressure.memoryCache.size).toBeLessThan(1200);
     });
@@ -495,8 +497,14 @@ describe("⚡ Performance Optimization Systems", () => {
       };
 
       console.log("Enterprise Performance Benchmarks:");
-      console.log(`  API Response Time: ${benchmarkResults.apiResponseTime.toFixed(2)}ms (target: <${benchmarks.apiResponseTime.target}ms)`);
-      console.log(`  Throughput: ${benchmarkResults.throughput.toFixed(0)} ops/sec (target: >${benchmarks.throughput.target} ops/sec)`);
+      console.log(
+        `  API Response Time: ${benchmarkResults.apiResponseTime.toFixed(2)}ms ` +
+        `(target: <${benchmarks.apiResponseTime.target}ms)`
+      );
+      console.log(
+        `  Throughput: ${benchmarkResults.throughput.toFixed(0)} ops/sec ` +
+        `(target: >${benchmarks.throughput.target} ops/sec)`
+      );
       console.log(`  Total Test Time: ${benchmarkResults.totalTime.toFixed(2)}ms`);
       console.log(`  Iterations: ${benchmarkResults.iterations}`);
     });
@@ -722,7 +730,10 @@ export const PerformanceTestUtils = {
   assertPerformance(actualMs: number, maxMs: number, operation: string = "operation") {
     expect(actualMs).toBeLessThanOrEqual(maxMs);
     if (actualMs > maxMs * 0.8) {
-      console.warn(`⚠️ Performance warning: ${operation} took ${actualMs.toFixed(2)}ms (${((actualMs/maxMs)*100).toFixed(0)}% of limit)`);
+      console.warn(
+        `⚠️ Performance warning: ${operation} took ${actualMs.toFixed(2)}ms ` +
+        `(${((actualMs/maxMs)*100).toFixed(0)}% of limit)`
+      );
     }
   },
 };

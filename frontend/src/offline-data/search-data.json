@@ -1,0 +1,54 @@
+{
+  "events": [
+    {
+      "id": "offline-gamescom-opening",
+      "name": "Gamescom 2025 Opening Ceremony",
+      "Event Name": "Gamescom 2025 Opening Ceremony",
+      "date": "2025-08-20",
+      "Date": "2025-08-20",
+      "startTime": "10:00",
+      "Start Time": "10:00",
+      "venue": "Koelnmesse Hall 1",
+      "Address": "Koelnmesse Hall 1, Cologne",
+      "category": "launch",
+      "Category": "Launch",
+      "description": "Official opening ceremony for Gamescom 2025 - the world's largest gaming event",
+      "Description": "Official opening ceremony for Gamescom 2025 - the world's largest gaming event"
+    },
+    {
+      "id": "offline-indie-showcase",
+      "name": "Indie Games Showcase",
+      "Event Name": "Indie Games Showcase",
+      "date": "2025-08-21",
+      "Date": "2025-08-21",
+      "startTime": "14:00",
+      "Start Time": "14:00",
+      "venue": "Koelnmesse Hall 8",
+      "Address": "Koelnmesse Hall 8, Cologne",
+      "category": "networking",
+      "Category": "Networking",
+      "description": "Discover the most innovative indie games and meet their creators",
+      "Description": "Discover the most innovative indie games and meet their creators"
+    },
+    {
+      "id": "offline-esports-tournament",
+      "name": "ESL Championship Finals",
+      "Event Name": "ESL Championship Finals",
+      "date": "2025-08-22",
+      "Date": "2025-08-22", 
+      "startTime": "16:00",
+      "Start Time": "16:00",
+      "venue": "LANXESS Arena",
+      "Address": "LANXESS Arena, Cologne",
+      "category": "afterparty",
+      "Category": "Afterparty",
+      "description": "Watch the best esports teams compete in the championship finals",
+      "Description": "Watch the best esports teams compete in the championship finals"
+    }
+  ],
+  "meta": {
+    "generated": "2025-08-07T21:40:00.000Z",
+    "source": "offline-fallback",
+    "count": 3
+  }
+}

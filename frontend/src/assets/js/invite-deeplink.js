@@ -1,27 +1,31 @@
-// Parse /invite/:code and emit to invite system, route to Invites
-import { Events, Store } from './state.js';
+import Events from './foundation/events.js';
 
-function parseInviteFromLocation(){
-  const path = location.pathname.replace(/\/+$/,'');
-  const m = path.match(/^\/invite\/([A-Za-z0-9\-]+)/);
-  if (m) return m[1];
-  // Fallback: ?invite=CODE
-  const p = new URLSearchParams(location.search);
-  if (p.has('invite')) return p.get('invite');
-  return null;
+function parseInviteFromURL(){
+  const m1 = location.pathname.match(/\/invite\/([A-Za-z0-9\-]+)/);
+  if (m1) return m1[1];
+  const url = new URL(location.href);
+  return url.searchParams.get('invite') || null;
+}
+async function validate(code){
+  try{
+    const r = await fetch(`/api/invites/validate?code=${encodeURIComponent(code)}`, { credentials:'include' });
+    return r.ok;
+  }catch{ return false; }
 }
 
-function handle(){
-  const code = parseInviteFromLocation();
+export async function handleInviteDeeplink(){
+  const code = parseInviteFromURL();
   if (!code) return;
-  // Persist temporarily for later flows
-  Store.patch('invites.pendingCode', code);
-  // Notify invite controller layer
-  Events.emit('invite:redeem', { code });
-  // Navigate to invites panel
-  Events.emit('navigate', '/invites');
-  // Visual feedback
-  Events.emit('ui:toast', { type:'info', message:`Invite detected: ${code}` });
+  Events.emit?.('invite:deeplink', { code });
+  const ok = await validate(code);
+  if (ok){
+    document.dispatchEvent(new CustomEvent('ui:toast',{ detail:{ type:'ok', message:'Invite detected' }}));
+    Events.emit?.('navigate', '#invites');
+    Events.emit?.('invite:redeem', { code });
+  }else{
+    document.dispatchEvent(new CustomEvent('ui:toast',{ detail:{ type:'error', message:'Invalid invite link' }}));
+  }
 }
 
-document.addEventListener('DOMContentLoaded', handle);
+if (document.readyState !== 'loading') handleInviteDeeplink();
+else document.addEventListener('DOMContentLoaded', handleInviteDeeplink);

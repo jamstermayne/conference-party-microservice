@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Editor Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f12;
+            color: #fff;
+            padding: 2rem;
+        }
+        
+        .big-button {
+            background: #ff0066;
+            color: #fff;
+            border: none;
+            padding: 2rem 4rem;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 12px;
+            margin: 2rem 0;
+            display: block;
+        }
+        
+        .big-button:hover {
+            background: #ff3388;
+        }
+        
+        .test-element {
+            background: #1a1a1f;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            border: 2px solid #333;
+        }
+        
+        .status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="status" id="status">
+        Editor Status: <span id="statusText">Loading...</span>
+    </div>
+    
+    <h1>🎨 Simple Editor Test</h1>
+    
+    <button class="big-button" onclick="activateEditor()">
+        🚀 CLICK HERE TO ACTIVATE EDITOR
+    </button>
+    
+    <div class="test-element">
+        <h2>Test Element 1</h2>
+        <p>Click this element after activating the editor to edit its styles.</p>
+    </div>
+    
+    <div class="test-element" style="background: #2a2a3f;">
+        <h2>Test Element 2</h2>
+        <p>Another element to test editing with.</p>
+    </div>
+
+    <!-- Load the editor -->
+    <script src="/js/standalone-live-editor.js"></script>
+    
+    <script>
+        // Simple activation function
+        function activateEditor() {
+            console.log('Attempting to activate editor...');
+            
+            // Try multiple ways to activate
+            if (window.standaloneLiveEditor) {
+                console.log('Found standaloneLiveEditor');
+                
+                // Method 1: Direct toggle
+                if (window.standaloneLiveEditor.toggleEditor) {
+                    window.standaloneLiveEditor.toggleEditor();
+                    console.log('Called toggleEditor()');
+                }
+                
+                // Method 2: Set active and show toolbar
+                if (!window.standaloneLiveEditor.isActive) {
+                    window.standaloneLiveEditor.isActive = true;
+                    if (window.standaloneLiveEditor.showToolbar) {
+                        window.standaloneLiveEditor.showToolbar();
+                    }
+                    console.log('Manually activated');
+                }
+                
+                // Update status
+                updateStatus();
+                
+                // Show instructions
+                alert('Editor activated! Now:\n\n1. Click any element on the page\n2. A property panel should appear\n3. Edit the values to change styles\n\nIf you don\'t see anything, check the browser console for errors.');
+                
+            } else {
+                alert('Editor not loaded yet. Please wait a moment and try again.');
+                console.error('standaloneLiveEditor not found');
+            }
+        }
+        
+        // Status updater
+        function updateStatus() {
+            const statusText = document.getElementById('statusText');
+            if (!window.standaloneLiveEditor) {
+                statusText.textContent = 'Not Loaded';
+                statusText.style.color = '#ff6666';
+            } else if (window.standaloneLiveEditor.isActive) {
+                statusText.textContent = '✅ ACTIVE';
+                statusText.style.color = '#00ff88';
+            } else {
+                statusText.textContent = 'Ready (Inactive)';
+                statusText.style.color = '#ffaa00';
+            }
+        }
+        
+        // Check status every 500ms
+        setInterval(updateStatus, 500);
+        
+        // Initial check
+        setTimeout(() => {
+            updateStatus();
+            if (window.standaloneLiveEditor) {
+                console.log('✅ Editor loaded successfully');
+                console.log('Editor object:', window.standaloneLiveEditor);
+            } else {
+                console.log('❌ Editor failed to load');
+            }
+        }, 1000);
+        
+        // Add keyboard shortcut
+        document.addEventListener('keydown', function(e) {
+            // On Mac, use Cmd+E, on others use Ctrl+E
+            if ((e.metaKey || e.ctrlKey) && e.key === 'e') {
+                e.preventDefault();
+                activateEditor();
+            }
+        });
+        
+        console.log('Page loaded. Click the big red button or press Cmd+E (Mac) / Ctrl+E (PC)');
+    </script>
+</body>
+</html>

@@ -1,45 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <meta name="theme-color" content="#6b7bff"/>
-  <meta name="color-scheme" content="dark"/>
-  <meta name="description" content="Real-time parties, pro networking, and calendar sync for Gamescom. Install the PWA for one-tap access."/>
+  <!-- Primary Meta -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6b7bff">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Velocity — your private conference social network.">
   <title>Velocity — Gamescom 2025</title>
 
   <!-- PWA -->
-  <link rel="manifest" href="manifest.json?v=1754872638"/>
-  <link rel="apple-touch-icon" href="assets/icons/icon-192.png?v=1754872638"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  
-  <!-- Social -->
-  <meta property="og:title" content="Gamescom Parties & Pro Network"/>
-  <meta property="og:description" content="See tonight's parties, who's there, and sync your calendar."/>
-  <meta property="og:image" content="social/share-default.png?v=1754872638"/>
-  <meta property="og:url" content="https://conference-party-app.web.app"/>
-  <meta property="og:type" content="website"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  
-  <!-- Performance preloads (safe defaults) -->
-  <link rel="preload" href="assets/css/event-cards.css" as="style">
-  <link rel="preload" href="assets/css/animations.css" as="style">
-  <link rel="preload" href="assets/css/main.css" as="style">
-  
-  <!-- Styles - CACHE BUSTED -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=1754872638"/>
-  <link rel="stylesheet" href="assets/css/main.css?v=1754872638"/>
-  <link rel="stylesheet" href="assets/css/animations.css?v=1754872638"/>
-  <link rel="stylesheet" href="assets/css/event-cards.css?v=1754872638"/>
-  <link rel="stylesheet" href="assets/css/email-sync-popup.css?v=1754872638"/>
-  <link rel="stylesheet" href="assets/css/toast.css"/>
-</head>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+  <!-- Social: Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Velocity">
+  <meta property="og:description" content="Join private conference parties and sync your calendar.">
+  <meta property="og:image" content="/social/share-default.png">
+  <meta property="og:url" content="https://conference-party-app.web.app">
+
+  <!-- Social: Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Velocity">
+  <meta name="twitter:description" content="Join private conference parties and sync your calendar.">
+  <meta name="twitter:image" content="/social/share-default.png">
+
+  <!-- SEO -->
+  <link rel="canonical" href="https://conference-party-app.web.app">
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "Tech Leaders Networking Party",
+    "startDate": "2025-08-19T19:00:00+01:00",
+    "endDate": "2025-08-19T23:00:00+01:00",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "location": {
+      "@type": "Place",
+      "name": "Rooftop Bar",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "123 Conference Ave",
+        "addressLocality": "Cologne",
+        "addressCountry": "DE"
+      }
+    },
+    "image": [
+      "https://conference-party-app.web.app/social/event-tech-leaders.png"
+    ],
+    "description": "Join industry leaders for an exclusive networking party during Gamescom.",
+    "organizer": {
+      "@type": "Organization",
+      "name": "Velocity",
+      "url": "https://conference-party-app.web.app"
+    }
+  }
+  </script>
+  
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="/assets/design/tokens.css">
+  <link rel="stylesheet" href="/assets/design/motion.css">
+  <link rel="stylesheet" href="/assets/design/compat.css">
+  
+  <!-- Component CSS -->
+  <link rel="stylesheet" href="/assets/css/event-cards.css">
+  <link rel="stylesheet" href="/assets/css/calendar.css">
+  <link rel="stylesheet" href="/assets/css/install.css">
+  <link rel="stylesheet" href="/assets/css/nav.css">
+  <link rel="stylesheet" href="/assets/css/toast.css">
+  
+  <!-- Legacy styles (if needed) -->
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+</head>
 <body>
-  <!-- Accessibility -->
-  <a href="#main" class="skip-link sr-only">Skip to main content</a>
-  <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
   
   <div id="app" class="app">
     <!-- Slack-style Sidebar -->
@@ -54,98 +96,138 @@
         <button class="nav-item" data-route="opportunities">🎯 Opportunities</button>
         <button class="nav-item" data-route="calendar">📅 Calendar</button>
         <button class="nav-item" data-route="invites">
-          🎟 Invites <span class="badge" data-role="invite-badge" id="invite-counter">10</span>
+          🎟 Invites
+          <span id="invites-badge" class="side-badge" aria-live="polite" aria-atomic="true">—</span>
         </button>
         <button class="nav-item" data-route="me">👤 Me</button>
         <button class="nav-item" data-route="settings">⚙️ Settings</button>
       </nav>
       <div class="side-footer">
+        <div class="auth-section" id="auth-section">
+          <!-- Authentication buttons (shown when not logged in) -->
+          <div class="auth-buttons" id="auth-buttons">
+            <button id="btn-google" class="btn btn-small auth-btn">
+              📧 Sign in with Google
+            </button>
+            <button id="btn-linkedin" class="btn btn-small auth-btn">
+              💼 Sign in with LinkedIn
+            </button>
+          </div>
+          <!-- User profile (shown when logged in) -->
+          <div class="user-profile hidden" id="user-profile">
+            <div class="user-info">
+              <img id="user-avatar" class="user-avatar" alt="User avatar" />
+              <div class="user-details">
+                <div id="user-name" class="user-name"></div>
+                <small id="user-email" class="user-email muted"></small>
+              </div>
+            </div>
+            <button id="btn-signout" class="btn btn-small btn-ghost">Sign Out</button>
+          </div>
+        </div>
         <small class="muted">Exclusive • Privacy-first</small>
       </div>
     </aside>
     <!-- Overlay (mobile) -->
     <div id="overlay" class="overlay" hidden></div>
     <!-- Main Panel -->
-    <main id="main">
+    <main id="main-content">
       <header class="topbar">
         <button id="menu" class="icon-btn" aria-label="Open menu">☰</button>
         <h1 id="page-title">Parties</h1>
       </header>
       <!-- Routes mount here -->
       <section id="route" role="region" aria-live="polite"></section>
+      <!-- Events list for production controller -->
+      <section id="event-list" role="region" aria-label="Gaming industry parties"></section>
       
-      <!-- Main Content Area -->
-      <div id="main-content" tabindex="-1">
-        <div id="event-list"></div>
+      <!-- Calendar Panel -->
+      <section data-route="calendar" id="panel-calendar" class="route-panel" aria-label="Calendar">
+        <header class="panel-header flex flex-row flex-wrap">
+          <h1 class="text-heading">Calendar</h1>
+          <div class="flex-1"></div>
+          <div id="cal-status" class="stack-2 text-secondary" aria-live="polite" aria-atomic="true"></div>
+        </header>
+
+        <!-- Connect row -->
+        <div class="card card-outlined card-compact stack-2" id="cal-connect">
+          <div class="flex flex-wrap stack-2">
+            <button class="btn btn-primary"   data-action="cal-google">Connect Google</button>
+            <button class="btn btn-secondary" data-action="cal-ics">Add ICS</button>
+            <button class="btn btn-ghost"     data-action="cal-m2m">Enable Meet-to-Match</button>
+          </div>
+          <div class="text-caption text-muted">We only use event titles/time/venue during Gamescom. Privacy-first.</div>
+        </div>
+
+        <!-- Week strip -->
+        <div id="cal-week" class="cal-week"></div>
+
+        <!-- Agenda -->
+        <div id="cal-skeleton" class="stack-3" aria-hidden="true">
+          <div class="card card-glass card-compact skeleton"></div>
+          <div class="card card-glass card-compact skeleton"></div>
+        </div>
+        <div id="cal-agenda" class="stack-3" data-test="calendar-agenda"></div>
+
+        <!-- Empty -->
+        <template id="tpl-cal-empty">
+          <div class="card card-outlined card-compact text-secondary">No meetings found for this window.</div>
+        </template>
+      </section>
+      
+      <!-- Enhanced Install Card with Accessibility -->
+      <div id="install-card" class="install-card hidden" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc">
+        <div class="install-content" tabindex="-1">
+          <img src="/assets/icons/icon-192.png" alt="Velocity App Icon" class="install-icon" />
+          <h3 id="install-title">Install Velocity</h3>
+          <p id="install-desc">Add Velocity for instant access to parties & invites.</p>
+          <div class="row gap">
+            <button id="install-btn" class="btn btn-primary" aria-label="Install Velocity App">Install</button>
+            <button id="install-dismiss" class="btn btn-secondary" aria-label="Dismiss install prompt">Not Now</button>
+          </div>
+        </div>
       </div>
+      <!-- iOS Install Hint -->
+      <div id="install-ios-hint" class="install-ios-hint">Share → Add to Home Screen</div>
+      <!-- Toasts -->
+      <template id="tpl-toast"><div class="toast"><span class="msg"></span></div></template>
+      <!-- SR-only Live -->
+      <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
     </main>
   </div>
   
-  <!-- PWA Install Card -->
-  <div id="install-card" class="install-card" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc" aria-hidden="true">
-    <div class="install-content" tabindex="-1">
-      <img src="assets/icons/icon-192.png" alt="Velocity App Icon" class="install-icon"/>
-      <h3 id="install-title">Install Velocity</h3>
-      <p id="install-desc">Add to your home screen for instant access to parties & invites.</p>
-      <div class="install-benefits">
-        <div class="benefit">✓ Offline access</div>
-        <div class="benefit">✓ Push notifications</div>
-        <div class="benefit">✓ +2 bonus invites</div>
-      </div>
-      <div class="row gap">
-        <button id="install-btn" class="btn btn-primary">Install Now</button>
-        <button id="install-dismiss" class="btn btn-secondary">Not Now</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- iOS Install Hint -->
-  <div id="install-ios-hint" class="install-ios-hint" aria-hidden="true">
-    <span class="hint-arrow">↓</span>
-    <span class="hint-text">Tap Share → Add to Home Screen</span>
-  </div>
-  
-  <!-- Auth Buttons for Login Screen -->
-  <div class="auth-buttons" style="display:none;">
-    <button id="btn-google" class="btn btn-auth">
-      Sign in with Google
-    </button>
-    <button class="btn btn-primary" data-provider="linkedin">
-      <img src="assets/svg/linkedin.svg" alt="" width="16" height="16" style="vertical-align:middle;margin-right:8px;">
-      Continue with LinkedIn
-    </button>
-    <button id="btn-demo" class="btn btn-secondary">
-      Continue as Demo
-    </button>
-  </div>
-  
-  <!-- Scripts - CACHE BUSTED -->
-  <script type="module">
-    // Initialize service worker with cache busting
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js?v=1754872638')
-        .then(reg => {
-          console.log('SW registered:', reg.scope);
-          // Listen for cache clear messages
-          navigator.serviceWorker.addEventListener('message', event => {
-            if (event.data.type === 'CACHE_CLEARED') {
-              console.log('🔄 Service Worker cache cleared:', event.data);
-              // Could trigger a UI notification here
-            }
-          });
-        })
-        .catch(err => console.warn('SW registration failed:', err));
-    }
+  <!-- Runtime configuration (no bundler) -->
+  <script>
+    // Fill in real IDs if you have them; leaving blank will disable the button safely.
+    window.__ENV = {
+      GOOGLE_CLIENT_ID: "",              // e.g. "123.apps.googleusercontent.com"
+      LINKEDIN_CLIENT_ID: "",            // e.g. "86xxyyzz"
+      OAUTH_REDIRECT_URL: location.origin + "/auth/callback",
+      BASE_URL: location.origin
+    };
   </script>
   
-  <!-- CRITICAL: Emergency navigation fix loaded first -->
-  <script type="module" src="assets/js/navigation-fix.js"></script>
-  
-  <!-- SINGLE APP LOADER - CRITICAL FIX -->
-  <script type="module" src="assets/js/app-bootstrap.js?v=1754872638"></script>
-  <script type="module" src="assets/js/linkedin-auth.js"></script>
-  <script type="module" src="assets/js/invite-deeplink.js"></script>
-  <script type="module" src="assets/js/toast.js"></script>
-  <script type="module" src="assets/js/a11y.js"></script>
+  <!-- Foundation spine -->
+  <script type="module" src="/assets/js/foundation/app-bootstrap.js"></script>
+  <script type="module" src="/assets/js/foundation/sw-register.js"></script>
+  <script type="module" src="/assets/js/foundation/instrumentation.js"></script>
+
+  <!-- Skin + global UX -->
+  <script type="module" src="/assets/design/skin.js"></script>
+  <script type="module" src="/assets/js/toast.js"></script>
+  <script type="module" src="/assets/js/a11y.js"></script>
+
+  <!-- Core features -->
+  <script type="module" src="/assets/js/nav.js"></script>
+  <script type="module" src="/assets/js/pwa-install.js"></script>
+  <script type="module" src="/assets/js/invite-deeplink.js"></script>
+  <script type="module" src="/assets/js/auth.js"></script>
+
+  <!-- FTUE/Events + Calendar (UI only; no controller edits) -->
+  <script type="module" src="/assets/js/ui/eventCard.js"></script>
+  <script type="module" src="/assets/js/events-controller.js"></script>
+  <script type="module" src="/assets/js/calendar-view.js"></script>
+  <script type="module" src="/assets/js/invite-badge.js"></script>
+  <script type="module" src="/assets/js/invite-deeplink.js"></script>
 </body>
 </html>
