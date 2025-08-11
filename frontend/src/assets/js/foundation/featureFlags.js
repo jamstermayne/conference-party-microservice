@@ -11,7 +11,14 @@ async function refresh(){
     const data = await getJSON('/api/flags');
     Store.patch('flags', { map:data||{}, _fetchedAt: Date.now() });
     return data||{};
-  } catch (e){ Logger.warn('flags fetch fail', e); return Store.get('flags.map')||{}; }
+  } catch (e){ 
+    // Don't warn on 404 - feature flags endpoint not required in production
+    if (e.message && e.message.includes('404')) {
+      return Store.get('flags.map') || {};
+    }
+    Logger.warn('flags fetch fail', e); 
+    return Store.get('flags.map')||{}; 
+  }
 }
 function flag(key, fallback=false){ const map = Store.get('flags.map')||{}; return (key in map) ? !!map[key] : fallback; }
 

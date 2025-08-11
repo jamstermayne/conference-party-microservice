@@ -174,20 +174,39 @@ async function cacheFirstStrategy(request) {
  * 🔄 STALE-WHILE-REVALIDATE STRATEGY
  */
 async function staleWhileRevalidateStrategy(request) {
-    const cachedResponse = await caches.match(request);
+    const cache = await caches.open(RUNTIME_CACHE);
+    const cachedResponse = await cache.match(request);
     
-    const fetchPromise = fetch(request).then(async networkResponse => {
-        if (networkResponse && networkResponse.ok) {
-            const cache = await caches.open(RUNTIME_CACHE);
-            // Clone the response BEFORE using it
-            const responseToCache = networkResponse.clone();
-            cache.put(request, responseToCache);
+    const fetchPromise = (async () => {
+        try {
+            const networkResponse = await fetch(request);
+            if (networkResponse && networkResponse.ok) {
+                // Clone once for cache, return original
+                const forCache = networkResponse.clone();
+                await cache.put(request, forCache);
+            }
             return networkResponse;
+        } catch (e) {
+            // Network failed, will use cached if available
+            return null;
         }
-        return networkResponse;
-    }).catch(() => null);
+    })();
     
-    return cachedResponse || fetchPromise;
+    // If we have cached, return it immediately and update in background
+    if (cachedResponse) {
+        // Don't await, just ensure it runs
+        fetchPromise.catch(() => {});
+        return cachedResponse;
+    }
+    
+    // No cache, must wait for network
+    const networkResponse = await fetchPromise;
+    if (networkResponse) {
+        return networkResponse;
+    }
+    
+    // Offline fallback
+    return new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
 }
 
 /**

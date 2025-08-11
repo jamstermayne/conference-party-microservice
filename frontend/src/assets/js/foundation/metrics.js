@@ -19,8 +19,18 @@ async function flush(){
   const ok = navigator.sendBeacon ? navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(payload)], {type:'application/json'})) : false;
   if (!ok){
     try {
-      await fetch(ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-    } catch(e){ Logger.warn('metrics flush fail', e); return; }
+      const response = await fetch(ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      if (response.status === 404) {
+        // No metrics endpoint in production - clear queue silently
+        queue = []; 
+        save(queue); 
+        return;
+      }
+      if (!response.ok) return; // Keep queue for retry on other errors
+    } catch(e){ 
+      // Network error - keep queue for retry when online
+      return; 
+    }
   }
   queue = []; save(queue);
 }
