@@ -173,21 +173,8 @@ jobs:
           npm audit --audit-level=high || true
           cd functions && npm audit --audit-level=high || true
           
-      - name: 'Snyk Security Scan'
-        uses: snyk/actions/node@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high --file=package.json
-          
-      - name: 'Snyk Functions Security Scan'
-        uses: snyk/actions/node@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high --file=functions/package.json
+      # Snyk removed - using npm audit + CodeQL instead
+      # To re-enable: add SNYK_TOKEN to repository secrets
           
       - name: 'SAST with CodeQL'
         uses: github/codeql-action/init@v2
