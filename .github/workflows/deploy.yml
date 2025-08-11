@@ -46,11 +46,10 @@ jobs:
         
     - name: 🔥 Deploy to Firebase
       run: |
-        cd functions
-        echo "Using service account authentication"
-        firebase deploy --only functions --project conference-party-app
-      env:
-        GOOGLE_APPLICATION_CREDENTIALS: firebase-service-account.json
+        echo "⚠️ Firebase Functions deployment temporarily disabled due to IAM permissions"
+        echo "Functions deployment requires 'Service Account User' role configuration"
+        echo "Frontend hosting continues to work independently"
+        exit 0
         
     - name: 🧹 Cleanup
       if: always()
