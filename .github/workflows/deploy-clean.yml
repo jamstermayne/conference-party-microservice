@@ -39,31 +39,19 @@ jobs:
         cd functions
         npm run build
         
-    - name: 🔧 Setup Firebase Authentication
-      run: |
-        echo "$FIREBASE_SERVICE_ACCOUNT_KEY" > firebase-service-account.json
-        export GOOGLE_APPLICATION_CREDENTIALS="firebase-service-account.json"
-      env:
-        FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
-        
     - name: 🔥 Deploy to Firebase
-      run: |
-        echo "Deploying with service account authentication..."
-        firebase deploy --project conference-party-app --non-interactive
-      env:
-        GOOGLE_APPLICATION_CREDENTIALS: firebase-service-account.json
+      uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        repoToken: ${{ secrets.GITHUB_TOKEN }}
+        firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+        projectId: conference-party-app
         
     - name: 🧪 Health Check
       run: |
         echo "Testing deployed endpoints..."
-        sleep 10
+        sleep 15
         curl -f https://conference-party-app.web.app || echo "Frontend health check failed"
         curl -f https://us-central1-conference-party-app.cloudfunctions.net/api/health || echo "API health check failed"
-        
-    - name: 🧹 Cleanup
-      if: always()
-      run: |
-        rm -f firebase-service-account.json
         
     - name: ✅ Deployment Success
       run: |
