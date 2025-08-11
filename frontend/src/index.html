@@ -199,10 +199,11 @@
   <!-- Runtime configuration (no bundler) -->
   <script>
     window.__ENV = Object.assign({
-      GOOGLE_CLIENT_ID: "",           // e.g. "123.apps.googleusercontent.com"
-      LINKEDIN_CLIENT_ID: "",         // e.g. "86xxxx"
+      GOOGLE_CLIENT_ID: "",
+      LINKEDIN_CLIENT_ID: "",
       OAUTH_REDIRECT_URL: location.origin + "/auth/callback",
-      BASE_URL: location.origin
+      BASE_URL: location.origin,
+      INVITES_API: false   // ⬅️ disable invites status API until backend is ready
     }, window.__ENV || {});
   </script>
   

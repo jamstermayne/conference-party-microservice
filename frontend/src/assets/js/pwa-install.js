@@ -78,3 +78,13 @@ function wireAutoNudges() {
 
 // Optional: expose for imperative callers
 window.PWAInstall = window.PWAInstall || { show: showInstallCard };
+
+// Wire a default CTA if present
+(function wireInstallCTA(){
+  const btn = document.getElementById('btn-install');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    // Must be a user gesture to show native prompt
+    showInstallCard();
+  });
+})();
