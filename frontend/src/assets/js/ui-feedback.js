@@ -1,7 +1,7 @@
 /**
  * UI feedback utilities shared across controllers
- * - emptyState: returns an empty-state DOM node
- * - toast: fires a UI toast event (your app already listens)
+ * - emptyState: returns an accessible empty-state node
+ * - toast: dispatches app-wide toast event (non-blocking)
  */
 
 export function emptyState(message = 'Nothing to show yet.') {
