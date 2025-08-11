@@ -228,7 +228,7 @@ jobs:
           npm run test:unit -- --coverage --watchAll=false
           
       - name: 'Upload Test Results'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: unit-test-results
@@ -281,7 +281,7 @@ jobs:
           npm run test:integration
           
       - name: 'Upload Integration Test Results'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: integration-test-results
@@ -320,7 +320,7 @@ jobs:
         run: npx playwright test
         
       - name: 'Upload E2E Results'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: e2e-test-results
@@ -353,7 +353,7 @@ jobs:
           k6 run --quiet tests/performance/load-test.js | tail -20 >> $GITHUB_STEP_SUMMARY
           
       - name: 'Upload Performance Results'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: performance-test-results
           path: performance-results.json
@@ -401,7 +401,7 @@ jobs:
           echo "branch=${{ github.ref_name }}" >> build-manifest.json
           
       - name: 'Upload Build Artifacts'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: |
@@ -791,7 +791,7 @@ jobs:
           EOF
           
       - name: 'Upload Deployment Report'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: deployment-report
           path: deployment-report.md
