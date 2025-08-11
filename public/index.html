@@ -145,7 +145,11 @@
       <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
     </main>
   </div>
-  <!-- App scripts (order matters: core, then features, then wireup) -->
+  <!-- GPT-5 Foundation (enterprise-grade core) -->
+  <script type="module" src="/assets/js/foundation/app-bootstrap.js"></script>
+  <script type="module" src="/assets/js/foundation/sw-register.js"></script>
+  
+  <!-- App scripts (order matters: foundation first, then features, then wireup) -->
   <script type="module" src="/js/store.js"></script>
   <script type="module" src="/js/events.js"></script>
   <script type="module" src="/js/ui-feedback.js"></script>
