@@ -1,417 +1,182 @@
-/**
- * PRODUCTION CALENDAR INTEGRATION
- * Google OAuth connect, Apple/Outlook ICS export, Meet-to-Match integration
- * Background sync triggers and flag management
- * Based on GPT-5 architecture for Professional Intelligence Platform
- */
-
+// Calendar agenda + week strip (vanilla JS, Store/Events integration)
 import Store from './foundation/store.js';
-import { Events } from './events.js';
+import Events from './foundation/events.js';
 
-/**
- * Production API base URL
- */
-const API_BASE = window.location.origin.includes('localhost') 
-  ? 'http://localhost:5001/conference-party-app/us-central1'
-  : 'https://us-central1-conference-party-app.cloudfunctions.net';
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const esc = (s='') => String(s).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
 
-/** =========================
- *  GOOGLE CALENDAR CONNECT
- *  ========================= */
-
-/**
- * Connect Google Calendar with OAuth flow
- * @returns {Promise<void>}
- */
-export async function connectGoogleCalendar() {
-  Events.emit('ui:toast', { type: 'info', message: 'Connecting Google Calendar...' });
-  
+function fmtTime(iso){
   try {
-    const response = await fetch(`${API_BASE}/api/calendar/google/connect`, { 
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId: Store.get('profile')?.id || 'anonymous'
-      })
-    });
-    
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
-    
-    // Update calendar connection status in Store
-    const currentCalendar = Store.get('calendar') || {};
-    Store.set('calendar', {
-      ...currentCalendar,
-      googleConnected: true,
-      meta: { 
-        lastSync: Date.now(), 
-        ...currentCalendar.meta,
-        ...data.meta 
-      }
-    });
-    
-    Events.emit('ui:toast', { type: 'success', message: 'Google Calendar connected successfully' });
-    
-    // Track successful connection with Metrics
-    if (window.Metrics) {
-      window.Metrics.trackCalendarConnected('google');
-    }
-    if (window.gtag) {
-      gtag('event', 'calendar_connected', {
-        'provider': 'google',
-        'user_id': Store.get('profile')?.id
-      });
-    }
-    
-    // Trigger initial sync
-    Events.emit('calendar:google:sync');
-    
-  } catch (error) {
-    console.error('Google Calendar connection failed:', error);
-    Events.emit('ui:toast', { 
-      type: 'error', 
-      message: 'Google Calendar connection failed. Please try again.' 
-    });
-    
-    // Track connection failure
-    if (window.gtag) {
-      gtag('event', 'calendar_connection_failed', {
-        'provider': 'google',
-        'error': error.message
-      });
-    }
-  }
+    const d = new Date(iso);
+    return d.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+  } catch { return ''; }
+}
+function dayKey(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString().slice(0,10); }
+
+function normalize(items=[]){
+  // Expect normalized structure from your sync; accept flexible keys
+  return items.map(e => ({
+    id: e.uid || e.id || crypto.randomUUID(),
+    title: e.title || e['Event Name'] || 'Untitled',
+    start: e.start || e.startTime || e.Start || e.isoStart,
+    end: e.end || e.endTime || e.End || e.isoEnd,
+    location: e.location || e.venue || e.Venue || '',
+    source: e.source || 'unknown',
+    sourceHint: e.sourceHint || '',
+    provenance: e.provenance || []
+  })).filter(e => e.start);
 }
 
-/** =========================
- *  ICS EXPORT (APPLE / OUTLOOK)
- *  ========================= */
-
-/**
- * Download ICS calendar file for Apple Calendar or Outlook
- * @param {string} target - Target calendar system ('apple' or 'outlook')
- */
-export function downloadICS(target = 'apple') {
-  const selectedEvents = Store.get('events.selected') || Store.get('selectedEvents') || []; 
-  
-  if (!selectedEvents.length) {
-    Events.emit('ui:toast', { 
-      type: 'info', 
-      message: 'Select parties to export first.' 
-    });
-    return;
-  }
-
-  // Request server to generate ICS (ensures correct timezones & UID)
-  const endpoint = `${API_BASE}/api/calendar/export?target=${encodeURIComponent(target)}`;
-  
-  fetch(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 
-      events: selectedEvents,
-      userId: Store.get('profile')?.id || 'anonymous'
-    })
-  })
-    .then(async (response) => {
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      
-      link.href = url;
-      link.download = `velocity-${target}-events.ics`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      
-      URL.revokeObjectURL(url);
-      
-      Events.emit('ui:toast', { 
-        type: 'success', 
-        message: `${target.charAt(0).toUpperCase() + target.slice(1)} calendar file downloaded` 
-      });
-      
-      // Track successful export with Metrics
-      if (window.Metrics) {
-        window.Metrics.trackCalendarConnected('ics');
-      }
-      if (window.gtag) {
-        gtag('event', 'calendar_exported', {
-          'target': target,
-          'event_count': selectedEvents.length,
-          'user_id': Store.get('profile')?.id
-        });
-      }
-    })
-    .catch((error) => {
-      console.error('ICS export failed:', error);
-      Events.emit('ui:toast', { 
-        type: 'error', 
-        message: `${target} calendar export failed. Please try again.` 
-      });
-      
-      // Track export failure
-      if (window.gtag) {
-        gtag('event', 'calendar_export_failed', {
-          'target': target,
-          'error': error.message
-        });
-      }
-    });
+function installStatusPills(){
+  const s = $('#cal-status');
+  if (!s) return;
+  const g = Store.get('calendar.googleConnected') ? '<span class="cal-chip">Google • Connected</span>' : '';
+  const i = Store.get('calendar.icsSubscribed')   ? '<span class="cal-chip">ICS • Subscribed</span>' : '';
+  const m = Store.get('calendar.m2mConnected')    ? '<span class="cal-chip">M2M • Active</span>' : '';
+  s.innerHTML = [g,i,m].filter(Boolean).join(' ');
 }
 
-/** =========================
- *  MEET-TO-MATCH INTEGRATION
- *  ========================= */
+function renderWeekStrip(anchor=new Date()){
+  const wrap = $('#cal-week'); if (!wrap) return;
+  const start = new Date(anchor); start.setDate(start.getDate() - start.getDay()); // Sunday start
+  const todayKey = dayKey(new Date());
+  const buf = [];
+  for (let i=0;i<7;i++){
+    const d = new Date(start); d.setDate(start.getDate()+i);
+    const key = dayKey(d);
+    buf.push(`
+      <button class="cal-day ${key===todayKey?'active':''}" data-day="${key}">
+        <span class="d1">${d.toLocaleDateString([], { weekday:'short' })}</span>
+        <span class="d2">${d.getDate()}</span>
+      </button>
+    `);
+  }
+  wrap.innerHTML = buf.join('');
+}
 
-/**
- * Connect Meet-to-Match calendar integration
- * @returns {Promise<void>}
- */
-export async function connectMeetToMatch() {
+function renderAgenda(items=[], selectedDayKey=null){
+  const list = $('#cal-agenda'); if (!list) return;
+  const emptyTpl = $('#tpl-cal-empty');
+
+  if (!items.length){
+    const frag = emptyTpl?.content?.cloneNode(true) || document.createElement('div');
+    if (!emptyTpl) frag.textContent = 'No meetings found.';
+    list.replaceChildren(frag); return;
+  }
+
+  const now = Date.now();
+  const html = items.map(ev => {
+    const start = new Date(ev.start);
+    if (selectedDayKey && dayKey(start) !== selectedDayKey) return '';
+    const mins = Math.round((start.getTime() - now) / 60000);
+    const soon = mins >= 0 && mins <= 60 ? `<span class="badge badge-primary">Starts in ${mins}m</span>` : '';
+    return `
+      <article class="card card-glass card-compact">
+        <div class="flex flex-row flex-wrap">
+          <div class="cal-time">${fmtTime(ev.start)}${ev.end ? '–'+fmtTime(ev.end):''}</div>
+          <div class="flex-1"></div>
+          ${soon}
+        </div>
+        <h3 class="text-heading">${esc(ev.title)}</h3>
+        <div class="cal-loc">${esc(ev.location || '')}</div>
+        <div class="cal-actions">
+          <button class="btn btn-secondary" data-action="add-ics" data-id="${esc(ev.id)}">Add to Calendar</button>
+          <button class="btn btn-ghost" data-action="navigate" data-address="${esc(ev.location||'')}">Navigate</button>
+        </div>
+      </article>`;
+  }).join('');
+  list.innerHTML = html || (emptyTpl?.innerHTML ?? '<div class="text-secondary">No meetings.</div>');
+}
+
+async function connectGoogle(){
   try {
-    Events.emit('ui:toast', { type: 'info', message: 'Connecting Meet-to-Match...' });
-    
-    const response = await fetch(`${API_BASE}/api/calendar/m2m/connect`, { 
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId: Store.get('profile')?.id || 'anonymous'
-      })
-    });
-    
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
-    
-    // Update calendar connection status
-    const currentCalendar = Store.get('calendar') || {};
-    Store.set('calendar', {
-      ...currentCalendar,
-      m2mConnected: true,
-      meta: { 
-        ...currentCalendar.meta, 
-        lastM2M: Date.now(),
-        ...data.meta
-      }
-    });
-    
-    Events.emit('ui:toast', { type: 'success', message: 'Meet-to-Match connected successfully' });
-    
-    // Track successful connection with Metrics
-    if (window.Metrics) {
-      window.Metrics.trackCalendarConnected('m2m');
-    }
-    if (window.gtag) {
-      gtag('event', 'calendar_connected', {
-        'provider': 'meet-to-match',
-        'user_id': Store.get('profile')?.id
-      });
-    }
-    
-    // Kick off background sync
-    Events.emit('calendar:m2m:sync');
-    
-  } catch (error) {
-    console.error('Meet-to-Match connection failed:', error);
-    Events.emit('ui:toast', { 
-      type: 'error', 
-      message: 'Meet-to-Match connection failed. Please try again.' 
-    });
-    
-    // Track connection failure
-    if (window.gtag) {
-      gtag('event', 'calendar_connection_failed', {
-        'provider': 'meet-to-match',
-        'error': error.message
-      });
-    }
+    document.dispatchEvent(new CustomEvent('ui:toast',{ detail:{ type:'ok', message:'Connecting Google…' }}));
+    // Your existing GCal.connect() should open the OAuth popup and set tokens server-side.
+    const { default: GCal } = await import('./services/googleCalendar.js');
+    await GCal.connect();
+    // Your CalSync orchestrator should populate Store.calendar.events
+    const { default: CalSync } = await import('./services/calendarSync.js');
+    await CalSync.syncNow({ window:'conference' });
+    Store.patch('calendar.googleConnected', true);
+    installStatusPills();
+    renderAgenda(normalize(Store.get('calendar.events')||[]));
+    document.dispatchEvent(new CustomEvent('ui:calendar-connected'));
+  } catch (e) {
+    document.dispatchEvent(new CustomEvent('ui:toast',{ detail:{ type:'error', message:'Google connect failed' }}));
   }
 }
 
-/** =========================
- *  BACKGROUND SYNC HOOKS
- *  ========================= */
-
-/**
- * Sync Google Calendar events
- * @returns {Promise<void>}
- */
-async function syncGoogle() {
-  try {
-    const response = await fetch(`${API_BASE}/api/calendar/google/sync`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId: Store.get('profile')?.id || 'anonymous'
-      })
-    });
-    
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
-    
-    // Update calendar events in Store
-    const currentCalendar = Store.get('calendar') || {};
-    Store.set('calendar', {
-      ...currentCalendar,
-      events: data.events || [],
-      meta: { 
-        ...currentCalendar.meta, 
-        lastSync: Date.now(),
-        eventCount: data.events?.length || 0
-      }
-    });
-    
-    Events.emit('ui:toast', { 
-      type: 'success', 
-      message: `Google Calendar synced (${data.events?.length || 0} events)` 
-    });
-    
-    // Track successful sync
-    if (window.gtag) {
-      gtag('event', 'calendar_synced', {
-        'provider': 'google',
-        'event_count': data.events?.length || 0
-      });
-    }
-    
-  } catch (error) {
-    console.error('Google Calendar sync failed:', error);
-    Events.emit('ui:toast', { 
-      type: 'error', 
-      message: 'Google Calendar sync failed' 
-    });
-    
-    // Track sync failure
-    if (window.gtag) {
-      gtag('event', 'calendar_sync_failed', {
-        'provider': 'google',
-        'error': error.message
-      });
-    }
+async function addICS(){
+  try{
+    const url = prompt('Paste your ICS URL'); if (!url) return;
+    const { default: ICS } = await import('./services/icsSync.js');
+    await ICS.subscribe(url);
+    const { default: CalSync } = await import('./services/calendarSync.js');
+    await CalSync.pullICS();
+    Store.patch('calendar.icsSubscribed', true);
+    installStatusPills();
+    renderAgenda(normalize(Store.get('calendar.events')||[]));
+  } catch {
+    document.dispatchEvent(new CustomEvent('ui:toast',{ detail:{ type:'error', message:'ICS subscription failed' }}));
   }
 }
 
-/**
- * Sync Meet-to-Match calendar data
- * @returns {Promise<void>}
- */
-async function syncM2M() {
-  try {
-    const response = await fetch(`${API_BASE}/api/calendar/m2m/sync`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId: Store.get('profile')?.id || 'anonymous'
-      })
-    });
-    
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
-    
-    // Merge M2M events with existing calendar events
-    const currentCalendar = Store.get('calendar') || {};
-    const currentEvents = currentCalendar.events || [];
-    const mergedEvents = mergeByUID(currentEvents, data.events || []);
-    
-    Store.set('calendar', {
-      ...currentCalendar,
-      events: mergedEvents,
-      meta: { 
-        ...currentCalendar.meta, 
-        lastM2M: Date.now(),
-        m2mEventCount: data.events?.length || 0
-      }
-    });
-    
-    Events.emit('ui:toast', { 
-      type: 'success', 
-      message: `Meet-to-Match synced (${data.events?.length || 0} events)` 
-    });
-    
-    // Track successful sync
-    if (window.gtag) {
-      gtag('event', 'calendar_synced', {
-        'provider': 'meet-to-match',
-        'event_count': data.events?.length || 0
-      });
+function wire(){
+  const root = $('#panel-calendar'); if (!root) return;
+  root.addEventListener('click', async (e)=>{
+    const b = e.target.closest('[data-action]'); if (!b) return;
+    const act = b.dataset.action;
+    if (act === 'cal-google') return connectGoogle();
+    if (act === 'cal-ics')    return addICS();
+    if (act === 'cal-m2m')    { Store.patch('calendar.m2mConnected', true); installStatusPills(); document.dispatchEvent(new CustomEvent('ui:toast',{ detail:{ type:'ok', message:'Meet-to-Match enabled' }})); }
+    if (act === 'add-ics')    {
+      // lightweight ICS download for a single event (fallback for Apple/Outlook)
+      const id = b.dataset.id;
+      const events = normalize(Store.get('calendar.events')||[]);
+      const ev = events.find(x=>String(x.id)===String(id)); if (!ev) return;
+      const ics = [
+        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Velocity//Gamescom//EN',
+        'BEGIN:VEVENT',
+        `UID:${ev.id}@velocity`,
+        `DTSTART:${new Date(ev.start).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z')}`,
+        ev.end ? `DTEND:${new Date(ev.end).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z')}` : '',
+        `SUMMARY:${ev.title}`,
+        ev.location ? `LOCATION:${ev.location}` : '',
+        'END:VEVENT','END:VCALENDAR'
+      ].filter(Boolean).join('\r\n');
+      const blob = new Blob([ics], {type:'text/calendar'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'event.ics'; a.click(); URL.revokeObjectURL(a.href);
+      document.dispatchEvent(new CustomEvent('ui:addToCalendar'));
     }
-    
-  } catch (error) {
-    console.error('Meet-to-Match sync failed:', error);
-    Events.emit('ui:toast', { 
-      type: 'error', 
-      message: 'Meet-to-Match sync failed' 
-    });
-    
-    // Track sync failure
-    if (window.gtag) {
-      gtag('event', 'calendar_sync_failed', {
-        'provider': 'meet-to-match',
-        'error': error.message
-      });
-    }
-  }
-}
-
-/**
- * Merge events by UID, with newer events taking precedence
- * @param {Array} eventsA - First array of events
- * @param {Array} eventsB - Second array of events
- * @returns {Array} Merged array of events
- */
-function mergeByUID(eventsA, eventsB) {
-  const eventMap = new Map();
-  
-  // Add events from first array
-  eventsA.forEach(event => {
-    if (event.uid) {
-      eventMap.set(event.uid, event);
+    if (act === 'navigate'){
+      const address = b.dataset.address || '';
+      window.open(`https://maps.google.com/?q=${encodeURIComponent(address)}`, '_blank', 'noopener');
     }
   });
-  
-  // Merge events from second array
-  eventsB.forEach(event => {
-    if (event.uid) {
-      const existing = eventMap.get(event.uid);
-      if (existing) {
-        // Merge properties, with newer event taking precedence
-        eventMap.set(event.uid, { ...existing, ...event });
-      } else {
-        eventMap.set(event.uid, event);
-      }
-    }
+
+  $('#cal-week')?.addEventListener('click', (e)=>{
+    const d = e.target.closest('.cal-day'); if (!d) return;
+    $$('.cal-day', $('#cal-week')).forEach(x=>x.classList.remove('active'));
+    d.classList.add('active');
+    renderAgenda(normalize(Store.get('calendar.events')||[]), d.dataset.day);
   });
-  
-  return Array.from(eventMap.values());
 }
 
-/** =========================
- *  EVENT WIRE-UP
- *  ========================= */
+function showSkeleton(on){ const s=$('#cal-skeleton'); if (s) s.style.display = on?'block':'none'; }
 
-// Wire up calendar event handlers
-Events.on('calendar:google:connect', connectGoogleCalendar);
-Events.on('calendar:ics:download', (eventData) => downloadICS(eventData?.target || 'apple'));
-Events.on('calendar:m2m:connect', connectMeetToMatch);
-Events.on('calendar:m2m:sync', syncM2M);
-Events.on('calendar:google:sync', syncGoogle);
+document.addEventListener('DOMContentLoaded', ()=>{
+  wire();
+  installStatusPills();
+  renderWeekStrip(new Date());
+  showSkeleton(true);
+  const items = normalize(Store.get('calendar.events')||[]);
+  renderAgenda(items);
+  showSkeleton(false);
+});
 
-// Export all functions
-export {
-  syncGoogle,
-  syncM2M,
-  mergeByUID
-};
-
-// Make available globally for backward compatibility
-window.CalendarIntegration = {
-  connectGoogleCalendar,
-  downloadICS,
-  connectMeetToMatch,
-  syncGoogle,
-  syncM2M
-};
-
-console.log('✅ Production Calendar Integration loaded');
+// Optional: when a sync elsewhere updates calendar.events, repaint
+Events.on?.('calendar:updated', ()=>{
+  installStatusPills();
+  renderAgenda(normalize(Store.get('calendar.events')||[]));
+});

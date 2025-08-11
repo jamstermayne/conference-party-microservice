@@ -96,7 +96,8 @@
         <button class="nav-item" data-route="opportunities">🎯 Opportunities</button>
         <button class="nav-item" data-route="calendar">📅 Calendar</button>
         <button class="nav-item" data-route="invites">
-          🎟 Invites <span id="invite-pill" class="pill pill-gold">10</span>
+          🎟 Invites
+          <span id="invites-badge" class="side-badge" aria-live="polite" aria-atomic="true">—</span>
         </button>
         <button class="nav-item" data-route="me">👤 Me</button>
         <button class="nav-item" data-route="settings">⚙️ Settings</button>
@@ -139,6 +140,41 @@
       <section id="route" role="region" aria-live="polite"></section>
       <!-- Events list for production controller -->
       <section id="event-list" role="region" aria-label="Gaming industry parties"></section>
+      
+      <!-- Calendar Panel -->
+      <section data-route="calendar" id="panel-calendar" class="route-panel" aria-label="Calendar">
+        <header class="panel-header flex flex-row flex-wrap">
+          <h1 class="text-heading">Calendar</h1>
+          <div class="flex-1"></div>
+          <div id="cal-status" class="stack-2 text-secondary" aria-live="polite" aria-atomic="true"></div>
+        </header>
+
+        <!-- Connect row -->
+        <div class="card card-outlined card-compact stack-2" id="cal-connect">
+          <div class="flex flex-wrap stack-2">
+            <button class="btn btn-primary"   data-action="cal-google">Connect Google</button>
+            <button class="btn btn-secondary" data-action="cal-ics">Add ICS</button>
+            <button class="btn btn-ghost"     data-action="cal-m2m">Enable Meet-to-Match</button>
+          </div>
+          <div class="text-caption text-muted">We only use event titles/time/venue during Gamescom. Privacy-first.</div>
+        </div>
+
+        <!-- Week strip -->
+        <div id="cal-week" class="cal-week"></div>
+
+        <!-- Agenda -->
+        <div id="cal-skeleton" class="stack-3" aria-hidden="true">
+          <div class="card card-glass card-compact skeleton"></div>
+          <div class="card card-glass card-compact skeleton"></div>
+        </div>
+        <div id="cal-agenda" class="stack-3" data-test="calendar-agenda"></div>
+
+        <!-- Empty -->
+        <template id="tpl-cal-empty">
+          <div class="card card-outlined card-compact text-secondary">No meetings found for this window.</div>
+        </template>
+      </section>
+      
       <!-- Enhanced Install Card with Accessibility -->
       <div id="install-card" class="install-card hidden" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc">
         <div class="install-content" tabindex="-1">
@@ -191,5 +227,7 @@
   <script type="module" src="/assets/js/ui/eventCard.js"></script>
   <script type="module" src="/assets/js/events-controller.js"></script>
   <script type="module" src="/assets/js/calendar-view.js"></script>
+  <script type="module" src="/assets/js/invite-badge.js"></script>
+  <script type="module" src="/assets/js/invite-deeplink.js"></script>
 </body>
 </html>
