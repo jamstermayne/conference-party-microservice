@@ -4,12 +4,12 @@
  * Script to remove test events created during UGC system development
  */
 
-const { initializeApp, cert } = require('firebase-admin/app');
-const { getFirestore } = require('firebase-admin/firestore');
+const {initializeApp, cert} = require("firebase-admin/app");
+const {getFirestore} = require("firebase-admin/firestore");
 
 // Initialize Firebase Admin
 if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-  console.log('⚠️  GOOGLE_APPLICATION_CREDENTIALS not set. Using default credentials.');
+  console.log("⚠️  GOOGLE_APPLICATION_CREDENTIALS not set. Using default credentials.");
 }
 
 const app = initializeApp();
@@ -19,15 +19,15 @@ const db = getFirestore(app);
  * Delete all UGC test events from Firestore
  */
 async function deleteUGCTestEvents() {
-  console.log('🗑️  Starting deletion of UGC test events...\n');
+  console.log("🗑️  Starting deletion of UGC test events...\n");
 
   try {
     // Get all events from the 'events' collection
-    const eventsRef = db.collection('events');
+    const eventsRef = db.collection("events");
     const snapshot = await eventsRef.get();
 
     if (snapshot.empty) {
-      console.log('✅ No events found in database');
+      console.log("✅ No events found in database");
       return;
     }
 
@@ -37,12 +37,12 @@ async function deleteUGCTestEvents() {
     const ugcEvents = [];
     const curatedEvents = [];
 
-    snapshot.forEach(doc => {
+    snapshot.forEach((doc) => {
       const data = doc.data();
-      if (data.source === 'ugc' || data.isUGC === true) {
-        ugcEvents.push({ id: doc.id, ...data });
+      if (data.source === "ugc" || data.isUGC === true) {
+        ugcEvents.push({id: doc.id, ...data});
       } else {
-        curatedEvents.push({ id: doc.id, ...data });
+        curatedEvents.push({id: doc.id, ...data});
       }
     });
 
@@ -50,23 +50,23 @@ async function deleteUGCTestEvents() {
     console.log(`📝 Found ${curatedEvents.length} curated events (will be preserved)\n`);
 
     if (ugcEvents.length === 0) {
-      console.log('✅ No UGC test events to delete');
+      console.log("✅ No UGC test events to delete");
       return;
     }
 
     // Show what will be deleted
-    console.log('🗑️  The following UGC test events will be deleted:');
+    console.log("🗑️  The following UGC test events will be deleted:");
     ugcEvents.forEach((event, index) => {
-      console.log(`${(index + 1).toString().padStart(2)}. ${event.name || event['Event Name']} (${event.creator || event.Hosts}) - ${event.date || event.Date}`);
+      console.log(`${(index + 1).toString().padStart(2)}. ${event.name || event["Event Name"]} (${event.creator || event.Hosts}) - ${event.date || event.Date}`);
     });
 
-    console.log('\n⚠️  This will permanently delete all UGC test events!');
-    console.log('🔒 Curated events from Google Sheets will be preserved.');
+    console.log("\n⚠️  This will permanently delete all UGC test events!");
+    console.log("🔒 Curated events from Google Sheets will be preserved.");
 
     // In a real scenario, you might want to add a confirmation prompt here
     // For automation purposes, we'll proceed directly
 
-    console.log('\n🚀 Proceeding with deletion...\n');
+    console.log("\n🚀 Proceeding with deletion...\n");
 
     // Delete UGC events in batches
     const batchSize = 10;
@@ -76,14 +76,14 @@ async function deleteUGCTestEvents() {
       const batch = db.batch();
       const batchEvents = ugcEvents.slice(i, i + batchSize);
 
-      batchEvents.forEach(event => {
+      batchEvents.forEach((event) => {
         const docRef = eventsRef.doc(event.id);
         batch.delete(docRef);
       });
 
       await batch.commit();
       deletedCount += batchEvents.length;
-      
+
       console.log(`✅ Deleted batch ${Math.ceil((i + 1) / batchSize)}: ${batchEvents.length} events (${deletedCount}/${ugcEvents.length} total)`);
     }
 
@@ -92,34 +92,33 @@ async function deleteUGCTestEvents() {
 
     // Verify the cleanup
     const finalSnapshot = await eventsRef.get();
-    console.log(`\n📊 Final database state:`);
+    console.log("\n📊 Final database state:");
     console.log(`   Total events: ${finalSnapshot.size}`);
-    
+
     // Count remaining event types
     let remainingUGC = 0;
     let remainingCurated = 0;
-    
-    finalSnapshot.forEach(doc => {
+
+    finalSnapshot.forEach((doc) => {
       const data = doc.data();
-      if (data.source === 'ugc' || data.isUGC === true) {
+      if (data.source === "ugc" || data.isUGC === true) {
         remainingUGC++;
       } else {
         remainingCurated++;
       }
     });
-    
+
     console.log(`   UGC events: ${remainingUGC}`);
     console.log(`   Curated events: ${remainingCurated}`);
 
     if (remainingUGC === 0) {
-      console.log('\n✅ Database cleanup completed successfully!');
-      console.log('🗄️  Only production events from Google Sheets remain');
+      console.log("\n✅ Database cleanup completed successfully!");
+      console.log("🗄️  Only production events from Google Sheets remain");
     } else {
       console.log(`\n⚠️  ${remainingUGC} UGC events still remain`);
     }
-
   } catch (error) {
-    console.error('❌ Error during cleanup:', error);
+    console.error("❌ Error during cleanup:", error);
     process.exit(1);
   }
 }
@@ -127,10 +126,10 @@ async function deleteUGCTestEvents() {
 // Run the cleanup
 deleteUGCTestEvents()
   .then(() => {
-    console.log('\n🏁 Cleanup process completed');
+    console.log("\n🏁 Cleanup process completed");
     process.exit(0);
   })
-  .catch(error => {
-    console.error('❌ Fatal error:', error);
+  .catch((error) => {
+    console.error("❌ Fatal error:", error);
     process.exit(1);
   });

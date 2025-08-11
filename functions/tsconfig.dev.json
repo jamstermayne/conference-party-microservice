@@ -1,5 +1,24 @@
 {
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "outDir": "lib",
+    "sourceMap": true,
+    "target": "es2020",
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "types": ["node", "jest"],
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "strict": false
+  },
   "include": [
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "delete-ugc-test-events.js",
+    "test-validation.js",
+    "tests/**/*",
+    "jest.config.js"
   ]
 }
