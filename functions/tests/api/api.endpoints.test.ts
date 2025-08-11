@@ -11,8 +11,10 @@ jest.mock("firebase-admin/app");
 jest.mock("firebase-admin/firestore");
 
 describe("🔌 API Endpoints - Complete Test Suite", () => {
-  let mockReq: Partial<Request>;
-  let mockRes: Partial<Response>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let _mockReq: Partial<Request>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let _mockRes: Partial<Response>;
   let mockJson: jest.Mock;
   let mockStatus: jest.Mock;
   let mockSetHeader: jest.Mock;
@@ -24,7 +26,7 @@ describe("🔌 API Endpoints - Complete Test Suite", () => {
     mockSetHeader = jest.fn().mockReturnThis();
     mockSend = jest.fn().mockReturnThis();
 
-    mockRes = {
+    _mockRes = {
       json: mockJson,
       status: mockStatus,
       setHeader: mockSetHeader,
@@ -32,7 +34,7 @@ describe("🔌 API Endpoints - Complete Test Suite", () => {
       statusCode: 200,
     };
 
-    mockReq = {
+    _mockReq = {
       method: "GET",
       path: "/api/health",
       url: "/api/health",
@@ -57,7 +59,8 @@ describe("🔌 API Endpoints - Complete Test Suite", () => {
 
   describe("🩺 Health & Status Endpoints", () => {
     test("GET /api/health should return comprehensive health status", async () => {
-      const healthData = {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const _healthData = {
         status: "healthy",
         timestamp: expect.any(String),
         version: "3.1.0",
@@ -110,7 +113,8 @@ describe("🔌 API Endpoints - Complete Test Suite", () => {
         "Access-Control-Allow-Credentials": "true",
       };
 
-      Object.entries(corsHeaders).forEach(([header, value]) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Object.entries(corsHeaders).forEach(([_header, value]) => {
         expect(value).toBeDefined();
         expect(typeof value).toBe("string");
       });
@@ -172,7 +176,8 @@ describe("🔌 API Endpoints - Complete Test Suite", () => {
         "description": "Description",
       };
 
-      Object.entries(ugcEventMapping).forEach(([ugcField, standardField]) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Object.entries(ugcEventMapping).forEach(([_ugcField, standardField]) => {
         expect(standardField).toBeDefined();
         expect(typeof standardField).toBe("string");
       });
@@ -205,7 +210,8 @@ describe("🔌 API Endpoints - Complete Test Suite", () => {
         source: "pwa-app",
       };
 
-      const expectedResponse = {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const _expectedResponse = {
         success: true,
         swipe: {
           id: expect.stringMatching(/swipe_\d+_[a-z0-9]+/),
@@ -225,7 +231,7 @@ describe("🔌 API Endpoints - Complete Test Suite", () => {
       const requiredFields = ["partyId", "action"];
       const testData = {partyId: "test-123"}; // Missing action
 
-      const missingFields = requiredFields.filter((field) => !testData.hasOwnProperty(field));
+      const missingFields = requiredFields.filter((field) => !Object.prototype.hasOwnProperty.call(testData, field));
       expect(missingFields).toEqual(["action"]);
     });
 
@@ -294,7 +300,8 @@ describe("🔌 API Endpoints - Complete Test Suite", () => {
         category: "networking",
       };
 
-      const createResponse = {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const _createResponse = {
         success: true,
         message: "Event created successfully",
         eventId: expect.stringMatching(/ugc_\d+_[a-z0-9]+/),
@@ -521,7 +528,9 @@ describe("🔌 API Endpoints - Complete Test Suite", () => {
 
       expect(connectionResponse.success).toBe(true);
       expect(connectionResponse.totalConnections).toBeGreaterThan(0);
-      expect(connectionResponse.progress.remaining).toBe(connectionResponse.progress.nextMilestone - connectionResponse.totalConnections);
+      expect(connectionResponse.progress.remaining).toBe(
+        connectionResponse.progress.nextMilestone - connectionResponse.totalConnections
+      );
     });
   });
 

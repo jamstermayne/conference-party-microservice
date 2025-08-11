@@ -86,7 +86,10 @@ describe("GPT-5 Foundation API", () => {
 
       expect(setHeaderMock).toHaveBeenCalledWith("Access-Control-Allow-Origin", expect.any(String));
       expect(setHeaderMock).toHaveBeenCalledWith("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-      expect(setHeaderMock).toHaveBeenCalledWith("Access-Control-Allow-Headers", expect.stringContaining("Content-Type"));
+      expect(setHeaderMock).toHaveBeenCalledWith(
+        "Access-Control-Allow-Headers",
+        expect.stringContaining("Content-Type")
+      );
     });
   });
 
@@ -171,7 +174,10 @@ describe("GPT-5 Foundation API", () => {
 
       await api(req as Request, res as Response);
 
-      expect(setHeaderMock).toHaveBeenCalledWith("Access-Control-Allow-Origin", "https://conference-party-app.firebaseapp.com");
+      expect(setHeaderMock).toHaveBeenCalledWith(
+        "Access-Control-Allow-Origin",
+        "https://conference-party-app.firebaseapp.com"
+      );
     });
   });
 

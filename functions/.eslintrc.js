@@ -26,6 +26,8 @@ module.exports = {
     "/test-results/**/*", // Ignore test results
     "*.backup", // Ignore backup files
     "*.tar.gz", // Ignore archive files
+    "scripts/**/*.js", // Ignore JS scripts
+    "**/*.js", // Ignore all JS files (we're TypeScript only)
   ],
   plugins: [
     "@typescript-eslint",

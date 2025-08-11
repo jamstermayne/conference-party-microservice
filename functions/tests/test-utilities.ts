@@ -180,7 +180,10 @@ export class CorsTestHelper {
   static expectCorsHeaders(setHeaderMock: jest.Mock): void {
     expect(setHeaderMock).toHaveBeenCalledWith("Access-Control-Allow-Origin", expect.any(String));
     expect(setHeaderMock).toHaveBeenCalledWith("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-    expect(setHeaderMock).toHaveBeenCalledWith("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With");
+    expect(setHeaderMock).toHaveBeenCalledWith(
+      "Access-Control-Allow-Headers",
+      "Content-Type,Authorization,X-Requested-With"
+    );
   }
 
   static expectOriginAllowed(setHeaderMock: jest.Mock, origin: string): void {
@@ -234,7 +237,7 @@ export class SnapshotTestHelper {
 // Integration Test Helpers
 export class IntegrationTestHelper {
   static async testEndpoint(
-    api: Function,
+    api: (...args: any[]) => any,
     request: Partial<Request>,
     expectedStatus?: number
   ): Promise<{ mocks: ResponseMocks; response: any }> {
@@ -249,7 +252,7 @@ export class IntegrationTestHelper {
     return {mocks, response: mocks.json.mock.calls[0]?.[0]};
   }
 
-  static async testHealthEndpoint(api: Function): Promise<any> {
+  static async testHealthEndpoint(api: (...args: any[]) => any): Promise<any> {
     const request = new MockRequestBuilder()
       .method("GET")
       .path("/api/health")
@@ -262,7 +265,7 @@ export class IntegrationTestHelper {
   }
 
   static async testInviteValidation(
-    api: Function,
+    api: (...args: any[]) => any,
     code: string,
     expectedValid: boolean
   ): Promise<any> {

@@ -69,7 +69,7 @@ export const requestValidator = {
     if (!request.body) return false;
 
     return requiredFields.every((field) =>
-      request.body.hasOwnProperty(field) &&
+      Object.prototype.hasOwnProperty.call(request.body, field) &&
       request.body[field] !== undefined &&
       request.body[field] !== null
     );

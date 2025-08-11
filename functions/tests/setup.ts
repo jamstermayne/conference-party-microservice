@@ -3,6 +3,7 @@
  */
 
 // Load test environment variables
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require("dotenv").config({path: ".env.test"});
 
 // Ensure test environment is set
@@ -70,7 +71,7 @@ jest.setTimeout(30000);
   }),
 
   // Performance testing helpers
-  measurePerformance: async (fn: Function, iterations = 1000) => {
+  measurePerformance: async (fn: (...args: any[]) => any, iterations = 1000) => {
     const start = performance.now();
     for (let i = 0; i < iterations; i++) {
       await fn();
