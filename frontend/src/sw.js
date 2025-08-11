@@ -80,9 +80,9 @@ self.addEventListener('activate', event => {
  */
 self.addEventListener('fetch', event => {
     const { request } = event;
-    // 🚫 Do not intercept non-GET requests (avoids Cache.put POST error)
-    if (request.method !== 'GET') return;
+    if (request.method !== 'GET') return;                 // don't cache non-GET
     const url = new URL(request.url);
+    if (url.origin !== self.location.origin) return;      // ✅ bypass cross-origin (Google/LinkedIn SDKs)
     
     if (API_CACHE_PATTERNS.some(pattern => pattern.test(url.pathname))) {
         event.respondWith(networkFirstStrategy(request));

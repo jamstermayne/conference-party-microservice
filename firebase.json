@@ -8,6 +8,14 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "headers": [
       {
+        "source": "**/*.js",
+        "headers": [{ "key": "Content-Type", "value": "text/javascript; charset=utf-8" }]
+      },
+      {
+        "source": "**/*.css",
+        "headers": [{ "key": "Content-Type", "value": "text/css; charset=utf-8" }]
+      },
+      {
         "source": "**",
         "headers": [
           {
@@ -69,7 +77,7 @@
         "destination": "/index.html"
       },
       {
-        "source": "**",
+        "source": "!/@(assets|images|icons)/**",
         "destination": "/index.html"
       }
     ]
