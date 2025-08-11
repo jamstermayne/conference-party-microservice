@@ -1,90 +1,142 @@
-/**
- * Production PWA install flow (Jobs/Ive polished)
- * - Captures beforeinstallprompt
- * - Exposes showInstallCard() to call prompt() in a user gesture
- * - Emits CustomEvents for UI to react to
- * - Safe if Metrics is absent (optional chaining)
- */
+// PWA Install Manager
+import Events from './foundation/events.js';
+import Store from './foundation/store.js';
 
-let deferredPrompt = null;
-let installed = false;
+class PWAInstall {
+  constructor() {
+    this.deferredPrompt = null;
+    this.isInstalled = false;
+    this.init();
+  }
 
-// Capture the BIP event and hold it until user taps our CTA
-window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevent auto-banner; we'll show a branded CTA first
-  e.preventDefault();
-  deferredPrompt = e;
+  init() {
+    this.checkInstallStatus();
+    this.bindEvents();
+    this.showInstallPrompt();
+  }
 
-  // Light telemetry if available
-  try { window.Metrics?.trackInstallPromptShown?.({ source: 'bip_capture' }); } catch {}
+  checkInstallStatus() {
+    // Check if already installed
+    this.isInstalled = window.matchMedia('(display-mode: standalone)').matches ||
+                       window.navigator.standalone ||
+                       document.referrer.includes('android-app://');
+    
+    if (this.isInstalled) {
+      Store.set('pwa.installed', true);
+      Events.emit('pwa:installed');
+    }
+  }
 
-  // Notify UI layers they can show the install CTA
-  document.dispatchEvent(new CustomEvent('pwa:install-available'));
-});
+  bindEvents() {
+    // Listen for install prompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+      Store.set('pwa.installable', true);
+      Events.emit('pwa:installable');
+    });
 
-// Mark installed for UI and telemetry
-window.addEventListener('appinstalled', () => {
-  installed = true;
-  try { window.Metrics?.trackInstallPromptAccepted?.({ outcome: 'installed' }); } catch {}
-  document.dispatchEvent(new CustomEvent('pwa:installed'));
-});
+    // Listen for successful install
+    window.addEventListener('appinstalled', () => {
+      this.deferredPrompt = null;
+      this.isInstalled = true;
+      Store.set('pwa.installed', true);
+      Store.set('pwa.installable', false);
+      Events.emit('pwa:installed');
+      this.hideInstallCard();
+    });
 
-// Public API: call this from a user gesture (button click)
-export async function showInstallCard() {
-  // Must be triggered by a user gesture for browsers to allow prompt()
-  if (!deferredPrompt || installed) return;
+    // Install button clicks
+    Events.on('action:install-app', () => this.promptInstall());
+    Events.on('action:dismiss-install', () => this.dismissInstall());
+  }
 
-  try {
-    // Show the native prompt
-    const result = await deferredPrompt.prompt();
-    // Some browsers expose .outcome
-    const outcome = result?.outcome || 'unknown';
+  showInstallPrompt() {
+    const installable = Store.get('pwa.installable');
+    const installed = Store.get('pwa.installed');
+    const dismissed = Store.get('pwa.installDismissed');
 
-    try { window.Metrics?.trackInstallPromptAccepted?.({ outcome, source: 'cta' }); } catch {}
-    // Reset; most browsers require a new BIP event for another prompt
-    deferredPrompt = null;
+    if (installable && !installed && !dismissed) {
+      // Show after a delay to avoid overwhelming user
+      setTimeout(() => {
+        if (this.isIOS()) {
+          this.showIOSHint();
+        } else {
+          this.showInstallCard();
+        }
+      }, 3000);
+    }
+  }
 
-    // Let UI know the attempt is done
-    document.dispatchEvent(new CustomEvent('pwa:install-attempt', { detail: { outcome } }));
-  } catch {
-    // Silently ignore—user might have blocked prompts
-    deferredPrompt = null;
+  showInstallCard() {
+    const card = document.querySelector('#install-card');
+    if (card) {
+      card.classList.remove('hidden');
+      card.classList.add('scale-in');
+      Events.emit('pwa:install-shown');
+    }
+  }
+
+  hideInstallCard() {
+    const card = document.querySelector('#install-card');
+    if (card) {
+      card.classList.add('hidden');
+    }
+  }
+
+  showIOSHint() {
+    const hint = document.querySelector('#install-ios-hint');
+    if (hint) {
+      hint.style.display = 'block';
+      setTimeout(() => {
+        hint.style.display = 'none';
+      }, 8000);
+    }
+  }
+
+  async promptInstall() {
+    if (!this.deferredPrompt) return;
+
+    try {
+      const result = await this.deferredPrompt.prompt();
+      Events.emit('pwa:install-prompted', { outcome: result.outcome });
+      
+      if (result.outcome === 'accepted') {
+        Events.emit('pwa:install-accepted');
+      } else {
+        Events.emit('pwa:install-declined');
+      }
+    } catch (error) {
+      console.error('Install prompt error:', error);
+    }
+
+    this.deferredPrompt = null;
+  }
+
+  dismissInstall() {
+    Store.set('pwa.installDismissed', true);
+    this.hideInstallCard();
+    Events.emit('pwa:install-dismissed');
+  }
+
+  isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent);
+  }
+
+  // Public API
+  canInstall() {
+    return !!this.deferredPrompt;
+  }
+
+  isAppInstalled() {
+    return this.isInstalled;
   }
 }
 
-// Optional auto-nudge hooks (listen to product moments)
-function wireAutoNudges() {
-  // After first "Save" action in Parties
-  document.addEventListener('ui:first-save', () => {
-    // Don't auto prompt; just tell UI to reveal card/cta
-    if (deferredPrompt && !installed) {
-      document.dispatchEvent(new CustomEvent('pwa:install-available', { detail: { reason: 'first-save' } }));
-    }
-  });
+// Initialize PWA install manager
+const pwaInstall = new PWAInstall();
 
-  // After user connects calendar
-  document.addEventListener('ui:calendar-connected', () => {
-    if (deferredPrompt && !installed) {
-      document.dispatchEvent(new CustomEvent('pwa:install-available', { detail: { reason: 'calendar-connected' } }));
-    }
-  });
-}
+// Expose for external use
+window.PWAInstall = pwaInstall;
 
-// Initialize module
-(function init() {
-  try { console.log('✅ Production PWA Install loaded'); } catch {}
-  wireAutoNudges();
-})();
-
-// Optional: expose for imperative callers
-window.PWAInstall = window.PWAInstall || { show: showInstallCard };
-
-// Wire a default CTA if present
-(function wireInstallCTA(){
-  const btn = document.getElementById('btn-install');
-  if (!btn) return;
-  btn.addEventListener('click', () => {
-    // Must be a user gesture to show native prompt
-    showInstallCard();
-  });
-})();
+export default pwaInstall;

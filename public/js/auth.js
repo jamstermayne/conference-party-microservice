@@ -1,450 +1,124 @@
-/**
- * PRODUCTION AUTHENTICATION MODULE
- * Google (GIS dynamic loader), LinkedIn (OAuth redirect), callback handling
- * Store.profile update with real backend integration
- * Based on GPT-5 architecture for Professional Intelligence Platform
- */
+// public/js/auth.js
+// Production auth (vanilla). Google GIS + LinkedIn redirect. Invite redeem glue.
 
-import Store from './store.js';
-import { Events } from './events.js';
+const ENV = window.__ENV || {};
+const need = (k) => { const v = ENV[k]; if (!v) throw new Error(`${k} not configured`); return v; };
 
-/** =========================
- *  GOOGLE (GIS) AUTH
- *  ========================= */
-let gisClient = null;
-
-/**
- * Dynamically load Google Identity Services SDK
- * @returns {Promise<boolean>} Success status
- */
-async function loadGoogleSDK() {
-  if (window.google && window.google.accounts && window.google.accounts.id) return true;
-  
-  await new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    script.defer = true;
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-  
-  return true;
+function loadScript(src) {
+  return new Promise((res, rej) => { const s=document.createElement('script'); s.src=src; s.async=true; s.defer=true; s.onload=res; s.onerror=rej; document.head.appendChild(s); });
 }
 
-/**
- * Sign in with Google using GIS One Tap / popup
- * @returns {Promise<object>} User profile from backend
- */
-export async function signInWithGoogle() {
-  Events.emit('auth:start', { provider: 'google' });
-  
-  try {
-    await loadGoogleSDK();
+async function postJSON(url, body) {
+  const res = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(body) });
+  if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text().catch(()=> '')}`);
+  return res.json().catch(()=> ({}));
+}
 
-    return new Promise((resolve, reject) => {
-      if (!gisClient) {
-        gisClient = window.google.accounts.id;
-      }
-      
-      gisClient.initialize({
-        client_id: Store.get('config')?.googleClientId,
-        callback: async (response) => {
-          try {
-            // Send ID token to backend for verification & session creation
-            const apiBase = window.location.origin.includes('localhost') 
-              ? 'http://localhost:5001/conference-party-app/us-central1'
-              : 'https://us-central1-conference-party-app.cloudfunctions.net';
-            
-            const res = await fetch(`${apiBase}/api/auth/google`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ id_token: response.credential })
-            });
-            
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const user = await res.json();
-
-            // Update Store with authenticated user profile
-            Store.set('profile', user);
-            Events.emit('auth:success', { provider: 'google', profile: user });
-            
-            // Track successful authentication
-            if (window.gtag) {
-              gtag('event', 'login', {
-                'method': 'google',
-                'user_id': user.id
-              });
-            }
-            
-            resolve(user);
-          } catch (error) {
-            console.error('Google auth backend verification failed:', error);
-            Events.emit('auth:error', { provider: 'google', error });
-            reject(error);
-          }
-        },
-        auto_select: false,
-        ux_mode: 'popup'
+// ---- Google Sign-In (GIS) ----
+async function signInWithGoogle() {
+  const clientId = need('GOOGLE_CLIENT_ID');
+  if (!window.google?.accounts?.id) {
+    await loadScript('https://accounts.google.com/gsi/client');
+  }
+  return new Promise((resolve, reject) => {
+    try {
+      const callback = (resp) => {
+        if (!resp?.credential) return reject(new Error('No Google credential'));
+        sessionStorage.setItem('google_id_token', resp.credential);
+        resolve({ id_token: resp.credential });
+      };
+      window.google.accounts.id.initialize({ client_id: clientId, callback, auto_select: false });
+      window.google.accounts.id.prompt((n) => {
+        if (n?.isNotDisplayed() || n?.isSkippedMoment()) {
+          reject(new Error('Google prompt dismissed'));
+        }
       });
-      
-      // Trigger the One Tap / popup flow
-      gisClient.prompt();
-    });
-    
-  } catch (error) {
-    console.error('Google SDK loading failed:', error);
-    Events.emit('auth:error', { provider: 'google', error });
-    throw error;
-  }
+    } catch (e) { reject(e); }
+  });
 }
 
-/** =========================
- *  LINKEDIN AUTH (REDIRECT)
- *  ========================= */
+// ---- Invite validation (soft-allow if API not ready) ----
+async function validateInviteCode(code) {
+  if (!code) return { valid: true };
+  if (!ENV.INVITES_API || !ENV.BACKEND_BASE) return { valid: true };
+  return postJSON(`${ENV.BACKEND_BASE}/invites/validate`, { code });
+}
 
-/**
- * Initiate LinkedIn OAuth redirect flow
- */
-export function signInWithLinkedIn() {
-  Events.emit('auth:start', { provider: 'linkedin' });
+// ---- Redeem with Google (defined BEFORE any usage) ----
+async function redeemWithGoogle(inviteCode) {
+  const base = need('BACKEND_BASE');
+  const idToken = sessionStorage.getItem('google_id_token');
+  if (!idToken) throw new Error('Missing Google id_token');
 
-  const config = Store.get('config');
-  const clientId = config?.linkedinClientId;
-  
-  if (!clientId) {
-    const error = new Error('LinkedIn client ID not configured');
-    Events.emit('auth:error', { provider: 'linkedin', error });
-    throw error;
-  }
+  const payload = { code: inviteCode || null, id_token: idToken };
+  const json = await postJSON(`${base}/auth/redeem/google`, payload);
 
-  const redirectUri = `${window.location.origin}/auth/linkedin/callback`;
-  const state = crypto.randomUUID();
+  // persist light profile to Store if present
+  try {
+    const p = json?.profile || {};
+    window.Store?.patch?.('profile', {
+      id: p.id || '',
+      email: p.email || '',
+      name: p.name || '',
+      picture: p.picture || '',
+      domain: p.domain || ''
+    });
+  } catch {}
+  return json;
+}
+
+// ---- LinkedIn OAuth (redirect) ----
+async function signInWithLinkedIn() {
+  const clientId = need('LINKEDIN_CLIENT_ID');
+  const redirectUri = location.origin + '/auth/linkedin/callback';
+  const state = Math.random().toString(36).slice(2);
   const scope = 'r_liteprofile r_emailaddress';
 
-  // Store OAuth state for security verification
-  Store.set('linkedin_oauth_state', state);
-  
-  const authUrl = 
-    `https://www.linkedin.com/oauth/v2/authorization` +
-    `?response_type=code&client_id=${encodeURIComponent(clientId)}` +
-    `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-    `&state=${encodeURIComponent(state)}` +
-    `&scope=${encodeURIComponent(scope)}`;
+  const url = new URL('https://www.linkedin.com/oauth/v2/authorization');
+  url.searchParams.set('response_type', 'code');
+  url.searchParams.set('client_id', clientId);
+  url.searchParams.set('redirect_uri', redirectUri);
+  url.searchParams.set('state', state);
+  url.searchParams.set('scope', scope);
 
-  // Track LinkedIn auth initiation
-  if (window.gtag) {
-    gtag('event', 'login_attempt', {
-      'method': 'linkedin'
-    });
-  }
-
-  window.location.href = authUrl;
+  sessionStorage.setItem('li_oauth_state', state);
+  location.href = url.toString();
 }
 
-/** =========================
- *  LINKEDIN CALLBACK HANDLER
- *  ========================= */
-
-/**
- * Handle LinkedIn OAuth callback if present in current URL
- * @returns {Promise<void>}
- */
-export async function handleLinkedInCallbackIfPresent() {
-  if (!/\/auth\/linkedin\/callback/.test(window.location.pathname)) return;
-
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
-    const state = params.get('state');
-    const error = params.get('error');
-    
-    // Handle OAuth errors
-    if (error) {
-      throw new Error(`LinkedIn OAuth error: ${error}`);
-    }
-    
-    const storedState = Store.get('linkedin_oauth_state');
-    
-    if (!code || state !== storedState) {
-      throw new Error('Invalid LinkedIn OAuth state - possible CSRF attack');
-    }
-
-    // Exchange authorization code for user profile
-    const apiBase = window.location.origin.includes('localhost') 
-      ? 'http://localhost:5001/conference-party-app/us-central1'
-      : 'https://us-central1-conference-party-app.cloudfunctions.net';
-    
-    const res = await fetch(`${apiBase}/api/auth/linkedin`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        code,
-        redirectUri: `${window.location.origin}/auth/linkedin/callback`
-      })
-    });
-    
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const user = await res.json();
-
-    // Update Store with authenticated user profile
-    Store.set('profile', user);
-    
-    // Clean up OAuth state
-    Store.remove('linkedin_oauth_state');
-    
-    Events.emit('auth:success', { provider: 'linkedin', profile: user });
-
-    // Track successful authentication with Metrics
-    if (window.Metrics) {
-      window.Metrics.trackLinkedInConnected();
-    }
-    
-    // Track successful authentication
-    if (window.gtag) {
-      gtag('event', 'login', {
-        'method': 'linkedin',
-        'user_id': user.id
-      });
-    }
-
-    // Clean URL and navigate home
-    window.history.replaceState({}, '', '/');
-    Events.emit('navigate', '/');
-    
-    // Trigger router if available
-    if (window.router && window.router.navigate) {
-      window.router.navigate('/');
-    }
-    
-  } catch (error) {
-    console.error('LinkedIn callback failed:', error);
-    Events.emit('auth:error', { provider: 'linkedin', error });
-    
-    // Track failed authentication
-    if (window.gtag) {
-      gtag('event', 'login_failed', {
-        'method': 'linkedin',
-        'error': error.message
-      });
-    }
-    
-    // Clean URL and show error
-    window.history.replaceState({}, '', '/');
-    
-    // Show error toast if available
-    if (window.showToast) {
-      window.showToast('LinkedIn authentication failed. Please try again.', 'error');
-    }
-  }
+// ---- Current user (from Store if available) ----
+function getCurrentUser() {
+  try { return window.Store?.get?.('profile') || null; } catch { return null; }
 }
 
-/** =========================
- *  SIGN OUT FUNCTIONALITY
- *  ========================= */
+// ---- Data-action bindings (safe if not present) ----
+document.addEventListener('click', async (e) => {
+  const el = e.target.closest('[data-action]');
+  if (!el) return;
 
-/**
- * Sign out user and clear profile
- */
-export function signOut() {
-  const currentProfile = Store.get('profile');
-  
-  // Clear user profile from Store
-  Store.remove('profile');
-  Store.remove('linkedin_oauth_state');
-  
-  Events.emit('auth:signout', { profile: currentProfile });
-  
-  // Track signout
-  if (window.gtag && currentProfile) {
-    gtag('event', 'logout', {
-      'user_id': currentProfile.id
-    });
-  }
-  
-  // Navigate to home
-  Events.emit('navigate', '/');
-  
-  if (window.router && window.router.navigate) {
-    window.router.navigate('/');
-  }
-}
-
-/** =========================
- *  AUTHENTICATION STATE
- *  ========================= */
-
-/**
- * Check if user is currently authenticated
- * @returns {boolean} Authentication status
- */
-export function isAuthenticated() {
-  const profile = Store.get('profile');
-  return profile && profile.id;
-}
-
-/**
- * Get current user profile
- * @returns {object|null} User profile or null if not authenticated
- */
-export function getCurrentUser() {
-  return Store.get('profile');
-}
-
-/** =========================
- *  UI STATE MANAGEMENT
- *  ========================= */
-
-/**
- * Update authentication UI based on current state
- */
-function updateAuthUI() {
-  const profile = Store.get('profile');
-  const authButtons = document.getElementById('auth-buttons');
-  const userProfile = document.getElementById('user-profile');
-  
-  if (profile && profile.id) {
-    // Show user profile, hide auth buttons
-    if (authButtons) authButtons.style.display = 'none';
-    if (userProfile) {
-      userProfile.classList.remove('hidden');
-      
-      // Update user info
-      const avatar = document.getElementById('user-avatar');
-      const name = document.getElementById('user-name');
-      const email = document.getElementById('user-email');
-      
-      if (avatar && profile.picture) avatar.src = profile.picture;
-      if (name) name.textContent = profile.name || 'User';
-      if (email) email.textContent = profile.email || '';
+  if (el.dataset.action === 'auth.google') {
+    try {
+      const code = document.querySelector('[data-invite-code]')?.value?.trim() || null;
+      const ok = await validateInviteCode(code);
+      if (code && ok?.valid === false) throw new Error('Invalid invite code');
+      await signInWithGoogle();
+      if (code) await redeemWithGoogle(code);
+      window.Events?.emit?.('auth:google:ok');
+    } catch (err) {
+      console.error('google auth error:', err);
+      window.Events?.emit?.('ui:toast', { type: 'error', message: String(err?.message || err) });
     }
-  } else {
-    // Show auth buttons, hide user profile
-    if (authButtons) authButtons.style.display = 'flex';
-    if (userProfile) userProfile.classList.add('hidden');
-  }
-}
-
-/**
- * Set up configuration from environment or defaults
- */
-function initializeConfig() {
-  const config = Store.get('config') || {};
-  
-  // Set default config if not already set
-  if (!config.googleClientId) {
-    config.googleClientId = process.env.GOOGLE_CLIENT_ID || 'your-google-client-id.googleusercontent.com';
-  }
-  
-  if (!config.linkedinClientId) {
-    config.linkedinClientId = process.env.LINKEDIN_CLIENT_ID || 'your-linkedin-client-id';
-  }
-  
-  Store.set('config', config);
-}
-
-/** =========================
- *  BUTTON WIRING & INITIALIZATION
- *  ========================= */
-
-/**
- * Initialize authentication system on DOM ready
- */
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize configuration
-  initializeConfig();
-  
-  // Wire up authentication buttons
-  const btnGoogle = document.getElementById('btn-google');
-  const btnLinkedIn = document.getElementById('btn-linkedin');
-  const btnSignOut = document.getElementById('btn-signout');
-
-  if (btnGoogle) {
-    btnGoogle.addEventListener('click', async (e) => {
-      e.preventDefault();
-      try {
-        await signInWithGoogle();
-        updateAuthUI(); // Update UI after successful login
-      } catch (error) {
-        console.error('Google sign in failed:', error);
-        if (window.showToast) {
-          window.showToast('Google sign in failed. Please try again.', 'error');
-        }
-      }
-    });
   }
 
-  if (btnLinkedIn) {
-    btnLinkedIn.addEventListener('click', (e) => {
-      e.preventDefault();
-      try {
-        signInWithLinkedIn();
-      } catch (error) {
-        console.error('LinkedIn sign in failed:', error);
-        if (window.showToast) {
-          window.showToast('LinkedIn sign in failed. Please try again.', 'error');
-        }
-      }
-    });
-  }
-  
-  if (btnSignOut) {
-    btnSignOut.addEventListener('click', (e) => {
-      e.preventDefault();
-      signOut();
-      updateAuthUI(); // Update UI after signout
-    });
-  }
-
-  // Set up event listeners for auth state changes
-  Events.on('auth:success', ({ profile }) => {
-    updateAuthUI();
-    if (window.showToast) {
-      window.showToast(`Welcome back, ${profile.name}!`, 'success');
+  if (el.dataset.action === 'auth.linkedin') {
+    try { await signInWithLinkedIn(); }
+    catch (err) {
+      console.error('linkedin auth error:', err);
+      window.Events?.emit?.('ui:toast', { type: 'error', message: String(err?.message || err) });
     }
-  });
-  
-  Events.on('auth:signout', () => {
-    updateAuthUI();
-    if (window.showToast) {
-      window.showToast('Successfully signed out', 'info');
-    }
-  });
-  
-  Events.on('auth:error', ({ provider, error }) => {
-    console.error(`${provider} auth error:`, error);
-    if (window.showToast) {
-      window.showToast(`${provider} authentication failed: ${error.message}`, 'error');
-    }
-  });
-
-  // Handle LinkedIn OAuth callback
-  handleLinkedInCallbackIfPresent();
-  
-  // Initialize UI state
-  updateAuthUI();
+  }
 });
 
-// Export all authentication functions
-export {
-  loadGoogleSDK,
-  handleLinkedInCallbackIfPresent,
-  signOut,
-  isAuthenticated,
-  getCurrentUser,
-  initializeConfig
-};
-
-// Make available globally for backward compatibility
-window.Auth = {
-  signInWithGoogle,
-  signInWithLinkedIn,
-  signOut,
-  isAuthenticated,
-  getCurrentUser,
-  handleLinkedInCallbackIfPresent,
-  initializeConfig
-};
-
-console.log('✅ Production Auth module loaded');
+// ---- Single surface (avoid duplicate exports) ----
+const Auth = { signInWithGoogle, signInWithLinkedIn, redeemWithGoogle, validateInviteCode, getCurrentUser };
+window.Auth = Auth;
+export default Auth;

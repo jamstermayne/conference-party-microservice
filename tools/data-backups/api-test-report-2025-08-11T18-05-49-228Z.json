@@ -1,0 +1,117 @@
+{
+  "startTime": "2025-08-11T18:05:48.273Z",
+  "totalTests": 13,
+  "passed": 6,
+  "failed": 3,
+  "warnings": 3,
+  "tests": [
+    {
+      "name": "Health endpoint status",
+      "status": "PASS",
+      "details": "200 OK",
+      "duration": 190,
+      "timestamp": "2025-08-11T18:05:48.480Z"
+    },
+    {
+      "name": "Health response format",
+      "status": "PASS",
+      "details": "Valid health response structure",
+      "duration": null,
+      "timestamp": "2025-08-11T18:05:48.480Z"
+    },
+    {
+      "name": "Health response time",
+      "status": "PASS",
+      "details": "190ms",
+      "duration": null,
+      "timestamp": "2025-08-11T18:05:48.480Z"
+    },
+    {
+      "name": "Health required fields",
+      "status": "PASS",
+      "details": "All required fields present",
+      "duration": null,
+      "timestamp": "2025-08-11T18:05:48.480Z"
+    },
+    {
+      "name": "Parties endpoint status",
+      "status": "PASS",
+      "details": "200 OK",
+      "duration": 129,
+      "timestamp": "2025-08-11T18:05:48.610Z"
+    },
+    {
+      "name": "Parties data structure",
+      "status": "PASS",
+      "details": "0 events returned",
+      "duration": null,
+      "timestamp": "2025-08-11T18:05:48.610Z"
+    },
+    {
+      "name": "Parties event count",
+      "status": "FAIL",
+      "details": "No events returned",
+      "duration": null,
+      "timestamp": "2025-08-11T18:05:48.611Z"
+    },
+    {
+      "name": "Parties pagination",
+      "status": "INFO",
+      "details": "Pagination test skipped (insufficient data)",
+      "duration": null,
+      "timestamp": "2025-08-11T18:05:48.611Z"
+    },
+    {
+      "name": "Sync GET request",
+      "status": "FAIL",
+      "details": "Expected 200, got 404",
+      "duration": null,
+      "timestamp": "2025-08-11T18:05:48.739Z"
+    },
+    {
+      "name": "Sync POST request",
+      "status": "FAIL",
+      "details": "Expected 200, got 404",
+      "duration": null,
+      "timestamp": "2025-08-11T18:05:48.868Z"
+    },
+    {
+      "name": "Webhook endpoint accessible",
+      "status": "WARN",
+      "details": "Unexpected status 404",
+      "duration": null,
+      "timestamp": "2025-08-11T18:05:48.986Z"
+    },
+    {
+      "name": "Webhook POST handling",
+      "status": "WARN",
+      "details": "POST returned 404",
+      "duration": null,
+      "timestamp": "2025-08-11T18:05:49.106Z"
+    },
+    {
+      "name": "Setup webhook status",
+      "status": "WARN",
+      "details": "Unexpected status 404",
+      "duration": null,
+      "timestamp": "2025-08-11T18:05:49.227Z"
+    }
+  ],
+  "summary": {
+    "averageResponseTime": 137,
+    "totalTestTime": 685,
+    "totalTests": 13,
+    "passed": 6,
+    "failed": 3,
+    "warnings": 3,
+    "successRate": 46
+  },
+  "performance": {
+    "health": 190,
+    "parties": 129,
+    "sync": 128,
+    "webhook": 117,
+    "setupWebhook": 121
+  },
+  "endTime": "2025-08-11T18:05:49.228Z"
+}

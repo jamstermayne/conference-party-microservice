@@ -19,12 +19,8 @@ async function flush(){
   const ok = navigator.sendBeacon ? navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(payload)], {type:'application/json'})) : false;
   if (!ok){
     try {
-      const r = await fetch(ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-      if (!r.ok) { queue = []; save(queue); return; } // drop silently on 404/5xx
-    } catch(_){
-      // Offline or endpoint absent → drop silently to avoid health noise
-      queue = []; save(queue); return;
-    }
+      await fetch(ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+    } catch(e){ Logger.warn('metrics flush fail', e); return; }
   }
   queue = []; save(queue);
 }
@@ -32,10 +28,5 @@ function start(){ if (timer) return; timer = setInterval(flush, FLUSH_INTERVAL);
 start();
 
 const Metrics = { track, flush, __verified:true };
-if (!window.Metrics) window.Metrics = {};
-window.Metrics.track = (name, props={}) => track(name, props);
-// Shims expected by UI; safe no-ops if backend absent
-window.Metrics.trackInstallPromptShown    = (props={}) => window.Metrics.track('install_prompt_shown', props);
-window.Metrics.trackInstallPromptAccepted = (props={}) => window.Metrics.track('install_prompt_accepted', props);
-window.Metrics.trackRoute                 = (name)      => window.Metrics.track('route_change', { route:name });
+if (!window.Metrics) window.Metrics = Metrics;
 export default Metrics;

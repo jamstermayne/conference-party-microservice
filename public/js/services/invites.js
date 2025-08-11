@@ -187,7 +187,7 @@ function showGoogleOneTap(resolve, reject) {
 
 function getGoogleClientId() {
   // In production, this should come from environment or config
-  return process.env.GOOGLE_CLIENT_ID || 
+  return window.__ENV?.GOOGLE_CLIENT_ID || 
          document.querySelector('meta[name="google-client-id"]')?.content ||
          '1234567890-abcdefghijklmnopqrstuvwxyz.apps.googleusercontent.com'; // Placeholder
 }

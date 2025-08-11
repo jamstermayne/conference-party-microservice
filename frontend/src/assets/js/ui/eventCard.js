@@ -1,43 +1,67 @@
-// Event Card UI Component
-export class EventCard {
-  constructor(event) {
-    this.event = event;
-  }
+// Event Card Component
+import Events from '../foundation/events.js';
 
-  render() {
-    const card = document.createElement('div');
-    card.className = 'event-card';
-    card.innerHTML = `
-      <div class="event-card-header">
-        <h3 class="event-card-title">${this.event.title || this.event.name}</h3>
-        ${this.event.category ? `<span class="event-card-badge">${this.event.category}</span>` : ''}
+export function createEventCard(event) {
+  const card = document.createElement('div');
+  card.className = 'event-card fade-in';
+  card.dataset.eventId = event.id;
+  
+  const now = new Date();
+  const startTime = new Date(event.startTime);
+  const endTime = new Date(event.endTime);
+  
+  let status = 'upcoming';
+  if (now >= startTime && now <= endTime) status = 'live';
+  else if (now > endTime) status = 'ended';
+  
+  card.innerHTML = `
+    <div class="event-card__header">
+      <h3 class="event-card__title">${event.name}</h3>
+      <div class="event-card__status event-card__status--${status}">
+        ${status === 'live' ? '🔴 LIVE' : status === 'upcoming' ? 'Upcoming' : 'Ended'}
       </div>
-      <div class="event-card-meta">
-        <span class="event-card-time">🕐 ${this.formatTime(this.event.start || this.event.date)}</span>
-        <span class="event-card-location">📍 ${this.event.venue || this.event.location || 'TBA'}</span>
+    </div>
+    <div class="event-card__meta">
+      <div class="event-card__time">
+        <span>🕐</span>
+        <span>${formatTime(startTime)}</span>
       </div>
-      <div class="event-card-actions">
-        <button class="event-card-action primary" data-action="save" data-id="${this.event.id}">
-          💾 Save
-        </button>
-        <button class="event-card-action" data-action="calendar" data-id="${this.event.id}">
-          📅 Calendar
-        </button>
+      <div class="event-card__location">
+        <span>📍</span>
+        <span>${event.location || 'TBD'}</span>
       </div>
-    `;
-    return card;
-  }
-
-  formatTime(dateString) {
-    if (!dateString) return 'TBA';
-    const date = new Date(dateString);
-    return date.toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit'
-    });
-  }
+    </div>
+    ${event.description ? `<p class="event-card__description">${event.description}</p>` : ''}
+    <div class="event-card__actions">
+      <button class="btn btn-primary event-card__btn" data-action="join-event" data-event-id="${event.id}">
+        ${status === 'live' ? 'Join Now' : 'View Details'}
+      </button>
+      <button class="btn event-card__btn" data-action="save-event" data-event-id="${event.id}">
+        💾 Save
+      </button>
+    </div>
+  `;
+  
+  return card;
 }
 
-export default EventCard;
+function formatTime(date) {
+  return date.toLocaleTimeString('en-US', { 
+    hour: 'numeric', 
+    minute: '2-digit',
+    hour12: true 
+  });
+}
+
+// Event card interactions
+Events.on('action:join-event', (data) => {
+  console.log('Joining event:', data.eventId);
+  // Handle event joining logic
+});
+
+Events.on('action:save-event', (data) => {
+  console.log('Saving event:', data.eventId);
+  // Handle event saving logic
+});
+
+export default { createEventCard };

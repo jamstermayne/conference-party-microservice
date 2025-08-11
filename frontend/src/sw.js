@@ -2,7 +2,7 @@
  * 🚀 GAMESCOM 2025 PARTY DISCOVERY - SERVICE WORKER
  * 
  * Offline-first PWA functionality with intelligent caching
- * Generated: 2025-08-11T12:21:48.932Z
+ * Generated: 2025-08-11T18:24:14.441Z
  * Cache Version: 1.0.0
  */
 
@@ -80,9 +80,7 @@ self.addEventListener('activate', event => {
  */
 self.addEventListener('fetch', event => {
     const { request } = event;
-    if (request.method !== 'GET') return;                 // don't cache non-GET
     const url = new URL(request.url);
-    if (url.origin !== self.location.origin) return;      // ✅ bypass cross-origin (Google/LinkedIn SDKs)
     
     if (API_CACHE_PATTERNS.some(pattern => pattern.test(url.pathname))) {
         event.respondWith(networkFirstStrategy(request));
@@ -156,53 +154,37 @@ async function networkFirstStrategy(request) {
  * 📦 CACHE-FIRST STRATEGY
  */
 async function cacheFirstStrategy(request) {
-    // Safety: only operate on GET
-    if (request.method !== 'GET') return fetch(request);
-    const cache = await caches.open(DATA_CACHE);
-    const cached = await cache.match(request);
-    if (cached) return cached;
-    const res = await fetch(request);
-    await caches.open(DATA_CACHE).then(c => c.put(request, res.clone()));
-    return res;
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse) return cachedResponse;
+    
+    try {
+        const networkResponse = await fetch(request);
+        if (networkResponse.ok) {
+            const cache = await caches.open(RUNTIME_CACHE);
+            cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+    } catch (error) {
+        if (request.mode === 'navigate') return caches.match('/index.html');
+        throw error;
+    }
 }
 
 /**
  * 🔄 STALE-WHILE-REVALIDATE STRATEGY
  */
 async function staleWhileRevalidateStrategy(request) {
-    const cache = await caches.open(RUNTIME_CACHE);
-    const cachedResponse = await cache.match(request);
+    const cachedResponse = await caches.match(request);
     
-    const fetchPromise = (async () => {
-        try {
-            const networkResponse = await fetch(request);
-            if (networkResponse && networkResponse.ok) {
-                // Clone once for cache, return original
-                const forCache = networkResponse.clone();
-                await cache.put(request, forCache);
-            }
-            return networkResponse;
-        } catch (e) {
-            // Network failed, will use cached if available
-            return null;
+    const fetchPromise = fetch(request).then(networkResponse => {
+        if (networkResponse.ok) {
+            const cache = caches.open(RUNTIME_CACHE);
+            cache.then(c => c.put(request, networkResponse.clone()));
         }
-    })();
-    
-    // If we have cached, return it immediately and update in background
-    if (cachedResponse) {
-        // Don't await, just ensure it runs
-        fetchPromise.catch(() => {});
-        return cachedResponse;
-    }
-    
-    // No cache, must wait for network
-    const networkResponse = await fetchPromise;
-    if (networkResponse) {
         return networkResponse;
-    }
+    }).catch(() => null);
     
-    // Offline fallback
-    return new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
+    return cachedResponse || fetchPromise;
 }
 
 /**

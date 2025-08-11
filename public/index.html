@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Primary Meta -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1A1D21">
-  <meta name="color-scheme" content="dark">
-  <meta name="description" content="Velocity — your private conference social network.">
-  <title>Velocity — Gamescom 2025</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- PWA -->
-  <link rel="manifest" href="/manifest.json">
+  <!-- PWA Meta -->
+  <meta name="theme-color" content="#6b7bff" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Content Security Policy (allows Cloud Functions + Google/LinkedIn SDKs) -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://*.googleapis.com https://*.gstatic.com https://platform.linkedin.com; connect-src 'self' https://us-central1-conference-party-app.cloudfunctions.net https://*.googleapis.com https://*.gstatic.com https://api.linkedin.com; img-src 'self' data: https://*.gstatic.com https://*.googleusercontent.com https://media.licdn.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-src https://accounts.google.com https://www.linkedin.com; worker-src 'self'; base-uri 'self'; form-action 'self' https://www.linkedin.com;" />
+
+  <!-- Load ENV before any app code -->
+  <script src="/js/env.js"></script>
+
+  <title>Velocity — Gamescom 2025</title>
+  <meta name="description" content="Velocity — your private conference social network.">
+
+  <!-- Additional PWA -->
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- Social: Open Graph -->
@@ -63,6 +71,12 @@
   }
   </script>
   
+  <!-- Metrics boot -->
+  <script>
+    // Safe Metrics boot
+    try { window.Metrics?.track?.('app_boot', { inline: true }); } catch(e) {}
+  </script>
+  
   <link rel="stylesheet" href="assets/css/styles.css"/>
 </head>
 <body>
@@ -110,6 +124,8 @@
             <button id="btn-signout" class="btn btn-small btn-ghost">Sign Out</button>
           </div>
         </div>
+        <!-- PWA Install Button -->
+        <button id="btn-install" class="btn btn-primary" style="width:100%; margin-top: 10px; display: none;">Install App</button>
         <small class="muted">Exclusive • Privacy-first</small>
       </div>
     </aside>
@@ -149,7 +165,8 @@
   <script type="module" src="/assets/js/foundation/app-bootstrap.js"></script>
   <script type="module" src="/assets/js/foundation/sw-register.js"></script>
   
-  <!-- Metrics System (critical tracking) -->
+  <!-- Ensure these load after env.js -->
+  <script src="/js/metrics-shim.js" type="module"></script>
   <script src="/assets/js/metrics.js"></script>
   
   <!-- App scripts (order matters: foundation first, then features, then wireup) -->
@@ -157,11 +174,51 @@
   <script type="module" src="/js/events.js"></script>
   <script type="module" src="/js/ui-feedback.js"></script>
   <script type="module" src="/js/install.js"></script>
+  <script type="module" src="/js/auth.js"></script>
   <script type="module" src="/js/router.js"></script>
   <script type="module" src="/js/invite.js"></script>
+  <script type="module" src="/js/invite-badge.js"></script>
   <script type="module" src="/js/calendar-integration.js"></script>
   <script type="module" src="/js/events-controller.js"></script>
-  <script type="module" src="/js/auth.js"></script>
-  <script type="module" src="/assets/js/app-wireup.js"></script>
+  <script type="module" src="/js/app-wireup.js"></script>
+  
+  <!-- PWA Install Handler -->
+  <script type="module">
+    // Handle PWA install prompt
+    let deferredPrompt;
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault();
+      // Stash the event so it can be triggered later
+      deferredPrompt = e;
+      // Update UI to show install button
+      const installBtn = document.getElementById('btn-install');
+      if (installBtn) {
+        installBtn.style.display = 'block';
+      }
+    });
+    
+    // Handle install button click
+    document.getElementById('btn-install')?.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        // Show the install prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+        // Clear the deferred prompt
+        deferredPrompt = null;
+        // Hide the install button
+        document.getElementById('btn-install').style.display = 'none';
+      }
+    });
+    
+    // Check if already installed
+    window.addEventListener('appinstalled', () => {
+      console.log('PWA was installed');
+      document.getElementById('btn-install')?.style.display = 'none';
+    });
+  </script>
 </body>
 </html>

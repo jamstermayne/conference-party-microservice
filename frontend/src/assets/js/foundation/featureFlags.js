@@ -11,10 +11,7 @@ async function refresh(){
     const data = await getJSON('/api/flags');
     Store.patch('flags', { map:data||{}, _fetchedAt: Date.now() });
     return data||{};
-  } catch (_){
-    // Optional in prod: treat 404/5xx/timeout as "no flags" without logging
-    return Store.get('flags.map') || {};
-  }
+  } catch (e){ Logger.warn('flags fetch fail', e); return Store.get('flags.map')||{}; }
 }
 function flag(key, fallback=false){ const map = Store.get('flags.map')||{}; return (key in map) ? !!map[key] : fallback; }
 

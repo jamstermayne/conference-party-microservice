@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Primary Meta -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#6b7bff">
-  <meta name="color-scheme" content="dark">
-  <meta name="description" content="Velocity — your private conference social network.">
-  <title>Velocity — Gamescom 2025</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- PWA -->
-  <link rel="manifest" href="/manifest.json">
+  <!-- PWA Meta -->
+  <meta name="theme-color" content="#6b7bff" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Content Security Policy (allows Cloud Functions + Google/LinkedIn SDKs) -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://*.googleapis.com https://*.gstatic.com https://platform.linkedin.com; connect-src 'self' https://us-central1-conference-party-app.cloudfunctions.net https://*.googleapis.com https://*.gstatic.com https://api.linkedin.com; img-src 'self' data: https://*.gstatic.com https://*.googleusercontent.com https://media.licdn.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-src https://accounts.google.com https://www.linkedin.com; worker-src 'self'; base-uri 'self'; form-action 'self' https://www.linkedin.com;" />
+
+  <!-- Load ENV before any app code -->
+  <script src="/js/env.js"></script>
+
+  <title>Velocity — Gamescom 2025</title>
+  <meta name="description" content="Velocity — your private conference social network.">
+
+  <!-- Additional PWA -->
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- Social: Open Graph -->
@@ -64,28 +71,17 @@
   }
   </script>
   
-  <!-- Design System CSS -->
-  <link rel="stylesheet" href="/assets/design/tokens.css">
-  <link rel="stylesheet" href="/assets/design/motion.css">
-  <link rel="stylesheet" href="/assets/design/compat.css">
+  <!-- Metrics boot -->
+  <script>
+    // Safe Metrics boot
+    try { window.Metrics?.track?.('app_boot', { inline: true }); } catch(e) {}
+  </script>
   
-  <!-- Component CSS -->
-  <link rel="stylesheet" href="/assets/css/event-cards.css">
-  <link rel="stylesheet" href="/assets/css/events.css">
-  <link rel="stylesheet" href="/assets/css/calendar.css">
-  <link rel="stylesheet" href="/assets/css/install.css">
-  <link rel="stylesheet" href="/assets/css/nav.css">
-  <link rel="stylesheet" href="/assets/css/toast.css">
-  
-  <!-- Legacy styles (if needed) -->
   <link rel="stylesheet" href="assets/css/styles.css"/>
 </head>
 <body>
   <!-- Skip link for accessibility -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
-  
-  <!-- ARIA live container for toasts and announcements -->
-  <div id="aria-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
   
   <div id="app" class="app">
     <!-- Slack-style Sidebar -->
@@ -100,8 +96,7 @@
         <button class="nav-item" data-route="opportunities">🎯 Opportunities</button>
         <button class="nav-item" data-route="calendar">📅 Calendar</button>
         <button class="nav-item" data-route="invites">
-          🎟 Invites
-          <span id="invites-badge" class="side-badge" aria-live="polite" aria-atomic="true">—</span>
+          🎟 Invites <span id="invite-pill" class="pill pill-gold">10</span>
         </button>
         <button class="nav-item" data-route="me">👤 Me</button>
         <button class="nav-item" data-route="settings">⚙️ Settings</button>
@@ -129,7 +124,8 @@
             <button id="btn-signout" class="btn btn-small btn-ghost">Sign Out</button>
           </div>
         </div>
-        <button id="btn-install" class="btn btn-primary" style="width:100%; margin-top:8px;">Install App</button>
+        <!-- PWA Install Button -->
+        <button id="btn-install" class="btn btn-primary" style="width:100%; margin-top: 10px; display: none;">Install App</button>
         <small class="muted">Exclusive • Privacy-first</small>
       </div>
     </aside>
@@ -145,41 +141,6 @@
       <section id="route" role="region" aria-live="polite"></section>
       <!-- Events list for production controller -->
       <section id="event-list" role="region" aria-label="Gaming industry parties"></section>
-      
-      <!-- Calendar Panel -->
-      <section data-route="calendar" id="panel-calendar" class="route-panel" aria-label="Calendar">
-        <header class="panel-header flex flex-row flex-wrap">
-          <h1 class="text-heading">Calendar</h1>
-          <div class="flex-1"></div>
-          <div id="cal-status" class="stack-2 text-secondary" aria-live="polite" aria-atomic="true"></div>
-        </header>
-
-        <!-- Connect row -->
-        <div class="card card-outlined card-compact stack-2" id="cal-connect">
-          <div class="flex flex-wrap stack-2">
-            <button class="btn btn-primary"   data-action="cal-google">Connect Google</button>
-            <button class="btn btn-secondary" data-action="cal-ics">Add ICS</button>
-            <button class="btn btn-ghost"     data-action="cal-m2m">Enable Meet-to-Match</button>
-          </div>
-          <div class="text-caption text-muted">We only use event titles/time/venue during Gamescom. Privacy-first.</div>
-        </div>
-
-        <!-- Week strip -->
-        <div id="cal-week" class="cal-week"></div>
-
-        <!-- Agenda -->
-        <div id="cal-skeleton" class="stack-3" aria-hidden="true">
-          <div class="card card-glass card-compact skeleton"></div>
-          <div class="card card-glass card-compact skeleton"></div>
-        </div>
-        <div id="cal-agenda" class="stack-3" data-test="calendar-agenda"></div>
-
-        <!-- Empty -->
-        <template id="tpl-cal-empty">
-          <div class="card card-outlined card-compact text-secondary">No meetings found for this window.</div>
-        </template>
-      </section>
-      
       <!-- Enhanced Install Card with Accessibility -->
       <div id="install-card" class="install-card hidden" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc">
         <div class="install-content" tabindex="-1">
@@ -200,49 +161,63 @@
       <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
     </main>
   </div>
-  
-  <!-- Runtime configuration (no bundler) -->
-  <script>
-    window.__ENV = Object.assign({
-      GOOGLE_CLIENT_ID: "",
-      LINKEDIN_CLIENT_ID: "",
-      OAUTH_REDIRECT_URL: location.origin + "/auth/callback",
-      BASE_URL: location.origin,
-      INVITES_API: false   // ⬅️ disable invites status API until backend is ready
-    }, window.__ENV || {});
-  </script>
-  
-  <!-- Foundation spine -->
+  <!-- GPT-5 Foundation (enterprise-grade core) -->
   <script type="module" src="/assets/js/foundation/app-bootstrap.js"></script>
   <script type="module" src="/assets/js/foundation/sw-register.js"></script>
-  <script type="module" src="/assets/js/foundation/instrumentation.js"></script>
-
-  <!-- Skin + global UX -->
-  <script type="module" src="/assets/design/skin.js"></script>
-  <script type="module" src="/assets/js/toast.js"></script>
-  <script type="module" src="/assets/js/a11y.js"></script>
-
-  <!-- Core features -->
-  <script type="module" src="/assets/js/nav.js"></script>
-  <script type="module" src="/assets/js/foundation/metrics-shim.js"></script>
-  <script type="module" src="/assets/js/router-route-metrics.js"></script>
-  <script type="module" src="/assets/js/pwa-install.js"></script>
-  <script type="module" src="/assets/js/invite-deeplink.js"></script>
-  <script type="module" src="/assets/js/auth.js"></script>
-
-  <!-- FTUE/Events + Calendar (UI only; no controller edits) -->
-  <script type="module" src="/assets/js/ui/eventCard.js"></script>
-  <script type="module" src="/assets/js/events-controller.js"></script>
-  <script type="module" src="/assets/js/ftue-progress.js"></script>
-  <script type="module" src="/assets/js/calendar-view.js"></script>
-  <script type="module" src="/assets/js/invite-badge.js"></script>
-  <script type="module" src="/assets/js/invite-deeplink.js"></script>
   
-  <!-- PWA Install Button Handler -->
+  <!-- Ensure these load after env.js -->
+  <script src="/js/metrics-shim.js" type="module"></script>
+  <script src="/assets/js/metrics.js"></script>
+  
+  <!-- App scripts (order matters: foundation first, then features, then wireup) -->
+  <script type="module" src="/js/store.js"></script>
+  <script type="module" src="/js/events.js"></script>
+  <script type="module" src="/js/ui-feedback.js"></script>
+  <script type="module" src="/js/install.js"></script>
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/router.js"></script>
+  <script type="module" src="/js/invite.js"></script>
+  <script type="module" src="/js/invite-badge.js"></script>
+  <script type="module" src="/js/calendar-integration.js"></script>
+  <script type="module" src="/js/events-controller.js"></script>
+  <script type="module" src="/js/app-wireup.js"></script>
+  
+  <!-- PWA Install Handler -->
   <script type="module">
-    import { showInstallCard } from '/assets/js/pwa-install.js';
-    document.getElementById('btn-install')?.addEventListener('click', () => {
-      showInstallCard({ reason: 'manual-cta' });
+    // Handle PWA install prompt
+    let deferredPrompt;
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault();
+      // Stash the event so it can be triggered later
+      deferredPrompt = e;
+      // Update UI to show install button
+      const installBtn = document.getElementById('btn-install');
+      if (installBtn) {
+        installBtn.style.display = 'block';
+      }
+    });
+    
+    // Handle install button click
+    document.getElementById('btn-install')?.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        // Show the install prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+        // Clear the deferred prompt
+        deferredPrompt = null;
+        // Hide the install button
+        document.getElementById('btn-install').style.display = 'none';
+      }
+    });
+    
+    // Check if already installed
+    window.addEventListener('appinstalled', () => {
+      console.log('PWA was installed');
+      document.getElementById('btn-install')?.style.display = 'none';
     });
   </script>
 </body>
