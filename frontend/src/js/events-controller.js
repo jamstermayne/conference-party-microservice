@@ -1,4 +1,5 @@
 import { toast, emptyState } from '/js/ui-feedback.js';
+import FTUEProgress from '/js/ftue-progress.js';
 
 async function fetchEvents() {
   const url = 'https://us-central1-conference-party-app.cloudfunctions.net/api/events?conference=gamescom2025';
@@ -12,6 +13,9 @@ async function loadParties() {
   const mount = document.querySelector('[data-route="parties"] [data-mount]');
   if (!mount) return;
   mount.innerHTML = '<div class="card card-outlined">Loading events…</div>';
+
+  // FTUE: Initialize progress bar
+  FTUEProgress.init(mount);
 
   try {
     let events = await fetchEvents();
@@ -31,6 +35,9 @@ async function loadParties() {
 
     // TODO: render pretty cards here – for now list titles
     mount.innerHTML = events.map(e => `<div class="card card-outlined card-compact">${e["Event Name"] || e.title}</div>`).join('');
+    
+    // FTUE: Re-initialize progress bar after content load
+    FTUEProgress.init(mount);
   } catch (err) {
     console.error('Failed to load parties:', err);
     toast('Unable to load events. Working from offline data if available.', 'warn');
@@ -39,6 +46,8 @@ async function loadParties() {
       const events = offline?.data || offline || [];
       if (events.length) {
         mount.innerHTML = events.map(e => `<div class="card card-outlined card-compact">${e["Event Name"] || e.title}</div>`).join('');
+        // FTUE: Re-initialize progress bar for offline content
+        FTUEProgress.init(mount);
         return;
       }
     } catch {}
