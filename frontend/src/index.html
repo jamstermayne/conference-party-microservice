@@ -232,5 +232,18 @@
       try { window.Metrics?.trackRoute?.(location.hash || '#/parties'); } catch {}
     });
   </script>
+<!-- ARIA live region for screen reader announcements -->
+<div id="aria-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+<!-- Ensure events.css is included -->
+<link rel="stylesheet" href="/assets/css/events.css">
+
+<!-- Load FTUE progress script -->
+<script src="/js/ftue-progress.js"></script>
+
+<!-- Load production-safe metrics and flags -->
+<script type="module" src="/assets/js/metrics.js"></script>
+<script type="module" src="/assets/js/featureFlags.js"></script>
+
 </body>
 </html>

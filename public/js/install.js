@@ -1,193 +1,98 @@
-/**
- * PRODUCTION PWA INSTALL MODULE
- * Android beforeinstallprompt + iOS A2HS guidance + accessibility focus trap
- * Based on GPT-5 architecture for Professional Intelligence Platform
- */
+(() => {
+  console.log('✅ Production PWA Install loaded');
 
-import Events from './events.js';
+  let deferredEvt = null;
+  let cardNode = null;
 
-let deferredPrompt = null;
+  // Safe Metrics shim usage
+  function track(name, payload){ try { window.Metrics && window.Metrics.track && window.Metrics.track(name, payload || {}); } catch {} }
 
-function isiOS() {
-  return /iphone|ipad|ipod/i.test(navigator.userAgent);
-}
-
-function isStandalone() {
-  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-}
-
-function showInstallCard() {
-  const card = document.getElementById('install-card');
-  if (!card) return;
-  
-  card.classList.add('visible');
-  
-  const content = card.querySelector('.install-content');
-  if (content) {
-    content.setAttribute('tabindex', '-1');
-    content.focus();
-    trapFocus(content);
+  // Feature detect installability (standalone or display-mode)
+  function isStandalone() {
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   }
-  
-  // Emit event for tracking
-  Events.emit('pwa:install:shown');
-  
-  // Store show time to avoid spam
-  localStorage.setItem('pwa_install_last_shown', Date.now());
-  
-  // Track with Metrics
-  if (window.Metrics) {
-    window.Metrics.trackInstallPromptShown();
-  }
-  
-  // Track analytics
-  if (window.gtag) {
-    gtag('event', 'pwa_install_card_shown', {
-      'platform': isiOS() ? 'ios' : 'android'
+
+  function buildCard() {
+    if (cardNode) return cardNode;
+    const div = document.createElement('div');
+    div.className = 'install-card';
+    div.innerHTML = `
+      <div class="copy">
+        <h4>Install for instant access</h4>
+        <p>Add to Home Screen for offline access and 2× faster launches.</p>
+      </div>
+      <button class="btn btn-primary" id="install-cta">Install</button>
+      <button class="btn btn-secondary" id="install-dismiss" aria-label="Dismiss install card">Not now</button>
+    `;
+    // Place near bottom of events page
+    const mount = document.querySelector('.events-wrap') || document.body;
+    mount.appendChild(div);
+    // Focus management
+    const cta = div.querySelector('#install-cta');
+    cta?.addEventListener('click', onInstallClick);
+    div.querySelector('#install-dismiss')?.addEventListener('click', () => {
+      hideCard();
+      track('pwa_install_dismiss');
     });
+    cardNode = div;
+    return div;
   }
-}
 
-function hideInstallCard() {
-  const card = document.getElementById('install-card');
-  if (!card) return;
-  
-  card.classList.remove('visible');
-  
-  // Emit event for tracking
-  Events.emit('pwa:install:hidden');
-}
-
-function trapFocus(el) {
-  const focusables = el.querySelectorAll('button:not([disabled]),[href]:not([tabindex="-1"]),[tabindex]:not([tabindex="-1"]),input:not([disabled]),select:not([disabled]),textarea:not([disabled])');
-  if (!focusables.length) return;
-  
-  const first = focusables[0];
-  const last = focusables[focusables.length - 1];
-  
-  el.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') return hideInstallCard();
-    if (e.key !== 'Tab') return;
-    
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  });
-}
-
-// ANDROID: beforeinstallprompt handler
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  
-  if (!isStandalone()) {
-    showInstallCard();
+  function hideCard(){
+    if (!cardNode) return;
+    cardNode.remove();
+    cardNode = null;
   }
-});
 
-// Install button handler
-document.addEventListener('DOMContentLoaded', () => {
-  const installBtn = document.getElementById('install-btn');
-  const dismissBtn = document.getElementById('install-dismiss');
-  
-  installBtn?.addEventListener('click', async () => {
-    if (deferredPrompt) {
-      try {
-        deferredPrompt.prompt();
-        const result = await deferredPrompt.userChoice;
-        
-        if (result.outcome === 'accepted') {
-          Events.emit('ui:toast', { 
-            type: 'success', 
-            message: '🎉 App installed successfully!' 
-          });
-          
-          // Track with Metrics
-          if (window.Metrics) {
-            window.Metrics.trackInstallAccepted();
-          }
-          
-          if (window.gtag) {
-            gtag('event', 'pwa_install_accepted');
-          }
-        }
-        
-        deferredPrompt = null;
-        hideInstallCard();
-        
-      } catch (error) {
-        console.error('Install prompt failed:', error);
-        Events.emit('ui:toast', { 
-          type: 'error', 
-          message: 'Installation failed. Please try again.' 
-        });
-      }
+  async function onInstallClick() {
+    if (!deferredEvt) {
+      // Fallback A2HS instructions
+      track('pwa_install_manual_fallback');
+      alert('To install: Share → "Add to Home Screen".');
+      return;
+    }
+    track('pwa_install_prompt_show');
+    deferredEvt.prompt();
+    const choice = await deferredEvt.userChoice.catch(() => ({ outcome: 'unknown' }));
+    track('pwa_install_choice', { outcome: choice?.outcome });
+    if (choice?.outcome === 'accepted') hideCard();
+    deferredEvt = null;
+  }
+
+  // Public API if FTUE completes
+  window.showInstallCard = function showInstallCard() {
+    if (isStandalone()) return;
+    buildCard();
+    track('pwa_install_card_shown');
+  };
+
+  // Browser events
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredEvt = e;
+    track('pwa_beforeinstall_ready');
+    // Reveal card on parties route only (first impression)
+    if (location.hash.startsWith('#parties')) {
+      window.showInstallCard();
     }
   });
-  
-  dismissBtn?.addEventListener('click', () => {
-    hideInstallCard();
-    
-    // Track with Metrics
-    if (window.Metrics) {
-      window.Metrics.trackInstallDismissed();
-    }
-    
-    if (window.gtag) {
-      gtag('event', 'pwa_install_dismissed');
-    }
+
+  window.addEventListener('appinstalled', () => {
+    track('pwa_installed');
+    hideCard();
   });
-  
-  // iOS guidance (no beforeinstallprompt support)
-  if (!isStandalone() && isiOS()) {
-    // Show gentle nudge with "Share → Add to Home Screen"
-    const hint = document.getElementById('install-ios-hint');
-    if (hint) {
-      hint.classList.add('visible');
-      
-      Events.emit('ui:toast', {
-        type: 'info',
-        message: 'Tip: Tap Share → Add to Home Screen to install',
-        duration: 5000
+
+  // If already standalone, never show card
+  if (isStandalone()) {
+    hideCard();
+  } else {
+    // Show a subtle CTA on parties if browser supports install later
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      if (location.hash.startsWith('#parties')) setTimeout(() => window.showInstallCard(), 600);
+    } else {
+      document.addEventListener('DOMContentLoaded', () => {
+        if (location.hash.startsWith('#parties')) setTimeout(() => window.showInstallCard(), 600);
       });
     }
   }
-});
-
-// Track app installed
-window.addEventListener('appinstalled', () => {
-  hideInstallCard();
-  
-  Events.emit('ui:toast', { 
-    type: 'success', 
-    message: '✅ Velocity installed successfully!' 
-  });
-  
-  Events.emit('pwa:installed');
-  
-  // Track with Metrics
-  if (window.Metrics) {
-    window.Metrics.trackInstallAccepted();
-  }
-  
-  if (window.gtag) {
-    gtag('event', 'pwa_app_installed');
-  }
-});
-
-// Export functions
-export { showInstallCard, hideInstallCard, isiOS, isStandalone };
-
-// Make available globally
-window.PWAInstall = {
-  showInstallCard,
-  hideInstallCard,
-  isiOS,
-  isStandalone
-};
-
-console.log('✅ Production PWA Install loaded');
+})();
