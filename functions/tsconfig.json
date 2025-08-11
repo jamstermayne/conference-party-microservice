@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "types": ["node", "jest"],
-    "rootDir": "src",
+    "rootDir": ".",
     
     // Strict Type Checking - All enabled for enterprise quality
     "strict": true,
@@ -53,7 +53,8 @@
   },
   "compileOnSave": true,
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "tests/**/*"
   ],
   "exclude": [
     "node_modules",

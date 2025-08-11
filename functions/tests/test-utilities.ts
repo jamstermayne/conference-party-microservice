@@ -21,7 +21,7 @@ export class MockRequestBuilder {
   }
 
   path(path: string): MockRequestBuilder {
-    this.request.path = path;
+    (this.request as any).path = path;
     return this;
   }
 

@@ -2,5 +2,16 @@
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
     "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 1000
+    "files.autoSaveDelay": 1000,
+    "editor.formatOnSave": true,
+    "typescript.preferences.includePackageJsonAutoImports": "off",
+    "javascript.preferences.includePackageJsonAutoImports": "on",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/lib": true,
+        "**/.git": true
+    }
 }
