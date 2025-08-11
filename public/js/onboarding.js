@@ -209,20 +209,24 @@ class OnboardingManager {
                 
                 <div class="persona-grid">
                     ${Object.values(this.personas).map(persona => `
-                        <div class="persona-card" data-persona="${persona.id}">
-                            <div class="persona-icon" style="background: ${persona.color}20; color: ${persona.color}">
+                        <div class="persona-card" data-persona="${persona.id}" style="cursor: pointer; pointer-events: auto; user-select: none;">
+                            <div class="persona-icon" style="background: ${persona.color}20; color: ${persona.color}; pointer-events: none;">
                                 ${persona.icon}
                             </div>
-                            <h3 class="persona-title">${persona.title}</h3>
-                            <p class="persona-description">${persona.description}</p>
-                            <div class="persona-check">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <h3 class="persona-title" style="pointer-events: none;">${persona.title}</h3>
+                            <p class="persona-description" style="pointer-events: none;">${persona.description}</p>
+                            <div class="persona-check" style="pointer-events: none;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="pointer-events: none;">
                                     <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="2"/>
-                                    <path d="M7 12l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"/>
+                                    <path d="M7 12l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none; pointer-events: none;"/>
                                 </svg>
                             </div>
                         </div>
                     `).join('')}
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center; color: #666; font-size: 14px;">
+                    Click on a role above to continue
                 </div>
             </div>
         `;
@@ -359,7 +363,15 @@ class OnboardingManager {
         if (this.currentStep === 0) {
             this.currentStep = 1;
             this.updateContent(this.renderPersonaStep());
-            this.attachPersonaListeners();
+            // Disable continue button until persona is selected
+            const nextBtn = document.getElementById('nextBtn');
+            if (nextBtn) {
+                nextBtn.disabled = true;
+                nextBtn.style.opacity = '0.5';
+                nextBtn.textContent = 'Select a role to continue';
+            }
+            // Ensure DOM is updated before attaching listeners
+            setTimeout(() => this.attachPersonaListeners(), 10);
         } else if (this.currentStep === 1) {
             if (!this.userData.persona) {
                 this.showError('Please select your professional role');
@@ -403,8 +415,27 @@ class OnboardingManager {
     }
 
     attachPersonaListeners() {
-        document.querySelectorAll('.persona-card').forEach(card => {
-            card.addEventListener('click', (e) => {
+        const personaCards = document.querySelectorAll('.persona-card');
+        console.log('Attaching listeners to', personaCards.length, 'persona cards');
+        
+        if (personaCards.length === 0) {
+            console.warn('No persona cards found! Retrying in 100ms...');
+            setTimeout(() => this.attachPersonaListeners(), 100);
+            return;
+        }
+        
+        personaCards.forEach((card, index) => {
+            console.log('Attaching listener to card', index, card.dataset.persona);
+            
+            // Remove any existing listeners
+            card.replaceWith(card.cloneNode(true));
+            const newCard = document.querySelectorAll('.persona-card')[index];
+            
+            newCard.addEventListener('click', (e) => {
+                console.log('Persona card clicked!', newCard.dataset.persona);
+                e.preventDefault();
+                e.stopPropagation();
+                
                 // Remove previous selection
                 document.querySelectorAll('.persona-card').forEach(c => {
                     c.classList.remove('selected');
@@ -415,14 +446,31 @@ class OnboardingManager {
                 });
                 
                 // Add new selection
-                card.classList.add('selected');
-                const path = card.querySelector('path');
+                newCard.classList.add('selected');
+                const path = newCard.querySelector('path');
                 if (path) {
                     path.style.display = 'block';
                 }
                 
-                this.userData.persona = card.dataset.persona;
-                console.log('Selected persona:', this.userData.persona);
+                this.userData.persona = newCard.dataset.persona;
+                console.log('Successfully selected persona:', this.userData.persona);
+                
+                // Enable the Continue button
+                const nextBtn = document.getElementById('nextBtn');
+                if (nextBtn) {
+                    nextBtn.disabled = false;
+                    nextBtn.style.opacity = '1';
+                    nextBtn.textContent = 'Continue →';
+                }
+            });
+            
+            // Also add keyboard support
+            newCard.setAttribute('tabindex', '0');
+            newCard.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    newCard.click();
+                }
             });
         });
     }
