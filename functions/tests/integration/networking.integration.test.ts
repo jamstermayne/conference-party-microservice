@@ -905,7 +905,7 @@ describe("🤝 Professional Networking Integration Tests", () => {
       // Mock navigator.onLine as false for this test
       const originalNavigator = global.navigator;
       global.navigator = {...originalNavigator, onLine: false} as any;
-      
+
       const offlineNetworking = {
         offlineQueue: [],
         connectionCache: new Map(),
@@ -1030,7 +1030,7 @@ describe("🤝 Professional Networking Integration Tests", () => {
       const stats = offlineNetworking.getQueueStats();
       expect(stats.total).toBe(2);
       expect(stats.completed).toBeGreaterThan(0);
-      
+
       // Restore original navigator mock
       global.navigator = originalNavigator;
     });

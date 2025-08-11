@@ -33,8 +33,8 @@ describe("GPT-5 Foundation API", () => {
             parties: "operational",
             sync: "operational",
             webhook: "operational",
-            setupWebhook: "operational"
-          })
+            setupWebhook: "operational",
+          }),
         })
       );
     });
@@ -42,10 +42,10 @@ describe("GPT-5 Foundation API", () => {
     it("should include CORS headers", async () => {
       const response = await request(api)
         .get("/api/health")
-        .set('Origin', 'https://conference-party-app.web.app')
+        .set("Origin", "https://conference-party-app.web.app")
         .expect(200);
 
-      expect(response.headers['access-control-allow-origin']).toBe('https://conference-party-app.web.app');
+      expect(response.headers["access-control-allow-origin"]).toBe("https://conference-party-app.web.app");
     });
 
     it("should respond quickly", async () => {
@@ -54,7 +54,7 @@ describe("GPT-5 Foundation API", () => {
         .get("/api/health")
         .expect(200);
       const duration = Date.now() - start;
-      
+
       expect(duration).toBeLessThan(1000);
     });
   });
@@ -68,7 +68,7 @@ describe("GPT-5 Foundation API", () => {
       expect(response.body).toEqual(
         expect.objectContaining({
           success: true,
-          data: expect.any(Array)
+          data: expect.any(Array),
         })
       );
 
@@ -79,10 +79,10 @@ describe("GPT-5 Foundation API", () => {
     it("should include CORS headers", async () => {
       const response = await request(api)
         .get("/api/parties")
-        .set('Origin', 'https://conference-party-app.web.app')
+        .set("Origin", "https://conference-party-app.web.app")
         .expect(200);
 
-      expect(response.headers['access-control-allow-origin']).toBe('https://conference-party-app.web.app');
+      expect(response.headers["access-control-allow-origin"]).toBe("https://conference-party-app.web.app");
     });
   });
 
@@ -96,7 +96,7 @@ describe("GPT-5 Foundation API", () => {
         expect.objectContaining({
           ok: true,
           status: "queued",
-          mode: "get"
+          mode: "get",
         })
       );
     });
@@ -110,7 +110,7 @@ describe("GPT-5 Foundation API", () => {
         expect.objectContaining({
           ok: true,
           status: "queued",
-          mode: "post"
+          mode: "post",
         })
       );
     });
@@ -143,18 +143,18 @@ describe("GPT-5 Foundation API", () => {
     it("should set CORS headers for all requests", async () => {
       const response = await request(api)
         .get("/api/health")
-        .set('Origin', 'https://conference-party-app.web.app');
+        .set("Origin", "https://conference-party-app.web.app");
 
-      expect(response.headers['access-control-allow-origin']).toBeDefined();
+      expect(response.headers["access-control-allow-origin"]).toBeDefined();
     });
 
     it("should handle requests from allowed origins", async () => {
       const response = await request(api)
         .get("/api/health")
-        .set('Origin', 'https://conference-party-app.firebaseapp.com')
+        .set("Origin", "https://conference-party-app.firebaseapp.com")
         .expect(200);
 
-      expect(response.headers['access-control-allow-origin']).toBe('https://conference-party-app.firebaseapp.com');
+      expect(response.headers["access-control-allow-origin"]).toBe("https://conference-party-app.firebaseapp.com");
     });
   });
 
@@ -165,7 +165,7 @@ describe("GPT-5 Foundation API", () => {
         .get("/api/health")
         .expect(200);
       const duration = Date.now() - start;
-      
+
       expect(duration).toBeLessThan(2000);
     });
 

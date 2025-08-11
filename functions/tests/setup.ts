@@ -7,9 +7,9 @@
 require("dotenv").config({path: ".env.test"});
 
 // Ensure test environment is set
-process.env['NODE_ENV'] = "test";
-process.env['FIREBASE_PROJECT_ID'] = process.env['TEST_PROJECT_ID'] || "conference-party-app-test";
-process.env['GCLOUD_PROJECT'] = process.env['TEST_PROJECT_ID'] || "conference-party-app-test";
+process.env["NODE_ENV"] = "test";
+process.env["FIREBASE_PROJECT_ID"] = process.env["TEST_PROJECT_ID"] || "conference-party-app-test";
+process.env["GCLOUD_PROJECT"] = process.env["TEST_PROJECT_ID"] || "conference-party-app-test";
 
 // Mock browser APIs for Node.js test environment
 global.navigator = {
@@ -17,9 +17,9 @@ global.navigator = {
   userAgent: "jest-test-environment",
   sendBeacon: jest.fn(() => true),
 } as any;
-process.env['FIREBASE_CONFIG'] = JSON.stringify({
-  projectId: process.env['TEST_PROJECT_ID'] || "conference-party-app-test",
-  storageBucket: `${process.env['TEST_PROJECT_ID'] || "conference-party-app-test"}.appspot.com`,
+process.env["FIREBASE_CONFIG"] = JSON.stringify({
+  projectId: process.env["TEST_PROJECT_ID"] || "conference-party-app-test",
+  storageBucket: `${process.env["TEST_PROJECT_ID"] || "conference-party-app-test"}.appspot.com`,
   locationId: "us-central",
 });
 
