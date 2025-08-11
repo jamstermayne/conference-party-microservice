@@ -421,7 +421,7 @@ jobs:
         uses: actions/checkout@v4
         
       - name: 'Download Build Artifacts'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v5
         with:
           name: build-artifacts
           
@@ -478,7 +478,7 @@ jobs:
         uses: actions/checkout@v4
         
       - name: 'Download Build Artifacts'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v5
         with:
           name: build-artifacts
           
@@ -530,7 +530,7 @@ jobs:
         uses: actions/checkout@v4
         
       - name: 'Download Build Artifacts'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v5
         with:
           name: build-artifacts
           
@@ -608,7 +608,7 @@ jobs:
         uses: actions/checkout@v4
         
       - name: 'Download Build Artifacts'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v5
         with:
           name: build-artifacts
           
