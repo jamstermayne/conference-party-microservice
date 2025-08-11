@@ -3,7 +3,6 @@
  * - emptyState: returns an accessible empty-state node
  * - toast: dispatches app-wide toast event (non-blocking)
  */
-
 export function emptyState(message = 'Nothing to show yet.') {
   const el = document.createElement('div');
   el.className = 'card card-outlined card-compact text-secondary';

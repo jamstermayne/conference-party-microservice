@@ -26,7 +26,7 @@ async function fetchCount(){
 export function refreshInviteCount(){ fetchCount(); }
 export function initInviteBadge(){
   paint(Store.get('invites.left'));
-  if (window.__ENV?.INVITES_API !== false) {
+  if (window.__ENV?.INVITES_API === true) {
     fetchCount();
   }
   // live updates on events
