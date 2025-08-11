@@ -8,6 +8,7 @@ window.__ENV = Object.assign({}, window.__ENV || {}, {
   // toggle when backend endpoints are ready
   METRICS_API: false,
   FLAGS_API: false,
+  ACTIVITY_API: false,
   // optional endpoints (when you flip to true)
   METRICS_URL: '/api/metrics',
   FLAGS_URL: '/api/flags'

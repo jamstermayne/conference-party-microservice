@@ -3,6 +3,7 @@
 
 import Router from '/js/router.js';
 import CalendarPolish from '/js/calendar-polish.js';
+import '/js/activity-feed.js';
 
 (function boot() {
   try {

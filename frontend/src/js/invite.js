@@ -265,4 +265,18 @@ window.InviteHandler = {
   handleInviteRoute
 };
 
+// After existing Invite UI render function
+function renderInviteReward() {
+  const rewardEl = document.createElement('div');
+  rewardEl.className = 'invite-reward flex items-center p-3 mt-2 rounded-lg bg-purple-50 border border-purple-200';
+  rewardEl.innerHTML = `
+    <svg class="w-5 h-5 text-purple-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 12l-2-2 1.41-1.41L8 9.17l4.59-4.59L14 6l-6 6z"/>
+    </svg>
+    <span class="text-sm font-medium text-purple-800">Invite <strong>3 friends</strong> to unlock your VIP badge!</span>
+  `;
+  document.querySelector('#invite-panel')?.appendChild(rewardEl);
+}
+renderInviteReward();
+
 console.log('✅ Production Invite Handler loaded');
