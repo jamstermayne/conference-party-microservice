@@ -1,37 +1,11 @@
-# ENTERPRISE INFRASTRUCTURE AS CODE
-# Complete multi-environment, multi-region deployment
-# Terraform configuration for Conference Party Microservice
-
+# Enterprise Infrastructure as Code
 terraform {
   required_version = ">= 1.0"
-  
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "~> 4.84"
+      version = "~> 4.0"
     }
-    google-beta = {
-      source  = "hashicorp/google-beta"
-      version = "~> 4.84"
-    }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.23"
-    }
-    helm = {
-      source  = "hashicorp/helm"
-      version = "~> 2.11"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.5"
-    }
-  }
-
-  # Remote state management
-  backend "gcs" {
-    bucket = var.terraform_state_bucket
-    prefix = "terraform/state"
   }
 }
 

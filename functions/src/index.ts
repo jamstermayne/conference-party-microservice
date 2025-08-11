@@ -170,14 +170,7 @@ async function validateInviteCode(code: string): Promise<{
 }
 
 // Simple health check
-export const api = onRequest({
-  invoker: "public",
-  cors: false,
-  maxInstances: 20,
-  timeoutSeconds: 60,
-  memory: "256MiB" as const,
-  minInstances: 0,
-}, async (req: Request, res: Response) => {
+export const api = onRequest(async (req: Request, res: Response) => {
   // Set CORS headers immediately
   setCorsHeaders(res, req);
 

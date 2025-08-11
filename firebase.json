@@ -4,7 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "public",
+    "public": "frontend/src",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -24,7 +24,15 @@
         "function": "setupWebhook"
       },
       {
+        "source": "/auth/callback",
+        "destination": "/auth-callback.html"
+      },
+      {
         "source": "/invite/**",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/i/**",
         "destination": "/index.html"
       },
       {
@@ -60,6 +68,15 @@
         ]
       },
       {
+        "source": "/auth-callback.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      },
+      {
         "source": "**/*.@(js|css)",
         "headers": [
           {
@@ -78,6 +95,15 @@
         ]
       },
       {
+        "source": "**/*.@(json|webmanifest)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=3600"
+          }
+        ]
+      },
+      {
         "source": "**",
         "headers": [
           {
@@ -91,6 +117,10 @@
           {
             "key": "Referrer-Policy",
             "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' *.linkedin.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: *.linkedin.com; connect-src 'self' *.firebase.googleapis.com *.linkedin.com; frame-src 'none'"
           }
         ]
       }

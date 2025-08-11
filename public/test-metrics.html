@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Metrics System Test</title>
+  <style>
+    body { font-family: system-ui; padding: 20px; background: #1a1d21; color: #fff; }
+    button { padding: 10px 20px; margin: 10px; cursor: pointer; background: #4a9eff; color: white; border: none; border-radius: 4px; }
+    button:hover { background: #3988ee; }
+    .log { background: #2a2d31; padding: 10px; margin-top: 20px; border-radius: 4px; max-height: 400px; overflow-y: auto; }
+    .log-entry { padding: 4px; border-bottom: 1px solid #3a3d41; font-family: monospace; font-size: 12px; }
+    .success { color: #4ade80; }
+    .info { color: #60a5fa; }
+  </style>
+</head>
+<body>
+  <h1>📊 Metrics System Test</h1>
+  <p>Test all 6 critical metrics events</p>
+  
+  <div>
+    <h2>Test Events:</h2>
+    <button onclick="testPartySaved()">🎉 Party Saved</button>
+    <button onclick="testPartyUnsaved()">❌ Party Unsaved</button>
+    <button onclick="testCalendarConnected()">📅 Calendar Connected</button>
+    <button onclick="testInstallPrompt()">📲 Install Prompt</button>
+    <button onclick="testInviteRedeemed()">🎟️ Invite Redeemed</button>
+    <button onclick="testLinkedInConnected()">💼 LinkedIn Connected</button>
+    <button onclick="flushMetrics()">📤 Flush Metrics</button>
+  </div>
+  
+  <div class="log" id="log">
+    <div class="log-entry info">Metrics system loading...</div>
+  </div>
+  
+  <script src="/assets/js/metrics.js"></script>
+  <script>
+    const log = document.getElementById('log');
+    
+    function addLog(message, type = 'info') {
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+    }
+    
+    // Override console.log to capture metrics output
+    const originalLog = console.log;
+    console.log = function(...args) {
+      originalLog.apply(console, args);
+      if (args[0]?.includes('📊') || args[0]?.includes('📤')) {
+        addLog(args.join(' '), 'success');
+      }
+    };
+    
+    window.addEventListener('load', () => {
+      if (window.Metrics) {
+        addLog('✅ Metrics system loaded successfully', 'success');
+        addLog(`Session ID: ${window.Metrics.sessionId}`, 'info');
+        addLog(`User ID: ${window.Metrics.userId}`, 'info');
+      } else {
+        addLog('❌ Metrics system not found!', 'error');
+      }
+    });
+    
+    function testPartySaved() {
+      if (window.Metrics) {
+        window.Metrics.trackPartySaved('test-party-123');
+        addLog('Tracked: Party Saved (id: test-party-123)', 'success');
+      }
+    }
+    
+    function testPartyUnsaved() {
+      if (window.Metrics) {
+        window.Metrics.trackPartyUnsaved('test-party-123');
+        addLog('Tracked: Party Unsaved (id: test-party-123)', 'success');
+      }
+    }
+    
+    function testCalendarConnected() {
+      if (window.Metrics) {
+        window.Metrics.trackCalendarConnected('google');
+        addLog('Tracked: Calendar Connected (provider: google)', 'success');
+      }
+    }
+    
+    function testInstallPrompt() {
+      if (window.Metrics) {
+        window.Metrics.trackInstallPromptShown();
+        addLog('Tracked: Install Prompt Shown', 'success');
+        
+        setTimeout(() => {
+          window.Metrics.trackInstallAccepted();
+          addLog('Tracked: Install Accepted', 'success');
+        }, 1000);
+      }
+    }
+    
+    function testInviteRedeemed() {
+      if (window.Metrics) {
+        window.Metrics.trackInviteRedeemed('VELOCITY-2025');
+        addLog('Tracked: Invite Redeemed (code: VELOCITY-2025)', 'success');
+      }
+    }
+    
+    function testLinkedInConnected() {
+      if (window.Metrics) {
+        window.Metrics.trackLinkedInConnected();
+        addLog('Tracked: LinkedIn Connected', 'success');
+      }
+    }
+    
+    function flushMetrics() {
+      if (window.Metrics) {
+        window.Metrics.flush();
+        addLog('Manually flushed metrics queue', 'info');
+      }
+    }
+  </script>
+</body>
+</html>

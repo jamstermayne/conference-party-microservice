@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Sharing Test - Gamescom 2025</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        body { 
+            padding: 20px; 
+            max-width: 800px;
+            margin: 0 auto;
+            font-family: var(--slack-font);
+            background: var(--slack-color-background);
+        }
+        .test-section {
+            background: var(--slack-color-hover);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--slack-color-border);
+        }
+        .test-event {
+            background: var(--slack-color-background);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--slack-color-border);
+            margin: 10px 0;
+        }
+        .share-button {
+            background: var(--slack-color-primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 5px;
+        }
+        .share-button:hover {
+            transform: translateY(-1px);
+        }
+        .feature-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .supported {
+            background: #d4edda;
+            color: #155724;
+        }
+        .not-supported {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .browser-info {
+            background: var(--slack-color-primary);
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 Social Sharing Test Suite</h1>
+    <p>Test all social sharing features for Gamescom 2025 events</p>
+    
+    <div class="browser-info">
+        <h3>🌐 Browser Compatibility</h3>
+        <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+        <p><strong>Web Share API:</strong> <span id="webShareSupport"></span></p>
+        <p><strong>Clipboard API:</strong> <span id="clipboardSupport"></span></p>
+        <p><strong>Platform:</strong> <span id="platform"></span></p>
+    </div>
+    
+    <div class="test-section">
+        <h2>📱 Test Events for Sharing</h2>
+        
+        <div class="test-event">
+            <h3>🎮 Epic Gaming Night 2025</h3>
+            <p>📅 August 21, 2025 • 🕐 19:00</p>
+            <p>📍 Koelnmesse Hall 4, Cologne</p>
+            <p>Join us for the ultimate gaming networking experience with 500+ industry professionals!</p>
+            
+            <button class="share-button" onclick="testApp.shareEvent('test-event-1')">📤 Test Share</button>
+        </div>
+        
+        <div class="test-event">
+            <h3>🚀 Indie Game Developer Showcase</h3>
+            <p>📅 August 22, 2025 • 🕐 20:00</p>
+            <p>📍 Hyatt Regency Cologne</p>
+            <p>Discover amazing indie games and meet the developers behind tomorrow's hits!</p>
+            
+            <button class="share-button" onclick="testApp.shareEvent('test-event-2')">📤 Test Share</button>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🧪 Feature Tests</h2>
+        
+        <h3>WhatsApp Sharing <span id="whatsappStatus" class="feature-status"></span></h3>
+        <p>Tests direct WhatsApp integration with formatted message</p>
+        <button class="share-button" onclick="testDirectWhatsApp()">📱 Test WhatsApp</button>
+        
+        <h3>Twitter Sharing <span id="twitterStatus" class="feature-status"></span></h3>
+        <p>Tests Twitter intent URL with hashtags and mentions</p>
+        <button class="share-button" onclick="testDirectTwitter()">🐦 Test Twitter</button>
+        
+        <h3>LinkedIn Sharing <span id="linkedinStatus" class="feature-status"></span></h3>
+        <p>Tests LinkedIn sharing with professional context</p>
+        <button class="share-button" onclick="testDirectLinkedIn()">💼 Test LinkedIn</button>
+        
+        <h3>Native Web Share <span id="nativeStatus" class="feature-status"></span></h3>
+        <p>Tests browser's native sharing capabilities (mobile/modern browsers)</p>
+        <button class="share-button" onclick="testNativeShare()">📲 Test Native Share</button>
+        
+        <h3>Clipboard Copy <span id="clipboardStatus" class="feature-status"></span></h3>
+        <p>Tests copying event links to clipboard</p>
+        <button class="share-button" onclick="testClipboard()">📋 Test Copy Link</button>
+        
+        <h3>QR Code Generation <span id="qrStatus" class="feature-status"></span></h3>
+        <p>Tests QR code generation for easy mobile sharing</p>
+        <button class="share-button" onclick="testQRCode()">📷 Test QR Code</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>📊 Test Results</h2>
+        <div id="testResults">
+            <p>Click any test button above to see results here...</p>
+        </div>
+    </div>
+    
+    <script>
+        // Test App Class
+        class SharingTestApp {
+            constructor() {
+                this.events = [
+                    {
+                        id: 'test-event-1',
+                        name: 'Epic Gaming Night 2025',
+                        date: '2025-08-21',
+                        startTime: '19:00',
+                        venue: 'Koelnmesse Hall 4, Cologne',
+                        description: 'Join us for the ultimate gaming networking experience with 500+ industry professionals!',
+                        source: 'official'
+                    },
+                    {
+                        id: 'test-event-2',
+                        name: 'Indie Game Developer Showcase',
+                        date: '2025-08-22',
+                        startTime: '20:00',
+                        venue: 'Hyatt Regency Cologne',
+                        description: 'Discover amazing indie games and meet the developers behind tomorrow\'s hits!',
+                        source: 'ugc',
+                        creator: 'Indie Dev Community'
+                    }
+                ];
+                
+                this.init();
+            }
+            
+            init() {
+                this.detectBrowserFeatures();
+                console.log('🎮 Sharing Test App initialized');
+            }
+            
+            detectBrowserFeatures() {
+                // User Agent
+                document.getElementById('userAgent').textContent = navigator.userAgent;
+                
+                // Web Share API
+                const webShareSupported = navigator.share !== undefined;
+                document.getElementById('webShareSupport').textContent = webShareSupported ? '✅ Supported' : '❌ Not Supported';
+                document.getElementById('nativeStatus').className = `feature-status ${webShareSupported ? 'supported' : 'not-supported'}`;
+                document.getElementById('nativeStatus').textContent = webShareSupported ? '✅ Available' : '❌ Not Available';
+                
+                // Clipboard API
+                const clipboardSupported = navigator.clipboard !== undefined;
+                document.getElementById('clipboardSupport').textContent = clipboardSupported ? '✅ Supported' : '❌ Not Supported';
+                document.getElementById('clipboardStatus').className = `feature-status ${clipboardSupported ? 'supported' : 'not-supported'}`;
+                document.getElementById('clipboardStatus').textContent = clipboardSupported ? '✅ Available' : '❌ Not Available';
+                
+                // Platform
+                document.getElementById('platform').textContent = navigator.platform || 'Unknown';
+                
+                // Set all other features as supported (they work everywhere)
+                ['whatsappStatus', 'twitterStatus', 'linkedinStatus', 'qrStatus'].forEach(id => {
+                    document.getElementById(id).className = 'feature-status supported';
+                    document.getElementById(id).textContent = '✅ Available';
+                });
+            }
+            
+            shareEvent(eventId) {
+                const event = this.events.find(e => e.id === eventId);
+                if (!event) {
+                    this.logResult('❌ Event not found', 'error');
+                    return;
+                }
+                
+                this.logResult(`📤 Opening sharing modal for: ${event.name}`);
+                
+                // Use the app's sharing modal (simulate the real app behavior)
+                this.showSharingModal(event);
+            }
+            
+            showSharingModal(event) {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-content sharing-modal">
+                        <div class="modal-header">
+                            <h2 class="modal-title">📤 Share Event</h2>
+                            <button class="modal-close" onclick="this.closest('.modal').remove()">&times;</button>
+                        </div>
+                        
+                        <div class="sharing-content">
+                            <div class="event-preview">
+                                <h3>${event.name}</h3>
+                                <p>📅 ${this.formatDate(event.date)} • 🕐 ${event.startTime}</p>
+                                <p>📍 ${event.venue}</p>
+                            </div>
+                            
+                            <div class="sharing-options">
+                                <button class="share-btn whatsapp" onclick="testApp.shareToWhatsApp('${event.id}')">
+                                    <span class="share-icon">📱</span>
+                                    <span>WhatsApp</span>
+                                </button>
+                                
+                                <button class="share-btn twitter" onclick="testApp.shareToTwitter('${event.id}')">
+                                    <span class="share-icon">🐦</span>
+                                    <span>Twitter</span>
+                                </button>
+                                
+                                <button class="share-btn linkedin" onclick="testApp.shareToLinkedIn('${event.id}')">
+                                    <span class="share-icon">💼</span>
+                                    <span>LinkedIn</span>
+                                </button>
+                                
+                                <button class="share-btn native" onclick="testApp.shareNative('${event.id}')" style="display: ${navigator.share ? 'flex' : 'none'}">
+                                    <span class="share-icon">📲</span>
+                                    <span>Share</span>
+                                </button>
+                                
+                                <button class="share-btn copy" onclick="testApp.copyEventLink('${event.id}')">
+                                    <span class="share-icon">🔗</span>
+                                    <span>Copy Link</span>
+                                </button>
+                                
+                                <button class="share-btn qr" onclick="testApp.showQRCode('${event.id}')">
+                                    <span class="share-icon">📷</span>
+                                    <span>QR Code</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                modal.classList.add('show');
+            }
+            
+            shareToWhatsApp(eventId) {
+                const event = this.events.find(e => e.id === eventId);
+                const eventUrl = `${window.location.origin}/sharing-test.html?event=${eventId}`;
+                const message = `🎮 *${event.name}* at Gamescom 2025!\n\n📅 ${this.formatDate(event.date)} at ${event.startTime}\n📍 ${event.venue}\n\nJoin me at this amazing gaming event!\n\n${eventUrl}\n\n#Gamescom2025 #Gaming`;
+                
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+                
+                this.logResult(`📱 WhatsApp sharing opened for: ${event.name}`);
+                this.closeSharingModal();
+            }
+            
+            shareToTwitter(eventId) {
+                const event = this.events.find(e => e.id === eventId);
+                const eventUrl = `${window.location.origin}/sharing-test.html?event=${eventId}`;
+                const tweet = `🎮 Excited for "${event.name}" at #Gamescom2025!\n\n📅 ${this.formatDate(event.date)} • 🕐 ${event.startTime}\n📍 ${event.venue}\n\nWho's joining? 🚀\n\n${eventUrl}`;
+                
+                const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`;
+                window.open(twitterUrl, '_blank');
+                
+                this.logResult(`🐦 Twitter sharing opened for: ${event.name}`);
+                this.closeSharingModal();
+            }
+            
+            shareToLinkedIn(eventId) {
+                const event = this.events.find(e => e.id === eventId);
+                const eventUrl = `${window.location.origin}/sharing-test.html?event=${eventId}`;
+                const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(eventUrl)}`;
+                window.open(linkedInUrl, '_blank');
+                
+                this.logResult(`💼 LinkedIn sharing opened for: ${event.name}`);
+                this.closeSharingModal();
+            }
+            
+            shareNative(eventId) {
+                const event = this.events.find(e => e.id === eventId);
+                const eventUrl = `${window.location.origin}/sharing-test.html?event=${eventId}`;
+                
+                if (!navigator.share) {
+                    this.logResult('❌ Native Web Share API not supported', 'error');
+                    return;
+                }
+                
+                const shareData = {
+                    title: `🎮 ${event.name} - Gamescom 2025`,
+                    text: `Join me at "${event.name}" on ${this.formatDate(event.date)} at ${event.startTime} in ${event.venue}!`,
+                    url: eventUrl
+                };
+                
+                navigator.share(shareData).then(() => {
+                    this.logResult(`📲 Native sharing completed for: ${event.name}`);
+                    this.closeSharingModal();
+                }).catch((err) => {
+                    this.logResult(`❌ Native sharing failed: ${err.message}`, 'error');
+                });
+            }
+            
+            copyEventLink(eventId) {
+                const eventUrl = `${window.location.origin}/sharing-test.html?event=${eventId}`;
+                
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(eventUrl).then(() => {
+                        this.logResult(`📋 Event link copied to clipboard: ${eventUrl}`);
+                        this.closeSharingModal();
+                    }).catch(err => {
+                        this.logResult(`❌ Clipboard copy failed: ${err.message}`, 'error');
+                    });
+                } else {
+                    // Fallback
+                    const textArea = document.createElement('textarea');
+                    textArea.value = eventUrl;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    this.logResult(`📋 Event link copied (fallback method): ${eventUrl}`);
+                    this.closeSharingModal();
+                }
+            }
+            
+            showQRCode(eventId) {
+                const event = this.events.find(e => e.id === eventId);
+                const eventUrl = `${window.location.origin}/sharing-test.html?event=${eventId}`;
+                
+                const qrModal = document.createElement('div');
+                qrModal.className = 'modal';
+                qrModal.innerHTML = `
+                    <div class="modal-content qr-modal">
+                        <div class="modal-header">
+                            <h2 class="modal-title">📷 Event QR Code</h2>
+                            <button class="modal-close" onclick="this.closest('.modal').remove()">&times;</button>
+                        </div>
+                        
+                        <div class="qr-content">
+                            <div class="qr-code-container">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(eventUrl)}" 
+                                     alt="QR Code for ${event.name}"
+                                     class="qr-code">
+                            </div>
+                            <p>Scan this QR code to view the event details</p>
+                            <button class="btn-secondary" onclick="testApp.saveQRCode('${eventId}')">💾 Save QR Code</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(qrModal);
+                qrModal.classList.add('show');
+                
+                this.logResult(`📷 QR Code generated for: ${event.name}`);
+            }
+            
+            saveQRCode(eventId) {
+                const event = this.events.find(e => e.id === eventId);
+                const eventUrl = `${window.location.origin}/sharing-test.html?event=${eventId}`;
+                
+                const link = document.createElement('a');
+                link.download = `gamescom-2025-${event.name.replace(/\s+/g, '-')}.png`;
+                link.href = `https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=${encodeURIComponent(eventUrl)}`;
+                link.click();
+                
+                this.logResult(`💾 QR Code download initiated for: ${event.name}`);
+            }
+            
+            closeSharingModal() {
+                const modal = document.querySelector('.sharing-modal')?.closest('.modal');
+                if (modal) {
+                    modal.remove();
+                }
+            }
+            
+            formatDate(dateStr) {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short', 
+                    day: 'numeric'
+                });
+            }
+            
+            logResult(message, type = 'success') {
+                const results = document.getElementById('testResults');
+                const timestamp = new Date().toLocaleTimeString();
+                const icon = type === 'error' ? '❌' : '✅';
+                const className = type === 'error' ? 'color: red' : 'color: green';
+                
+                results.innerHTML += `<div style="${className}; margin-bottom: 8px; padding: 8px; border-left: 3px solid ${type === 'error' ? 'red' : 'green'}; background: var(--slack-color-hover);">[${timestamp}] ${icon} ${message}</div>`;
+                results.scrollTop = results.scrollHeight;
+            }
+        }
+        
+        // Global test functions
+        function testDirectWhatsApp() {
+            const message = "🎮 Testing WhatsApp sharing from Gamescom 2025 Party Discovery!\n\nCheck out this amazing app: " + window.location.href;
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+            testApp.logResult('📱 Direct WhatsApp test opened');
+        }
+        
+        function testDirectTwitter() {
+            const tweet = "🎮 Testing the new Gamescom 2025 Party Discovery app! Amazing social sharing features 🚀 #Gamescom2025 #Gaming " + window.location.href;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`, '_blank');
+            testApp.logResult('🐦 Direct Twitter test opened');
+        }
+        
+        function testDirectLinkedIn() {
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank');
+            testApp.logResult('💼 Direct LinkedIn test opened');
+        }
+        
+        function testNativeShare() {
+            if (!navigator.share) {
+                testApp.logResult('❌ Native Web Share API not supported on this browser/device', 'error');
+                return;
+            }
+            
+            navigator.share({
+                title: '🎮 Gamescom 2025 Party Discovery',
+                text: 'Check out this amazing app for finding gaming events at Gamescom 2025!',
+                url: window.location.href
+            }).then(() => {
+                testApp.logResult('📲 Native share test completed successfully');
+            }).catch(err => {
+                testApp.logResult(`❌ Native share test failed: ${err.message}`, 'error');
+            });
+        }
+        
+        function testClipboard() {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    testApp.logResult('📋 Clipboard test successful - URL copied');
+                }).catch(err => {
+                    testApp.logResult(`❌ Clipboard test failed: ${err.message}`, 'error');
+                });
+            } else {
+                testApp.logResult('❌ Clipboard API not supported - would use fallback method', 'error');
+            }
+        }
+        
+        function testQRCode() {
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(window.location.href)}`;
+            
+            const testImg = new Image();
+            testImg.onload = () => {
+                testApp.logResult('📷 QR Code generation test successful');
+                
+                // Show a small preview
+                const preview = document.createElement('div');
+                preview.innerHTML = `<img src="${qrUrl}" style="width: 100px; height: 100px; margin: 10px 0;">`;
+                document.getElementById('testResults').appendChild(preview);
+            };
+            testImg.onerror = () => {
+                testApp.logResult('❌ QR Code generation test failed', 'error');
+            };
+            testImg.src = qrUrl;
+        }
+        
+        // Initialize test app
+        let testApp;
+        document.addEventListener('DOMContentLoaded', () => {
+            testApp = new SharingTestApp();
+        });
+    </script>
+</body>
+</html>

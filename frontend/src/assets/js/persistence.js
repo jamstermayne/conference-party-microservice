@@ -1,364 +1,580 @@
-import { Store, Events, EVENTS } from './state.js';
+/**
+ * 💾 PROFESSIONAL INTELLIGENCE PLATFORM - PERSISTENCE LAYER
+ * Advanced data persistence with IndexedDB and localStorage fallback
+ */
 
-const STORAGE_KEY = 'velocity_app_data';
-const SETTINGS_KEY = 'velocity_settings';
-const VERSION = '2.1.0';
+const DB_NAME = 'IntelligencePlatformDB';
+const DB_VERSION = 1;
+const STORES = {
+  parties: 'parties',
+  profile: 'profile',
+  invites: 'invites',
+  cache: 'cache',
+  settings: 'settings'
+};
 
-// Auto-save intervals (in milliseconds)
-const AUTO_SAVE_INTERVAL = 30000; // 30 seconds
-const DEBOUNCE_DELAY = 1000; // 1 second
+let db = null;
+let isIndexedDBSupported = false;
 
-let saveTimer = null;
-let isLoaded = false;
-
-export function initPersistence() {
-  console.log('🔄 Initializing persistence system');
+/**
+ * Initialize persistence layer
+ */
+export async function initPersistence() {
+  console.log('💾 Initializing persistence layer...');
   
-  // Load existing data
-  loadFromStorage();
-  
-  // Set up auto-save
-  setupAutoSave();
-  
-  // Listen for state changes
-  setupEventListeners();
-  
-  console.log('✅ Persistence system initialized');
-}
-
-function loadFromStorage() {
-  try {
-    // Load settings
-    const settingsData = localStorage.getItem(SETTINGS_KEY);
-    if (settingsData) {
-      const settings = JSON.parse(settingsData);
-      Object.assign(Store.settings, settings);
-      console.log('📥 Settings loaded from storage');
+  // Check IndexedDB support
+  if ('indexedDB' in window) {
+    try {
+      await initIndexedDB();
+      isIndexedDBSupported = true;
+      console.log('✅ IndexedDB initialized successfully');
+    } catch (error) {
+      console.warn('⚠️ IndexedDB initialization failed, falling back to localStorage:', error);
+      isIndexedDBSupported = false;
     }
-    
-    // Load main app data
-    const appData = localStorage.getItem(STORAGE_KEY);
-    if (appData) {
-      const data = JSON.parse(appData);
-      
-      // Verify version compatibility
-      if (data.version && isCompatibleVersion(data.version)) {
-        // Load profile
-        if (data.profile) {
-          Store.profile = data.profile;
-        }
-        
-        // Load saved party IDs
-        if (data.savedPartyIds && Array.isArray(data.savedPartyIds)) {
-          Store.savedPartyIds = new Set(data.savedPartyIds);
-        }
-        
-        // Load invites
-        if (data.invites) {
-          Object.assign(Store.invites, data.invites);
-        }
-        
-        // Load connections
-        if (data.connections && Array.isArray(data.connections)) {
-          Store.connections = data.connections;
-        }
-        
-        // Load calendar state
-        if (data.calendar) {
-          Object.assign(Store.calendar, data.calendar);
-        }
-        
-        // Load flags
-        if (data.flags) {
-          Object.assign(Store.flags, data.flags);
-        }
-        
-        console.log('📥 App data loaded from storage');
-      } else {
-        console.warn('⚠️ Incompatible data version, starting fresh');
-        migrateOldData(data);
-      }
-    } else {
-      console.log('📝 No existing data found, starting fresh');
-    }
-    
-    isLoaded = true;
-    Events.emit(EVENTS.PERSISTENCE_LOADED, { store: Store });
-    
-  } catch (error) {
-    console.error('❌ Failed to load from storage:', error);
-    isLoaded = true;
+  } else {
+    console.warn('⚠️ IndexedDB not supported, using localStorage');
+    isIndexedDBSupported = false;
   }
+  
+  // Initialize storage cleanup
+  initStorageCleanup();
+  
+  console.log(`💾 Persistence layer ready (${isIndexedDBSupported ? 'IndexedDB' : 'localStorage'})`);
 }
 
-function saveToStorage() {
-  if (!isLoaded) return; // Don't save until we've loaded
-  
-  try {
-    // Save settings separately (more frequent updates)
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(Store.settings));
+/**
+ * Initialize IndexedDB
+ */
+function initIndexedDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
     
-    // Save main app data
-    const appData = {
-      version: VERSION,
-      profile: Store.profile,
-      savedPartyIds: [...Store.savedPartyIds],
-      invites: Store.invites,
-      connections: Store.connections || [],
-      calendar: Store.calendar,
-      flags: Store.flags,
-      lastSaved: Date.now()
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      db = request.result;
+      resolve(db);
     };
     
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-    
-    console.log('💾 Data saved to storage');
-    Events.emit(EVENTS.PERSISTENCE_SAVED, { timestamp: Date.now() });
-    
-  } catch (error) {
-    console.error('❌ Failed to save to storage:', error);
-    
-    // Handle quota exceeded
-    if (error.name === 'QuotaExceededError') {
-      Events.emit(EVENTS.STORAGE_QUOTA_EXCEEDED);
-      handleStorageQuotaExceeded();
-    }
-  }
-}
-
-function debouncedSave() {
-  if (saveTimer) {
-    clearTimeout(saveTimer);
-  }
-  
-  saveTimer = setTimeout(() => {
-    saveToStorage();
-    saveTimer = null;
-  }, DEBOUNCE_DELAY);
-}
-
-function setupAutoSave() {
-  // Auto-save every 30 seconds
-  setInterval(() => {
-    if (isLoaded) {
-      saveToStorage();
-    }
-  }, AUTO_SAVE_INTERVAL);
-  
-  // Save before page unload
-  window.addEventListener('beforeunload', () => {
-    if (saveTimer) {
-      clearTimeout(saveTimer);
-      saveToStorage();
-    }
-  });
-  
-  // Save when app becomes hidden (mobile)
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden && isLoaded) {
-      saveToStorage();
-    }
-  });
-}
-
-function setupEventListeners() {
-  // Save when profile updates
-  Events.on(EVENTS.PROFILE_UPDATED, debouncedSave);
-  
-  // Save when parties are saved
-  Events.on(EVENTS.SAVED_PARTIES, debouncedSave);
-  
-  // Save when invites change
-  Events.on(EVENTS.INVITES_CHANGED, debouncedSave);
-  
-  // Save when calendar syncs
-  Events.on(EVENTS.CAL_SYNCED, debouncedSave);
-  
-  // Save when settings change
-  Events.on(EVENTS.SETTINGS_CHANGED, () => {
-    // Settings save immediately (no debounce)
-    try {
-      localStorage.setItem(SETTINGS_KEY, JSON.stringify(Store.settings));
-    } catch (error) {
-      console.error('Failed to save settings:', error);
-    }
-  });
-  
-  // Save when bonuses are unlocked
-  Events.on(EVENTS.BONUS_UNLOCKED, debouncedSave);
-  
-  // Save when app is installed
-  Events.on(EVENTS.INSTALLED, debouncedSave);
-  
-  // Clear data on logout
-  Events.on(EVENTS.USER_LOGOUT, () => {
-    clearUserData();
-  });
-}
-
-function isCompatibleVersion(version) {
-  const [major, minor] = VERSION.split('.').map(Number);
-  const [dataMajor, dataMinor] = version.split('.').map(Number);
-  
-  // Compatible if major version matches
-  return major === dataMajor;
-}
-
-function migrateOldData(oldData) {
-  console.log('🔄 Migrating old data format');
-  
-  // Try to preserve what we can
-  if (oldData.profile) {
-    Store.profile = oldData.profile;
-  }
-  
-  if (oldData.savedParties) {
-    // Convert old format to new
-    Store.savedPartyIds = new Set(oldData.savedParties.map(p => p.id || p.eventId));
-  }
-  
-  if (oldData.invitesSent) {
-    Store.invites.sent = oldData.invitesSent;
-  }
-  
-  // Save migrated data
-  saveToStorage();
-}
-
-function handleStorageQuotaExceeded() {
-  console.warn('⚠️ Storage quota exceeded, cleaning up old data');
-  
-  try {
-    // Remove old cache data first
-    if ('caches' in window) {
-      caches.keys().then(names => {
-        // Keep only the latest cache
-        names.slice(0, -1).forEach(name => caches.delete(name));
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      
+      // Create object stores
+      Object.values(STORES).forEach(storeName => {
+        if (!db.objectStoreNames.contains(storeName)) {
+          const store = db.createObjectStore(storeName, { 
+            keyPath: 'id', 
+            autoIncrement: true 
+          });
+          
+          // Add indexes for common queries
+          if (storeName === 'parties') {
+            store.createIndex('datetime', 'datetime');
+            store.createIndex('venue', 'venue');
+            store.createIndex('isAttending', 'isAttending');
+          }
+          
+          if (storeName === 'cache') {
+            store.createIndex('expires', 'expires');
+          }
+        }
       });
-    }
-    
-    // Trim old activity data
-    if (Store.connections && Store.connections.length > 100) {
-      Store.connections = Store.connections.slice(-50); // Keep last 50
-    }
-    
-    if (Store.invites.sent && Store.invites.sent.length > 50) {
-      Store.invites.sent = Store.invites.sent.slice(-25); // Keep last 25
-    }
-    
-    // Try to save again
-    saveToStorage();
-    
-  } catch (error) {
-    console.error('Failed to clean up storage:', error);
-    alert('Storage is full. Please clear some data in Settings.');
+    };
+  });
+}
+
+/**
+ * Save data to persistent storage
+ */
+export async function saveData(storeName, data) {
+  if (!Object.values(STORES).includes(storeName)) {
+    throw new Error(`Invalid store name: ${storeName}`);
+  }
+  
+  if (isIndexedDBSupported && db) {
+    return saveToIndexedDB(storeName, data);
+  } else {
+    return saveToLocalStorage(storeName, data);
   }
 }
 
-function clearUserData() {
+/**
+ * Load data from persistent storage
+ */
+export async function loadData(storeName, key = null) {
+  if (!Object.values(STORES).includes(storeName)) {
+    throw new Error(`Invalid store name: ${storeName}`);
+  }
+  
+  if (isIndexedDBSupported && db) {
+    return loadFromIndexedDB(storeName, key);
+  } else {
+    return loadFromLocalStorage(storeName, key);
+  }
+}
+
+/**
+ * Delete data from persistent storage
+ */
+export async function deleteData(storeName, key) {
+  if (isIndexedDBSupported && db) {
+    return deleteFromIndexedDB(storeName, key);
+  } else {
+    return deleteFromLocalStorage(storeName, key);
+  }
+}
+
+/**
+ * Clear entire store
+ */
+export async function clearStore(storeName) {
+  if (isIndexedDBSupported && db) {
+    return clearIndexedDBStore(storeName);
+  } else {
+    return clearLocalStorageStore(storeName);
+  }
+}
+
+/**
+ * Save to IndexedDB
+ */
+function saveToIndexedDB(storeName, data) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction([storeName], 'readwrite');
+    const store = transaction.objectStore(storeName);
+    
+    // Add timestamp if not present
+    const dataWithMeta = {
+      ...data,
+      updatedAt: Date.now(),
+      id: data.id || generateId()
+    };
+    
+    const request = store.put(dataWithMeta);
+    
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+/**
+ * Load from IndexedDB
+ */
+function loadFromIndexedDB(storeName, key = null) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction([storeName], 'readonly');
+    const store = transaction.objectStore(storeName);
+    
+    if (key) {
+      const request = store.get(key);
+      request.onsuccess = () => resolve(request.result || null);
+      request.onerror = () => reject(request.error);
+    } else {
+      const request = store.getAll();
+      request.onsuccess = () => resolve(request.result || []);
+      request.onerror = () => reject(request.error);
+    }
+  });
+}
+
+/**
+ * Delete from IndexedDB
+ */
+function deleteFromIndexedDB(storeName, key) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction([storeName], 'readwrite');
+    const store = transaction.objectStore(storeName);
+    const request = store.delete(key);
+    
+    request.onsuccess = () => resolve(true);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+/**
+ * Clear IndexedDB store
+ */
+function clearIndexedDBStore(storeName) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction([storeName], 'readwrite');
+    const store = transaction.objectStore(storeName);
+    const request = store.clear();
+    
+    request.onsuccess = () => resolve(true);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+/**
+ * Save to localStorage with compression
+ */
+function saveToLocalStorage(storeName, data) {
   try {
-    // Clear only user data, keep settings
-    const settings = Store.settings;
+    const key = `intelligence_${storeName}`;
+    const existing = JSON.parse(localStorage.getItem(key) || '[]');
     
-    localStorage.removeItem(STORAGE_KEY);
+    // Handle single item vs array
+    if (Array.isArray(data)) {
+      localStorage.setItem(key, JSON.stringify(data));
+    } else {
+      // Upsert single item
+      const index = existing.findIndex(item => item.id === data.id);
+      if (index >= 0) {
+        existing[index] = { ...existing[index], ...data, updatedAt: Date.now() };
+      } else {
+        existing.push({ ...data, id: data.id || generateId(), updatedAt: Date.now() });
+      }
+      localStorage.setItem(key, JSON.stringify(existing));
+    }
     
-    // Reset store to defaults
-    Store.profile = null;
-    Store.savedPartyIds.clear();
-    Store.invites = { left: 10, redeemed: 0, totalGranted: 10, sent: [] };
-    Store.connections = [];
-    Store.calendar = { google: false, ics: false, mtm: false, lastSync: null };
-    
-    console.log('🗑️ User data cleared');
-    
+    console.log(`💾 Saved to localStorage: ${storeName}`);
+    return Promise.resolve(true);
   } catch (error) {
-    console.error('Failed to clear user data:', error);
+    console.error(`❌ localStorage save failed for ${storeName}:`, error);
+    return Promise.reject(error);
   }
 }
 
-// Export utilities for manual operations
-export function exportData() {
-  const data = {
-    version: VERSION,
-    profile: Store.profile,
-    savedPartyIds: [...Store.savedPartyIds],
-    invites: Store.invites,
-    connections: Store.connections || [],
-    calendar: Store.calendar,
-    settings: Store.settings,
-    flags: Store.flags,
-    exportedAt: new Date().toISOString()
+/**
+ * Load from localStorage
+ */
+function loadFromLocalStorage(storeName, key = null) {
+  try {
+    const storageKey = `intelligence_${storeName}`;
+    const data = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    
+    if (key) {
+      const item = data.find(item => item.id === key);
+      return Promise.resolve(item || null);
+    }
+    
+    return Promise.resolve(Array.isArray(data) ? data : []);
+  } catch (error) {
+    console.error(`❌ localStorage load failed for ${storeName}:`, error);
+    return Promise.resolve([]);
+  }
+}
+
+/**
+ * Delete from localStorage
+ */
+function deleteFromLocalStorage(storeName, key) {
+  try {
+    const storageKey = `intelligence_${storeName}`;
+    const data = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    const filtered = data.filter(item => item.id !== key);
+    localStorage.setItem(storageKey, JSON.stringify(filtered));
+    
+    console.log(`🗑️ Deleted from localStorage: ${storeName}/${key}`);
+    return Promise.resolve(true);
+  } catch (error) {
+    console.error(`❌ localStorage delete failed for ${storeName}:`, error);
+    return Promise.reject(error);
+  }
+}
+
+/**
+ * Clear localStorage store
+ */
+function clearLocalStorageStore(storeName) {
+  try {
+    const storageKey = `intelligence_${storeName}`;
+    localStorage.removeItem(storageKey);
+    
+    console.log(`🧹 Cleared localStorage store: ${storeName}`);
+    return Promise.resolve(true);
+  } catch (error) {
+    console.error(`❌ localStorage clear failed for ${storeName}:`, error);
+    return Promise.reject(error);
+  }
+}
+
+/**
+ * Cache management with TTL
+ */
+export async function setCache(key, value, ttl = 300000) { // 5 minutes default
+  const cacheData = {
+    id: key,
+    value: value,
+    expires: Date.now() + ttl,
+    createdAt: Date.now()
   };
   
-  return JSON.stringify(data, null, 2);
+  return saveData(STORES.cache, cacheData);
 }
 
-export function importData(jsonString) {
+/**
+ * Get cached value
+ */
+export async function getCache(key) {
   try {
-    const data = JSON.parse(jsonString);
+    const cached = await loadData(STORES.cache, key);
     
-    if (data.version && isCompatibleVersion(data.version)) {
-      // Import the data
-      if (data.profile) Store.profile = data.profile;
-      if (data.savedPartyIds) Store.savedPartyIds = new Set(data.savedPartyIds);
-      if (data.invites) Object.assign(Store.invites, data.invites);
-      if (data.connections) Store.connections = data.connections;
-      if (data.calendar) Object.assign(Store.calendar, data.calendar);
-      if (data.settings) Object.assign(Store.settings, data.settings);
-      if (data.flags) Object.assign(Store.flags, data.flags);
-      
-      saveToStorage();
-      
-      console.log('📥 Data imported successfully');
-      return true;
-    } else {
-      console.error('Incompatible data version for import');
-      return false;
+    if (!cached) return null;
+    
+    if (Date.now() > cached.expires) {
+      await deleteData(STORES.cache, key);
+      return null;
     }
     
+    return cached.value;
   } catch (error) {
-    console.error('Failed to import data:', error);
-    return false;
+    console.error(`❌ Cache get failed for ${key}:`, error);
+    return null;
   }
 }
 
-export function getStorageStats() {
+/**
+ * Save user profile
+ */
+export async function saveProfile(profile) {
+  const profileData = {
+    id: 'user_profile',
+    ...profile,
+    lastUpdated: Date.now()
+  };
+  
+  return saveData(STORES.profile, profileData);
+}
+
+/**
+ * Load user profile
+ */
+export async function loadProfile() {
   try {
-    let totalSize = 0;
-    let itemCount = 0;
+    const profile = await loadData(STORES.profile, 'user_profile');
+    return profile || null;
+  } catch (error) {
+    console.error('❌ Profile load failed:', error);
+    return null;
+  }
+}
+
+/**
+ * Save parties data
+ */
+export async function saveParties(parties) {
+  if (!Array.isArray(parties)) return Promise.reject('Parties must be an array');
+  
+  // Clear existing parties and save new ones
+  await clearStore(STORES.parties);
+  
+  const savePromises = parties.map(party => saveData(STORES.parties, {
+    ...party,
+    id: party.id || generateId()
+  }));
+  
+  return Promise.all(savePromises);
+}
+
+/**
+ * Load parties data
+ */
+export async function loadParties() {
+  try {
+    const parties = await loadData(STORES.parties);
+    return parties || [];
+  } catch (error) {
+    console.error('❌ Parties load failed:', error);
+    return [];
+  }
+}
+
+/**
+ * Save app settings
+ */
+export async function saveSettings(settings) {
+  const settingsData = {
+    id: 'app_settings',
+    ...settings,
+    lastUpdated: Date.now()
+  };
+  
+  return saveData(STORES.settings, settingsData);
+}
+
+/**
+ * Load app settings
+ */
+export async function loadSettings() {
+  try {
+    const settings = await loadData(STORES.settings, 'app_settings');
+    return settings || {
+      theme: 'dark',
+      notifications: true,
+      location: true
+    };
+  } catch (error) {
+    console.error('❌ Settings load failed:', error);
+    return { theme: 'dark', notifications: true, location: true };
+  }
+}
+
+/**
+ * Initialize storage cleanup
+ */
+function initStorageCleanup() {
+  // Clean expired cache entries every 5 minutes
+  setInterval(async () => {
+    try {
+      await cleanExpiredCache();
+    } catch (error) {
+      console.error('❌ Cache cleanup failed:', error);
+    }
+  }, 300000); // 5 minutes
+  
+  console.log('🧹 Storage cleanup scheduled');
+}
+
+/**
+ * Clean expired cache entries
+ */
+async function cleanExpiredCache() {
+  if (isIndexedDBSupported && db) {
+    const transaction = db.transaction([STORES.cache], 'readwrite');
+    const store = transaction.objectStore(STORES.cache);
+    const index = store.index('expires');
+    const range = IDBKeyRange.upperBound(Date.now());
     
-    for (let key in localStorage) {
-      if (localStorage.hasOwnProperty(key)) {
-        totalSize += localStorage[key].length + key.length;
-        itemCount++;
+    return new Promise((resolve, reject) => {
+      const request = index.openCursor(range);
+      let deletedCount = 0;
+      
+      request.onsuccess = (event) => {
+        const cursor = event.target.result;
+        if (cursor) {
+          cursor.delete();
+          deletedCount++;
+          cursor.continue();
+        } else {
+          if (deletedCount > 0) {
+            console.log(`🧹 Cleaned ${deletedCount} expired cache entries`);
+          }
+          resolve(deletedCount);
+        }
+      };
+      
+      request.onerror = () => reject(request.error);
+    });
+  } else {
+    // localStorage cleanup
+    const keys = Object.keys(localStorage);
+    const cacheKeys = keys.filter(key => key.startsWith('intelligence_cache'));
+    let deletedCount = 0;
+    
+    for (const key of cacheKeys) {
+      try {
+        const data = JSON.parse(localStorage.getItem(key) || '[]');
+        const filtered = data.filter(item => Date.now() <= item.expires);
+        
+        if (filtered.length < data.length) {
+          localStorage.setItem(key, JSON.stringify(filtered));
+          deletedCount += data.length - filtered.length;
+        }
+      } catch (error) {
+        console.error(`❌ Error cleaning cache key ${key}:`, error);
       }
     }
     
-    return {
-      totalSize: Math.round(totalSize / 1024), // KB
-      itemCount,
-      quotaUsed: totalSize / (5 * 1024 * 1024) * 100, // Assume 5MB quota
-      lastSaved: Store.lastSaved || null
-    };
-    
-  } catch (error) {
-    return { totalSize: 0, itemCount: 0, quotaUsed: 0, lastSaved: null };
+    if (deletedCount > 0) {
+      console.log(`🧹 Cleaned ${deletedCount} expired localStorage cache entries`);
+    }
   }
 }
 
-// Force save (for testing or manual saves)
-export function forceSave() {
-  if (saveTimer) {
-    clearTimeout(saveTimer);
-    saveTimer = null;
-  }
-  saveToStorage();
+/**
+ * Generate unique ID
+ */
+function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
-// Add new events for persistence
-if (!EVENTS.PERSISTENCE_LOADED) EVENTS.PERSISTENCE_LOADED = 'persistence:loaded';
-if (!EVENTS.PERSISTENCE_SAVED) EVENTS.PERSISTENCE_SAVED = 'persistence:saved';
-if (!EVENTS.STORAGE_QUOTA_EXCEEDED) EVENTS.STORAGE_QUOTA_EXCEEDED = 'storage:quota-exceeded';
-if (!EVENTS.USER_LOGOUT) EVENTS.USER_LOGOUT = 'user:logout';
-if (!EVENTS.SETTINGS_CHANGED) EVENTS.SETTINGS_CHANGED = 'settings:changed';
-if (!EVENTS.PROFILE_UPDATED) EVENTS.PROFILE_UPDATED = 'profile:updated';
+/**
+ * Get storage statistics
+ */
+export async function getStorageStats() {
+  const stats = {
+    type: isIndexedDBSupported ? 'IndexedDB' : 'localStorage',
+    isSupported: isIndexedDBSupported,
+    stores: {}
+  };
+  
+  // Get store sizes
+  for (const storeName of Object.values(STORES)) {
+    try {
+      const data = await loadData(storeName);
+      stats.stores[storeName] = Array.isArray(data) ? data.length : (data ? 1 : 0);
+    } catch (error) {
+      stats.stores[storeName] = 0;
+    }
+  }
+  
+  // Get localStorage usage if available
+  if (typeof navigator !== 'undefined' && 'storage' in navigator) {
+    try {
+      const estimate = await navigator.storage.estimate();
+      stats.quota = estimate.quota;
+      stats.usage = estimate.usage;
+      stats.percentage = Math.round((estimate.usage / estimate.quota) * 100);
+    } catch (error) {
+      console.warn('Storage API not available');
+    }
+  }
+  
+  return stats;
+}
+
+/**
+ * Export all data for backup
+ */
+export async function exportData() {
+  const exportData = {
+    timestamp: Date.now(),
+    version: DB_VERSION,
+    data: {}
+  };
+  
+  for (const storeName of Object.values(STORES)) {
+    try {
+      exportData.data[storeName] = await loadData(storeName);
+    } catch (error) {
+      console.error(`❌ Export failed for store ${storeName}:`, error);
+      exportData.data[storeName] = [];
+    }
+  }
+  
+  return exportData;
+}
+
+/**
+ * Import data from backup
+ */
+export async function importData(backupData) {
+  if (!backupData || !backupData.data) {
+    throw new Error('Invalid backup data format');
+  }
+  
+  console.log('📥 Importing backup data...');
+  
+  for (const [storeName, storeData] of Object.entries(backupData.data)) {
+    if (Object.values(STORES).includes(storeName)) {
+      try {
+        if (Array.isArray(storeData)) {
+          for (const item of storeData) {
+            await saveData(storeName, item);
+          }
+        } else if (storeData) {
+          await saveData(storeName, storeData);
+        }
+        console.log(`✅ Imported ${storeName}: ${Array.isArray(storeData) ? storeData.length : 1} items`);
+      } catch (error) {
+        console.error(`❌ Import failed for store ${storeName}:`, error);
+      }
+    }
+  }
+  
+  console.log('📥 Data import completed');
+}
+
+// Export store constants for external use
+export { STORES };

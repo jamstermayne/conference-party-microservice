@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conference Network - Design System Demo</title>
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/design-system-enhanced.css" />
+  <style>
+    /* Demo-specific styles */
+    body {
+      font-family: var(--font-system, -apple-system, BlinkMacSystemFont, sans-serif);
+      background: var(--bg-primary, #0f0f12);
+      color: var(--text-primary, #ffffff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Styling */
+    .sidebar-professional {
+      width: 280px;
+      background: var(--surface-card, #1a1a1f);
+      border-right: 1px solid var(--border-subtle, #333);
+      padding: 1.5rem;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-vertical .nav-tab-system {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      color: var(--text-secondary, #999);
+      border-radius: 0.5rem;
+      transition: all 0.15s ease;
+      margin-bottom: 0.25rem;
+      position: relative;
+    }
+
+    .nav-vertical .nav-tab-system:hover {
+      background: var(--surface-elevated, #2a2a35);
+      color: var(--text-primary, #fff);
+    }
+
+    .nav-vertical .nav-tab-system.active {
+      background: rgba(0, 255, 136, 0.1);
+      color: var(--primary-500, #00ff88);
+      border-left: 3px solid var(--primary-500, #00ff88);
+    }
+
+    .nav-icon {
+      font-size: 1.25rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* Text Styles */
+    .text-primary {
+      color: var(--text-primary, #ffffff);
+      font-weight: 600;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .text-secondary {
+      color: var(--text-secondary, #999);
+      margin: 0 0 1rem 0;
+    }
+
+    /* Grid Layout */
+    .scrollable-area {
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+
+    .scrollable-area::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .scrollable-area::-webkit-scrollbar-track {
+      background: var(--surface-elevated);
+      border-radius: 3px;
+    }
+
+    .scrollable-area::-webkit-scrollbar-thumb {
+      background: var(--primary-500);
+      border-radius: 3px;
+    }
+
+    /* Demo Party Card */
+    .demo-party-card {
+      background: linear-gradient(135deg, var(--surface-card, #1a1a1f), var(--surface-elevated, #2a2a35));
+      border: 1px solid var(--border-subtle, #333);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 1rem;
+    }
+
+    .demo-party-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+      border-color: var(--primary-500, #00ff88);
+    }
+
+    .demo-party-card.selected {
+      border-color: var(--primary-500, #00ff88);
+      background: linear-gradient(135deg, #1a4d3a, var(--surface-card, #1a1a1f));
+    }
+
+    .party-badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: var(--primary-500, #00ff88);
+      color: #000;
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .party-title {
+      color: var(--text-primary, #fff);
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .party-meta {
+      display: flex;
+      gap: 1rem;
+      color: var(--text-secondary, #999);
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .party-description {
+      color: var(--text-secondary, #999);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .party-actions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
+
+    /* Profile Card */
+    .profile-card {
+      background: var(--surface-card, #1a1a1f);
+      border: 1px solid var(--primary-500, #00ff88);
+      border-radius: 0.75rem;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+    }
+
+    .profile-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border-subtle, #333);
+    }
+
+    .profile-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar-professional {
+        width: 100%;
+        padding: 1rem;
+      }
+
+      .nav-vertical {
+        display: flex;
+        overflow-x: auto;
+        gap: 0.5rem;
+        padding-bottom: 1rem;
+      }
+
+      .nav-vertical .nav-tab-system {
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .main-content {
+        padding: 1rem;
+      }
+    }
+
+    /* Live Editor Integration */
+    .design-editable {
+      position: relative;
+    }
+
+    .design-editable[data-editing="true"] {
+      outline: 2px dashed var(--primary-500, #00ff88);
+      outline-offset: 2px;
+    }
+
+    .design-editable[data-editing="true"]::after {
+      content: '✏️ Click to Edit';
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      background: var(--primary-500, #00ff88);
+      color: #000;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0 0 0 0.25rem;
+      font-weight: 600;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body data-theme="professional-dark">
+  <!-- Professional Sidebar -->
+  <aside class="sidebar-professional design-editable">
+    <div class="stack-system stack-gap-md">
+      <div class="sidebar-header stack-horizontal" style="justify-content: space-between; align-items: center;">
+        <h2 style="color: var(--primary-500); margin: 0;">🎉 Conference Network</h2>
+        <button id="closeSidebar" class="btn-system btn-icon design-editable">×</button>
+      </div>
+      
+      <nav class="nav-system nav-vertical">
+        <a href="#" class="nav-tab-system active design-editable" data-section="parties">
+          <span class="nav-icon">🎉</span>
+          Parties
+        </a>
+        <a href="#" class="nav-tab-system design-editable" data-section="invites">
+          <span class="nav-icon">✉️</span>
+          Invites 
+          <span class="badge-system badge-primary design-editable" id="inviteCount">10</span>
+        </a>
+        <a href="#" class="nav-tab-system design-editable" data-section="calendar">
+          <span class="nav-icon">📅</span>
+          Calendar
+        </a>
+        <a href="#" class="nav-tab-system design-editable" data-section="profile">
+          <span class="nav-icon">👤</span>
+          Profile
+        </a>
+        <a href="#" class="nav-tab-system design-editable" data-section="settings">
+          <span class="nav-icon">⚙️</span>
+          Settings
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Professional Main Content -->
+  <main class="main-content">
+    <!-- Party Picker Section -->
+    <section id="parties" class="section active">
+      <div class="stack-system stack-gap-lg">
+        <header class="stack-system stack-gap-sm">
+          <h1 class="text-primary design-editable">Select Parties to Attend</h1>
+          <p class="text-secondary design-editable">Tap to save & sync with your calendar.</p>
+        </header>
+        
+        <div class="grid-system grid-auto-fit">
+          <!-- Professional Party Cards -->
+          <div class="demo-party-card design-editable" onclick="toggleParty(this)">
+            <div class="party-badge">Curated</div>
+            <div class="party-title">Gamescom Opening Night</div>
+            <div class="party-meta">
+              <span>📅 Aug 21, 2025</span>
+              <span>⏰ 19:00</span>
+              <span>📍 Cologne Convention Center</span>
+            </div>
+            <div class="party-description">
+              Join us for the official opening night celebration with industry leaders, exclusive previews, and networking opportunities.
+            </div>
+            <div class="party-actions">
+              <button class="btn-system btn-ghost btn-sm design-editable">ℹ️ Details</button>
+              <button class="btn-system btn-primary btn-sm design-editable">✨ Save</button>
+            </div>
+          </div>
+
+          <div class="demo-party-card design-editable" onclick="toggleParty(this)">
+            <div class="party-badge" style="background: #666; color: #fff;">Community</div>
+            <div class="party-title">Indie Developer Meetup</div>
+            <div class="party-meta">
+              <span>📅 Aug 22, 2025</span>
+              <span>⏰ 18:30</span>
+              <span>📍 Gaming Lounge</span>
+            </div>
+            <div class="party-description">
+              Connect with fellow indie developers, share experiences, and discover collaboration opportunities in a relaxed setting.
+            </div>
+            <div class="party-actions">
+              <button class="btn-system btn-ghost btn-sm design-editable">ℹ️ Details</button>
+              <button class="btn-system btn-primary btn-sm design-editable">✨ Save</button>
+            </div>
+          </div>
+
+          <div class="demo-party-card selected design-editable" onclick="toggleParty(this)">
+            <div class="party-badge">VIP</div>
+            <div class="party-title">Publisher's Exclusive</div>
+            <div class="party-meta">
+              <span>📅 Aug 23, 2025</span>
+              <span>⏰ 20:00</span>
+              <span>📍 Rooftop Terrace</span>
+            </div>
+            <div class="party-description">
+              Exclusive invitation-only event for publishers, investors, and key industry figures. Premium networking experience.
+            </div>
+            <div class="party-actions">
+              <button class="btn-system btn-ghost btn-sm design-editable">ℹ️ Details</button>
+              <button class="btn-system btn-secondary btn-sm design-editable">✅ Saved</button>
+            </div>
+          </div>
+        </div>
+        
+        <button class="btn-system btn-primary btn-lg design-editable" style="align-self: center;">
+          💾 Save & Sync Calendar
+        </button>
+      </div>
+    </section>
+
+    <!-- Invites Section -->
+    <section id="invites" class="section">
+      <div class="stack-system stack-gap-lg">
+        <header>
+          <h1 class="text-primary design-editable">Your Invites</h1>
+        </header>
+        <div class="scrollable-area">
+          <div class="stack-system stack-gap-md">
+            <div class="card-system card-professional design-editable">
+              <h3 style="color: var(--primary-500); margin: 0 0 0.5rem 0;">Epic Games Showcase</h3>
+              <p style="color: var(--text-secondary); margin: 0 0 1rem 0;">You're invited to an exclusive preview event...</p>
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="btn-system btn-primary btn-sm design-editable">Accept</button>
+                <button class="btn-system btn-ghost btn-sm design-editable">Decline</button>
+              </div>
+            </div>
+            
+            <div class="card-system card-professional design-editable">
+              <h3 style="color: var(--primary-500); margin: 0 0 0.5rem 0;">Unity Developer Dinner</h3>
+              <p style="color: var(--text-secondary); margin: 0 0 1rem 0;">Join Unity's development team for dinner and discussion...</p>
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="btn-system btn-primary btn-sm design-editable">Accept</button>
+                <button class="btn-system btn-ghost btn-sm design-editable">Decline</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calendar Section -->
+    <section id="calendar" class="section">
+      <div class="stack-system stack-gap-lg">
+        <header>
+          <h1 class="text-primary design-editable">Calendar Sync</h1>
+        </header>
+        <div class="stack-system stack-gap-md">
+          <button class="btn-system btn-secondary design-editable" style="justify-content: flex-start; gap: 0.75rem;">
+            📱 Connect Google Calendar
+          </button>
+          <button class="btn-system btn-secondary design-editable" style="justify-content: flex-start; gap: 0.75rem;">
+            🍎 Connect Apple Calendar
+          </button>
+          <button class="btn-system btn-secondary design-editable" style="justify-content: flex-start; gap: 0.75rem;">
+            📧 Connect Outlook
+          </button>
+          <div class="card-system design-editable" style="background: rgba(0, 255, 136, 0.1); border-color: var(--primary-500);">
+            <p class="text-secondary" style="margin: 0;">
+              💡 <strong style="color: var(--primary-500);">Pro Tip:</strong> Meet-to-Match sync will start automatically if linked.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="profile" class="section">
+      <div class="stack-system stack-gap-lg">
+        <header>
+          <h1 class="text-primary design-editable">Your Profile</h1>
+        </header>
+        <div class="profile-card design-editable">
+          <div class="profile-item">
+            <span class="text-secondary">Name:</span>
+            <span class="text-primary">Alex Johnson</span>
+          </div>
+          <div class="profile-item">
+            <span class="text-secondary">Role:</span>
+            <span class="badge-system badge-secondary">Game Developer</span>
+          </div>
+          <div class="profile-item">
+            <span class="text-secondary">Company:</span>
+            <span class="text-primary">Indie Studios</span>
+          </div>
+          <div class="profile-item">
+            <span class="text-secondary">Attending:</span>
+            <span class="badge-system badge-primary">3 Events</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings Section -->
+    <section id="settings" class="section">
+      <div class="stack-system stack-gap-lg">
+        <header>
+          <h1 class="text-primary design-editable">Settings</h1>
+        </header>
+        <div class="stack-system stack-gap-md">
+          <button class="btn-system btn-primary design-editable" style="justify-content: flex-start; gap: 0.75rem;">
+            📱 Install App
+          </button>
+          <button class="btn-system btn-secondary design-editable" style="justify-content: flex-start; gap: 0.75rem;">
+            🎨 Change Theme
+          </button>
+          <button class="btn-system btn-secondary design-editable" style="justify-content: flex-start; gap: 0.75rem;">
+            🔔 Notifications
+          </button>
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 1rem; margin-top: 1rem;">
+            <button class="btn-system btn-danger design-editable" style="justify-content: flex-start; gap: 0.75rem;">
+              🚪 Log Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Standalone Live Visual Editor (no dependencies) -->
+  <script src="/js/standalone-live-editor.js"></script>
+  
+  <!-- Demo JavaScript -->
+  <script>
+    // Navigation functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // Navigation switching
+      const navTabs = document.querySelectorAll('.nav-tab-system');
+      const sections = document.querySelectorAll('.section');
+
+      navTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetSection = this.getAttribute('data-section');
+
+          // Update active nav
+          navTabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+
+          // Show target section
+          sections.forEach(s => s.classList.remove('active'));
+          document.getElementById(targetSection).classList.add('active');
+        });
+      });
+
+      // Welcome message and setup for standalone editor
+      if (location.hostname === 'localhost' || location.hostname.includes('codespaces')) {
+        setTimeout(() => {
+          if (window.standaloneLiveEditor) {
+            console.log('🎨 Standalone Live Editor ready for demo');
+          }
+        }, 1000);
+      }
+
+      console.log('🎨 Design System Demo loaded! Try:');
+      console.log('   • Press Ctrl+E to toggle live editor');
+      console.log('   • Click elements marked with ✏️ to edit them');
+      console.log('   • Visit http://localhost:3001/design-editor for token editor');
+      console.log('   • Visit http://localhost:3001/components for component library');
+    });
+
+    // Party card interaction
+    function toggleParty(card) {
+      card.classList.toggle('selected');
+      const button = card.querySelector('.btn-primary, .btn-secondary');
+      if (card.classList.contains('selected')) {
+        button.textContent = '✅ Saved';
+        button.className = 'btn-system btn-secondary btn-sm design-editable';
+      } else {
+        button.textContent = '✨ Save';
+        button.className = 'btn-system btn-primary btn-sm design-editable';
+      }
+    }
+
+    // Theme switching demo
+    let currentTheme = 0;
+    const themes = ['professional-dark', 'professional-light', 'gaming'];
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 't' || e.key === 'T') {
+        currentTheme = (currentTheme + 1) % themes.length;
+        document.body.setAttribute('data-theme', themes[currentTheme]);
+        console.log('🎨 Switched to theme:', themes[currentTheme]);
+      }
+    });
+  </script>
+</body>
+</html>

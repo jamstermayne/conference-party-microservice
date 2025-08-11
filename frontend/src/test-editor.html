@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Editor Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f12;
+            color: #fff;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .test-card {
+            background: #1a1a1f;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            max-width: 600px;
+        }
+
+        .test-button {
+            background: #00ff88;
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 1rem 1rem 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .test-button:hover {
+            background: #00cc70;
+            transform: translateY(-1px);
+        }
+
+        .debug-info {
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 2rem 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .activation-button {
+            background: #ff6b6b;
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 2rem 0;
+        }
+
+        .activation-button:hover {
+            background: #ff5252;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #666;
+            margin-right: 8px;
+        }
+
+        .status-indicator.active {
+            background: #00ff88;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Live Visual Editor Test</h1>
+    
+    <div class="debug-info">
+        <h3>Debug Information:</h3>
+        <p><span class="status-indicator" id="jsLoaded"></span> JavaScript Loaded: <span id="jsStatus">Loading...</span></p>
+        <p><span class="status-indicator" id="editorReady"></span> Editor Ready: <span id="editorStatus">Loading...</span></p>
+        <p><span class="status-indicator" id="editorActive"></span> Editor Active: <span id="activeStatus">Inactive</span></p>
+    </div>
+
+    <div style="background: rgba(0,255,136,0.1); border: 1px solid #00ff88; border-radius: 8px; padding: 1.5rem; margin: 2rem 0;">
+        <h3 style="color: #00ff88; margin: 0 0 1rem 0;">🚀 Quick Start</h3>
+        <p style="margin: 0 0 1rem 0;">Try these methods to activate the live editor:</p>
+        <ol style="margin: 0; padding-left: 1.5rem;">
+            <li><strong>Press Ctrl+E</strong> (or Cmd+E on Mac)</li>
+            <li><strong>Click the red button below</strong></li>
+            <li><strong>Press the 'E' key</strong> while holding Ctrl/Cmd</li>
+        </ol>
+    </div>
+
+    <button class="activation-button" onclick="manualActivation()">
+        ✏️ ACTIVATE LIVE EDITOR (Click This!)
+    </button>
+
+    <div class="test-card design-editable">
+        <h2 style="color: #00ff88; margin: 0 0 1rem 0;">Test Card #1</h2>
+        <p>This is a test card. When the live editor is active, you should be able to click on this card to edit its properties like padding, background color, border radius, etc.</p>
+        <button class="test-button design-editable">Test Button 1</button>
+        <button class="test-button design-editable" style="background: #3b82f6;">Test Button 2</button>
+    </div>
+
+    <div class="test-card design-editable">
+        <h2 style="color: #f59e0b; margin: 0 0 1rem 0;">Test Card #2</h2>
+        <p>Another test card with different styling. Try editing the heading color, card padding, or button styles.</p>
+        <button class="test-button design-editable" style="background: #ef4444; color: #fff;">Red Button</button>
+        <button class="test-button design-editable" style="background: #8b5cf6;">Purple Button</button>
+    </div>
+
+    <div id="instructions" style="background: #333; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; display: none;">
+        <h3 style="color: #00ff88; margin: 0 0 1rem 0;">✅ Live Editor Active!</h3>
+        <p>Great! The live editor is now active. You should see:</p>
+        <ul>
+            <li>✏️ Highlighted elements with dashed outlines</li>
+            <li>🎨 A floating toolbar in the top-right corner</li>
+            <li>👆 Click any highlighted element to edit it</li>
+            <li>⚙️ A property panel will appear when you select an element</li>
+        </ul>
+        <p><strong>Try clicking on any card, button, or heading above!</strong></p>
+    </div>
+
+    <!-- Load the standalone live editor -->
+    <script src="/js/standalone-live-editor.js"></script>
+
+    <script>
+        // Debug and status tracking
+        let debugInfo = {
+            jsLoaded: false,
+            editorReady: false,
+            editorActive: false
+        };
+
+        // Update status indicators
+        function updateStatus() {
+            const jsIndicator = document.getElementById('jsLoaded');
+            const editorIndicator = document.getElementById('editorReady');
+            const activeIndicator = document.getElementById('editorActive');
+            
+            const jsStatus = document.getElementById('jsStatus');
+            const editorStatus = document.getElementById('editorStatus');
+            const activeStatus = document.getElementById('activeStatus');
+
+            // JavaScript loaded
+            if (debugInfo.jsLoaded) {
+                jsIndicator.classList.add('active');
+                jsStatus.textContent = '✅ Loaded';
+                jsStatus.style.color = '#00ff88';
+            }
+
+            // Editor ready
+            if (debugInfo.editorReady) {
+                editorIndicator.classList.add('active');
+                editorStatus.textContent = '✅ Ready';
+                editorStatus.style.color = '#00ff88';
+            }
+
+            // Editor active
+            if (debugInfo.editorActive) {
+                activeIndicator.classList.add('active');
+                activeStatus.textContent = '✅ Active';
+                activeStatus.style.color = '#00ff88';
+                document.getElementById('instructions').style.display = 'block';
+            } else {
+                activeIndicator.classList.remove('active');
+                activeStatus.textContent = '⏸️ Inactive';
+                activeStatus.style.color = '#999';
+                document.getElementById('instructions').style.display = 'none';
+            }
+        }
+
+        // Check for editor availability
+        function checkEditor() {
+            console.log('🔍 Checking for editor...');
+            
+            debugInfo.jsLoaded = true;
+            updateStatus();
+
+            if (window.standaloneLiveEditor) {
+                console.log('✅ Standalone Live Editor found!');
+                debugInfo.editorReady = true;
+                updateStatus();
+
+                // Monitor editor state
+                setInterval(() => {
+                    const wasActive = debugInfo.editorActive;
+                    debugInfo.editorActive = window.standaloneLiveEditor.isActive || false;
+                    
+                    if (wasActive !== debugInfo.editorActive) {
+                        updateStatus();
+                    }
+                }, 500);
+
+            } else {
+                console.log('❌ Editor not found, retrying...');
+                setTimeout(checkEditor, 500);
+            }
+        }
+
+        // Manual activation function
+        function manualActivation() {
+            console.log('🚀 Manual activation triggered');
+            
+            if (window.standaloneLiveEditor) {
+                console.log('📡 Calling editor.toggleEditor()');
+                window.standaloneLiveEditor.toggleEditor();
+                
+                setTimeout(() => {
+                    if (window.standaloneLiveEditor.isActive) {
+                        console.log('✅ Editor successfully activated!');
+                        alert('🎉 Live Editor Activated!\n\nYou can now:\n• Click any element to edit it\n• Use the property panel to make changes\n• Press Ctrl+S to export styles');
+                    } else {
+                        console.log('❌ Editor activation failed');
+                        alert('❌ Activation failed. Check the console for errors.');
+                    }
+                }, 100);
+            } else {
+                alert('❌ Live editor not loaded yet. Please wait and try again.');
+            }
+        }
+
+        // Enhanced keyboard listener with better detection
+        document.addEventListener('keydown', function(e) {
+            const key = e.key.toLowerCase();
+            const isMod = e.ctrlKey || e.metaKey;
+            
+            console.log('⌨️ Key pressed:', {
+                key: e.key,
+                code: e.code,
+                ctrlKey: e.ctrlKey,
+                metaKey: e.metaKey,
+                isMod: isMod
+            });
+
+            // Try multiple key combinations
+            if ((isMod && key === 'e') || 
+                (e.code === 'KeyE' && isMod) ||
+                (e.keyCode === 69 && isMod)) {
+                
+                console.log('🎯 Ctrl+E detected! Attempting activation...');
+                e.preventDefault();
+                manualActivation();
+            }
+
+            // Alternative activation with just 'E' key (for testing)
+            if (key === 'e' && !e.target.matches('input, textarea') && !isMod) {
+                console.log('🎯 E key detected! Attempting activation...');
+                manualActivation();
+            }
+        }, true);
+
+        // Start checking when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkEditor);
+        } else {
+            checkEditor();
+        }
+
+        // Additional debug info
+        console.log('🎨 Live Editor Test Page Loaded');
+        console.log('💡 Debug: Press F12 to see console logs');
+        console.log('🔧 Manual activation available via manualActivation() function');
+        console.log('⌨️ Try pressing Ctrl+E or just E key to activate');
+        
+        // Show helpful info
+        setTimeout(() => {
+            console.log('%c🎨 LIVE EDITOR TEST', 'color: #00ff88; font-size: 20px; font-weight: bold;');
+            console.log('%c• Press Ctrl+E to activate', 'color: #fff; font-size: 14px;');
+            console.log('%c• Or click the red button', 'color: #fff; font-size: 14px;');
+            console.log('%c• Or just press E key', 'color: #fff; font-size: 14px;');
+            console.log('%c• Check status indicators above', 'color: #fff; font-size: 14px;');
+        }, 1000);
+
+        // Make debug function globally available
+        window.debugEditor = function() {
+            console.log('🔍 Editor Debug Info:', {
+                standaloneLiveEditor: window.standaloneLiveEditor,
+                isActive: window.standaloneLiveEditor?.isActive,
+                selectedElement: window.standaloneLiveEditor?.selectedElement,
+                editableProperties: window.standaloneLiveEditor?.editableProperties?.size
+            });
+        };
+
+        console.log('💡 Run debugEditor() in console for detailed info');
+    </script>
+</body>
+</html>
