@@ -1,10 +1,7 @@
 /**
- * Compatibility shim for legacy imports.
- * Some modules do:  import { Events } from './state.js'
- * We export Events here to satisfy those imports without touching callers.
+ * Compatibility shim for legacy imports:
+ *   import { Events } from './state.js'
  */
-
 import Events from './foundation/events.js';
-
-export { Events };           // supports: import { Events } from './state.js'
-export default {};           // no default state exported from this shim
+export { Events };
+export default {};
