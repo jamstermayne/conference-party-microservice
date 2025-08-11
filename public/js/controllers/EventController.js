@@ -20,7 +20,7 @@ export class EventController extends BaseController {
       filters: {
         search: '',
         date: '',
-        category: 'all',
+        category: 'today', // Default to "Tonight" for instant value
         saved: false
       },
       view: 'list',
@@ -79,21 +79,25 @@ export class EventController extends BaseController {
    * Setup filter handlers
    */
   setupFilterHandlers() {
+    // Search input handler
     this.on('filter:search', ({ query }) => {
       this.setState({ filters: { ...this.state.filters, search: query } });
       this.searchDebounced(query);
     });
     
-    this.on('filter:date', ({ date }) => {
-      this.setState({ filters: { ...this.state.filters, date } });
-      this.applyFilters();
-    });
-    
+    // Category filter handler  
     this.on('filter:category', ({ category }) => {
       this.setState({ filters: { ...this.state.filters, category } });
       this.applyFilters();
     });
     
+    // Date filter handler
+    this.on('filter:date', ({ date }) => {
+      this.setState({ filters: { ...this.state.filters, date } });
+      this.applyFilters();
+    });
+    
+    // Saved filter handler
     this.on('filter:saved', ({ saved }) => {
       this.setState({ filters: { ...this.state.filters, saved } });
       this.applyFilters();
@@ -145,11 +149,64 @@ export class EventController extends BaseController {
       });
     }
     
-    // Category filter
+    // Time-based and value-based category filters
     if (filters.category !== 'all') {
-      filtered = filtered.filter(event => 
-        event.category === filters.category
-      );
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      switch (filters.category) {
+        case 'today':
+          // Filter for today's events
+          filtered = filtered.filter(event => {
+            const eventDate = new Date(event.date);
+            return eventDate.toDateString() === today.toDateString();
+          });
+          break;
+          
+        case 'tomorrow':
+          // Filter for tomorrow's events
+          filtered = filtered.filter(event => {
+            const eventDate = new Date(event.date);
+            return eventDate.toDateString() === tomorrow.toDateString();
+          });
+          break;
+          
+        case 'hot':
+          // Filter for high-value events (featured, popular venues, or key hosts)
+          filtered = filtered.filter(event => 
+            event.featured || 
+            event.capacity > 100 ||
+            event.hosts?.includes('Google') ||
+            event.hosts?.includes('Meta') ||
+            event.venue?.includes('Koelnmesse') ||
+            event.category?.toLowerCase().includes('vip')
+          );
+          break;
+          
+        case 'nearby':
+          // Filter for nearby events (if user has location)
+          if (navigator.geolocation) {
+            // For now, prioritize central Cologne venues
+            filtered = filtered.filter(event => 
+              event.venue?.includes('Cologne') ||
+              event.venue?.includes('Koln') ||
+              event.venue?.includes('50667') ||
+              event.venue?.includes('50679')
+            );
+          }
+          break;
+          
+        case 'mixer':
+        case 'party':
+        default:
+          // Category-based filters
+          filtered = filtered.filter(event => 
+            event.category?.toLowerCase() === filters.category.toLowerCase()
+          );
+          break;
+      }
     }
     
     // Saved filter
@@ -196,8 +253,24 @@ export class EventController extends BaseController {
         this.notify('Event removed from saved', 'info');
       } else {
         await api.swipeEvent(eventId, 'right');
-        Store.patch('events.saved', [...savedEvents, eventId]);
+        const updatedSaved = [...savedEvents, eventId];
+        Store.patch('events.saved', updatedSaved);
         this.notify('Event saved! 🎉', 'success');
+        
+        // Emit event for PWA install trigger
+        this.emit('events.saved', { count: updatedSaved.length });
+        
+        // Trigger install FTUE after 2+ saves (engagement threshold)
+        if (updatedSaved.length >= 2) {
+          this.emit('events:save', { 
+            count: updatedSaved.length, 
+            eventId,
+            eventTitle: event.title || event.name 
+          });
+          
+          // Check if should show install FTUE
+          this.maybeShowInstallFTUE(updatedSaved.length);
+        }
       }
       
       target.classList.toggle('is-saved', !isSaved);
@@ -293,6 +366,194 @@ END:VCALENDAR`;
   }
 
   /**
+   * Maybe show install FTUE based on engagement
+   */
+  maybeShowInstallFTUE(saveCount) {
+    // Only trigger on 2nd save (indicates genuine interest)
+    if (saveCount === 2) {
+      // Check if install FTUE should be shown
+      const isInstalled = window.matchMedia('(display-mode: standalone)').matches || 
+                         window.navigator.standalone === true;
+      
+      if (!isInstalled) {
+        // Emit global event to trigger install FTUE
+        this.emit('ftue:show-install', { source: 'events', saveCount });
+        
+        console.log('🎯 Install FTUE triggered by event engagement');
+      }
+    }
+  }
+
+  /**
+   * Render professional event card with persona pills and premium styling
+   */
+  renderProfessionalEventCard(event) {
+    const savedEvents = Store.get('events.saved') || [];
+    const isSaved = savedEvents.includes(event.id);
+    
+    // Format time for "Tonight • 9:00 PM" style
+    const eventTime = this.formatEventTime(event);
+    
+    // Generate persona pills (mock data based on event type)
+    const personaPills = this.generatePersonaPills(event);
+    
+    // Determine provenance chips
+    const provenanceChips = this.getProvenanceChips(event);
+    
+    return `
+      <article class="event-card" data-event-id="${event.id}">
+        <div class="event-head">
+          <h3 class="title">${event.name || event.title}</h3>
+          <span class="time">${eventTime}</span>
+        </div>
+        <div class="row">
+          <span class="venue">${event.venue || event.address || 'TBA'}</span>
+          <div class="persona-pills">
+            ${personaPills}
+          </div>
+        </div>
+        <div class="provenance">
+          ${provenanceChips.map(chip => `<span class="chip ghost">${chip}</span>`).join('')}
+        </div>
+        <div class="cta-row">
+          <button class="btn-premium" data-action="rsvp" data-event-id="${event.id}" aria-label="RSVP">RSVP</button>
+          <button class="btn-glass ${isSaved ? 'is-saved' : ''}" data-action="toggleSave" data-event-id="${event.id}">
+            ${isSaved ? 'Saved' : 'Save'}
+          </button>
+          <button class="btn-premium" data-action="navigate" data-event-id="${event.id}">Navigate</button>
+        </div>
+      </article>
+    `;
+  }
+
+  /**
+   * Format event time for professional display
+   */
+  formatEventTime(event) {
+    if (!event.date) return 'TBA';
+    
+    const eventDate = new Date(event.date);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const eventDateOnly = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate());
+    
+    let timePrefix = '';
+    if (eventDateOnly.getTime() === today.getTime()) {
+      timePrefix = 'Tonight';
+    } else if (eventDateOnly.getTime() === today.getTime() + 24 * 60 * 60 * 1000) {
+      timePrefix = 'Tomorrow';
+    } else {
+      timePrefix = eventDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+    
+    // Add time if available
+    if (event.startTime) {
+      const time = this.formatTime(event.startTime);
+      return `${timePrefix} · ${time}`;
+    }
+    
+    return timePrefix;
+  }
+
+  /**
+   * Format time from 24h to 12h format
+   */
+  formatTime(timeString) {
+    if (!timeString) return '';
+    
+    try {
+      const [hours, minutes] = timeString.split(':').map(Number);
+      const period = hours >= 12 ? 'PM' : 'AM';
+      const displayHours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
+      return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+    } catch {
+      return timeString;
+    }
+  }
+
+  /**
+   * Generate persona pills based on event characteristics
+   */
+  generatePersonaPills(event) {
+    // Mock persona distribution based on event type and venue
+    const eventType = (event.category || '').toLowerCase();
+    const venue = (event.venue || '').toLowerCase();
+    
+    let personas = [];
+    
+    // Determine persona mix based on event characteristics
+    if (eventType.includes('mixer') || eventType.includes('networking')) {
+      personas = [
+        { type: 'dev', count: Math.floor(Math.random() * 15) + 5 },
+        { type: 'pub', count: Math.floor(Math.random() * 10) + 3 },
+        { type: 'inv', count: Math.floor(Math.random() * 5) + 1 },
+        { type: 'sp', count: Math.floor(Math.random() * 3) + 1 }
+      ];
+    } else if (eventType.includes('party')) {
+      personas = [
+        { type: 'dev', count: Math.floor(Math.random() * 20) + 8 },
+        { type: 'pub', count: Math.floor(Math.random() * 8) + 2 },
+        { type: 'inv', count: Math.floor(Math.random() * 3) + 1 }
+      ];
+    } else {
+      personas = [
+        { type: 'dev', count: Math.floor(Math.random() * 12) + 3 },
+        { type: 'pub', count: Math.floor(Math.random() * 6) + 2 }
+      ];
+    }
+    
+    return personas
+      .filter(p => p.count > 0)
+      .map(p => `<span class="pill pill-${p.type}">${p.count} ${this.getPersonaLabel(p.type)}</span>`)
+      .join('');
+  }
+
+  /**
+   * Get persona label abbreviation
+   */
+  getPersonaLabel(type) {
+    const labels = {
+      dev: 'Dev',
+      pub: 'Pub',
+      inv: 'Inv', 
+      sp: 'SP'
+    };
+    return labels[type] || type;
+  }
+
+  /**
+   * Get provenance chips for trust signals
+   */
+  getProvenanceChips(event) {
+    const chips = [];
+    
+    // Check for official/verified status
+    if (event.official || event.verified || (event.hosts && event.hosts.includes('official'))) {
+      chips.push('Official');
+    }
+    
+    // Check for calendar sync capability
+    if (event.calendar_url || event.ics) {
+      chips.push('Calendar Sync');
+    }
+    
+    // Check for major venue/host
+    const venue = (event.venue || '').toLowerCase();
+    const hosts = (event.hosts || '').toLowerCase();
+    
+    if (venue.includes('koelnmesse') || hosts.includes('google') || hosts.includes('meta')) {
+      chips.push('Verified Host');
+    }
+    
+    // Default chips if none found
+    if (chips.length === 0) {
+      chips.push('Community');
+    }
+    
+    return chips;
+  }
+
+  /**
    * Animate view transition
    */
   animateViewTransition() {
@@ -309,27 +570,78 @@ END:VCALENDAR`;
    * Template for rendering
    */
   template(data) {
-    const { filteredEvents, loading, error, view, filters } = data;
+    const { filteredEvents, loading, error, filters } = data;
     
     if (loading) {
-      return `<div class="loading-state">Loading events...</div>`;
+      return `
+        <section id="route-events" class="screen">
+          <header class="screen-head">
+            <h1 class="h1">Gamescom 2025 Events</h1>
+            <p class="sub">Loading events...</p>
+          </header>
+          <div class="loading-state">Loading events...</div>
+        </section>
+      `;
     }
     
     if (error) {
-      return `<div class="error-state">${error}</div>`;
+      return `
+        <section id="route-events" class="screen">
+          <header class="screen-head">
+            <h1 class="h1">Gamescom 2025 Events</h1>
+            <p class="sub">Unable to load events</p>
+          </header>
+          <div class="error-state">${error}</div>
+        </section>
+      `;
     }
     
     return `
-      <div class="events-controller">
-        ${this.renderFilters(filters)}
-        ${this.renderViewToggle(view)}
-        <div class="events-container view-${view}">
+      <section id="route-events" class="screen professional-intelligence-app">
+        <header class="screen-head">
+          <h1 class="h1">Tonight's Best Parties</h1>
+          <p class="sub">Instant access to Gamescom's hottest networking events.</p>
+        </header>
+
+        <div class="fomo-search">
+          <input 
+            class="input" 
+            placeholder="Search events, venues, hosts…" 
+            aria-label="Search events"
+            data-action="filter:search"
+            value="${filters.search || ''}"
+            autofocus
+          >
+          <div class="chip-row">
+            <button class="chip ${filters.category === 'today' ? 'chip-active' : ''}" data-action="filter:category" data-category="today">🌙 Tonight</button>
+            <button class="chip ${filters.category === 'tomorrow' ? 'chip-active' : ''}" data-action="filter:category" data-category="tomorrow">Tomorrow</button>
+            <button class="chip ${filters.category === 'hot' ? 'chip-active' : ''}" data-action="filter:category" data-category="hot">🔥 Hot</button>
+            <button class="chip ${filters.category === 'nearby' ? 'chip-active' : ''}" data-action="filter:category" data-category="nearby">📍 Near You</button>
+            <button class="chip ${filters.category === 'mixer' ? 'chip-active' : ''}" data-action="filter:category" data-category="mixer">🥂 Mixer</button>
+            <button class="chip ${filters.category === 'party' ? 'chip-active' : ''}" data-action="filter:category" data-category="party">🍸 Party</button>
+          </div>
+        </div>
+
+        <div id="events-grid" class="cards-flow glass-card">
           ${filteredEvents.length ? 
-            filteredEvents.map(event => this.renderEvent(event, view)).join('') :
-            '<div class="empty-state">No events found</div>'
+            filteredEvents.map(event => this.renderProfessionalEventCard(event)).join('') :
+            '<div class="glass-card empty-state professional-dashboard">No parties tonight — check back tomorrow!</div>'
           }
         </div>
-      </div>
+
+        <div id="install-ftue" class="install-card" hidden>
+          <div class="emoji">📱</div>
+          <h3>Add to Home Screen</h3>
+          <p class="muted">Faster launch, offline support, and calendar badges.</p>
+          <div id="ios-hint" class="hint" hidden>
+            Open <span class="ios-chip">Share ▁↑</span> → <b>Add to Home Screen</b>
+          </div>
+          <div class="actions">
+            <button id="install-now" class="btn-premium">Install</button>
+            <button id="install-later" class="btn-glass">Later</button>
+          </div>
+        </div>
+      </section>
     `;
   }
 

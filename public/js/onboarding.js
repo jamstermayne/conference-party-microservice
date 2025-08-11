@@ -67,7 +67,7 @@ class OnboardingManager {
                 color: 'var(--secondary)',
                 questions: [
                     { key: 'company', label: 'Company', type: 'text', placeholder: 'Service company name' },
-                    { key: 'service', label: 'Service Type', type: 'select', options: ['Localization', 'QA Testing', 'Audio/Music', 'Outsourcing', 'Tools/Tech', 'Legal', 'Other'] },
+                    { key: 'service', label: 'Service Types', type: 'multiselect', options: ['Localization', 'QA Testing', 'Audio/Music', 'Outsourcing', 'Tools/Tech', 'Legal', 'Marketing', 'Analytics', 'Cloud Services', 'Other'] },
                     { key: 'scale', label: 'Company Size', type: 'select', options: ['1-10', '11-50', '51-200', '200+'] },
                     { key: 'clients', label: 'Client Focus', type: 'select', options: ['Indies', 'AA Studios', 'AAA Studios', 'Publishers', 'All'] }
                 ],
@@ -285,6 +285,24 @@ class OnboardingManager {
             `;
         }
         
+        if (question.type === 'multiselect') {
+            return `
+                <div class="form-group">
+                    <label class="form-label">${question.label}</label>
+                    <p class="form-help">Select all that apply</p>
+                    <div class="multiselect-options" id="${question.key}">
+                        ${question.options.map(opt => `
+                            <label class="multiselect-option">
+                                <input type="checkbox" name="${question.key}" value="${opt}">
+                                <span class="checkmark"></span>
+                                <span class="option-text">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
         return '';
     }
 
@@ -326,6 +344,9 @@ class OnboardingManager {
                     <div class="success-icon">✨</div>
                     <h3>You're all set!</h3>
                     <p class="text-muted">Ready to discover amazing events at Gamescom 2025</p>
+                    <button class="btn btn-primary btn-large" id="completeOnboardingBtn" style="margin-top: 20px;">
+                        Start Exploring Events →
+                    </button>
                 </div>
             </div>
         `;
@@ -386,7 +407,13 @@ class OnboardingManager {
             this.saveProfileData();
             this.currentStep = 3;
             this.updateContent(this.renderInterestsStep());
-            document.getElementById('nextBtn').textContent = 'Complete Setup →';
+            // Hide the navigation buttons since we have a custom completion button
+            const nextBtn = document.getElementById('nextBtn');
+            const backBtn = document.getElementById('backBtn');
+            if (nextBtn) nextBtn.style.display = 'none';
+            if (backBtn) backBtn.style.display = 'none';
+            // Add listener for the completion button
+            this.attachCompletionListener();
         } else if (this.currentStep === 3) {
             this.saveInterests();
             this.completeOnboarding();
@@ -412,6 +439,23 @@ class OnboardingManager {
             this.updateProgress();
             this.updateNavButtons();
         }
+    }
+
+    attachCompletionListener() {
+        setTimeout(() => {
+            const completeBtn = document.getElementById('completeOnboardingBtn');
+            if (completeBtn) {
+                completeBtn.addEventListener('click', () => {
+                    console.log('Completion button clicked!');
+                    this.saveInterests();
+                    this.completeOnboarding();
+                });
+                console.log('Completion button listener attached');
+            } else {
+                console.warn('Completion button not found, retrying...');
+                setTimeout(() => this.attachCompletionListener(), 100);
+            }
+        }, 10);
     }
 
     attachPersonaListeners() {
@@ -504,14 +548,33 @@ class OnboardingManager {
         const form = document.getElementById('profileForm');
         if (!form) return;
         
-        const formData = new FormData(form);
         const profile = {};
         
-        for (let [key, value] of formData.entries()) {
-            profile[key] = value;
+        // Handle regular form inputs
+        const inputs = form.querySelectorAll('input[type="text"], select');
+        inputs.forEach(input => {
+            if (input.value) {
+                profile[input.name] = input.value;
+            }
+        });
+        
+        // Handle multiselect checkboxes
+        const checkboxGroups = {};
+        const checkboxes = form.querySelectorAll('input[type="checkbox"]:checked');
+        checkboxes.forEach(checkbox => {
+            if (!checkboxGroups[checkbox.name]) {
+                checkboxGroups[checkbox.name] = [];
+            }
+            checkboxGroups[checkbox.name].push(checkbox.value);
+        });
+        
+        // Add checkbox groups to profile
+        for (let [key, values] of Object.entries(checkboxGroups)) {
+            profile[key] = values;
         }
         
         this.userData.profile = profile;
+        console.log('Saved profile data:', profile);
     }
 
     saveInterests() {
@@ -568,8 +631,8 @@ class OnboardingManager {
     }
 
     redirectToMain() {
-        // Navigate to main events page with persona context
-        window.location.href = `/#events?persona=${this.userData.persona || ''}`;
+        // Navigate to main app dashboard with persona context
+        window.location.href = `/#home?persona=${this.userData.persona || ''}`;
     }
 
     updateContent(html) {

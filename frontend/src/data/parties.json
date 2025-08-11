@@ -1,0 +1,222 @@
+[
+  {
+    "id": "gc2025-01",
+    "eventId": "gc2025-01",
+    "title": "Velocity Launch Party",
+    "name": "Velocity Launch Party",
+    "description": "Exclusive launch party for the Velocity networking platform. Meet the founding team, top industry professionals, and enjoy premium cocktails.",
+    "venue": "Palladium, Cologne",
+    "location": "Palladium, Cologne",
+    "address": "Schanzenstraße 37, 51063 Köln, Germany",
+    "start": "2025-08-20T19:00:00Z",
+    "startTime": "2025-08-20T19:00:00Z",
+    "end": "2025-08-21T02:00:00Z",
+    "endTime": "2025-08-21T02:00:00Z",
+    "persona": {
+      "dev": 25,
+      "pub": 35,
+      "inv": 20,
+      "sp": 20
+    },
+    "tags": ["exclusive", "launch", "networking", "premium"],
+    "rsvp": "required"
+  },
+  {
+    "id": "gc2025-02",
+    "eventId": "gc2025-02",
+    "title": "Developer Mixer",
+    "name": "Developer Mixer",
+    "description": "Casual networking event for game developers, engineers, and technical professionals. Share knowledge, discuss tech stacks, and build connections.",
+    "venue": "Hellers Brauhaus, Cologne",
+    "location": "Hellers Brauhaus, Cologne",
+    "address": "Roonstraße 33, 50674 Köln, Germany",
+    "start": "2025-08-21T18:30:00Z",
+    "startTime": "2025-08-21T18:30:00Z",
+    "end": "2025-08-21T23:00:00Z",
+    "endTime": "2025-08-21T23:00:00Z",
+    "persona": {
+      "dev": 80,
+      "pub": 10,
+      "inv": 5,
+      "sp": 5
+    },
+    "tags": ["developers", "technical", "casual", "beer"],
+    "rsvp": "optional"
+  },
+  {
+    "id": "gc2025-03",
+    "eventId": "gc2025-03",
+    "title": "Publishers' Roundtable",
+    "name": "Publishers' Roundtable",
+    "description": "High-level discussions on publishing trends, market insights, and partnership opportunities. Features keynote presentations and panel discussions.",
+    "venue": "Marriott Hotel Cologne",
+    "location": "Marriott Hotel Cologne",
+    "address": "Johannisstraße 76-80, 50668 Köln, Germany",
+    "start": "2025-08-22T15:00:00Z",
+    "startTime": "2025-08-22T15:00:00Z",
+    "end": "2025-08-22T20:00:00Z",
+    "endTime": "2025-08-22T20:00:00Z",
+    "persona": {
+      "dev": 5,
+      "pub": 70,
+      "inv": 15,
+      "sp": 10
+    },
+    "tags": ["publishers", "business", "formal", "roundtable"],
+    "rsvp": "required"
+  },
+  {
+    "id": "gc2025-04",
+    "eventId": "gc2025-04",
+    "title": "Investor Connect",
+    "name": "Investor Connect",
+    "description": "Exclusive investor networking event. Connect with VCs, angel investors, and funding partners. Pitch sessions and one-on-one meetings available.",
+    "venue": "Excelsior Hotel Ernst",
+    "location": "Excelsior Hotel Ernst",
+    "address": "Trankgasse 1-5, 50667 Köln, Germany",
+    "start": "2025-08-23T17:00:00Z",
+    "startTime": "2025-08-23T17:00:00Z",
+    "end": "2025-08-23T22:00:00Z",
+    "endTime": "2025-08-23T22:00:00Z",
+    "persona": {
+      "dev": 20,
+      "pub": 20,
+      "inv": 50,
+      "sp": 10
+    },
+    "tags": ["investors", "funding", "exclusive", "business"],
+    "rsvp": "invitation-only"
+  },
+  {
+    "id": "gc2025-05",
+    "eventId": "gc2025-05",
+    "title": "Service Provider Summit",
+    "name": "Service Provider Summit",
+    "description": "Networking event for service providers including marketing agencies, QA companies, localization services, and other gaming industry service companies.",
+    "venue": "Dorint Hotel Cologne",
+    "location": "Dorint Hotel Cologne",
+    "address": "Hansaring 100, 50670 Köln, Germany",
+    "start": "2025-08-24T14:00:00Z",
+    "startTime": "2025-08-24T14:00:00Z",
+    "end": "2025-08-24T19:00:00Z",
+    "endTime": "2025-08-24T19:00:00Z",
+    "persona": {
+      "dev": 10,
+      "pub": 25,
+      "inv": 5,
+      "sp": 60
+    },
+    "tags": ["services", "b2b", "partnerships", "summit"],
+    "rsvp": "required"
+  },
+  {
+    "id": "gc2025-06",
+    "eventId": "gc2025-06",
+    "title": "Indie Game Showcase After-Party",
+    "name": "Indie Game Showcase After-Party",
+    "description": "Celebrate independent game development with fellow indie creators. Relaxed atmosphere with craft beer, local food, and great conversations.",
+    "venue": "Brauerei zur Malzmühle",
+    "location": "Brauerei zur Malzmühle",
+    "address": "Heumarkt 6, 50667 Köln, Germany",
+    "start": "2025-08-21T21:00:00Z",
+    "startTime": "2025-08-21T21:00:00Z",
+    "end": "2025-08-22T01:00:00Z",
+    "endTime": "2025-08-22T01:00:00Z",
+    "persona": {
+      "dev": 60,
+      "pub": 20,
+      "inv": 10,
+      "sp": 10
+    },
+    "tags": ["indie", "casual", "showcase", "craft-beer"],
+    "rsvp": "optional"
+  },
+  {
+    "id": "gc2025-07",
+    "eventId": "gc2025-07",
+    "title": "Women in Gaming Networking",
+    "name": "Women in Gaming Networking",
+    "description": "Empowering networking event for women in the gaming industry. Professional development, mentorship opportunities, and industry discussions.",
+    "venue": "Hilton Cologne",
+    "location": "Hilton Cologne",
+    "address": "Marzellenstraße 13-17, 50667 Köln, Germany",
+    "start": "2025-08-22T18:00:00Z",
+    "startTime": "2025-08-22T18:00:00Z",
+    "end": "2025-08-22T22:00:00Z",
+    "endTime": "2025-08-22T22:00:00Z",
+    "persona": {
+      "dev": 30,
+      "pub": 30,
+      "inv": 20,
+      "sp": 20
+    },
+    "tags": ["women", "diversity", "mentorship", "professional"],
+    "rsvp": "required"
+  },
+  {
+    "id": "gc2025-08",
+    "eventId": "gc2025-08",
+    "title": "Mobile Gaming Meetup",
+    "name": "Mobile Gaming Meetup",
+    "description": "Focus on mobile gaming trends, monetization strategies, and user acquisition. Perfect for developers and publishers in the mobile space.",
+    "venue": "PAPA Restaurant & Bar",
+    "location": "PAPA Restaurant & Bar",
+    "address": "Zülpicher Str. 28, 50674 Köln, Germany",
+    "start": "2025-08-23T19:30:00Z",
+    "startTime": "2025-08-23T19:30:00Z",
+    "end": "2025-08-23T23:30:00Z",
+    "endTime": "2025-08-23T23:30:00Z",
+    "persona": {
+      "dev": 40,
+      "pub": 45,
+      "inv": 10,
+      "sp": 5
+    },
+    "tags": ["mobile", "monetization", "trends", "meetup"],
+    "rsvp": "optional"
+  },
+  {
+    "id": "gc2025-09",
+    "eventId": "gc2025-09",
+    "title": "VR/AR Innovation Night",
+    "name": "VR/AR Innovation Night",
+    "description": "Explore the latest in virtual and augmented reality gaming. Live demos, tech discussions, and networking with VR/AR pioneers.",
+    "venue": "Museum Ludwig",
+    "location": "Museum Ludwig",
+    "address": "Heinrich-Böll-Platz, 50667 Köln, Germany",
+    "start": "2025-08-24T19:00:00Z",
+    "startTime": "2025-08-24T19:00:00Z",
+    "end": "2025-08-24T23:00:00Z",
+    "endTime": "2025-08-24T23:00:00Z",
+    "persona": {
+      "dev": 55,
+      "pub": 25,
+      "inv": 15,
+      "sp": 5
+    },
+    "tags": ["VR", "AR", "innovation", "tech", "demos"],
+    "rsvp": "required"
+  },
+  {
+    "id": "gc2025-10",
+    "eventId": "gc2025-10",
+    "title": "Closing Night Gala",
+    "name": "Closing Night Gala",
+    "description": "Grand finale celebration of Gamescom 2025. Black-tie event with awards ceremony, live entertainment, and premium dining experience.",
+    "venue": "Gürzenich Cologne",
+    "location": "Gürzenich Cologne",
+    "address": "Martinstraße 29-37, 50667 Köln, Germany",
+    "start": "2025-08-25T19:00:00Z",
+    "startTime": "2025-08-25T19:00:00Z",
+    "end": "2025-08-26T02:00:00Z",
+    "endTime": "2025-08-26T02:00:00Z",
+    "persona": {
+      "dev": 25,
+      "pub": 30,
+      "inv": 25,
+      "sp": 20
+    },
+    "tags": ["gala", "black-tie", "awards", "closing", "premium"],
+    "rsvp": "invitation-only"
+  }
+]

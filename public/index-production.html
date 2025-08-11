@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Primary Meta -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1A1D21">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Velocity — Private conference parties & professional networking for Gamescom 2025">
+  <title>Velocity — Gamescom 2025</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png">
+
+  <!-- Social: Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Velocity — Gamescom 2025">
+  <meta property="og:description" content="Private conference parties & professional networking.">
+  <meta property="og:image" content="/social/share-default.png">
+  <meta property="og:url" content="https://conference-party-app.web.app">
+  
+  <!-- Social: Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Velocity — Gamescom 2025">
+  <meta name="twitter:description" content="Private conference parties & professional networking.">
+  <meta name="twitter:image" content="/social/share-default.png">
+  
+  <!-- SEO -->
+  <link rel="canonical" href="https://conference-party-app.web.app">
+  
+  <!-- Core Styles -->
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/design-system.css">
+  
+  <!-- Production Styles -->
+  <style>
+    /* Critical inline styles for fast initial paint */
+    body {
+      margin: 0;
+      background: #1A1D21;
+      color: #E1E1E3;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .app-loading {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1A1D21;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #3b82f6;
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 100;
+    }
+    
+    .skip-link:focus {
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  
+  <!-- App Shell -->
+  <div id="app" class="app">
+    <!-- Initial Loading State -->
+    <div class="app-loading" id="app-loading">
+      <div class="spinner"></div>
+    </div>
+    
+    <!-- Main Content (will be populated by JS) -->
+    <main id="main-content" tabindex="-1">
+      <!-- Content will be dynamically loaded here -->
+    </main>
+    
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav" id="bottom-nav" aria-label="Main navigation">
+      <button class="nav-tab" data-tab="now" aria-label="Now">
+        <span class="icon">🏠</span>
+        <span class="label">Now</span>
+      </button>
+      <button class="nav-tab" data-tab="people" aria-label="People">
+        <span class="icon">👥</span>
+        <span class="label">People</span>
+      </button>
+      <button class="nav-tab" data-tab="opportunities" aria-label="Opportunities">
+        <span class="icon">💼</span>
+        <span class="label">Opportunities</span>
+      </button>
+      <button class="nav-tab active" data-tab="events" aria-label="Events">
+        <span class="icon">🎉</span>
+        <span class="label">Events</span>
+      </button>
+      <button class="nav-tab" data-tab="me" aria-label="Profile">
+        <span class="icon">👤</span>
+        <span class="label">Me</span>
+        <span class="badge" data-role="invite-badge" id="invite-counter"></span>
+      </button>
+    </nav>
+  </div>
+  
+  <!-- PWA Install Card -->
+  <div id="install-card" class="install-card" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc" aria-hidden="true">
+    <div class="install-content" tabindex="-1">
+      <img src="/icons/icon-192.png" alt="Velocity App Icon" class="install-icon"/>
+      <h3 id="install-title">Install Velocity</h3>
+      <p id="install-desc">Add to your home screen for instant access to parties & invites.</p>
+      <div class="install-benefits">
+        <div class="benefit">✓ Offline access</div>
+        <div class="benefit">✓ Push notifications</div>
+        <div class="benefit">✓ +2 bonus invites</div>
+      </div>
+      <div class="button-row">
+        <button id="install-btn" class="btn btn-primary">Install Now</button>
+        <button id="install-dismiss" class="btn btn-secondary">Not Now</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- iOS Install Hint -->
+  <div id="install-ios-hint" class="install-ios-hint" aria-hidden="true">
+    <span class="hint-arrow">↓</span>
+    <span class="hint-text">Tap Share → Add to Home Screen</span>
+  </div>
+  
+  <!-- Toast Container (will be created by JS if needed) -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+  
+  <!-- Core JavaScript Modules -->
+  <script type="module">
+    // Initialize service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('SW registered:', reg.scope))
+        .catch(err => console.warn('SW registration failed:', err));
+    }
+    
+    // Remove loading screen once app is ready
+    import('./js/events.js').then(({ default: Events }) => {
+      Events.on('app:ready', () => {
+        const loader = document.getElementById('app-loading');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => loader.remove(), 300);
+        }
+      });
+    });
+  </script>
+  
+  <!-- Load App Modules -->
+  <script type="module" src="/js/store.js"></script>
+  <script type="module" src="/js/events.js"></script>
+  <script type="module" src="/js/app-wireup-production.js"></script>
+  
+  <!-- Auth View Template -->
+  <template id="auth-view">
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-logo">
+          <img src="/icons/icon-192.png" alt="Velocity" width="80" height="80">
+        </div>
+        <h1>Welcome to Velocity</h1>
+        <p>Your private conference social network for Gamescom 2025</p>
+        
+        <div class="auth-buttons">
+          <button id="btn-google" class="btn btn-auth btn-google">
+            <svg class="auth-icon" viewBox="0 0 24 24" width="20" height="20">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Sign in with Google
+          </button>
+          
+          <button id="btn-linkedin" class="btn btn-auth btn-linkedin">
+            <svg class="auth-icon" viewBox="0 0 24 24" width="20" height="20">
+              <path fill="#0077B5" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+            </svg>
+            Sign in with LinkedIn
+          </button>
+          
+          <div class="auth-divider">or</div>
+          
+          <button id="btn-demo" class="btn btn-secondary">
+            Continue as Demo User
+          </button>
+        </div>
+        
+        <p class="auth-footer">
+          By signing in, you agree to our Terms of Service and Privacy Policy
+        </p>
+      </div>
+    </div>
+  </template>
+  
+  <!-- Events View Template -->
+  <template id="events-view">
+    <div class="events-container">
+      <header class="events-header">
+        <h1>Tonight's Parties</h1>
+        <div class="search-bar">
+          <input type="search" class="search-input" placeholder="Search parties..." aria-label="Search parties">
+        </div>
+      </header>
+      <div id="event-list" class="event-list">
+        <!-- Events will be loaded here -->
+      </div>
+    </div>
+  </template>
+  
+  <!-- Onboarding View Template -->
+  <template id="onboarding-view">
+    <div class="onboarding-container">
+      <div class="onboarding-card">
+        <div class="onboarding-step" data-step="1">
+          <h2>Welcome to Velocity!</h2>
+          <p>Let's get you set up in 30 seconds</p>
+          <button class="btn btn-primary" data-action="next">Get Started</button>
+        </div>
+        
+        <div class="onboarding-step hidden" data-step="2">
+          <h2>What brings you to Gamescom?</h2>
+          <div class="role-grid">
+            <button class="role-option" data-role="developer">
+              <span class="role-icon">💻</span>
+              <span class="role-label">Developer</span>
+            </button>
+            <button class="role-option" data-role="publisher">
+              <span class="role-icon">📚</span>
+              <span class="role-label">Publisher</span>
+            </button>
+            <button class="role-option" data-role="investor">
+              <span class="role-icon">💰</span>
+              <span class="role-label">Investor</span>
+            </button>
+            <button class="role-option" data-role="service">
+              <span class="role-icon">🛠</span>
+              <span class="role-label">Service Provider</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="onboarding-step hidden" data-step="3">
+          <h2>What are you looking for?</h2>
+          <div class="intent-options">
+            <label class="intent-option">
+              <input type="checkbox" value="networking">
+              <span>Professional networking</span>
+            </label>
+            <label class="intent-option">
+              <input type="checkbox" value="parties">
+              <span>Exclusive parties</span>
+            </label>
+            <label class="intent-option">
+              <input type="checkbox" value="opportunities">
+              <span>Business opportunities</span>
+            </label>
+            <label class="intent-option">
+              <input type="checkbox" value="meetings">
+              <span>1-on-1 meetings</span>
+            </label>
+          </div>
+          <button class="btn btn-primary" data-action="next">Continue</button>
+        </div>
+        
+        <div class="onboarding-step hidden" data-step="4">
+          <h2>All set!</h2>
+          <p>You have <strong>10 invites</strong> to share with other professionals</p>
+          <button class="btn btn-primary" data-action="complete">View Parties</button>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <!-- Additional inline styles for production -->
+  <style>
+    /* Hide elements initially */
+    .hidden { display: none !important; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+    
+    /* Bottom navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      background: #2A2D31;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      z-index: 1000;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .nav-tab {
+      flex: 1;
+      padding: 8px 4px;
+      background: none;
+      border: none;
+      color: #8B8D90;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+    }
+    
+    .nav-tab.active {
+      color: #3b82f6;
+    }
+    
+    .nav-tab .icon {
+      font-size: 20px;
+    }
+    
+    .nav-tab .label {
+      font-size: 11px;
+    }
+    
+    .nav-tab .badge {
+      position: absolute;
+      top: 4px;
+      right: calc(50% - 16px);
+      background: #f59e0b;
+      color: white;
+      font-size: 10px;
+      padding: 2px 4px;
+      border-radius: 10px;
+      min-width: 16px;
+      text-align: center;
+    }
+    
+    /* Button styles */
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #2563eb;
+    }
+    
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    
+    .btn-auth {
+      width: 100%;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .auth-icon {
+      position: absolute;
+      left: 16px;
+    }
+    
+    /* Toast styles */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10000;
+      pointer-events: none;
+    }
+    
+    .toast {
+      background: #2A2D31;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.3s;
+      pointer-events: auto;
+    }
+    
+    .toast.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .toast-success { background: #10b981; }
+    .toast-error { background: #ef4444; }
+    .toast-warning { background: #f59e0b; }
+    .toast-info { background: #3b82f6; }
+    
+    /* Install card */
+    .install-card {
+      position: fixed;
+      bottom: 100px;
+      left: 20px;
+      right: 20px;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s;
+      pointer-events: none;
+    }
+    
+    .install-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    
+    .install-content {
+      text-align: center;
+    }
+    
+    .install-icon {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+    }
+    
+    .install-benefits {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin: 16px 0;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .button-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    
+    .button-row .btn {
+      flex: 1;
+    }
+    
+    /* iOS hint */
+    .install-ios-hint {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(0,0,0,0.9);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    
+    .install-ios-hint.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    .hint-arrow {
+      animation: bounce 1s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    
+    /* Responsive adjustments */
+    @media (min-width: 768px) {
+      .bottom-nav {
+        display: none;
+      }
+      
+      .install-card {
+        max-width: 400px;
+        left: auto;
+        right: 20px;
+      }
+    }
+    
+    /* Dark mode adjustments */
+    @media (prefers-color-scheme: dark) {
+      .install-card {
+        background: #2A2D31;
+        color: white;
+      }
+      
+      .install-benefits {
+        color: #aaa;
+      }
+    }
+  </style>
+</body>
+</html>

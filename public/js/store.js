@@ -28,6 +28,9 @@ let state = {
     matches: [],
     saved: []
   },
+  
+  // Enhanced invite system state
+  pending_invite: null, // { code, inviterId, inviterName, timestamp, validated }
   ui: {
     modal: null,
     notification: null,
@@ -46,9 +49,18 @@ const persist = (() => {
     clearTimeout(t);
     t = setTimeout(() => {
       try {
-        localStorage.setItem(LS_KEY, JSON.stringify(state));
+        const serialized = JSON.stringify(state);
+        if (serialized.length > 5000000) { // 5MB limit
+          console.warn('State too large, clearing old data');
+          this.reset();
+          return;
+        }
+        localStorage.setItem(LS_KEY, serialized);
       } catch (error) {
         console.warn('Failed to persist state:', error);
+        if (error.name === 'QuotaExceededError') {
+          this.reset();
+        }
       }
     }, 250);
   };
@@ -75,10 +87,26 @@ export const Store = {
     return path.split('.').reduce((obj, key) => obj?.[key], state);
   },
 
-  set(patch) {
-    state = { ...state, ...patch };
-    persist();
-    subs.forEach(fn => fn(state));
+  set(keyOrPatch, value) {
+    if (typeof keyOrPatch === 'string') {
+      // Handle Store.set('key', value) pattern
+      this.patch(keyOrPatch, value);
+    } else {
+      // Handle Store.set({key: value}) pattern
+      state = { ...state, ...keyOrPatch };
+      persist();
+      subs.forEach(fn => fn(state));
+    }
+  },
+
+  remove(key) {
+    if (key in state) {
+      const newState = { ...state };
+      delete newState[key];
+      state = newState;
+      persist();
+      subs.forEach(fn => fn(state));
+    }
   },
 
   patch(path, value) {

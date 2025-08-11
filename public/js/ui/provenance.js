@@ -271,4 +271,10 @@ export const provenance = {
   }
 };
 
+// Export chips function for EventController compatibility
+export const chips = (chipList) => {
+  if (!chipList || !Array.isArray(chipList)) return '';
+  return chipList.map(chip => `<span class="chip ghost">${chip}</span>`).join('');
+};
+
 export default provenance;

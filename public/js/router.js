@@ -1,8 +1,85 @@
 /**
- * ROUTER MODULE
- * Single Page Application routing with history API
- * Handles navigation between views in the Professional Intelligence Platform
+ * PRODUCTION SPA ROUTER MODULE
+ * Ensures /invite/:code routes hydrate without full reload
+ * Centralizes hash/HTML5 routing and fires controller events
+ * Enhanced with GPT-5 architecture for Professional Intelligence Platform
  */
+
+import { Events } from './events.js';
+
+/**
+ * Parse pathname into route object with parameters (GPT-5 enhanced)
+ * @param {string} pathname - URL pathname to parse
+ * @returns {object} Route object with name and parameters
+ */
+function parseRoute(pathname) {
+  // Supports: /, /events, /people, /invite/:code, /auth/linkedin/callback, etc.
+  const parts = pathname.replace(/\/+$/, '').split('/').filter(Boolean);
+  
+  if (parts.length === 0) return { name: 'home' };
+  if (parts[0] === 'invite' && parts[1]) return { name: 'invite', code: parts[1] };
+  if (parts[0] === 'events') return { name: 'events' };
+  if (parts[0] === 'people') return { name: 'people' };
+  if (parts[0] === 'opportunities') return { name: 'opportunities' };
+  if (parts[0] === 'calendar') return { name: 'calendar' };
+  if (parts[0] === 'invites') return { name: 'invites' };
+  if (parts[0] === 'me') return { name: 'me' };
+  if (parts[0] === 'settings') return { name: 'settings' };
+  if (parts[0] === 'auth' && parts[1] === 'linkedin' && parts[2] === 'callback') {
+    return { name: 'li_callback' };
+  }
+  
+  return { name: 'unknown', path: pathname };
+}
+
+/**
+ * Navigate to a new route using HTML5 history API (GPT-5 enhanced)
+ * @param {string} path - Path to navigate to
+ */
+export function navigate(path) {
+  window.history.pushState({}, '', path);
+  route();
+}
+
+/**
+ * Process current route and emit route change events (GPT-5 enhanced)
+ */
+export function route() {
+  const currentRoute = parseRoute(window.location.pathname);
+  
+  console.log('🧭 Route change:', currentRoute);
+  
+  // Update page title based on route
+  const titleMap = {
+    home: 'Parties',
+    events: 'Events',
+    people: 'People', 
+    opportunities: 'Opportunities',
+    calendar: 'Calendar',
+    invites: 'Invites',
+    me: 'Profile',
+    settings: 'Settings',
+    invite: 'Invitation',
+    li_callback: 'LinkedIn Authorization'
+  };
+  
+  const pageTitle = document.getElementById('page-title');
+  if (pageTitle) {
+    pageTitle.textContent = titleMap[currentRoute.name] || 'Velocity';
+  }
+  
+  // Emit route change event for controllers to handle
+  Events.emit('route:change', currentRoute);
+  
+  // Track route changes
+  if (window.gtag) {
+    gtag('event', 'page_view', {
+      'page_title': titleMap[currentRoute.name] || 'Unknown',
+      'page_location': window.location.href,
+      'page_path': window.location.pathname
+    });
+  }
+}
 
 class Router {
   constructor() {
@@ -517,6 +594,9 @@ export function mountRouter() {
   };
 }
 
+// Export GPT-5 enhanced functions
+export { parseRoute, navigate, route };
+
 // Export for ES modules
 export default router;
 
@@ -524,4 +604,16 @@ export default router;
 if (typeof window !== 'undefined') {
   window.router = router;
   window.mountRouter = mountRouter;
+  
+  // Make GPT-5 functions available globally
+  window.Router = {
+    navigate,
+    route,
+    parseRoute
+  };
 }
+
+// Handle browser back/forward navigation (GPT-5)
+window.addEventListener('popstate', route);
+
+console.log('✅ Production SPA Router with GPT-5 enhancements loaded');

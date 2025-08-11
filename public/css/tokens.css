@@ -410,6 +410,15 @@
 
   /* === Focus === */
   --focus-ring: 0 0 0 2px rgba(107,123,255,.9), 0 0 0 6px rgba(107,123,255,.25);
+
+  /* === Professional Intelligence Platform Variables === */
+  /* Gold invite system for prestige + scarcity */
+  --invited-gold-bg: rgba(255,215,0,.18);
+  --invited-gold-br: rgba(255,215,0,.45);
+  --invited-gold-fg: #ffd700;
+
+  /* Motion timing for Jobs/Ive feel */
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
 }
 
 @media (prefers-reduced-motion: reduce){

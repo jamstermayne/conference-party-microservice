@@ -690,6 +690,37 @@ class ConferenceManager {
     }
 
     /**
+     * Create conference selector
+     */
+    createConferenceSelector() {
+        // Check if selector already exists
+        const existingSelector = document.getElementById('conferenceSelector');
+        if (existingSelector) return existingSelector;
+        
+        const selector = document.createElement('select');
+        selector.id = 'conferenceSelector';
+        selector.className = 'conference-selector';
+        
+        // Add default Gamescom 2025 option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = 'gamescom2025';
+        defaultOption.textContent = 'Gamescom 2025';
+        defaultOption.selected = true;
+        selector.appendChild(defaultOption);
+        
+        // Add other conference options if needed in the future
+        // For now, only Gamescom 2025 is available
+        
+        // Add change event listener
+        selector.addEventListener('change', (e) => {
+            console.log('Conference switched to:', e.target.value);
+            // Conference switching logic would go here
+        });
+        
+        return selector;
+    }
+
+    /**
      * Setup event listeners
      */
     setupEventListeners() {

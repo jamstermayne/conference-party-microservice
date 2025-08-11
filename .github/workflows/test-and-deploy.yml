@@ -159,7 +159,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Deploy to Firebase'
     needs: [lint-and-typecheck, test, performance, security]
-    if: false # Temporarily disabled - requires updated Firebase token
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
     steps:
     - name: Checkout code
@@ -189,7 +189,7 @@ jobs:
         npm install -g firebase-tools
         firebase deploy --only functions --project conference-party-app
       env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
       continue-on-error: false
 
     - name: Deploy to Firebase Hosting  
@@ -197,7 +197,7 @@ jobs:
       continue-on-error: true
       with:
         repoToken: ${{ secrets.GITHUB_TOKEN }}
-        firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
         projectId: conference-party-app
 
     - name: Verify deployment
@@ -242,7 +242,7 @@ jobs:
         time curl -s https://api-x2u6rwndvq-uc.a.run.app/health > /dev/null
         echo "Performance check completed"
 
-# Quality Gates
+  # Quality Gates
   quality-gate:
     runs-on: ubuntu-latest
     name: 'Quality Gate'

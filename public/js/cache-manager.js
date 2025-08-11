@@ -6,73 +6,234 @@
 
 class CacheManager {
     constructor() {
-        // Multi-layer cache architecture
+        // ⚡ OPTIMIZED: Multi-layer cache with memory leak prevention
         this.memoryCache = new Map(); // L1: In-memory cache
         this.sessionCache = new Map(); // L2: Session storage cache
         this.persistentCache = new Map(); // L3: localStorage cache (via StorageManager)
         
-        // Cache metadata
+        // 🛡️ Memory leak prevention
+        this.weakRefs = new WeakMap(); // Automatic GC for object references
+        this.timers = new Set(); // Track all timers for cleanup
+        this.eventListeners = new Map(); // Track event listeners for cleanup
+        
+        // Cache metadata with enhanced tracking
         this.cacheStats = {
             hits: 0,
             misses: 0,
             evictions: 0,
-            lastCleanup: Date.now()
+            lastCleanup: Date.now(),
+            memoryLeaksDetected: 0,
+            gcCollections: 0,
+            compressionSavings: 0
         };
         
-        // Cache configuration
-        this.config = {
-            maxMemoryEntries: 1000,
-            maxMemorySize: 10 * 1024 * 1024, // 10MB
-            ttlDefault: 5 * 60 * 1000, // 5 minutes
-            cleanupInterval: 60 * 1000, // 1 minute
-            dirtyBatchDelay: 200, // 200ms batch delay
-            compressionThreshold: 1024 // Compress items > 1KB
-        };
+        // 🎨 Adaptive configuration based on device capabilities
+        this.config = this.getAdaptiveConfig();
         
         // Cache invalidation system
         this.invalidationRules = new Map();
         this.dirtyKeys = new Set();
         this.batchTimeout = null;
         
-        // Performance monitoring
+        // 📊 Enhanced performance monitoring
         this.performanceMetrics = {
             avgReadTime: 0,
             avgWriteTime: 0,
             totalOperations: 0,
-            cacheEfficiency: 0
+            cacheEfficiency: 0,
+            memoryPressure: 0,
+            compressionRatio: 0,
+            batchEfficiency: 0
+        };
+        
+        // Memory pressure detection
+        this.memoryPressure = {
+            level: 'normal', // 'normal', 'moderate', 'critical'
+            lastCheck: Date.now(),
+            gcTriggerCount: 0
         };
         
         this.initialize();
     }
     
     /**
-     * Initialize cache manager
+     * 🎨 Get adaptive configuration based on device capabilities
+     */
+    getAdaptiveConfig() {
+        const deviceMemory = navigator.deviceMemory || 4; // GB
+        const connection = navigator.connection?.effectiveType || '4g';
+        const isLowEndDevice = deviceMemory <= 2;
+        const isSlowConnection = ['slow-2g', '2g', '3g'].includes(connection);
+        
+        return {
+            maxMemoryEntries: isLowEndDevice ? 500 : 1000,
+            maxMemorySize: isLowEndDevice ? 5 * 1024 * 1024 : 10 * 1024 * 1024, // 5MB or 10MB
+            ttlDefault: isSlowConnection ? 10 * 60 * 1000 : 5 * 60 * 1000, // 10min or 5min
+            cleanupInterval: isLowEndDevice ? 30 * 1000 : 60 * 1000, // 30s or 60s
+            dirtyBatchDelay: isSlowConnection ? 500 : 200, // 500ms or 200ms
+            compressionThreshold: isLowEndDevice ? 512 : 1024, // 512B or 1KB
+            aggressiveGC: isLowEndDevice,
+            memoryPressureThreshold: isLowEndDevice ? 0.8 : 0.9
+        };
+    }
+    
+    /**
+     * ⚡ OPTIMIZED: Initialize cache manager with leak prevention
      */
     initialize() {
-        // Setup periodic cleanup
-        this.cleanupInterval = setInterval(() => {
+        // Setup periodic cleanup with proper cleanup tracking
+        const cleanupInterval = setInterval(() => {
             this.performCleanup();
         }, this.config.cleanupInterval);
+        this.timers.add(cleanupInterval);
+        
+        // Setup memory pressure monitoring
+        const memoryInterval = setInterval(() => {
+            this.checkMemoryPressure();
+        }, 15000); // Check every 15 seconds
+        this.timers.add(memoryInterval);
         
         // Setup invalidation rules
         this.setupInvalidationRules();
         
-        // Monitor memory usage
-        this.setupMemoryMonitoring();
-        
-        // Handle page visibility changes
-        document.addEventListener('visibilitychange', () => {
+        // 🛡️ Setup event listeners with cleanup tracking
+        const visibilityHandler = () => {
             if (document.hidden) {
                 this.flushDirtyData();
             }
-        });
+        };
+        document.addEventListener('visibilitychange', visibilityHandler);
+        this.eventListeners.set('visibilitychange', { element: document, handler: visibilityHandler });
         
-        // Handle before unload
-        window.addEventListener('beforeunload', () => {
+        const unloadHandler = () => {
             this.flushDirtyData();
-        });
+            this.destroy(); // Clean up on page unload
+        };
+        window.addEventListener('beforeunload', unloadHandler);
+        this.eventListeners.set('beforeunload', { element: window, handler: unloadHandler });
         
-        console.log('🚀 CacheManager initialized with multi-layer caching');
+        // Memory pressure detection
+        const memoryPressureHandler = (event) => {
+            console.warn('⚠️ Memory pressure detected, performing aggressive cleanup');
+            this.handleMemoryPressure(event.level || 'critical');
+        };
+        
+        // Modern browsers support memory pressure events
+        if ('onmemorywarning' in window) {
+            window.addEventListener('memorywarning', memoryPressureHandler);
+            this.eventListeners.set('memorywarning', { element: window, handler: memoryPressureHandler });
+        }
+        
+        console.log('🚀 CacheManager initialized with optimized multi-layer caching and leak prevention');
+        console.log(`🎨 Adaptive config:`, this.config);
+    }
+    
+    /**
+     * 🛡️ Check and handle memory pressure
+     */
+    checkMemoryPressure() {
+        const now = Date.now();
+        
+        // Skip if checked recently (debounce)
+        if (now - this.memoryPressure.lastCheck < 10000) return;
+        
+        const memoryUsage = this.getMemoryUsage();
+        const memoryLimit = this.config.maxMemorySize;
+        const pressure = memoryUsage / memoryLimit;
+        
+        let level = 'normal';
+        if (pressure > this.config.memoryPressureThreshold) {
+            level = 'critical';
+        } else if (pressure > 0.7) {
+            level = 'moderate';
+        }
+        
+        if (level !== this.memoryPressure.level) {
+            this.memoryPressure.level = level;
+            this.performanceMetrics.memoryPressure = pressure;
+            
+            if (level !== 'normal') {
+                console.warn(`📈 Memory pressure: ${level} (${Math.round(pressure * 100)}%)`);
+                this.handleMemoryPressure(level);
+            }
+        }
+        
+        this.memoryPressure.lastCheck = now;
+    }
+    
+    /**
+     * Handle memory pressure with different strategies
+     */
+    handleMemoryPressure(level) {
+        this.cacheStats.memoryLeaksDetected++;
+        
+        switch (level) {
+            case 'moderate':
+                // Gentle cleanup
+                this.performCleanup();
+                this.compressLargeItems();
+                break;
+                
+            case 'critical':
+                // Aggressive cleanup
+                this.performAggressiveCleanup();
+                this.triggerGarbageCollection();
+                break;
+        }
+    }
+    
+    /**
+     * 📊 Compress large items proactively
+     */
+    compressLargeItems() {
+        let compressionSavings = 0;
+        
+        for (const [key, entry] of this.memoryCache) {
+            if (!entry.compressed && entry.size > this.config.compressionThreshold) {
+                const originalSize = entry.size;
+                const compressedValue = this.compress(entry.value);
+                
+                if (compressedValue !== entry.value) {
+                    entry.value = compressedValue;
+                    entry.compressed = true;
+                    entry.size = this.estimateSize(compressedValue);
+                    
+                    compressionSavings += originalSize - entry.size;
+                }
+            }
+        }
+        
+        if (compressionSavings > 0) {
+            this.cacheStats.compressionSavings += compressionSavings;
+            console.log(`📊 Compressed large items, saved ${Math.round(compressionSavings / 1024)}KB`);
+        }
+    }
+    
+    /**
+     * Trigger garbage collection if available
+     */
+    triggerGarbageCollection() {
+        this.memoryPressure.gcTriggerCount++;
+        
+        // Force garbage collection if available (Chrome DevTools)
+        if (window.gc && typeof window.gc === 'function') {
+            window.gc();
+            this.cacheStats.gcCollections++;
+            console.log('🗜️ Forced garbage collection');
+        }
+        
+        // Clear weak references that may be holding onto memory
+        if (this.weakRefs instanceof WeakMap) {
+            // WeakMaps automatically clean up, but we can help by removing strong references
+            const keysToClean = [];
+            this.memoryCache.forEach((entry, key) => {
+                if (entry.lastAccessed < Date.now() - 300000) { // 5 minutes old
+                    keysToClean.push(key);
+                }
+            });
+            
+            keysToClean.forEach(key => this.memoryCache.delete(key));
+        }
     }
     
     /**
@@ -474,15 +635,11 @@ class CacheManager {
             totalRequests > 0 ? (this.cacheStats.hits / totalRequests) * 100 : 0;
     }
     
-    setupMemoryMonitoring() {
-        setInterval(() => {
-            const memoryUsage = this.getMemoryUsage();
-            if (memoryUsage > this.config.maxMemorySize) {
-                console.warn('Cache memory usage high, performing aggressive cleanup');
-                this.performAggressiveCleanup();
-            }
-        }, 30000); // Check every 30 seconds
-    }
+    /**
+     * 📊 Enhanced memory monitoring removed (integrated into checkMemoryPressure)
+     */
+    // Memory monitoring is now handled by checkMemoryPressure() method
+    // which provides more sophisticated memory pressure detection
     
     getMemoryUsage() {
         let totalSize = 0;
@@ -561,18 +718,79 @@ class CacheManager {
     }
     
     /**
-     * Cache statistics and monitoring
+     * 📊 Enhanced cache statistics and monitoring
      */
     getStats() {
+        const memoryUsage = this.getMemoryUsage();
+        const totalRequests = this.cacheStats.hits + this.cacheStats.misses;
+        
         return {
+            // Core stats
             ...this.cacheStats,
             ...this.performanceMetrics,
+            
+            // Memory stats
             memoryEntries: this.memoryCache.size,
-            memoryUsage: this.getMemoryUsage(),
-            memoryUsageMB: Math.round(this.getMemoryUsage() / (1024 * 1024) * 100) / 100,
+            memoryUsage: memoryUsage,
+            memoryUsageMB: Math.round(memoryUsage / (1024 * 1024) * 100) / 100,
+            memoryPressureLevel: this.memoryPressure.level,
+            memoryPressureRatio: Math.round((memoryUsage / this.config.maxMemorySize) * 100),
+            
+            // Cache efficiency
+            cacheHitRatio: totalRequests > 0 ? Math.round((this.cacheStats.hits / totalRequests) * 100) : 0,
+            
+            // Storage stats
             dirtyKeys: this.dirtyKeys.size,
-            sessionEntries: this.countSessionEntries()
+            sessionEntries: this.countSessionEntries(),
+            persistentEntries: this.persistentCache.size,
+            
+            // Performance stats
+            avgReadTimeMs: Math.round(this.performanceMetrics.avgReadTime * 100) / 100,
+            avgWriteTimeMs: Math.round(this.performanceMetrics.avgWriteTime * 100) / 100,
+            compressionSavingsKB: Math.round(this.cacheStats.compressionSavings / 1024),
+            
+            // Health indicators
+            activeTimers: this.timers.size,
+            activeEventListeners: this.eventListeners.size,
+            gcCollections: this.cacheStats.gcCollections,
+            
+            // Device info
+            deviceMemoryGB: navigator.deviceMemory || 'unknown',
+            connectionType: navigator.connection?.effectiveType || 'unknown',
+            
+            // Recommendations
+            recommendations: this.getRecommendations()
         };
+    }
+    
+    /**
+     * Get performance recommendations
+     */
+    getRecommendations() {
+        const recommendations = [];
+        const stats = this.getStats();
+        
+        if (stats.cacheHitRatio < 50) {
+            recommendations.push('Low cache hit ratio - consider increasing TTL or cache size');
+        }
+        
+        if (stats.memoryPressureRatio > 80) {
+            recommendations.push('High memory usage - consider reducing cache size or enabling compression');
+        }
+        
+        if (stats.avgReadTimeMs > 10) {
+            recommendations.push('Slow cache reads - consider optimizing data structure or reducing cache size');
+        }
+        
+        if (stats.memoryLeaksDetected > 10) {
+            recommendations.push('Potential memory leaks detected - consider manual cleanup or restarting cache');
+        }
+        
+        if (stats.dirtyKeys > 100) {
+            recommendations.push('Many pending writes - consider reducing batch delay or manual flush');
+        }
+        
+        return recommendations;
     }
     
     countSessionEntries() {
@@ -587,13 +805,28 @@ class CacheManager {
     }
     
     /**
-     * Manual cache operations
+     * ⚡ OPTIMIZED: Manual cache operations with leak prevention
      */
     delete(key) {
-        this.memoryCache.delete(key);
-        sessionStorage.removeItem(`cache_${key}`);
+        // Remove from all cache layers
+        const deleted = this.memoryCache.delete(key);
+        
+        try {
+            sessionStorage.removeItem(`cache_${key}`);
+        } catch (error) {
+            console.warn('Failed to remove from session storage:', error);
+        }
+        
+        // Schedule persistent deletion
         this.dirtyKeys.add(key);
         this.scheduleBatchWrite(key, null);
+        
+        // Clean up weak references
+        if (this.weakRefs.has(key)) {
+            this.weakRefs.delete(key);
+        }
+        
+        return deleted;
     }
     
     clear() {
@@ -623,27 +856,63 @@ class CacheManager {
     }
     
     /**
-     * Cleanup on destruction
+     * 🛡️ ENHANCED: Cleanup with comprehensive leak prevention
      */
     destroy() {
+        console.log('🧹 CacheManager cleanup starting...');
+        
+        // Flush any pending data
         this.flushDirtyData();
         
-        if (this.cleanupInterval) {
-            clearInterval(this.cleanupInterval);
-        }
+        // Clear all timers to prevent memory leaks
+        this.timers.forEach(timer => {
+            clearInterval(timer);
+            clearTimeout(timer);
+        });
+        this.timers.clear();
         
+        // Remove all event listeners to prevent memory leaks
+        this.eventListeners.forEach(({ element, handler }, eventType) => {
+            try {
+                element.removeEventListener(eventType, handler);
+            } catch (error) {
+                console.warn(`Failed to remove event listener ${eventType}:`, error);
+            }
+        });
+        this.eventListeners.clear();
+        
+        // Clear batch timeout
         if (this.batchTimeout) {
             clearTimeout(this.batchTimeout);
+            this.batchTimeout = null;
         }
         
+        // Clear all cache layers
         this.clear();
+        
+        // Clear weak references
+        if (this.weakRefs instanceof WeakMap) {
+            // WeakMaps automatically clean up, but we help by removing references
+            this.weakRefs = new WeakMap();
+        }
+        
+        // Final stats
+        const stats = this.getStats();
+        console.log('📊 Final cache stats:', {
+            totalOperations: stats.totalOperations,
+            cacheEfficiency: Math.round(stats.cacheEfficiency),
+            memoryLeaksDetected: stats.memoryLeaksDetected,
+            compressionSavings: Math.round(stats.compressionSavings / 1024) + 'KB'
+        });
+        
+        console.log('✅ CacheManager cleanup completed');
     }
 }
 
 // Create global instance
 window.CacheManager = new CacheManager();
 
-// High-level cache interface for easy usage
+// ⚡ OPTIMIZED: High-level cache interface with enhanced utilities
 window.Cache = {
     get: (key, options) => window.CacheManager.get(key, options),
     set: (key, value, options) => window.CacheManager.set(key, value, options),
@@ -661,8 +930,58 @@ window.Cache = {
     },
     
     forget: (key) => window.CacheManager.delete(key),
+    flush: () => window.CacheManager.flushDirtyData(),
     
-    flush: () => window.CacheManager.flushDirtyData()
+    // ⚡ Performance and debugging utilities
+    health: () => {
+        const stats = window.CacheManager.getStats();
+        return {
+            status: stats.memoryPressureLevel === 'normal' ? 'healthy' : 'warning',
+            memoryUsage: `${stats.memoryUsageMB}MB / ${Math.round(window.CacheManager.config.maxMemorySize / (1024 * 1024))}MB`,
+            efficiency: `${stats.cacheHitRatio}%`,
+            recommendations: stats.recommendations
+        };
+    },
+    
+    optimize: () => {
+        window.CacheManager.compressLargeItems();
+        window.CacheManager.performCleanup();
+        return 'Cache optimization completed';
+    },
+    
+    benchmark: async (iterations = 1000) => {
+        const testKey = 'benchmark_test';
+        const testData = { test: 'data', timestamp: Date.now() };
+        
+        // Write benchmark
+        const writeStart = performance.now();
+        for (let i = 0; i < iterations; i++) {
+            await window.CacheManager.set(`${testKey}_${i}`, testData);
+        }
+        const writeTime = performance.now() - writeStart;
+        
+        // Read benchmark
+        const readStart = performance.now();
+        for (let i = 0; i < iterations; i++) {
+            await window.CacheManager.get(`${testKey}_${i}`);
+        }
+        const readTime = performance.now() - readStart;
+        
+        // Cleanup benchmark data
+        for (let i = 0; i < iterations; i++) {
+            window.CacheManager.delete(`${testKey}_${i}`);
+        }
+        
+        return {
+            iterations,
+            writeTimeMs: Math.round(writeTime),
+            readTimeMs: Math.round(readTime),
+            avgWriteMs: Math.round((writeTime / iterations) * 100) / 100,
+            avgReadMs: Math.round((readTime / iterations) * 100) / 100,
+            opsPerSecond: Math.round(iterations / ((writeTime + readTime) / 1000))
+        };
+    }
 };
 
-console.log('🚀 CacheManager initialized - Multi-layer caching with intelligent invalidation');
+console.log('🚀 CacheManager initialized - Optimized multi-layer caching with leak prevention and adaptive configuration');
+console.log('📊 Cache utilities: window.Cache.health(), window.Cache.optimize(), window.Cache.benchmark()');

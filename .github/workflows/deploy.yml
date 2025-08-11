@@ -40,7 +40,21 @@ jobs:
     - name: 🔥 Deploy to Firebase
       run: |
         cd functions
-        firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}" --project conference-party-app
+        # Try service account first, fall back to token
+        if [ ! -z "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
+          echo "Using service account authentication"
+          firebase deploy --only functions --project conference-party-app
+        elif [ ! -z "$FIREBASE_TOKEN" ]; then
+          echo "Using token authentication"
+          firebase deploy --only functions --token "$FIREBASE_TOKEN" --project conference-party-app
+        else
+          echo "ERROR: No authentication method available"
+          echo "Please set either FIREBASE_SERVICE_ACCOUNT_KEY or FIREBASE_TOKEN secret"
+          exit 1
+        fi
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         
     - name: ✅ Deployment Success
       run: |

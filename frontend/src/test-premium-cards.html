@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Test Premium Event Cards</title>
+  <link rel="stylesheet" href="assets/css/main.css"/>
+  <link rel="stylesheet" href="assets/css/animations.css"/>
+  <link rel="stylesheet" href="assets/css/event-cards.css"/>
+  <style>
+    body { padding: 20px; background: var(--bg-primary); color: var(--text-primary); }
+    .test-section { margin: 40px 0; }
+    h2 { color: var(--text-primary); margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="test-section">
+    <h2>🎨 Premium Event Cards Test</h2>
+    <div id="event-container"></div>
+  </div>
+
+  <script type="module">
+    import { Store, Events } from './assets/js/state.js';
+    import { renderEventCard } from './assets/js/ui/eventCard.js';
+    
+    // Mock event data
+    const mockEvents = [
+      {
+        id: 'test-1',
+        title: 'Gamescom Opening Night Party',
+        description: 'Join us for an exclusive opening night celebration with industry leaders, indie developers, and gaming enthusiasts.',
+        start: new Date(Date.now() + 30 * 60 * 1000).toISOString(), // 30 minutes from now
+        venue: 'Cologne Convention Center',
+        capacity: 150,
+        tier: 'PREMIUM',
+        persona: {
+          dev: '80%',
+          pub: '60%', 
+          inv: '90%',
+          sp: '40%'
+        }
+      },
+      {
+        id: 'test-2',
+        title: 'Indie Developer Meetup',
+        description: 'Connect with fellow indie developers and showcase your latest projects.',
+        start: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(), // 2 hours from now
+        venue: 'GameDev Lounge',
+        attendees: [
+          { name: 'Alex Dev', picture: 'https://via.placeholder.com/32' },
+          { name: 'Sam Publisher', picture: 'https://via.placeholder.com/32' },
+          { name: 'Jordan Investor', picture: 'https://via.placeholder.com/32' }
+        ],
+        category: 'COMMUNITY',
+        persona: {
+          dev: '95%'
+        }
+      },
+      {
+        id: 'test-3',
+        title: 'Publisher Networking Dinner',
+        start: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Tomorrow
+        venue: 'Rooftop Restaurant Cologne',
+        capacity: 50,
+        priority: 'VIP',
+        persona: {
+          pub: '100%',
+          inv: '75%'
+        }
+      }
+    ];
+    
+    // Initialize Store
+    Store.init();
+    
+    // Test rendering
+    function testPremiumCards() {
+      const container = document.getElementById('event-container');
+      container.className = 'event-grid';
+      
+      const html = mockEvents.map(event => {
+        const saved = Math.random() > 0.5; // Random saved state for testing
+        const badge = event.tier || event.category || event.priority || null;
+        return renderEventCard(event, { saved, badge });
+      }).join('');
+      
+      container.innerHTML = html;
+      
+      // Add event listeners
+      container.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-action]');
+        if (!btn) return;
+        
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+        
+        console.log('🎯 Event card action:', { action, id });
+        
+        // Show feedback
+        const message = {
+          rsvp: '✅ RSVP recorded!',
+          save: btn.textContent === 'Save' ? '💾 Event saved!' : '❌ Event removed!',
+          share: '🔗 Share dialog opened!',
+          nav: '🗺️ Navigation opened!'
+        }[action] || `Action: ${action}`;
+        
+        alert(message);
+        
+        // Toggle save button for demo
+        if (action === 'save') {
+          btn.textContent = btn.textContent === 'Save' ? 'Saved' : 'Save';
+          btn.classList.add('success-pulse');
+          setTimeout(() => btn.classList.remove('success-pulse'), 300);
+        }
+      });
+      
+      // Trigger stagger animations
+      setTimeout(() => {
+        container.querySelectorAll('.evcard').forEach((card, index) => {
+          setTimeout(() => {
+            card.classList.add('stagger');
+          }, index * 100);
+        });
+      }, 100);
+    }
+    
+    // Initialize test
+    testPremiumCards();
+    
+    console.log('🧪 Premium Event Cards test loaded');
+    console.log('📊 Mock events:', mockEvents);
+  </script>
+</body>
+</html>
