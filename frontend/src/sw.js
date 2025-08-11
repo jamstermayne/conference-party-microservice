@@ -80,6 +80,10 @@ self.addEventListener('activate', event => {
  */
 self.addEventListener('fetch', event => {
     const { request } = event;
+    // Never attempt to cache non-GET requests
+    if (request.method !== 'GET') {
+        return; // let it go straight to network
+    }
     const url = new URL(request.url);
     
     if (API_CACHE_PATTERNS.some(pattern => pattern.test(url.pathname))) {
@@ -154,6 +158,8 @@ async function networkFirstStrategy(request) {
  * 📦 CACHE-FIRST STRATEGY
  */
 async function cacheFirstStrategy(request) {
+    // safeguard: only for GET
+    if (request.method !== 'GET') return fetch(request);
     const cachedResponse = await caches.match(request);
     if (cachedResponse) return cachedResponse;
     

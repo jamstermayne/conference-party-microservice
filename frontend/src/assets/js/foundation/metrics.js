@@ -33,4 +33,8 @@ start();
 
 const Metrics = { track, flush, __verified:true };
 if (!window.Metrics) window.Metrics = Metrics;
+window.Metrics.track = (name, props={}) => track(name, props);
+window.Metrics.trackInstallPromptShown   = (props={}) => window.Metrics.track('install_prompt_shown', props);
+window.Metrics.trackInstallPromptAccepted= (props={}) => window.Metrics.track('install_prompt_accepted', props);
+window.Metrics.trackRoute                = (name)      => window.Metrics.track('route_change', { route:name });
 export default Metrics;

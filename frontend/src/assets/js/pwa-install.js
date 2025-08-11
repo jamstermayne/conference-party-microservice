@@ -36,9 +36,7 @@ function showInstallCard() {
   localStorage.setItem('pwa_install_last_shown', Date.now());
   
   // Track with Metrics
-  if (window.Metrics) {
-    window.Metrics.trackInstallPromptShown();
-  }
+  try { window.Metrics?.trackInstallPromptShown?.(); } catch(_){}
   
   // Track analytics
   if (window.gtag) {
@@ -83,6 +81,7 @@ function trapFocus(el) {
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
+  try { window.Metrics?.trackInstallPromptShown?.(); } catch(_) {}
   
   if (!isStandalone()) {
     showInstallCard();
@@ -107,9 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
           
           // Track with Metrics
-          if (window.Metrics) {
-            window.Metrics.trackInstallAccepted();
-          }
+          try { window.Metrics?.trackInstallPromptAccepted?.({ outcome: result.outcome }); } catch(_){}
           
           if (window.gtag) {
             gtag('event', 'pwa_install_accepted');
@@ -133,9 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hideInstallCard();
     
     // Track with Metrics
-    if (window.Metrics) {
-      window.Metrics.trackInstallDismissed();
-    }
+    try { window.Metrics?.trackInstallPromptAccepted?.({ outcome: 'dismissed' }); } catch(_){}
     
     if (window.gtag) {
       gtag('event', 'pwa_install_dismissed');
@@ -170,9 +165,7 @@ window.addEventListener('appinstalled', () => {
   Events.emit('pwa:installed');
   
   // Track with Metrics
-  if (window.Metrics) {
-    window.Metrics.trackInstallAccepted();
-  }
+  try { window.Metrics?.trackInstallPromptAccepted?.({ outcome: 'accepted' }); } catch(_){}
   
   if (window.gtag) {
     gtag('event', 'pwa_app_installed');

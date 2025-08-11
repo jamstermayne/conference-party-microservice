@@ -1,6 +1,6 @@
 // Calendar agenda + week strip (vanilla JS, Store/Events integration)
 import Store from './foundation/store.js';
-import Events from './foundation/events.js';
+import Events from './events.js'; // use proxy for consistency
 
 const $  = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
