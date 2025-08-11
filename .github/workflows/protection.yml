@@ -31,12 +31,12 @@ jobs:
           cd functions && npm audit --audit-level=high
       
       - name: CodeQL Analysis
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: javascript, typescript
       
       - name: Run CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
 
   build-test:
     runs-on: ubuntu-latest
