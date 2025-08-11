@@ -142,7 +142,7 @@ jobs:
             -Dsonar.typescript.lcov.reportPaths=functions/coverage/lcov.info
             
       - name: 'Code Coverage Report'
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           files: ./coverage/lcov.info,./functions/coverage/lcov.info
           flags: unittests
