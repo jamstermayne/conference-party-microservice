@@ -512,7 +512,7 @@ jobs:
     if: needs.setup.outputs.deploy_env == 'staging' || needs.setup.outputs.deploy_env == 'production'
     environment: 
       name: staging
-      url: https://conference-party-app-staging.web.app
+      url: https://conference-party-app.web.app
     
     steps:
       - name: 'Checkout Code'
@@ -550,7 +550,7 @@ jobs:
       - name: 'Staging Health Check'
         run: |
           sleep 45
-          curl -f https://conference-party-app-staging.web.app/api/health || exit 1
+          curl -f https://us-central1-conference-party-app.cloudfunctions.net/api/health || exit 1
           
       - name: 'Smoke Tests'
         run: |
