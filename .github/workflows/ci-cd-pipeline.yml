@@ -492,6 +492,8 @@ jobs:
           cd functions
           npm ci
           npx firebase deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_DEV }}
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_DEV }}
           
       - name: 'Deploy Firebase Hosting'
         run: |
@@ -544,6 +546,8 @@ jobs:
           cd functions
           npm ci
           npx firebase deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_STAGING }}
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_STAGING }}
           
       - name: 'Deploy Firebase Hosting'
         run: |
@@ -632,6 +636,8 @@ jobs:
           cd functions
           npm ci
           npx firebase deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_PROD }}
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_PROD }}
           
       - name: 'Deploy Firebase Hosting'
         run: |
@@ -730,6 +736,8 @@ jobs:
           echo "🚨 EXECUTING EMERGENCY ROLLBACK 🚨"
           cd terraform
           ./scripts/rollback.sh -e production --emergency
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_PROD }}
           
       - name: 'Verify Rollback'
         run: |

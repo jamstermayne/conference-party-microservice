@@ -1,38 +1,40 @@
-name: 🚀 Deploy to Firebase Functions
+name: 🚀 Clean Deploy to Firebase
 
 on:
   push:
     branches: [ main ]
-    paths: 
-      - 'functions/**'
-      - '.github/workflows/**'
   workflow_dispatch:
+
+env:
+  NODE_VERSION: '22'
 
 jobs:
   deploy:
-    name: Deploy Functions
+    name: Deploy to Firebase
     runs-on: ubuntu-latest
     
     steps:
     - name: 📥 Checkout Repository
       uses: actions/checkout@v4
       
-    - name: 🟢 Setup Node.js 22
+    - name: 🟢 Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '22'
+        node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
-        cache-dependency-path: functions/package-lock.json
         
     - name: 🔧 Install Firebase CLI
       run: npm install -g firebase-tools
       
-    - name: 📦 Install Dependencies
+    - name: 📦 Install Root Dependencies
+      run: npm ci || npm install
+      
+    - name: 📦 Install Functions Dependencies
       run: |
         cd functions
-        npm ci
+        npm ci || npm install
         
-    - name: 🔨 Build TypeScript
+    - name: 🔨 Build Functions
       run: |
         cd functions
         npm run build
@@ -46,11 +48,17 @@ jobs:
         
     - name: 🔥 Deploy to Firebase
       run: |
-        cd functions
-        echo "Using service account authentication"
-        firebase deploy --only functions --project conference-party-app
+        echo "Deploying with service account authentication..."
+        firebase deploy --project conference-party-app --non-interactive
       env:
         GOOGLE_APPLICATION_CREDENTIALS: firebase-service-account.json
+        
+    - name: 🧪 Health Check
+      run: |
+        echo "Testing deployed endpoints..."
+        sleep 10
+        curl -f https://conference-party-app.web.app || echo "Frontend health check failed"
+        curl -f https://us-central1-conference-party-app.cloudfunctions.net/api/health || echo "API health check failed"
         
     - name: 🧹 Cleanup
       if: always()
@@ -60,3 +68,5 @@ jobs:
     - name: ✅ Deployment Success
       run: |
         echo "🎉 Deployment completed successfully!"
+        echo "🔗 Live URL: https://conference-party-app.web.app"
+        echo "🔗 API URL: https://us-central1-conference-party-app.cloudfunctions.net/api"

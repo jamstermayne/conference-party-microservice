@@ -240,7 +240,10 @@ jobs:
 ```
 
 ### Environment Secrets
-- `FIREBASE_SERVICE_ACCOUNT`: Service account JSON for deployment
+- `FIREBASE_SERVICE_ACCOUNT_KEY`: Service account JSON for main deployment (replaces deprecated FIREBASE_TOKEN)
+- `GOOGLE_CLOUD_CREDENTIALS_DEV`: Service account JSON for development environment
+- `GOOGLE_CLOUD_CREDENTIALS_STAGING`: Service account JSON for staging environment  
+- `GOOGLE_CLOUD_CREDENTIALS_PROD`: Service account JSON for production environment
 - `GITHUB_TOKEN`: Auto-generated for repository operations
 - `GOOGLE_SHEETS_API_KEY`: API key for sheets webhook integration
 - `FIREBASE_CONFIG`: Project configuration JSON
