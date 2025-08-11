@@ -84,6 +84,9 @@
   <!-- Skip link for accessibility -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
   
+  <!-- ARIA live container for toasts and announcements -->
+  <div id="aria-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  
   <div id="app" class="app">
     <!-- Slack-style Sidebar -->
     <aside id="sidenav" class="sidenav" aria-label="Main navigation">
@@ -126,6 +129,7 @@
             <button id="btn-signout" class="btn btn-small btn-ghost">Sign Out</button>
           </div>
         </div>
+        <button id="btn-install" class="btn btn-primary" style="width:100%; margin-top:8px;">Install App</button>
         <small class="muted">Exclusive • Privacy-first</small>
       </div>
     </aside>
@@ -233,5 +237,13 @@
   <script type="module" src="/assets/js/calendar-view.js"></script>
   <script type="module" src="/assets/js/invite-badge.js"></script>
   <script type="module" src="/assets/js/invite-deeplink.js"></script>
+  
+  <!-- PWA Install Button Handler -->
+  <script type="module">
+    import { showInstallCard } from '/assets/js/pwa-install.js';
+    document.getElementById('btn-install')?.addEventListener('click', () => {
+      showInstallCard({ reason: 'manual-cta' });
+    });
+  </script>
 </body>
 </html>

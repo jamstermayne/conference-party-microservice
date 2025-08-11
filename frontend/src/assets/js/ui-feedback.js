@@ -1,7 +1,5 @@
 /**
- * UI feedback utilities shared across controllers
- * - emptyState: returns an accessible empty-state node
- * - toast: dispatches app-wide toast event (non-blocking)
+ * UI feedback utilities (shared)
  */
 export function emptyState(message = 'Nothing to show yet.') {
   const el = document.createElement('div');
@@ -13,7 +11,7 @@ export function emptyState(message = 'Nothing to show yet.') {
 }
 
 export function toast(message, type = 'ok') {
-  try {
-    document.dispatchEvent(new CustomEvent('ui:toast', { detail: { type, message } }));
-  } catch { /* no-op */ }
+  try { document.dispatchEvent(new CustomEvent('ui:toast', { detail: { type, message } })); } catch {}
+  const live = document.getElementById('aria-live');
+  if (live) { live.textContent = ''; setTimeout(() => (live.textContent = String(message)), 30); }
 }

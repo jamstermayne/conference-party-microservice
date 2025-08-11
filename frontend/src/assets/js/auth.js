@@ -385,6 +385,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnGoogle) {
     btnGoogle.addEventListener('click', async (e) => {
       e.preventDefault();
+      // Disable when client IDs are not configured to avoid runtime errors
+      if (!window.__ENV?.GOOGLE_CLIENT_ID) {
+        console.warn('Google Client ID not set');
+        return;
+      }
       try {
         await signInWithGoogle();
         updateAuthUI(); // Update UI after successful login
@@ -400,6 +405,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnLinkedIn) {
     btnLinkedIn.addEventListener('click', (e) => {
       e.preventDefault();
+      // Disable when client IDs are not configured to avoid runtime errors
+      if (!window.__ENV?.LINKEDIN_CLIENT_ID) {
+        console.warn('LinkedIn Client ID not set');
+        return;
+      }
       try {
         signInWithLinkedIn();
       } catch (error) {
