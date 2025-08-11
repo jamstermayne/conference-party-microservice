@@ -1,0 +1,22 @@
+{
+  "name": "Velocity Conference App",
+  "short_name": "Velocity",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#1a1d21",
+  "theme_color": "#1a1d21",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "description": "Slack-inspired PWA for conference networking, party discovery, and calendar sync."
+}

@@ -4,7 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "public",
+    "public": "frontend/src",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -12,8 +12,61 @@
     ],
     "rewrites": [
       {
+        "source": "/api/**",
+        "function": "api"
+      },
+      {
+        "source": "/webhook/**", 
+        "function": "webhook"
+      },
+      {
+        "source": "/setupWebhook/**",
+        "function": "setupWebhook"
+      },
+      {
+        "source": "/invite/**",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/invite",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/share/**",
+        "destination": "/index.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=604800"
+          }
+        ]
+      },
+      {
+        "source": "sw.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=0"
+          }
+        ]
       }
     ]
   },

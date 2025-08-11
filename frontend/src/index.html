@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="theme-color" content="#1A1D21"/>
+  <meta name="color-scheme" content="dark"/>
+  <meta name="description" content="Velocity — Private conference parties & professional networking for Gamescom 2025"/>
+  <title>Velocity — Gamescom 2025</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json?v=1754872638"/>
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png?v=1754872638"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  
+  <!-- Social -->
+  <meta property="og:title" content="Velocity — Gamescom 2025"/>
+  <meta property="og:description" content="Private conference parties & professional networking."/>
+  <meta property="og:image" content="social/share-default.png?v=1754872638"/>
+  <meta property="og:url" content="https://conference-party-app.web.app"/>
+  
+  <!-- Styles - CACHE BUSTED -->
+  <link rel="stylesheet" href="assets/css/styles.css?v=1754872638"/>
+  <link rel="stylesheet" href="assets/css/main.css?v=1754872638"/>
+  <link rel="stylesheet" href="assets/css/animations.css?v=1754872638"/>
+  <link rel="stylesheet" href="assets/css/event-cards.css?v=1754872638"/>
+  <link rel="stylesheet" href="assets/css/email-sync-popup.css?v=1754872638"/>
+</head>
+
+<body>
+  <!-- Accessibility -->
+  <a href="#main" class="skip-link sr-only">Skip to main content</a>
+  <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  
+  <div id="app" class="app">
+    <!-- Slack-style Sidebar -->
+    <aside id="sidenav" class="sidenav" aria-label="Main navigation">
+      <div class="side-head">
+        <div class="brand">Velocity</div>
+        <div class="workspace">Gamescom 2025</div>
+      </div>
+      <nav class="side-nav">
+        <button class="nav-item active" data-route="parties">🗓️ Parties</button>
+        <button class="nav-item" data-route="hotspots">🔥 Hotspots</button>
+        <button class="nav-item" data-route="opportunities">🎯 Opportunities</button>
+        <button class="nav-item" data-route="calendar">📅 Calendar</button>
+        <button class="nav-item" data-route="invites">
+          🎟 Invites <span class="badge" data-role="invite-badge" id="invite-counter">10</span>
+        </button>
+        <button class="nav-item" data-route="me">👤 Me</button>
+        <button class="nav-item" data-route="settings">⚙️ Settings</button>
+      </nav>
+      <div class="side-footer">
+        <small class="muted">Exclusive • Privacy-first</small>
+      </div>
+    </aside>
+    <!-- Overlay (mobile) -->
+    <div id="overlay" class="overlay" hidden></div>
+    <!-- Main Panel -->
+    <main id="main">
+      <header class="topbar">
+        <button id="menu" class="icon-btn" aria-label="Open menu">☰</button>
+        <h1 id="page-title">Parties</h1>
+      </header>
+      <!-- Routes mount here -->
+      <section id="route" role="region" aria-live="polite"></section>
+      
+      <!-- Main Content Area -->
+      <div id="main-content" tabindex="-1">
+        <div id="event-list"></div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- PWA Install Card -->
+  <div id="install-card" class="install-card" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc" aria-hidden="true">
+    <div class="install-content" tabindex="-1">
+      <img src="assets/icons/icon-192.png" alt="Velocity App Icon" class="install-icon"/>
+      <h3 id="install-title">Install Velocity</h3>
+      <p id="install-desc">Add to your home screen for instant access to parties & invites.</p>
+      <div class="install-benefits">
+        <div class="benefit">✓ Offline access</div>
+        <div class="benefit">✓ Push notifications</div>
+        <div class="benefit">✓ +2 bonus invites</div>
+      </div>
+      <div class="row gap">
+        <button id="install-btn" class="btn btn-primary">Install Now</button>
+        <button id="install-dismiss" class="btn btn-secondary">Not Now</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- iOS Install Hint -->
+  <div id="install-ios-hint" class="install-ios-hint" aria-hidden="true">
+    <span class="hint-arrow">↓</span>
+    <span class="hint-text">Tap Share → Add to Home Screen</span>
+  </div>
+  
+  <!-- Auth Buttons for Login Screen -->
+  <div class="auth-buttons" style="display:none;">
+    <button id="btn-google" class="btn btn-auth">
+      Sign in with Google
+    </button>
+    <button id="btn-linkedin" class="btn btn-auth">
+      Sign in with LinkedIn  
+    </button>
+    <button id="btn-demo" class="btn btn-secondary">
+      Continue as Demo
+    </button>
+  </div>
+  
+  <!-- Scripts - CACHE BUSTED -->
+  <script type="module">
+    // Initialize service worker with cache busting
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js?v=1754872638')
+        .then(reg => {
+          console.log('SW registered:', reg.scope);
+          // Listen for cache clear messages
+          navigator.serviceWorker.addEventListener('message', event => {
+            if (event.data.type === 'CACHE_CLEARED') {
+              console.log('🔄 Service Worker cache cleared:', event.data);
+              // Could trigger a UI notification here
+            }
+          });
+        })
+        .catch(err => console.warn('SW registration failed:', err));
+    }
+  </script>
+  
+  <script type="module" src="assets/js/app-bootstrap.js?v=1754872638"></script>
+  <script type="module" src="assets/js/app.js?v=1754872638"></script>
+</body>
+</html>

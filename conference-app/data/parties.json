@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "WN Connect",
+    "time": "Tue, Aug 19, 4:00 PM",
+    "venue": "Koelnmesse Hall 4",
+    "category": "networking"
+  },
+  {
+    "id": 2,
+    "name": "European Game Night",
+    "time": "Tue, Aug 19, 5:00 PM",
+    "venue": "Flora Cologne",
+    "category": "social"
+  },
+  {
+    "id": 3,
+    "name": "XRAI Hack Cologne Award Ceremony",
+    "time": "Tue, Aug 19, 5:00 PM",
+    "venue": "TH Köln",
+    "category": "tech"
+  },
+  {
+    "id": 4,
+    "name": "Xbox Afterparty",
+    "time": "Wed, Aug 20, 10:00 PM",
+    "venue": "Bootshaus",
+    "category": "party"
+  },
+  {
+    "id": 5,
+    "name": "PlayStation Showcase",
+    "time": "Thu, Aug 21, 8:00 PM",
+    "venue": "Lanxess Arena",
+    "category": "showcase"
+  },
+  {
+    "id": 6,
+    "name": "Nintendo Direct Party",
+    "time": "Fri, Aug 22, 7:00 PM",
+    "venue": "Club Bahnhof Ehrenfeld",
+    "category": "party"
+  }
+]

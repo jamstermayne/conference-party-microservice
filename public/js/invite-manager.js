@@ -76,36 +76,54 @@ class InviteManager {
     }
 
     saveInviteData(data = null) {
-        const dataToSave = data || this.inviteData;
-        localStorage.setItem('gamescom_invite_data', JSON.stringify(dataToSave));
+        try {
+            const dataToSave = data || this.inviteData || this.getDefaultInviteData();
+            localStorage.setItem('gamescom_invite_data', JSON.stringify(dataToSave));
+        } catch (error) {
+            console.error('Failed to save invite data:', error);
+            // Fallback: try to save minimal data
+            try {
+                const fallbackData = { invitesGenerated: [], maxInvites: this.MAX_INVITES };
+                localStorage.setItem('gamescom_invite_data', JSON.stringify(fallbackData));
+            } catch (fallbackError) {
+                console.error('Critical: Unable to save any invite data:', fallbackError);
+            }
+        }
     }
 
     /**
      * Generate unique invite code
      */
     generateInviteCode() {
-        const remaining = this.getRemainingInvites();
-        
-        if (remaining <= 0) {
-            throw new Error('No invites remaining');
-        }
-        
-        // Format: GC2025-XXXXX where X is alphanumeric
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let code = 'GC2025-';
-        
-        for (let i = 0; i < 5; i++) {
-            code += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        
-        // Check if code already exists (unlikely but safe)
-        if (this.inviteData.invitesGenerated.some(inv => inv.code === code)) {
-            return this.generateInviteCode(); // Recursive retry
-        }
-        
-        // Record the new invite
-        const inviteRecord = {
-            code,
+        try {
+            const remaining = this.getRemainingInvites();
+            
+            if (remaining <= 0) {
+                throw new Error('No invites remaining');
+            }
+            
+            // Ensure inviteData exists
+            if (!this.inviteData || !this.inviteData.invitesGenerated) {
+                console.warn('Invite data not initialized, creating default structure');
+                this.inviteData = this.getDefaultInviteData();
+            }
+            
+            // Format: GC2025-XXXXX where X is alphanumeric
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = 'GC2025-';
+            
+            for (let i = 0; i < 5; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            // Check if code already exists (unlikely but safe)
+            if (this.inviteData.invitesGenerated.some(inv => inv.code === code)) {
+                return this.generateInviteCode(); // Recursive retry
+            }
+            
+            // Record the new invite
+            const inviteRecord = {
+                code,
             generatedAt: new Date().toISOString(),
             usedBy: null,
             usedAt: null,
@@ -116,12 +134,20 @@ class InviteManager {
         this.saveInviteData();
         
         return code;
+        } catch (error) {
+            console.error('Failed to generate invite code:', error);
+            // Fallback: return null to indicate failure
+            return null;
+        }
     }
 
     /**
      * Get number of remaining invites
      */
     getRemainingInvites() {
+        if (!this.inviteData || !this.inviteData.invitesGenerated) {
+            return this.MAX_INVITES;
+        }
         const generated = this.inviteData.invitesGenerated.length;
         return Math.max(0, this.MAX_INVITES - generated);
     }
@@ -130,6 +156,9 @@ class InviteManager {
      * Get number of used invites
      */
     getUsedInvites() {
+        if (!this.inviteData || !this.inviteData.invitesGenerated) {
+            return 0;
+        }
         return this.inviteData.invitesGenerated.filter(inv => inv.usedBy).length;
     }
 
@@ -242,22 +271,58 @@ class InviteManager {
         `;
         
         document.body.appendChild(modal);
+        
+        // Add accessibility enhancements after modal is in DOM
+        this.enhanceAccessibility();
+    }
+    
+    /**
+     * Enhance accessibility for invite elements
+     */
+    enhanceAccessibility() {
+        // Add keyboard navigation to invite list
+        const inviteList = document.getElementById('inviteList');
+        if (inviteList) {
+            inviteList.setAttribute('role', 'list');
+            
+            // Add accessibility attributes to invite items
+            const inviteItems = inviteList.querySelectorAll('.invite-item');
+            inviteItems.forEach((item) => {
+                item.setAttribute('role', 'listitem');
+                item.setAttribute('tabindex', '0');
+                
+                // Add keyboard event handler
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        // Find and click the resend button if available
+                        const resendBtn = item.querySelector('.resend-btn');
+                        if (resendBtn) {
+                            resendBtn.click();
+                        }
+                    }
+                });
+            });
+        }
     }
 
     /**
      * Render invite list HTML
      */
     renderInviteList() {
-        if (this.inviteData.invitesGenerated.length === 0) {
-            return `
-                <div class="empty-invites">
-                    <span class="empty-icon">📨</span>
-                    <p>No invites generated yet</p>
-                </div>
-            `;
-        }
-        
-        return this.inviteData.invitesGenerated.map(invite => `
+        try {
+            if (!this.inviteData || !this.inviteData.invitesGenerated || this.inviteData.invitesGenerated.length === 0) {
+                return `
+                    <div class="empty-invites">
+                        <span class="empty-icon">📨</span>
+                        <p>No invites generated yet</p>
+                    </div>
+                `;
+            }
+            
+            return this.inviteData.invitesGenerated.map(invite => {
+                try {
+                    return `
             <div class="invite-item ${invite.usedBy ? 'used' : 'pending'}">
                 <div class="invite-code">${invite.code}</div>
                 <div class="invite-status">
@@ -273,7 +338,21 @@ class InviteManager {
                     </button>
                 ` : ''}
             </div>
-        `).join('');
+        `;
+                } catch (inviteError) {
+                    console.error('Error rendering invite:', invite, inviteError);
+                    return `<div class="invite-item error">Error loading invite</div>`;
+                }
+            }).join('');
+        } catch (error) {
+            console.error('Failed to render invite list:', error);
+            return `
+                <div class="empty-invites error">
+                    <span class="empty-icon">⚠️</span>
+                    <p>Error loading invites</p>
+                </div>
+            `;
+        }
     }
 
     /**
@@ -418,7 +497,11 @@ class InviteManager {
         
         // Update invite list
         const list = document.getElementById('inviteList');
-        if (list) list.innerHTML = this.renderInviteList();
+        if (list) {
+            list.innerHTML = this.renderInviteList();
+            // Re-apply accessibility enhancements to new items
+            this.enhanceAccessibility();
+        }
         
         // Disable generate button if no invites left
         const generateBtn = document.getElementById('generateInviteBtn');
@@ -571,7 +654,20 @@ Join the elite gaming industry community at Gamescom 2025!`;
      * Handle deep link for invite codes
      */
     async handleInviteDeepLink() {
-        // Check URL patterns: /invite/CODE or ?invite=CODE
+        // Enhanced deep linking now handled by the dedicated deep-links module
+        // This method remains for backward compatibility but delegates to the new system
+        
+        // Check if deep-links module is available
+        if (window.DeepLinks && window.DeepLinks.extractInviteCode) {
+            const inviteCode = window.DeepLinks.extractInviteCode(window.location.href);
+            if (inviteCode) {
+                console.log(`🎯 Delegating invite code processing to deep-links module: ${inviteCode}`);
+                // The deep-links module will handle validation and processing
+                return;
+            }
+        }
+        
+        // Fallback to original logic if deep-links module not available
         const path = window.location.pathname;
         const params = new URLSearchParams(window.location.search);
         
@@ -588,7 +684,7 @@ Join the elite gaming industry community at Gamescom 2025!`;
         }
         
         if (inviteCode) {
-            console.log(`🎯 Processing invite code: ${inviteCode}`);
+            console.log(`🎯 Processing invite code (fallback): ${inviteCode}`);
             await this.acceptInvite(inviteCode);
         }
     }

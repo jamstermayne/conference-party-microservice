@@ -1,0 +1,204 @@
+/**
+ * 🎨 PROFESSIONAL INTELLIGENCE PLATFORM - DESIGN TOKENS
+ * Jobs/Ive-inspired design system with glass morphism and sophisticated aesthetics
+ * Built for the ultimate professional networking experience
+ */
+
+:root {
+  /* ===== SOPHISTICATED COLOR PALETTE ===== */
+  /* Primary Brand Colors */
+  --brand-primary: #667eea;
+  --brand-primary-hover: #5a6fd8;
+  --brand-primary-light: rgba(102, 126, 234, 0.1);
+  --brand-primary-glow: rgba(102, 126, 234, 0.4);
+
+  --brand-secondary: #764ba2;
+  --brand-secondary-hover: #6a4190;
+  --brand-secondary-light: rgba(118, 75, 162, 0.1);
+
+  --brand-accent: #f093fb;
+  --brand-accent-hover: #e87de8;
+  --brand-accent-light: rgba(240, 147, 251, 0.1);
+
+  /* Professional Dark Theme */
+  --surface-primary: #0a0a0f;
+  --surface-secondary: #12121a;
+  --surface-tertiary: #1a1a26;
+  --surface-elevated: #212133;
+  --surface-glass: rgba(26, 26, 38, 0.7);
+  --surface-glass-hover: rgba(33, 33, 51, 0.8);
+
+  /* Glass Morphism Variables */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --glass-blur: blur(16px);
+  --glass-backdrop: saturate(180%);
+
+  /* Premium Glass Effects */
+  --premium-glass: rgba(255, 255, 255, 0.08);
+  --premium-border: rgba(255, 255, 255, 0.12);
+  --premium-glow: 0 0 40px rgba(102, 126, 234, 0.3);
+  --premium-shadow: 0 16px 64px rgba(0, 0, 0, 0.6);
+
+  /* Typography Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0ab;
+  --text-muted: #6b6b76;
+  --text-inverse: #000000;
+
+  /* Status Colors */
+  --success: #10d876;
+  --success-light: rgba(16, 216, 118, 0.1);
+  --warning: #ffb020;
+  --warning-light: rgba(255, 176, 32, 0.1);
+  --error: #ff6b6b;
+  --error-light: rgba(255, 107, 107, 0.1);
+
+  /* ===== SOPHISTICATED TYPOGRAPHY ===== */
+  /* Font Families - Jobs/Ive Inspired */
+  --font-primary: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-secondary: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Cascadia Code', 'Fira Code', monospace;
+
+  /* Font Weights */
+  --weight-light: 300;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  /* Font Sizes - Perfect Scale */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 2rem;      /* 32px */
+  --text-4xl: 2.5rem;    /* 40px */
+  --text-5xl: 3rem;      /* 48px */
+
+  /* Line Heights */
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* Letter Spacing */
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+
+  /* ===== SOPHISTICATED SPACING ===== */
+  --space-0: 0;
+  --space-1: 0.25rem;    /* 4px */
+  --space-2: 0.5rem;     /* 8px */
+  --space-3: 0.75rem;    /* 12px */
+  --space-4: 1rem;       /* 16px */
+  --space-5: 1.25rem;    /* 20px */
+  --space-6: 1.5rem;     /* 24px */
+  --space-8: 2rem;       /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+
+  /* ===== BORDER RADIUS ===== */
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-2xl: 1.5rem;   /* 24px */
+  --radius-full: 9999px;
+
+  /* Glass Element Radius */
+  --radius-glass: 1.25rem; /* 20px */
+
+  /* ===== PREMIUM SHADOWS ===== */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.5);
+  --shadow-2xl: 0 32px 64px rgba(0, 0, 0, 0.6);
+
+  /* Glass Shadows */
+  --shadow-glass-sm: 0 2px 16px rgba(0, 0, 0, 0.2);
+  --shadow-glass-md: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-glass-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
+
+  /* Premium Button Shadows */
+  --shadow-button: 0 4px 16px rgba(102, 126, 234, 0.3);
+  --shadow-button-hover: 0 8px 32px rgba(102, 126, 234, 0.4);
+
+  /* ===== SOPHISTICATED GRADIENTS ===== */
+  /* Primary Gradients */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-primary-hover: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  
+  /* Glass Gradients */
+  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  --gradient-glass-border: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+
+  /* Background Gradients */
+  --gradient-bg: radial-gradient(ellipse at top, #1a1a26 0%, #0a0a0f 100%);
+  --gradient-surface: linear-gradient(145deg, #12121a 0%, #1a1a26 100%);
+
+  /* ===== SPRING PHYSICS EASING ===== */
+  /* Duration */
+  --duration-instant: 0ms;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+  --duration-slower: 500ms;
+
+  /* Easing Functions - Apple-inspired */
+  --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-in: cubic-bezier(0.55, 0.06, 0.68, 0.19);
+  --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Spring Physics */
+  --spring-gentle: cubic-bezier(0.16, 1, 0.3, 1);
+  --spring-bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --spring-snappy: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ===== LAYOUT VARIABLES ===== */
+  --sidebar-width: 280px;
+  --sidebar-collapsed: 72px;
+  --header-height: 64px;
+  --content-max-width: 1200px;
+
+  /* Z-Index Scale */
+  --z-base: 1;
+  --z-elevated: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-tooltip: 500;
+  --z-toast: 600;
+
+  /* ===== RESPONSIVE BREAKPOINTS ===== */
+  --mobile: 480px;
+  --tablet: 768px;
+  --desktop: 1024px;
+  --wide: 1280px;
+  --ultra: 1536px;
+
+  /* ===== PROFESSIONAL INTERACTIONS ===== */
+  /* Hover States */
+  --hover-lift: translateY(-2px);
+  --hover-scale: scale(1.02);
+  --hover-glow: 0 0 20px rgba(102, 126, 234, 0.5);
+
+  /* Focus States */
+  --focus-ring: 0 0 0 3px rgba(102, 126, 234, 0.3);
+  --focus-outline: 2px solid var(--brand-primary);
+
+  /* Active States */
+  --active-scale: scale(0.98);
+  --active-brightness: brightness(0.95);
+}

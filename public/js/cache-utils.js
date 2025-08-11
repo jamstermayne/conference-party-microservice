@@ -2,7 +2,7 @@
  * 🛠️ GAMESCOM 2025 - CACHE UTILITIES
  * 
  * Client-side cache management and offline capabilities
- * Generated: 2025-08-08T16:39:56.176Z
+ * Generated: 2025-08-11T08:43:29.608Z
  */
 
 class CacheUtils {

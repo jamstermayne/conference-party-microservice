@@ -1,0 +1,12 @@
+:root {
+  --color-bg: #1a1d21;
+  --color-bg-alt: #222529;
+  --color-primary: #36c5f0;
+  --color-secondary: #2eb67d;
+  --color-accent: #e01e5a;
+  --color-text: #ffffff;
+  --color-text-muted: #9e9ea6;
+  --font-primary: 'Inter', sans-serif;
+  --radius: 8px;
+  --transition: 0.25s ease-in-out;
+}

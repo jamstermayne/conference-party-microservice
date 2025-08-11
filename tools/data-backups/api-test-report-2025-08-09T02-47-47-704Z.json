@@ -1,0 +1,145 @@
+{
+  "startTime": "2025-08-09T02:47:43.303Z",
+  "totalTests": 17,
+  "passed": 17,
+  "failed": 0,
+  "warnings": 0,
+  "tests": [
+    {
+      "name": "Health endpoint status",
+      "status": "PASS",
+      "details": "200 OK",
+      "duration": 193,
+      "timestamp": "2025-08-09T02:47:43.517Z"
+    },
+    {
+      "name": "Health response format",
+      "status": "PASS",
+      "details": "Valid health response structure",
+      "duration": null,
+      "timestamp": "2025-08-09T02:47:43.517Z"
+    },
+    {
+      "name": "Health response time",
+      "status": "PASS",
+      "details": "193ms",
+      "duration": null,
+      "timestamp": "2025-08-09T02:47:43.517Z"
+    },
+    {
+      "name": "Health required fields",
+      "status": "PASS",
+      "details": "All required fields present",
+      "duration": null,
+      "timestamp": "2025-08-09T02:47:43.517Z"
+    },
+    {
+      "name": "Parties endpoint status",
+      "status": "PASS",
+      "details": "200 OK",
+      "duration": 882,
+      "timestamp": "2025-08-09T02:47:44.401Z"
+    },
+    {
+      "name": "Parties data structure",
+      "status": "PASS",
+      "details": "50 events returned",
+      "duration": null,
+      "timestamp": "2025-08-09T02:47:44.401Z"
+    },
+    {
+      "name": "Parties event count",
+      "status": "PASS",
+      "details": "50 events (reasonable range)",
+      "duration": null,
+      "timestamp": "2025-08-09T02:47:44.401Z"
+    },
+    {
+      "name": "Parties pagination",
+      "status": "PASS",
+      "details": "Page 2 has 50 events",
+      "duration": null,
+      "timestamp": "2025-08-09T02:47:45.254Z"
+    },
+    {
+      "name": "Parties event schema",
+      "status": "PASS",
+      "details": "Events have expected fields",
+      "duration": null,
+      "timestamp": "2025-08-09T02:47:45.254Z"
+    },
+    {
+      "name": "Sync GET request",
+      "status": "PASS",
+      "details": "200 OK",
+      "duration": 1049,
+      "timestamp": "2025-08-09T02:47:46.304Z"
+    },
+    {
+      "name": "Sync response format",
+      "status": "PASS",
+      "details": "72 events in database",
+      "duration": null,
+      "timestamp": "2025-08-09T02:47:46.304Z"
+    },
+    {
+      "name": "Sync POST request",
+      "status": "PASS",
+      "details": "Manual sync triggered",
+      "duration": 547,
+      "timestamp": "2025-08-09T02:47:46.851Z"
+    },
+    {
+      "name": "Sync operation",
+      "status": "PASS",
+      "details": "72 parties synced from Google Sheets",
+      "duration": null,
+      "timestamp": "2025-08-09T02:47:46.851Z"
+    },
+    {
+      "name": "Webhook endpoint accessible",
+      "status": "PASS",
+      "details": "Status 200",
+      "duration": 132,
+      "timestamp": "2025-08-09T02:47:46.984Z"
+    },
+    {
+      "name": "Webhook POST handling",
+      "status": "PASS",
+      "details": "Webhook accepts POST requests",
+      "duration": 127,
+      "timestamp": "2025-08-09T02:47:47.111Z"
+    },
+    {
+      "name": "Setup webhook status",
+      "status": "PASS",
+      "details": "200 OK",
+      "duration": 591,
+      "timestamp": "2025-08-09T02:47:47.703Z"
+    },
+    {
+      "name": "Setup webhook response",
+      "status": "PASS",
+      "details": "Valid response structure",
+      "duration": null,
+      "timestamp": "2025-08-09T02:47:47.703Z"
+    }
+  ],
+  "summary": {
+    "averageResponseTime": 569,
+    "totalTestTime": 2847,
+    "totalTests": 17,
+    "passed": 17,
+    "failed": 0,
+    "warnings": 0,
+    "successRate": 100
+  },
+  "performance": {
+    "health": 193,
+    "parties": 882,
+    "sync": 1049,
+    "webhook": 132,
+    "setupWebhook": 591
+  },
+  "endTime": "2025-08-09T02:47:47.704Z"
+}

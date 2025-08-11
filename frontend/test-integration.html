@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velocity API Integration Test</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px; 
+            margin: 2rem auto; 
+            padding: 1rem;
+            background: #1a1d21;
+            color: white;
+        }
+        .test { 
+            margin: 1rem 0; 
+            padding: 1rem;
+            border: 1px solid #383d45;
+            border-radius: 8px;
+        }
+        .success { border-color: #22c55e; background: rgba(34, 197, 94, 0.1); }
+        .error { border-color: #ef4444; background: rgba(239, 68, 68, 0.1); }
+        .loading { border-color: #6b7bff; background: rgba(107, 123, 255, 0.1); }
+        pre { 
+            background: #21252b; 
+            padding: 1rem; 
+            border-radius: 4px; 
+            overflow: auto;
+            font-size: 0.875rem;
+        }
+        button {
+            background: #6b7bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+        button:hover { background: #5a67d8; }
+        .party-card {
+            background: #21252b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+        .party-title { font-weight: 600; margin-bottom: 0.5rem; }
+        .party-meta { color: #9ea2aa; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+    <h1>🎯 Velocity API Integration Test</h1>
+    
+    <div id="backend-test" class="test loading">
+        <h2>Backend Connection Test</h2>
+        <p>Testing connection to: <code>us-central1-conference-party-app.cloudfunctions.net</code></p>
+        <button onclick="testBackend()">Test Backend</button>
+        <div id="backend-result"></div>
+    </div>
+    
+    <div id="parties-test" class="test loading">
+        <h2>Parties Data Mapping Test</h2>
+        <p>Testing party data fetching and GPT-5 format mapping</p>
+        <button onclick="testParties()">Test Parties</button>
+        <div id="parties-result"></div>
+    </div>
+    
+    <div id="invites-test" class="test loading">
+        <h2>Invites API Test</h2>
+        <p>Testing invite status and real backend integration</p>
+        <button onclick="testInvites()">Test Invites</button>
+        <div id="invites-result"></div>
+    </div>
+
+    <script type="module">
+        // Simple API integration test
+        const BASE_URL = 'https://us-central1-conference-party-app.cloudfunctions.net/api';
+        
+        window.testBackend = async function() {
+            const resultDiv = document.getElementById('backend-result');
+            const testDiv = document.getElementById('backend-test');
+            
+            resultDiv.innerHTML = '<p>Testing backend connection...</p>';
+            testDiv.className = 'test loading';
+            
+            try {
+                const response = await fetch(`${BASE_URL}/health`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    testDiv.className = 'test success';
+                    resultDiv.innerHTML = `
+                        <p>✅ Backend connection successful!</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    throw new Error('Health check failed');
+                }
+            } catch (error) {
+                testDiv.className = 'test error';
+                resultDiv.innerHTML = `
+                    <p>❌ Backend connection failed: ${error.message}</p>
+                `;
+            }
+        };
+        
+        window.testParties = async function() {
+            const resultDiv = document.getElementById('parties-result');
+            const testDiv = document.getElementById('parties-test');
+            
+            resultDiv.innerHTML = '<p>Fetching parties data...</p>';
+            testDiv.className = 'test loading';
+            
+            try {
+                const response = await fetch(`${BASE_URL}/parties`);
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    const parties = data.data.slice(0, 3); // Show first 3
+                    
+                    testDiv.className = 'test success';
+                    resultDiv.innerHTML = `
+                        <p>✅ Loaded ${data.data.length} parties from backend</p>
+                        <p>Sample parties (GPT-5 format mapping):</p>
+                        ${parties.map(party => `
+                            <div class="party-card">
+                                <div class="party-title">${party['Event Name']}</div>
+                                <div class="party-meta">
+                                    📍 ${party.Address || 'TBD'} • 
+                                    🕐 ${party['Start Time']} • 
+                                    🎭 ${party.Focus || 'All'} • 
+                                    🏢 ${party.Hosts || 'TBD'}
+                                </div>
+                            </div>
+                        `).join('')}
+                        <details>
+                            <summary>Raw API Response</summary>
+                            <pre>${JSON.stringify(data, null, 2).substring(0, 1000)}...</pre>
+                        </details>
+                    `;
+                } else {
+                    throw new Error('No parties data received');
+                }
+            } catch (error) {
+                testDiv.className = 'test error';
+                resultDiv.innerHTML = `
+                    <p>❌ Parties fetch failed: ${error.message}</p>
+                `;
+            }
+        };
+        
+        window.testInvites = async function() {
+            const resultDiv = document.getElementById('invites-result');
+            const testDiv = document.getElementById('invites-test');
+            
+            resultDiv.innerHTML = '<p>Testing invite status...</p>';
+            testDiv.className = 'test loading';
+            
+            try {
+                const response = await fetch(`${BASE_URL}/invites/status`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    testDiv.className = 'test success';
+                    resultDiv.innerHTML = `
+                        <p>✅ Invite system connected!</p>
+                        <div class="party-card">
+                            <div class="party-title">Invite Status</div>
+                            <div class="party-meta">
+                                🎟️ ${data.invitesLeft} invites left • 
+                                ✅ ${data.redeemed} redeemed • 
+                                🔗 ${data.connections} connections
+                            </div>
+                            ${data.personalLink ? `<p>Personal link: <code>${data.personalLink}</code></p>` : ''}
+                        </div>
+                        <details>
+                            <summary>Raw Response</summary>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </details>
+                    `;
+                } else {
+                    throw new Error(data.error || 'Invite status failed');
+                }
+            } catch (error) {
+                testDiv.className = 'test error';
+                resultDiv.innerHTML = `
+                    <p>❌ Invites test failed: ${error.message}</p>
+                `;
+            }
+        };
+        
+        // Run tests automatically
+        console.log('🧪 Running integration tests...');
+        testBackend();
+        testParties();
+        testInvites();
+    </script>
+</body>
+</html>

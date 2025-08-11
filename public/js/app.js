@@ -1,1495 +1,1551 @@
-// Virtual Scrolling for Performance with Large Event Lists
-class VirtualEventRenderer {
-    constructor(container, itemHeight = 280) {
-        this.container = container;
-        this.itemHeight = itemHeight;
-        this.containerHeight = 0;
-        this.scrollTop = 0;
-        this.visibleStart = 0;
-        this.visibleEnd = 0;
-        this.buffer = 5; // Extra items to render for smooth scrolling
-        
-        // Track rendered items for cleanup
-        this.renderedItems = new Map();
-        this.isGrid = true;
-        
-        this.setupContainer();
-        this.bindScrollEvents();
+/**
+ * PROFESSIONAL INTELLIGENCE PLATFORM - MAIN APP
+ * Entry point for the revolutionary networking platform
+ */
+
+// ⚡ OPTIMIZED MODULE LOADING - Dynamic imports with graceful degradation
+// Core modules loaded statically for better performance
+let Store, router, api, nav, eventSystem, Events, motion, viewTX;
+
+// Import enhanced modules
+import './deep-links.js';
+import './ui.js';
+import './errors.js';
+import './api/events.js';
+import './api/calendar.js';
+import './api/invites.js';
+import './pwa-detector.js';
+let bindPressFeedback, createFPSWatchdog, mountInstallFTUE;
+
+// Controller registry for dynamic loading
+const CONTROLLER_MODULES = {
+  home: () => import('./controllers/HomeController.js').then(m => m.HomeController),
+  people: () => import('./controllers/PeopleController.js').then(m => m.PeopleController),
+  opportunities: () => import('./controllers/OpportunitiesController.js').then(m => m.OpportunitiesController),
+  events: () => import('./controllers/EventController.js').then(m => m.EventController),
+  me: () => import('./controllers/MeController.js').then(m => m.MeController),
+  invite: () => import('./controllers/InviteController.js').then(m => m.InviteController),
+  calendar: () => import('./controllers/CalendarController.js').then(m => m.CalendarController),
+  fomo: () => import('./controllers/FomoController.js').then(m => m.FomoController),
+  'account-link': () => import('./controllers/AccountLinkController.js').then(m => m.AccountLinkController),
+  'calendar-sync': () => import('./controllers/CalendarSyncController.js').then(m => m.CalendarSyncController),
+  'invite-panel': () => import('./controllers/InvitePanelController.js').then(m => m.InvitePanelController)
+};
+
+// Module loading utilities
+const ModuleLoader = {
+  cache: new Map(),
+  loadedModules: new Set(),
+  failedModules: new Set(),
+  
+  async loadCoreModule(modulePath, exportName) {
+    const cacheKey = `${modulePath}#${exportName || 'default'}`;
+    
+    if (this.cache.has(cacheKey)) {
+      return this.cache.get(cacheKey);
     }
     
-    setupContainer() {
-        // Ensure container has proper styling for virtual scrolling
-        this.container.style.position = 'relative';
-        this.container.style.overflowY = 'auto';
-        
-        // Create viewport div for smooth scrolling
-        this.viewport = document.createElement('div');
-        this.viewport.style.position = 'relative';
-        this.viewport.style.width = '100%';
-        this.container.appendChild(this.viewport);
-        
-        // Track container height
-        this.updateContainerHeight();
-        window.addEventListener('resize', () => this.updateContainerHeight());
+    try {
+      const module = await import(modulePath);
+      const result = exportName ? module[exportName] : module.default || module;
+      
+      this.cache.set(cacheKey, result);
+      this.loadedModules.add(modulePath);
+      console.log(`✅ Module loaded: ${modulePath}`);
+      
+      return result;
+    } catch (error) {
+      console.warn(`⚠️ Failed to load module ${modulePath}:`, error);
+      this.failedModules.add(modulePath);
+      return null;
+    }
+  },
+  
+  async loadController(controllerName) {
+    if (!CONTROLLER_MODULES[controllerName]) {
+      console.warn(`⚠️ Unknown controller: ${controllerName}`);
+      return null;
     }
     
-    updateContainerHeight() {
-        this.containerHeight = this.container.clientHeight;
-        this.calculateVisible();
+    const cacheKey = `controller_${controllerName}`;
+    if (this.cache.has(cacheKey)) {
+      return this.cache.get(cacheKey);
     }
     
-    bindScrollEvents() {
-        let ticking = false;
-        
-        this.container.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    this.handleScroll();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
+    try {
+      const ControllerClass = await CONTROLLER_MODULES[controllerName]();
+      this.cache.set(cacheKey, ControllerClass);
+      console.log(`✅ Controller loaded: ${controllerName}`);
+      return ControllerClass;
+    } catch (error) {
+      console.warn(`⚠️ Failed to load controller ${controllerName}:`, error);
+      this.failedModules.add(`controller_${controllerName}`);
+      return null;
     }
-    
-    handleScroll() {
-        this.scrollTop = this.container.scrollTop;
-        this.calculateVisible();
-        this.updateVisibleItems();
-    }
-    
-    calculateVisible() {
-        const itemsPerRow = this.isGrid ? this.getItemsPerRow() : 1;
-        const rowHeight = this.isGrid ? this.itemHeight : this.itemHeight;
-        
-        this.visibleStart = Math.floor(this.scrollTop / rowHeight) * itemsPerRow;
-        const visibleRows = Math.ceil(this.containerHeight / rowHeight);
-        this.visibleEnd = Math.min(
-            (this.visibleStart / itemsPerRow + visibleRows + this.buffer) * itemsPerRow,
-            this.totalItems
-        );
-        
-        // Ensure we don't go negative
-        this.visibleStart = Math.max(0, this.visibleStart - (this.buffer * itemsPerRow));
-    }
-    
-    getItemsPerRow() {
-        // Calculate items per row based on container width
-        const containerWidth = this.container.clientWidth;
-        const minItemWidth = 320; // Minimum width for event cards
-        return Math.max(1, Math.floor(containerWidth / minItemWidth));
-    }
-    
-    render(events, isGrid = true) {
-        this.events = events;
-        this.totalItems = events.length;
-        this.isGrid = isGrid;
-        
-        // Update container class
-        this.container.className = isGrid ? 'events-grid' : 'events-list';
-        
-        if (events.length === 0) {
-            this.renderEmptyState();
-            return;
-        }
-        
-        // Calculate total height for proper scrollbar
-        const itemsPerRow = this.isGrid ? this.getItemsPerRow() : 1;
-        const totalRows = Math.ceil(events.length / itemsPerRow);
-        const totalHeight = totalRows * this.itemHeight;
-        this.viewport.style.height = `${totalHeight}px`;
-        
-        // Calculate and render visible items
-        this.calculateVisible();
-        this.updateVisibleItems();
-    }
-    
-    updateVisibleItems() {
-        if (!this.events) return;
-        
-        // Clear viewport
-        this.viewport.innerHTML = '';
-        
-        // Render visible items
-        for (let i = this.visibleStart; i < this.visibleEnd; i++) {
-            if (i >= this.totalItems) break;
-            
-            const event = this.events[i];
-            const element = this.createEventElement(event, i);
-            
-            // Position element absolutely for virtual scrolling
-            this.positionElement(element, i);
-            this.viewport.appendChild(element);
-        }
-    }
-    
-    positionElement(element, index) {
-        const itemsPerRow = this.isGrid ? this.getItemsPerRow() : 1;
-        const row = Math.floor(index / itemsPerRow);
-        const col = index % itemsPerRow;
-        
-        element.style.position = 'absolute';
-        element.style.top = `${row * this.itemHeight}px`;
-        
-        if (this.isGrid) {
-            const itemWidth = 100 / itemsPerRow;
-            element.style.left = `${col * itemWidth}%`;
-            element.style.width = `calc(${itemWidth}% - 16px)`;
-        } else {
-            element.style.left = '0';
-            element.style.width = '100%';
-        }
-    }
-    
-    createEventElement(event, index) {
-        // Create optimized event card element
-        const article = document.createElement('article');
-        article.className = `event-card ${this.isGrid ? '' : 'event-list-item'}`;
-        article.setAttribute('data-event-id', event.id);
-        article.setAttribute('data-index', index);
-        
-        // Add click handler
-        article.addEventListener('click', () => this.handleEventClick(event.id));
-        
-        // Build content efficiently
-        const isUGC = event.source === 'ugc';
-        const eventDate = this.formatDate(event.date);
-        const eventTime = event.startTime || 'TBA';
-        const eventVenue = event.venue || 'TBA';
-        const eventCategory = event.category || 'event';
-        const eventDescription = event.description || '';
-        
-        article.innerHTML = `
-            <div class="event-header">
-                <div class="event-badges">
-                    ${isUGC ? '<span class="badge badge-ugc">Community</span>' : '<span class="badge badge-official">Official</span>'}
-                    <span class="badge badge-category">${this.formatFilterName(eventCategory)}</span>
-                </div>
-                <h3 class="event-title">${this.escapeHtml(event.name)}</h3>
-            </div>
-            
-            <div class="event-meta">
-                <div class="meta-item">
-                    <span class="meta-icon">📅</span>
-                    <span class="meta-text">${eventDate}</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-icon">🕐</span>
-                    <span class="meta-text">${eventTime}</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-icon">📍</span>
-                    <span class="meta-text">${this.escapeHtml(eventVenue)}</span>
-                </div>
-            </div>
-            
-            ${eventDescription ? `<p class="event-description">${this.escapeHtml(this.truncateText(eventDescription, 120))}</p>` : ''}
-            
-            ${isUGC && event.creator ? `<div class="creator-info">Created by ${this.escapeHtml(event.creator)}</div>` : ''}
-            
-            <div class="event-actions">
-                <button class="btn-primary" onclick="event.stopPropagation(); app.addToCalendar('${event.id}')">
-                    📅 Add to Calendar
-                </button>
-                <button class="btn-secondary" onclick="event.stopPropagation(); app.shareEvent('${event.id}')">
-                    📤 Share
-                </button>
-            </div>
-        `;
-        
-        return article;
-    }
-    
-    handleEventClick(eventId) {
-        // Use app instance to handle event details
-        if (window.app && window.app.viewEventDetails) {
-            window.app.viewEventDetails(eventId);
-        }
-    }
-    
-    escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-    
-    formatDate(dateStr) {
-        const date = new Date(dateStr);
-        const now = new Date();
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const eventDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        
-        const dayDiff = Math.floor((eventDate - today) / (1000 * 60 * 60 * 24));
-        
-        if (dayDiff === 0) return 'Today';
-        if (dayDiff === 1) return 'Tomorrow';
-        if (dayDiff === -1) return 'Yesterday';
-        
-        return date.toLocaleDateString('en-US', {
-            weekday: 'short',
-            month: 'short', 
-            day: 'numeric'
-        });
-    }
-    
-    formatFilterName(filter) {
-        const formatted = filter.charAt(0).toUpperCase() + filter.slice(1);
-        const icons = {
-            'Networking': '🤝',
-            'Afterparty': '🎉',
-            'Mixer': '🍸',
-            'Launch': '🚀'
-        };
-        return icons[formatted] ? `${icons[formatted]} ${formatted}` : formatted;
-    }
-    
-    truncateText(text, maxLength) {
-        if (text.length <= maxLength) return text;
-        return text.substring(0, maxLength).trim() + '...';
-    }
-    
-    renderEmptyState() {
-        this.viewport.innerHTML = `
-            <div class="empty-state" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; padding: 60px 20px;">
-                <div style="font-size: 48px; margin-bottom: 16px;">🔍</div>
-                <h3 style="margin-bottom: 12px; color: var(--slack-color-text);">No events found</h3>
-                <button onclick="app.showModal()" class="btn-primary">Create the First Event!</button>
-            </div>
-        `;
-    }
-    
-    // Scroll to specific item (useful for search results)
-    scrollToItem(index) {
-        const itemsPerRow = this.isGrid ? this.getItemsPerRow() : 1;
-        const row = Math.floor(index / itemsPerRow);
-        const targetScroll = row * this.itemHeight;
-        
-        this.container.scrollTo({
-            top: targetScroll,
-            behavior: 'smooth'
-        });
-    }
-    
-    // Destroy method for cleanup
-    destroy() {
-        window.removeEventListener('resize', this.updateContainerHeight);
-        this.container.removeEventListener('scroll', this.handleScroll);
-        if (this.viewport) {
-            this.viewport.remove();
-        }
-    }
+  },
+  
+  getStats() {
+    return {
+      loaded: this.loadedModules.size,
+      failed: this.failedModules.size,
+      cached: this.cache.size,
+      loadedModules: Array.from(this.loadedModules),
+      failedModules: Array.from(this.failedModules)
+    };
+  }
+};
+
+// Load core modules with error recovery
+async function loadCoreModules() {
+  const modules = [
+    ['./store.js', 'Store'],
+    ['./router.js', 'default'],
+    ['./services/api.js', 'api'],
+    ['./services/nav.js', 'nav'],
+    ['./events.js', 'default'],
+    ['./events.js', 'Events'],
+    ['./ui/motion.js', 'motion'],
+    ['./ui/viewTX.js', 'viewTX'],
+    ['./ui/press.js', 'bindPressFeedback'],
+    ['./ui/fpsWatchdog.js', 'createFPSWatchdog'],
+    ['./pwa/installFTUE.js', 'mountInstallFTUE']
+  ];
+  
+  const results = await Promise.allSettled(
+    modules.map(([path, exportName]) => 
+      ModuleLoader.loadCoreModule(path, exportName)
+    )
+  );
+  
+  // Assign loaded modules
+  [Store, router, api, nav, eventSystem, Events, motion, viewTX, 
+   bindPressFeedback, createFPSWatchdog, mountInstallFTUE] = results.map(r => 
+    r.status === 'fulfilled' ? r.value : null
+  );
+  
+  // Load self-initializing modules
+  try {
+    await import('./ui/templates.js');
+    await import('./pwa/installBonus.js');
+  } catch (error) {
+    console.warn('⚠️ Self-initializing modules failed:', error);
+  }
+  
+  return ModuleLoader.getStats();
 }
 
-// Memory Management for Date Pickers
-class DatePickerManager {
-    constructor() {
-        this.instances = new Map();
-    }
+class ProfessionalIntelligenceApp {
+  constructor() {
+    this.initialized = false;
+    this.controllers = new Map();
+    this.currentController = null;
+    this.signalField = null;
     
-    create(element, options) {
-        // Always cleanup existing instance first
-        this.destroy(element);
-        
-        const instance = flatpickr(element, options);
-        this.instances.set(element, instance);
-        return instance;
-    }
-    
-    destroy(element) {
-        const instance = this.instances.get(element);
-        if (instance) {
-            instance.destroy();
-            this.instances.delete(element);
-        }
-    }
-    
-    destroyAll() {
-        this.instances.forEach(instance => instance.destroy());
-        this.instances.clear();
-    }
-}
+    // 🛡️ Memory leak prevention
+    this.timers = new Set();
+    this.eventListeners = new Map();
+    this.stats = null;
+  }
 
-// Enhanced Gamescom Party Discovery App
-class GamescomApp {
-    constructor() {
-        this.events = [];
-        this.filteredEvents = [];
-        this.currentFilter = 'all';
-        this.currentView = 'grid';
-        this.searchQuery = '';
-        this.page = 1;
-        this.pageSize = 12;
-        this.isLoading = false;
-        this.offlineSearch = null;
-        this.cacheUtils = null;
-        this.lastCreatedEvent = null;
-        
-        // Enhanced memory management
-        this.datePickerManager = new DatePickerManager();
-        this.eventListeners = new Map();
-        
-        // Virtual scrolling for performance
-        this.virtualRenderer = null;
-        
-        // Analytics tracking
-        this.analytics = {
-            searches: 0,
-            eventViews: 0,
-            eventCreations: 0,
-            shares: 0
+  /**
+   * Initialize the application
+   */
+  async init() {
+    if (this.initialized) return;
+
+    try {
+      console.log('🚀 Initializing Professional Intelligence Platform...');
+      
+      // Initialize core systems (with graceful degradation)
+      try {
+        await this.initializeCoreModules();
+      } catch (error) {
+        console.warn('⚠️ Core modules initialization had errors, continuing with available modules');
+      }
+      
+      // Set up routing and navigation (essential, but handle failures)
+      try {
+        this.setupRouting();
+      } catch (error) {
+        console.error('❌ Routing setup failed:', error);
+      }
+      
+      try {
+        this.setupNavigation();
+      } catch (error) {
+        console.warn('⚠️ Navigation setup failed, app may have limited functionality:', error);
+      }
+      
+      // Initialize UI components and FTUE (non-critical)
+      try {
+        this.initializeUI();
+      } catch (error) {
+        console.warn('⚠️ UI initialization had errors, continuing with basic functionality:', error);
+      }
+      
+      try {
+        this.initializeFTUE();
+      } catch (error) {
+        console.warn('⚠️ FTUE initialization failed:', error);
+      }
+      
+      // Set up global event listeners (important but non-critical)
+      try {
+        this.setupGlobalEvents();
+      } catch (error) {
+        console.warn('⚠️ Global events setup failed:', error);
+      }
+      
+      // Initialize store (critical for app functionality)
+      try {
+        if (Store && typeof Store.init === 'function') {
+          Store.init();
+        } else {
+          throw new Error('Store not available');
+        }
+      } catch (error) {
+        console.error('❌ Store initialization failed:', error);
+        // Create a minimal fallback store
+        window.Store = { 
+          get: () => null, 
+          patch: () => {}, 
+          subscribe: () => {}, 
+          actions: {} 
         };
+      }
+      
+      // Default to "Tonight's Best Parties" for instant value
+      try {
+        const currentRoute = window.location.hash.slice(1) || '/events';
+        this.navigate(currentRoute);
+      } catch (error) {
+        console.warn('⚠️ Initial navigation failed:', error);
+      }
+      
+      this.initialized = true;
+      console.log('✅ Professional Intelligence Platform initialized (with graceful degradation)');
+      
+      // Add ARIA live region for status updates
+      this.announcer = document.getElementById('invite-live') || this.createAnnouncer();
+      
+    } catch (error) {
+      console.error('❌ Failed to initialize app:', error);
+      this.handleInitializationError(error);
     }
+  }
 
-    async init() {
-        console.log('🎮 Gamescom Party Discovery v2.0 Starting...');
-        
-        try {
-            // Initialize core systems
-            this.initTheme();
-            this.initOfflineSearch();
-            this.initCacheUtils();
-            
-            // Load data
-            await this.loadEvents();
-            
-            // Setup UI
-            this.setupUI();
-            this.setupQuickActions();
-            this.registerServiceWorker();
-            
-            // Update stats
-            this.updateHeroStats();
-            
-            console.log(`✅ Loaded ${this.events.length} events with advanced features`);
-            
-            // Track app initialization
-            this.trackAnalytics('app_initialized', { eventCount: this.events.length });
-            
-        } catch (error) {
-            console.error('❌ App initialization failed:', error);
-            this.showError('Failed to initialize app. Please refresh.');
-        }
-    }
-
-    async loadEvents() {
-        this.events = await window.api.getEvents();
-        this.filteredEvents = [...this.events];
-    }
-
-    setupUI() {
-        this.setupEventListeners();
-        this.renderFilters();
-        this.initializeVirtualRenderer();
-        this.renderEvents();
-    }
+  /**
+   * ⚡ OPTIMIZED: Initialize core modules with enhanced error recovery
+   */
+  async initializeCoreModules() {
+    const moduleStats = ModuleLoader.getStats();
+    console.log(`🔧 Module loading stats:`, moduleStats);
     
-    initializeVirtualRenderer() {
-        const container = document.getElementById('events');
-        if (container && !this.virtualRenderer) {
-            // Set proper height for the events container
-            container.style.height = 'calc(100vh - 400px)';
-            container.style.minHeight = '600px';
-            
-            this.virtualRenderer = new VirtualEventRenderer(container, 280);
-            console.log('✅ Virtual renderer initialized');
-        }
+    // Initialize modules that successfully loaded
+    const initTasks = [];
+    
+    // API connection with retry logic
+    if (api) {
+      initTasks.push(
+        this.withRetry(() => api.health(), 3, 1000)
+          .then(() => console.log('✅ API connection established'))
+          .catch(error => console.warn('⚠️ API connection failed after retries, continuing offline'))
+      );
     }
 
-    setupEventListeners() {
-        // Search functionality
-        const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('input', (e) => {
-            this.handleSearch(e.target.value);
-        });
-        
-        // Clear search
-        document.getElementById('clearSearch').addEventListener('click', () => {
-            searchInput.value = '';
-            this.handleSearch('');
-        });
-        
-        // View toggles
-        document.getElementById('viewGrid').addEventListener('click', () => {
-            this.setView('grid');
-        });
-        
-        document.getElementById('viewList').addEventListener('click', () => {
-            this.setView('list');
-        });
-        
-        // Load more
-        document.getElementById('loadMoreBtn').addEventListener('click', () => {
-            this.loadMore();
-        });
-
-        // Create event buttons
-        document.getElementById('createEventBtn').addEventListener('click', () => {
-            this.showModal();
-        });
-        
-        document.getElementById('closeModal').addEventListener('click', () => {
-            this.closeModal();
-        });
-
-        document.getElementById('eventForm').addEventListener('submit', (e) => {
-            this.handleCreateEvent(e);
-        });
-
-        document.getElementById('modal').addEventListener('click', (e) => {
-            if (e.target.id === 'modal') this.closeModal();
-        });
-
-        // Dark mode toggle
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            this.toggleTheme();
-        });
-        
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            this.handleKeyboardShortcuts(e);
-        });
-    }
-
-    toggleTheme() {
-        const html = document.documentElement;
-        const themeToggle = document.getElementById('themeToggle');
-        const currentTheme = html.getAttribute('data-theme');
-        
-        if (currentTheme === 'dark') {
-            html.setAttribute('data-theme', 'light');
-            themeToggle.innerHTML = '🌙 Dark Mode';
-            localStorage.setItem('theme', 'light');
-        } else {
-            html.setAttribute('data-theme', 'dark');
-            themeToggle.innerHTML = '☀️ Light Mode';
-            localStorage.setItem('theme', 'dark');
-        }
-    }
-
-    initTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
-        
-        document.documentElement.setAttribute('data-theme', theme);
-        const themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) {
-            themeToggle.innerHTML = theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
-        }
-    }
-
-    registerServiceWorker() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(() => console.log('Service Worker registered'))
-                .catch(console.warn);
-        }
-    }
-
-    renderFilters() {
-        const filters = ['all', 'networking', 'afterparty', 'mixer', 'launch', 'today'];
-        const container = document.getElementById('filters');
-        
-        container.innerHTML = filters.map(filter => 
-            `<button class="filter ${filter === 'all' ? 'active' : ''}" 
-                     onclick="app.setFilter('${filter}')">
-                ${this.formatFilterName(filter)}
-             </button>`
-        ).join('');
-    }
-
-    renderEvents() {
-        if (this.isLoading) {
-            this.showLoadingState();
-            return;
-        }
-        
-        // Use virtual renderer if available, otherwise fall back to old method
-        if (this.virtualRenderer) {
-            const isGrid = this.currentView === 'grid';
-            
-            console.log(`🎮 Rendering ${this.filteredEvents.length} events with virtual scrolling`);
-            this.virtualRenderer.render(this.filteredEvents, isGrid);
-            
-            // Hide pagination controls since virtual scrolling handles all items
-            const loadMoreSection = document.querySelector('.load-more-section');
-            if (loadMoreSection) {
-                loadMoreSection.classList.add('hidden');
+    // Event system initialization
+    if (eventSystem) {
+      initTasks.push(
+        Promise.resolve()
+          .then(() => {
+            console.log('✅ Event system ready');
+            // Auto-assign Events if available
+            if (!Events && eventSystem.Events) {
+              Events = eventSystem.Events;
             }
-        } else {
-            // Fallback to old rendering method
-            this.renderEventsLegacy();
-        }
-        
-        // Update results count
-        this.updateResultsCount();
+          })
+          .catch(error => console.warn('⚠️ Event system initialization failed:', error))
+      );
+    }
+
+    // Motion system initialization
+    if (motion && typeof motion.setupIntersectionObservers === 'function') {
+      initTasks.push(
+        Promise.resolve()
+          .then(() => {
+            motion.setupIntersectionObservers();
+            console.log('✅ Motion system initialized');
+          })
+          .catch(error => console.warn('⚠️ Motion system initialization failed:', error))
+      );
     }
     
-    renderEventsLegacy() {
-        const container = document.getElementById('events');
-        const isGrid = this.currentView === 'grid';
-        
-        // Update container class
-        container.className = isGrid ? 'events-grid' : 'events-list';
-        
-        if (this.filteredEvents.length === 0) {
-            this.showEmptyState();
-            return;
-        }
-
-        // Paginate events
-        const startIndex = 0;
-        const endIndex = this.page * this.pageSize;
-        const eventsToShow = this.filteredEvents.slice(startIndex, endIndex);
-        
-        container.innerHTML = eventsToShow.map(event => this.renderEventCard(event)).join('');
-        
-        // Update load more button
-        this.updateLoadMoreButton();
-    }
-
-    setFilter(filter) {
-        this.currentFilter = filter;
-        document.querySelectorAll('.filter').forEach(f => {
-            f.classList.toggle('active', f.textContent.toLowerCase().includes(filter.toLowerCase()));
-        });
-        
-        const searchQuery = document.getElementById('searchInput').value;
-        this.filterEvents(searchQuery, filter);
-    }
-
-    filterEvents(search = '', filter = 'all') {
-        let filtered = [...this.events];
-
-        if (filter !== 'all') {
-            if (filter === 'today') {
-                const today = new Date().toISOString().split('T')[0];
-                filtered = filtered.filter(e => e.date === today);
-            } else {
-                filtered = filtered.filter(e => e.category === filter);
-            }
-        }
-
-        if (search) {
-            const query = search.toLowerCase();
-            filtered = filtered.filter(e => 
-                e.name.toLowerCase().includes(query) ||
-                e.hosts.toLowerCase().includes(query) ||
-                e.venue.toLowerCase().includes(query)
-            );
-        }
-
-        this.filteredEvents = filtered;
-        this.renderEvents();
-    }
-
-    showModal() {
-        document.getElementById('modal').classList.add('show');
-        document.getElementById('eventForm').classList.remove('hidden');
-        document.getElementById('success').classList.add('hidden');
-        
-        // Initialize Flatpickr date picker
-        this.initializeDateTimePickers();
+    // PWA install system initialization
+    if (typeof mountInstallFTUE === 'function') {
+      initTasks.push(
+        Promise.resolve()
+          .then(() => {
+            mountInstallFTUE();
+            console.log('✅ PWA install system initialized');
+          })
+          .catch(error => console.warn('⚠️ PWA install system initialization failed:', error))
+      );
     }
     
-    initializeDateTimePickers() {
-        // Initialize date picker with Gamescom dates highlighted
-        const dateInput = document.getElementById('eventDate');
-        if (dateInput) {
-            this.datePickerManager.create(dateInput, {
-                dateFormat: "Y-m-d",
-                minDate: "today",
-                maxDate: new Date().fp_incr(365), // 1 year from now
-                defaultDate: "2025-08-20", // First day of Gamescom
-                onDayCreate: function(dObj, dStr, fp, dayElem) {
-                    const date = dayElem.dateObj;
-                    const dateStr = date.toISOString().split('T')[0];
-                    
-                    // Highlight Gamescom dates (Aug 20-24, 2025)
-                    const gamescomDates = [
-                        '2025-08-20', '2025-08-21', '2025-08-22', 
-                        '2025-08-23', '2025-08-24'
-                    ];
-                    
-                    if (gamescomDates.includes(dateStr)) {
-                        dayElem.classList.add('gamescom-date');
-                        dayElem.innerHTML += '<span style="position:absolute;top:-2px;right:2px;font-size:8px;">🎮</span>';
-                    }
-                },
-                onReady: function(selectedDates, dateStr, instance) {
-                    // Add custom header with Gamescom info
-                    const calendarContainer = instance.calendarContainer;
-                    const gamescomBanner = document.createElement('div');
-                    gamescomBanner.style.cssText = 'background: linear-gradient(135deg, #4A154B, #36B37E); color: white; padding: 8px; text-align: center; font-size: 13px; font-weight: 600;';
-                    gamescomBanner.innerHTML = '🎮 Gamescom 2025: August 20-24 🎮';
-                    calendarContainer.insertBefore(gamescomBanner, calendarContainer.firstChild);
-                }
-            });
-        }
-        
-        // Initialize time picker
-        const timeInput = document.getElementById('eventTime');
-        if (timeInput) {
-            this.datePickerManager.create(timeInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                defaultHour: 19,
-                defaultMinute: 0,
-                minuteIncrement: 15
-            });
-        }
-        
-        // Handle time suggestion chips
-        const timeChips = document.querySelectorAll('.time-chip');
-        timeChips.forEach(chip => {
-            chip.addEventListener('click', (e) => {
-                const time = e.target.dataset.time;
-                const timeInput = document.getElementById('eventTime');
-                const instance = this.datePickerManager.instances.get(timeInput);
-                if (instance) {
-                    instance.setDate(time, false);
-                } else {
-                    timeInput.value = time;
-                }
-                
-                // Visual feedback
-                timeChips.forEach(c => c.style.background = '');
-                e.target.style.background = 'var(--slack-color-primary)';
-                e.target.style.color = 'white';
-            });
-        });
+    // Initialize all modules in parallel with individual error isolation
+    const results = await Promise.allSettled(initTasks);
+    const failedCount = results.filter(r => r.status === 'rejected').length;
+    
+    if (failedCount > 0) {
+      console.warn(`⚠️ ${failedCount}/${initTasks.length} module initializations failed`);
+    } else {
+      console.log(`✅ All ${initTasks.length} core modules initialized successfully`);
     }
-
-    closeModal() {
-        document.getElementById('modal').classList.remove('show');
-        document.getElementById('eventForm').reset();
-        
-        // Proper cleanup using DatePickerManager
-        this.datePickerManager.destroyAll();
-        
-        // Reset time chip styles
-        document.querySelectorAll('.time-chip').forEach(chip => {
-            chip.style.background = '';
-            chip.style.color = '';
-        });
+    
+    return {
+      total: initTasks.length,
+      failed: failedCount,
+      moduleStats
+    };
+  }
+  
+  /**
+   * Utility function for retrying operations
+   */
+  async withRetry(fn, maxRetries = 3, delay = 1000) {
+    let lastError;
+    
+    for (let i = 0; i < maxRetries; i++) {
+      try {
+        return await fn();
+      } catch (error) {
+        lastError = error;
+        if (i < maxRetries - 1) {
+          await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
+        }
+      }
     }
+    
+    throw lastError;
+  }
 
-    async handleCreateEvent(e) {
+  /**
+   * Set up navigation system
+   */
+  setupNavigation() {
+    // Wire up bottom navigation tabs
+    const navTabs = document.querySelectorAll('.nav-tab[data-route]');
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
         e.preventDefault();
-        const formData = new FormData(e.target);
-        const eventData = Object.fromEntries(formData);
-        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const route = tab.dataset.route;
+        this.navigate(route);
+        this.updateActiveTab(route);
+      });
+    });
 
-        // Validate creator field
-        if (!eventData.creator || eventData.creator.trim().length < 2) {
-            this.showError('Creator name must be at least 2 characters long');
-            return;
+    // Wire up sidebar navigation (desktop)
+    const sidebarItems = document.querySelectorAll('.sidebar-item[data-route]');
+    sidebarItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const route = item.dataset.route;
+        this.navigate(route);
+        this.updateActiveSidebar(route);
+      });
+    });
+
+    // Handle hash changes
+    window.addEventListener('hashchange', () => {
+      const route = window.location.hash.slice(2) || 'events'; // Remove #/
+      this.navigate(route);
+    });
+  }
+
+  /**
+   * Initialize FTUE (First Time User Experience)
+   */
+  initializeFTUE() {
+    // PWA install FTUE already initialized in initializeCoreModules()
+    // Removed duplicate call
+
+    // Set up account sheet triggers
+    this.setupAccountSheet();
+
+    // Set up calendar sync card
+    this.setupCalendarSync();
+
+    // Listen for FTUE trigger events from controllers
+    Events.on('ftue:show-install', () => {
+      const installCard = document.getElementById('install-ftue');
+      if (installCard) {
+        installCard.hidden = false;
+        this.announce('Install ready.');
+      }
+    });
+
+    Events.on('ftue:show-account', () => {
+      this.showAccountSheet();
+    });
+
+    Events.on('ftue:show-calendar', () => {
+      this.showCalendarCard();
+    });
+  }
+
+  /**
+   * Set up account setup sheet
+   */
+  setupAccountSheet() {
+    const accountSheet = document.getElementById('account-sheet');
+    const authButtons = accountSheet?.querySelectorAll('[data-auth]');
+    
+    authButtons?.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const authProvider = e.target.dataset.auth;
+        this.handleAuth(authProvider);
+      });
+    });
+  }
+
+  /**
+   * Set up calendar sync card
+   */
+  setupCalendarSync() {
+    const calCard = document.getElementById('cal-card');
+    const calButtons = calCard?.querySelectorAll('[data-cal]');
+    
+    calButtons?.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const calProvider = e.target.dataset.cal;
+        this.handleCalendarSync(calProvider);
+      });
+    });
+  }
+
+  /**
+   * Navigate to a route
+   */
+  navigate(route) {
+    // Hide all screens
+    document.querySelectorAll('.screen').forEach(screen => {
+      screen.style.display = 'none';
+    });
+
+    // Load the appropriate controller/content
+    this.loadRoute(route);
+    
+    // Update navigation states
+    this.updateActiveTab(route);
+    this.updateActiveSidebar(route);
+  }
+
+  /**
+   * Load route content
+   */
+  loadRoute(route) {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent) return;
+
+    // Map routes to their content
+    switch (route) {
+      case 'events':
+        this.loadEvents();
+        break;
+      case 'invites':
+        this.loadInvites();
+        break;
+      case 'home':
+        this.loadHome();
+        break;
+      case 'people':
+        this.loadPeople();
+        break;
+      case 'opportunities':
+        this.loadOpportunities();
+        break;
+      case 'me':
+        this.loadProfile();
+        break;
+      default:
+        this.loadEvents(); // Default to events
+    }
+  }
+
+  /**
+   * Load events screen (Tonight's Best Parties)
+   */
+  loadEvents() {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent) return;
+
+    // Use the updated EventController template with "Tonight's Best Parties"
+    const eventsController = this.controllers.get('events') || new EventController();
+    if (!this.controllers.has('events')) {
+      this.controllers.set('events', eventsController);
+    }
+
+    // Trigger controller to render
+    eventsController.mount(mainContent);
+  }
+
+  /**
+   * Load invites screen (Trophy Case)
+   */
+  loadInvites() {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent) return;
+
+    mainContent.innerHTML = `
+      <section id="route-invites" class="screen">
+        <header class="inv-head">
+          <div>
+            <h1 class="h1">Your Network</h1>
+            <p class="muted">Professionals you've brought in.</p>
+          </div>
+          <span id="inv-pill" class="pill-gold">10 Left</span>
+        </header>
+
+        <div class="inv-stats">
+          <div class="stat">
+            <span class="val" id="inv-left">10</span>
+            <span class="lab">Left</span>
+          </div>
+          <div class="stat">
+            <span class="val" id="inv-red">0</span>
+            <span class="lab">Redeemed</span>
+          </div>
+          <div class="stat">
+            <span class="val" id="inv-tot">10</span>
+            <span class="lab">Total Granted</span>
+          </div>
+        </div>
+
+        <div class="inv-actions">
+          <button class="btn btn-primary" data-action="invite">Send Invite</button>
+          <button class="btn" data-action="copy">Copy Link</button>
+          <button class="btn" data-action="qr">QR Code</button>
+        </div>
+
+        <h2 class="eyebrow">Recently Invited</h2>
+        <ul id="inv-list" class="trophy-list" aria-live="polite"></ul>
+
+        <!-- Bonus celebration -->
+        <div id="bonus-banner" class="bonus hidden">
+          <div class="confetti"></div>
+          <p><b>+5 invites</b> unlocked — beautiful growth.</p>
+        </div>
+      </section>
+    `;
+
+    // Load sample trophy data
+    this.loadTrophyData();
+  }
+
+  /**
+   * Load other routes (placeholder)
+   */
+  loadHome() {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent) return;
+    mainContent.innerHTML = '<div class="screen"><h1 class="h1">Professional Dashboard</h1><p class="sub">Coming soon...</p></div>';
+  }
+
+  loadPeople() {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent) return;
+    mainContent.innerHTML = '<div class="screen"><h1 class="h1">Professional Network</h1><p class="sub">Coming soon...</p></div>';
+  }
+
+  loadOpportunities() {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent) return;
+    mainContent.innerHTML = '<div class="screen"><h1 class="h1">Career Opportunities</h1><p class="sub">Coming soon...</p></div>';
+  }
+
+  loadProfile() {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent) return;
+    mainContent.innerHTML = '<div class="screen"><h1 class="h1">Your Profile</h1><p class="sub">Coming soon...</p></div>';
+  }
+
+  /**
+   * Load trophy data for invites
+   */
+  loadTrophyData() {
+    const invList = document.getElementById('inv-list');
+    const template = document.getElementById('tpl-invite-row');
+    if (!invList || !template) return;
+
+    // Sample data
+    const trophies = [
+      { name: 'Alex Chen', company: 'Epic Games', role: 'Producer', status: 'ok' },
+      { name: 'Sarah Kim', company: 'Unity', role: 'Senior Dev', status: 'ok' },
+      { name: 'Marcus Johnson', company: 'Riot Games', role: 'Art Director', status: 'wait' }
+    ];
+
+    trophies.forEach(trophy => {
+      const clone = template.content.cloneNode(true);
+      clone.querySelector('.name').textContent = trophy.name;
+      clone.querySelector('.meta').textContent = `${trophy.company} • ${trophy.role}`;
+      clone.querySelector('.badge').className = `badge ${trophy.status}`;
+      clone.querySelector('.badge').textContent = trophy.status === 'ok' ? 'Redeemed' : 'Pending';
+      invList.appendChild(clone);
+    });
+  }
+
+  /**
+   * Update active navigation tab
+   */
+  updateActiveTab(route) {
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.classList.toggle('active', tab.dataset.route === route);
+    });
+  }
+
+  /**
+   * Update active sidebar item
+   */
+  updateActiveSidebar(route) {
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+      item.classList.toggle('active', item.dataset.route === route);
+    });
+  }
+
+  /**
+   * Show account setup sheet
+   */
+  showAccountSheet() {
+    const sheet = document.getElementById('account-sheet');
+    if (sheet) {
+      sheet.classList.add('show');
+      sheet.hidden = false;
+    }
+  }
+
+  /**
+   * Show calendar sync card
+   */
+  showCalendarCard() {
+    const card = document.getElementById('cal-card');
+    if (card) {
+      card.hidden = false;
+    }
+  }
+
+  /**
+   * Handle authentication
+   */
+  handleAuth(provider) {
+    console.log(`Auth with ${provider}`);
+    this.announce(`Connecting with ${provider}...`);
+    
+    // Hide sheet after auth
+    setTimeout(() => {
+      const sheet = document.getElementById('account-sheet');
+      if (sheet) {
+        sheet.classList.remove('show');
+        sheet.hidden = true;
+      }
+      this.announce('Account connected.');
+    }, 1500);
+  }
+
+  /**
+   * Handle calendar sync
+   */
+  handleCalendarSync(provider) {
+    console.log(`Calendar sync with ${provider}`);
+    const status = document.getElementById('cal-status');
+    const card = document.getElementById('cal-card');
+    const success = document.getElementById('cal-success');
+    
+    if (status) {
+      status.hidden = false;
+    }
+    
+    setTimeout(() => {
+      if (card) card.hidden = true;
+      if (success) success.hidden = false;
+      if (status) status.hidden = true;
+      this.announce('Calendar synced — meetings will auto-match.');
+    }, 2000);
+  }
+
+  /**
+   * Create ARIA announcer if it doesn't exist
+   */
+  createAnnouncer() {
+    const announcer = document.createElement('div');
+    announcer.id = 'announcer';
+    announcer.className = 'sr-only';
+    announcer.setAttribute('aria-live', 'polite');
+    announcer.setAttribute('aria-atomic', 'true');
+    document.body.appendChild(announcer);
+    return announcer;
+  }
+
+  /**
+   * Announce message to screen readers
+   */
+  announce(message) {
+    if (this.announcer) {
+      this.announcer.textContent = message;
+    }
+  }
+
+  /**
+   * ⚡ OPTIMIZED: Set up application routing with dynamic controller loading
+   */
+  async setupRouting() {
+    if (!router) {
+      console.warn('⚠️ Router not available, skipping routing setup');
+      return;
+    }
+
+    // Pre-load critical controllers in background
+    this.preloadCriticalControllers();
+
+    // Initialize controllers dynamically based on data-route attributes
+    const routeElements = document.querySelectorAll('[data-route]');
+    const controllerPromises = Array.from(routeElements).map(async (section) => {
+      const routeName = section.dataset.route;
+      
+      try {
+        const ControllerClass = await ModuleLoader.loadController(routeName);
+        if (ControllerClass) {
+          const controller = new ControllerClass(section);
+          
+          // Initialize with error isolation
+          await this.withRetry(() => controller.init?.(), 2, 500)
+            .catch(error => console.warn(`⚠️ Controller ${routeName} init failed:`, error));
+          
+          this.controllers.set(routeName, controller);
+          console.log(`✅ ${routeName} controller loaded`);
+          return { routeName, success: true };
         }
+      } catch (error) {
+        console.error(`❌ Failed to load ${routeName} controller:`, error);
+        return { routeName, success: false, error };
+      }
+    });
 
-        if (eventData.creator.trim().length > 100) {
-            this.showError('Creator name cannot exceed 100 characters');
-            return;
-        }
+    // Wait for controller loading with timeout
+    const controllerResults = await Promise.allSettled(controllerPromises);
+    const loadedControllers = controllerResults
+      .filter(r => r.status === 'fulfilled' && r.value.success)
+      .map(r => r.value.routeName);
+    
+    console.log(`🎯 Loaded controllers: ${loadedControllers.join(', ')}`);
 
-        // Sanitize creator input
-        eventData.creator = eventData.creator.trim();
+    // Define routes with graceful fallbacks
+    const routes = {
+      '/': () => router.navigate('/home'),
+      '/home': () => this.loadControllerSafe('home'),
+      '/people': () => this.loadControllerSafe('people'),
+      '/opportunities': () => this.loadControllerSafe('opportunities'),
+      '/events': () => this.loadControllerSafe('events'),
+      '/events/:id': () => this.loadControllerSafe('events'),
+      '/me': () => this.loadControllerSafe('me'),
+      '/invite': () => this.loadControllerSafe('invite'),
+      '/calendar': () => this.loadControllerSafe('calendar')
+    };
+    
+    try {
+      router.routes(routes);
+    } catch (error) {
+      console.error('❌ Failed to setup routes:', error);
+      return;
+    }
 
-        this.setLoadingState(submitBtn, true);
-
+    // Set up navigation hooks with error handling
+    if (typeof router.beforeEach === 'function') {
+      router.beforeEach(async (to, from) => {
         try {
-            const result = await window.api.createEvent(eventData);
-            
-            if (result.success) {
-                // Track referral conversion for event creation
-                if (window.referralSystem) {
-                    await window.referralSystem.trackConversion('event_creation', {
-                        eventId: result.eventId,
-                        eventName: eventData.name
-                    });
-                }
-                
-                this.showSuccess();
-                await this.loadEvents();
-                this.renderEvents();
-            } else if (result.duplicateWarning) {
-                // Handle duplicate detection
-                this.handleDuplicateWarning(result, eventData);
-            } else {
-                this.showError('Failed to create event: ' + result.error);
-            }
+          this.updatePageTitle(to.route);
+          
+          if (nav && typeof nav.setActiveRoute === 'function') {
+            nav.setActiveRoute(to.route);
+          }
+          
+          if (Store && Store.actions && to.route !== '/home') {
+            Store.actions.showLoading?.();
+          }
+          
+          return true;
         } catch (error) {
-            // Check if error response contains duplicate warning
-            if (error.response && error.response.status === 409) {
-                this.handleDuplicateWarning(error.response.data, eventData);
-            } else {
-                this.showError('Error creating event');
-                console.error(error);
-            }
-        } finally {
-            this.setLoadingState(submitBtn, false);
+          console.warn('⚠️ Navigation hook error:', error);
+          return true; // Continue navigation
         }
+      });
     }
 
-    handleDuplicateWarning(result, eventData) {
-        // Show duplicate warning modal
-        this.showDuplicateWarning(result.duplicates, result.warnings, eventData);
-    }
-
-    showDuplicateWarning(duplicates, warnings, eventData) {
-        const modal = document.getElementById('duplicateModal');
-        const content = document.getElementById('duplicateContent');
-        
-        let html = `
-            <div class="duplicate-warning-intro">
-                <p><strong>We found similar events at the same venue and time.</strong> Please review them below before proceeding.</p>
-            </div>
-        `;
-        
-        if (duplicates.length > 0) {
-            html += `
-                <div class="duplicate-events-section">
-                    <h3 class="duplicate-events-title">
-                        🎯 Similar Events Found (${duplicates.length})
-                    </h3>
-                    <div class="duplicate-events-list">
-            `;
-            
-            duplicates.forEach(dup => {
-                html += `
-                    <div class="duplicate-event">
-                        <div class="duplicate-event-header">
-                            <h4 class="duplicate-event-name">${dup.name}</h4>
-                            <span class="duplicate-similarity">${Math.round(dup.similarity * 100)}% Match</span>
-                        </div>
-                        <div class="duplicate-event-meta">
-                            <div class="duplicate-event-meta-item">
-                                <strong>📍 Venue:</strong> ${dup.venue}
-                            </div>
-                            <div class="duplicate-event-meta-item">
-                                <strong>🕒 Time:</strong> ${dup.startTime}
-                            </div>
-                            <div class="duplicate-event-meta-item">
-                                <strong>👤 Organizer:</strong> ${dup.creator}
-                            </div>
-                            <div class="duplicate-event-meta-item">
-                                <strong>📊 Source:</strong> ${dup.collection === 'events' ? 'Community Event' : 'Official Event'}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            html += `
-                    </div>
-                </div>
-            `;
-        }
-        
-        if (warnings.length > 0) {
-            html += `
-                <div class="duplicate-warnings-section">
-                    <h4 class="duplicate-warnings-title">Additional Similar Events:</h4>
-            `;
-            warnings.forEach(warning => {
-                html += `<div class="duplicate-warning-item">⚠️ ${warning}</div>`;
-            });
-            html += '</div>';
-        }
-        
-        html += `
-            <div class="duplicate-question">
-                Do you still want to create this event?
-            </div>
-            <div class="duplicate-actions">
-                <button id="cancelCreate" class="btn-secondary">
-                    ↩️ Go Back & Edit
-                </button>
-                <button id="forceCreate" class="btn-primary">
-                    ✅ Create Event Anyway
-                </button>
-            </div>
-        `;
-        
-        content.innerHTML = html;
-        modal.classList.add('show');
-        
-        // Store event data for potential force creation
-        this.pendingEventData = eventData;
-        
-        // Add event listeners
-        document.getElementById('cancelCreate').addEventListener('click', () => {
-            modal.classList.remove('show');
-            this.pendingEventData = null;
-        });
-        
-        document.getElementById('forceCreate').addEventListener('click', async () => {
-            modal.classList.remove('show');
-            await this.forceCreateEvent(this.pendingEventData);
-            this.pendingEventData = null;
-        });
-        
-        // Close modal when clicking outside
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('show');
-                this.pendingEventData = null;
-            }
-        });
-    }
-    
-    async forceCreateEvent(eventData) {
-        const submitBtn = document.querySelector('#eventForm button[type="submit"]');
-        this.setLoadingState(submitBtn, true);
-        
+    if (typeof router.afterEach === 'function') {
+      router.afterEach(async (to) => {
         try {
-            // Add forceCreate flag
-            const result = await window.api.createEvent({...eventData, forceCreate: true});
-            
-            if (result.success) {
-                this.showSuccess();
-                await this.loadEvents();
-                this.renderEvents();
-            } else {
-                this.showError('Failed to create event: ' + result.error);
-            }
+          if (Store && Store.actions) {
+            Store.actions.hideLoading?.();
+          }
+          
+          if (motion && typeof motion.initializeView === 'function') {
+            const viewName = to.route.split('/')[1] || 'home';
+            motion.initializeView(viewName);
+          }
+          
+          this.trackNavigation(to);
         } catch (error) {
-            this.showError('Error creating event');
-            console.error(error);
-        } finally {
-            this.setLoadingState(submitBtn, false);
+          console.warn('⚠️ After navigation hook error:', error);
         }
+      });
     }
 
-    setLoadingState(button, loading) {
-        if (loading) {
-            button.innerHTML = `
-                <span class="loading-spinner"></span>
-                Creating Event...
-            `;
-            button.disabled = true;
-            button.style.opacity = '0.8';
-        } else {
-            button.innerHTML = 'Create Event';
-            button.disabled = false;
-            button.style.opacity = '1';
-        }
-    }
-
-    showSuccess(eventId = null) {
-        document.getElementById('eventForm').classList.add('hidden');
-        document.getElementById('success').classList.remove('hidden');
-        this.lastCreatedEvent = eventId;
-        this.trackAnalytics('event_created', { eventId });
-    }
-
-    showError(message) {
-        alert(message);
-    }
-
-    async addToCalendar(eventId) {
-        const event = this.events.find(e => e.id === eventId);
-        if (event) {
-            const url = window.api.generateCalendarURL(event);
-            window.open(url, '_blank');
-            
-            // Track referral conversion for calendar add
-            if (window.referralSystem) {
-                await window.referralSystem.trackConversion('calendar_add', {
-                    eventId: eventId,
-                    eventName: event.name
-                });
-            }
-        }
-    }
-
-    shareEvent(eventId) {
-        const event = this.events.find(e => e.id === eventId);
-        if (!event) return;
-
-        // Create rich sharing content
-        const eventUrl = `${window.location.origin}/?event=${eventId}`;
-        const eventDate = this.formatDate(event.date);
-        const eventTime = event.startTime || 'TBA';
-        const venue = event.venue || 'TBA';
-        
-        const shareData = {
-            title: `🎮 ${event.name} - Gamescom 2025`,
-            text: `Join me at "${event.name}" on ${eventDate} at ${eventTime} in ${venue}! #Gamescom2025 #Gaming`,
-            url: eventUrl
-        };
-
-        // Show sharing modal with multiple options
-        this.showSharingModal(event, shareData);
-    }
-    
-    showSharingModal(event, shareData) {
-        // Create sharing modal
-        const modal = document.createElement('div');
-        modal.className = 'modal';
-        modal.innerHTML = `
-            <div class="modal-content sharing-modal">
-                <div class="modal-header">
-                    <h2 class="modal-title">📤 Share Event</h2>
-                    <button class="modal-close" onclick="this.closest('.modal').remove()">&times;</button>
-                </div>
-                
-                <div class="sharing-content">
-                    <div class="event-preview">
-                        <h3>${this.escapeHtml(event.name)}</h3>
-                        <p>📅 ${this.formatDate(event.date)} • 🕐 ${event.startTime || 'TBA'}</p>
-                        <p>📍 ${this.escapeHtml(event.venue || 'TBA')}</p>
-                    </div>
-                    
-                    <div class="sharing-options">
-                        <button class="share-btn whatsapp" onclick="app.shareToWhatsApp('${event.id}')">
-                            <span class="share-icon">📱</span>
-                            <span>WhatsApp</span>
-                        </button>
-                        
-                        <button class="share-btn twitter" onclick="app.shareToTwitter('${event.id}')">
-                            <span class="share-icon">🐦</span>
-                            <span>Twitter</span>
-                        </button>
-                        
-                        <button class="share-btn linkedin" onclick="app.shareToLinkedIn('${event.id}')">
-                            <span class="share-icon">💼</span>
-                            <span>LinkedIn</span>
-                        </button>
-                        
-                        <button class="share-btn native" onclick="app.shareNative('${event.id}')" style="display: ${navigator.share ? 'flex' : 'none'}">
-                            <span class="share-icon">📲</span>
-                            <span>Share</span>
-                        </button>
-                        
-                        <button class="share-btn copy" onclick="app.copyEventLink('${event.id}')">
-                            <span class="share-icon">🔗</span>
-                            <span>Copy Link</span>
-                        </button>
-                        
-                        <button class="share-btn qr" onclick="app.showQRCode('${event.id}')">
-                            <span class="share-icon">📷</span>
-                            <span>QR Code</span>
-                        </button>
-                    </div>
-                    
-                    <div class="share-stats">
-                        <small>Sharing helps grow the Gamescom community! 🎮</small>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(modal);
-        modal.classList.add('show');
-        
-        // Track sharing modal open
-        this.trackAnalytics('share_modal_opened', { eventId: event.id });
-    }
-    
-    async shareToWhatsApp(eventId) {
-        const shareContent = await window.referralSystem.generateShareContent(eventId, 'whatsapp');
-        if (!shareContent) {
-            this.showError('Failed to generate sharing link');
-            return;
-        }
-        
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareContent.message)}`;
-        window.open(whatsappUrl, '_blank');
-        
-        // Enhanced tracking with referral data
-        this.trackAnalytics('shared_whatsapp_with_referral', { 
-            eventId, 
-            referralCode: shareContent.referralCode,
-            trackableURL: shareContent.trackableURL
-        });
-        
-        this.showToast(`📱 WhatsApp share created with referral tracking!`);
-        this.closeSharingModal();
-    }
-    
-    async shareToTwitter(eventId) {
-        const shareContent = await window.referralSystem.generateShareContent(eventId, 'twitter');
-        if (!shareContent) {
-            this.showError('Failed to generate sharing link');
-            return;
-        }
-        
-        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareContent.message)}`;
-        window.open(twitterUrl, '_blank');
-        
-        this.trackAnalytics('shared_twitter_with_referral', { 
-            eventId, 
-            referralCode: shareContent.referralCode,
-            trackableURL: shareContent.trackableURL
-        });
-        
-        this.showToast(`🐦 Twitter share created with referral tracking!`);
-        this.closeSharingModal();
-    }
-    
-    async shareToLinkedIn(eventId) {
-        const shareContent = await window.referralSystem.generateShareContent(eventId, 'linkedin');
-        if (!shareContent) {
-            this.showError('Failed to generate sharing link');
-            return;
-        }
-        
-        const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareContent.trackableURL)}`;
-        window.open(linkedInUrl, '_blank');
-        
-        this.trackAnalytics('shared_linkedin_with_referral', { 
-            eventId, 
-            referralCode: shareContent.referralCode,
-            trackableURL: shareContent.trackableURL
-        });
-        
-        this.showToast(`💼 LinkedIn share created with referral tracking!`);
-        this.closeSharingModal();
-    }
-    
-    async shareNative(eventId) {
-        if (!navigator.share) return;
-        
-        const shareContent = await window.referralSystem.generateShareContent(eventId, 'native');
-        if (!shareContent) {
-            this.showError('Failed to generate sharing link');
-            return;
-        }
-        
-        const shareData = {
-            title: shareContent.title,
-            text: shareContent.message,
-            url: shareContent.trackableURL
-        };
-        
-        navigator.share(shareData).then(() => {
-            this.trackAnalytics('shared_native_with_referral', { 
-                eventId, 
-                referralCode: shareContent.referralCode,
-                trackableURL: shareContent.trackableURL
-            });
-            this.showToast(`📲 Native share created with referral tracking!`);
-            this.closeSharingModal();
-        }).catch(console.warn);
-    }
-    
-    copyEventLink(eventId) {
-        const eventUrl = `${window.location.origin}/?event=${eventId}`;
-        
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(eventUrl).then(() => {
-                this.showToast('📋 Event link copied to clipboard!');
-                this.trackAnalytics('link_copied', { eventId });
-                this.closeSharingModal();
-            });
-        } else {
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = eventUrl;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            
-            this.showToast('📋 Event link copied to clipboard!');
-            this.trackAnalytics('link_copied', { eventId });
-            this.closeSharingModal();
-        }
-    }
-    
-    showQRCode(eventId) {
-        const eventUrl = `${window.location.origin}/?event=${eventId}`;
-        
-        // Create QR code modal
-        const qrModal = document.createElement('div');
-        qrModal.className = 'modal';
-        qrModal.innerHTML = `
-            <div class="modal-content qr-modal">
-                <div class="modal-header">
-                    <h2 class="modal-title">📷 Event QR Code</h2>
-                    <button class="modal-close" onclick="this.closest('.modal').remove()">&times;</button>
-                </div>
-                
-                <div class="qr-content">
-                    <div class="qr-code-container">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(eventUrl)}" 
-                             alt="QR Code for ${this.escapeHtml(this.events.find(e => e.id === eventId)?.name || 'Event')}"
-                             class="qr-code">
-                    </div>
-                    <p>Scan this QR code to view the event details</p>
-                    <button class="btn-secondary" onclick="app.saveQRCode('${eventId}')">💾 Save QR Code</button>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(qrModal);
-        qrModal.classList.add('show');
-        
-        this.trackAnalytics('qr_code_viewed', { eventId });
-    }
-    
-    saveQRCode(eventId) {
-        const eventUrl = `${window.location.origin}/?event=${eventId}`;
-        const event = this.events.find(e => e.id === eventId);
-        
-        const link = document.createElement('a');
-        link.download = `gamescom-2025-${event?.name?.replace(/\s+/g, '-') || eventId}.png`;
-        link.href = `https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=${encodeURIComponent(eventUrl)}`;
-        link.click();
-        
-        this.trackAnalytics('qr_code_saved', { eventId });
-        this.showToast('💾 QR Code saved!');
-    }
-    
-    closeSharingModal() {
-        const modal = document.querySelector('.sharing-modal')?.closest('.modal');
-        if (modal) {
-            modal.remove();
-        }
-    }
-    
-    showToast(message) {
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = message;
-        toast.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--slack-color-primary);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            z-index: 10000;
-            font-weight: 600;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-        `;
-        
-        document.body.appendChild(toast);
-        
-        // Animate in
-        setTimeout(() => toast.style.transform = 'translateX(0)', 100);
-        
-        // Animate out and remove
-        setTimeout(() => {
-            toast.style.transform = 'translateX(100%)';
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
-    }
-
-    formatDate(dateStr) {
-        const date = new Date(dateStr);
-        const now = new Date();
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const eventDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        
-        const dayDiff = Math.floor((eventDate - today) / (1000 * 60 * 60 * 24));
-        
-        if (dayDiff === 0) return 'Today';
-        if (dayDiff === 1) return 'Tomorrow';
-        if (dayDiff === -1) return 'Yesterday';
-        
-        return date.toLocaleDateString('en-US', {
-            weekday: 'short',
-            month: 'short', 
-            day: 'numeric'
-        });
-    }
-
-    formatFilterName(filter) {
-        return filter.charAt(0).toUpperCase() + filter.slice(1);
-    }
-    
-    escapeHtml(text) {
-        if (!text) return '';
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    // New enhanced methods
-    initOfflineSearch() {
+    // Handle route not found with error recovery
+    if (typeof router.notFound === 'function') {
+      router.notFound((path) => {
+        console.warn('Route not found:', path);
         try {
-            if (typeof OfflineSearch !== 'undefined') {
-                this.offlineSearch = new OfflineSearch();
-                console.log('✅ Offline search initialized');
-            }
+          router.navigate('/home');
         } catch (error) {
-            console.warn('⚠️ Offline search unavailable:', error);
+          console.error('❌ Failed to navigate to fallback route:', error);
+          // Last resort: manual navigation
+          window.location.hash = '#/home';
         }
+      });
     }
+  }
+  
+  /**
+   * Pre-load critical controllers in background
+   */
+  async preloadCriticalControllers() {
+    const criticalControllers = ['events', 'home', 'people'];
+    
+    // Load in background without blocking
+    setTimeout(() => {
+      criticalControllers.forEach(controllerName => {
+        ModuleLoader.loadController(controllerName)
+          .catch(error => console.log(`Background preload failed for ${controllerName}:`, error));
+      });
+    }, 100);
+  }
+  
+  /**
+   * Load controller with enhanced error handling
+   */
+  async loadControllerSafe(controllerName) {
+    try {
+      return await this.loadController(controllerName);
+    } catch (error) {
+      console.error(`❌ Failed to load controller ${controllerName}:`, error);
+      
+      // Fallback to basic content
+      this.loadFallbackContent(controllerName);
+    }
+  }
+  
+  /**
+   * Load fallback content when controller fails
+   */
+  loadFallbackContent(controllerName) {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent) return;
+    
+    const fallbackContent = {
+      home: '<div class="screen"><h1 class="h1">Professional Dashboard</h1><p class="sub">Loading...</p></div>',
+      people: '<div class="screen"><h1 class="h1">Professional Network</h1><p class="sub">Loading...</p></div>',
+      opportunities: '<div class="screen"><h1 class="h1">Career Opportunities</h1><p class="sub">Loading...</p></div>',
+      events: '<div class="screen"><h1 class="h1">Events</h1><p class="sub">Loading events...</p></div>',
+      me: '<div class="screen"><h1 class="h1">Your Profile</h1><p class="sub">Loading...</p></div>'
+    };
+    
+    mainContent.innerHTML = fallbackContent[controllerName] || 
+      '<div class="screen"><h1 class="h1">Content Unavailable</h1><p class="sub">Please try again later.</p></div>';
+  }
 
-    initCacheUtils() {
+  /**
+   * Initialize UI components
+   */
+  initializeUI() {
+    // Initialize view transition system
+    try {
+      if (viewTX && typeof viewTX.init === 'function') {
+        viewTX.init();
+        console.log('✅ View transition system initialized');
+      } else {
+        throw new Error('View transition system not available');
+      }
+    } catch (error) {
+      console.warn('⚠️ View transition system initialization failed:', error);
+    }
+    
+    // Initialize press feedback system
+    try {
+      if (typeof bindPressFeedback === 'function') {
+        bindPressFeedback();
+        console.log('✅ Press feedback system initialized');
+      } else {
+        throw new Error('Press feedback system not available');
+      }
+    } catch (error) {
+      console.warn('⚠️ Press feedback system initialization failed:', error);
+    }
+    
+    // Initialize performance monitoring
+    try {
+      if (typeof createFPSWatchdog === 'function') {
+        createFPSWatchdog({ minFps: 45, sampleMs: 1000 });
+        console.log('✅ Performance monitoring initialized');
+      } else {
+        throw new Error('Performance monitoring not available');
+      }
+    } catch (error) {
+      console.warn('⚠️ Performance monitoring initialization failed:', error);
+    }
+    
+    // Set up UI interactions (gracefully handle failures)
+    try {
+      this.setupTopbar();
+    } catch (error) {
+      console.warn('⚠️ Topbar setup failed:', error);
+    }
+    
+    try {
+      this.setupTabbar();
+    } catch (error) {
+      console.warn('⚠️ Tabbar setup failed:', error);
+    }
+    
+    try {
+      this.initializeSignalField();
+    } catch (error) {
+      console.warn('⚠️ Signal field initialization failed:', error);
+    }
+    
+    try {
+      this.setupQuickActions();
+    } catch (error) {
+      console.warn('⚠️ Quick actions setup failed:', error);
+    }
+    
+    try {
+      this.setupThemeHandling();
+    } catch (error) {
+      console.warn('⚠️ Theme handling setup failed:', error);
+    }
+  }
+
+  /**
+   * Set up global event listeners
+   */
+  setupGlobalEvents() {
+    // Handle app state changes
+    Store.subscribe('ui.modal', (modal) => {
+      if (modal) {
+        this.showModal(modal);
+      } else {
+        this.hideModal();
+      }
+    });
+
+    Store.subscribe('ui.notification', (notification) => {
+      if (notification) {
+        this.showNotification(notification);
+      }
+    });
+
+    Store.subscribe('ui.error', (error) => {
+      if (error) {
+        this.showError(error);
+      }
+    });
+
+    // Handle online/offline status
+    window.addEventListener('online', () => {
+      Store.actions.showNotification('🟢 Back online');
+      this.syncData();
+    });
+
+    window.addEventListener('offline', () => {
+      Store.actions.showNotification('🔴 Working offline');
+    });
+
+    // Handle visibility changes
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        this.handleAppResume();
+      } else {
+        this.handleAppPause();
+      }
+    });
+
+    // Handle PWA install prompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      Store.patch('ui.installPrompt', e);
+    });
+
+    // Global action handler
+    document.addEventListener('click', (e) => {
+      const actionElement = e.target.closest('[data-action]');
+      if (actionElement) {
+        e.preventDefault();
+        this.handleAction(actionElement.dataset.action, actionElement);
+      }
+    });
+  }
+
+  /**
+   * Set up topbar
+   */
+  setupTopbar() {
+    const primaryCta = document.getElementById('primary-cta');
+    if (primaryCta) {
+      primaryCta.addEventListener('click', () => {
+        this.handlePrimaryCTA();
+      });
+    }
+  }
+
+  /**
+   * Set up tabbar navigation
+   */
+  setupTabbar() {
+    const tablinks = document.querySelectorAll('.tablink');
+    tablinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const href = link.getAttribute('href');
+        if (href) {
+          const route = href.replace('#', '');
+          router.navigate(route);
+        }
+      });
+    });
+  }
+
+  /**
+   * Initialize signal field canvas
+   */
+  initializeSignalField() {
+    const canvas = document.getElementById('signal-field');
+    if (!canvas) return;
+
+    // Import and initialize canvas field
+    import('./ui/canvasField.js').then(({ canvasField }) => {
+      this.signalField = canvasField;
+      this.signalField.init(canvas);
+      console.log('✅ Signal field initialized');
+    }).catch(error => {
+      console.warn('⚠️ Failed to initialize signal field:', error);
+    });
+  }
+
+  /**
+   * Set up quick actions
+   */
+  setupQuickActions() {
+    // Action handlers will be set up via event delegation
+    // in the global event listener above
+  }
+
+  /**
+   * Set up theme handling
+   */
+  setupThemeHandling() {
+    // Apply stored theme
+    const theme = Store.get('ui.theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', (e) => {
+      if (Store.get('ui.theme') === 'auto') {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+      }
+    });
+  }
+
+  /**
+   * ⚡ OPTIMIZED: Load and initialize controller with enhanced caching
+   */
+  async loadController(controllerName) {
+    try {
+      // Check if controller is already loaded and cached
+      let controller = this.controllers.get(controllerName);
+      
+      if (!controller) {
+        console.log(`🔄 Loading controller ${controllerName}...`);
+        
+        // Attempt to load controller dynamically
+        const ControllerClass = await ModuleLoader.loadController(controllerName);
+        if (!ControllerClass) {
+          throw new Error(`Controller class not found for ${controllerName}`);
+        }
+        
+        // Find the section element for this controller
+        const section = document.querySelector(`[data-route="${controllerName}"]`);
+        controller = new ControllerClass(section);
+        
+        // Initialize with retry logic
+        await this.withRetry(() => controller.init?.(), 2, 500);
+        
+        // Cache the controller
+        this.controllers.set(controllerName, controller);
+        console.log(`✅ Controller ${controllerName} loaded and cached`);
+      }
+
+      // Cleanup previous controller with error handling
+      if (this.currentController && this.currentController !== controller) {
         try {
-            if (typeof CacheUtils !== 'undefined') {
-                this.cacheUtils = new CacheUtils();
-                console.log('✅ Cache utils initialized');
-            }
-        } catch (error) {
-            console.warn('⚠️ Cache utils unavailable:', error);
+          if (typeof this.currentController.destroy === 'function') {
+            await this.currentController.destroy();
+          }
+        } catch (cleanupError) {
+          console.warn(`⚠️ Previous controller cleanup failed:`, cleanupError);
         }
-    }
+      }
 
-    handleSearch(query) {
-        this.searchQuery = query.toLowerCase().trim();
-        
-        // Show/hide clear button
-        const clearBtn = document.getElementById('clearSearch');
-        clearBtn.classList.toggle('hidden', !this.searchQuery);
-        
-        // Reset pagination
-        this.page = 1;
-        
-        // Filter events
-        this.filterEvents(this.searchQuery, this.currentFilter);
-        
-        // Track search
-        if (this.searchQuery) {
-            this.analytics.searches++;
-            this.trackAnalytics('search_performed', { query: this.searchQuery });
+      // Activate current controller
+      if (typeof controller.activate === 'function') {
+        await controller.activate();
+      } else if (typeof controller.mount === 'function') {
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+          controller.mount(mainContent);
         }
-    }
+      }
 
-    setView(view) {
-        this.currentView = view;
-        
-        // Update view buttons
-        document.getElementById('viewGrid').classList.toggle('active', view === 'grid');
-        document.getElementById('viewList').classList.toggle('active', view === 'list');
-        
-        // Re-render events
-        this.renderEvents();
-        
-        // Store preference
-        localStorage.setItem('preferredView', view);
-    }
-
-    loadMore() {
-        this.page++;
-        this.renderEvents();
-    }
-
-    updateLoadMoreButton() {
-        const loadMoreSection = document.querySelector('.load-more-section');
-        const totalShown = this.page * this.pageSize;
-        const hasMore = totalShown < this.filteredEvents.length;
-        
-        loadMoreSection.classList.toggle('hidden', !hasMore);
-    }
-
-    updateResultsCount() {
-        const countElement = document.getElementById('searchResultsCount');
-        const total = this.filteredEvents.length;
-        const shown = Math.min(this.page * this.pageSize, total);
-        
-        if (this.searchQuery) {
-            countElement.textContent = `${total} events found for "${this.searchQuery}"`;
-        } else {
-            countElement.textContent = `Showing ${shown} of ${total} events`;
+      this.currentController = controller;
+      console.log(`✅ Controller ${controllerName} activated`);
+      
+      return controller;
+      
+    } catch (error) {
+      console.error(`❌ Failed to load controller ${controllerName}:`, error);
+      
+      // Enhanced fallback logic
+      if (controllerName !== 'events') {
+        console.log(`🔄 Falling back to events controller...`);
+        try {
+          if (router && typeof router.navigate === 'function') {
+            router.navigate('/events');
+          } else {
+            window.location.hash = '#/events';
+          }
+        } catch (fallbackError) {
+          console.error('❌ Fallback navigation failed:', fallbackError);
+          this.loadFallbackContent(controllerName);
         }
+      } else {
+        // Last resort for events controller failure
+        this.loadFallbackContent('events');
+      }
+      
+      throw error;
     }
+  }
 
-    updateHeroStats() {
-        const ugcCount = this.events.filter(e => e.isUGC).length;
-        
-        document.getElementById('totalEvents').textContent = `${this.events.length}+`;
-        document.getElementById('ugcEvents').textContent = `${ugcCount}+`;
+  /**
+   * Handle global actions
+   */
+  async handleAction(action, element) {
+    const [module, method] = action.split('.');
+    
+    switch (module) {
+      case 'invite':
+        await this.handleInviteAction(method, element);
+        break;
+      case 'event':
+        await this.handleEventAction(method, element);
+        break;
+      case 'presence':
+        await this.handlePresenceAction(method, element);
+        break;
+      case 'opportunity':
+        await this.handleOpportunityAction(method, element);
+        break;
+      case 'profile':
+        await this.handleProfileAction(method, element);
+        break;
+      default:
+        console.warn('Unknown action:', action);
     }
+  }
 
-    renderEventCard(event) {
-        const isUGC = event.isUGC;
-        const eventName = event.name || event['Event Name'];
-        const eventDate = event.date || event.Date;
-        const eventTime = event.startTime || event['Start Time'];
-        const eventVenue = event.venue || event.Address;
-        const eventCategory = event.category || event.Category;
-        const eventHosts = event.hosts || event.Hosts || event.creator;
-        const eventDescription = event.description || event.Description;
-
-        return `
-            <article class="event ${isUGC ? 'ugc-event' : ''}" data-event-id="${event.id}" onclick="app.viewEventDetails('${event.id}')">
-                <div class="event-header">
-                    <h3>${eventName}</h3>
-                    ${isUGC ? '<span class="ugc-badge">👥 Community Event</span>' : ''}
-                </div>
-                
-                <div class="event-host">
-                    <span class="host-label">Hosted by:</span>
-                    <span class="host-name">${eventHosts}</span>
-                </div>
-                
-                <div class="event-meta">
-                    <div class="meta-item">
-                        <span class="meta-icon">📅</span>
-                        <span class="meta-text">${this.formatDate(eventDate)}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-icon">🕐</span>
-                        <span class="meta-text">${eventTime}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-icon">📍</span>
-                        <span class="meta-text">${eventVenue}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-icon">🎯</span>
-                        <span class="meta-text">${eventCategory}</span>
-                    </div>
-                </div>
-                
-                ${eventDescription ? `<p class="event-description">${this.truncateText(eventDescription, 120)}</p>` : ''}
-                
-                ${isUGC && event.creator ? `<div class="creator-info">Created by ${event.creator}</div>` : ''}
-                
-                <div class="event-actions">
-                    <button class="btn-primary" onclick="event.stopPropagation(); app.addToCalendar('${event.id}')">
-                        📅 Add to Calendar
-                    </button>
-                    <button class="btn-secondary" onclick="event.stopPropagation(); app.shareEvent('${event.id}')">
-                        📤 Share
-                    </button>
-                    <button class="btn-secondary" onclick="event.stopPropagation(); app.viewOnMap('${event.id}')">
-                        🗺️ View on Map
-                    </button>
-                </div>
-            </article>
-        `;
-    }
-
-    showLoadingState() {
-        if (this.virtualRenderer && this.virtualRenderer.viewport) {
-            this.virtualRenderer.viewport.innerHTML = `
-                <div class="loading-state" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                    <div class="loading-spinner-large"></div>
-                    <p>Loading amazing events...</p>
-                </div>
-            `;
-        } else {
-            const container = document.getElementById('events');
-            container.innerHTML = `
-                <div class="loading-state">
-                    <div class="loading-spinner-large"></div>
-                    <p>Loading amazing events...</p>
-                </div>
-            `;
-        }
-    }
-
-    showEmptyState() {
-        const message = this.searchQuery 
-            ? `No events found for "${this.searchQuery}". Try a different search term.`
-            : 'No events available at the moment.';
-            
-        const emptyStateHTML = `
-            <div class="empty-state" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; padding: 60px 20px;">
-                <div style="font-size: 48px; margin-bottom: 16px;">🔍</div>
-                <h3 style="margin-bottom: 12px; color: var(--slack-color-text);">${message}</h3>
-                ${this.searchQuery ? 
-                    '<button onclick="app.handleSearch(\'\')" class="btn-secondary">Clear Search</button>' :
-                    '<button onclick="app.showModal()" class="btn-primary">Create the First Event!</button>'
-                }
-            </div>
-        `;
-        
-        if (this.virtualRenderer && this.virtualRenderer.viewport) {
-            this.virtualRenderer.viewport.innerHTML = emptyStateHTML;
-        } else {
-            const container = document.getElementById('events');
-            container.innerHTML = `
-                <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
-                    <div style="font-size: 48px; margin-bottom: 16px;">🔍</div>
-                    <h3 style="margin-bottom: 12px; color: var(--slack-color-text);">${message}</h3>
-                    ${this.searchQuery ? 
-                        '<button onclick="app.handleSearch(\'\')" class="btn-secondary">Clear Search</button>' :
-                        '<button onclick="app.showModal()" class="btn-primary">Create the First Event!</button>'
-                    }
-                </div>
-            `;
-        }
-    }
-
-    truncateText(text, maxLength) {
-        if (text.length <= maxLength) return text;
-        return text.substring(0, maxLength).trim() + '...';
-    }
-
-    setupQuickActions() {
-        // Quick create button
-        document.getElementById('quickCreateBtn').addEventListener('click', () => {
-            this.showModal();
+  /**
+   * Handle invite actions
+   */
+  async handleInviteAction(method, element) {
+    switch (method) {
+      case 'open':
+        Store.actions.openModal({
+          type: 'invite',
+          data: {
+            code: Store.get('invites.myCode'),
+            remaining: Store.get('invites.left')
+          }
         });
+        break;
+      case 'send':
+        // Handle invite sending
+        break;
+    }
+  }
 
-        // Quick map button
-        document.getElementById('quickMapBtn').addEventListener('click', () => {
-            window.location.href = '/maps.html';
+  /**
+   * Handle event actions
+   */
+  async handleEventAction(method, element) {
+    switch (method) {
+      case 'create':
+        router.navigate('/events/create');
+        break;
+      case 'join':
+        const eventId = element.dataset.eventId;
+        if (eventId) {
+          await api.swipeEvent(eventId, 'right');
+          Store.actions.showNotification('Event saved! 🎉');
+        }
+        break;
+    }
+  }
+
+  /**
+   * Handle presence actions
+   */
+  async handlePresenceAction(method, element) {
+    switch (method) {
+      case 'edit':
+        Store.actions.openModal({
+          type: 'presence',
+          data: Store.get('proximity')
         });
+        break;
+    }
+  }
 
-        // Quick calendar button
-        document.getElementById('quickCalendarBtn').addEventListener('click', () => {
-            window.location.href = '/calendar.html';
+  /**
+   * Handle primary CTA based on current route
+   */
+  handlePrimaryCTA() {
+    const currentRoute = router.currentRoute?.route || '/home';
+    
+    switch (currentRoute) {
+      case '/home':
+        this.handleAction('invite.open');
+        break;
+      case '/people':
+        router.navigate('/opportunities');
+        break;
+      case '/opportunities':
+        this.handleAction('opportunity.create');
+        break;
+      case '/events':
+        this.handleAction('event.create');
+        break;
+      case '/me':
+        Store.actions.openModal({ type: 'settings' });
+        break;
+    }
+  }
+
+  /**
+   * Update page title based on route
+   */
+  updatePageTitle(route) {
+    const titleElement = document.getElementById('page-title');
+    const primaryCta = document.getElementById('primary-cta');
+    
+    const routeConfig = {
+      '/home': { title: 'Now', cta: 'Invite' },
+      '/people': { title: 'People', cta: 'Next' },
+      '/opportunities': { title: 'Opportunities', cta: 'Create' },
+      '/events': { title: 'Events', cta: 'Add' },
+      '/me': { title: 'Profile', cta: 'Settings' }
+    };
+    
+    const config = routeConfig[route] || { title: 'PI', cta: 'Action' };
+    
+    if (titleElement) {
+      titleElement.textContent = config.title;
+      motion.animate(titleElement, {
+        opacity: [0.5, 1],
+        transform: ['translateY(5px)', 'translateY(0)']
+      }, { duration: 300 });
+    }
+    
+    if (primaryCta) {
+      primaryCta.textContent = config.cta;
+    }
+  }
+
+  /**
+   * Show modal
+   */
+  showModal(modal) {
+    // Modal implementation will be handled by individual controllers
+    // This is a placeholder for global modal coordination
+    Events.emit('modal:show', modal);
+  }
+
+  /**
+   * Hide modal
+   */
+  hideModal() {
+    Events.emit('modal:hide');
+  }
+
+  /**
+   * Show notification
+   */
+  showNotification(notification) {
+    // Create notification element
+    const notif = document.createElement('div');
+    notif.className = 'notification';
+    notif.textContent = typeof notification === 'string' ? notification : notification.message;
+    notif.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--color-brand-primary);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      z-index: var(--z-notification);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    `;
+    
+    document.body.appendChild(notif);
+    
+    // Animate in
+    setTimeout(() => {
+      notif.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Auto remove
+    setTimeout(() => {
+      notif.style.transform = 'translateX(100%)';
+      setTimeout(() => notif.remove(), 300);
+    }, 3000);
+  }
+
+  /**
+   * Show error
+   */
+  showError(error) {
+    this.showNotification(`❌ ${error}`);
+  }
+
+  /**
+   * Handle app resume
+   */
+  handleAppResume() {
+    // Sync data when app comes back to focus
+    this.syncData();
+    
+    // Resume proximity if enabled
+    const proximity = Store.get('proximity.enabled');
+    if (proximity) {
+      import('./services/proximity.js').then(({ proximity }) => {
+        proximity.startTracking();
+      });
+    }
+  }
+
+  /**
+   * Handle app pause
+   */
+  handleAppPause() {
+    // Pause non-critical background tasks
+    if (this.signalField) {
+      this.signalField.pause();
+    }
+  }
+
+  /**
+   * Sync data with server
+   */
+  async syncData() {
+    try {
+      const lastSync = Store.get('cache.lastSync') || 0;
+      const syncData = await api.syncData(lastSync);
+      
+      if (syncData && syncData.updates) {
+        // Apply updates to store
+        Object.entries(syncData.updates).forEach(([key, value]) => {
+          Store.patch(key, value);
         });
-    }
-
-    handleKeyboardShortcuts(e) {
-        // Cmd/Ctrl + K for search
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-            e.preventDefault();
-            document.getElementById('searchInput').focus();
-        }
         
-        // ESC to close modals
-        if (e.key === 'Escape') {
-            this.closeModal();
-        }
-        
-        // Cmd/Ctrl + Enter to create event from anywhere
-        if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-            this.showModal();
-        }
+        Store.patch('cache.lastSync', Date.now());
+        console.log('✅ Data synchronized');
+      }
+    } catch (error) {
+      console.warn('⚠️ Sync failed:', error);
     }
+  }
 
-    viewEventDetails(eventId) {
-        const event = this.events.find(e => e.id === eventId);
-        if (!event) return;
-
-        // Track event view
-        this.analytics.eventViews++;
-        this.trackAnalytics('event_viewed', { eventId });
-
-        // Show event details modal (you can enhance this)
-        alert(`Event Details:\n${event.name || event['Event Name']}\n${event.venue || event.Address}\n${this.formatDate(event.date || event.Date)} at ${event.startTime || event['Start Time']}`);
+  /**
+   * Track navigation for analytics
+   */
+  trackNavigation(to) {
+    // Simple analytics tracking
+    if (window.gtag) {
+      gtag('config', 'GA_MEASUREMENT_ID', {
+        page_path: to.path
+      });
     }
-
-    viewOnMap(eventId) {
-        // Redirect to maps page with event highlighted
-        window.location.href = `/maps.html?event=${eventId}`;
+    
+    // Track in store for internal analytics
+    const history = Store.get('analytics.navigation') || [];
+    history.push({
+      path: to.path,
+      timestamp: Date.now(),
+      params: to.params
+    });
+    
+    // Keep only last 50 navigation events
+    if (history.length > 50) {
+      history.shift();
     }
+    
+    Store.patch('analytics.navigation', history);
+  }
 
-    trackAnalytics(event, data = {}) {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', event, data);
-        }
-        
-        // Also track locally for debugging
-        console.log(`📊 Analytics: ${event}`, data);
+  /**
+   * Handle initialization errors
+   */
+  handleInitializationError(error) {
+    document.body.innerHTML = `
+      <div style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        padding: 2rem;
+        text-align: center;
+        background: var(--color-neutral-900);
+        color: white;
+      ">
+        <h1>⚠️ Initialization Error</h1>
+        <p>The Professional Intelligence Platform failed to start.</p>
+        <button onclick="window.location.reload()" style="
+          padding: 12px 24px;
+          background: var(--color-brand-primary);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          margin-top: 1rem;
+        ">Retry</button>
+        <details style="margin-top: 2rem; max-width: 500px;">
+          <summary>Technical Details</summary>
+          <pre style="text-align: left; overflow: auto; margin-top: 1rem;">
+${error.stack || error.message}
+          </pre>
+        </details>
+      </div>
+    `;
+  }
+
+  /**
+   * Cleanup on app destroy
+   */
+  destroy() {
+    if (this.signalField) {
+      this.signalField.destroy();
     }
+    
+    motion.cleanup();
+    router.disconnectWebSocket?.();
+    this.initialized = false;
+  }
 }
 
-// Initialize app when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    window.app = new GamescomApp();
-    window.app.init().catch(error => {
-        console.error('Failed to initialize app:', error);
-        document.body.innerHTML = `
-            <div style="text-align: center; padding: 40px; font-family: system-ui;">
-                <h1>😔 Oops! Something went wrong</h1>
-                <p>Failed to load the Gamescom Party Discovery app.</p>
-                <button onclick="window.location.reload()" style="padding: 10px 20px; background: #4A154B; color: white; border: none; border-radius: 4px; cursor: pointer;">Reload App</button>
-            </div>
-        `;
-    });
+// ⚡ OPTIMIZED: Initialize app with performance monitoring
+const app = new ProfessionalIntelligenceApp();
+
+// Enhanced initialization with error recovery
+async function initializeApp() {
+  try {
+    await app.init();
+  } catch (error) {
+    console.error('❌ Critical initialization failure:', error);
+    
+    // Attempt recovery after delay
+    setTimeout(() => {
+      console.log('🔄 Attempting app recovery...');
+      app.init().catch(recoveryError => {
+        console.error('❌ Recovery failed:', recoveryError);
+        app.handleInitializationError(recoveryError);
+      });
+    }, 2000);
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+  initializeApp();
+}
+
+// Export for debugging with enhanced utilities
+window.app = app;
+Object.defineProperty(window, 'router', {
+  get: () => router,
+  enumerable: true
 });
+Object.defineProperty(window, 'store', {
+  get: () => window.Store,
+  enumerable: true
+});
+
+// Debug utilities
+window.debug = {
+  moduleStats: () => ModuleLoader.getStats(),
+  cacheStats: () => window.CacheManager?.getStats() || 'Cache not available',
+  appStats: () => window.app.stats || 'Stats not available',
+  reloadModule: (modulePath) => {
+    ModuleLoader.cache.delete(modulePath);
+    return ModuleLoader.loadCoreModule(modulePath);
+  },
+  testPerformance: () => {
+    if (typeof window.testPerformance === 'function') {
+      return window.testPerformance();
+    }
+    return 'Performance test not available';
+  }
+};
+
+console.log('🔧 Debug utilities available: window.debug');
+
+// Sidebar/mobilenav
+const sidenav = document.getElementById('sidenav');
+const overlay = document.getElementById('overlay');
+document.getElementById('menu')?.addEventListener('click', ()=>{ sidenav.classList.add('open'); overlay.hidden=false; });
+overlay?.addEventListener('click', ()=>{ sidenav.classList.remove('open'); overlay.hidden=true; });
+
+document.querySelectorAll('.nav-item').forEach(b=>{
+  b.addEventListener('click', ()=>{ location.hash = '#/' + b.dataset.route; sidenav.classList.remove('open'); overlay.hidden=true; });
+});
+
+window.addEventListener('hashchange', syncNavFromRoute);
+syncNavFromRoute();
+function syncNavFromRoute(){
+  const r = (location.hash.replace('#/','') || 'events');
+  document.querySelectorAll('.nav-item').forEach(b=> b.classList.toggle('active', b.dataset.route===r));
+  const t = document.getElementById('page-title'); if (t) t.textContent = r.replace(/-/g,' ').replace(/\b\w/g,m=>m.toUpperCase());
+}
+
+// Accessibility announcement function
+window.announce = function(message) {
+  const liveRegion = document.getElementById('sr-live') || document.getElementById('aria-live-status');
+  if (liveRegion) {
+    liveRegion.textContent = '';
+    setTimeout(() => { liveRegion.textContent = message; }, 100);
+  }
+};
+
+export default app;

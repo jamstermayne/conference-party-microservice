@@ -67,7 +67,7 @@ class OnboardingManager {
                 color: 'var(--secondary)',
                 questions: [
                     { key: 'company', label: 'Company', type: 'text', placeholder: 'Service company name' },
-                    { key: 'service', label: 'Service Type', type: 'select', options: ['Localization', 'QA Testing', 'Audio/Music', 'Outsourcing', 'Tools/Tech', 'Legal', 'Other'] },
+                    { key: 'service', label: 'Service Types', type: 'multiselect', options: ['Localization', 'QA Testing', 'Audio/Music', 'Outsourcing', 'Tools/Tech', 'Legal', 'Marketing', 'Analytics', 'Cloud Services', 'Other'] },
                     { key: 'scale', label: 'Company Size', type: 'select', options: ['1-10', '11-50', '51-200', '200+'] },
                     { key: 'clients', label: 'Client Focus', type: 'select', options: ['Indies', 'AA Studios', 'AAA Studios', 'Publishers', 'All'] }
                 ],
@@ -92,15 +92,11 @@ class OnboardingManager {
 
     async checkOnboardingStatus() {
         try {
-            // Use cached storage manager
-            const completed = await window.Cache.get('onboarding.status', {
-                loader: async () => {
-                    return window.StorageManager.get('onboarding.completed');
-                },
-                ttl: 60000 // Cache for 1 minute
-            });
+            const completed = localStorage.getItem('gamescom_onboarding_completed');
+            if (!completed) return false;
             
-            return completed && completed.completedAt && completed.persona;
+            const data = JSON.parse(completed);
+            return data && data.completedAt && data.persona;
         } catch (error) {
             console.error('Error checking onboarding status:', error);
             return false;
@@ -213,20 +209,24 @@ class OnboardingManager {
                 
                 <div class="persona-grid">
                     ${Object.values(this.personas).map(persona => `
-                        <div class="persona-card" data-persona="${persona.id}">
-                            <div class="persona-icon" style="background: ${persona.color}20; color: ${persona.color}">
+                        <div class="persona-card" data-persona="${persona.id}" style="cursor: pointer; pointer-events: auto; user-select: none;">
+                            <div class="persona-icon" style="background: ${persona.color}20; color: ${persona.color}; pointer-events: none;">
                                 ${persona.icon}
                             </div>
-                            <h3 class="persona-title">${persona.title}</h3>
-                            <p class="persona-description">${persona.description}</p>
-                            <div class="persona-check">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <h3 class="persona-title" style="pointer-events: none;">${persona.title}</h3>
+                            <p class="persona-description" style="pointer-events: none;">${persona.description}</p>
+                            <div class="persona-check" style="pointer-events: none;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="pointer-events: none;">
                                     <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="2"/>
-                                    <path d="M7 12l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"/>
+                                    <path d="M7 12l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none; pointer-events: none;"/>
                                 </svg>
                             </div>
                         </div>
                     `).join('')}
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center; color: #666; font-size: 14px;">
+                    Click on a role above to continue
                 </div>
             </div>
         `;
@@ -285,6 +285,24 @@ class OnboardingManager {
             `;
         }
         
+        if (question.type === 'multiselect') {
+            return `
+                <div class="form-group">
+                    <label class="form-label">${question.label}</label>
+                    <p class="form-help">Select all that apply</p>
+                    <div class="multiselect-options" id="${question.key}">
+                        ${question.options.map(opt => `
+                            <label class="multiselect-option">
+                                <input type="checkbox" name="${question.key}" value="${opt}">
+                                <span class="checkmark"></span>
+                                <span class="option-text">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
         return '';
     }
 
@@ -326,6 +344,9 @@ class OnboardingManager {
                     <div class="success-icon">✨</div>
                     <h3>You're all set!</h3>
                     <p class="text-muted">Ready to discover amazing events at Gamescom 2025</p>
+                    <button class="btn btn-primary btn-large" id="completeOnboardingBtn" style="margin-top: 20px;">
+                        Start Exploring Events →
+                    </button>
                 </div>
             </div>
         `;
@@ -346,20 +367,32 @@ class OnboardingManager {
     }
 
     attachEventListeners() {
-        // Navigation buttons using optimized event manager
-        this.eventKeys.push(
-            window.$.on('#nextBtn', 'click', () => this.handleNext()),
-            window.$.on('#backBtn', 'click', () => this.handleBack())
-        );
+        // Navigation buttons using standard event listeners
+        const nextBtn = document.getElementById('nextBtn');
+        const backBtn = document.getElementById('backBtn');
         
-        // Dynamic listeners will be attached as steps render
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => this.handleNext());
+        }
+        
+        if (backBtn) {
+            backBtn.addEventListener('click', () => this.handleBack());
+        }
     }
 
     handleNext() {
         if (this.currentStep === 0) {
             this.currentStep = 1;
             this.updateContent(this.renderPersonaStep());
-            this.attachPersonaListeners();
+            // Disable continue button until persona is selected
+            const nextBtn = document.getElementById('nextBtn');
+            if (nextBtn) {
+                nextBtn.disabled = true;
+                nextBtn.style.opacity = '0.5';
+                nextBtn.textContent = 'Select a role to continue';
+            }
+            // Ensure DOM is updated before attaching listeners
+            setTimeout(() => this.attachPersonaListeners(), 10);
         } else if (this.currentStep === 1) {
             if (!this.userData.persona) {
                 this.showError('Please select your professional role');
@@ -374,7 +407,13 @@ class OnboardingManager {
             this.saveProfileData();
             this.currentStep = 3;
             this.updateContent(this.renderInterestsStep());
-            document.getElementById('nextBtn').textContent = 'Complete Setup →';
+            // Hide the navigation buttons since we have a custom completion button
+            const nextBtn = document.getElementById('nextBtn');
+            const backBtn = document.getElementById('backBtn');
+            if (nextBtn) nextBtn.style.display = 'none';
+            if (backBtn) backBtn.style.display = 'none';
+            // Add listener for the completion button
+            this.attachCompletionListener();
         } else if (this.currentStep === 3) {
             this.saveInterests();
             this.completeOnboarding();
@@ -402,37 +441,81 @@ class OnboardingManager {
         }
     }
 
+    attachCompletionListener() {
+        setTimeout(() => {
+            const completeBtn = document.getElementById('completeOnboardingBtn');
+            if (completeBtn) {
+                completeBtn.addEventListener('click', () => {
+                    console.log('Completion button clicked!');
+                    this.saveInterests();
+                    this.completeOnboarding();
+                });
+                console.log('Completion button listener attached');
+            } else {
+                console.warn('Completion button not found, retrying...');
+                setTimeout(() => this.attachCompletionListener(), 100);
+            }
+        }, 10);
+    }
+
     attachPersonaListeners() {
-        document.querySelectorAll('.persona-card').forEach(card => {
-            this.eventKeys.push(
-                window.$.on(card, 'click', (e) => {
-                    // Remove previous selection using batched DOM updates
-                    document.querySelectorAll('.persona-card').forEach(c => {
-                        window.DOM.batch(c, {
-                            classes: { remove: 'selected' }
-                        });
-                        const path = c.querySelector('path');
-                        if (path) {
-                            window.DOM.batch(path, {
-                                styles: { display: 'none' }
-                            });
-                        }
-                    });
-                    
-                    // Add new selection
-                    window.DOM.batch(card, {
-                        classes: { add: 'selected' }
-                    });
-                    const path = card.querySelector('path');
+        const personaCards = document.querySelectorAll('.persona-card');
+        console.log('Attaching listeners to', personaCards.length, 'persona cards');
+        
+        if (personaCards.length === 0) {
+            console.warn('No persona cards found! Retrying in 100ms...');
+            setTimeout(() => this.attachPersonaListeners(), 100);
+            return;
+        }
+        
+        personaCards.forEach((card, index) => {
+            console.log('Attaching listener to card', index, card.dataset.persona);
+            
+            // Remove any existing listeners
+            card.replaceWith(card.cloneNode(true));
+            const newCard = document.querySelectorAll('.persona-card')[index];
+            
+            newCard.addEventListener('click', (e) => {
+                console.log('Persona card clicked!', newCard.dataset.persona);
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Remove previous selection
+                document.querySelectorAll('.persona-card').forEach(c => {
+                    c.classList.remove('selected');
+                    const path = c.querySelector('path');
                     if (path) {
-                        window.DOM.batch(path, {
-                            styles: { display: 'block' }
-                        });
+                        path.style.display = 'none';
                     }
-                    
-                    this.userData.persona = card.dataset.persona;
-                })
-            );
+                });
+                
+                // Add new selection
+                newCard.classList.add('selected');
+                const path = newCard.querySelector('path');
+                if (path) {
+                    path.style.display = 'block';
+                }
+                
+                this.userData.persona = newCard.dataset.persona;
+                console.log('Successfully selected persona:', this.userData.persona);
+                
+                // Enable the Continue button
+                const nextBtn = document.getElementById('nextBtn');
+                if (nextBtn) {
+                    nextBtn.disabled = false;
+                    nextBtn.style.opacity = '1';
+                    nextBtn.textContent = 'Continue →';
+                }
+            });
+            
+            // Also add keyboard support
+            newCard.setAttribute('tabindex', '0');
+            newCard.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    newCard.click();
+                }
+            });
         });
     }
 
@@ -465,14 +548,33 @@ class OnboardingManager {
         const form = document.getElementById('profileForm');
         if (!form) return;
         
-        const formData = new FormData(form);
         const profile = {};
         
-        for (let [key, value] of formData.entries()) {
-            profile[key] = value;
+        // Handle regular form inputs
+        const inputs = form.querySelectorAll('input[type="text"], select');
+        inputs.forEach(input => {
+            if (input.value) {
+                profile[input.name] = input.value;
+            }
+        });
+        
+        // Handle multiselect checkboxes
+        const checkboxGroups = {};
+        const checkboxes = form.querySelectorAll('input[type="checkbox"]:checked');
+        checkboxes.forEach(checkbox => {
+            if (!checkboxGroups[checkbox.name]) {
+                checkboxGroups[checkbox.name] = [];
+            }
+            checkboxGroups[checkbox.name].push(checkbox.value);
+        });
+        
+        // Add checkbox groups to profile
+        for (let [key, values] of Object.entries(checkboxGroups)) {
+            profile[key] = values;
         }
         
         this.userData.profile = profile;
+        console.log('Saved profile data:', profile);
     }
 
     saveInterests() {
@@ -488,22 +590,13 @@ class OnboardingManager {
         this.userData.completedAt = new Date().toISOString();
         
         try {
-            // Batch save using optimized storage
-            await window.StorageManager.batch({
-                'onboarding.completed': this.userData,
-                'user.persona': this.userData.persona,
-                'user.profile': this.userData.profile,
-                'user.preferences': this.userData.preferences
-            });
+            // Save to localStorage
+            localStorage.setItem('gamescom_onboarding_completed', JSON.stringify(this.userData));
+            localStorage.setItem('gamescom_user_persona', this.userData.persona);
+            localStorage.setItem('gamescom_user_profile', JSON.stringify(this.userData.profile));
+            localStorage.setItem('gamescom_user_preferences', JSON.stringify(this.userData.preferences));
             
-            // Update cache
-            await window.Cache.set('onboarding.status', this.userData, { 
-                ttl: 300000, // 5 minutes
-                persist: true 
-            });
-            
-            // TODO: Save to Firebase when backend is ready
-            // await this.saveToFirebase();
+            console.log('Onboarding completed successfully:', this.userData);
             
             // Show success animation
             this.showSuccessAnimation();
@@ -538,8 +631,8 @@ class OnboardingManager {
     }
 
     redirectToMain() {
-        // Navigate to main events page with persona context
-        window.location.href = `/#events?persona=${this.userData.persona || ''}`;
+        // Navigate to main app dashboard with persona context
+        window.location.href = `/#home?persona=${this.userData.persona || ''}`;
     }
 
     updateContent(html) {
@@ -605,11 +698,10 @@ class OnboardingManager {
     }
 
     getOrCreateUserId() {
-        // Use optimized storage manager
-        let userId = window.StorageManager.get('user.id');
+        let userId = localStorage.getItem('gamescom_user_id');
         if (!userId) {
             userId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-            window.StorageManager.set('user.id', userId);
+            localStorage.setItem('gamescom_user_id', userId);
         }
         return userId;
     }
@@ -618,7 +710,7 @@ class OnboardingManager {
      * Cleanup event listeners when component is destroyed
      */
     destroy() {
-        this.eventKeys.forEach(key => window.$.off(key));
+        // Standard event listeners will be automatically removed when elements are destroyed
         this.eventKeys = [];
     }
 }

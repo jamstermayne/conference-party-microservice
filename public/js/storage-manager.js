@@ -280,15 +280,40 @@ class StorageManager {
     }
     
     /**
-     * Immediately commit to localStorage
+     * Immediately commit to localStorage with comprehensive error handling
      */
     commitToStorage() {
         try {
+            // Check if localStorage is available
+            if (!window.localStorage) {
+                throw new Error('localStorage not available');
+            }
+            
             const data = this.getCachedData();
             data._meta.lastUpdated = Date.now();
-            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+            const jsonString = JSON.stringify(data);
+            
+            // Test storage availability
+            const testKey = 'storage-test-' + Date.now();
+            localStorage.setItem(testKey, 'test');
+            localStorage.removeItem(testKey);
+            
+            // Actually save
+            localStorage.setItem(this.STORAGE_KEY, jsonString);
+            
         } catch (error) {
-            console.error('Failed to commit data to storage:', error);
+            if (error.name === 'QuotaExceededError') {
+                // Storage quota exceeded - attempt recovery
+                console.warn('Storage quota exceeded, attempting recovery...');
+                this.handleStorageQuotaExceeded();
+            } else if (error.name === 'SecurityError') {
+                // Private browsing or security restrictions
+                console.warn('Storage blocked by security policy (private browsing?)');
+                this.showStorageWarning('Settings cannot be saved in private browsing mode');
+            } else {
+                console.error('Storage commit failed:', error);
+                this.showStorageWarning('Unable to save settings. Please refresh and try again.');
+            }
         }
     }
     
@@ -396,6 +421,134 @@ class StorageManager {
             return true;
         } catch {
             return false;
+        }
+    }
+    
+    /**
+     * Handle storage quota exceeded error
+     */
+    handleStorageQuotaExceeded() {
+        try {
+            // Clear legacy data and retry
+            const legacyKeys = Object.keys(localStorage).filter(key => 
+                key.startsWith('gamescom_') || 
+                key === 'referralCode' || 
+                key === 'theme' || 
+                key === 'preferredView'
+            );
+            
+            legacyKeys.forEach(key => {
+                if (key !== this.STORAGE_KEY) {
+                    localStorage.removeItem(key);
+                }
+            });
+            
+            // Retry saving current data
+            const data = this.getCachedData();
+            data._meta.lastUpdated = Date.now();
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+            
+            console.log('✅ Storage recovered by clearing', legacyKeys.length, 'legacy keys');
+            this.showStorageWarning('Storage space recovered. Settings saved successfully.');
+            
+        } catch (retryError) {
+            // If still failing, clear all storage and save essentials
+            console.warn('Storage recovery failed, clearing all data...');
+            localStorage.clear();
+            
+            try {
+                const essentialData = {
+                    ...this.defaultData,
+                    user: this.getCachedData().user,
+                    onboarding: this.getCachedData().onboarding,
+                    _meta: {
+                        version: this.defaultData._meta.version,
+                        lastUpdated: Date.now(),
+                        recovered: true
+                    }
+                };
+                
+                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(essentialData));
+                this.cache.set('root', essentialData);
+                
+                this.showStorageWarning('Storage full. Some settings were reset to free up space.');
+                
+            } catch (finalError) {
+                console.error('Complete storage failure:', finalError);
+                this.showStorageWarning('Storage unavailable. Settings will not be saved.');
+            }
+        }
+    }
+    
+    /**
+     * Show user-friendly storage warning
+     */
+    showStorageWarning(message) {
+        // Try to show notification through existing UI systems
+        if (window.showErrorMessage) {
+            window.showErrorMessage(message);
+        } else if (window.showToast) {
+            window.showToast(message, 'warning');
+        } else {
+            // Fallback to console for now - in production you'd want a proper UI notification
+            console.warn('STORAGE WARNING:', message);
+            
+            // Create a temporary visual notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; top: 20px; right: 20px; z-index: 10000;
+                background: #ff6b6b; color: white; padding: 12px 16px;
+                border-radius: 6px; font-size: 14px; max-width: 300px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
+    }
+    
+    /**
+     * Check storage availability and quota
+     */
+    async checkStorageHealth() {
+        try {
+            if (!window.localStorage) {
+                return { available: false, reason: 'localStorage not supported' };
+            }
+            
+            // Test write capability
+            const testKey = 'health-check-' + Date.now();
+            localStorage.setItem(testKey, 'test');
+            localStorage.removeItem(testKey);
+            
+            // Estimate quota if supported
+            let quota = null;
+            if ('storage' in navigator && 'estimate' in navigator.storage) {
+                const estimate = await navigator.storage.estimate();
+                quota = {
+                    used: estimate.usage,
+                    available: estimate.quota,
+                    usedMB: Math.round(estimate.usage / (1024 * 1024) * 100) / 100,
+                    availableMB: Math.round(estimate.quota / (1024 * 1024) * 100) / 100
+                };
+            }
+            
+            return { 
+                available: true, 
+                quota,
+                currentDataSize: JSON.stringify(this.getCachedData()).length
+            };
+            
+        } catch (error) {
+            return { 
+                available: false, 
+                reason: error.name === 'QuotaExceededError' ? 'Storage quota exceeded' : error.message 
+            };
         }
     }
     

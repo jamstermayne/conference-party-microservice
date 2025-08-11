@@ -1,255 +1,160 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamescom 2025 Party Discovery - Professional Gaming Network</title>
-    <meta name="theme-color" content="#4A154B">
-    <meta name="description" content="Discover exclusive gaming industry networking events, afterparties, and community gatherings at Gamescom 2025">
-    <meta name="keywords" content="Gamescom 2025, gaming events, networking, afterparty, Cologne, industry parties">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="/css/design-system.css">
-    <link rel="stylesheet" href="/css/social-sharing.css">
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/invite-system.css">
-    <link rel="stylesheet" href="/css/proximity-system.css">
-    <link rel="stylesheet" href="/css/hotspots-page.css">
-    <link rel="stylesheet" href="/css/opportunity-system.css">
-    <link rel="stylesheet" href="/css/conference-system.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Flatpickr for modern date/time pickers -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_purple.css">
+  <!-- Primary Meta -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1A1D21">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Velocity — your private conference social network.">
+  <title>Velocity — Gamescom</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Social: Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Velocity">
+  <meta property="og:description" content="Join private conference parties and sync your calendar.">
+  <meta property="og:image" content="/social/share-default.png">
+  <meta property="og:url" content="https://conference-party-app.web.app">
+
+  <!-- Social: Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Velocity">
+  <meta name="twitter:description" content="Join private conference parties and sync your calendar.">
+  <meta name="twitter:image" content="/social/share-default.png">
+
+  <!-- SEO -->
+  <link rel="canonical" href="https://conference-party-app.web.app">
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "Tech Leaders Networking Party",
+    "startDate": "2025-08-19T19:00:00+01:00",
+    "endDate": "2025-08-19T23:00:00+01:00",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "location": {
+      "@type": "Place",
+      "name": "Rooftop Bar",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "123 Conference Ave",
+        "addressLocality": "Cologne",
+        "addressCountry": "DE"
+      }
+    },
+    "image": [
+      "https://conference-party-app.web.app/social/event-tech-leaders.png"
+    ],
+    "description": "Join industry leaders for an exclusive networking party during Gamescom.",
+    "organizer": {
+      "@type": "Organization",
+      "name": "Velocity",
+      "url": "https://conference-party-app.web.app"
+    }
+  }
+  </script>
+  
+  <link rel="stylesheet" href="assets/css/styles.css"/>
 </head>
 <body>
-    <div id="app">
-        <!-- Navigation will be dynamically created by NavigationManager -->
-
-        <!-- Hero Section -->
-        <header class="hero-section">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h2>Discover Gamescom 2025's Best Events</h2>
-                    <p>Connect with gaming industry professionals at exclusive networking events, afterparties, and community gatherings in Cologne.</p>
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <span class="stat-number" id="totalEvents">58+</span>
-                            <span class="stat-label">Events</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number" id="ugcEvents">4+</span>
-                            <span class="stat-label">Community</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">Live</span>
-                            <span class="stat-label">Updates</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-cta">
-                    <button id="createEventBtn" class="btn-primary btn-large">
-                        ✨ Host Your Event
-                    </button>
-                    <p class="cta-subtitle">Join the community • Free to list</p>
-                </div>
-            </div>
-        </header>
-
-        <!-- Search & Filter Section -->
-        <section class="search-section">
-            <div class="search-container">
-                <div class="search-bar">
-                    <div class="search-input-wrapper">
-                        <span class="search-icon">🔍</span>
-                        <input type="text" id="searchInput" placeholder="Search events, venues, hosts..." class="search-input">
-                        <button id="clearSearch" class="clear-search hidden">✕</button>
-                    </div>
-                </div>
-                
-                <div class="filters-section">
-                    <div class="filter-label">Filter by category:</div>
-                    <div id="filters" class="filters"></div>
-                </div>
-                
-                <div class="search-stats">
-                    <span id="searchResultsCount" class="results-count">Loading events...</span>
-                    <div class="view-options">
-                        <button id="viewGrid" class="view-btn active" title="Grid view">⊞</button>
-                        <button id="viewList" class="view-btn" title="List view">☰</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Main Content Container -->
-        <main class="main-content events-main">
-            <div id="events" class="events-grid">
-                <div class="loading-state">
-                    <div class="loading-spinner-large"></div>
-                    <p>Loading amazing events...</p>
-                </div>
-            </div>
-            
-            <!-- Load More -->
-            <div class="load-more-section hidden">
-                <button id="loadMoreBtn" class="btn-secondary">
-                    Load More Events
-                </button>
-            </div>
-        </main>
-
-        <!-- Quick Actions Floating Bar -->
-        <div class="quick-actions">
-            <button id="quickCreateBtn" class="quick-action-btn" title="Create Event">
-                ✨
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <div id="app" class="app">
+    <!-- Slack-style Sidebar -->
+    <aside id="sidenav" class="sidenav" aria-label="Main navigation">
+      <div class="side-head">
+        <div class="brand">Velocity</div>
+        <div class="workspace">Gamescom 2025</div>
+      </div>
+      <nav class="side-nav">
+        <button class="nav-item active" data-route="parties">🗓️ Parties</button>
+        <button class="nav-item" data-route="hotspots">🔥 Hotspots</button>
+        <button class="nav-item" data-route="opportunities">🎯 Opportunities</button>
+        <button class="nav-item" data-route="calendar">📅 Calendar</button>
+        <button class="nav-item" data-route="invites">
+          🎟 Invites <span id="invite-pill" class="pill pill-gold">10</span>
+        </button>
+        <button class="nav-item" data-route="me">👤 Me</button>
+        <button class="nav-item" data-route="settings">⚙️ Settings</button>
+      </nav>
+      <div class="side-footer">
+        <div class="auth-section" id="auth-section">
+          <!-- Authentication buttons (shown when not logged in) -->
+          <div class="auth-buttons" id="auth-buttons">
+            <button id="btn-google" class="btn btn-small auth-btn">
+              📧 Sign in with Google
             </button>
-            <button id="quickMapBtn" class="quick-action-btn" title="View Map">
-                🗺️
+            <button id="btn-linkedin" class="btn btn-small auth-btn">
+              💼 Sign in with LinkedIn
             </button>
-            <button id="quickCalendarBtn" class="quick-action-btn" title="My Calendar">
-                📅
-            </button>
-        </div>
-    </div>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Create New Event</h2>
-                <button id="closeModal" class="modal-close" aria-label="Close modal">&times;</button>
+          </div>
+          <!-- User profile (shown when logged in) -->
+          <div class="user-profile hidden" id="user-profile">
+            <div class="user-info">
+              <img id="user-avatar" class="user-avatar" alt="User avatar" />
+              <div class="user-details">
+                <div id="user-name" class="user-name"></div>
+                <small id="user-email" class="user-email muted"></small>
+              </div>
             </div>
-            
-            <form id="eventForm" class="form-container">
-                <div class="form-section">
-                    <h3 class="form-section-title">Event Details</h3>
-                    
-                    <div class="form-field">
-                        <label class="form-label" for="eventName">Event Name</label>
-                        <input type="text" id="eventName" name="name" class="form-input" placeholder="Enter event name" required>
-                        <div class="form-help">Give your event a clear, descriptive name</div>
-                    </div>
-                    
-                    <div class="form-field">
-                        <label class="form-label" for="eventCreator">Organizer</label>
-                        <input type="text" id="eventCreator" name="creator" class="form-input" placeholder="Your name or organization" required maxlength="100">
-                        <div class="form-help">Your name will be displayed publicly as the event organizer</div>
-                    </div>
-                </div>
-                
-                <div class="form-section">
-                    <h3 class="form-section-title">When & Where</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-field form-field-half">
-                            <label class="form-label" for="eventDate">Date</label>
-                            <input type="text" id="eventDate" name="date" class="form-input flatpickr-date" placeholder="Select date" required>
-                            <div class="form-help">🎮 Gamescom: Aug 20-24, 2025</div>
-                        </div>
-                        <div class="form-field form-field-half">
-                            <label class="form-label" for="eventTime">Start Time</label>
-                            <input type="text" id="eventTime" name="startTime" class="form-input flatpickr-time" placeholder="Select time" required>
-                            <div class="time-suggestions">
-                                <span class="time-chip" data-time="18:00">6:00 PM</span>
-                                <span class="time-chip" data-time="19:00">7:00 PM</span>
-                                <span class="time-chip" data-time="20:00">8:00 PM</span>
-                                <span class="time-chip" data-time="21:00">9:00 PM</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-field">
-                        <label class="form-label" for="eventVenue">Venue</label>
-                        <input type="text" id="eventVenue" name="venue" class="form-input" placeholder="e.g., Koelnmesse Hall 4" required>
-                        <div class="form-help">Enter the full venue name and location</div>
-                    </div>
-                </div>
-                
-                <div class="form-section">
-                    <h3 class="form-section-title">Event Type & Description</h3>
-                    
-                    <div class="form-field">
-                        <label class="form-label" for="eventType">Event Type</label>
-                        <select id="eventType" name="category" class="form-select">
-                            <option value="networking">🤝 Networking</option>
-                            <option value="afterparty">🎉 Afterparty</option>
-                            <option value="mixer">🍸 Mixer</option>
-                            <option value="launch">🚀 Launch Event</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-field">
-                        <label class="form-label" for="eventDescription">Description</label>
-                        <textarea id="eventDescription" name="description" class="form-textarea" placeholder="Tell attendees what to expect at your event..." rows="4"></textarea>
-                        <div class="form-help">Optional: Add details about your event</div>
-                    </div>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" onclick="app.closeModal()">Cancel</button>
-                    <button type="submit" class="btn-primary">Create Event</button>
-                </div>
-            </form>
-            
-            <div id="success" class="success-panel hidden">
-                <div class="success-icon">🎉</div>
-                <h3 class="success-title">Event Created Successfully!</h3>
-                <p class="success-message">Your event has been added to the Gamescom 2025 directory and will be visible to attendees shortly.</p>
-                <div class="success-actions">
-                    <button class="btn-primary" onclick="app.closeModal()">Awesome!</button>
-                    <button class="btn-secondary" onclick="app.shareEvent(app.lastCreatedEvent)">📤 Share Event</button>
-                </div>
-            </div>
+            <button id="btn-signout" class="btn btn-small btn-ghost">Sign Out</button>
+          </div>
         </div>
-    </div>
-
-    <!-- Duplicate Warning Modal -->
-    <div id="duplicateModal" class="modal">
-        <div class="modal-content modal-warning">
-            <div class="modal-header">
-                <div class="warning-icon">⚠️</div>
-                <h2 class="modal-title">Potential Duplicate Event</h2>
-            </div>
-            <div id="duplicateContent" class="duplicate-content"></div>
+        <small class="muted">Exclusive • Privacy-first</small>
+      </div>
+    </aside>
+    <!-- Overlay (mobile) -->
+    <div id="overlay" class="overlay" hidden></div>
+    <!-- Main Panel -->
+    <main id="main-content">
+      <header class="topbar">
+        <button id="menu" class="icon-btn" aria-label="Open menu">☰</button>
+        <h1 id="page-title">Parties</h1>
+      </header>
+      <!-- Routes mount here -->
+      <section id="route" role="region" aria-live="polite"></section>
+      <!-- Events list for production controller -->
+      <section id="event-list" role="region" aria-label="Gaming industry parties"></section>
+      <!-- Enhanced Install Card with Accessibility -->
+      <div id="install-card" class="install-card hidden" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc">
+        <div class="install-content" tabindex="-1">
+          <img src="/assets/icons/icon-192.png" alt="Velocity App Icon" class="install-icon" />
+          <h3 id="install-title">Install Velocity</h3>
+          <p id="install-desc">Add Velocity for instant access to parties & invites.</p>
+          <div class="row gap">
+            <button id="install-btn" class="btn btn-primary" aria-label="Install Velocity App">Install</button>
+            <button id="install-dismiss" class="btn btn-secondary" aria-label="Dismiss install prompt">Not Now</button>
+          </div>
         </div>
-    </div>
-
-    <!-- Scripts -->
-    <script>window.CONFIG = { 
-        apiBase: 'https://us-central1-conference-party-app.cloudfunctions.net',
-        googleMapsApiKey: 'AIzaSyBvOkBu-916DfTLjJ6c2UDQy8rE9nQQ8g8',
-        version: '2.0.0',
-        features: {
-            ugc: true,
-            maps: true,
-            calendar: true,
-            referrals: true,
-            analytics: true,
-            offline: true
-        }
-    };</script>
-    <!-- Performance Optimization Layer -->
-    <script src="/js/storage-manager.js"></script>
-    <script src="/js/event-manager.js"></script>
-    <script src="/js/dom-optimizer.js"></script>
-    <script src="/js/cache-manager.js"></script>
-    <script src="/js/performance-monitor.js"></script>
-    
-    <!-- Core Application Layer -->
-    <script src="/js/api.js"></script>
-    <script src="/js/offline-search.js"></script>
-    <script src="/js/cache-utils.js"></script>
-    <script src="/js/referral-system.js"></script>
-    <script src="/js/search-manager.js"></script>
-    <script src="/js/social-sharing.js"></script>
-    <script src="/js/invite-manager.js"></script>
-    <script src="/js/proximity-manager.js"></script>
-    <script src="/js/opportunity-toggle.js"></script>
-    <script src="/js/conference-manager.js"></script>
-    <script src="/js/navigation.js"></script>
-    <script src="/js/app.js"></script>
-    <script src="/js/pwa-init.js"></script>
-    <!-- Flatpickr library -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+      </div>
+      <!-- iOS Install Hint -->
+      <div id="install-ios-hint" class="install-ios-hint">Share → Add to Home Screen</div>
+      <!-- Toasts -->
+      <template id="tpl-toast"><div class="toast"><span class="msg"></span></div></template>
+      <!-- SR-only Live -->
+      <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+    </main>
+  </div>
+  <!-- App scripts (order matters: core, then features, then wireup) -->
+  <script type="module" src="/js/store.js"></script>
+  <script type="module" src="/js/events.js"></script>
+  <script type="module" src="/js/ui-feedback.js"></script>
+  <script type="module" src="/js/install.js"></script>
+  <script type="module" src="/js/router.js"></script>
+  <script type="module" src="/js/invite.js"></script>
+  <script type="module" src="/js/calendar-integration.js"></script>
+  <script type="module" src="/js/events-controller.js"></script>
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/assets/js/app-wireup.js"></script>
 </body>
 </html>

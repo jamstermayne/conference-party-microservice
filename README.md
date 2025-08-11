@@ -1,6 +1,10 @@
-# 🎮 Gamescom 2025 Party Discovery
+# 🎮 Professional Intelligence Platform
 
-**Comprehensive PWA microservice for discovering the best parties and events at Gamescom 2025 in Cologne**
+[![Tests](https://github.com/jamstermayne/conference-party-microservice/actions/workflows/test-and-deploy.yml/badge.svg)](https://github.com/jamstermayne/conference-party-microservice/actions/workflows/test-and-deploy.yml)
+[![Coverage](https://img.shields.io/badge/coverage-91%20tests-brightgreen)](functions/coverage)
+[![API Health](https://img.shields.io/badge/API-18%20endpoints-blue)](https://us-central1-conference-party-app.cloudfunctions.net/api/health)
+
+Enterprise-grade microservices platform for **Gamescom 2025** professional networking. LinkedIn-killer PWA with advanced proximity detection, cross-conference persistence, and 10,000+ concurrent user support.
 
 [![Firebase](https://img.shields.io/badge/Firebase-Functions-orange.svg)](https://firebase.google.com/)
 [![PWA](https://img.shields.io/badge/PWA-Offline--First-blue.svg)](https://web.dev/progressive-web-apps/)
