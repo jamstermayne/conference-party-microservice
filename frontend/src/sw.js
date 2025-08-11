@@ -80,10 +80,8 @@ self.addEventListener('activate', event => {
  */
 self.addEventListener('fetch', event => {
     const { request } = event;
-    // Never attempt to cache non-GET requests
-    if (request.method !== 'GET') {
-        return; // let it go straight to network
-    }
+    // 🚫 Do not intercept non-GET requests (avoids Cache.put POST error)
+    if (request.method !== 'GET') return;
     const url = new URL(request.url);
     
     if (API_CACHE_PATTERNS.some(pattern => pattern.test(url.pathname))) {
@@ -158,22 +156,14 @@ async function networkFirstStrategy(request) {
  * 📦 CACHE-FIRST STRATEGY
  */
 async function cacheFirstStrategy(request) {
-    // safeguard: only for GET
+    // Safety: only operate on GET
     if (request.method !== 'GET') return fetch(request);
-    const cachedResponse = await caches.match(request);
-    if (cachedResponse) return cachedResponse;
-    
-    try {
-        const networkResponse = await fetch(request);
-        if (networkResponse.ok) {
-            const cache = await caches.open(RUNTIME_CACHE);
-            cache.put(request, networkResponse.clone());
-        }
-        return networkResponse;
-    } catch (error) {
-        if (request.mode === 'navigate') return caches.match('/index.html');
-        throw error;
-    }
+    const cache = await caches.open(DATA_CACHE);
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    const res = await fetch(request);
+    await caches.open(DATA_CACHE).then(c => c.put(request, res.clone()));
+    return res;
 }
 
 /**

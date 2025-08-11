@@ -46,6 +46,15 @@
     ],
     "headers": [
       {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://*.gstatic.com https://*.googleapis.com https://*.linkedin.com; connect-src 'self' https://*.googleapis.com https://*.gstatic.com https://api.linkedin.com https://conference-party-app.web.app; img-src 'self' data: https://*.googleusercontent.com https://media.licdn.com; style-src 'self' 'unsafe-inline'; frame-src https://accounts.google.com https://*.linkedin.com; manifest-src 'self';"
+          }
+        ]
+      },
+      {
         "source": "/sw.js",
         "headers": [
           {
@@ -130,10 +139,6 @@
           {
             "key": "Referrer-Policy",
             "value": "strict-origin-when-cross-origin"
-          },
-          {
-            "key": "Content-Security-Policy",
-            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' *.linkedin.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: *.linkedin.com; connect-src 'self' *.firebase.googleapis.com *.linkedin.com; frame-src 'none'"
           }
         ]
       }

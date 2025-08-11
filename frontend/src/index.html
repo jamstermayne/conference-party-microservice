@@ -198,13 +198,12 @@
   
   <!-- Runtime configuration (no bundler) -->
   <script>
-    // Fill in real IDs if you have them; leaving blank will disable the button safely.
-    window.__ENV = {
-      GOOGLE_CLIENT_ID: "",              // e.g. "123.apps.googleusercontent.com"
-      LINKEDIN_CLIENT_ID: "",            // e.g. "86xxyyzz"
+    window.__ENV = Object.assign({
+      GOOGLE_CLIENT_ID: "",           // e.g. "123.apps.googleusercontent.com"
+      LINKEDIN_CLIENT_ID: "",         // e.g. "86xxxx"
       OAUTH_REDIRECT_URL: location.origin + "/auth/callback",
       BASE_URL: location.origin
-    };
+    }, window.__ENV || {});
   </script>
   
   <!-- Foundation spine -->
@@ -219,6 +218,7 @@
 
   <!-- Core features -->
   <script type="module" src="/assets/js/nav.js"></script>
+  <script type="module" src="/assets/js/foundation/metrics.js"></script>
   <script type="module" src="/assets/js/pwa-install.js"></script>
   <script type="module" src="/assets/js/invite-deeplink.js"></script>
   <script type="module" src="/assets/js/auth.js"></script>

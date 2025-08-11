@@ -17,7 +17,7 @@ async function fetchCount(){
     Store.patch('invites.left', left);
     paint(left);
   }catch(_){
-    // Quiet fallback; leave current value
+    // Quiet fallback; leave current value and do not log
     const n = Store.get('invites.left');
     paint(typeof n==='number' ? n : null);
   }

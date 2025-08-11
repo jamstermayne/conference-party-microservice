@@ -1,4 +1,4 @@
-import Events from './events.js'; // proxy provides default + named
+import Events from './events.js'; // proxy supports default + named
 
 function parseInviteFromURL(){
   const m1 = location.pathname.match(/\/invite\/([A-Za-z0-9\-]+)/);
