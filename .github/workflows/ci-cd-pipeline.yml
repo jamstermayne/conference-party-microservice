@@ -129,18 +129,8 @@ jobs:
           cd functions
           npm run build
           
-      - name: 'SonarCloud Scan'
-        continue-on-error: true
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
-            -Dsonar.organization=conference-party-app
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.typescript.lcov.reportPaths=functions/coverage/lcov.info
+      # SonarCloud removed - using ESLint + npm audit instead
+      # To re-enable: add SONAR_TOKEN to repository secrets
             
       - name: 'Code Coverage Report'
         uses: codecov/codecov-action@v3
@@ -427,6 +417,7 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS }}
+        if: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS != '' }}
           
       - name: 'Configure Docker for GCR'
         run: gcloud auth configure-docker
@@ -481,6 +472,7 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_DEV }}
+        if: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_DEV != '' }}
           
       - name: 'Deploy Firebase Functions'
         run: |
@@ -535,6 +527,7 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_STAGING }}
+        if: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_STAGING != '' }}
           
       - name: 'Deploy Firebase Functions'
         run: |
@@ -615,6 +608,7 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_PROD }}
+        if: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_PROD != '' }}
           
       - name: 'Pre-deployment Backup'
         run: |
@@ -725,6 +719,7 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_PROD }}
+        if: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS_PROD != '' }}
           
       - name: 'Execute Emergency Rollback'
         run: |

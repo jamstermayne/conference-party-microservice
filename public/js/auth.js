@@ -1,9 +1,5 @@
-// /js/auth.js
-// Production auth (vanilla). Google GIS + LinkedIn redirect. Invite redeem glue.
-// Fixes:
-// - defines redeemWithGoogle()
-// - removes process.env (uses window.__ENV)
-// - single export surface (no duplicate export)
+// /js/auth.js  — ✅ Auth v2.1
+// Google GIS + LinkedIn redirect + invite validation + redeem glue (vanilla)
 
 const ENV = window.__ENV || {};
 const need = (k) => { const v = ENV[k]; if (!v) throw new Error(`${k} not configured`); return v; };
@@ -27,14 +23,14 @@ async function postJSON(url, body) {
   return res.json().catch(() => ({}));
 }
 
-// ---- Invite validation (soft pass if API not ready) ----
+// ---------- Invite validation ----------
 async function validateInviteCode(code) {
   if (!code) return { valid: true };
   if (!ENV.INVITES_API || !ENV.BACKEND_BASE) return { valid: true };
   return postJSON(`${ENV.BACKEND_BASE}/invites/validate`, { code });
 }
 
-// ---- Google Sign-In (GIS) ----
+// ---------- Google Sign-In (GIS) ----------
 async function signInWithGoogle() {
   const clientId = need('GOOGLE_CLIENT_ID');
   if (!window.google?.accounts?.id) {
@@ -48,17 +44,15 @@ async function signInWithGoogle() {
         resolve({ id_token: resp.credential });
       };
       window.google.accounts.id.initialize({ client_id: clientId, callback, auto_select: false });
-      // Render a button-less prompt; fallback is handled by UI buttons already
       window.google.accounts.id.prompt((n) => {
-        if (n?.isNotDisplayed() || n?.isSkippedMoment()) {
-          // user dismissed / environment blocked; let caller decide next step
-        }
+        // user may dismiss; we still resolve via button flows
+        if (n?.isNotDisplayed() || n?.isSkippedMoment()) {/* no-op */}
       });
     } catch (e) { reject(e); }
   });
 }
 
-// ---- Redeem with Google (NOW DEFINED) ----
+// ---------- Redeem with Google (MUST exist before any handler uses it) ----------
 async function redeemWithGoogle(inviteCode) {
   const base = need('BACKEND_BASE');
   const idToken = sessionStorage.getItem('google_id_token');
@@ -67,7 +61,7 @@ async function redeemWithGoogle(inviteCode) {
   const payload = { code: inviteCode || null, id_token: idToken };
   const json = await postJSON(`${base}/auth/redeem/google`, payload);
 
-  // persist light profile to Store if available
+  // Persist a light profile to Store if present
   try {
     const p = json?.profile || {};
     window.Store?.patch?.('profile', {
@@ -78,10 +72,11 @@ async function redeemWithGoogle(inviteCode) {
       domain: p.domain || ''
     });
   } catch {}
+
   return json;
 }
 
-// ---- LinkedIn OAuth (redirect) ----
+// ---------- LinkedIn OAuth (redirect) ----------
 async function signInWithLinkedIn() {
   const clientId = need('LINKEDIN_CLIENT_ID');
   const redirectUri = location.origin + '/auth/linkedin/callback';
@@ -99,12 +94,12 @@ async function signInWithLinkedIn() {
   location.href = url.toString();
 }
 
-// ---- Current user (from Store if available) ----
+// ---------- Current user ----------
 function getCurrentUser() {
   try { return window.Store?.get?.('profile') || null; } catch { return null; }
 }
 
-// ---- data-action bindings ----
+// ---------- data-action bindings ----------
 document.addEventListener('click', async (e) => {
   const el = e.target.closest('[data-action]');
   if (!el) return;
@@ -134,7 +129,7 @@ document.addEventListener('click', async (e) => {
   }
 });
 
-// single export surface
 const Auth = { signInWithGoogle, signInWithLinkedIn, redeemWithGoogle, validateInviteCode, getCurrentUser };
 window.Auth = Auth;
+console.log('✅ Auth v2.1 loaded');
 export default Auth;
