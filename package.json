@@ -41,7 +41,7 @@
     "firebase-functions": "^4.4.1",
     "googleapis": "^122.0.0",
     "helmet": "^7.0.0",
-    "node-cron": "^3.0.2"
+    "node-cron": "^4.2.1"
   },
   "devDependencies": {
     "@types/node": "^20.4.5",
