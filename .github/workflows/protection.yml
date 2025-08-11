@@ -115,8 +115,8 @@ jobs:
         with:
           urls: |
             https://conference-party-app.web.app
-          uploadArtifacts: true
-          temporaryPublicStorage: true
+          uploadArtifacts: false
+          temporaryPublicStorage: false
           
       - name: API Health Check
         run: |
