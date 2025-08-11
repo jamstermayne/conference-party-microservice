@@ -217,7 +217,8 @@
     // Check if already installed
     window.addEventListener('appinstalled', () => {
       console.log('PWA was installed');
-      document.getElementById('btn-install')?.style.display = 'none';
+      const btnInstall = document.getElementById('btn-install');
+      if (btnInstall) btnInstall.style.display = 'none';
     });
   </script>
   
