@@ -1,186 +1,80 @@
 /**
- * PRODUCTION PWA INSTALL MODULE
- * Android beforeinstallprompt + iOS A2HS guidance + accessibility focus trap
- * Based on GPT-5 architecture for Professional Intelligence Platform
+ * Production PWA install flow (Jobs/Ive polished)
+ * - Captures beforeinstallprompt
+ * - Exposes showInstallCard() to call prompt() in a user gesture
+ * - Emits CustomEvents for UI to react to
+ * - Safe if Metrics is absent (optional chaining)
  */
 
-import Events from './events.js';
-
 let deferredPrompt = null;
+let installed = false;
 
-function isiOS() {
-  return /iphone|ipad|ipod/i.test(navigator.userAgent);
-}
-
-function isStandalone() {
-  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-}
-
-function showInstallCard() {
-  const card = document.getElementById('install-card');
-  if (!card) return;
-  
-  card.classList.add('visible');
-  
-  const content = card.querySelector('.install-content');
-  if (content) {
-    content.setAttribute('tabindex', '-1');
-    content.focus();
-    trapFocus(content);
-  }
-  
-  // Emit event for tracking
-  Events.emit('pwa:install:shown');
-  
-  // Store show time to avoid spam
-  localStorage.setItem('pwa_install_last_shown', Date.now());
-  
-  // Track with Metrics
-  try { window.Metrics?.trackInstallPromptShown?.(); } catch(_){}
-  
-  // Track analytics
-  if (window.gtag) {
-    gtag('event', 'pwa_install_card_shown', {
-      'platform': isiOS() ? 'ios' : 'android'
-    });
-  }
-}
-
-function hideInstallCard() {
-  const card = document.getElementById('install-card');
-  if (!card) return;
-  
-  card.classList.remove('visible');
-  
-  // Emit event for tracking
-  Events.emit('pwa:install:hidden');
-}
-
-function trapFocus(el) {
-  const focusables = el.querySelectorAll('button:not([disabled]),[href]:not([tabindex="-1"]),[tabindex]:not([tabindex="-1"]),input:not([disabled]),select:not([disabled]),textarea:not([disabled])');
-  if (!focusables.length) return;
-  
-  const first = focusables[0];
-  const last = focusables[focusables.length - 1];
-  
-  el.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') return hideInstallCard();
-    if (e.key !== 'Tab') return;
-    
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  });
-}
-
-// ANDROID: beforeinstallprompt handler
+// Capture the BIP event and hold it until user taps our CTA
 window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent auto-banner; we'll show a branded CTA first
   e.preventDefault();
   deferredPrompt = e;
-  try { window.Metrics?.trackInstallPromptShown?.(); } catch(_) {}
-  
-  if (!isStandalone()) {
-    showInstallCard();
-  }
+
+  // Light telemetry if available
+  try { window.Metrics?.trackInstallPromptShown?.({ source: 'bip_capture' }); } catch {}
+
+  // Notify UI layers they can show the install CTA
+  document.dispatchEvent(new CustomEvent('pwa:install-available'));
 });
 
-// Install button handler
-document.addEventListener('DOMContentLoaded', () => {
-  const installBtn = document.getElementById('install-btn');
-  const dismissBtn = document.getElementById('install-dismiss');
-  
-  installBtn?.addEventListener('click', async () => {
-    if (deferredPrompt) {
-      try {
-        deferredPrompt.prompt();
-        const result = await deferredPrompt.userChoice;
-        
-        if (result.outcome === 'accepted') {
-          Events.emit('ui:toast', { 
-            type: 'success', 
-            message: '🎉 App installed successfully!' 
-          });
-          
-          // Track with Metrics
-          try { window.Metrics?.trackInstallPromptAccepted?.({ outcome: result.outcome }); } catch(_){}
-          
-          if (window.gtag) {
-            gtag('event', 'pwa_install_accepted');
-          }
-        }
-        
-        deferredPrompt = null;
-        hideInstallCard();
-        
-      } catch (error) {
-        console.error('Install prompt failed:', error);
-        Events.emit('ui:toast', { 
-          type: 'error', 
-          message: 'Installation failed. Please try again.' 
-        });
-      }
-    }
-  });
-  
-  dismissBtn?.addEventListener('click', () => {
-    hideInstallCard();
-    
-    // Track with Metrics
-    try { window.Metrics?.trackInstallPromptAccepted?.({ outcome: 'dismissed' }); } catch(_){}
-    
-    if (window.gtag) {
-      gtag('event', 'pwa_install_dismissed');
-    }
-  });
-  
-  // iOS guidance (no beforeinstallprompt support)
-  if (!isStandalone() && isiOS()) {
-    // Show gentle nudge with "Share → Add to Home Screen"
-    const hint = document.getElementById('install-ios-hint');
-    if (hint) {
-      hint.classList.add('visible');
-      
-      Events.emit('ui:toast', {
-        type: 'info',
-        message: 'Tip: Tap Share → Add to Home Screen to install',
-        duration: 5000
-      });
-    }
-  }
-});
-
-// Track app installed
+// Mark installed for UI and telemetry
 window.addEventListener('appinstalled', () => {
-  hideInstallCard();
-  
-  Events.emit('ui:toast', { 
-    type: 'success', 
-    message: '✅ Velocity installed successfully!' 
-  });
-  
-  Events.emit('pwa:installed');
-  
-  // Track with Metrics
-  try { window.Metrics?.trackInstallPromptAccepted?.({ outcome: 'accepted' }); } catch(_){}
-  
-  if (window.gtag) {
-    gtag('event', 'pwa_app_installed');
-  }
+  installed = true;
+  try { window.Metrics?.trackInstallPromptAccepted?.({ outcome: 'installed' }); } catch {}
+  document.dispatchEvent(new CustomEvent('pwa:installed'));
 });
 
-// Export functions
-export { showInstallCard, hideInstallCard, isiOS, isStandalone };
+// Public API: call this from a user gesture (button click)
+export async function showInstallCard() {
+  // Must be triggered by a user gesture for browsers to allow prompt()
+  if (!deferredPrompt || installed) return;
 
-// Make available globally
-window.PWAInstall = {
-  showInstallCard,
-  hideInstallCard,
-  isiOS,
-  isStandalone
-};
+  try {
+    // Show the native prompt
+    const result = await deferredPrompt.prompt();
+    // Some browsers expose .outcome
+    const outcome = result?.outcome || 'unknown';
 
-console.log('✅ Production PWA Install loaded');
+    try { window.Metrics?.trackInstallPromptAccepted?.({ outcome, source: 'cta' }); } catch {}
+    // Reset; most browsers require a new BIP event for another prompt
+    deferredPrompt = null;
+
+    // Let UI know the attempt is done
+    document.dispatchEvent(new CustomEvent('pwa:install-attempt', { detail: { outcome } }));
+  } catch {
+    // Silently ignore—user might have blocked prompts
+    deferredPrompt = null;
+  }
+}
+
+// Optional auto-nudge hooks (listen to product moments)
+function wireAutoNudges() {
+  // After first "Save" action in Parties
+  document.addEventListener('ui:first-save', () => {
+    // Don't auto prompt; just tell UI to reveal card/cta
+    if (deferredPrompt && !installed) {
+      document.dispatchEvent(new CustomEvent('pwa:install-available', { detail: { reason: 'first-save' } }));
+    }
+  });
+
+  // After user connects calendar
+  document.addEventListener('ui:calendar-connected', () => {
+    if (deferredPrompt && !installed) {
+      document.dispatchEvent(new CustomEvent('pwa:install-available', { detail: { reason: 'calendar-connected' } }));
+    }
+  });
+}
+
+// Initialize module
+(function init() {
+  try { console.log('✅ Production PWA Install loaded'); } catch {}
+  wireAutoNudges();
+})();
+
+// Optional: expose for imperative callers
+window.PWAInstall = window.PWAInstall || { show: showInstallCard };
