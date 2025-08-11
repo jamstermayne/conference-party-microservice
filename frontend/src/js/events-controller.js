@@ -5,7 +5,9 @@
  */
 
 import Events from './events.js';
-import { emptyState, loadingState, errorState } from './ui-feedback.js';
+// Robust import: absolute path + cache-bust + default bundle
+import UIFeedback from '/assets/js/ui-feedback.js?v=6';
+const { emptyState, loadingState, errorState } = UIFeedback;
 import Store from './store.js';
 
 /**

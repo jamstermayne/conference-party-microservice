@@ -6,7 +6,9 @@
  * - Vanilla JS; Slack-dark UI classes
  */
 
-import { emptyState, toast } from '/assets/js/ui-feedback.js?v=4';
+// Robust import: absolute path + cache-bust + default bundle
+import UIFeedback from '/assets/js/ui-feedback.js?v=6';
+const { emptyState, toast } = UIFeedback;
 import Store from './foundation/store.js';
 import Events from './events.js';
 

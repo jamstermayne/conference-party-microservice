@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '22'
   FIREBASE_PROJECT_ID: 'conference-party-app'
 
 jobs:
