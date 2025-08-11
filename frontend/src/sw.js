@@ -137,7 +137,7 @@ async function cacheSearchData() {
 async function networkFirstStrategy(request) {
     try {
         const networkResponse = await fetch(request);
-        if (networkResponse.ok) {
+        if (networkResponse.ok && request.method === 'GET') {
             const cache = await caches.open(RUNTIME_CACHE);
             cache.put(request, networkResponse.clone());
         }
@@ -159,7 +159,7 @@ async function cacheFirstStrategy(request) {
     
     try {
         const networkResponse = await fetch(request);
-        if (networkResponse.ok) {
+        if (networkResponse.ok && request.method === 'GET') {
             const cache = await caches.open(RUNTIME_CACHE);
             cache.put(request, networkResponse.clone());
         }

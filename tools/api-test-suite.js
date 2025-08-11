@@ -14,7 +14,7 @@ const path = require('path');
 
 // Configuration
 const CONFIG = {
-    API_BASE: 'https://us-central1-conference-party-app.cloudfunctions.net',
+    API_BASE: 'https://conference-party-app.web.app',
     BACKUP_DIR: path.join(__dirname, 'data-backups'),
     TIMEOUT: 30000, // 30 seconds
     COLORS: {

@@ -1,92 +1,26 @@
 {
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
   "hosting": {
     "public": "frontend/src",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "headers": [
       {
-        "source": "**/*.js",
+        "source": "**/*.@(js|mjs)",
         "headers": [{ "key": "Content-Type", "value": "text/javascript; charset=utf-8" }]
-      },
-      {
-        "source": "**/*.css",
-        "headers": [{ "key": "Content-Type", "value": "text/css; charset=utf-8" }]
       },
       {
         "source": "**",
         "headers": [
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; connect-src 'self' https://us-central1-conference-party-app.cloudfunctions.net https://*.googleapis.com https://*.gstatic.com https://api.linkedin.com; script-src 'self' 'unsafe-inline' https://accounts.google.com https://platform.linkedin.com https://snap.licdn.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-src https://accounts.google.com https://www.linkedin.com; worker-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+            "value": "default-src 'self'; script-src 'self' https://accounts.google.com https://*.linkedin.com 'unsafe-inline'; connect-src 'self' https://us-central1-conference-party-app.cloudfunctions.net https://*.googleapis.com https://*.gstatic.com https://api.linkedin.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; frame-src https://accounts.google.com https://*.linkedin.com;"
           }
-        ]
-      },
-      {
-        "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
-        "headers": [
-          { "key": "Access-Control-Allow-Origin", "value": "*" }
-        ]
-      },
-      {
-        "source": "**/*.@(js|css)",
-        "headers": [
-          { "key": "Cache-Control", "value": "max-age=604800" }
-        ]
-      },
-      {
-        "source": "sw.js",
-        "headers": [
-          { "key": "Cache-Control", "value": "max-age=0" }
         ]
       }
     ],
     "rewrites": [
-      {
-        "source": "/api/**",
-        "function": "api"
-      },
-      {
-        "source": "/webhook/**", 
-        "function": "webhook"
-      },
-      {
-        "source": "/setupWebhook/**",
-        "function": "setupWebhook"
-      },
-      {
-        "source": "/auth/callback",
-        "destination": "/auth-callback.html"
-      },
-      {
-        "source": "/invite/**",
-        "destination": "/index.html"
-      },
-      {
-        "source": "/i/**",
-        "destination": "/index.html"
-      },
-      {
-        "source": "/invite",
-        "destination": "/index.html"
-      },
-      {
-        "source": "/share/**",
-        "destination": "/index.html"
-      },
-      {
-        "source": "!/@(assets|images|icons)/**",
-        "destination": "/index.html"
-      }
+      { "source": "/api/**", "function": "api" },
+      { "source": "**", "destination": "/index.html" }
     ]
   },
-  "functions": {
-    "source": "functions",
-    "runtime": "nodejs22"
-  },
-  "storage": {
-    "rules": "storage.rules"
-  }
+  "functions": { "source": "functions" }
 }

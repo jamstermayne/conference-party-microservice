@@ -8,7 +8,7 @@
     "target": "es2020",
     "skipLibCheck": true,
     "isolatedModules": true,
-    "types": ["node", "jest"],
+    "types": ["node"],
     "rootDir": ".",
     
     // Strict Type Checking - All enabled for enterprise quality
