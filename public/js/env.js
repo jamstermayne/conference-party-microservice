@@ -1,14 +1,12 @@
-// public/js/env.js
-// Centralized runtime config (no process.env in browser)
+// /js/env.js
+// Centralized runtime config (browser-safe)
+// Replace REPLACE_ME* with real values when ready.
 
 window.__ENV = Object.assign({
-  // ---- Google OAuth ----
-  GOOGLE_CLIENT_ID: "REPLACE_ME.apps.googleusercontent.com",
-
-  // ---- LinkedIn OAuth ----
+  GOOGLE_CLIENT_ID: "REPLACE_ME_GOOGLE.apps.googleusercontent.com",
   LINKEDIN_CLIENT_ID: "REPLACE_ME_LINKEDIN",
 
-  // ---- Backend (Cloud Functions) ----
+  // Cloud Functions base
   BACKEND_BASE: "https://us-central1-conference-party-app.cloudfunctions.net/api",
 
   // Feature flags

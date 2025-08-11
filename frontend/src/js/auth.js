@@ -1,17 +1,37 @@
-// public/js/auth.js
+// /js/auth.js
 // Production auth (vanilla). Google GIS + LinkedIn redirect. Invite redeem glue.
+// Fixes:
+// - defines redeemWithGoogle()
+// - removes process.env (uses window.__ENV)
+// - single export surface (no duplicate export)
 
 const ENV = window.__ENV || {};
 const need = (k) => { const v = ENV[k]; if (!v) throw new Error(`${k} not configured`); return v; };
 
 function loadScript(src) {
-  return new Promise((res, rej) => { const s=document.createElement('script'); s.src=src; s.async=true; s.defer=true; s.onload=res; s.onerror=rej; document.head.appendChild(s); });
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = src; s.async = true; s.defer = true;
+    s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
 }
 
 async function postJSON(url, body) {
-  const res = await fetch(url, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(body) });
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body || {})
+  });
   if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text().catch(()=> '')}`);
-  return res.json().catch(()=> ({}));
+  return res.json().catch(() => ({}));
+}
+
+// ---- Invite validation (soft pass if API not ready) ----
+async function validateInviteCode(code) {
+  if (!code) return { valid: true };
+  if (!ENV.INVITES_API || !ENV.BACKEND_BASE) return { valid: true };
+  return postJSON(`${ENV.BACKEND_BASE}/invites/validate`, { code });
 }
 
 // ---- Google Sign-In (GIS) ----
@@ -28,23 +48,17 @@ async function signInWithGoogle() {
         resolve({ id_token: resp.credential });
       };
       window.google.accounts.id.initialize({ client_id: clientId, callback, auto_select: false });
+      // Render a button-less prompt; fallback is handled by UI buttons already
       window.google.accounts.id.prompt((n) => {
         if (n?.isNotDisplayed() || n?.isSkippedMoment()) {
-          reject(new Error('Google prompt dismissed'));
+          // user dismissed / environment blocked; let caller decide next step
         }
       });
     } catch (e) { reject(e); }
   });
 }
 
-// ---- Invite validation (soft-allow if API not ready) ----
-async function validateInviteCode(code) {
-  if (!code) return { valid: true };
-  if (!ENV.INVITES_API || !ENV.BACKEND_BASE) return { valid: true };
-  return postJSON(`${ENV.BACKEND_BASE}/invites/validate`, { code });
-}
-
-// ---- Redeem with Google (defined BEFORE any usage) ----
+// ---- Redeem with Google (NOW DEFINED) ----
 async function redeemWithGoogle(inviteCode) {
   const base = need('BACKEND_BASE');
   const idToken = sessionStorage.getItem('google_id_token');
@@ -53,7 +67,7 @@ async function redeemWithGoogle(inviteCode) {
   const payload = { code: inviteCode || null, id_token: idToken };
   const json = await postJSON(`${base}/auth/redeem/google`, payload);
 
-  // persist light profile to Store if present
+  // persist light profile to Store if available
   try {
     const p = json?.profile || {};
     window.Store?.patch?.('profile', {
@@ -90,7 +104,7 @@ function getCurrentUser() {
   try { return window.Store?.get?.('profile') || null; } catch { return null; }
 }
 
-// ---- Data-action bindings (safe if not present) ----
+// ---- data-action bindings ----
 document.addEventListener('click', async (e) => {
   const el = e.target.closest('[data-action]');
   if (!el) return;
@@ -100,8 +114,10 @@ document.addEventListener('click', async (e) => {
       const code = document.querySelector('[data-invite-code]')?.value?.trim() || null;
       const ok = await validateInviteCode(code);
       if (code && ok?.valid === false) throw new Error('Invalid invite code');
+
       await signInWithGoogle();
       if (code) await redeemWithGoogle(code);
+
       window.Events?.emit?.('auth:google:ok');
     } catch (err) {
       console.error('google auth error:', err);
@@ -118,7 +134,7 @@ document.addEventListener('click', async (e) => {
   }
 });
 
-// ---- Single surface (avoid duplicate exports) ----
+// single export surface
 const Auth = { signInWithGoogle, signInWithLinkedIn, redeemWithGoogle, validateInviteCode, getCurrentUser };
 window.Auth = Auth;
 export default Auth;

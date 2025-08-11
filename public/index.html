@@ -220,5 +220,16 @@
       document.getElementById('btn-install')?.style.display = 'none';
     });
   </script>
+  
+  <!-- Safe bootstrap (ensures clean route initialization) -->
+  <script type="module">
+    import Router from '/js/router.js';
+    // Ensure default route
+    if (!location.hash) location.hash = '#/parties';
+    // Light route metric hook (won't throw if not wired)
+    window.addEventListener('hashchange', () => {
+      try { window.Metrics?.trackRoute?.(location.hash || '#/parties'); } catch {}
+    });
+  </script>
 </body>
 </html>

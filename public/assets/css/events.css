@@ -1,0 +1,39 @@
+/* Parties/Event card polish + skeleton shimmer (Slack-dark) */
+
+.party-card { border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--border); }
+.party-card .card-header { padding: 12px 16px; }
+.party-card .text-heading { font-weight: 700; letter-spacing: .2px; }
+.party-card .text-secondary { color: var(--text-secondary); padding: 0 16px 4px; }
+.party-card .text-caption { color: var(--text-muted); padding: 0 16px 8px; }
+.party-card .badge { border-radius: var(--r-sm); }
+
+.stack-3 > .card.skeleton,
+.party-card.skeleton {
+  position: relative; overflow: hidden; min-height: 96px;
+  background: linear-gradient(0deg, rgba(255,255,255,.02), rgba(255,255,255,.02));
+}
+.stack-3 > .card.skeleton::after,
+.party-card.skeleton::after {
+  content: ""; position:absolute; inset:0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+/* Pills row spacing */
+.party-card .stack-2 { display:flex; gap:8px; flex-wrap:wrap; padding: 0 16px; }
+
+/* Button row */
+.party-card .flex { padding: 12px 16px 16px; }
+
+/* FTUE progress header */
+.ftue-header { display:flex; align-items:center; gap:10px; padding: 10px 16px 0; }
+.ftue-progress { height: 6px; border-radius: 999px; background: #212129; overflow: hidden; }
+.ftue-progress > i { display:block; height:100%; width:0%; background: var(--accent-primary); transition: width var(--t-fast) var(--ease-out); }
+
+/* Compact mobile */
+@media (max-width: 480px) {
+  .party-card .btn { padding: 8px 10px; }
+  .party-card .text-caption { font-size: 12px; }
+}

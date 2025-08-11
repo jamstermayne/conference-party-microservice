@@ -1,152 +1,21 @@
 {
   "name": "Gamescom 2025 Party Discovery",
   "short_name": "GamesCom Parties",
-  "description": "Discover the best parties and events at Gamescom 2025 in Cologne",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1a1a1a",
-  "theme_color": "#ff6b6b",
+  "theme_color": "#6b7bff",
   "orientation": "portrait-primary",
-  "categories": [
-    "entertainment",
-    "social",
-    "events"
-  ],
-  "lang": "en",
-  "dir": "ltr",
   "icons": [
-    {
-      "src": "/images/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ],
   "screenshots": [
-    {
-      "src": "/images/screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Mobile event discovery"
-    },
-    {
-      "src": "/images/screenshot-desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Desktop event browser"
-    }
+    { "src": "/assets/screenshots/screenshot-mobile.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" },
+    { "src": "/assets/screenshots/screenshot-desktop.png", "sizes": "1920x1080", "type": "image/png", "form_factor": "wide" }
   ],
   "shortcuts": [
-    {
-      "name": "Search Events",
-      "short_name": "Search",
-      "description": "Search for parties and events",
-      "url": "/?action=search",
-      "icons": [
-        {
-          "src": "/images/search-icon.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "Today's Events",
-      "short_name": "Today",
-      "description": "See what's happening today",
-      "url": "/?filter=today",
-      "icons": [
-        {
-          "src": "/images/today-icon.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "My Calendar",
-      "short_name": "Calendar",
-      "description": "View saved events",
-      "url": "/?view=calendar",
-      "icons": [
-        {
-          "src": "/images/calendar-icon.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "Map View",
-      "short_name": "Map",
-      "description": "Browse events on map",
-      "url": "/?view=map",
-      "icons": [
-        {
-          "src": "/images/map-icon.png",
-          "sizes": "96x96"
-        }
-      ]
-    }
-  ],
-  "scope": "/",
-  "id": "gamescom-party-discovery",
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  },
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "minimal-ui",
-    "browser"
-  ],
-  "protocol_handlers": [
-    {
-      "protocol": "web+gamescom",
-      "url": "/?event=%s"
-    }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false
+    { "name": "Today", "short_name": "Today", "url": "/#today" },
+    { "name": "Parties", "short_name": "Parties", "url": "/#parties" }
+  ]
 }
