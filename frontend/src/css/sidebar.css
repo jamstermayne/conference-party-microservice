@@ -8,17 +8,13 @@
 .side-nav .nav-item {
   position: relative;
   padding: 10px 14px 10px 18px;
-  border-radius: var(--r-sm, 8px);
-  color: var(--muted, #9ea2aa);
+  border-radius: var(--r-md);
+  color: var(--text-secondary);
   line-height: 1;
   font-weight: 500;
   cursor: pointer;
   user-select: none;
-  border: none;
-  background: transparent;
-  width: 100%;
-  text-align: left;
-  transition: background var(--fast, 150ms) var(--ease, ease-out), color var(--fast, 150ms) var(--ease, ease-out);
+  transition: background var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out);
 }
 
 .side-nav .nav-item:hover {
