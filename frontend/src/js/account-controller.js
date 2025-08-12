@@ -1,77 +1,206 @@
-// Account hub - aggregates user data and settings
-const Store = window.Store;
+/**
+ * Account Hub (v1) — aggregates profile + invites + connections
+ * Vanilla JS, Events/Store integrated, safe if APIs are missing.
+ */
+import Events from '/assets/js/events.js';
+import Store from '/js/store.js';
+import { toast, emptyState } from '/js/ui-feedback.js';
 
-export function renderAccount(){
-  const root = document.getElementById('account-root') || document.getElementById('main') || document.getElementById('page-root');
-  if(!root) return;
+const API_BASE = (window.__ENV && window.__ENV.API_BASE) || '/api';
 
-  const profile = Store.get('profile') || {};
-  const invites = Store.get('invites') || { sent:0, redeemed:0, remaining:0 };
-  const contacts = Store.get('contacts') || { total:0, connected:0 };
+function el(html){ const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; }
+
+function field(label, value, id){
+  return el(`
+    <div class="acc-field">
+      <label for="${id}">${label}</label>
+      <input id="${id}" type="text" value="${value || ''}" />
+    </div>
+  `);
+}
+
+function stat(label, value){
+  return el(`
+    <div class="acc-stat card card-compact">
+      <div class="acc-stat-val">${value ?? 0}</div>
+      <div class="acc-stat-label">${label}</div>
+    </div>
+  `);
+}
+
+async function getJSON(url) {
+  try {
+    const r = await fetch(url); if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return await r.json();
+  } catch(e) {
+    return null;
+  }
+}
+
+async function loadAggregates(){
+  // Soft calls; tolerate missing endpoints
+  const [inv, conn] = await Promise.allSettled([
+    getJSON(`${API_BASE}/invites/status`),
+    getJSON(`${API_BASE}/network/summary`)
+  ]);
+
+  const invitesLeft   = inv.value?.left ?? Store.get('invites.left') ?? 0;
+  const invitesSent   = inv.value?.sent ?? Store.get('invites.sent') ?? 0;
+  const invitesUsed   = inv.value?.used ?? Store.get('invites.used') ?? 0;
+  const connections   = conn.value?.connections ?? Store.get('network.connections') ?? 0;
+  const eventsJoined  = conn.value?.events ?? Store.get('network.events') ?? 0;
+
+  return { invitesLeft, invitesSent, invitesUsed, connections, eventsJoined };
+}
+
+function profileSection(user){
+  const name = user?.name || '';
+  const email = user?.email || '';
+  const backup = user?.backupEmail || '';
+  const phone = user?.phone || '';
+  const li = user?.linkedin || '';
+
+  const card = el(`
+    <section class="acc-card card card-elevated">
+      <header class="acc-card-header">
+        <div class="acc-icon">⚙️</div>
+        <h2>Account</h2>
+      </header>
+      <div class="acc-grid">
+      </div>
+      <div class="acc-actions">
+        <button class="btn btn-primary" data-action="save-profile">Save</button>
+      </div>
+    </section>
+  `);
+
+  const grid = card.querySelector('.acc-grid');
+  grid.append(
+    field('Display name', name, 'acc-name'),
+    field('Email', email, 'acc-email'),
+    field('Backup email (recommended)', backup, 'acc-backup'),
+    field('Phone', phone, 'acc-phone'),
+    field('LinkedIn URL', li, 'acc-li')
+  );
+
+  card.addEventListener('click', async (e)=>{
+    const btn = e.target.closest('button[data-action="save-profile"]');
+    if (!btn) return;
+    // persist locally (and emit for backend if available)
+    const next = {
+      name: document.getElementById('acc-name')?.value.trim(),
+      email: document.getElementById('acc-email')?.value.trim(),
+      backupEmail: document.getElementById('acc-backup')?.value.trim(),
+      phone: document.getElementById('acc-phone')?.value.trim(),
+      linkedin: document.getElementById('acc-li')?.value.trim(),
+    };
+    Store.patch('user.profile', next);
+    Events.emit('profile:updated', next);
+    // Optionally POST to API if endpoint exists
+    try {
+      if (window.__ENV?.PROFILE_API) {
+        await fetch(`${API_BASE}/profile`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(next)});
+      }
+      toast('Profile saved', 'ok');
+    } catch { toast('Saved locally. Network failed.', 'warning'); }
+  });
+
+  return card;
+}
+
+function securitySection(){
+  const card = el(`
+    <section class="acc-card card card-elevated">
+      <header class="acc-card-header">
+        <div class="acc-icon">🔒</div>
+        <h2>Security</h2>
+      </header>
+      <div class="acc-actions gap">
+        <button class="btn btn-secondary" data-action="link-google">Link Google</button>
+        <button class="btn btn-secondary" data-action="link-linkedin">Link LinkedIn</button>
+        <button class="btn btn-outline" data-action="add-recovery">Add recovery email</button>
+      </div>
+    </section>
+  `);
+
+  card.addEventListener('click', (e)=>{
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const action = btn.dataset.action;
+    if (action === 'link-google')  Events.emit('auth:google');
+    if (action === 'link-linkedin') Events.emit('auth:linkedin');
+    if (action === 'add-recovery')  toast('Enter a backup email above and hit Save.', 'ok');
+  });
+
+  return card;
+}
+
+function summarySection(stats){
+  const { invitesLeft, invitesSent, invitesUsed, connections, eventsJoined } = stats;
+  const card = el(`
+    <section class="acc-card card card-elevated">
+      <header class="acc-card-header">
+        <div class="acc-icon">📊</div>
+        <h2>Summary</h2>
+      </header>
+      <div class="acc-stats">
+      </div>
+    </section>
+  `);
+  const wrap = card.querySelector('.acc-stats');
+  wrap.append(
+    stat('Invites left', invitesLeft),
+    stat('Invites sent', invitesSent),
+    stat('Invites redeemed', invitesUsed),
+    stat('Connections', connections),
+    stat('Events joined', eventsJoined)
+  );
+  return card;
+}
+
+export async function initAccountView() {
+  const root = document.getElementById('route-account') || document.getElementById('main') || document.getElementById('page-root');
+  if (!root) return;
 
   root.innerHTML = `
-  <div class="account-wrap">
-    <div class="section">
-      <h3>Your Information</h3>
-      <div class="kv"><div class="key">Name</div><div>${escape(profile.name,'—')}</div></div>
-      <div class="kv"><div class="key">Email</div><div>${escape(profile.email,'—')}</div></div>
-      <div class="kv"><div class="key">Phone</div><div>${escape(profile.phone,'—')}</div></div>
-      <div class="row-actions" style="margin-top:12px">
-        <button class="btn" data-action="edit-email">Change email</button>
-        <button class="btn" data-action="change-password">Change password</button>
-        <button class="btn" data-action="connect-linkedin">Connect LinkedIn</button>
-      </div>
+    <div class="account-view">
+      <header class="account-header">
+        <div class="hash-tag">#</div>
+        <h1 class="ph-title">account</h1>
+      </header>
+      <div class="account-grid" id="account-grid"></div>
     </div>
+  `;
 
-    <div class="section">
-      <h3>Invites</h3>
-      <div class="kv"><div class="key">Sent</div><div>${invites.sent}</div></div>
-      <div class="kv"><div class="key">Redeemed</div><div>${invites.redeemed}</div></div>
-      <div class="kv"><div class="key">Remaining</div><div>${invites.remaining}</div></div>
-      <div class="row-actions" style="margin-top:12px">
-        <button class="btn" data-action="invite">Invite friends</button>
-        <button class="btn" data-action="view-activity">View activity</button>
-      </div>
-    </div>
+  const user = Store.get('user') || {};
+  const grid = document.getElementById('account-grid');
 
-    <div class="section">
-      <h3>Contacts</h3>
-      <div class="kv"><div class="key">Total</div><div>${contacts.total}</div></div>
-      <div class="kv"><div class="key">Connected</div><div>${contacts.connected}</div></div>
-      <div class="row-actions" style="margin-top:12px">
-        <button class="btn" data-action="import-contacts">Import contacts</button>
-      </div>
-    </div>
-  </div>`;
+  const [stats] = await Promise.all([loadAggregates()]);
 
-  wireAccountActions(root);
+  grid.append(
+    profileSection(user.profile || user),
+    securitySection(),
+    summarySection(stats)
+  );
 }
 
-function wireAccountActions(root){
-  root.addEventListener('click',(e)=>{
-    const a = e.target.closest('[data-action]'); if(!a) return;
-    const action = a.dataset.action;
-    switch(action){
-      case 'edit-email': dispatch('account:edit-email'); break;
-      case 'change-password': dispatch('account:change-password'); break;
-      case 'connect-linkedin': dispatch('account:connect-linkedin'); break;
-      case 'invite': dispatch('invites:compose'); break;
-      case 'view-activity': dispatch('activity:open'); break;
-      case 'import-contacts': dispatch('contacts:import'); break;
-    }
+// Keep legacy renderAccount for compatibility
+export function renderAccount() {
+  return initAccountView();
+}
+
+// Auto-init on route change
+try {
+  document.addEventListener('route:change', (e)=>{
+    if ((e.detail?.name) === 'account') initAccountView();
   });
-}
+} catch {}
 
-function dispatch(name,detail){ try{ document.dispatchEvent(new CustomEvent(name,{detail})); }catch{} }
-function escape(v,fallback=''){ return (v==null || v==='') ? fallback : String(v); }
-
-// Auto-render on route
-window.addEventListener('hashchange', maybeRender);
-window.addEventListener('DOMContentLoaded', maybeRender);
-function maybeRender(){
-  if (location.hash.replace('#/','') === 'account') renderAccount();
-}
+// Legacy hashchange support
+window.addEventListener('hashchange', () => {
+  if (location.hash.replace('#/','') === 'account') initAccountView();
+});
 
 console.log('✅ Account controller loaded');
 
-export default { renderAccount };
+export default { initAccountView, renderAccount };
