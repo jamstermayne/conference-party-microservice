@@ -1,0 +1,74 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd functions && npm ci
+    
+    - name: Lint functions
+      run: cd functions && npm run lint
+    
+    - name: Build functions
+      run: cd functions && npm run build
+    
+    - name: Test functions
+      run: cd functions && npm test
+    
+    - name: Build PWA
+      run: npm run build
+      continue-on-error: true
+    
+    - name: Run API tests
+      run: npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd functions && npm ci
+    
+    - name: Build
+      run: |
+        npm run build
+        cd functions && npm run build
+    
+    - name: Deploy to Firebase
+      uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+        channelId: live
+        projectId: conference-party-app
+      env:
+        FIREBASE_CLI_EXPERIMENTS: webframeworks
