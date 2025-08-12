@@ -238,12 +238,24 @@
 <!-- Ensure events.css is included -->
 <link rel="stylesheet" href="/assets/css/events.css">
 
+<!-- Contacts Permission Sheet -->
+<link rel="stylesheet" href="/assets/css/contacts-permission.css">
+<script src="/assets/js/contacts-permission.js"></script>
+
 <!-- Load FTUE progress script -->
 <script src="/js/ftue-progress.js"></script>
 
 <!-- Load production-safe metrics and flags -->
 <script type="module" src="/assets/js/metrics.js"></script>
 <script type="module" src="/assets/js/featureFlags.js"></script>
+
+<!-- Dev-only shim: simulate successful contacts sync (remove in production) -->
+<script>
+  window.Contacts = window.Contacts || {};
+  if (!window.Contacts.sync) {
+    window.Contacts.sync = () => new Promise(res => setTimeout(res, 600));
+  }
+</script>
 
 </body>
 </html>
