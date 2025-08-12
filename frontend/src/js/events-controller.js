@@ -47,30 +47,23 @@ function download(filename, content, type='text/calendar') {
 }
 
 function card(item) {
-  const tags = [
-    item.date && `<span class="badge-pill">${item.date}</span>`,
-    item.time && `<span class="badge-pill">${item.time}</span>`,
-    item.venue && `<span class="badge-pill">${item.venue}</span>`,
-    item.price && `<span class="badge-pill">${item.price}</span>`
-  ].filter(Boolean).join('');
-
   const c = el(`
-    <article class="event-card">
-      <div class="event-head">
-        <h3 class="event-title">${(item.title||'Untitled')}</h3>
+    <div class="event-card">
+      <div>
+        <div class="event-title">${(item.title||'Untitled')}</div>
+        <div class="event-tags">
+          ${item.date ? `<span class="event-tag">${item.date}</span>` : ''}
+          ${item.time ? `<span class="event-tag">${item.time}</span>` : ''}
+          ${item.venue ? `<span class="event-tag">${item.venue}</span>` : ''}
+          ${item.price ? `<span class="event-tag">${item.price}</span>` : ''}
+        </div>
       </div>
-      <div class="event-meta">${tags}</div>
-      <div class="event-body">${item.description ? item.description : ''}</div>
       <div class="event-actions">
-        <div class="left">
-          <button class="btn btn-primary btn-xs" data-action="save" data-id="${item.id}">Save</button>
-          <button class="btn btn-secondary btn-xs" data-action="sync" data-id="${item.id}">Sync</button>
-        </div>
-        <div class="right">
-          <button class="btn btn-outline btn-xs" data-action="share" data-id="${item.id}">Share</button>
-        </div>
+        <button class="event-btn" data-action="save" data-id="${item.id}">Save</button>
+        <button class="event-btn" data-action="sync" data-id="${item.id}">Sync</button>
+        <button class="event-btn" data-action="share" data-id="${item.id}">Share</button>
       </div>
-    </article>
+    </div>
   `);
 
   c.addEventListener('click', async (e)=>{
@@ -105,7 +98,7 @@ function card(item) {
 }
 
 export async function renderParties() {
-  const root = document.getElementById('route-parties') || document.getElementById('main');
+  const root = document.getElementById('route-parties') || document.getElementById('main') || document.getElementById('eventsContainer');
   if (!root) return;
 
   root.innerHTML = `
