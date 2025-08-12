@@ -78,6 +78,7 @@
   </script>
   
   <link rel="stylesheet" href="assets/css/styles.css"/>
+  <link rel="stylesheet" href="/assets/css/hotspots.css">
 </head>
 <body>
   <!-- Skip link for accessibility -->
@@ -141,6 +142,24 @@
       <section id="route" role="region" aria-live="polite"></section>
       <!-- Events list for production controller -->
       <section id="event-list" role="region" aria-label="Gaming industry parties"></section>
+      <!-- Hotspots Route -->
+      <section data-route="hotspots" aria-labelledby="hotspots-title" style="display:none;">
+        <div id="hotspots-view" class="hotspots-wrap">
+          <header class="hotspots-header">
+            <h2 id="hotspots-title" class="hotspots-title">Hotspots</h2>
+            <div class="hotspots-meta">Loading…</div>
+          </header>
+
+          <div class="hotspots-canvas-card">
+            <canvas class="hotspots-canvas" aria-label="Heat visualization of venue activity"></canvas>
+            <div class="hotspots-legend">Intensity shows crowd density</div>
+          </div>
+
+          <div class="hotspots-list" role="list" aria-label="Live venues list">
+            <!-- populated by hotspots-view.js -->
+          </div>
+        </div>
+      </section>
       <!-- Enhanced Install Card with Accessibility -->
       <div id="install-card" class="install-card hidden" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc">
         <div class="install-content" tabindex="-1">
@@ -180,6 +199,7 @@
   <script type="module" src="/js/invite-badge.js"></script>
   <script type="module" src="/js/calendar-integration.js"></script>
   <script type="module" src="/js/events-controller.js"></script>
+  <script type="module" src="/js/hotspots-view.js"></script>
   <script type="module" src="/js/app-wireup.js"></script>
   
   <!-- PWA Install Handler -->

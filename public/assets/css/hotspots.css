@@ -1,0 +1,133 @@
+/* Hotspots view (Slack-dark, Jobs/Ive polish) */
+.hotspots-wrap {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 12px;
+  height: 100%;
+  padding: 16px;
+  background: var(--bg-primary);
+}
+
+.hotspots-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hotspots-title {
+  font-size: 18px;
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.hotspots-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.hotspots-canvas-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  min-height: 240px;
+}
+
+.hotspots-canvas {
+  display: block;
+  width: 100%;
+  height: 300px;
+}
+
+.hotspots-legend {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 6px 8px;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.hotspots-list {
+  display: grid;
+  gap: 8px;
+  overflow: auto;
+  max-height: 40vh;
+  padding-right: 4px;
+}
+
+.hotspot-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  transition: transform var(--t-fast) var(--ease-out), border-color var(--t-fast) var(--ease-out);
+}
+
+.hotspot-item:hover {
+  transform: translateY(-1px);
+  border-color: rgba(107,123,255,0.5);
+}
+
+.hotspot-name {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.hotspot-sub {
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.hotspot-count {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.hotspot-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.hotspot-actions .btn {
+  padding: 6px 10px;
+}
+
+.badge-live {
+  background: linear-gradient(90deg, #6b7bff, #ff6bcb);
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.hotspots-empty {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 24px;
+  border: 1px dashed var(--border);
+  border-radius: var(--r-md);
+}
+
+/* Subtle pulse for top venue marker hint */
+@keyframes hmPulse {
+  0% { transform: scale(1); opacity: .7; }
+  50% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: .7; }
+}
+.hotspot-top {
+  animation: hmPulse 2.4s var(--ease-spring) infinite;
+}
