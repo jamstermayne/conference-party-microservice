@@ -78,6 +78,7 @@
   </script>
   
   <link rel="stylesheet" href="assets/css/styles.css"/>
+  <link rel="stylesheet" href="/assets/css/app-shell.css?v=13">
   <link rel="stylesheet" href="/assets/css/nav.css">
   <link rel="stylesheet" href="/assets/css/hotspots.css">
   <link rel="stylesheet" href="/css/panels.css?v=7">
@@ -96,8 +97,8 @@
   <a href="#main-content" class="skip-link">Skip to main content</a>
   
   <div id="app" class="app">
-    <!-- Slack-style Sidebar -->
-    <aside id="sidenav" class="sidenav" aria-label="Main navigation">
+    <!-- LEFT: Sidebar -->
+    <aside id="sidenav" class="sidebar sidenav" aria-label="Main navigation">
       <div class="side-head">
         <div class="header-brand">
           <img class="logo" src="/assets/icons/velocity-logo.svg" alt="velocity.ai">
@@ -147,15 +148,21 @@
     </aside>
     <!-- Overlay (mobile) -->
     <div id="overlay" class="overlay" hidden></div>
-    <!-- Main Panel -->
-    <main id="main" class="main-pane">
-      <header class="topbar">
-        <button id="menu" class="icon-btn" aria-label="Open menu">☰</button>
-        <h1 class="page-title">
+    <!-- RIGHT: Main -->
+    <main id="main" class="main main-pane" role="main">
+      <!-- Sticky header belongs here, inside .main -->
+      <header class="section-header">
+        <div class="section-title">
           <span data-page-title>Parties</span>
           <span class="page-title-chip" data-page-chip>#parties</span>
-        </h1>
+        </div>
+        <div id="section-actions" class="section-actions" role="toolbar">
+          <button id="menu" class="icon-btn" aria-label="Open menu">☰</button>
+        </div>
       </header>
+      
+      <!-- Main content area -->
+      <div class="content" id="content">
       <!-- Route sections -->
       <section data-route="parties" class="section-rail">
         <div class="section-header" data-section="parties">
@@ -171,7 +178,6 @@
       </section>
       
       <section data-route="hotspots" class="section-rail" hidden>
-        <h2 class="text-heading">Hotspots</h2>
         <div id="hotspots-root">
           <div class="hotspots-wrap">
             <article class="hotspots-canvas-card card-elevated">
@@ -198,7 +204,6 @@
       </section>
       
       <section data-route="map" class="section-rail" hidden>
-        <h2 class="text-heading">Map</h2>
         <div id="map-root">
           <div class="hotspots-wrap">
             <div id="map-canvas"></div>
@@ -213,7 +218,6 @@
       </section>
       
       <section data-route="calendar" class="section-rail" hidden>
-        <h2 class="text-heading">Calendar</h2>
         <div class="stack-2">
           <div data-calendar-strip style="padding: 0 16px;"></div>
           <div data-calendar-ics style="padding: 0 16px;"></div>
@@ -232,7 +236,6 @@
       </section>
       
       <section data-route="invites" class="section-rail" hidden>
-        <h2 class="text-heading">Invites</h2>
         <div id="invites-root">
           <div class="invite-panel">
             <div class="invite-header">
@@ -249,19 +252,18 @@
       </section>
       
       <section data-route="opportunities" class="section-rail" hidden>
-        <h2 class="text-heading">Opportunities</h2>
         <div id="opps-root"></div>
       </section>
       
       <section data-route="me" class="section-rail" hidden>
-        <h2 class="text-heading">Your Profile</h2>
         <div id="me-root"></div>
       </section>
       
       <section data-route="settings" class="section-rail" hidden>
-        <h2 class="text-heading">Settings</h2>
         <div id="settings-root"></div>
       </section>
+      </div><!-- end .content -->
+      
       <!-- Enhanced Install Card with Accessibility -->
       <div id="install-card" class="install-card hidden" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc">
         <div class="install-content" tabindex="-1">
