@@ -6,6 +6,10 @@ const ROUTES = ['parties','hotspots','map','calendar','invites','me','settings']
 const VALID_ROUTES = new Set(ROUTES);
 const DEFAULT_ROUTE = (window.__ENV?.DEFAULT_ROUTE) || 'parties';
 
+function slackify(text) {
+  return `#${String(text || '').replace(/\s+/g, '').toLowerCase()}`;
+}
+
 export function route(to) {
   if (!to || !ROUTES.includes(to)) to = 'parties';
   window.location.hash = `#/${to}`;
@@ -25,6 +29,30 @@ function applyActiveUI(routeId) {
     const isCurrent = route === routeId;
     sec.toggleAttribute('hidden', !isCurrent);
     sec.classList.toggle('is-current', isCurrent);
+  });
+}
+
+// Route change handler
+export function onRouteChanged(routeName) {
+  // 1) Sidebar active state (if sidebar.js not loaded, fallback to basic)
+  if (window.setActiveNav) {
+    window.setActiveNav(routeName);
+  } else {
+    document.querySelectorAll('.side-nav .nav-item').forEach(el => {
+      el.classList.toggle('active', el.getAttribute('data-route') === routeName);
+    });
+  }
+
+  // 2) Sync page title chip
+  const header = document.querySelector('[data-page-title]');
+  const chip = document.querySelector('[data-page-chip]');
+  if (header) header.textContent = routeName.charAt(0).toUpperCase() + routeName.slice(1);
+  if (chip) chip.textContent = slackify(routeName);
+
+  // 3) Section header accent
+  document.querySelectorAll('.section-header').forEach(h => {
+    const sec = h.getAttribute('data-section');
+    h.classList.toggle('active', sec === routeName);
   });
 }
 
@@ -49,6 +77,9 @@ export function initRouter() {
     
     // Apply active UI with rails
     applyActiveUI(hash);
+    
+    // Call the new route changed handler
+    onRouteChanged(hash);
     
     document.dispatchEvent(new CustomEvent('route:changed', { detail: { hash }}));
   };

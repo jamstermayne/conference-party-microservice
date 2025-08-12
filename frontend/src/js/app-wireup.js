@@ -3,6 +3,7 @@
 
 import Router, { initRouter, bindSidebar } from '/js/router.js';
 import Flags from '/assets/js/featureFlags.js';
+import { initSidebar } from '/js/sidebar.js';
 
 // PATCH 3: Sidebar visibility based on feature flags
 function hydrateSidebar() {
@@ -59,6 +60,7 @@ function safeRouteTo(route) {
       hydrateSidebar();
       bindSidebar();
       initRouter();
+      try { initSidebar(); } catch(e) { console.warn('Sidebar init failed:', e); }
       // force sidebar visible on first load
       document.documentElement.classList.remove('sidenav-collapsed');
     });

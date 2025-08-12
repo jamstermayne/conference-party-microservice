@@ -88,6 +88,8 @@
   <link rel="stylesheet" href="/css/invite-panel.css?v=9">
   <link rel="stylesheet" href="/css/layout.css?v=10">
   <link rel="stylesheet" href="/css/app.css?v=11">
+  <link rel="stylesheet" href="/css/sidebar.css?v=12">
+  <link rel="stylesheet" href="/css/sections.css?v=12">
 </head>
 <body>
   <!-- Skip link for accessibility -->
@@ -107,27 +109,13 @@
       </div>
 
       <nav class="side-nav" id="side-nav">
-        <button class="nav-item" data-route="parties">
-          <span class="hash" aria-hidden="true">#</span><span class="label">Parties</span>
-        </button>
-        <button class="nav-item" data-route="hotspots">
-          <span class="hash" aria-hidden="true">#</span><span class="label">Hotspots</span>
-        </button>
-        <button class="nav-item" data-route="map">
-          <span class="hash" aria-hidden="true">#</span><span class="label">Map</span>
-        </button>
-        <button class="nav-item" data-route="calendar">
-          <span class="hash" aria-hidden="true">#</span><span class="label">Calendar</span>
-        </button>
-        <button class="nav-item" data-route="invites">
-          <span class="hash" aria-hidden="true">#</span><span class="label">Invites</span>
-        </button>
-        <button class="nav-item" data-route="me">
-          <span class="hash" aria-hidden="true">#</span><span class="label">Me</span>
-        </button>
-        <button class="nav-item" data-route="settings">
-          <span class="hash" aria-hidden="true">#</span><span class="label">Settings</span>
-        </button>
+        <button class="nav-item" data-route="parties" data-label="Parties">Parties</button>
+        <button class="nav-item" data-route="hotspots" data-label="Hotspots">Hotspots</button>
+        <button class="nav-item" data-route="map" data-label="Map">Map</button>
+        <button class="nav-item" data-route="calendar" data-label="Calendar">Calendar</button>
+        <button class="nav-item" data-route="invites" data-label="Invites">Invites</button>
+        <button class="nav-item" data-route="me" data-label="Me">Me</button>
+        <button class="nav-item" data-route="settings" data-label="Settings">Settings</button>
       </nav>
       <div class="side-footer">
         <div class="auth-section" id="auth-section">
@@ -163,11 +151,16 @@
     <main id="main" class="main-pane">
       <header class="topbar">
         <button id="menu" class="icon-btn" aria-label="Open menu">☰</button>
-        <h1 id="page-title">Parties</h1>
+        <h1 class="page-title">
+          <span data-page-title>Parties</span>
+          <span class="page-title-chip" data-page-chip>#parties</span>
+        </h1>
       </header>
       <!-- Route sections -->
       <section data-route="parties" class="section-rail">
-        <h2 class="text-heading">Parties</h2>
+        <div class="section-header" data-section="parties">
+          <div class="title">Parties</div>
+        </div>
         <!-- FTUE Pick 3 Progress -->
         <div id="ftue-wrap"></div>
         <!-- Parties list target (polish enhancer writes cards here). -->

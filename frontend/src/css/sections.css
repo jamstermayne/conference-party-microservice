@@ -1,0 +1,20 @@
+/* Card accent like your screenshot (left glow) */
+.section-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 16px;
+}
+
+.section-card.active::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 10px;
+  bottom: 10px;
+  width: 6px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #7B7DFF, #4D67FF);
+  filter: drop-shadow(0 0 10px rgba(77,103,255,0.45));
+}
