@@ -30,7 +30,8 @@ const API_CACHE_PATTERNS = [
     /\/api\/parties/,
     /\/api\/events/,
     /\/api\/search/,
-    /\/api\/venues/
+    /\/api\/venues/,
+    /\/api\/hotspots/  // Cache hotspots data for quick startup
 ];
 
 // Static assets for stale-while-revalidate
