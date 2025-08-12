@@ -82,8 +82,9 @@
   <link rel="stylesheet" href="/assets/css/header-actions.css?v=14">
   <link rel="stylesheet" href="/assets/css/nav.css">
   <link rel="stylesheet" href="/assets/css/hotspots.css">
+  <link rel="stylesheet" href="/css/hotspots.css?v=10">
   <link rel="stylesheet" href="/css/panels.css?v=7">
-  <link rel="stylesheet" href="/css/layout-polish.css?v=7">
+  <link rel="stylesheet" href="/css/layout-polish.css?v=10">
   <link rel="stylesheet" href="/css/cards-parties.css?v=7">
   <link rel="stylesheet" href="/css/calendar-strip.css?v=8">
   <link rel="stylesheet" href="/css/toast.css?v=8">
@@ -93,7 +94,7 @@
   <link rel="stylesheet" href="/css/sidebar.css?v=12">
   <link rel="stylesheet" href="/css/sections.css?v=12">
   <link rel="stylesheet" href="/css/loading.css?v=15">
-  <link rel="stylesheet" href="/css/events-cards.css?v=18">
+  <link rel="stylesheet" href="/css/events-cards.css?v=10">
   <link rel="stylesheet" href="/css/account.css?v=20">
   <link rel="stylesheet" href="/css/sidebar-fix.css?v=18">
   <link rel="stylesheet" href="/css/sidebar-polish.css?v=9">
@@ -130,8 +131,22 @@
       <span id="route-chip" class="chip">#parties</span>
     </header>
 
-    <!-- 👇 router swaps only this element -->
-    <main id="page-root" class="page-root"></main>
+    <!-- main content area -->
+    <main id="main" class="main">
+      <div class="page-head">
+        <div class="route-label">
+          <h1 data-role="route-title" class="route-title">#parties</h1>
+          <span data-role="route-subtitle" class="route-subtitle">Pick parties and save to your calendar</span>
+        </div>
+      </div>
+
+      <section id="route-parties"></section>
+      <section id="route-hotspots" hidden></section>
+      <section id="route-map" hidden></section>
+      <section id="route-calendar" hidden></section>
+      <section id="route-invites" hidden></section>
+      <section id="route-account" hidden></section>
+    </main>
   </section>
   <!-- ENV must come first -->
   <script src="/js/env.js?v=6"></script>
@@ -157,7 +172,7 @@
   <script type="module" src="/js/invite-panel.js?v=6"></script>
   <script type="module" src="/js/invite-badge-sync.js?v=6"></script>
   <script type="module" src="/js/calendar-integration.js?v=6"></script>
-  <script type="module" src="/js/events-controller.js?v=7"></script>
+  <script type="module" src="/js/events-controller.js?v=10"></script>
   
   <!-- Selection and sync modules -->
   <script type="module" src="/js/selection-store.js?v=1"></script>
@@ -171,6 +186,10 @@
   <!-- TEMP: comment out if your file isn't ready; or keep with fixed file below -->
   <script type="module" src="/js/activity-feed.js?v=6"></script>
 
+  <!-- Route controllers -->
+  <script type="module" src="/js/route-title.js?v=10"></script>
+  <script type="module" src="/js/hotspots-controller.js?v=10"></script>
+  
   <!-- Panel enhancements -->
   <script type="module" src="/js/hotspots.js?v=7"></script>
   <script type="module" src="/js/map.js?v=7"></script>
