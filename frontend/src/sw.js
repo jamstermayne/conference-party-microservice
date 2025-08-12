@@ -6,7 +6,8 @@
  * Cache Version: 1.0.0
  */
 
-const CACHE_VERSION = '1.0.0';
+const SW_VERSION = '1.0.1'; // bump
+const CACHE_VERSION = SW_VERSION;
 const CACHE_NAME = 'gamescom-party-discovery-v1';
 const DATA_CACHE = 'gamescom-data-v1';
 const RUNTIME_CACHE = 'gamescom-runtime-v1';
@@ -43,7 +44,8 @@ const STATIC_CACHE_PATTERNS = [
  * 📦 SERVICE WORKER INSTALLATION
  */
 self.addEventListener('install', event => {
-    console.log('🚀 Service Worker installing, version:', CACHE_VERSION);
+    console.log('🚀 Service Worker installing, version:', SW_VERSION);
+    self.skipWaiting();
     
     event.waitUntil(
         Promise.all([
@@ -54,10 +56,7 @@ self.addEventListener('install', event => {
             }),
             
             // Cache PWA search data
-            cacheSearchData(),
-            
-            // Skip waiting to activate immediately
-            self.skipWaiting()
+            cacheSearchData()
         ])
     );
 });
@@ -66,14 +65,20 @@ self.addEventListener('install', event => {
  * 🔄 SERVICE WORKER ACTIVATION
  */
 self.addEventListener('activate', event => {
-    console.log('✅ Service Worker activated, version:', CACHE_VERSION);
+    console.log('✅ Service Worker activated, version:', SW_VERSION);
     
-    event.waitUntil(
-        Promise.all([
-            cleanupOldCaches(),
-            self.clients.claim()
-        ])
-    );
+    event.waitUntil((async () => {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => {
+            if (!k.includes(SW_VERSION)) {
+                console.log('🗑️ Deleting old cache:', k);
+                return caches.delete(k);
+            }
+        }));
+        await self.clients.claim();
+        const clients = await self.clients.matchAll({ type: 'window' });
+        clients.forEach(c => c.postMessage({ type:'SW_UPDATED', version: SW_VERSION }));
+    })());
 });
 
 /**
@@ -133,12 +138,21 @@ async function cacheSearchData() {
 }
 
 /**
+ * 🔒 SAFE CACHING HELPER
+ */
+async function putIfGET(cacheName, request, response) {
+  if (request.method !== 'GET' || !response || !response.ok) return;
+  const cache = await caches.open(cacheName);
+  await cache.put(request, response.clone());
+}
+
+/**
  * 🌐 NETWORK-FIRST STRATEGY
  */
 async function networkFirstStrategy(request) {
     try {
         const networkResponse = await fetch(request);
-        if (networkResponse.ok) {
+        if (networkResponse.ok && request.method === 'GET') {
             const cache = await caches.open(RUNTIME_CACHE);
             cache.put(request, networkResponse.clone());
         }
@@ -160,7 +174,7 @@ async function cacheFirstStrategy(request) {
     
     try {
         const networkResponse = await fetch(request);
-        if (networkResponse.ok) {
+        if (networkResponse.ok && request.method === 'GET') {
             const cache = await caches.open(RUNTIME_CACHE);
             cache.put(request, networkResponse.clone());
         }
@@ -177,10 +191,11 @@ async function cacheFirstStrategy(request) {
 async function staleWhileRevalidateStrategy(request) {
     const cachedResponse = await caches.match(request);
     
-    const fetchPromise = fetch(request).then(networkResponse => {
-        if (networkResponse.ok) {
-            const cache = caches.open(RUNTIME_CACHE);
-            cache.then(c => c.put(request, networkResponse.clone()));
+    const fetchPromise = fetch(request).then(async networkResponse => {
+        if (networkResponse.ok && request.method === 'GET') {
+            const responseToCache = networkResponse.clone();
+            const cache = await caches.open(RUNTIME_CACHE);
+            cache.put(request, responseToCache);
         }
         return networkResponse;
     }).catch(() => null);

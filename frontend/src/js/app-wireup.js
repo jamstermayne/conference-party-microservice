@@ -1,7 +1,7 @@
 // public/js/app-wireup.js
 // Minimal app bootstrap: installs listeners, triggers initial route, confirms boot.
 
-import Router from '/js/router.js';
+import Router, { initRouter, bindSidebar } from '/js/router.js';
 import Flags from '/assets/js/featureFlags.js';
 
 // PATCH 3: Sidebar visibility based on feature flags
@@ -55,7 +55,13 @@ function safeRouteTo(route) {
 
     // Set up sidebar hydration
     document.addEventListener('flags:ready', hydrateSidebar);
-    document.addEventListener('DOMContentLoaded', hydrateSidebar);
+    document.addEventListener('DOMContentLoaded', () => {
+      hydrateSidebar();
+      bindSidebar();
+      initRouter();
+      // force sidebar visible on first load
+      document.documentElement.classList.remove('sidenav-collapsed');
+    });
 
     console.log('✅ App wire-up complete');
   } catch (e) {

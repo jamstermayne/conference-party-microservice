@@ -7,7 +7,7 @@
   <!-- PWA Meta -->
   <meta name="theme-color" content="#6b7bff" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="manifest" href="/manifest.json?v=4" />
+  <link rel="manifest" href="/manifest.json?v=7" />
 
   <!-- Content Security Policy (allows Cloud Functions + Google/LinkedIn SDKs) -->
   <meta http-equiv="Content-Security-Policy"
@@ -15,6 +15,7 @@
 
 
   <title>Velocity — Gamescom 2025</title>
+  <meta name="application-name" content="Velocity — Gamescom 2025">
   <meta name="description" content="Velocity — your private conference social network.">
 
   <!-- Additional PWA -->
@@ -78,6 +79,8 @@
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <link rel="stylesheet" href="/assets/css/nav.css">
   <link rel="stylesheet" href="/assets/css/hotspots.css">
+  <link rel="stylesheet" href="/css/panels.css?v=7">
+  <link rel="stylesheet" href="/css/layout-polish.css?v=7">
 </head>
 <body>
   <!-- Skip link for accessibility -->
@@ -174,7 +177,10 @@
             <aside class="hotspots-list">
               <header>
                 <h3>Venues</h3>
-                <button class="btn btn-ghost btn-small" data-action="refresh-hotspots">Refresh</button>
+                <div class="hotspots-meta">
+                  <span id="hotspots-last-updated"></span>
+                  <button class="btn btn-ghost btn-small" data-action="hotspots-refresh">Refresh</button>
+                </div>
               </header>
               <div id="hotspots-list" class="hotspots-scroll"></div>
             </aside>
@@ -185,7 +191,15 @@
       <section data-route="map" hidden>
         <h2 class="text-heading">Map</h2>
         <div id="map-root">
-          <div class="card card-outlined text-secondary">Map feature coming soon...</div>
+          <div class="hotspots-wrap">
+            <div id="map-canvas"></div>
+            <aside class="hotspots-list">
+              <header>
+                <h3>Venues</h3>
+              </header>
+              <div id="map-venues" class="hotspots-scroll"></div>
+            </aside>
+          </div>
         </div>
       </section>
       
@@ -261,7 +275,7 @@
   <script type="module" src="/js/ui-feedback.js?v=6"></script>
   <script type="module" src="/js/install.js?v=6"></script>
   <script type="module" src="/js/auth.js?v=6"></script>
-  <script type="module" src="/js/router.js?v=6"></script>
+  <script type="module" src="/js/router.js?v=7"></script>
 
   <!-- Feature controllers -->
   <script type="module" src="/js/invite.js?v=6"></script>
@@ -277,8 +291,17 @@
   <!-- TEMP: comment out if your file isn't ready; or keep with fixed file below -->
   <script type="module" src="/js/activity-feed.js?v=6"></script>
 
+  <!-- Panel enhancements -->
+  <script type="module" src="/js/hotspots.js?v=7"></script>
+  <script type="module" src="/js/map.js?v=7"></script>
+  <script type="module" src="/js/parties-polish.js?v=7"></script>
+
+  <!-- Layout polish -->
+  <script type="module" src="/js/route-title.js?v=7"></script>
+  <script type="module" src="/js/layout-snap.js?v=7"></script>
+
   <!-- Final wire-up -->
-  <script type="module" src="/js/app-wireup.js?v=6"></script>
+  <script type="module" src="/js/app-wireup.js?v=7"></script>
   
   <!-- PWA Install Handler -->
   <script type="module">

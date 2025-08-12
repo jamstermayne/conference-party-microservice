@@ -2,10 +2,10 @@
   "name": "Velocity — Gamescom 2025",
   "short_name": "Velocity",
   "description": "Discover the best parties and events at Gamescom 2025 in Cologne",
-  "start_url": "/",
+  "start_url": "/#/parties",
   "display": "standalone",
-  "background_color": "#1a1a1a",
-  "theme_color": "#ff6b6b",
+  "background_color": "#0f0f12",
+  "theme_color": "#0f0f12",
   "orientation": "portrait-primary",
   "categories": [
     "entertainment",

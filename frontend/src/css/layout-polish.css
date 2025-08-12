@@ -1,0 +1,49 @@
+/* ------- Brand block (Velocity / Gamescom 2025) ------- */
+.side-head {
+  display:flex; flex-direction:column; gap:2px;
+  padding:14px 12px 10px;
+  border-bottom:1px solid var(--border);
+}
+.side-head .brand { font-weight:700; color:var(--text-primary); line-height:1.1; }
+.side-head .workspace { color:var(--text-muted); font-size:12px; }
+
+/* ------- Slacky "# channel" treatment ------- */
+.side-nav .nav-item {
+  display:flex; align-items:center; gap:8px;
+  color:var(--text-secondary);
+}
+.side-nav .nav-item::before {
+  content:"#";
+  color:var(--text-muted);
+  font-weight:700;
+  opacity:.9;
+}
+.side-nav .nav-item.active::before { color:var(--text-primary); }
+
+/* ------- Remove accidental 3rd column panels globally ------- */
+.main-grid {
+  display:grid; grid-template-columns: 1fr 360px;
+  gap:16px;
+}
+@media (max-width: 980px){
+  .main-grid { grid-template-columns: 1fr; }
+}
+
+/* If any legacy third column slips in, hide it */
+[data-panel="third"], .col-third, .rail-right {
+  display:none !important;
+}
+
+/* ------- Section title spacing (avoid double headers feel) ------- */
+.route-title {
+  font-size:28px; line-height:1.2; font-weight:800;
+  margin:12px 0 6px 0;
+}
+.section-title {
+  font-size:20px; line-height:1.2; font-weight:800;
+  margin:14px 0 10px 0;
+}
+
+/* ------- Subtle card polish ------- */
+.card-hover:hover { transform: translateY(-1px); transition: transform var(--t-fast) var(--ease-out); }
+.card-compact .card-body { padding:10px 12px; }

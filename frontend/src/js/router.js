@@ -1,8 +1,53 @@
 // public/js/router.js
 // Minimal, stable router with single export surface
 
-const VALID_ROUTES = new Set(['parties','hotspots','map','opportunities','calendar','invites','me','settings']);
+const APP_NAME = 'Velocity';
+const ROUTES = ['parties','hotspots','map','calendar','invites','me','settings'];
+const VALID_ROUTES = new Set(ROUTES);
 const DEFAULT_ROUTE = (window.__ENV?.DEFAULT_ROUTE) || 'parties';
+
+export function route(to) {
+  if (!to || !ROUTES.includes(to)) to = 'parties';
+  window.location.hash = `#/${to}`;
+  document.dispatchEvent(new CustomEvent('navigate', { detail: { to }}));
+}
+
+// bind on load + hashchange
+export function initRouter() {
+  const apply = () => {
+    const hash = (location.hash.replace('#/','') || 'parties');
+    // sidebar active state
+    document.querySelectorAll('[data-route]').forEach(el=>{
+      el.classList.toggle('active', el.getAttribute('data-route')===hash);
+    });
+    // page title h1
+    document.getElementById('page-title')?.replaceChildren(document.createTextNode(cap(hash)));
+    // **browser tab title**
+    document.title = `${APP_NAME} — ${cap(hash)}`;
+    
+    // Show/hide sections based on route
+    document.querySelectorAll('section[data-route]').forEach(section => {
+      const route = section.getAttribute('data-route');
+      section.hidden = route !== hash;
+    });
+    
+    document.dispatchEvent(new CustomEvent('route:changed', { detail: { hash }}));
+  };
+  window.addEventListener('hashchange', apply);
+  apply();
+}
+
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+// wire sidebar buttons once (app-wireup.js calls this)
+export function bindSidebar() {
+  document.querySelectorAll('[data-route]').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.preventDefault();
+      route(el.getAttribute('data-route'));
+    }, { passive: false });
+  });
+}
 
 function initialRoute() {
   const hash = (location.hash || '').replace(/^#\/?/, '');
@@ -42,14 +87,6 @@ const Router = (() => {
 
   return { go, on, off, get route() { return current; } };
 })();
-
-// Add initRouter function
-export function initRouter() {
-  // Respect current hash; fall back to 'parties' only if none
-  const raw = (location.hash || '').replace(/^#\/?/, '');
-  const initial = raw || 'parties';
-  Router.go(`#/${initial}`);
-}
 
 // Single export only (avoid duplicate named exports)
 export default Router;
