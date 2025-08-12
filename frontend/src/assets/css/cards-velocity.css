@@ -1,0 +1,9 @@
+/* Party cards grid */
+.main-panel { padding:16px; }
+.page-header { padding:8px 4px 16px; }
+.page-title { font-size:18px; font-weight:600; }
+.cards-grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+
+.party-card .card-header { display:flex; flex-direction:column; gap:4px; }
+.party-card .meta-row { display:flex; gap:8px; flex-wrap:wrap; }
+.card-footer { display:flex; gap:8px; justify-content:flex-end; }

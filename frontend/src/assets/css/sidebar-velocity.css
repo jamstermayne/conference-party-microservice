@@ -1,0 +1,26 @@
+/* Sidebar (Slack-inspired), single-# labels via ::before */
+#sidenav { width: 280px; background: var(--bg-secondary); border-right:1px solid var(--border); }
+#sidenav .side-head { padding:16px 12px; border-bottom:1px solid var(--border); }
+#sidenav .brand { display:flex; flex-direction:column; gap:4px; }
+.brand .brand-mark { font-weight:700; letter-spacing:.2px; color:var(--text-primary); }
+.brand .workspace { font-size:12px; color:var(--text-muted); }
+
+.side-nav { padding:8px 0; display:flex; flex-direction:column; gap:8px; }
+.side-section { padding:4px 8px; }
+.nav-link { 
+  position:relative; width:100%; text-align:left;
+  background:transparent; border:0; color:var(--text-secondary);
+  padding:8px 12px 8px 28px; border-radius:8px; cursor:pointer;
+}
+.nav-link:hover { background: rgba(107,123,255,.08); color:var(--text-primary); }
+.nav-link[data-kind="channel"]::before {
+  content:"#"; position:absolute; left:12px; top:8px; color:var(--text-muted);
+}
+.nav-link.util { padding-left:12px; display:flex; align-items:center; gap:8px; }
+.nav-link.active { color:var(--text-primary); background:rgba(107,123,255,.12); }
+.nav-link.active::after {
+  /* Accent bar */
+  content:""; position:absolute; left:0; top:6px; bottom:6px; width:3px;
+  background: linear-gradient(180deg, #6b7bff 0%, #2f9bff 100%);
+  border-radius:2px;
+}

@@ -1,77 +1,99 @@
-// Account hub - aggregates user data and settings
-const Store = window.Store;
+/**
+ * account-controller.js
+ * Builds a simple account hub with profile + stats + actions.
+ */
+import Store from '/js/store.js';
+import Events from '/assets/js/events.js';
 
-export function renderAccount(){
-  const root = document.getElementById('account-root') || document.getElementById('main') || document.getElementById('page-root');
-  if(!root) return;
+function el(html) { const d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstChild; }
 
-  const profile = Store.get('profile') || {};
-  const invites = Store.get('invites') || { sent:0, redeemed:0, remaining:0 };
-  const contacts = Store.get('contacts') || { total:0, connected:0 };
+function renderAccount(root) {
+  const user = Store.get('user') || {};
+  const stats = {
+    invitesLeft: Store.get('invites.left') ?? 0,
+    invitesSent: (Store.get('invites.sent') || []).length || 0,
+    invitesRedeemed: Store.get('invites.redeemed') || 0,
+    contacts: (Store.get('contacts') || []).length || 0,
+  };
 
-  root.innerHTML = `
-  <div class="account-wrap">
-    <div class="section">
-      <h3>Your Information</h3>
-      <div class="kv"><div class="key">Name</div><div>${escape(profile.name,'—')}</div></div>
-      <div class="kv"><div class="key">Email</div><div>${escape(profile.email,'—')}</div></div>
-      <div class="kv"><div class="key">Phone</div><div>${escape(profile.phone,'—')}</div></div>
-      <div class="row-actions" style="margin-top:12px">
-        <button class="btn" data-action="edit-email">Change email</button>
-        <button class="btn" data-action="change-password">Change password</button>
-        <button class="btn" data-action="connect-linkedin">Connect LinkedIn</button>
+  root.innerHTML = '';
+  root.appendChild(el(`
+    <section class="card card-filled account-head">
+      <div class="account-id">
+        <div class="avatar">${(user.name||'?').charAt(0).toUpperCase()}</div>
+        <div class="who">
+          <div class="name text-primary">${user.name || 'Your name'}</div>
+          <div class="meta text-secondary">${user.email || 'Add a backup email'}</div>
+          <div class="meta text-secondary">${user.linkedin || 'Link LinkedIn'}</div>
+        </div>
       </div>
-    </div>
-
-    <div class="section">
-      <h3>Invites</h3>
-      <div class="kv"><div class="key">Sent</div><div>${invites.sent}</div></div>
-      <div class="kv"><div class="key">Redeemed</div><div>${invites.redeemed}</div></div>
-      <div class="kv"><div class="key">Remaining</div><div>${invites.remaining}</div></div>
-      <div class="row-actions" style="margin-top:12px">
-        <button class="btn" data-action="invite">Invite friends</button>
-        <button class="btn" data-action="view-activity">View activity</button>
+      <div class="account-actions">
+        <button class="btn btn-primary" data-action="link-google">Link Google</button>
+        <button class="btn btn-secondary" data-action="link-linkedin">Link LinkedIn</button>
+        <button class="btn btn-outline" data-action="add-email">Add backup email</button>
       </div>
-    </div>
+    </section>
+  `));
 
-    <div class="section">
-      <h3>Contacts</h3>
-      <div class="kv"><div class="key">Total</div><div>${contacts.total}</div></div>
-      <div class="kv"><div class="key">Connected</div><div>${contacts.connected}</div></div>
-      <div class="row-actions" style="margin-top:12px">
-        <button class="btn" data-action="import-contacts">Import contacts</button>
+  root.appendChild(el(`
+    <section class="grid grid-3 account-stats">
+      <div class="card card-outlined stat">
+        <div class="label text-secondary">Invites left</div>
+        <div class="value text-primary">${stats.invitesLeft}</div>
       </div>
-    </div>
-  </div>`;
+      <div class="card card-outlined stat">
+        <div class="label text-secondary">Invites sent</div>
+        <div class="value text-primary">${stats.invitesSent}</div>
+      </div>
+      <div class="card card-outlined stat">
+        <div class="label text-secondary">Redeemed</div>
+        <div class="value text-primary">${stats.invitesRedeemed}</div>
+      </div>
+      <div class="card card-outlined stat">
+        <div class="label text-secondary">Contacts</div>
+        <div class="value text-primary">${stats.contacts}</div>
+      </div>
+    </section>
+  `));
 
-  wireAccountActions(root);
-}
+  root.appendChild(el(`
+    <section class="card card-outlined account-links">
+      <h3 class="text-primary">Account</h3>
+      <ul class="account-list">
+        <li><button class="btn btn-text" data-action="change-password">Change password</button></li>
+        <li><button class="btn btn-text" data-action="manage-emails">Manage emails</button></li>
+        <li><button class="btn btn-text" data-action="export-data">Export data</button></li>
+      </ul>
+    </section>
+  `));
 
-function wireAccountActions(root){
-  root.addEventListener('click',(e)=>{
-    const a = e.target.closest('[data-action]'); if(!a) return;
-    const action = a.dataset.action;
-    switch(action){
-      case 'edit-email': dispatch('account:edit-email'); break;
-      case 'change-password': dispatch('account:change-password'); break;
-      case 'connect-linkedin': dispatch('account:connect-linkedin'); break;
-      case 'invite': dispatch('invites:compose'); break;
-      case 'view-activity': dispatch('activity:open'); break;
-      case 'import-contacts': dispatch('contacts:import'); break;
-    }
+  // Wire simple actions (no backend—emit events)
+  root.querySelectorAll('[data-action]').forEach(b=>{
+    b.addEventListener('click', () => {
+      const a = b.getAttribute('data-action');
+      Events.emit('ui:toast', { type:'ok', message:`${a.replace(/-/g,' ')} (stub)` });
+    });
   });
 }
 
-function dispatch(name,detail){ try{ document.dispatchEvent(new CustomEvent(name,{detail})); }catch{} }
-function escape(v,fallback=''){ return (v==null || v==='') ? fallback : String(v); }
-
-// Auto-render on route
-window.addEventListener('hashchange', maybeRender);
-window.addEventListener('DOMContentLoaded', maybeRender);
-function maybeRender(){
-  if (location.hash.replace('#/','') === 'account') renderAccount();
+function ensureMount() {
+  // Ensure there's a panel for route "me"
+  let panel = document.querySelector('[data-panel="me"]');
+  if (!panel) {
+    panel = document.createElement('main');
+    panel.id = 'panel-me';
+    panel.setAttribute('data-panel','me');
+    panel.hidden = true;
+    panel.className = 'main-panel';
+    document.querySelector('#app')?.appendChild(panel);
+  }
+  return panel;
 }
 
-console.log('✅ Account controller loaded');
+function init() {
+  const root = ensureMount();
+  renderAccount(root);
+}
 
-export default { renderAccount };
+document.addEventListener('DOMContentLoaded', init);
+Events.on('route', (r) => { if (r === 'me') init(); });

@@ -97,6 +97,9 @@
   <link rel="stylesheet" href="/css/account.css?v=19">
   <link rel="stylesheet" href="/css/sidebar-fix.css?v=18">
   <link rel="stylesheet" href="/assets/css/party-cards.css?v=1">
+  <link rel="stylesheet" href="/assets/css/sidebar-velocity.css">
+  <link rel="stylesheet" href="/assets/css/cards-velocity.css">
+  <link rel="stylesheet" href="/assets/css/account-velocity.css">
 </head>
 <body>
   <aside id="sidenav" class="sidenav">
@@ -246,7 +249,13 @@
       try { window.Metrics?.trackRoute?.(location.hash || '#/parties'); } catch {}
     });
   </script>
-
+  
+  <script type="module" src="/js/router.js?v=8"></script>
+  <script type="module" src="/js/nav-build.js?v=8"></script>
+  <script type="module" src="/js/events-controller.js?v=8"></script>
+  <script type="module" src="/js/account-controller.js?v=8"></script>
+  <script type="module" src="/js/route-title.js?v=8"></script>
+  <script type="module" src="/js/app-wireup.js?v=8"></script>
 
 </body>
 </html>

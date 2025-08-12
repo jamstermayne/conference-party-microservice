@@ -1,0 +1,7 @@
+/* Account hub */
+.account-head { display:flex; justify-content:space-between; gap:16px; align-items:center; }
+.account-id { display:flex; gap:12px; align-items:center; }
+.avatar { width:40px; height:40px; border-radius:10px; background:var(--surface); display:flex; align-items:center; justify-content:center; font-weight:700; }
+.account-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.account-stats .stat { padding:12px; }
+.account-list { list-style:none; padding:0; margin:8px 0 0; display:grid; gap:6px; }

@@ -1,74 +1,57 @@
-// Minimal hash router + sidebar binder (production)
-import Events from './events.js';
+/**
+ * router.js — minimal hash router
+ * Exports: bindSidebar, route, currentRoute
+ */
+import Events from '/assets/js/events.js';
 
-const ROUTES = [
-  { id:'parties',   label:'#parties'   },
-  { id:'hotspots',  label:'#hotspots'  },
-  { id:'map',       label:'#map'       },
-  { id:'calendar',  label:'#calendar'  },
-  { id:'invites',   label:'#invites'   },
-  { id:'me',        label:'#me'        },
-  { id:'account',   label:'#account'   }, // temporary nav item
-];
+const NAV = new Set(['parties','hotspots','map','calendar','invites','me','settings']);
+let _sidebarEl = null;
+let _current = null;
 
-const views = {
-  parties:  () => import('./events-controller.js').then(m=>m.renderParties()),
-  hotspots: () => import('./hotspots-controller.js').then(m=>m.renderHotspots?.()),
-  map:      () => import('./map-controller.js').then(m=>m.renderMap?.()),
-  calendar: () => import('./calendar-integration.js').then(m=>m.renderCalendar?.()),
-  invites:  () => import('./invite-panel.js').then(m=>m.renderInvites?.()),
-  me:       () => import('./profile-controller.js').then(m=>m.renderProfile?.()),
-  account:  () => import('./account.js').then(m=>m.renderAccount()),
-};
-
-function setActive(routeId) {
-  document.querySelectorAll('.side-nav .nav-item').forEach(el=>{
-    el.classList.toggle('active', el.dataset.route === routeId);
-  });
+function norm(hash) {
+  const clean = String(hash || '').replace(/^#\/?/, '').split('?')[0];
+  return NAV.has(clean) ? clean : 'parties';
 }
 
-export function navigate(routeId) {
-  const id = ROUTES.some(r=>r.id===routeId) ? routeId : 'parties';
-  if (location.hash !== `#/${id}`) location.hash = `#/${id}`;
-  setActive(id);
-  // Clean, single title region
-  const h = document.getElementById('page-title');
-  if (h) h.textContent = id === 'account' ? 'Account' : id.charAt(0).toUpperCase()+id.slice(1);
-  // load view
-  return views[id]?.().catch(()=> {
-    const main = document.getElementById('main') || document.getElementById('page-root');
-    if (main) main.innerHTML = `<div class="card card-outlined"><div class="text-secondary">This feature isn't available yet.</div></div>`;
-  });
-}
-
-export function route(name) { return navigate(name); }
-
-export function bindSidebar() {
-  const nav = document.querySelector('.side-nav');
-  if (!nav) return;
-  // rebuild once to prevent duplicates/bleed
-  nav.innerHTML = '';
-  for (const r of ROUTES) {
-    const btn = document.createElement('button');
-    btn.className = 'nav-item';
-    btn.dataset.route = r.id;
-    btn.innerHTML = `<span class="label">${r.label}</span>`;
-    btn.addEventListener('click', (e)=>{
+export function bindSidebar(el) {
+  _sidebarEl = el;
+  el.querySelectorAll('[data-route]').forEach(node => {
+    node.addEventListener('click', (e) => {
       e.preventDefault();
-      navigate(r.id);
+      route(node.dataset.route);
     }, { passive:false });
-    nav.appendChild(btn);
+  });
+}
+
+export function route(name) {
+  if (!NAV.has(name)) return;
+  if (name === _current) return;
+  window.location.hash = name;
+  setActive(name);
+  Events.emit('route', name);
+}
+
+export function currentRoute() {
+  return _current || norm(location.hash) || 'parties';
+}
+
+function setActive(name) {
+  _current = name;
+  if (_sidebarEl) {
+    _sidebarEl.querySelectorAll('[data-route]').forEach(n => n.classList.toggle('active', n.dataset.route === name));
   }
-  // mark active by hash
-  const id = (location.hash.replace('#/','')||'parties');
-  setActive(id);
+  // show/hide panels if they exist
+  document.querySelectorAll('[data-panel]').forEach(p => {
+    p.hidden = (p.getAttribute('data-panel') !== name);
+  });
 }
 
-function routeFromHash() {
-  return (location.hash.replace('#/','') || 'parties');
-}
+window.addEventListener('hashchange', () => {
+  setActive(norm(location.hash));
+});
 
-// boot
-window.addEventListener('hashchange', ()=> navigate(routeFromHash()));
-export function startRouter() { bindSidebar(); return navigate(routeFromHash()); }
-export default { navigate, bindSidebar, startRouter, route };
+document.addEventListener('DOMContentLoaded', () => {
+  setActive(norm(location.hash));
+  // Fire initial route for controllers
+  Events.emit('route', currentRoute());
+});

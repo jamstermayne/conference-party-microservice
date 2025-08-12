@@ -1,49 +1,89 @@
-// Parties view with polished cards + infinite scroll
-import { renderPartiesInfinite } from '/js/parties-infinite.js';
-import { getJSON } from '/js/http.js';
-const Store = window.Store;
+/**
+ * events-controller.js
+ * Renders party cards consistently with per-card "Save & Sync".
+ */
+import Events from '/assets/js/events.js';
 
-async function fetchEvents(){
-  // Prefer your /api/parties if available; fallback to cached list
-  const url = '/api/parties?conference=gamescom2025';
-  try{
-    const res = await getJSON(url); // { success, data: [...] }
-    if(res?.success && Array.isArray(res.data)) return res.data;
-  }catch(e){ console.warn('Parties API not available; using local cache', e); }
-  return Store.get('events.all') || [];
+async function getJSON(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.json();
 }
+function h(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
 
-export async function renderParties(){
-  const main = document.getElementById('main') || document.getElementById('page-root');
-  if (!main) return;
-  
+async function fetchParties() {
+  // Prefer hosting endpoint; CF 404s are expected for now
   try {
-    main.innerHTML = `
-      <section class="panel">
-        <div class="panel-head">
-          <h2>Parties</h2>
-          <p class="subtle">Pick 3 parties you like • save & sync to calendar</p>
-        </div>
-        <div id="parties-list" data-parties-root></div>
-      </section>`;
-      
-    const wrap = document.getElementById('parties-list');
-    const events = await fetchEvents();
-    Store.set('events.all', events);
-    await renderPartiesInfinite(wrap, events);
-    console.log('✅ Parties rendered (infinite)');
-  } catch (error) {
-    console.error('Failed to render parties:', error);
-    main.innerHTML = `
-      <section class="panel">
-        <div class="panel-head">
-          <h2>Parties</h2>
-        </div>
-        <div class="card card-outlined">
-          <div class="text-secondary">Unable to load parties. Please refresh the page.</div>
-        </div>
-      </section>`;
-  }
+    const res = await getJSON('/api/parties?conference=gamescom2025');
+    return (res && res.data) || [];
+  } catch { return []; }
 }
 
-export default { renderParties };
+function card(p) {
+  return h(`
+    <article class="card card-elevated party-card">
+      <header class="card-header">
+        <div class="party-title text-primary">${p.title || p.name || 'Untitled'}</div>
+        <div class="party-meta text-secondary">${p.venue || p.location || ''}</div>
+      </header>
+      <div class="card-body">
+        <div class="meta-row">
+          <span class="badge badge-primary">${p.date || ''}</span>
+          <span class="badge badge-secondary">${p.time || ''}</span>
+          ${p.price ? `<span class="badge badge-glass">${p.price}</span>` : ''}
+        </div>
+      </div>
+      <footer class="card-footer">
+        <button class="btn btn-primary btn-small" data-action="save" data-id="${p.id}">Save & Sync</button>
+        <button class="btn btn-outline btn-small" data-action="details" data-id="${p.id}">Details</button>
+      </footer>
+    </article>
+  `);
+}
+
+async function renderParties() {
+  const root = ensurePanel();
+  root.innerHTML = `
+    <div class="page-header">
+      <h1 class="page-title text-primary">#parties</h1>
+    </div>
+    <section class="cards-grid" id="party-grid"></section>
+  `;
+
+  const grid = root.querySelector('#party-grid');
+  const items = await fetchParties();
+  items.forEach(p => grid.appendChild(card(p)));
+
+  grid.querySelectorAll('[data-action="save"]').forEach(b=>{
+    b.addEventListener('click', ()=> {
+      Events.emit('calendar:save', { id: b.dataset.id });
+      Events.emit('ui:toast', { type:'ok', message:'Saved & Sync queued' });
+    });
+  });
+  grid.querySelectorAll('[data-action="details"]').forEach(b=>{
+    b.addEventListener('click', ()=> {
+      Events.emit('party:details', { id: b.dataset.id });
+    });
+  });
+}
+
+function ensurePanel(){
+  let panel = document.querySelector('[data-panel="parties"]');
+  if (!panel) {
+    panel = document.createElement('main');
+    panel.id = 'panel-parties';
+    panel.setAttribute('data-panel','parties');
+    panel.className = 'main-panel';
+    document.querySelector('#app')?.appendChild(panel);
+  }
+  panel.hidden = false;
+  return panel;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Render if landing route is parties
+  const hash = String(location.hash||'').replace(/^#\/?/, '');
+  if (hash === '' || hash === 'parties') renderParties();
+});
+import EventsBus from '/assets/js/events.js';
+EventsBus.on('route', (r)=>{ if (r==='parties') renderParties(); });
