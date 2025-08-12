@@ -12,6 +12,22 @@ export function route(to) {
   document.dispatchEvent(new CustomEvent('navigate', { detail: { to }}));
 }
 
+// util: set active channel + section rail
+function applyActiveUI(routeId) {
+  // Sidebar
+  document.querySelectorAll('.side-nav .nav-item').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('data-route') === routeId);
+  });
+  
+  // Sections: mark the one in view with rail
+  document.querySelectorAll('main .section-rail').forEach(sec => {
+    const route = sec.getAttribute('data-route');
+    const isCurrent = route === routeId;
+    sec.toggleAttribute('hidden', !isCurrent);
+    sec.classList.toggle('is-current', isCurrent);
+  });
+}
+
 // bind on load + hashchange
 export function initRouter() {
   const apply = () => {
@@ -30,6 +46,9 @@ export function initRouter() {
       const route = section.getAttribute('data-route');
       section.hidden = route !== hash;
     });
+    
+    // Apply active UI with rails
+    applyActiveUI(hash);
     
     document.dispatchEvent(new CustomEvent('route:changed', { detail: { hash }}));
   };
