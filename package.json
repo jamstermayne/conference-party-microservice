@@ -1,7 +1,6 @@
 {
   "name": "conference-party-microservice",
   "version": "1.0.0",
-  "type": "module",
   "description": "Gamescom 2025 Party Discovery - Complete PWA with 9-Tool Velocity System",
   "main": "index.js",
   "scripts": {
