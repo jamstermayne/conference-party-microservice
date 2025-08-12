@@ -1,0 +1,313 @@
+/**
+ * Contacts Permission Sheet Styles
+ * Slack-dark theme matching existing design tokens
+ */
+
+.contacts-permission-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.contacts-permission-modal--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.contacts-permission-modal--hiding {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contacts-permission-modal--visible .contacts-permission-sheet {
+  transform: translateY(0);
+}
+
+.contacts-permission-modal--hiding .contacts-permission-sheet {
+  transform: translateY(100%);
+}
+
+/* Backdrop */
+.contacts-permission-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Sheet container */
+.contacts-permission-sheet {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  background: #1a1d21;
+  border-radius: 16px 16px 0 0;
+  padding: 24px;
+  padding-bottom: env(safe-area-inset-bottom, 24px);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-shadow: 
+    0 -2px 10px rgba(0, 0, 0, 0.1),
+    0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Desktop adjustments */
+@media (min-width: 768px) {
+  .contacts-permission-modal {
+    align-items: center;
+  }
+  
+  .contacts-permission-sheet {
+    border-radius: 16px;
+    max-height: 600px;
+  }
+}
+
+/* Close button */
+.contacts-permission-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.contacts-permission-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+  transform: scale(1.05);
+}
+
+.contacts-permission-close:active {
+  transform: scale(0.95);
+}
+
+/* Icon */
+.contacts-permission-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Title */
+.contacts-permission-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #f1f5f9;
+  text-align: center;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.02em;
+}
+
+/* Description */
+.contacts-permission-description {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #94a3b8;
+  text-align: center;
+  margin: 0 0 24px 0;
+}
+
+/* Features list */
+.contacts-permission-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: rgba(16, 185, 129, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(16, 185, 129, 0.1);
+}
+
+.contacts-permission-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+.contacts-permission-feature svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+/* Action buttons */
+.contacts-permission-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.contacts-permission-allow,
+.contacts-permission-skip {
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.contacts-permission-allow {
+  background: #10b981;
+  color: white;
+}
+
+.contacts-permission-allow:hover:not(:disabled) {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.contacts-permission-allow:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.contacts-permission-allow:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.contacts-permission-allow--success {
+  background: #10b981;
+  animation: successPulse 0.5s ease;
+}
+
+.contacts-permission-allow--error {
+  background: #ef4444;
+  animation: errorShake 0.5s ease;
+}
+
+.contacts-permission-skip {
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.contacts-permission-skip:hover {
+  background: rgba(148, 163, 184, 0.05);
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.contacts-permission-skip:active {
+  background: rgba(148, 163, 184, 0.1);
+}
+
+/* Privacy note */
+.contacts-permission-privacy {
+  font-size: 12px;
+  color: #64748b;
+  text-align: center;
+  margin: 0;
+  padding-top: 8px;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+/* Animations */
+@keyframes successPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+/* Accessibility */
+.contacts-permission-modal:focus-within .contacts-permission-sheet {
+  box-shadow: 
+    0 -2px 10px rgba(0, 0, 0, 0.1),
+    0 -4px 20px rgba(0, 0, 0, 0.15),
+    0 0 0 2px rgba(16, 185, 129, 0.5);
+}
+
+.contacts-permission-allow:focus-visible,
+.contacts-permission-skip:focus-visible,
+.contacts-permission-close:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* Dark mode adjustments (already dark by default) */
+@media (prefers-color-scheme: light) {
+  .contacts-permission-sheet {
+    background: #ffffff;
+    color: #1e293b;
+  }
+  
+  .contacts-permission-title {
+    color: #0f172a;
+  }
+  
+  .contacts-permission-description {
+    color: #64748b;
+  }
+  
+  .contacts-permission-feature {
+    color: #475569;
+  }
+  
+  .contacts-permission-close {
+    background: rgba(0, 0, 0, 0.05);
+    color: #64748b;
+  }
+  
+  .contacts-permission-close:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #475569;
+  }
+  
+  .contacts-permission-skip {
+    color: #64748b;
+    border-color: rgba(100, 116, 139, 0.2);
+  }
+  
+  .contacts-permission-privacy {
+    color: #94a3b8;
+  }
+}
