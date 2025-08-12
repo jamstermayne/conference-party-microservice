@@ -1,5 +1,59 @@
 # Changelog
 
+## [2.7.0] - 2025-08-12
+
+### Production-Safe Nav + Cards + Account Drop
+
+#### 🎨 Major UI Overhaul
+
+**Slack-Style Sidebar**
+- `feat(sidebar)`: Complete rebuild with single-hash labels
+  - CSS ::before for hash symbols (no more "##" duplication)
+  - Active accent bar (purple→blue gradient)
+  - Gear icon (⚙) for Account in utilities section
+  - Brand alignment: "velocity.ai · Gamescom 2025"
+
+**Two-Panel Layout System**
+- `feat(layout)`: Dynamic panel management
+  - Sidebar (280px) + main panel architecture
+  - Route-based panel switching
+  - Panels created via JS (no HTML modifications)
+  - Idempotent nav builder
+
+**Party Cards Upgrade**
+- `feat(cards)`: Uniform card system with per-card actions
+  - Consistent card heights and layout
+  - Individual "Save & Sync" buttons per card
+  - Badge-based metadata display
+  - Responsive grid (auto-fill, minmax 280px)
+
+**Account Hub**
+- `feat(account)`: Complete account management section
+  - Profile card with avatar and user info
+  - Stats grid: invites (left/sent/redeemed), contacts
+  - Auth buttons for Google/LinkedIn
+  - Account management actions (password, emails, export)
+
+#### 🔧 Technical Architecture
+
+**Router System**
+- Minimal hash router with guards
+- Route validation and normalization
+- Panel visibility management
+- Event-driven navigation
+
+**Controllers**
+- nav-build.js: Rebuilds sidebar dynamically
+- account-controller.js: Account hub with stats aggregation
+- events-controller.js: Party cards with async data fetching
+
+**CSS Architecture**
+- sidebar-velocity.css: Slack-inspired navigation
+- cards-velocity.css: Uniform card grid system
+- account-velocity.css: Account hub styling
+
+---
+
 ## [2.6.0] - 2025-08-12
 
 ### Polish Sprint - Frontend Fixes Batch 1
