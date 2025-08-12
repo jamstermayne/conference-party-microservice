@@ -1,102 +1,69 @@
-// router.js (drop-in)
+// router.js  v3
 import Events from './events.js';
+import { renderParties } from './events-controller.js';
+import { renderHotspots } from './hotspots-controller.js';
+import { renderMap } from './map-controller.js';
+import { renderCalendar } from './calendar-view.js';
+import { renderInvites } from './invite-panel.js';
+import { renderAccount } from './account.js';
+import setTitles from './route-title.js';
 
 const routes = ['parties','hotspots','map','calendar','invites','me','settings'];
+const root = () => document.getElementById('page-root');
 
 export function route(to) {
-  if (!routes.includes(to)) to = 'parties';
+  // accept '#/parties', 'parties', '/parties'
+  const clean = String(to || '').replace(/^#\/?/, '').replace(/^\//, '');
+  const r = routes.includes(clean) ? clean : 'parties';
 
-  // update URL hash (no reload)
-  if (location.hash !== `#/${to}`) history.replaceState({}, '', `#/${to}`);
-
-  // title + chip
-  const titleMap = {
-    parties: 'Parties',
-    hotspots: 'Hotspots',
-    map: 'Map',
-    calendar: 'Calendar',
-    invites: 'Invites',
-    me: 'Account',
-    settings: 'Settings'
-  };
-  document.getElementById('page-title').textContent = titleMap[to];
-  document.getElementById('route-chip').textContent = `#${to}`;
-
-  // side nav active state
-  document.querySelectorAll('.side-nav .nav-item').forEach(btn => {
-    const active = btn.getAttribute('data-route') === to;
-    btn.classList.toggle('active', active);
-  });
-
-  // render page content ONLY inside #page-root
-  const root = document.getElementById('page-root');
-  switch (to) {
-    case 'parties':
-      renderParties(root); break;
-    case 'hotspots':
-      renderHotspots(root); break;
-    case 'map':
-      renderMap(root); break;
-    case 'calendar':
-      renderCalendar(root); break;
-    case 'invites':
-      renderInvites(root); break;
-    case 'me':
-      renderAccount(root); break;
-    case 'settings':
-      renderSettings(root); break;
+  const el = root();
+  if (!el) return;
+  switch (r) {
+    case 'hotspots': renderHotspots(el); break;
+    case 'map':      renderMap(el); break;
+    case 'calendar': renderCalendar(el); break;
+    case 'invites':  renderInvites(el); break;
+    case 'me':       renderAccount(el); break;
+    case 'settings': el.innerHTML = `<div class="section-card"><h2>Settings</h2></div>`; break;
+    default:         renderParties(el);
   }
 
-  Events.emit('route:changed', to);
+  // update titles + sidebar
+  Events.emit('route:changed', r);
+  highlightSidebar(r);
 }
 
-// wire clicks (non-passive, we use preventDefault)
+function highlightSidebar(r) {
+  document.querySelectorAll('[data-route]').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.route === r);
+    // ensure single '#'
+    const label = btn.querySelector('.label');
+    if (label) {
+      const name = btn.dataset.route || '';
+      label.textContent = name;
+    }
+  });
+}
+
 export function initRouter() {
-  document.querySelectorAll('.side-nav .nav-item').forEach(el => {
-    el.addEventListener('click', (e) => {
+  // bind sidebar buttons
+  document.querySelectorAll('[data-route]').forEach(el=>{
+    // structure expected: <button data-route="map"><span class="hash">#</span><span class="label">map</span></button>
+    el.addEventListener('click', (e)=>{
       e.preventDefault();
-      route(el.getAttribute('data-route'));
-    }, { passive: false });
+      route(el.dataset.route);
+    }, { passive:false });
   });
 
-  // initial
-  const initial = (location.hash.replace('#/','') || 'parties');
-  route(initial);
+  // initial route
+  const hash = location.hash.replace(/^#\/?/, '');
+  route(hash || 'parties');
+
+  // hash navigation
+  window.addEventListener('hashchange', ()=>{
+    const h = location.hash.replace(/^#\/?/, '');
+    route(h || 'parties');
+  });
 }
 
-// Import render functions
-async function renderParties(root) {
-  const { renderParties } = await import('./events-controller.js');
-  renderParties(root);
-}
-
-async function renderHotspots(root) {
-  root.innerHTML = '<div class="section-card">Hotspots coming soon...</div>';
-}
-
-async function renderMap(root) {
-  root.innerHTML = '<div class="section-card">Map coming soon...</div>';
-}
-
-async function renderCalendar(root) {
-  root.innerHTML = '<div class="section-card">Calendar coming soon...</div>';
-}
-
-async function renderInvites(root) {
-  root.innerHTML = '<div class="section-card">Invites coming soon...</div>';
-}
-
-async function renderAccount(root) {
-  const AccountController = (await import('./controllers/account-controller.js')).default;
-  if (!root.accountController) {
-    root.accountController = new AccountController(root);
-    root.accountController.mount();
-  }
-}
-
-async function renderSettings(root) {
-  root.innerHTML = '<div class="section-card">Settings coming soon...</div>';
-}
-
-// Export for other modules
 export default { route, initRouter };

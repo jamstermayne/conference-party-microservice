@@ -226,3 +226,55 @@ body {
 .text-secondary {
   color: #a5a7ad;
 }
+
+/* Hash + label */
+.nav-item { display:flex; align-items:center; gap:8px; }
+.nav-item .hash { color: var(--accent-primary, #6b7bff); opacity:.9; }
+.nav-item .label { color: var(--text-primary, #ffffff); }
+.nav-item.active { background: rgba(107,123,255,.12); }
+
+/* Prevent bleed into sidebar */
+.side-nav { overflow: hidden; }
+.side-nav .nav-item { white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+
+/* Premium event cards */
+.cards-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:16px; }
+.event-card {
+  background: var(--surface, #2b2f36);
+  border: 1px solid var(--border, #383d45);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.25) inset, 0 8px 24px rgba(0,0,0,.25);
+}
+.event-card .card-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.event-card .event-title { font-weight:600; font-size:18px; }
+.event-card .event-meta { color: var(--text-secondary, #a5a7ad); display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.event-card .event-meta .dot { width:4px; height:4px; background:var(--border, #383d45); border-radius:50%; display:inline-block; }
+.event-card .event-desc { color: var(--text-secondary, #a5a7ad); margin-bottom:10px; }
+.event-card .card-actions { display:flex; gap:8px; }
+.badge.subtle { background: rgba(107,123,255,.15); border:1px solid rgba(107,123,255,.35); color:#cfd3ff; padding:4px 8px; border-radius:999px; font-size:12px; }
+
+/* Button styles */
+.btn, .btn-sm {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border, #383d45);
+  background: rgba(255,255,255,0.06);
+  color: var(--text-primary, #ffffff);
+  cursor: pointer;
+  transition: background 200ms;
+}
+.btn:hover, .btn-sm:hover {
+  background: rgba(255,255,255,0.08);
+}
+.btn.ghost {
+  background: transparent;
+  border-color: transparent;
+}
+.btn.ghost:hover {
+  background: rgba(255,255,255,0.04);
+}
+
+/* Utility classes */
+.stack { display: flex; flex-direction: column; }
+.mt-16 { margin-top: 16px; }

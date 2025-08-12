@@ -1,7 +1,7 @@
-// route-title.js
+// route-title.js  v2
 import Events from './events.js';
 
-const TITLE = {
+const TITLES = {
   parties: 'Parties',
   hotspots: 'Hotspots',
   map: 'Map',
@@ -11,23 +11,20 @@ const TITLE = {
   settings: 'Settings',
 };
 
-function normalizeRoute(v) {
+function asRoute(v) {
   if (typeof v === 'string') return v;
   if (v && typeof v === 'object') return v.route || v.name || v.to || v.path || '';
   return '';
 }
-function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+function titleFor(r) { return TITLES[r] || (r ? r[0].toUpperCase() + r.slice(1) : ''); }
 
 export function setTitles(routeLike) {
-  const r = normalizeRoute(routeLike) || 'parties';
-  const title = TITLE[r] || cap(r);
-
-  const h1 = document.getElementById('page-title');
+  const r = asRoute(routeLike) || 'parties';
+  const h1  = document.getElementById('page-title');
   const chip = document.getElementById('route-chip');
-  if (h1) h1.textContent = title;
+  if (h1)  h1.textContent = titleFor(r);
   if (chip) chip.textContent = `#${r}`;
 }
 
-Events.on('route:changed', setTitles);   // will run on every route change
-
+Events.on('route:changed', setTitles);
 export default setTitles;

@@ -1,14 +1,14 @@
-// events-controller.js
+// events-controller.js  v3
 import { getJSON } from './http.js';
 
 export async function renderParties(rootEl) {
   rootEl.innerHTML = `
-    <div class="section-card" style="position:relative;">
+    <div class="section-card">
       <div class="left-accent" aria-hidden="true"></div>
-      <h2 class="text-heading" style="margin:0 0 12px 0;">Parties</h2>
-      <div class="text-secondary" style="margin-bottom:14px;">Pick 3 parties you like • save & sync to calendar</div>
-      <div id="events-list" class="events-list"></div>
-      <div class="event-footer" style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px;">
+      <h2 class="text-heading">Parties</h2>
+      <p class="text-secondary" style="margin-top:-6px">Pick 3 parties you like • save & sync to calendar</p>
+      <div id="events-list" class="cards-grid"></div>
+      <div class="stack mt-16" style="justify-content:flex-end;gap:8px;">
         <button class="btn-sm" data-action="clear">Clear</button>
         <button class="btn-sm primary" data-action="saveSync">Save & Sync</button>
       </div>
@@ -18,59 +18,52 @@ export async function renderParties(rootEl) {
   const list = rootEl.querySelector('#events-list');
 
   try {
+    // HOSTING, not CF:
     const res = await getJSON('/api/parties?conference=gamescom2025');
     const items = (res && res.data) || [];
     if (!items.length) {
-      list.innerHTML = `<div class="text-secondary">No parties found.</div>`;
+      list.innerHTML = `<div class="text-secondary">Failed to load events.</div>`;
       return;
     }
-    renderCards(list, items.slice(0, 20));
+    list.innerHTML = items.map(toCard).join('');
+    list.addEventListener('click', onCardClick);
   } catch (e) {
-    console.error(e);
+    console.error('Failed to fetch:', e);
     list.innerHTML = `<div class="text-secondary">Failed to load events.</div>`;
   }
 }
 
-function renderCards(list, items) {
-  list.innerHTML = '';
-  for (const ev of items) {
-    const priceTag = ev.price ? `From ${ev.price}` : 'Free';
-    const time = ev.time || `${ev.start || ''} – ${ev.end || ''}`.trim();
-    const venue = ev.venue || ev.location || '';
+function toCard(ev) {
+  const title = esc(ev.title || ev.name || 'Untitled');
+  const venue = esc(ev.venue || ev.location || '');
+  const time  = esc(ev.time || `${ev.start || ''} – ${ev.end || ''}`.trim());
+  const price = esc(ev.price ? `From ${ev.price}` : 'Free');
 
-    list.insertAdjacentHTML('beforeend', `
-      <div class="event-card">
-        <div class="event-row">
-          <div style="flex:1;">
-            <div class="event-title">${escapeHtml(ev.title || ev.name || 'Untitled')}</div>
-            <div class="event-meta">
-              <span>🕒 ${escapeHtml(time)}</span>
-              <span class="dot"></span>
-              <span>📍 ${escapeHtml(venue)}</span>
-            </div>
-            <div class="event-price">${escapeHtml(priceTag)}</div>
-          </div>
-          <div class="event-actions">
-            <button class="btn-sm primary" data-action="rsvp" data-id="${ev.id}">RSVP</button>
-            <button class="btn-sm" data-action="save" data-id="${ev.id}">Save</button>
-            <button class="btn-sm" data-action="open" data-url="${ev.url || '#'}">↗</button>
-          </div>
-        </div>
-      </div>
-    `);
+  return `
+  <article class="event-card">
+    <div class="card-head">
+      <h3 class="event-title">${title}</h3>
+      <span class="badge subtle">${price}</span>
+    </div>
+    <div class="event-meta">
+      <span>🕒 ${time}</span><span class="dot"></span><span>📍 ${venue}</span>
+    </div>
+    <p class="event-desc">Tap to RSVP, save, or open the event.</p>
+    <div class="card-actions">
+      <button class="btn ghost" data-action="rsvp" data-id="${esc(ev.id)}">RSVP</button>
+      <button class="btn" data-action="save" data-id="${esc(ev.id)}">Save</button>
+      <button class="btn ghost" data-action="open" data-url="${esc(ev.url || '#')}" aria-label="Open">↗</button>
+    </div>
+  </article>`;
+}
+
+function onCardClick(e) {
+  const btn = e.target.closest('button[data-action]');
+  if (!btn) return;
+  const a = btn.dataset.action;
+  if (a === 'open') {
+    const url = btn.dataset.url;
+    if (url && url !== '#') window.open(url, '_blank','noopener');
   }
-
-  list.addEventListener('click', (e) => {
-    const btn = e.target.closest('button[data-action]');
-    if (!btn) return;
-    const action = btn.dataset.action;
-    if (action === 'open') {
-      const url = btn.dataset.url;
-      if (url && url !== '#') window.open(url, '_blank', 'noopener');
-    }
-  });
 }
-
-function escapeHtml(s='') {
-  return String(s).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
-}
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
