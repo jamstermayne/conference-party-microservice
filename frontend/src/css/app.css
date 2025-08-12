@@ -1,0 +1,56 @@
+/* === Accent Rail (dark-only) ================================ */
+:root{
+  --rail-w: 6px;
+  --rail-radius: 10px;
+  --rail-start: #00E5FF;           /* cyan */
+  --rail-end:   #FF6BFF;           /* magenta */
+  --rail-glow:  0 0 18px rgba(255,107,255,.25), 0 0 12px rgba(0,229,255,.25);
+}
+
+/* Sidebar channel with rail on active */
+.side-nav .nav-item{
+  position: relative;
+  padding-left: calc(16px + var(--rail-w) + 10px); /* space for rail + gap */
+}
+.side-nav .nav-item.active{
+  background: rgba(255,255,255,0.04);
+  color: var(--text-primary, #fff);
+}
+.side-nav .nav-item.active::before{
+  content:"";
+  position:absolute;
+  left: 8px;
+  top: 8px;
+  bottom: 8px;
+  width: var(--rail-w);
+  border-radius: var(--rail-radius);
+  background: linear-gradient(180deg,var(--rail-start),var(--rail-end));
+  box-shadow: var(--rail-glow);
+}
+
+/* Main-panel section rail */
+.section-rail{
+  position: relative;
+  background: var(--surface, #141419);
+  border: 1px solid var(--border, #22232B);
+  border-radius: 16px;
+  padding: 20px 20px 20px 28px;
+}
+.section-rail.is-current::before{
+  content:"";
+  position:absolute;
+  left: -12px;               /* sits just outside card edge */
+  top: 16px;
+  bottom: 16px;
+  width: var(--rail-w);
+  border-radius: var(--rail-radius);
+  background: linear-gradient(180deg,var(--rail-start),var(--rail-end));
+  box-shadow: var(--rail-glow);
+  animation: railFade .25s var(--ease-out, ease-out) both;
+}
+
+@keyframes railFade{
+  0% { opacity:0; transform: translateX(-4px); }
+  100% { opacity:1; transform: translateX(0); }
+}
+/* === /Accent Rail =========================================== */
