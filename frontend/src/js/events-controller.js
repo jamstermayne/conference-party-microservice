@@ -1,4 +1,8 @@
-// Parties view with polished cards + infinite scroll
+/**
+ * Events Controller
+ * Handles party/hotspot/calendar rendering
+ * Combines existing renderParties with new initEventsController
+ */
 import { renderPartiesInfinite } from '/js/parties-infinite.js';
 import { getJSON } from '/js/http.js';
 const Store = window.Store;
@@ -46,4 +50,38 @@ export async function renderParties(){
   }
 }
 
-export default { renderParties };
+// New initEventsController function for simple index.html compatibility
+export async function initEventsController(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) {
+    console.error(`initEventsController: No container with id ${containerId}`);
+    return;
+  }
+
+  try {
+    const events = await fetchEvents();
+    container.innerHTML = events.map(event => renderEventCard(event)).join('');
+    container.querySelectorAll('.save-sync').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const id = e.target.dataset.id;
+        // saveEvent and syncEvent would need to be imported from save-sync.js
+        console.log(`Save & sync event ${id}`);
+      });
+    });
+  } catch (err) {
+    console.error('Error loading events:', err);
+    container.innerHTML = `<div class="error">Unable to load events. Please try again later.</div>`;
+  }
+}
+
+function renderEventCard(event) {
+  return `
+    <div class="party-card">
+      <h3>${event.name || event["Event Name"] || event.title || 'Unnamed Event'}</h3>
+      <p>${event.description || ''}</p>
+      <button class="save-sync" data-id="${event.id || event.ID}">Save & Sync</button>
+    </div>
+  `;
+}
+
+export default { renderParties, initEventsController };
