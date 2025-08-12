@@ -1,30 +1,16 @@
-// route-title.js  v2
-import Events from './events.js';
+import Events from '/js/events.js';
 
-const TITLES = {
-  parties: 'Parties',
-  hotspots: 'Hotspots',
-  map: 'Map',
-  calendar: 'Calendar',
-  invites: 'Invites',
-  me: 'Account',
-  settings: 'Settings',
-};
-
-function asRoute(v) {
-  if (typeof v === 'string') return v;
-  if (v && typeof v === 'object') return v.route || v.name || v.to || v.path || '';
-  return '';
-}
-function titleFor(r) { return TITLES[r] || (r ? r[0].toUpperCase() + r.slice(1) : ''); }
-
-export function setTitles(routeLike) {
-  const r = asRoute(routeLike) || 'parties';
-  const h1  = document.getElementById('page-title');
+export function setTitles(routeName){
+  const rn = (typeof routeName === 'string') ? routeName : '';
+  const pretty = rn ? `#${rn}` : '';
+  const h1 = document.getElementById('page-title');
+  if (h1) h1.textContent = titleCase(rn || 'Parties');
   const chip = document.getElementById('route-chip');
-  if (h1)  h1.textContent = titleFor(r);
-  if (chip) chip.textContent = `#${r}`;
+  if (chip) chip.textContent = pretty;
+  document.title = `velocity.ai — ${titleCase(rn || 'parties')}`;
 }
+function titleCase(s){ return s ? (s.charAt(0).toUpperCase() + s.slice(1)) : ''; }
 
-Events.on('route:changed', setTitles);
+Events.on('route:changed', ({ name }) => setTitles(name));
+console.log('✅ Route title wired');
 export default setTitles;

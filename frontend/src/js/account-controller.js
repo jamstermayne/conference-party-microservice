@@ -1,53 +1,77 @@
-// account-controller.js
-import { getSaved } from './selection-store.js';
-import { toast } from './ui-feedback.js';
-import { getJSON } from './http.js';
+// Account hub - aggregates user data and settings
+const Store = window.Store;
 
-function block(title, value, action = '') {
-  return `
-  <div class="event-card" role="group" aria-label="${title}">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3>${title}</h3>
-      ${action ? `<button class="btn-ghost" data-action="${action}">Manage</button>` : ''}
-    </div>
-    <div style="color:#b9c1ce;font-size:14px;margin-top:6px;">${value}</div>
-  </div>`;
-}
+export function renderAccount(){
+  const root = document.getElementById('account-root') || document.getElementById('main') || document.getElementById('page-root');
+  if(!root) return;
 
-export async function renderAccount(ROOT) {
-  if (!ROOT) return;
-  
-  let server = {};
-  try {
-    server = await getJSON('/api/account'); // ok if 404 – we'll fall back
-  } catch {}
-  
-  const saved = getSaved();
+  const profile = Store.get('profile') || {};
+  const invites = Store.get('invites') || { sent:0, redeemed:0, remaining:0 };
+  const contacts = Store.get('contacts') || { total:0, connected:0 };
 
-  ROOT.innerHTML = `
-    <div class="section-card">
-      <div class="left-accent" aria-hidden="true"></div>
-      <h2 class="text-heading">Account</h2>
-      <p class="text-secondary">Manage your profile and settings</p>
-      <div class="card-grid" style="margin-top: 20px;">
-        ${block('Saved Events', `${saved.length} selected (max 3)`)}
-        ${block('Invites Sent', String(server.invitesSent ?? '—'))}
-        ${block('Invites Redeemed', String(server.invitesRedeemed ?? '—'))}
-        ${block('Invites Left', String(server.invitesLeft ?? '—'))}
-        ${block('Email', server.email ?? '—', 'email')}
-        ${block('Phone', server.phone ?? '—', 'phone')}
-        ${block('LinkedIn', server.linkedin ?? '—', 'linkedin')}
-        ${block('Security', 'Change password or unlink providers', 'security')}
+  root.innerHTML = `
+  <div class="account-wrap">
+    <div class="section">
+      <h3>Your Information</h3>
+      <div class="kv"><div class="key">Name</div><div>${escape(profile.name,'—')}</div></div>
+      <div class="kv"><div class="key">Email</div><div>${escape(profile.email,'—')}</div></div>
+      <div class="kv"><div class="key">Phone</div><div>${escape(profile.phone,'—')}</div></div>
+      <div class="row-actions" style="margin-top:12px">
+        <button class="btn" data-action="edit-email">Change email</button>
+        <button class="btn" data-action="change-password">Change password</button>
+        <button class="btn" data-action="connect-linkedin">Connect LinkedIn</button>
       </div>
     </div>
-  `;
-  
-  ROOT.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    const action = btn.getAttribute('data-action');
-    toast(`${action} settings coming soon`, 'info');
+
+    <div class="section">
+      <h3>Invites</h3>
+      <div class="kv"><div class="key">Sent</div><div>${invites.sent}</div></div>
+      <div class="kv"><div class="key">Redeemed</div><div>${invites.redeemed}</div></div>
+      <div class="kv"><div class="key">Remaining</div><div>${invites.remaining}</div></div>
+      <div class="row-actions" style="margin-top:12px">
+        <button class="btn" data-action="invite">Invite friends</button>
+        <button class="btn" data-action="view-activity">View activity</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Contacts</h3>
+      <div class="kv"><div class="key">Total</div><div>${contacts.total}</div></div>
+      <div class="kv"><div class="key">Connected</div><div>${contacts.connected}</div></div>
+      <div class="row-actions" style="margin-top:12px">
+        <button class="btn" data-action="import-contacts">Import contacts</button>
+      </div>
+    </div>
+  </div>`;
+
+  wireAccountActions(root);
+}
+
+function wireAccountActions(root){
+  root.addEventListener('click',(e)=>{
+    const a = e.target.closest('[data-action]'); if(!a) return;
+    const action = a.dataset.action;
+    switch(action){
+      case 'edit-email': dispatch('account:edit-email'); break;
+      case 'change-password': dispatch('account:change-password'); break;
+      case 'connect-linkedin': dispatch('account:connect-linkedin'); break;
+      case 'invite': dispatch('invites:compose'); break;
+      case 'view-activity': dispatch('activity:open'); break;
+      case 'import-contacts': dispatch('contacts:import'); break;
+    }
   });
 }
+
+function dispatch(name,detail){ try{ document.dispatchEvent(new CustomEvent(name,{detail})); }catch{} }
+function escape(v,fallback=''){ return (v==null || v==='') ? fallback : String(v); }
+
+// Auto-render on route
+window.addEventListener('hashchange', maybeRender);
+window.addEventListener('DOMContentLoaded', maybeRender);
+function maybeRender(){
+  if (location.hash.replace('#/','') === 'account') renderAccount();
+}
+
+console.log('✅ Account controller loaded');
 
 export default { renderAccount };

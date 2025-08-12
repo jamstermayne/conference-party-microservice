@@ -1,69 +1,79 @@
-// router.js  v3
+// Minimal hash router + sidebar binder (production)
 import Events from './events.js';
-import { renderParties } from './events-controller.js';
-import { renderHotspots } from './hotspots-controller.js';
-import { renderMap } from './map-controller.js';
-import { renderCalendar } from './calendar-view.js';
-import { renderInvites } from './invite-panel.js';
-import { renderAccount } from './account.js';
-import setTitles from './route-title.js';
 
-const routes = ['parties','hotspots','map','calendar','invites','me','settings'];
-const root = () => document.getElementById('page-root');
+const ROUTES = [
+  { id:'parties',   label:'#parties'   },
+  { id:'hotspots',  label:'#hotspots'  },
+  { id:'map',       label:'#map'       },
+  { id:'calendar',  label:'#calendar'  },
+  { id:'invites',   label:'#invites'   },
+  { id:'me',        label:'#me'        },
+  { id:'account',   label:'account'    }, // icon-only item (no '#')
+];
 
-export function route(to) {
-  // accept '#/parties', 'parties', '/parties'
-  const clean = String(to || '').replace(/^#\/?/, '').replace(/^\//, '');
-  const r = routes.includes(clean) ? clean : 'parties';
+const views = {
+  parties:  () => import('./events-controller.js').then(m=>m.renderParties()),
+  hotspots: () => import('./hotspots-controller.js').then(m=>m.renderHotspots?.()),
+  map:      () => import('./map-controller.js').then(m=>m.renderMap?.()),
+  calendar: () => import('./calendar-integration.js').then(m=>m.renderCalendar?.()),
+  invites:  () => import('./invite-panel.js').then(m=>m.renderInvites?.()),
+  me:       () => import('./profile-controller.js').then(m=>m.renderProfile?.()),
+  account:  () => import('./account-controller.js').then(m=>m.renderAccount()),
+};
 
-  const el = root();
-  if (!el) return;
-  switch (r) {
-    case 'hotspots': renderHotspots(el); break;
-    case 'map':      renderMap(el); break;
-    case 'calendar': renderCalendar(el); break;
-    case 'invites':  renderInvites(el); break;
-    case 'me':       renderAccount(el); break;
-    case 'settings': el.innerHTML = `<div class="section-card"><h2>Settings</h2></div>`; break;
-    default:         renderParties(el);
-  }
-
-  // update titles + sidebar
-  Events.emit('route:changed', r);
-  highlightSidebar(r);
-}
-
-function highlightSidebar(r) {
-  document.querySelectorAll('[data-route]').forEach(btn=>{
-    btn.classList.toggle('active', btn.dataset.route === r);
-    // ensure single '#'
-    const label = btn.querySelector('.label');
-    if (label) {
-      const name = btn.dataset.route || '';
-      label.textContent = name;
+function setActive(routeId) {
+  document.querySelectorAll('.side-nav .nav-item').forEach(el=>{
+    el.classList.toggle('active', el.dataset.route === routeId);
+    // apply channel hash styling only on channel items
+    if (el.dataset.route !== 'account') {
+      const label = el.querySelector('.label');
+      if (label) label.textContent = `#${el.dataset.route}`;
     }
   });
 }
 
-export function initRouter() {
-  // bind sidebar buttons
-  document.querySelectorAll('[data-route]').forEach(el=>{
-    // structure expected: <button data-route="map"><span class="hash">#</span><span class="label">map</span></button>
-    el.addEventListener('click', (e)=>{
-      e.preventDefault();
-      route(el.dataset.route);
-    }, { passive:false });
-  });
-
-  // initial route
-  const hash = location.hash.replace(/^#\/?/, '');
-  route(hash || 'parties');
-
-  // hash navigation
-  window.addEventListener('hashchange', ()=>{
-    const h = location.hash.replace(/^#\/?/, '');
-    route(h || 'parties');
+export function navigate(routeId) {
+  const id = ROUTES.some(r=>r.id===routeId) ? routeId : 'parties';
+  if (location.hash !== `#/${id}`) location.hash = `#/${id}`;
+  setActive(id);
+  // Clean, single title region
+  const h = document.getElementById('page-title');
+  if (h) h.textContent = id === 'account' ? 'Account' : id.charAt(0).toUpperCase()+id.slice(1);
+  // load view
+  return views[id]?.().catch(()=> {
+    const main = document.getElementById('main') || document.getElementById('page-root');
+    if (main) main.innerHTML = `<div class="card card-outlined"><div class="text-secondary">This feature isn't available yet.</div></div>`;
   });
 }
 
-export default { route, initRouter };
+export function route(name) { return navigate(name); }
+
+export function bindSidebar() {
+  const nav = document.querySelector('.side-nav');
+  if (!nav) return;
+  // rebuild once to prevent duplicates/bleed
+  nav.innerHTML = '';
+  for (const r of ROUTES) {
+    const btn = document.createElement('button');
+    btn.className = 'nav-item';
+    btn.dataset.route = r.id;
+    btn.innerHTML = `<span class="hash" aria-hidden="${r.id==='account'?'true':'false'}">${r.id==='account'?'':'#'}</span><span class="label">${r.label}</span>`;
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      navigate(r.id);
+    }, { passive:false });
+    nav.appendChild(btn);
+  }
+  // mark active by hash
+  const id = (location.hash.replace('#/','')||'parties');
+  setActive(id);
+}
+
+function routeFromHash() {
+  return (location.hash.replace('#/','') || 'parties');
+}
+
+// boot
+window.addEventListener('hashchange', ()=> navigate(routeFromHash()));
+export function startRouter() { bindSidebar(); return navigate(routeFromHash()); }
+export default { navigate, bindSidebar, startRouter, route };
