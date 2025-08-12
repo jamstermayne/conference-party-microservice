@@ -1,0 +1,21 @@
+.section-title { 
+  display: flex;
+  align-items: center;
+  gap: 12px; 
+}
+
+.section-title-text {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.section-chip {
+  background: rgba(107,123,255,.12);
+  border: 1px solid rgba(107,123,255,.35);
+  color: var(--text-primary);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+}

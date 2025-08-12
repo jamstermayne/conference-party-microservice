@@ -1,32 +1,47 @@
-// public/js/app-wireup.js
-// Minimal app bootstrap: installs listeners, triggers initial route, confirms boot.
+// App wireup - coordinates initialization
+import { startRouter } from './router.js';
+import Events from './events.js';
+import { initPartiesView } from './events-controller.js';
 
-import Router from '/js/router.js';
-import CalendarPolish from '/js/calendar-polish.js';
-import '/js/activity-feed.js';
-
-(function boot() {
+// Boot the app
+document.addEventListener('DOMContentLoaded', async () => {
   try {
-    // route change → metrics
-    window.addEventListener('hashchange', () => {
-      try { window.Metrics?.trackRoute?.(location.hash || '#/parties'); } catch {}
-    });
-
-    // first paint
-    window.Metrics?.track?.('app_boot', { ts: Date.now() });
-
-    // ensure default route
-    if (!location.hash) Router.go('#/parties');
-
-    // Initialize calendar polish after DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => CalendarPolish.init());
-    } else {
-      CalendarPolish.init();
+    // Initialize router
+    await startRouter();
+    
+    // Mobile nav toggle
+    const toggle = document.getElementById('nav-toggle');
+    const sidenav = document.getElementById('sidenav');
+    
+    if (toggle && sidenav) {
+      toggle.addEventListener('click', () => {
+        sidenav.classList.toggle('show');
+      });
+      
+      // Close on route change
+      Events.on('navigate', () => {
+        sidenav.classList.remove('show');
+      });
     }
-
+    
+    // Route chip is handled by route-title.js
+    
+    // If user lands on /#/parties, render immediately
+    const initial = (location.hash || '#/parties').replace(/^#\/?/, '');
+    if (initial === 'parties') initPartiesView();
+    
+    // Track app loaded
+    try {
+      window.Metrics?.track?.('app_loaded', { 
+        route: location.hash || '#/parties' 
+      });
+    } catch(e) {}
+    
     console.log('✅ App wire-up complete');
   } catch (e) {
-    console.error('wire-up error', e);
+    console.error('❌ App wire-up failed', e);
+    Events.emit('ui:toast', { type: 'error', message: 'App failed to start' });
   }
-})();
+});
+
+export default {};

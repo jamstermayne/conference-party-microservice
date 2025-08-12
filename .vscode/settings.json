@@ -1,35 +1,9 @@
 {
-  "editor.tabSize": 2,
-  "editor.insertSpaces": true,
-  "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000,
-  "editor.formatOnSave": true,
   "typescript.preferences.includePackageJsonAutoImports": "off",
-  "javascript.preferences.includePackageJsonAutoImports": "on",
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "files.exclude": {
-    "**/node_modules": true,
-    "**/lib": true,
-    "**/.git": true,
-    "**/build": true,
-    "**/.firebase": true,
-    "**/dist": true
-  },
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/dist": true,
-    "**/build": true,
-    "**/.firebase": true,
-    "**/coverage": true
-  },
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "eslint.workingDirectories": ["functions", "frontend"],
+  "firebase.hosting.source": "frontend/src"
 }

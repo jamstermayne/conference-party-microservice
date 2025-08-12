@@ -1,46 +1,51 @@
-// production-safe metrics (no network unless enabled)
-const ENV = window.__ENV || {};
-const ENABLED = !!ENV.METRICS_ENABLED;             // defaults false in env.js
-const ENDPOINT = ENV.METRICS_ENDPOINT || '';       // set when backend is ready
+// Production Metrics (env-aware, no-throw)
+const q = [];
+let flushed = false;
 
-const queue = [];
-let started = false;
+function now() { return new Date().toISOString(); }
 
-function flush() {
-  if (!ENABLED || !ENDPOINT || queue.length === 0) return;
-  const batch = queue.splice(0, queue.length);
-  fetch(ENDPOINT, {
+function track(event, payload = {}) {
+  q.push({ event, payload, ts: now() });
+  if (!flushed) tryFlush();
+}
+
+function tryFlush() {
+  const env = window.__ENV || {};
+  if (!env.METRICS_API) {
+    if (!flushed) { flushed = true; console.debug('📊 Metrics in-memory only (METRICS_API=false).'); }
+    return;
+  }
+  if (q.length === 0) return;
+
+  const url = env.METRICS_URL || '/api/metrics';
+  const batch = q.splice(0, q.length);
+  fetch(url, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ batch, ts: Date.now() })
-  }).then(() => {
-    console.log('📤 Flushed', batch.length, 'metrics');
+    body: JSON.stringify({ app: 'velocity', batch })
   }).catch(() => {
-    // put back if fail
-    queue.unshift(...batch);
+    // put back on failure (best-effort)
+    q.unshift(...batch);
   });
 }
 
-function start() {
-  if (started) return;
-  started = true;
-  setInterval(flush, 15000);
-}
+// Background flush every 15s when enabled
+setInterval(tryFlush, 15000);
 
-function track(name, payload = {}) {
-  const evt = { name, payload, t: Date.now() };
-  queue.push(evt);
-  console.log('📊 Metric tracked:', name, payload);
-  if (ENABLED) start();
-}
-
-// Expose a tiny API used by other modules
-window.Metrics = {
+// ES module Metrics; attaches to window and exports (for imports)
+const Metrics = {
   track,
   trackRoute: (route) => track('route', { route }),
   trackInstallPromptShown: () => track('install_prompt_shown'),
-  trackInstallAccepted: () => track('install_accepted'),
-  trackInstallDismissed: () => track('install_dismissed')
+  trackInstallAccepted: () => track('install_accept'),
+  trackInstallDismissed: () => track('install_dismiss'),
+  flush: tryFlush
 };
 
-export default window.Metrics;
+// Expose globally for existing calls
+if (typeof window !== 'undefined') {
+  window.Metrics = Metrics;
+}
+
+export default Metrics;
+export { track };

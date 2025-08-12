@@ -1,0 +1,211 @@
+/* Hotspots view — Slack-dark, token-driven */
+
+.hotspots-wrap {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 16px;
+  height: calc(100vh - 72px);
+  padding: 16px;
+  background: var(--bg-primary);
+}
+
+@media (max-width: 980px) {
+  .hotspots-wrap {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: calc(100vh - 72px);
+  }
+}
+
+.hotspots-canvas-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.hotspots-canvas-card header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+}
+
+.hotspots-canvas-card h2 {
+  font-size: 14px;
+  color: var(--text-secondary);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+#hotspots-canvas {
+  display: block;
+  width: 100%;
+  height: calc(100% - 50px);
+}
+
+/* Sidebar list */
+.hotspots-list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.hotspots-list header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.hotspots-list header h3 {
+  margin: 0; font-size: 14px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .4px;
+}
+
+.hotspots-scroll {
+  overflow: auto;
+  padding: 8px;
+  flex: 1;
+}
+
+.hotspot-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  margin-bottom: 8px;
+  transition: transform var(--t-fast) var(--ease-out), background var(--t-fast) var(--ease-out);
+}
+
+.hotspot-item:hover {
+  transform: translateY(-1px);
+  background: rgba(107,123,255,0.08);
+}
+
+.hotspot-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.hotspot-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.hotspot-count {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.badge-row {
+  display: inline-grid;
+  grid-auto-flow: column;
+  gap: 6px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.badge-pill {
+  font-size: 11px;
+  line-height: 1;
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.03);
+}
+
+.badge-pill.dev { border-color: #355aff33; color: #9fb3ff; }
+.badge-pill.pub { border-color: #ffb84d33; color: #ffd596; }
+.badge-pill.inv { border-color: #4dff9a33; color: #a6ffc9; }
+.badge-pill.sp  { border-color: #ff6b6b33; color: #ffb1b1; }
+
+.hotspot-empty {
+  padding: 16px;
+  color: var(--text-secondary);
+}
+
+.legend {
+  display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: 12px;
+}
+
+.legend-swatch {
+  width: 10px; height: 10px; border-radius: 2px; display: inline-block;
+}
+
+.legend .low    { background: rgba(107,123,255, 0.25); }
+.legend .medium { background: rgba(107,123,255, 0.55); }
+.legend .high   { background: rgba(107,123,255, 0.9); }
+
+/* New heatmap styles for Drop H */
+.hotspots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
+  gap: 8px;
+}
+
+.hotspot-card {
+  background: var(--surface);
+  border-radius: var(--r-md);
+  padding: 8px;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.hotspot-card .hotspot-title {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+.hotspot-card .hotspot-metric {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Heatmap overlay */
+.hotspot-card[data-heat]::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(to top, var(--heat-color,rgba(0,0,0,0.0)), transparent);
+  opacity: 0.4;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Heatmap color stops */
+.hotspot-card[data-heat="low"] { --heat-color: rgba(34,197,94,.65); }
+.hotspot-card[data-heat="med"] { --heat-color: rgba(253,224,71,.65); }
+.hotspot-card[data-heat="high"] { --heat-color: rgba(239,68,68,.65); }
+
+/* Legend */
+.hotspots-legend {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+.hotspots-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.hotspots-legend .swatch {
+  width: 10px; height: 10px; border-radius: 2px;
+}
+.swatch.low { background: rgba(34,197,94,.65); }
+.swatch.med { background: rgba(253,224,71,.65); }
+.swatch.high { background: rgba(239,68,68,.65); }

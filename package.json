@@ -4,16 +4,15 @@
   "description": "Gamescom 2025 Party Discovery - Complete PWA with 9-Tool Velocity System",
   "main": "index.js",
   "scripts": {
-    "dev": "node tools/hot-reload-server.js",
-    "dev:legacy": "node tools/dev-accelerator.js",
-    "dev:dashboard": "node tools/hot-reload-server.js && echo 'Open http://localhost:3000/dev-dashboard'",
-    "hot-reload": "node tools/hot-reload-server.js",
+    "dev": "cd frontend/src && python3 -m http.server 3000",
+    "dev:firebase": "firebase serve --only hosting",
     "design-editor": "node tools/design-system-editor.js",
     "design-editor:port": "node tools/design-system-editor.js --port",
     "design:tokens": "echo 'Design tokens available at http://localhost:3001/tokens'",
     "design:components": "echo 'Component library at http://localhost:3001/components'",
     "build": "node tools/pwa-orchestrator.js build",
-    "deploy": "node tools/firebase-manager.js deploy",
+    "predeploy": "node tools/verify-hosting-root.js",
+    "deploy": "firebase deploy --only hosting",
     "test": "node tools/api-test-suite.js",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
@@ -40,9 +39,11 @@
   "dependencies": {
     "firebase-admin": "^12.7.0",
     "firebase-functions": "^6.1.0",
-    "googleapis": "^122.0.0"
+    "googleapis": "^122.0.0",
+    "path-to-regexp": "6.3.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.46.0",
     "@types/node": "^20.4.5",
     "chokidar": "^4.0.3",
     "eslint": "^8.45.0",
@@ -51,8 +52,7 @@
     "nodemon": "^3.0.1",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6",
-    "ws": "^8.18.3",
-    "@playwright/test": "^1.46.0"
+    "ws": "^8.18.3"
   },
   "engines": {
     "node": ">=18.0.0"

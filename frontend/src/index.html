@@ -7,32 +7,32 @@
   <!-- PWA Meta -->
   <meta name="theme-color" content="#6b7bff" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="manifest" href="/manifest.json" />
+  <link rel="manifest" href="/manifest.json?v=7" />
 
   <!-- Content Security Policy (allows Cloud Functions + Google/LinkedIn SDKs) -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://*.googleapis.com https://*.gstatic.com https://platform.linkedin.com; connect-src 'self' https://us-central1-conference-party-app.cloudfunctions.net https://*.googleapis.com https://*.gstatic.com https://api.linkedin.com; img-src 'self' data: https://*.gstatic.com https://*.googleusercontent.com https://media.licdn.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-src https://accounts.google.com https://www.linkedin.com; worker-src 'self'; base-uri 'self'; form-action 'self' https://www.linkedin.com;" />
 
-  <!-- Load ENV before any app code -->
-  <script src="/js/env.js"></script>
 
-  <title>Velocity — Gamescom 2025</title>
-  <meta name="description" content="Velocity — your private conference social network.">
+  <title>velocity.ai — Gamescom 2025</title>
+  <meta name="application-name" content="velocity.ai — Gamescom 2025">
+  <meta name="description" content="velocity.ai — your private conference social network.">
 
-  <!-- Additional PWA -->
+  <!-- Favicon & Icons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/velocity-logo.svg">
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- Social: Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Velocity">
+  <meta property="og:title" content="velocity.ai — Gamescom 2025">
   <meta property="og:description" content="Join private conference parties and sync your calendar.">
   <meta property="og:image" content="/social/share-default.png">
   <meta property="og:url" content="https://conference-party-app.web.app">
 
   <!-- Social: Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Velocity">
+  <meta name="twitter:title" content="velocity.ai — Gamescom 2025">
   <meta name="twitter:description" content="Join private conference parties and sync your calendar.">
   <meta name="twitter:image" content="/social/share-default.png">
 
@@ -78,122 +78,124 @@
   </script>
   
   <link rel="stylesheet" href="assets/css/styles.css"/>
-  <link rel="stylesheet" href="assets/css/events-ftue.css"/>
-  <link rel="stylesheet" href="/assets/css/calendar.css">
-  <link rel="stylesheet" href="/assets/css/invites.css">
-  <link rel="stylesheet" href="/assets/css/contacts-permission.css">
+  <link rel="stylesheet" href="/assets/css/app-shell.css?v=13">
+  <link rel="stylesheet" href="/assets/css/header-actions.css?v=14">
+  <link rel="stylesheet" href="/assets/css/nav.css">
+  <link rel="stylesheet" href="/assets/css/hotspots.css">
+  <link rel="stylesheet" href="/css/panels.css?v=7">
+  <link rel="stylesheet" href="/css/layout-polish.css?v=7">
+  <link rel="stylesheet" href="/css/cards-parties.css?v=7">
+  <link rel="stylesheet" href="/css/calendar-strip.css?v=8">
+  <link rel="stylesheet" href="/css/toast.css?v=8">
+  <link rel="stylesheet" href="/css/invite-panel.css?v=9">
+  <link rel="stylesheet" href="/css/layout.css?v=10">
+  <link rel="stylesheet" href="/css/app.css?v=11">
+  <link rel="stylesheet" href="/css/sidebar.css?v=12">
+  <link rel="stylesheet" href="/css/sections.css?v=12">
+  <link rel="stylesheet" href="/css/loading.css?v=15">
+  <link rel="stylesheet" href="/css/events-cards.css?v=18">
+  <link rel="stylesheet" href="/css/account.css?v=19">
+  <link rel="stylesheet" href="/css/sidebar-fix.css?v=18">
+  <link rel="stylesheet" href="/assets/css/party-cards.css?v=1">
+  <link rel="stylesheet" href="/css/events.css?v=8">
 </head>
 <body>
-  <!-- Skip link for accessibility -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-  
-  <div id="app" class="app">
-    <!-- Slack-style Sidebar -->
-    <aside id="sidenav" class="sidenav" aria-label="Main navigation">
-      <div class="side-head">
-        <div class="brand">Velocity</div>
-        <div class="workspace">Gamescom 2025</div>
+  <aside id="sidenav" class="sidenav">
+    <!-- brand -->
+    <div class="brand">
+      <span class="logo-glyph">V</span>
+      <div class="brand-text">
+        <div class="brand-name">velocity.ai</div>
+        <div class="brand-sub">gamescom 2025</div>
       </div>
-      <nav class="side-nav">
-        <button class="nav-item active" data-route="parties">🗓️ Parties</button>
-        <button class="nav-item" data-route="hotspots">🔥 Hotspots</button>
-        <button class="nav-item" data-route="opportunities">🎯 Opportunities</button>
-        <button class="nav-item" data-route="calendar">📅 Calendar</button>
-        <button class="nav-item" data-route="invites">
-          🎟 Invites <span id="invite-pill" class="pill pill-gold">10</span>
-        </button>
-        <button class="nav-item" data-route="me">👤 Me</button>
-        <button class="nav-item" data-route="settings">⚙️ Settings</button>
-      </nav>
-      <div class="side-footer">
-        <div class="auth-section" id="auth-section">
-          <!-- Authentication buttons (shown when not logged in) -->
-          <div class="auth-buttons" id="auth-buttons">
-            <button id="btn-google" class="btn btn-small auth-btn">
-              📧 Sign in with Google
-            </button>
-            <button id="btn-linkedin" class="btn btn-small auth-btn">
-              💼 Sign in with LinkedIn
-            </button>
-          </div>
-          <!-- User profile (shown when logged in) -->
-          <div class="user-profile hidden" id="user-profile">
-            <div class="user-info">
-              <img id="user-avatar" class="user-avatar" alt="User avatar" />
-              <div class="user-details">
-                <div id="user-name" class="user-name"></div>
-                <small id="user-email" class="user-email muted"></small>
-              </div>
-            </div>
-            <button id="btn-signout" class="btn btn-small btn-ghost">Sign Out</button>
-          </div>
-        </div>
-        <!-- PWA Install Button -->
-        <button id="btn-install" class="btn btn-primary" style="width:100%; margin-top: 10px; display: none;">Install App</button>
-        <small class="muted">Exclusive • Privacy-first</small>
-      </div>
-    </aside>
-    <!-- Overlay (mobile) -->
-    <div id="overlay" class="overlay" hidden></div>
-    <!-- Main Panel -->
-    <main id="main-content">
-      <header class="topbar">
-        <button id="menu" class="icon-btn" aria-label="Open menu">☰</button>
-        <h1 id="page-title">Parties</h1>
-      </header>
-      <!-- Routes mount here -->
-      <section id="route" role="region" aria-live="polite"></section>
-      <!-- Events list for production controller -->
-      <section id="event-list" role="region" aria-label="Gaming industry parties"></section>
-      <!-- Enhanced Install Card with Accessibility -->
-      <div id="install-card" class="install-card hidden" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc">
-        <div class="install-content" tabindex="-1">
-          <img src="/assets/icons/icon-192.png" alt="Velocity App Icon" class="install-icon" />
-          <h3 id="install-title">Install Velocity</h3>
-          <p id="install-desc">Add Velocity for instant access to parties & invites.</p>
-          <div class="row gap">
-            <button id="install-btn" class="btn btn-primary" aria-label="Install Velocity App">Install</button>
-            <button id="install-dismiss" class="btn btn-secondary" aria-label="Dismiss install prompt">Not Now</button>
-          </div>
-        </div>
-      </div>
-      <!-- iOS Install Hint -->
-      <div id="install-ios-hint" class="install-ios-hint">Share → Add to Home Screen</div>
-      <!-- Toasts -->
-      <template id="tpl-toast"><div class="toast"><span class="msg"></span></div></template>
-      <!-- SR-only Live -->
-      <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-    </main>
-  </div>
-  <!-- GPT-5 Foundation (enterprise-grade core) -->
-  <script type="module" src="/assets/js/foundation/app-bootstrap.js"></script>
-  <script type="module" src="/assets/js/foundation/sw-register.js"></script>
+    </div>
+
+    <!-- channels -->
+    <nav class="side-nav">
+      <button class="nav-item active" data-route="parties"><span class="hash">#</span><span class="label">parties</span></button>
+      <button class="nav-item" data-route="hotspots"><span class="hash">#</span><span class="label">hotspots</span></button>
+      <button class="nav-item" data-route="map"><span class="hash">#</span><span class="label">map</span></button>
+      <button class="nav-item" data-route="calendar"><span class="hash">#</span><span class="label">calendar</span></button>
+      <button class="nav-item" data-route="invites"><span class="hash">#</span><span class="label">invites</span></button>
+      <button class="nav-item" data-route="me"><span class="hash">#</span><span class="label">me</span></button>
+      <button class="nav-item" data-route="settings"><span class="hash">#</span><span class="label">settings</span></button>
+    </nav>
+  </aside>
+
+  <section class="content">
+    <header class="topbar">
+      <button id="nav-toggle" aria-label="Navigation" class="icon-btn">≡</button>
+      <h1 id="page-title" class="page-title">Parties</h1>
+      <span id="route-chip" class="chip">#parties</span>
+    </header>
+
+    <!-- 👇 router swaps only this element -->
+    <main id="page-root" class="page-root"></main>
+  </section>
+  <!-- ENV must come first -->
+  <script src="/js/env.js?v=6"></script>
+
+  <!-- Foundation (module) -->
+  <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=6"></script>
+  <script type="module" src="/assets/js/foundation/sw-register.js?v=6"></script>
+
+  <!-- Metrics: shim ONLY (no ESM metrics module right now) -->
+  <script nomodule src="/js/metrics-shim.js?v=6"></script>
+
+  <!-- Core modules -->
+  <script type="module" src="/js/store.js?v=6"></script>
+  <script type="module" src="/js/events.js?v=6"></script>
+  <script type="module" src="/js/me-controller.js?v=14"></script>
+  <script type="module" src="/js/ui-feedback.js?v=6"></script>
+  <script type="module" src="/js/install.js?v=6"></script>
+  <script type="module" src="/js/auth.js?v=6"></script>
+  <script type="module" src="/js/router.js?v=7"></script>
+
+  <!-- Feature controllers -->
+  <script type="module" src="/js/invite.js?v=6"></script>
+  <script type="module" src="/js/invite-panel.js?v=6"></script>
+  <script type="module" src="/js/invite-badge-sync.js?v=6"></script>
+  <script type="module" src="/js/calendar-integration.js?v=6"></script>
+  <script type="module" src="/js/events-controller.js?v=7"></script>
   
-  <!-- Ensure these load after env.js -->
-  <script src="/js/metrics-shim.js" type="module"></script>
-  <script src="/assets/js/metrics.js"></script>
-  
-  <!-- App scripts (order matters: foundation first, then features, then wireup) -->
-  <script type="module" src="/js/store.js"></script>
-  <script type="module" src="/js/events.js"></script>
-  <script type="module" src="/js/ui-feedback.js"></script>
-  <script type="module" src="/js/install.js"></script>
-  <script type="module" src="/js/auth.js"></script>
-  <script type="module" src="/js/router.js"></script>
-  <script type="module" src="/js/invite.js"></script>
-  <script type="module" src="/js/invite-badge.js"></script>
-  <script type="module" src="/js/invite-panel.js"></script>
-  <script type="module" src="/js/invite-badge-sync.js"></script>
-  <script type="module" src="/js/calendar-integration.js"></script>
-  <script type="module" src="/js/calendar-polish.js"></script>
-  <script type="module" src="/js/events-controller.js"></script>
-  <script type="module" src="/js/app-wireup.js"></script>
-  
-  <!-- Metrics bridge must load after router/events -->
-  <script type="module" src="/assets/js/router-route-metrics.js"></script>
-  
-  <!-- Contacts Permission Sheet -->
-  <script src="/assets/js/contacts-permission.js"></script>
+  <!-- Selection and sync modules -->
+  <script type="module" src="/js/selection-store.js?v=1"></script>
+  <script type="module" src="/js/calendar-sync.js?v=1"></script>
+  <script type="module" src="/js/account-controller.js?v=1"></script>
+
+  <!-- Keep optional modules MODULED (prevents "import outside module") -->
+  <script type="module" src="/js/ftue-progress.js?v=6"></script>
+  <script type="module" src="/js/router-route-metrics.js?v=6"></script>
+
+  <!-- TEMP: comment out if your file isn't ready; or keep with fixed file below -->
+  <script type="module" src="/js/activity-feed.js?v=6"></script>
+
+  <!-- Panel enhancements -->
+  <script type="module" src="/js/hotspots.js?v=7"></script>
+  <script type="module" src="/js/map.js?v=7"></script>
+  <script type="module" src="/js/parties-polish.js?v=7"></script>
+
+  <!-- Layout polish -->
+  <script type="module" src="/js/route-title.js?v=7"></script>
+  <script type="module" src="/js/layout-snap.js?v=7"></script>
+
+  <!-- Drop H enhancements -->
+  <script type="module" src="/js/hotspots-polish.js?v=8"></script>
+  <script type="module" src="/js/calendar-strip.js?v=8"></script>
+  <script type="module" src="/js/toast.js?v=8"></script>
+
+  <!-- Drop I - Invite growth loop -->
+  <script type="module" src="/js/invite-growth-loop.js?v=9"></script>
+
+  <!-- Drop J - Nav and layout fixes -->
+  <script type="module" src="/js/nav.js?v=10"></script>
+
+  <!-- Accent Rail System -->
+  <script type="module" src="/js/rail-autowrap.js?v=11"></script>
+  <script type="module" src="/js/rail-sync.js?v=11"></script>
+
+  <!-- Final wire-up -->
+  <script type="module" src="/js/app-wireup.js?v=7"></script>
   
   <!-- PWA Install Handler -->
   <script type="module">
@@ -245,18 +247,7 @@
       try { window.Metrics?.trackRoute?.(location.hash || '#/parties'); } catch {}
     });
   </script>
-<!-- ARIA live region for screen reader announcements -->
-<div id="aria-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-<!-- Ensure events.css is included -->
-<link rel="stylesheet" href="/assets/css/events.css">
-
-<!-- Load FTUE progress script -->
-<script src="/js/ftue-progress.js"></script>
-
-<!-- Load production-safe metrics and flags -->
-<script type="module" src="/assets/js/metrics.js"></script>
-<script type="module" src="/assets/js/featureFlags.js"></script>
 
 </body>
 </html>

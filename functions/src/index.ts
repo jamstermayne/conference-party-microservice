@@ -2,6 +2,7 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import express, {Request, Response} from "express";
 import cors from "cors";
+import {getHotspots} from "./hotspots";
 
 try {admin.initializeApp();} catch (error) {
   console.log("Firebase admin already initialized:", error);
@@ -37,10 +38,11 @@ app.get("/api/health", (_req: Request, res: Response) => {
   res.status(200).json({
     status: "healthy",
     timestamp: new Date().toISOString(),
-    version: "2.0.0",
+    version: "2.1.0",
     endpoints: {
       health: "operational",
       parties: "operational",
+      hotspots: "operational",
       sync: "operational",
       webhook: "operational",
       setupWebhook: "operational",
@@ -69,5 +71,29 @@ app.get("/api/webhook", (_req, res) => res.status(200).json({ok: true, endpoint:
 app.post("/api/webhook", (_req, res) => res.status(200).json({ok: true, received: true}));
 
 app.get("/api/setupWebhook", (_req, res) => res.status(200).json({ok: true, configured: false}));
+
+// === HOTSPOTS ENDPOINT (PERSONA-BASED AGGREGATION) ===
+app.get("/api/hotspots", getHotspots);
+
+// ---- Lightweight stubs to prevent 404 noise ----
+app.get("/api/flags", (_req, res) => {
+  // Fail-open defaults so UI shows all channels/features
+  res.status(200).json({
+    nav: {
+      parties: true, hotspots: true, opportunities: true,
+      calendar: true, invites: true, me: true, settings: true,
+    },
+  });
+});
+
+app.post("/api/metrics", (req, res) => {
+  // Accept any payload, no-op
+  try {
+    console.log("[metrics]", JSON.stringify(req.body || {}));
+  } catch {
+    // Silently ignore JSON stringify errors
+  }
+  res.status(204).send(); // No Content
+});
 
 export const api = functions.https.onRequest(app);
