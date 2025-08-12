@@ -71,28 +71,56 @@ app.post("/api/webhook", (_req, res) => res.status(200).json({ok: true, received
 
 app.get("/api/setupWebhook", (_req, res) => res.status(200).json({ok: true, configured: false}));
 
-// === HOTSPOTS ENDPOINT (MOCK DATA) ===
+// === HOTSPOTS ENDPOINT (FIRESTORE DATA) ===
 app.get("/api/hotspots", async (req: Request, res: Response) => {
   try {
-    const conference = req.query["conference"] || "gamescom2025";
+    const conference = String(req.query["conference"] || "gamescom2025");
 
-    // Mock venues pulled from events PDF
-    const mockHotspots = [
-      {id: "koelnmesse-confex", name: "Kölnmesse Confex", lat: 50.943, lng: 6.958, count: 128},
-      {id: "odyssey-club", name: "Odyssey Club", lat: 50.937, lng: 6.96, count: 82},
-      {id: "meltdown-cologne", name: "Meltdown Cologne", lat: 50.940, lng: 6.955, count: 54},
-      {id: "dom-hotel", name: "Dom Hotel", lat: 50.941, lng: 6.957, count: 102},
-      {id: "gamescom-party-hall", name: "Gamescom Party Hall", lat: 50.942, lng: 6.959, count: 67},
-      {id: "marriott-bar", name: "Marriott Bar", lat: 50.944, lng: 6.961, count: 45},
-      {id: "xyz-venue", name: "XYZ Venue", lat: 50.946, lng: 6.963, count: 30},
+    // Fallback mock data if Firestore unavailable
+    const fallbackHotspots = [
+      {id: "koelnmesse-confex", name: "Kölnmesse Confex", lat: 50.943, lng: 6.958, count: 128, last_seen: Date.now()},
+      {id: "odyssey-club", name: "Odyssey Club", lat: 50.937, lng: 6.96, count: 82, last_seen: Date.now()},
+      {id: "meltdown-cologne", name: "Meltdown Cologne", lat: 50.940, lng: 6.955, count: 54, last_seen: Date.now()},
+      {id: "dom-hotel", name: "Dom Hotel", lat: 50.941, lng: 6.957, count: 102, last_seen: Date.now()},
+      {id: "gamescom-party-hall", name: "Gamescom Party Hall", lat: 50.942, lng: 6.959, count: 67, last_seen: Date.now()},
+      {id: "marriott-bar", name: "Marriott Bar", lat: 50.944, lng: 6.961, count: 45, last_seen: Date.now()},
+      {id: "xyz-venue", name: "XYZ Venue", lat: 50.946, lng: 6.963, count: 30, last_seen: Date.now()},
     ];
+
+    let hotspots = fallbackHotspots;
+
+    // Try to fetch from Firestore
+    if (db) {
+      try {
+        const hotspotsRef = db.collection("hotspots").doc(conference);
+        const doc = await hotspotsRef.get();
+
+        if (doc.exists) {
+          const data = doc.data();
+          // Convert Firestore document to array format
+          hotspots = Object.entries(data || {}).map(([id, location]: [string, any]) => ({
+            id,
+            name: location.name || id,
+            lat: location.lat || 0,
+            lng: location.lon || location.lng || 0,
+            count: location.count || 0,
+            last_seen: location.last_update || location.last_seen || Date.now(),
+          }));
+
+          // Sort by count descending
+          hotspots.sort((a, b) => b.count - a.count);
+        }
+      } catch (dbError) {
+        console.warn("Firestore read failed, using fallback:", dbError);
+      }
+    }
 
     res.setHeader("Cache-Control", "public, max-age=30");
     return res.status(200).json({
       success: true,
       lastUpdated: new Date().toISOString(),
       conference,
-      data: mockHotspots,
+      data: hotspots,
     });
   } catch (err: any) {
     console.error("Hotspots endpoint error", err);

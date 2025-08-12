@@ -1,0 +1,189 @@
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
+
+// Initialize if not already done
+try {
+  admin.initializeApp();
+} catch (error) {
+  console.log("Firebase admin already initialized");
+}
+
+const db = admin.firestore();
+
+/**
+ * Aggregation function for hotspot data
+ * Runs every 5 minutes to update venue attendance counts
+ */
+export const aggregateHotspots = functions.pubsub
+  .schedule("every 5 minutes")
+  .onRun(async () => {
+    console.log("Starting hotspot aggregation...");
+
+    try {
+      const now = Date.now();
+      const fiveMinutesAgo = now - 5 * 60 * 1000;
+
+      // Get all conferences (for now just gamescom2025)
+      const conferences = ["gamescom2025"];
+
+      for (const conference of conferences) {
+        // Get all events for this conference
+        const eventsSnapshot = await db
+          .collection("events")
+          .where("conference", "==", conference)
+          .get();
+
+        // Aggregate counts by venue
+        const venueCounts: Record<string, any> = {};
+
+        for (const eventDoc of eventsSnapshot.docs) {
+          const event = eventDoc.data();
+          const venueId = event["venue_id"] || event["venue"]?.toLowerCase().replace(/\s+/g, "-");
+
+          if (!venueId) continue;
+
+          if (!venueCounts[venueId]) {
+            venueCounts[venueId] = {
+              name: event["venue"] || venueId,
+              lat: event["coordinates"]?.lat || event["lat"] || 0,
+              lon: event["coordinates"]?.lng || event["lng"] || 0,
+              count: 0,
+              last_update: now,
+            };
+          }
+
+          // Count RSVPs and check-ins
+          const rsvpCount = event["rsvp_count"] || 0;
+          const checkinCount = event["checkin_count"] || 0;
+          const recentActivity = event["last_activity"] > fiveMinutesAgo ? 10 : 0;
+
+          venueCounts[venueId].count += rsvpCount + checkinCount * 2 + recentActivity;
+        }
+
+        // Update Firestore
+        const hotspotsRef = db.collection("hotspots").doc(conference);
+        await hotspotsRef.set(venueCounts, {merge: true});
+
+        console.log(`Updated ${Object.keys(venueCounts).length} hotspots for ${conference}`);
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Hotspot aggregation failed:", error);
+      throw error;
+    }
+  });
+
+/**
+ * Increment hotspot count when RSVP is created
+ */
+export const onRSVPCreated = functions.firestore
+  .document("rsvps/{rsvpId}")
+  .onCreate(async (snap: any) => {
+    const rsvp = snap.data();
+    const eventId = rsvp.event_id;
+
+    if (!eventId) return;
+
+    try {
+      // Get event details
+      const eventDoc = await db.collection("events").doc(eventId).get();
+      if (!eventDoc.exists) return;
+
+      const event = eventDoc.data()!;
+      const conference = event["conference"] || "gamescom2025";
+      const venueId = event["venue_id"] || event["venue"]?.toLowerCase().replace(/\s+/g, "-");
+
+      if (!venueId) return;
+
+      // Update hotspot count
+      const hotspotsRef = db.collection("hotspots").doc(conference);
+      const hotspotDoc = await hotspotsRef.get();
+
+      if (hotspotDoc.exists) {
+        const currentData = hotspotDoc.data()![venueId] || {};
+        await hotspotsRef.update({
+          [`${venueId}.count`]: (currentData.count || 0) + 1,
+          [`${venueId}.last_update`]: Date.now(),
+        });
+      } else {
+        // Create new hotspot entry
+        await hotspotsRef.set({
+          [venueId]: {
+            name: event["venue"] || venueId,
+            lat: event["coordinates"]?.lat || event["lat"] || 0,
+            lon: event["coordinates"]?.lng || event["lng"] || 0,
+            count: 1,
+            last_update: Date.now(),
+          },
+        });
+      }
+
+      // Update event RSVP count
+      await db.collection("events").doc(eventId).update({
+        rsvp_count: admin.firestore.FieldValue.increment(1),
+        last_activity: Date.now(),
+      });
+    } catch (error) {
+      console.error("Failed to update hotspot on RSVP:", error);
+    }
+  });
+
+/**
+ * Handle check-in events
+ */
+export const onCheckIn = functions.https.onCall(async (data: any) => {
+  const {eventId, userId, lat, lng} = data;
+
+  if (!eventId || !userId) {
+    throw new functions.https.HttpsError(
+      "invalid-argument",
+      "Event ID and User ID are required"
+    );
+  }
+
+  try {
+    // Record check-in
+    await db.collection("checkins").add({
+      event_id: eventId,
+      user_id: userId,
+      timestamp: Date.now(),
+      location: lat && lng ? new admin.firestore.GeoPoint(lat, lng) : null,
+    });
+
+    // Get event details
+    const eventDoc = await db.collection("events").doc(eventId).get();
+    if (!eventDoc.exists) {
+      throw new functions.https.HttpsError("not-found", "Event not found");
+    }
+
+    const event = eventDoc.data()!;
+    const conference = event["conference"] || "gamescom2025";
+    const venueId = event["venue_id"] || event["venue"]?.toLowerCase().replace(/\s+/g, "-");
+
+    // Update hotspot with higher weight for check-ins
+    if (venueId) {
+      const hotspotsRef = db.collection("hotspots").doc(conference);
+      const hotspotDoc = await hotspotsRef.get();
+
+      if (hotspotDoc.exists) {
+        const currentData = hotspotDoc.data()![venueId] || {};
+        await hotspotsRef.update({
+          [`${venueId}.count`]: (currentData.count || 0) + 2, // Check-ins count double
+          [`${venueId}.last_update`]: Date.now(),
+        });
+      }
+    }
+
+    // Update event check-in count
+    await db.collection("events").doc(eventId).update({
+      checkin_count: admin.firestore.FieldValue.increment(1),
+      last_activity: Date.now(),
+    });
+
+    return {success: true, message: "Check-in recorded"};
+  } catch (error) {
+    console.error("Check-in failed:", error);
+    throw new functions.https.HttpsError("internal", "Failed to record check-in");
+  }
+});

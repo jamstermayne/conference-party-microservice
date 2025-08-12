@@ -28,6 +28,7 @@
     "dev": "npm run build:watch & firebase emulators:start --only functions",
     "clean": "rimraf lib coverage test-results",
     "pretest": "npm run build",
+    "seed:hotspots": "ts-node src/seed-hotspots.ts",
     "posttest": "echo 'Tests completed'",
     "coverage:check": "jest --coverage --passWithNoTests && node -e 'const report=require(\"./coverage/coverage-summary.json\"); const thresholds={lines:80,functions:85,branches:80,statements:80}; const actual=report.total; Object.entries(thresholds).forEach(([key,min])=>{if(actual[key].pct<min)throw new Error(`Coverage ${key}: ${actual[key].pct}% < ${min}%`);}); console.log(\"✅ Coverage thresholds met!\");'",
     "security:audit": "npm audit --audit-level=high",
