@@ -1,0 +1,108 @@
+/* Parties view — Slack-dark polished cards */
+.parties-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 16px 24px;
+}
+
+.parties-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav, 50);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-primary, #0f0f12);
+  padding: 12px 4px 8px;
+  border-bottom: 1px solid var(--border, #2a2a35);
+}
+
+.ph-left { display: flex; align-items: center; gap: 8px; }
+.hash-tag {
+  width: 24px; height: 24px; border-radius: 6px;
+  background: linear-gradient(180deg, #6b7bff, #3a3f99);
+  display: grid; place-items: center; color: #fff; font-weight: 700;
+}
+.ph-title {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-primary, #fff);
+  text-transform: lowercase;
+  letter-spacing: 0.3px;
+}
+.ph-right { color: var(--text-muted, #6b6b75); font-size: 0.85rem; }
+
+/* Grid */
+.parties-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (min-width: 720px) {
+  .parties-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px) {
+  .parties-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Card */
+.party-card {
+  background: var(--surface, #1a1a1f);
+  border: 1px solid var(--border, #2a2a35);
+  border-radius: var(--r-lg, 16px);
+  padding: 12px 12px 10px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: transform var(--t-fast, 150ms) var(--ease-out, ease), border-color var(--t-fast, 150ms);
+}
+.party-card:hover { transform: translateY(-2px); border-color: rgba(107,123,255,0.35); }
+
+.pc-top { display: flex; flex-direction: column; gap: 6px; }
+.pc-title {
+  color: var(--text-primary, #fff);
+  font-weight: 700;
+  text-decoration: none;
+  line-height: 1.2;
+}
+.pc-title:hover { text-decoration: underline; }
+
+.pc-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--text-secondary, #a5a7ad); }
+.pc-chip {
+  padding: 2px 8px;
+  border: 1px solid var(--border, #2a2a35);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.02);
+  font-size: 0.8rem;
+}
+.pc-dot { opacity: 0.5; }
+.pc-price {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--accent-primary, #6b7bff);
+}
+.pc-bottom { display: flex; gap: 8px; }
+
+/* Buttons (use existing .btn variants; slight spacing) */
+.party-card .btn { min-height: 32px; }
+
+/* Skeletons */
+.skeleton { position: relative; overflow: hidden; }
+.shimmer {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.12) 37%, rgba(255,255,255,0.06) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+.pc-title.shimmer { height: 18px; width: 70%; }
+.pc-meta.shimmer { height: 12px; width: 50%; }
+.pc-btn.shimmer { height: 32px; width: 120px; border-radius: 8px; }
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+/* Sentinel */
+.sentinel { height: 1px; }

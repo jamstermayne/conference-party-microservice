@@ -1,6 +1,7 @@
 // App wireup - coordinates initialization
 import { startRouter } from './router.js';
 import Events from './events.js';
+import { initPartiesView } from './events-controller.js';
 
 // Boot the app
 document.addEventListener('DOMContentLoaded', async () => {
@@ -24,6 +25,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     
     // Route chip is handled by route-title.js
+    
+    // If user lands on /#/parties, render immediately
+    const initial = (location.hash || '#/parties').replace(/^#\/?/, '');
+    if (initial === 'parties') initPartiesView();
     
     // Track app loaded
     try {
