@@ -311,16 +311,29 @@ jobs:
 - **Rich UI Components**: Connection cards, event cards, opportunity cards with professional styling
 - **Performance**: All optimization systems active (4-layer optimization, FPS watchdog)
 
-### Deployment Status ✅ (Updated: August 11, 2025)
+### Hotspots Heat Map Feature ✅ (Added: August 12, 2025)
+- **Live URL**: https://conference-party-app.web.app#hotspots
+- **API Endpoint**: `/api/hotspots` - Returns venue data with coordinates and crowd counts
+- **Frontend**: Canvas-based heat map visualization with purple-to-magenta gradients
+- **Features**: 
+  - Real-time venue crowd density visualization
+  - Sorted venue list with pulsing animation for top venue
+  - Quick actions: Map focus + Google Maps directions
+  - Auto-refresh every 60 seconds with live badge
+  - DPR-aware canvas rendering for crisp visuals
+- **Performance**: 30-second API cache, ~11KB total feature size
+
+### Deployment Status ✅ (Updated: August 12, 2025)
 - **Live URL**: https://conference-party-app.web.app
-- **API Health**: 2/5 endpoints fully operational (/health, /parties)
+- **API Health**: 3/6 endpoints fully operational (/health, /parties, /hotspots)
 - **Test Coverage**: 6/13 API tests passing (46% success rate)
 - **Event Data**: 58+ events available with offline search capability
+- **Hotspots Data**: 7 Gamescom venues with mock crowd data
 - **User Experience**: Complete professional onboarding → networking → email sync flow
 - **GPT-5 Integration**: All proactive and reactive email sync features active
 - **Build System**: PWA build complete (43KB service worker, 9KB offline search)
 - **Performance**: Enhanced Store API with dot notation paths and event emission
-- **Latest Deployment**: August 11, 2025 - Commit d9ddf2b (feature/frontend-final-polish)
+- **Latest Deployment**: August 12, 2025 - Branch fix/frontend-polish-20250812
 
 ### Critical Reminders
 - **Webhook expires**: January 6, 2025 - needs renewal
