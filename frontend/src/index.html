@@ -84,6 +84,7 @@
   <link rel="stylesheet" href="/css/cards-parties.css?v=7">
   <link rel="stylesheet" href="/css/calendar-strip.css?v=8">
   <link rel="stylesheet" href="/css/toast.css?v=8">
+  <link rel="stylesheet" href="/css/invite-panel.css?v=9">
 </head>
 <body>
   <!-- Skip link for accessibility -->
@@ -231,7 +232,19 @@
       
       <section data-route="invites" hidden>
         <h2 class="text-heading">Invites</h2>
-        <div id="invites-root"></div>
+        <div id="invites-root">
+          <div class="invite-panel">
+            <div class="invite-header">
+              <h3>Your Invites</h3>
+              <span class="invite-badge" data-invite-count>3</span>
+            </div>
+            <div class="invite-actions">
+              <button class="invite-btn" data-invite-rsvp>RSVP to Event</button>
+              <button class="invite-btn secondary disabled" data-invite-share>Share Link (Locked)</button>
+              <button class="invite-btn secondary" data-invite-join>Join via Invite</button>
+            </div>
+          </div>
+        </div>
       </section>
       
       <section data-route="opportunities" hidden>
@@ -313,6 +326,9 @@
   <script type="module" src="/js/hotspots-polish.js?v=8"></script>
   <script type="module" src="/js/calendar-strip.js?v=8"></script>
   <script type="module" src="/js/toast.js?v=8"></script>
+
+  <!-- Drop I - Invite growth loop -->
+  <script type="module" src="/js/invite-growth-loop.js?v=9"></script>
 
   <!-- Final wire-up -->
   <script type="module" src="/js/app-wireup.js?v=7"></script>
