@@ -8,7 +8,7 @@ const ROUTES = [
   { id:'calendar',  label:'#calendar'  },
   { id:'invites',   label:'#invites'   },
   { id:'me',        label:'#me'        },
-  { id:'account',   label:'account'    }, // icon-only item (no '#')
+  { id:'account',   label:'#account'   }, // temporary nav item
 ];
 
 const views = {
@@ -18,7 +18,7 @@ const views = {
   calendar: () => import('./calendar-integration.js').then(m=>m.renderCalendar?.()),
   invites:  () => import('./invite-panel.js').then(m=>m.renderInvites?.()),
   me:       () => import('./profile-controller.js').then(m=>m.renderProfile?.()),
-  account:  () => import('./account-controller.js').then(m=>m.renderAccount()),
+  account:  () => import('./account.js').then(m=>m.renderAccount()),
 };
 
 function setActive(routeId) {
