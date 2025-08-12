@@ -23,13 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
     
-    // Update route chip
-    Events.on('route:changed', ({ route }) => {
-      const chip = document.getElementById('route-chip');
-      if (chip) {
-        chip.textContent = route === 'account' ? 'account' : `#${route}`;
-      }
-    });
+    // Route chip is handled by route-title.js
     
     // Track app loaded
     try {
