@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Conference Party Microservice</title>
+  <link rel="stylesheet" href="/src/css/style.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <div data-nav="parties">Parties</div>
+      <div data-nav="hotspots">Hotspots</div>
+      <div data-nav="map">Map</div>
+      <div data-nav="calendar">Calendar</div>
+      <div data-nav="invites">Invites</div>
+      <div data-nav="me">Me</div>
+      <div data-nav="settings">Settings</div>
+    </aside>
+    <main class="main-panel">
+      <section data-panel="parties">
+        <h1>Parties</h1>
+        <div id="parties-list"></div>
+      </section>
+      <section data-panel="account">
+        <div id="account-section"></div>
+      </section>
+    </main>
+  </div>
+  <script type="module">
+    import { bindSidebar } from '/src/js/router.js';
+    import { initEventsController } from '/src/js/events-controller.js';
+    import { initAccountSection } from '/src/js/account.js';
+    bindSidebar(document.getElementById('sidebar'));
+    initEventsController('parties-list');
+    initAccountSection();
+  </script>
+</body>
+</html>
