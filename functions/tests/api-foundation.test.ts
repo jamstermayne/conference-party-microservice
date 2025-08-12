@@ -26,7 +26,7 @@ describe("GPT-5 Foundation API", () => {
       expect(response.body).toEqual(
         expect.objectContaining({
           status: "healthy",
-          version: "2.0.0",
+          version: "2.1.0",
           timestamp: expect.any(String),
           endpoints: expect.objectContaining({
             health: "operational",
