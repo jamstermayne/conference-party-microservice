@@ -1,57 +1,45 @@
 /**
- * router.js — minimal hash router
+ * Minimal hash router + sidebar binder (production-safe).
  * Exports: bindSidebar, route, currentRoute
  */
 import Events from '/assets/js/events.js';
 
-const NAV = new Set(['parties','hotspots','map','calendar','invites','me','settings']);
+const NAV = ['parties','hotspots','map','calendar','invites','me','settings'];
 let _sidebarEl = null;
 let _current = null;
 
+/** Normalize "#/name" → "name" */
 function norm(hash) {
-  const clean = String(hash || '').replace(/^#\/?/, '').split('?')[0];
-  return NAV.has(clean) ? clean : 'parties';
+  if (!hash) return 'parties';
+  return hash.replace(/^#\/?/, '').split('?')[0] || 'parties';
 }
 
-export function bindSidebar(el) {
-  _sidebarEl = el;
-  el.querySelectorAll('[data-route]').forEach(node => {
-    node.addEventListener('click', (e) => {
-      e.preventDefault();
-      route(node.dataset.route);
-    }, { passive:false });
+/** Route change handler */
+function route(to) {
+  _current = norm(to || location.hash);
+  if (_sidebarEl) {
+    _sidebarEl.querySelectorAll('[data-nav]').forEach(el => {
+      el.classList.toggle('active', el.dataset.nav === _current);
+    });
+  }
+  document.querySelectorAll('[data-panel]').forEach(p => {
+    p.style.display = (p.dataset.panel === _current) ? 'block' : 'none';
   });
 }
 
-export function route(name) {
-  if (!NAV.has(name)) return;
-  if (name === _current) return;
-  window.location.hash = name;
-  setActive(name);
-  Events.emit('route', name);
+/** Bind sidebar nav clicks */
+export function bindSidebar(sidebarEl) {
+  _sidebarEl = sidebarEl;
+  _sidebarEl.addEventListener('click', e => {
+    const btn = e.target.closest('[data-nav]');
+    if (btn) {
+      location.hash = btn.dataset.nav;
+    }
+  });
+  window.addEventListener('hashchange', () => route());
+  route();
 }
 
 export function currentRoute() {
-  return _current || norm(location.hash) || 'parties';
+  return _current;
 }
-
-function setActive(name) {
-  _current = name;
-  if (_sidebarEl) {
-    _sidebarEl.querySelectorAll('[data-route]').forEach(n => n.classList.toggle('active', n.dataset.route === name));
-  }
-  // show/hide panels if they exist
-  document.querySelectorAll('[data-panel]').forEach(p => {
-    p.hidden = (p.getAttribute('data-panel') !== name);
-  });
-}
-
-window.addEventListener('hashchange', () => {
-  setActive(norm(location.hash));
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  setActive(norm(location.hash));
-  // Fire initial route for controllers
-  Events.emit('route', currentRoute());
-});
