@@ -24,11 +24,6 @@ const views = {
 function setActive(routeId) {
   document.querySelectorAll('.side-nav .nav-item').forEach(el=>{
     el.classList.toggle('active', el.dataset.route === routeId);
-    // apply channel hash styling only on channel items
-    if (el.dataset.route !== 'account') {
-      const label = el.querySelector('.label');
-      if (label) label.textContent = `#${el.dataset.route}`;
-    }
   });
 }
 
@@ -57,7 +52,7 @@ export function bindSidebar() {
     const btn = document.createElement('button');
     btn.className = 'nav-item';
     btn.dataset.route = r.id;
-    btn.innerHTML = `<span class="hash" aria-hidden="${r.id==='account'?'true':'false'}">${r.id==='account'?'':'#'}</span><span class="label">${r.label}</span>`;
+    btn.innerHTML = `<span class="label">${r.label}</span>`;
     btn.addEventListener('click', (e)=>{
       e.preventDefault();
       navigate(r.id);
