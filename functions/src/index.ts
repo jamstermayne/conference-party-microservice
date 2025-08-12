@@ -90,7 +90,9 @@ app.post("/api/metrics", (req, res) => {
   // Accept any payload, no-op
   try {
     console.log("[metrics]", JSON.stringify(req.body || {}));
-  } catch {}
+  } catch {
+    // Silently ignore JSON stringify errors
+  }
   res.status(204).send(); // No Content
 });
 
