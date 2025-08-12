@@ -82,6 +82,8 @@
   <link rel="stylesheet" href="/css/panels.css?v=7">
   <link rel="stylesheet" href="/css/layout-polish.css?v=7">
   <link rel="stylesheet" href="/css/cards-parties.css?v=7">
+  <link rel="stylesheet" href="/css/calendar-strip.css?v=8">
+  <link rel="stylesheet" href="/css/toast.css?v=8">
 </head>
 <body>
   <!-- Skip link for accessibility -->
@@ -185,7 +187,9 @@
                   <button class="btn btn-ghost btn-small" data-action="hotspots-refresh">Refresh</button>
                 </div>
               </header>
-              <div id="hotspots-list" class="hotspots-scroll"></div>
+              <div id="hotspots-list" class="hotspots-scroll">
+                <div data-hotspots-list class="hotspots-grid"></div>
+              </div>
             </aside>
           </div>
         </div>
@@ -209,6 +213,8 @@
       <section data-route="calendar" hidden>
         <h2 class="text-heading">Calendar</h2>
         <div class="stack-2">
+          <div data-calendar-strip style="padding: 0 16px;"></div>
+          <div data-calendar-ics style="padding: 0 16px;"></div>
           <div class="flex gap-8" style="padding: 0 16px;">
             <button class="btn btn-secondary" data-action="calendar-link" data-type="apple">Add to Apple Calendar</button>
             <button class="btn btn-secondary" data-action="calendar-link" data-type="outlook">Add to Outlook</button>
@@ -302,6 +308,11 @@
   <!-- Layout polish -->
   <script type="module" src="/js/route-title.js?v=7"></script>
   <script type="module" src="/js/layout-snap.js?v=7"></script>
+
+  <!-- Drop H enhancements -->
+  <script type="module" src="/js/hotspots-polish.js?v=8"></script>
+  <script type="module" src="/js/calendar-strip.js?v=8"></script>
+  <script type="module" src="/js/toast.js?v=8"></script>
 
   <!-- Final wire-up -->
   <script type="module" src="/js/app-wireup.js?v=7"></script>
