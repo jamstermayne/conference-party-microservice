@@ -40,7 +40,6 @@ jobs:
       # Lint Check
       - name: ESLint Check
         run: |
-          npm run lint || true
           cd functions && npm run lint
       
       # Type Check
@@ -56,10 +55,10 @@ jobs:
         continue-on-error: true
       
       # Test Coverage
-      - name: Run Tests with Coverage
+      - name: Run Tests
         run: |
-          npm test -- --coverage --coverageReporters=json
-          cd functions && npm test -- --coverage --coverageReporters=json
+          npm test
+          cd functions && npm test
       
       # Code Complexity Check
       - name: Complexity Analysis

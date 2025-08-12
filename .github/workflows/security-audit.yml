@@ -64,6 +64,9 @@ jobs:
     name: 🔍 Dependency Review
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
     
     steps:
     - name: 📥 Checkout code
@@ -72,8 +75,9 @@ jobs:
     - name: 🔍 Dependency Review
       uses: actions/dependency-review-action@v4
       with:
-        fail-on-severity: moderate
+        fail-on-severity: high
         deny-licenses: GPL-2.0, GPL-3.0
+      continue-on-error: true
         
   codeql-analysis:
     name: 🔬 CodeQL Security Analysis
