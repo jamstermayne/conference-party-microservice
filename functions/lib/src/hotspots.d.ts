@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import type { Request, Response } from "express";
 /**
  * GET /api/hotspots?conference=gamescom2025
  * Optional: &window=today | now | all

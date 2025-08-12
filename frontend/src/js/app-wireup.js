@@ -1,7 +1,7 @@
 // public/js/app-wireup.js
 // Minimal app bootstrap: installs listeners, triggers initial route, confirms boot.
 
-import Router, { initRouter, bindSidebar } from '/js/router.js';
+import { initRouter } from '/js/router.js';
 import Flags from '/assets/js/featureFlags.js';
 import { initSidebar } from '/js/sidebar.js';
 
@@ -50,7 +50,7 @@ function safeRouteTo(route) {
     // Only navigate if no hash present or invalid route
     if (!location.hash || !validRoutes.includes(currentRoute)) {
       if (!currentRoute) {
-        Router.go(`#/${DEFAULT_ROUTE}`);
+        location.hash = `#/${DEFAULT_ROUTE}`;
       }
     }
 
@@ -58,7 +58,6 @@ function safeRouteTo(route) {
     document.addEventListener('flags:ready', hydrateSidebar);
     document.addEventListener('DOMContentLoaded', () => {
       hydrateSidebar();
-      bindSidebar();
       initRouter();
       try { initSidebar(); } catch(e) { console.warn('Sidebar init failed:', e); }
       // force sidebar visible on first load

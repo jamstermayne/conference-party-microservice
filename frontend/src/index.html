@@ -97,177 +97,38 @@
   <link rel="stylesheet" href="/assets/css/account.css?v=17">
 </head>
 <body>
-  <!-- Skip link for accessibility -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-  
-  <div id="app" class="app">
-    <!-- LEFT: Sidebar -->
-    <aside id="sidenav" class="sidebar sidenav" aria-label="Main navigation" data-sidebar>
-      <div class="side-head">
-        <div class="header-brand">
-          <img class="logo" src="/assets/icons/velocity-logo.svg" alt="velocity.ai">
-          <div class="header-title">
-            <span class="brand">velocity.ai</span>
-            <span class="context">gamescom 2025</span>
-          </div>
-        </div>
+  <aside id="sidenav" class="sidenav">
+    <!-- brand -->
+    <div class="brand">
+      <span class="logo-glyph">V</span>
+      <div class="brand-text">
+        <div class="brand-name">velocity.ai</div>
+        <div class="brand-sub">gamescom 2025</div>
       </div>
+    </div>
 
-      <!-- Sidebar nav will be rendered by router.js -->
-      <div class="side-footer">
-        <!-- PWA Install Button -->
-        <button id="btn-install" class="btn btn-primary" style="width:100%; margin-top: 10px; display: none;">Install App</button>
-        <small class="muted">Exclusive • Privacy-first</small>
-      </div>
-    </aside>
-    <!-- Overlay (mobile) -->
-    <div id="overlay" class="overlay" hidden></div>
-    <!-- RIGHT: Main -->
-    <main id="main" class="main main-pane" role="main">
-      <!-- Sticky header belongs here, inside .main -->
-      <header class="section-header">
-        <div class="section-title">
-          <h1 class="section-title-text">Parties</h1>
-          <span class="section-chip">#parties</span>
-        </div>
-        <div id="section-actions" class="section-actions" role="toolbar">
-          <button id="menu" class="icon-btn" aria-label="Open menu">☰</button>
-        </div>
-      </header>
-      
-      <!-- Main content area -->
-      <div class="content" id="content">
-      <!-- New data-view sections -->
-      <section data-view="parties"></section>
-      <section data-view="hotspots" hidden></section>
-      <section data-view="map" hidden></section>
-      <section data-view="calendar" hidden></section>
-      <section data-view="invites" hidden></section>
-      <section data-view="me" hidden></section>
-      <section data-view="settings" hidden></section>
-      <section data-view="account" hidden></section>
-      
-      <!-- Legacy route sections -->
-      <section data-route="parties" class="section-rail">
-        <div class="section-header" data-section="parties">
-          <div class="title">Parties</div>
-        </div>
-        <!-- FTUE Pick 3 Progress -->
-        <div id="ftue-wrap"></div>
-        <!-- Parties list target (polish enhancer writes cards here). -->
-        <div data-parties-list></div>
-        <div id="parties-root"></div>
-        <!-- Legacy event list mount point -->
-        <div id="event-list" role="region" aria-label="Gaming industry parties"></div>
-      </section>
-      
-      <section data-route="hotspots" class="section-rail" hidden>
-        <div id="hotspots-root">
-          <div class="hotspots-wrap">
-            <article class="hotspots-canvas-card card-elevated">
-              <header>
-                <h3>Hotspots — Live Heat</h3>
-                <div id="hotspots-legend" class="flex-1"></div>
-              </header>
-              <canvas id="hotspots-canvas" aria-label="Heatmap of active venues"></canvas>
-            </article>
-            <aside class="hotspots-list">
-              <header>
-                <h3>Venues</h3>
-                <div class="hotspots-meta">
-                  <span id="hotspots-last-updated"></span>
-                  <button class="btn btn-ghost btn-small" data-action="hotspots-refresh">Refresh</button>
-                </div>
-              </header>
-              <div id="hotspots-list" class="hotspots-scroll">
-                <div data-hotspots-list class="hotspots-grid"></div>
-              </div>
-            </aside>
-          </div>
-        </div>
-      </section>
-      
-      <section data-route="map" class="section-rail" hidden>
-        <div id="map-root">
-          <div class="hotspots-wrap">
-            <div id="map-canvas"></div>
-            <aside class="hotspots-list">
-              <header>
-                <h3>Venues</h3>
-              </header>
-              <div id="map-venues" class="hotspots-scroll"></div>
-            </aside>
-          </div>
-        </div>
-      </section>
-      
-      <section data-route="calendar" class="section-rail" hidden>
-        <div class="stack-2">
-          <div data-calendar-strip style="padding: 0 16px;"></div>
-          <div data-calendar-ics style="padding: 0 16px;"></div>
-          <div class="flex gap-8" style="padding: 0 16px;">
-            <button class="btn btn-secondary" data-action="calendar-link" data-type="apple">Add to Apple Calendar</button>
-            <button class="btn btn-secondary" data-action="calendar-link" data-type="outlook">Add to Outlook</button>
-          </div>
-          <div id="calendar-days" class="flex gap-6" style="padding: 0 16px;">
-            <button class="btn btn-ghost" data-day="thu">Thu</button>
-            <button class="btn btn-ghost" data-day="fri">Fri</button>
-            <button class="btn btn-ghost" data-day="sat">Sat</button>
-            <button class="btn btn-ghost" data-day="sun">Sun</button>
-          </div>
-          <div id="calendar-list" style="padding: 0 16px;"></div>
-        </div>
-      </section>
-      
-      <section data-route="invites" class="section-rail" hidden>
-        <div id="invites-root">
-          <div class="invite-panel">
-            <div class="invite-header">
-              <h3>Your Invites</h3>
-              <span class="invite-badge" data-invite-count>3</span>
-            </div>
-            <div class="invite-actions">
-              <button class="invite-btn" data-invite-rsvp>RSVP to Event</button>
-              <button class="invite-btn secondary disabled" data-invite-share>Share Link (Locked)</button>
-              <button class="invite-btn secondary" data-invite-join>Join via Invite</button>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      <section data-route="opportunities" class="section-rail" hidden>
-        <div id="opps-root"></div>
-      </section>
-      
-      <section data-route="me" class="section-rail" hidden>
-        <div id="me-root"></div>
-      </section>
-      
-      <section data-route="settings" class="section-rail" hidden>
-        <div id="settings-root"></div>
-      </section>
-      </div><!-- end .content -->
-      
-      <!-- Enhanced Install Card with Accessibility -->
-      <div id="install-card" class="install-card hidden" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc">
-        <div class="install-content" tabindex="-1">
-          <img src="/assets/icons/velocity-logo.svg" alt="velocity.ai App Icon" class="install-icon" />
-          <h3 id="install-title">Install velocity.ai</h3>
-          <p id="install-desc">Add velocity.ai for instant access to parties & invites.</p>
-          <div class="row gap">
-            <button id="install-btn" class="btn btn-primary" aria-label="Install Velocity App">Install</button>
-            <button id="install-dismiss" class="btn btn-secondary" aria-label="Dismiss install prompt">Not Now</button>
-          </div>
-        </div>
-      </div>
-      <!-- iOS Install Hint -->
-      <div id="install-ios-hint" class="install-ios-hint">Share → Add to Home Screen</div>
-      <!-- Toasts -->
-      <template id="tpl-toast"><div class="toast"><span class="msg"></span></div></template>
-      <!-- SR-only Live -->
-      <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-    </main>
-  </div>
+    <!-- channels -->
+    <nav id="side-nav" class="side-nav">
+      <button class="nav-item" data-route="parties">#parties</button>
+      <button class="nav-item" data-route="hotspots">#hotspots</button>
+      <button class="nav-item" data-route="map">#map</button>
+      <button class="nav-item" data-route="calendar">#calendar</button>
+      <button class="nav-item" data-route="invites">#invites</button>
+      <button class="nav-item" data-route="me">#me</button>
+      <button class="nav-item" data-route="settings">#settings</button>
+    </nav>
+  </aside>
+
+  <section class="content">
+    <header class="topbar">
+      <button id="nav-toggle" aria-label="Navigation" class="icon-btn">≡</button>
+      <h1 id="page-title" class="page-title">Parties</h1>
+      <span id="route-chip" class="chip">#parties</span>
+    </header>
+
+    <!-- 👇 router swaps only this element -->
+    <main id="page-root" class="page-root"></main>
+  </section>
   <!-- ENV must come first -->
   <script src="/js/env.js?v=6"></script>
 

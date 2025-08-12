@@ -81,3 +81,148 @@
 }
 
 .auth-footer{ display:none !important; }
+
+/* Patch L - Persistent Layout Styles */
+
+/* Two-panel layout */
+body {
+  display: flex;
+  margin: 0;
+  min-height: 100vh;
+  background: #1a1d21;
+  color: #ffffff;
+}
+
+/* Sidebar */
+.sidenav {
+  width: 280px;
+  background: #1c1e21;
+  border-right: 1px solid #383d45;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 12px;
+}
+
+.logo-glyph {
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6b7bff, #2aa0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.brand-sub {
+  font-size: 12px;
+  color: #a5a7ad;
+}
+
+/* Content area */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #1a1d21;
+}
+
+/* Topbar */
+.topbar {
+  height: 56px;
+  border-bottom: 1px solid #383d45;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+  background: #1c1e21;
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+}
+
+.chip {
+  background: rgba(107,123,255,0.15);
+  color: #dfe1ff;
+  border: 1px solid rgba(107,123,255,0.25);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 13px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: #a5a7ad;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  display: none; /* Hidden on desktop */
+}
+
+/* Page root */
+.page-root {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .sidenav {
+    position: fixed;
+    left: -280px;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    transition: left 0.3s ease;
+  }
+  
+  .sidenav.open {
+    left: 0;
+  }
+  
+  .icon-btn {
+    display: block;
+  }
+  
+  body {
+    flex-direction: column;
+  }
+  
+  .content {
+    width: 100%;
+  }
+}
+
+/* Text utilities */
+.text-heading {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.text-secondary {
+  color: #a5a7ad;
+}
