@@ -4,10 +4,8 @@
   "description": "Gamescom 2025 Party Discovery - Complete PWA with 9-Tool Velocity System",
   "main": "index.js",
   "scripts": {
-    "dev": "node tools/hot-reload-server.js",
-    "dev:legacy": "node tools/dev-accelerator.js",
-    "dev:dashboard": "node tools/hot-reload-server.js && echo 'Open http://localhost:3000/dev-dashboard'",
-    "hot-reload": "node tools/hot-reload-server.js",
+    "dev": "cd frontend/src && python3 -m http.server 3000",
+    "dev:firebase": "firebase serve --only hosting",
     "design-editor": "node tools/design-system-editor.js",
     "design-editor:port": "node tools/design-system-editor.js --port",
     "design:tokens": "echo 'Design tokens available at http://localhost:3001/tokens'",

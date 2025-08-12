@@ -5,7 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Essential Commands
-- `npm run dev` - Start full development environment (PWA server, live reload, API proxy, Firebase logs)
+- `npm run dev` - Start simple static server on port 3000
+- `npm run dev:firebase` - Use Firebase's local hosting server
 - `npm run setup` - Quick health check and dependency installation
 - `npm test` - Run complete test suite (API, PWA, analytics, all systems)
 - `npm run build` - Build complete PWA system
@@ -150,9 +151,9 @@ This is a **Professional Intelligence Platform** - a sophisticated microservices
 
 ### Starting Development
 1. `npm run setup` - Install dependencies and health check
-2. `npm run dev` - Start development environment
+2. `npm run dev` - Start static server at `http://localhost:3000`
 3. Access PWA at `http://localhost:3000`
-4. API proxy automatically forwards to Firebase Functions
+4. For Firebase emulation: `npm run dev:firebase` (port 5000)
 
 ### Making Changes
 1. **Frontend changes**: Edit files in `public/`, auto-reload enabled
