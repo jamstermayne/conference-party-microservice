@@ -1,0 +1,23 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="velocity.ai logo">
+  <defs>
+    <linearGradient id="vgrad" x1="40" y1="200" x2="200" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00E5FF"/>
+      <stop offset="1" stop-color="#FF6BFF"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.1"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect width="256" height="256" rx="56" fill="#0F0F12"/>
+
+  <!-- Velocity 'v' mark -->
+  <g filter="url(#soft)">
+    <path d="M48 154 L92 58 C96 50 108 50 113 58 L152 122 C156 128 164 128 169 124 L212 88"
+          stroke="url(#vgrad)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <!-- The '.ai' dot -->
+  <circle cx="200" cy="64" r="9.5" fill="#F3FF3A"/>
+</svg>
