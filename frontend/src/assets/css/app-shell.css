@@ -35,14 +35,30 @@
 .main .section-header {
   position: sticky;
   top: 0;
-  z-index: var(--z-sheet);
+  z-index: var(--z-sheet, 20);
   height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary, #21252b);
+  border-bottom: 1px solid var(--border, #383d45);
+}
+
+/* Hide menu button on desktop, show on mobile */
+@media (min-width: 768px) {
+  #menu { display: none; }
+}
+
+@media (max-width: 767px) {
+  .app .sidebar { 
+    position: fixed;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  .app .sidebar.open {
+    transform: translateX(0);
+  }
 }
 
 /* Title + #chip */

@@ -26,12 +26,14 @@ export function route(to) {
     chip.textContent = `#${meta.title}`;
   }
 
-  // ensure sidebar labels are "#channel"
+  // ensure sidebar labels are "#channel" and set aria-current
   document.querySelectorAll('[data-route]').forEach(el => {
     const r = el.getAttribute('data-route');
     const lab = el.querySelector('.nav-label');
     if (lab) lab.textContent = `#${(ROUTE_META[r]?.title || r)}`;
-    el.classList.toggle('active', r === name);
+    const isActive = r === name;
+    el.classList.toggle('active', isActive);
+    el.setAttribute('aria-current', isActive ? 'page' : 'false');
   });
 
   // Show/hide sections based on route
@@ -47,7 +49,11 @@ export function route(to) {
 function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
 
 // wire clicks (passive must be false if we call preventDefault)
+let routerInitialized = false;
 export function initRouter() {
+  if (routerInitialized) return; // Prevent duplicate initialization
+  routerInitialized = true;
+  
   document.querySelectorAll('[data-route]').forEach(el=>{
     el.addEventListener('click', e=>{
       e.preventDefault();
