@@ -1,24 +1,33 @@
-// featureFlags.js (production-safe)
+// production-safe feature flags
 import { getJSON } from './http.js';
-import logger from './logger.js';
+
+const ENV = window.__ENV || {};
+const ENABLED = !!ENV.FLAGS_API_ENABLED;            // defaults false in env.js
+const API_BASE = ENV.API_BASE || '/api';
 
 const Flags = {
-  _cache: {},
+  cache: Object.create(null),
+
   async refresh() {
+    if (!ENABLED) {
+      // no network in prod until backend landing
+      console.info('[flags] disabled (FLAGS_API_ENABLED=false)');
+      return this.cache;
+    }
     try {
-      const url = (window.__ENV && window.__ENV.FLAGS_URL) || '/api/flags';
-      const data = await getJSON(url);
-      this._cache = data || {};
-      return this._cache;
+      const res = await getJSON(`${API_BASE}/flags`);
+      this.cache = res?.data || Object.create(null);
+      return this.cache;
     } catch (err) {
-      // Only log at debug; don't pollute console in prod when endpoint not present.
-      try { logger.debug && logger.debug('flags skipped (no endpoint)'); } catch {}
-      this._cache = {};
-      return this._cache;
+      console.warn('[flags] fetch fail', err);
+      return this.cache;
     }
   },
-  get(key, fallback = undefined) {
-    return (key in this._cache) ? this._cache[key] : fallback;
+
+  get(key, fallback = false) {
+    return Object.prototype.hasOwnProperty.call(this.cache, key)
+      ? this.cache[key]
+      : fallback;
   }
 };
 
