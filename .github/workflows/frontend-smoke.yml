@@ -71,7 +71,7 @@ jobs:
       
       - name: Start dev server
         run: |
-          npm run dev &
+          node tools/simple-dev-server.js &
           sleep 5
       
       - name: Run route smoke tests

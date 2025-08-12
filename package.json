@@ -41,9 +41,11 @@
   "dependencies": {
     "firebase-admin": "^12.7.0",
     "firebase-functions": "^6.1.0",
-    "googleapis": "^122.0.0"
+    "googleapis": "^122.0.0",
+    "path-to-regexp": "6.3.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.46.0",
     "@types/node": "^20.4.5",
     "chokidar": "^4.0.3",
     "eslint": "^8.45.0",
@@ -52,8 +54,7 @@
     "nodemon": "^3.0.1",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6",
-    "ws": "^8.18.3",
-    "@playwright/test": "^1.46.0"
+    "ws": "^8.18.3"
   },
   "engines": {
     "node": ">=18.0.0"

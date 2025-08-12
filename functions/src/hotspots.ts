@@ -2,10 +2,10 @@
 // Reads events/parties for a given conference, groups by venue, returns counts.
 // Falls back to 0 results if none.
 
-import type { Request, Response } from 'express';
-import * as admin from 'firebase-admin';
+import type {Request, Response} from "express";
+import * as admin from "firebase-admin";
 
-type PersonaCounts = Partial<Record<'dev' | 'pub' | 'inv' | 'sp', number>>;
+type PersonaCounts = Partial<Record<"dev" | "pub" | "inv" | "sp", number>>;
 
 interface EventDoc {
   id?: string;
@@ -14,7 +14,7 @@ interface EventDoc {
   venueId?: string;
   title?: string;
   start?: string; // ISO
-  end?: string;   // ISO
+  end?: string; // ISO
   persona?: PersonaCounts;
   attendeesCount?: number;
   // Optional richer shapes:
@@ -37,13 +37,13 @@ interface Hotspot {
 export async function getHotspots(req: Request, res: Response) {
   try {
     const db = admin.firestore();
-    if (req.method !== 'GET') {
-      return res.status(405).json({ success: false, error: 'Method Not Allowed' });
+    if (req.method !== "GET") {
+      return res.status(405).json({success: false, error: "Method Not Allowed"});
     }
 
-    const conference = String(req.query["conference"] || '').trim();
+    const conference = String(req.query["conference"] || "").trim();
     if (!conference) {
-      return res.status(400).json({ success: false, error: 'conference is required' });
+      return res.status(400).json({success: false, error: "conference is required"});
     }
 
     // Optional time window (for future use)
@@ -51,22 +51,22 @@ export async function getHotspots(req: Request, res: Response) {
 
     // Basic query: events collection filtered by conference
     // If your events live elsewhere, adjust the collection name.
-    const snap = await db.collection('events')
-      .where('conference', '==', conference)
+    const snap = await db.collection("events")
+      .where("conference", "==", conference)
       .limit(2000) // safety cap
       .get();
 
-    const personaBase: Required<PersonaCounts> = { dev: 0, pub: 0, inv: 0, sp: 0 };
+    const personaBase: Required<PersonaCounts> = {dev: 0, pub: 0, inv: 0, sp: 0};
 
     const map = new Map<string, Hotspot>();
 
-    snap.forEach(doc => {
+    snap.forEach((doc) => {
       const e = doc.data() as EventDoc;
-      const venue = (e.venue || e.venueId || 'Unknown Venue').trim();
+      const venue = (e.venue || e.venueId || "Unknown Venue").trim();
       if (!venue) return;
 
       // Derive persona counts for the event
-      const eventPersona: Required<PersonaCounts> = { ...personaBase };
+      const eventPersona: Required<PersonaCounts> = {...personaBase};
       if (e.persona) {
         for (const k of Object.keys(e.persona) as Array<keyof PersonaCounts>) {
           const v = e.persona[k] || 0;
@@ -78,7 +78,7 @@ export async function getHotspots(req: Request, res: Response) {
           const k = a.persona;
           if (k in eventPersona) (eventPersona as any)[k] = (eventPersona as any)[k] + 1;
         }
-      } else if (typeof e.attendeesCount === 'number') {
+      } else if (typeof e.attendeesCount === "number") {
         // If only a total is known, attribute all to "dev" as a neutral bucket (or leave 0s).
         eventPersona.dev += Math.max(0, e.attendeesCount | 0);
       }
@@ -94,7 +94,7 @@ export async function getHotspots(req: Request, res: Response) {
         venue,
         venueId: e.venueId,
         total: 0,
-        persona: { ...personaBase },
+        persona: {...personaBase},
         sampleEvent: undefined,
       };
 
@@ -117,15 +117,15 @@ export async function getHotspots(req: Request, res: Response) {
 
     // Sort by total desc, return top 50 (UI can paginate if needed)
     const data = Array.from(map.values())
-      .filter(h => h.total > 0)
+      .filter((h) => h.total > 0)
       .sort((a, b) => b.total - a.total)
       .slice(0, 50);
 
     // Cache hint for CDN/browser (30s)
-    res.set('Cache-Control', 'public, max-age=30, s-maxage=30');
-    return res.status(200).json({ success: true, data });
+    res.set("Cache-Control", "public, max-age=30, s-maxage=30");
+    return res.status(200).json({success: true, data});
   } catch (err: any) {
-    console.error('hotspots error:', err?.message || err);
-    return res.status(500).json({ success: false, error: 'internal_error' });
+    console.error("hotspots error:", err?.message || err);
+    return res.status(500).json({success: false, error: "internal_error"});
   }
 }
