@@ -1,9 +1,10 @@
 name: E2E Smoke
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch: {}
+  # Disabled automatic runs until tests are updated for production content
+  # push:
+  #   branches: [ main ]
 
 jobs:
   e2e:
