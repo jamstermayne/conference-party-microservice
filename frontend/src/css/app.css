@@ -54,3 +54,30 @@
   100% { opacity:1; transform: translateX(0); }
 }
 /* === /Accent Rail =========================================== */
+
+:root{
+  --accent-start:#6b7bff;
+  --accent-end:#2aa0ff;
+}
+
+[data-sidebar] .side-nav{ display:flex; flex-direction:column; gap:8px; }
+[data-sidebar] .side-item{
+  position:relative; display:flex; align-items:center; gap:8px;
+  padding:10px 12px 10px 16px; border-radius:12px;
+  color:var(--text-secondary); background:transparent; border:0; cursor:pointer;
+  transition:background var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out);
+  width: 100%; text-align: left;
+}
+[data-sidebar] .side-item .hash{ opacity:.9; margin-right:4px; }
+[data-sidebar] .side-item .name::before{ content:''; }
+[data-sidebar] .side-item:hover{ background:rgba(255,255,255,.04); color:var(--text-primary); }
+[data-sidebar] .side-item.active{
+  color:var(--text-primary); background:rgba(107,123,255,.10);
+  box-shadow:inset 0 0 0 1px rgba(107,123,255,.20);
+}
+[data-sidebar] .side-item.active::before{
+  content:''; position:absolute; left:-6px; top:10%; bottom:10%; width:4px; border-radius:8px;
+  background:linear-gradient(180deg,var(--accent-start),var(--accent-end));
+}
+
+.auth-footer{ display:none !important; }

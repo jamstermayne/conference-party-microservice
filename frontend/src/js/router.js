@@ -1,20 +1,39 @@
 // router.js (patch: canonical route titles + header + sidebar labels)
 import { Events } from './events.js';
 
-const ROUTE_META = {
-  parties:   { title: 'parties' },
-  hotspots:  { title: 'hotspots' },
-  map:       { title: 'map' },
-  calendar:  { title: 'calendar' },
-  invites:   { title: 'invites' },
-  me:        { title: 'me' },
-  settings:  { title: 'settings' },
-};
+// --- Sidebar model (single source of truth) ---
+const NAV_ITEMS = [
+  { id: 'parties',   label: '#parties'   },
+  { id: 'hotspots',  label: '#hotspots'  },
+  { id: 'map',       label: '#map'       },
+  { id: 'calendar',  label: '#calendar'  },
+  { id: 'invites',   label: '#invites'   },
+  { id: 'me',        label: '#me'        },
+  { id: 'settings',  label: '#settings'  },
+];
+
+function renderSidebar() {
+  const side = document.querySelector('[data-sidebar]');
+  if (!side) return;
+  side.innerHTML = `
+    <nav class="side-nav">
+      ${NAV_ITEMS.map(item => `
+        <button class="side-item" data-route="${item.id}" aria-label="${item.id}">
+          <span class="hash">#</span><span class="name">${item.id}</span>
+        </button>
+      `).join('')}
+    </nav>`;
+}
+
+function setActive(routeId) {
+  document.querySelectorAll('.side-item').forEach(el => {
+    el.classList.toggle('active', el.getAttribute('data-route') === routeId);
+  });
+}
 
 export function route(to) {
   const name = (to || 'parties').replace('#','');
-  const meta = ROUTE_META[name] || ROUTE_META.parties;
-
+  
   // update URL fragment
   if (location.hash !== `#/${name}`) location.hash = `#/${name}`;
 
@@ -22,28 +41,27 @@ export function route(to) {
   const h1 = document.querySelector('.section-header .section-title-text');
   const chip = document.querySelector('.section-header .section-chip');
   if (h1 && chip) {
-    h1.textContent = capitalize(meta.title);
-    chip.textContent = `#${meta.title}`;
+    h1.textContent = capitalize(name);
+    chip.textContent = `#${name}`;
   }
 
-  // ensure sidebar labels are "#channel" and set aria-current
-  document.querySelectorAll('[data-route]').forEach(el => {
-    const r = el.getAttribute('data-route');
-    const lab = el.querySelector('.nav-label');
-    if (lab) lab.textContent = `#${(ROUTE_META[r]?.title || r)}`;
-    const isActive = r === name;
-    el.classList.toggle('active', isActive);
-    el.setAttribute('aria-current', isActive ? 'page' : 'false');
-  });
+  // Update active sidebar
+  setActive(name);
 
   // Show/hide sections based on route
+  document.querySelectorAll('[data-view]').forEach(section => {
+    const sectionRoute = section.getAttribute('data-view');
+    section.hidden = sectionRoute !== name;
+  });
+  
+  // Legacy sections support
   document.querySelectorAll('section[data-route]').forEach(section => {
     const sectionRoute = section.getAttribute('data-route');
     section.hidden = sectionRoute !== name;
   });
 
-  // let the page controller render into #content
-  Events.emit('navigate', { route: name, container: document.getElementById('content') });
+  // let the page controller render
+  Events.emit('navigate', name);
 }
 
 function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -51,15 +69,19 @@ function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
 // wire clicks (passive must be false if we call preventDefault)
 let routerInitialized = false;
 export function initRouter() {
-  if (routerInitialized) return; // Prevent duplicate initialization
+  if (routerInitialized) return;
   routerInitialized = true;
   
-  document.querySelectorAll('[data-route]').forEach(el=>{
-    el.addEventListener('click', e=>{
-      e.preventDefault();
-      route(el.getAttribute('data-route'));
-    }, { passive: false });
-  });
+  // Render sidebar on boot
+  renderSidebar();
+  
+  // Click delegation
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-route]');
+    if (!el) return;
+    e.preventDefault();
+    route(el.getAttribute('data-route'));
+  }, { passive: false });
 
   // initial route
   const frag = (location.hash || '#/parties').replace('#/','');
@@ -69,6 +91,12 @@ export function initRouter() {
 window.addEventListener('hashchange', ()=> {
   const frag = (location.hash || '#/parties').replace('#/','');
   route(frag);
+});
+
+// when routing changes, update active
+Events.on('navigate', (path) => {
+  const id = String(path || '').replace(/^#?\/?/, '') || 'parties';
+  setActive(id);
 });
 
 // Export for other modules

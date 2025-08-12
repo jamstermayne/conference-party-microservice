@@ -1,38 +1,73 @@
+import Store from './store.js';
+import { toast } from './ui-feedback.js';
 import { Events } from './events.js';
 
-export function render(container){
-  container.innerHTML = '';
+export function renderAccount() {
+  const root = document.querySelector('[data-view="me"]');
+  if (!root) {
+    // Fallback to legacy selector
+    const fallback = document.querySelector('[data-route="me"]');
+    if (fallback) {
+      renderAccountToElement(fallback);
+    }
+    return;
+  }
+  renderAccountToElement(root);
+}
 
-  const card = document.createElement('div');
-  card.className = 'card card-filled card-elevated';
-  card.innerHTML = `
-    <div class="card-header">
-      <div class="text-heading">Account</div>
-      <button class="btn btn-icon" aria-label="Account settings" data-action="account:settings">⚙️</button>
-    </div>
-    <div class="card-body">
-      <p class="text-secondary">Sign in to sync, save and invite.</p>
-      <div class="stack-2">
-        <button id="btn-google" class="btn btn-primary btn-connect">Sign in with Google</button>
-        <button id="btn-linkedin" class="btn btn-secondary btn-connect">Sign in with LinkedIn</button>
+function renderAccountToElement(root) {
+  const user = Store?.get?.('user') || null;
+  root.innerHTML = `
+    <section class="card-pro" style="margin-bottom:16px">
+      <h3>Account</h3>
+      <div class="meta">${user ? `Signed in as ${user.name || user.email || 'user'}` : 'Not signed in'}</div>
+    </section>
+
+    <section class="card-pro">
+      <h3>Linked Accounts</h3>
+      <div class="actions" style="margin-top:10px">
+        <button class="btn-soft" data-auth="google">Connect Google</button>
+        <button class="btn-soft" data-auth="linkedin">Connect LinkedIn</button>
       </div>
-    </div>
+    </section>
+
+    <section class="card-pro">
+      <h3>Settings</h3>
+      <div class="meta">Manage your preferences and privacy</div>
+      <div class="actions" style="margin-top:10px">
+        <button class="btn-soft" data-action="settings">Open Settings</button>
+      </div>
+    </section>
   `;
-  container.appendChild(card);
 
-  // wire buttons to existing auth module
-  const g = card.querySelector('#btn-google');
-  const l = card.querySelector('#btn-linkedin');
-  if (g) g.addEventListener('click', () => import('./auth.js').then(m => m.signInWithGoogle?.()));
-  if (l) l.addEventListener('click', () => import('./auth.js').then(m => m.signInWithLinkedIn?.()));
+  root.querySelector('[data-auth="google"]')?.addEventListener('click', async ()=>{
+    try { 
+      const authModule = await import('./auth.js');
+      await authModule.signInWithGoogle?.(); 
+      toast('Google connected', 'success'); 
+    } catch(e){ 
+      console.error(e);
+      toast('Google sign-in failed','error'); 
+    }
+  });
+  
+  root.querySelector('[data-auth="linkedin"]')?.addEventListener('click', async ()=>{
+    try { 
+      const authModule = await import('./auth.js');
+      await authModule.signInWithLinkedIn?.(); 
+      toast('LinkedIn connected', 'success'); 
+    } catch(e){ 
+      console.error(e);
+      toast('LinkedIn sign-in failed','error'); 
+    }
+  });
 
-  // settings open
-  card.querySelector('[data-action="account:settings"]')?.addEventListener('click', ()=>{
-    Events.emit('ui:toast', { type: 'ok', message: 'Settings coming soon.' });
+  root.querySelector('[data-action="settings"]')?.addEventListener('click', ()=>{
+    toast('Settings coming soon', 'info');
   });
 }
 
-// register with Events bus
-Events.on?.('navigate', ({route, container})=>{
-  if (route === 'me') render(container);
+// on route enter
+Events.on('navigate', (path)=>{
+  if ((path||'').replace('#/','') === 'me') renderAccount();
 });

@@ -93,6 +93,7 @@
   <link rel="stylesheet" href="/css/sidebar.css?v=12">
   <link rel="stylesheet" href="/css/sections.css?v=12">
   <link rel="stylesheet" href="/css/loading.css?v=15">
+  <link rel="stylesheet" href="/assets/css/events-cards.css?v=16">
 </head>
 <body>
   <!-- Skip link for accessibility -->
@@ -100,7 +101,7 @@
   
   <div id="app" class="app">
     <!-- LEFT: Sidebar -->
-    <aside id="sidenav" class="sidebar sidenav" aria-label="Main navigation">
+    <aside id="sidenav" class="sidebar sidenav" aria-label="Main navigation" data-sidebar>
       <div class="side-head">
         <div class="header-brand">
           <img class="logo" src="/assets/icons/velocity-logo.svg" alt="velocity.ai">
@@ -111,15 +112,7 @@
         </div>
       </div>
 
-      <nav class="side-nav" id="side-nav">
-        <button class="nav-item" data-route="parties"><span class="nav-label">#parties</span></button>
-        <button class="nav-item" data-route="hotspots"><span class="nav-label">#hotspots</span></button>
-        <button class="nav-item" data-route="map"><span class="nav-label">#map</span></button>
-        <button class="nav-item" data-route="calendar"><span class="nav-label">#calendar</span></button>
-        <button class="nav-item" data-route="invites"><span class="nav-label">#invites</span></button>
-        <button class="nav-item" data-route="me"><span class="nav-label">#me</span></button>
-        <button class="nav-item" data-route="settings"><span class="nav-label">#settings</span></button>
-      </nav>
+      <!-- Sidebar nav will be rendered by router.js -->
       <div class="side-footer">
         <!-- PWA Install Button -->
         <button id="btn-install" class="btn btn-primary" style="width:100%; margin-top: 10px; display: none;">Install App</button>
@@ -143,7 +136,16 @@
       
       <!-- Main content area -->
       <div class="content" id="content">
-      <!-- Route sections -->
+      <!-- New data-view sections -->
+      <section data-view="parties"></section>
+      <section data-view="hotspots" hidden></section>
+      <section data-view="map" hidden></section>
+      <section data-view="calendar" hidden></section>
+      <section data-view="invites" hidden></section>
+      <section data-view="me" hidden></section>
+      <section data-view="settings" hidden></section>
+      
+      <!-- Legacy route sections -->
       <section data-route="parties" class="section-rail">
         <div class="section-header" data-section="parties">
           <div class="title">Parties</div>
