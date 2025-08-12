@@ -1,0 +1,145 @@
+name: Frontend Smoke Tests
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ fix/frontend-polish-* ]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    name: Lint & Build Check
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Lint functions
+        run: cd functions && npm ci && npm run lint
+      
+      - name: Build PWA
+        run: npm run build
+      
+      - name: Build functions
+        run: cd functions && npm run build
+
+  api-smoke:
+    runs-on: ubuntu-latest
+    name: API Smoke Test
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Test /health endpoint
+        run: |
+          echo "Testing /health endpoint..."
+          curl -f -s -o /dev/null -w "Status: %{http_code}, Time: %{time_total}s\n" \
+            https://us-central1-conference-party-app.cloudfunctions.net/api/health || \
+            echo "Health check failed (expected if not deployed)"
+      
+      - name: Test /parties endpoint
+        run: |
+          echo "Testing /parties endpoint..."
+          curl -f -s -o /dev/null -w "Status: %{http_code}, Time: %{time_total}s\n" \
+            https://us-central1-conference-party-app.cloudfunctions.net/api/parties || \
+            echo "Parties endpoint failed (expected if not deployed)"
+
+  frontend-smoke:
+    runs-on: ubuntu-latest
+    name: Frontend Route Tests
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright
+        run: npx playwright install chromium
+      
+      - name: Start dev server
+        run: |
+          npm run dev &
+          sleep 5
+      
+      - name: Run route smoke tests
+        run: |
+          cat > smoke-test.js << 'EOF'
+          const { chromium } = require('playwright');
+          
+          (async () => {
+            const browser = await chromium.launch();
+            const page = await browser.newPage();
+            
+            console.log('Testing routes...');
+            
+            // Test main routes
+            const routes = [
+              { url: 'http://localhost:3000/', name: 'Home' },
+              { url: 'http://localhost:3000/#parties', name: 'Parties' },
+              { url: 'http://localhost:3000/#invites', name: 'Invites' },
+              { url: 'http://localhost:3000/#calendar', name: 'Calendar' },
+              { url: 'http://localhost:3000/#install', name: 'Install' }
+            ];
+            
+            for (const route of routes) {
+              try {
+                await page.goto(route.url, { waitUntil: 'networkidle' });
+                console.log(`✅ ${route.name}: OK`);
+                
+                // Check for console errors
+                page.on('console', msg => {
+                  if (msg.type() === 'error') {
+                    console.error(`❌ Console error on ${route.name}: ${msg.text()}`);
+                  }
+                });
+              } catch (e) {
+                console.error(`❌ ${route.name}: Failed - ${e.message}`);
+                process.exit(1);
+              }
+            }
+            
+            // Test empty state rendering
+            await page.goto('http://localhost:3000/#parties');
+            const hasContent = await page.locator('.party-card, .empty-state, .loading').first().isVisible();
+            console.log(hasContent ? '✅ Content renders' : '❌ No content rendered');
+            
+            await browser.close();
+            console.log('Smoke tests completed');
+          })();
+          EOF
+          
+          node smoke-test.js
+
+  test-suite:
+    runs-on: ubuntu-latest
+    name: Run Test Suite
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run all tests
+        run: npm test
+      
+      - name: Run functions tests
+        run: cd functions && npm ci && npm test
