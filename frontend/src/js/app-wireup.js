@@ -2,10 +2,14 @@
 import { startRouter } from './router.js';
 import Events from './events.js';
 import { initPartiesView } from './events-controller.js';
+import { hardenSidebar } from './sidebar-stability.js';
 
 // Boot the app
 document.addEventListener('DOMContentLoaded', async () => {
   try {
+    // Harden sidebar before router starts
+    try { hardenSidebar(); } catch {}
+    
     // Initialize router
     await startRouter();
     
