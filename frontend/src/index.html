@@ -79,6 +79,7 @@
   
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <link rel="stylesheet" href="/assets/css/app-shell.css?v=13">
+  <link rel="stylesheet" href="/assets/css/header-actions.css?v=14">
   <link rel="stylesheet" href="/assets/css/nav.css">
   <link rel="stylesheet" href="/assets/css/hotspots.css">
   <link rel="stylesheet" href="/css/panels.css?v=7">
@@ -110,37 +111,15 @@
       </div>
 
       <nav class="side-nav" id="side-nav">
-        <button class="nav-item" data-route="parties" data-label="Parties">Parties</button>
-        <button class="nav-item" data-route="hotspots" data-label="Hotspots">Hotspots</button>
-        <button class="nav-item" data-route="map" data-label="Map">Map</button>
-        <button class="nav-item" data-route="calendar" data-label="Calendar">Calendar</button>
-        <button class="nav-item" data-route="invites" data-label="Invites">Invites</button>
-        <button class="nav-item" data-route="me" data-label="Me">Me</button>
-        <button class="nav-item" data-route="settings" data-label="Settings">Settings</button>
+        <button class="nav-item" data-route="parties"><span class="nav-label">#parties</span></button>
+        <button class="nav-item" data-route="hotspots"><span class="nav-label">#hotspots</span></button>
+        <button class="nav-item" data-route="map"><span class="nav-label">#map</span></button>
+        <button class="nav-item" data-route="calendar"><span class="nav-label">#calendar</span></button>
+        <button class="nav-item" data-route="invites"><span class="nav-label">#invites</span></button>
+        <button class="nav-item" data-route="me"><span class="nav-label">#me</span></button>
+        <button class="nav-item" data-route="settings"><span class="nav-label">#settings</span></button>
       </nav>
       <div class="side-footer">
-        <div class="auth-section" id="auth-section">
-          <!-- Authentication buttons (shown when not logged in) -->
-          <div class="auth-buttons" id="auth-buttons">
-            <button id="btn-google" class="btn btn-small auth-btn">
-              📧 Sign in with Google
-            </button>
-            <button id="btn-linkedin" class="btn btn-small auth-btn">
-              💼 Sign in with LinkedIn
-            </button>
-          </div>
-          <!-- User profile (shown when logged in) -->
-          <div class="user-profile hidden" id="user-profile">
-            <div class="user-info">
-              <img id="user-avatar" class="user-avatar" alt="User avatar" />
-              <div class="user-details">
-                <div id="user-name" class="user-name"></div>
-                <small id="user-email" class="user-email muted"></small>
-              </div>
-            </div>
-            <button id="btn-signout" class="btn btn-small btn-ghost">Sign Out</button>
-          </div>
-        </div>
         <!-- PWA Install Button -->
         <button id="btn-install" class="btn btn-primary" style="width:100%; margin-top: 10px; display: none;">Install App</button>
         <small class="muted">Exclusive • Privacy-first</small>
@@ -153,8 +132,8 @@
       <!-- Sticky header belongs here, inside .main -->
       <header class="section-header">
         <div class="section-title">
-          <span data-page-title>Parties</span>
-          <span class="page-title-chip" data-page-chip>#parties</span>
+          <h1 class="section-title-text">Parties</h1>
+          <span class="section-chip">#parties</span>
         </div>
         <div id="section-actions" class="section-actions" role="toolbar">
           <button id="menu" class="icon-btn" aria-label="Open menu">☰</button>
@@ -297,6 +276,7 @@
   <!-- Core modules -->
   <script type="module" src="/js/store.js?v=6"></script>
   <script type="module" src="/js/events.js?v=6"></script>
+  <script type="module" src="/js/me-controller.js?v=14"></script>
   <script type="module" src="/js/ui-feedback.js?v=6"></script>
   <script type="module" src="/js/install.js?v=6"></script>
   <script type="module" src="/js/auth.js?v=6"></script>
