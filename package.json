@@ -15,6 +15,9 @@
     "build": "node tools/pwa-orchestrator.js build",
     "deploy": "node tools/firebase-manager.js deploy",
     "test": "node tools/api-test-suite.js",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ci": "playwright test --reporter=line",
     "setup": "npm install && node tools/firebase-manager.js health",
     "firebase:health": "node tools/firebase-manager.js health",
     "firebase:deploy": "node tools/firebase-manager.js deploy",
@@ -48,7 +51,8 @@
     "nodemon": "^3.0.1",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6",
-    "ws": "^8.18.3"
+    "ws": "^8.18.3",
+    "@playwright/test": "^1.46.0"
   },
   "engines": {
     "node": ">=18.0.0"

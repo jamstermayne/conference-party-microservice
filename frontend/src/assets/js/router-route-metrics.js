@@ -1,13 +1,20 @@
 /**
- * Lightweight route → metrics bridge.
- * Call once after router initializes; listens for your route events.
+ * Router → Metrics bridge (production)
+ * Listens to route:change and forwards to window.Metrics.trackRoute
  */
-(function wireRouteMetrics(){
-  document.addEventListener('navigate', (e) => {
-    const route = (e?.detail && (e.detail.route || e.detail)) || location.hash || '/';
-    try { window.Metrics?.trackRoute?.(String(route)); } catch {}
-  }, { passive: true });
+import Events from '../../js/events.js';
 
-  // First paint route
-  try { window.Metrics?.trackRoute?.(location.hash || '/'); } catch {}
+(function initRouteMetrics() {
+  const safe = (fn, ...args) => { try { return fn && fn(...args); } catch (_) {} };
+
+  // Initial route at boot
+  const initial = (location.hash || '#parties').replace('#','');
+  safe(window.Metrics?.trackRoute, initial);
+
+  // Subsequent changes
+  Events.on('route:change', ({ route }) => {
+    safe(window.Metrics?.trackRoute, route);
+  });
+
+  console.log('✅ Router→Metrics bridge loaded');
 })();
