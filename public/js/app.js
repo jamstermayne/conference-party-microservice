@@ -808,7 +808,9 @@ class ProfessionalIntelligenceApp {
         } catch (error) {
           console.error('❌ Failed to navigate to fallback route:', error);
           // Last resort: manual navigation
-          window.location.hash = '#/home';
+          // Safe route to home
+          const current = (location.hash || '').replace(/^#\/?/, '').split('?')[0];
+          if (current !== 'home') window.location.hash = '#/home';
         }
       });
     }
@@ -1131,7 +1133,9 @@ class ProfessionalIntelligenceApp {
           if (router && typeof router.navigate === 'function') {
             router.navigate('/events');
           } else {
-            window.location.hash = '#/events';
+            // Safe route to events
+            const current = (location.hash || '').replace(/^#\/?/, '').split('?')[0];
+            if (current !== 'events') window.location.hash = '#/events';
           }
         } catch (fallbackError) {
           console.error('❌ Fallback navigation failed:', fallbackError);
@@ -1531,12 +1535,45 @@ document.querySelectorAll('.nav-item').forEach(b=>{
   b.addEventListener('click', ()=>{ location.hash = '#/' + b.dataset.route; sidenav.classList.remove('open'); overlay.hidden=true; });
 });
 
-window.addEventListener('hashchange', syncNavFromRoute);
-syncNavFromRoute();
-function syncNavFromRoute(){
-  const r = (location.hash.replace('#/','') || 'events');
+// Import enhanced router
+import('/js/router-enhanced.js').then(module => {
+  console.log('Enhanced router loaded');
+}).catch(err => {
+  console.warn('Enhanced router failed, using fallback', err);
+  // Fallback to basic routing
+  window.addEventListener('hashchange', syncNavFromRoute);
+  syncNavFromRoute();
+});
+
+// Valid routes set
+const VALID_APP_ROUTES = new Set(['parties','hotspots','calendar','invites','opportunities','me','settings']);
+
+function getCurrentRoute() {
+  const hash = (location.hash || '').replace(/^#\/?/, '');
+  const route = hash.split('?')[0].toLowerCase();
+  if (VALID_APP_ROUTES.has(route)) return route;
+  return 'parties';
+}
+
+async function syncNavFromRoute(){
+  const r = getCurrentRoute();
   document.querySelectorAll('.nav-item').forEach(b=> b.classList.toggle('active', b.dataset.route===r));
   const t = document.getElementById('page-title'); if (t) t.textContent = r.replace(/-/g,' ').replace(/\b\w/g,m=>m.toUpperCase());
+  
+  // Handle route sections
+  document.querySelectorAll('[data-route]').forEach(section => {
+    if (section.tagName === 'SECTION') {
+      section.hidden = section.dataset.route !== r;
+    }
+  });
+  
+  // Mount hotspots when route is active
+  if (r === 'hotspots') {
+    const module = await import('/js/hotspots-controller.js');
+    if (module.mountHotspots) {
+      module.mountHotspots();
+    }
+  }
 }
 
 // Accessibility announcement function

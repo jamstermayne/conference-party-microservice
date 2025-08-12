@@ -75,4 +75,23 @@ app.get("/api/setupWebhook", (_req, res) => res.status(200).json({ok: true, conf
 // === HOTSPOTS ENDPOINT (PERSONA-BASED AGGREGATION) ===
 app.get("/api/hotspots", getHotspots);
 
+// ---- Lightweight stubs to prevent 404 noise ----
+app.get("/api/flags", (_req, res) => {
+  // Fail-open defaults so UI shows all channels/features
+  res.status(200).json({
+    nav: {
+      parties: true, hotspots: true, opportunities: true,
+      calendar: true, invites: true, me: true, settings: true,
+    },
+  });
+});
+
+app.post("/api/metrics", (req, res) => {
+  // Accept any payload, no-op
+  try {
+    console.log("[metrics]", JSON.stringify(req.body || {}));
+  } catch {}
+  res.status(204).send(); // No Content
+});
+
 export const api = functions.https.onRequest(app);

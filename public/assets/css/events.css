@@ -92,4 +92,44 @@
 .install-card .copy { flex:1; }
 .install-card h4 { margin:0; color: var(--text-1); font-weight: 700; }
 .install-card p  { margin:2px 0 0; color: var(--text-2); font-size: 13px; }
+
+/* FTUE pick-3 */
+.ftue-header { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  padding: 8px 12px 4px;
+  background: var(--surface, rgba(0,0,0,0.2));
+  border-radius: var(--r-md, 8px);
+  margin-bottom: 12px;
+}
+
+.ftue-title { 
+  color: var(--text-primary); 
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ftue-sub { 
+  color: var(--text-secondary); 
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.ftue-progress { 
+  height: 6px; 
+  width: 100%; 
+  background: rgba(255,255,255,.06); 
+  border-radius: 999px; 
+  overflow: hidden;
+  min-width: 120px;
+}
+
+.ftue-progress > i { 
+  display: block; 
+  height: 100%; 
+  width: 0%; 
+  background: var(--accent-primary, #6b7bff); 
+  transition: width var(--t-slow, 400ms) var(--ease-out);
+}
 .install-card .btn { white-space: nowrap; }

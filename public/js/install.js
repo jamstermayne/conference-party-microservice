@@ -95,4 +95,13 @@
       });
     }
   }
+  
+  // Listen for FTUE completion to show install card
+  document.addEventListener('ftue.pick3.complete', () => {
+    setTimeout(() => {
+      if (window.showInstallCard) {
+        window.showInstallCard();
+      }
+    }, 1000);
+  });
 })();

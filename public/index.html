@@ -16,7 +16,7 @@
   <!-- Load ENV before any app code -->
   <script src="/js/env.js"></script>
 
-  <title>Velocity — Gamescom 2025</title>
+  <title>Velocity – Gamescom 2025</title>
   <meta name="description" content="Velocity — your private conference social network.">
 
   <!-- Additional PWA -->
@@ -78,6 +78,7 @@
   </script>
   
   <link rel="stylesheet" href="assets/css/styles.css"/>
+  <link rel="stylesheet" href="/assets/css/nav.css">
   <link rel="stylesheet" href="/assets/css/hotspots.css">
 </head>
 <body>
@@ -91,16 +92,31 @@
         <div class="brand">Velocity</div>
         <div class="workspace">Gamescom 2025</div>
       </div>
-      <nav class="side-nav">
-        <button class="nav-item active" data-route="parties">🗓️ Parties</button>
-        <button class="nav-item" data-route="hotspots">🔥 Hotspots</button>
-        <button class="nav-item" data-route="opportunities">🎯 Opportunities</button>
-        <button class="nav-item" data-route="calendar">📅 Calendar</button>
-        <button class="nav-item" data-route="invites">
-          🎟 Invites <span id="invite-pill" class="pill pill-gold">10</span>
+
+      <nav class="side-nav" id="sidenav-list" aria-label="Channels">
+        <button class="nav-item" data-route="parties" aria-current="page">
+          <span class="hash">#</span><span class="label">parties</span>
+          <span class="badge badge-glass" id="badge-parties" hidden>new</span>
         </button>
-        <button class="nav-item" data-route="me">👤 Me</button>
-        <button class="nav-item" data-route="settings">⚙️ Settings</button>
+        <button class="nav-item" data-route="hotspots">
+          <span class="hash">#</span><span class="label">hotspots</span>
+        </button>
+        <button class="nav-item" data-route="opportunities">
+          <span class="hash">#</span><span class="label">opportunities</span>
+        </button>
+        <button class="nav-item" data-route="calendar">
+          <span class="hash">#</span><span class="label">calendar</span>
+        </button>
+        <button class="nav-item" data-route="invites">
+          <span class="hash">#</span><span class="label">invites</span>
+          <span class="badge badge-primary" id="badge-invites" hidden>0</span>
+        </button>
+        <button class="nav-item" data-route="me">
+          <span class="hash">#</span><span class="label">me</span>
+        </button>
+        <button class="nav-item" data-route="settings">
+          <span class="hash">#</span><span class="label">settings</span>
+        </button>
       </nav>
       <div class="side-footer">
         <div class="auth-section" id="auth-section">
@@ -133,32 +149,78 @@
     <!-- Overlay (mobile) -->
     <div id="overlay" class="overlay" hidden></div>
     <!-- Main Panel -->
-    <main id="main-content">
+    <main id="main" class="main-pane">
       <header class="topbar">
         <button id="menu" class="icon-btn" aria-label="Open menu">☰</button>
         <h1 id="page-title">Parties</h1>
       </header>
-      <!-- Routes mount here -->
-      <section id="route" role="region" aria-live="polite"></section>
-      <!-- Events list for production controller -->
-      <section id="event-list" role="region" aria-label="Gaming industry parties"></section>
-      <!-- Hotspots Route -->
-      <section data-route="hotspots" aria-labelledby="hotspots-title" style="display:none;">
-        <div id="hotspots-view" class="hotspots-wrap">
-          <header class="hotspots-header">
-            <h2 id="hotspots-title" class="hotspots-title">Hotspots</h2>
-            <div class="hotspots-meta">Loading…</div>
-          </header>
-
-          <div class="hotspots-canvas-card">
-            <canvas class="hotspots-canvas" aria-label="Heat visualization of venue activity"></canvas>
-            <div class="hotspots-legend">Intensity shows crowd density</div>
-          </div>
-
-          <div class="hotspots-list" role="list" aria-label="Live venues list">
-            <!-- populated by hotspots-view.js -->
+      <!-- Route sections -->
+      <section data-route="parties">
+        <h2 class="text-heading">Parties</h2>
+        <!-- FTUE Pick 3 Progress -->
+        <div id="ftue-wrap"></div>
+        <div id="parties-root"></div>
+        <!-- Legacy event list mount point -->
+        <div id="event-list" role="region" aria-label="Gaming industry parties"></div>
+      </section>
+      
+      <section data-route="hotspots" hidden>
+        <h2 class="text-heading">Hotspots</h2>
+        <div id="hotspots-root">
+          <div class="hotspots-wrap">
+            <article class="hotspots-canvas-card card-elevated">
+              <header>
+                <h3>Hotspots — Live Heat</h3>
+                <div id="hotspots-legend" class="flex-1"></div>
+              </header>
+              <canvas id="hotspots-canvas" aria-label="Heatmap of active venues"></canvas>
+            </article>
+            <aside class="hotspots-list">
+              <header>
+                <h3>Venues</h3>
+                <button class="btn btn-ghost btn-small" data-action="refresh-hotspots">Refresh</button>
+              </header>
+              <div id="hotspots-list" class="hotspots-scroll"></div>
+            </aside>
           </div>
         </div>
+      </section>
+      
+      <section data-route="calendar" hidden>
+        <h2 class="text-heading">Calendar</h2>
+        <div class="stack-2">
+          <div class="flex gap-8" style="padding: 0 16px;">
+            <button class="btn btn-secondary" data-action="calendar-link" data-type="apple">Add to Apple Calendar</button>
+            <button class="btn btn-secondary" data-action="calendar-link" data-type="outlook">Add to Outlook</button>
+          </div>
+          <div id="calendar-days" class="flex gap-6" style="padding: 0 16px;">
+            <button class="btn btn-ghost" data-day="thu">Thu</button>
+            <button class="btn btn-ghost" data-day="fri">Fri</button>
+            <button class="btn btn-ghost" data-day="sat">Sat</button>
+            <button class="btn btn-ghost" data-day="sun">Sun</button>
+          </div>
+          <div id="calendar-list" style="padding: 0 16px;"></div>
+        </div>
+      </section>
+      
+      <section data-route="invites" hidden>
+        <h2 class="text-heading">Invites</h2>
+        <div id="invites-root"></div>
+      </section>
+      
+      <section data-route="opportunities" hidden>
+        <h2 class="text-heading">Opportunities</h2>
+        <div id="opps-root"></div>
+      </section>
+      
+      <section data-route="me" hidden>
+        <h2 class="text-heading">Your Profile</h2>
+        <div id="me-root"></div>
+      </section>
+      
+      <section data-route="settings" hidden>
+        <h2 class="text-heading">Settings</h2>
+        <div id="settings-root"></div>
       </section>
       <!-- Enhanced Install Card with Accessibility -->
       <div id="install-card" class="install-card hidden" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc">
@@ -198,8 +260,9 @@
   <script type="module" src="/js/invite.js"></script>
   <script type="module" src="/js/invite-badge.js"></script>
   <script type="module" src="/js/calendar-integration.js"></script>
+  <script type="module" src="/js/nav-maps.js"></script>
   <script type="module" src="/js/events-controller.js"></script>
-  <script type="module" src="/js/hotspots-view.js"></script>
+  <script type="module" src="/js/hotspots-controller.js"></script>
   <script type="module" src="/js/app-wireup.js"></script>
   
   <!-- PWA Install Handler -->

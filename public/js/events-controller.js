@@ -1,4 +1,5 @@
 import { toast, emptyState } from '/js/ui-feedback.js';
+import { openVenue } from '/js/nav-maps.js';
 
 async function fetchEvents() {
   const url = 'https://us-central1-conference-party-app.cloudfunctions.net/api/events?conference=gamescom2025';
