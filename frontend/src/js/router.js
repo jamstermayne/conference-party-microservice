@@ -1,5 +1,6 @@
 // router.js (patch: canonical route titles + header + sidebar labels)
 import { Events } from './events.js';
+import AccountController from './controllers/account-controller.js';
 
 // --- Sidebar model (single source of truth) ---
 const NAV_ITEMS = [
@@ -9,7 +10,7 @@ const NAV_ITEMS = [
   { id: 'calendar',  label: '#calendar'  },
   { id: 'invites',   label: '#invites'   },
   { id: 'me',        label: '#me'        },
-  { id: 'settings',  label: '#settings'  },
+  { id: 'account',   label: 'account', icon: '/assets/svg/user.svg' },
 ];
 
 function renderSidebar() {
@@ -17,11 +18,21 @@ function renderSidebar() {
   if (!side) return;
   side.innerHTML = `
     <nav class="side-nav">
-      ${NAV_ITEMS.map(item => `
-        <button class="side-item" data-route="${item.id}" aria-label="${item.id}">
-          <span class="hash">#</span><span class="name">${item.id}</span>
-        </button>
-      `).join('')}
+      ${NAV_ITEMS.map(item => {
+        if (item.icon) {
+          return `
+            <button class="side-item" data-route="${item.id}" aria-label="${item.id}">
+              <img src="${item.icon}" alt="" class="nav-ico" aria-hidden="true" />
+              <span class="name">${item.label}</span>
+            </button>
+          `;
+        }
+        return `
+          <button class="side-item" data-route="${item.id}" aria-label="${item.id}">
+            <span class="hash">#</span><span class="name">${item.id}</span>
+          </button>
+        `;
+      }).join('')}
     </nav>`;
 }
 
@@ -62,6 +73,15 @@ export function route(to) {
 
   // let the page controller render
   Events.emit('navigate', name);
+  
+  // Handle account controller
+  if (name === 'account') {
+    const root = document.querySelector('[data-view="account"]');
+    if (root && !root.accountController) {
+      root.accountController = new AccountController(root);
+      root.accountController.mount();
+    }
+  }
 }
 
 function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
