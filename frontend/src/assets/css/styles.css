@@ -23,11 +23,11 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 Inter,system-
 .workspace{color:var(--muted);font-size:12px;margin-top:4px}
 .side-nav{padding:8px;display:grid;gap:6px}
 .nav-item{
-  padding:10px 12px;border-radius:10px;background:transparent;color:var(--text);
-  border:1px solid transparent;text-align:left;transition:background var(--fast) var(--ease), border-color var(--fast) var(--ease)
+  width:100%;padding:10px 12px;border-radius:var(--r-lg,10px);background:transparent;color:var(--text-secondary,#a1a1a1);
+  border:1px solid transparent;text-align:left;transition:background var(--fast) var(--ease), border-color var(--fast) var(--ease), color var(--fast) var(--ease)
 }
-.nav-item:hover{background:rgba(255,255,255,.06);border-color:var(--b)}
-.nav-item.active{background:rgba(107,123,255,.13);border-color:rgba(107,123,255,.35)}
+.nav-item:hover{background:rgba(255,255,255,.04);color:var(--text-primary,#fff);border-color:var(--b)}
+.nav-item.active{background:rgba(107,123,255,.12);color:var(--text-primary,#fff);border-color:rgba(107,123,255,.35)}
 .pill{padding:2px 8px;border-radius:999px;font-size:12px;margin-left:8px}
 .pill-gold{background:rgba(255,215,0,.18);border:1px solid rgba(255,215,0,.45);color:#ffd700}
 .side-footer{margin-top:auto;padding:8px;color:var(--muted);font-size:12px}
@@ -51,7 +51,57 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 Inter,system-
 .topbar{height:56px;display:flex;align-items:center;gap:12px;padding:0 12px;border-bottom:1px solid var(--b);background:rgba(0,0,0,.08);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
 .icon-btn{background:transparent;border:none;color:var(--text);font-size:18px}
 
-#route{padding:16px;display:grid;gap:12px}
+section[data-route]{padding:16px;display:grid;gap:12px}
+.text-heading{font-size:20px;font-weight:700;color:var(--text-primary,#fff);margin:0 0 16px 0;letter-spacing:-0.3px}
+.main-pane{flex:1;overflow:auto;background:var(--bg-primary,#1a1d21)}
+
+/* Slack-style channel hash */
+.channel-hash{
+  display:inline-block;
+  width:1ch;
+  margin-right:8px;
+  font-weight:600;
+  color:var(--text-secondary);
+  opacity:.7;
+}
+.side-nav .nav-item.active .channel-hash{
+  color:var(--text-primary);
+  opacity:.9;
+}
+
+/* Hide old icon markup if exists */
+.side-nav .nav-item img,
+.side-nav .nav-item .icon{display:none !important;}
+
+/* Utility classes */
+.flex{display:flex;align-items:center;}
+.gap-6{gap:6px;}
+.gap-8{gap:8px;}
+.stack-2>*+*{margin-top:16px;}
+.text-secondary{color:var(--text-secondary,#a1a1a1);}
+.card-outlined{border:1px solid var(--border,#2a2d35);padding:16px;border-radius:var(--r-md,8px);}
+
+/* Sidebar must never collapse */
+#sidenav-list .nav-item,
+#side-nav .nav-item {
+  display: flex !important;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+}
+
+/* Prevent accidental hiding */
+#sidenav-list .nav-item[hidden],
+#side-nav .nav-item[hidden] {
+  display: flex !important;
+}
+
+/* Ensure visibility even with aria-hidden */
+#sidenav-list .nav-item[aria-hidden="true"],
+#side-nav .nav-item[aria-hidden="true"] {
+  display: flex !important;
+  visibility: visible !important;
+}
 
 @media (max-width:1024px){
   .sidenav{position:fixed;left:0;top:0;bottom:0;width:88vw;max-width:360px;transform:translateX(-100%);transition:transform var(--norm) var(--ease);box-shadow:var(--shadow)}
@@ -386,3 +436,11 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 Inter,system-
 @media (prefers-reduced-motion: reduce){
   *{animation:none!important;transition:none!important}
 }
+
+/* Slack-style channel look */
+.side-nav .nav-item { display:flex; gap:8px; align-items:center; }
+.side-nav .nav-item .hash {
+  width:18px; text-align:center; font-weight:700; opacity:.7;
+}
+.side-nav .nav-item .label { white-space:nowrap; }
+.side-nav .nav-item.active .hash { opacity:1; }

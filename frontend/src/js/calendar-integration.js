@@ -415,3 +415,58 @@ window.CalendarIntegration = {
 };
 
 console.log('✅ Production Calendar Integration loaded');
+
+// ---- Deep links + persistence + empty state ----
+const ICS_URL = '/assets/calendar/velocity-gamescom.ics'; // your generated .ics path
+
+export function calendarWireup() {
+  // Deep links
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action="calendar-link"]');
+    if (!btn) return;
+    const t = btn.dataset.type;
+    if (t === 'apple') openApple(ICS_URL);
+    if (t === 'outlook') openOutlook(ICS_URL);
+  });
+
+  // Day persistence
+  const dayStrip = document.getElementById('calendar-days');
+  if (dayStrip) {
+    dayStrip.addEventListener('click', (e) => {
+      const d = e.target.closest('[data-day]')?.dataset.day;
+      if (!d) return;
+      Store.set('calendar.day', d);
+      highlightDay(d);
+    });
+    const d0 = Store.get('calendar.day') || dayStrip.querySelector('[data-day]')?.dataset.day;
+    if (d0) highlightDay(d0);
+  }
+
+  // Empty state guard
+  const list = document.getElementById('calendar-list');
+  if (list && !list.children.length) {
+    list.innerHTML = `<div class="card card-outlined text-secondary" role="status">
+      No synced meetings yet. Connect Google or add via ICS.
+    </div>`;
+  }
+}
+
+function openApple(url){
+  // iOS will offer to add to Calendar when opening .ics
+  window.location.href = url;
+}
+
+function openOutlook(url){
+  // Outlook.com import page + hint
+  window.open('https://outlook.live.com/calendar/0/addfromfile', '_blank', 'noopener');
+  setTimeout(()=>window.open(url, '_blank', 'noopener'), 400);
+}
+
+function highlightDay(d){
+  const strip = document.getElementById('calendar-days');
+  strip?.querySelectorAll('[data-day]').forEach(n=>{
+    n.classList.toggle('active', n.dataset.day===d);
+  });
+}
+
+export default { calendarWireup };

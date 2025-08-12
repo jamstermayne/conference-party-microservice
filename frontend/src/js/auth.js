@@ -1,15 +1,7 @@
-// /js/auth.js  — ✅ Auth v2.2 (guarded)
+// /js/auth.js  — ✅ Auth v2.1
 // Google GIS + LinkedIn redirect + invite validation + redeem glue (vanilla)
 
 const ENV = window.__ENV || {};
-const API_BASE = ENV.API_BASE || ""; // e.g. "/api" or full CF URL
-const INVITE_REDEEM_ENDPOINT = ENV.INVITE_REDEEM_ENDPOINT || (API_BASE ? `${API_BASE}/invites/redeem` : "");
-
-// Replace process.env with ENV
-export const GOOGLE_CLIENT_ID = ENV.GOOGLE_CLIENT_ID || "";
-export const LINKEDIN_CLIENT_ID = ENV.LINKEDIN_CLIENT_ID || "";
-export const LINKEDIN_REDIRECT_URI = ENV.LINKEDIN_REDIRECT_URI || (location.origin + '/auth/linkedin/callback');
-
 const need = (k) => { const v = ENV[k]; if (!v) throw new Error(`${k} not configured`); return v; };
 
 function loadScript(src) {
@@ -61,39 +53,27 @@ async function signInWithGoogle() {
 }
 
 // ---------- Redeem with Google (MUST exist before any handler uses it) ----------
-// Guarded no-op to silence calls until backend ready
-export async function redeemWithGoogle(inviteCode = "") {
-  if (!INVITE_REDEEM_ENDPOINT) {
-    console.warn('[auth] redeemWithGoogle disabled (no INVITE_REDEEM_ENDPOINT)');
-    return { success: false, disabled: true };
-  }
+async function redeemWithGoogle(inviteCode) {
+  const base = need('BACKEND_BASE');
+  const idToken = sessionStorage.getItem('google_id_token');
+  if (!idToken) throw new Error('Missing Google id_token');
+
+  const payload = { code: inviteCode || null, id_token: idToken };
+  const json = await postJSON(`${base}/auth/redeem/google`, payload);
+
+  // Persist a light profile to Store if present
   try {
-    const idToken = window.__lastGoogleIdToken || sessionStorage.getItem('google_id_token') || ""; // set by your GIS handler when available
-    const res = await fetch(INVITE_REDEEM_ENDPOINT, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ code: inviteCode, id_token: idToken })
+    const p = json?.profile || {};
+    window.Store?.patch?.('profile', {
+      id: p.id || '',
+      email: p.email || '',
+      name: p.name || '',
+      picture: p.picture || '',
+      domain: p.domain || ''
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    
-    // Persist a light profile to Store if present
-    try {
-      const p = json?.profile || {};
-      window.Store?.patch?.('profile', {
-        id: p.id || '',
-        email: p.email || '',
-        name: p.name || '',
-        picture: p.picture || '',
-        domain: p.domain || ''
-      });
-    } catch {}
-    
-    return json;
-  } catch (e) {
-    console.error('[auth] redeemWithGoogle failed', e);
-    return { success: false, error: String(e?.message || e) };
-  }
+  } catch {}
+
+  return json;
 }
 
 // ---------- LinkedIn OAuth (redirect) ----------
@@ -149,25 +129,7 @@ document.addEventListener('click', async (e) => {
   }
 });
 
-// In your init block, before wiring buttons:
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('✅ Auth v2.2 (guarded) loaded');
-
-  // Guard Google button if no client id
-  const btnGoogle = document.querySelector('[data-action="auth-google"]');
-  if (btnGoogle && !GOOGLE_CLIENT_ID) {
-    btnGoogle.setAttribute('disabled', 'true');
-    btnGoogle.title = 'Google sign-in not configured';
-  }
-
-  // Guard LinkedIn button if no client id
-  const btnLinkedIn = document.querySelector('[data-action="auth-linkedin"]');
-  if (btnLinkedIn && !LINKEDIN_CLIENT_ID) {
-    btnLinkedIn.setAttribute('disabled', 'true');
-    btnLinkedIn.title = 'LinkedIn sign-in not configured';
-  }
-});
-
 const Auth = { signInWithGoogle, signInWithLinkedIn, redeemWithGoogle, validateInviteCode, getCurrentUser };
 window.Auth = Auth;
+console.log('✅ Auth v2.1 loaded');
 export default Auth;

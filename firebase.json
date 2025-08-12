@@ -13,12 +13,16 @@
         ]
       },
       {
-        "source": "**/*.@(js|css)",
-        "headers": [{ "key": "Cache-Control", "value": "max-age=604800" }]
+        "source": "/index.html",
+        "headers": [{ "key": "Cache-Control", "value": "no-store" }]
       },
       {
-        "source": "sw.js",
-        "headers": [{ "key": "Cache-Control", "value": "max-age=0" }]
+        "source": "**/*.@(js|css)",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
+      },
+      {
+        "source": "/sw.js",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
       }
     ],
     "rewrites": [

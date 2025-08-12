@@ -23,23 +23,7 @@ function showSheet({ source, inputEl } = {}) {
   Store.set('contactSync.requestSource', source);
   Store.set('contactSync.requestTime', Date.now());
   
-  // Use the new permission sheet if available
-  if (window.ContactsPermission) {
-    window.ContactsPermission.show({ 
-      trigger: source || 'manual' 
-    }).then(result => {
-      if (result.allowed) {
-        // Contact sync was successful
-        handleContactsConnected({ 
-          provider: 'native', 
-          contactCount: result.contactsCount || 0 
-        });
-      }
-    });
-  } else {
-    // Fallback to original sheet
-    mountSheet();
-  }
+  mountSheet();
 }
 
 function mountSheet() {

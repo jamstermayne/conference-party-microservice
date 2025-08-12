@@ -1,115 +1,129 @@
-// FTUE: Pick-3 Parties Progress (production)
-import Store from '/js/store.js';
-import Events from '/js/events.js';
+// FTUE: track first-session "Pick 3"
+(() => {
+  const FTUE_KEY = 'ftue.pick3.count';
+  const COMPLETED_KEY = 'ftue.pick3.completed';
+  const FIRST_VISIT_KEY = 'ftue.firstSeenAt';
 
-const GOAL = 3;
-const KEY = 'ftue.pick3';
+  function getStore(path, fallback){ 
+    try { 
+      return path.split('.').reduce((a,k)=>a?.[k], window.Store?.state) ?? fallback; 
+    } catch { 
+      return fallback; 
+    } 
+  }
+  
+  function setStore(path, value){
+    if (!window.Store || !window.Store.set) return;
+    window.Store.set(path, value);
+  }
 
-function isDone() {
-  const s = Store.get(KEY) || { picked: 0, done: false };
-  return !!s.done || (s.picked || 0) >= GOAL;
-}
-
-function state() {
-  const s = Store.get(KEY) || { picked: 0, done: false };
-  return { picked: Math.min(s.picked || 0, GOAL), done: isDone() };
-}
-
-function save(picked, done = false) {
-  Store.patch(KEY, { picked, done });
-}
-
-function tpl(picked) {
-  const pct = Math.round((picked / GOAL) * 100);
-  return `
-    <section id="ftue-pick3" class="ftue ftue--bar card card-outlined" aria-live="polite" role="status">
-      <div class="ftue-head">
-        <span class="ftue-title text-primary">Pick ${GOAL} parties to personalize tonight</span>
-        <span class="ftue-count text-secondary">${picked}/${GOAL}</span>
-      </div>
-      <div class="ftue-progress" aria-label="Selection progress" aria-valuemin="0" aria-valuemax="${GOAL}" aria-valuenow="${picked}" role="progressbar">
-        <div class="ftue-progress__bar" style="width:${pct}%"></div>
-      </div>
-      <p class="ftue-copy text-secondary">Tap ★ Save on parties you're likely to attend. We'll tailor your map and reminders.</p>
-    </section>
-  `;
-}
-
-function mount(parent) {
-  // already mounted?
-  if (document.getElementById('ftue-pick3')) return;
-  const { picked, done } = state();
-  if (done) return;
-
-  const host = document.createElement('div');
-  host.innerHTML = tpl(picked);
-  const node = host.firstElementChild;
-  parent.prepend(node); // top of events route
-
-  // ARIA progress attachment (add after const bar = ...)
-  const wrap = node;
-  const aria = document.createElement('div');
-  aria.setAttribute('role', 'progressbar');
-  aria.setAttribute('aria-valuemin', '0');
-  aria.setAttribute('aria-valuemax', String(GOAL));
-  aria.setAttribute('aria-label', 'Party selection progress');
-  aria.className = 'sr-only';
-  wrap.querySelector('.ftue-progress').appendChild(aria);
-
-  function render(selected) {
-    const pct = Math.min((selected.length / GOAL) * 100, 100);
-    const bar = wrap.querySelector('.ftue-progress__bar');
-    if (bar) bar.style.width = `${pct}%`;
+  function getCount(){ 
+    return Number(getStore(FTUE_KEY, 0)) || 0; 
+  }
+  
+  function bump(){
+    const current = getCount();
+    if (current >= 3) return; // Already completed
     
-    const btn = wrap.querySelector('button');
-    if (btn) {
-      btn.disabled = selected.length < GOAL;
-      btn.textContent = selected.length < GOAL ? `Pick ${GOAL - selected.length} more` : 'Save & Install';
+    const n = Math.min(3, current + 1);
+    setStore(FTUE_KEY, n);
+    render(n);
+    
+    if (n >= 3) {
+      setStore(COMPLETED_KEY, true);
+      // Emit completion event
+      if (window.Events?.emit) {
+        window.Events.emit('ftue.pick3.complete');
+      }
+      // Show install card after a delay
+      setTimeout(() => {
+        try { 
+          if (window.showInstallCard) window.showInstallCard(); 
+        } catch {}
+      }, 1500);
+      // Fade out the FTUE header
+      setTimeout(() => {
+        const wrap = document.getElementById('ftue-wrap');
+        if (wrap) {
+          wrap.style.transition = 'opacity 300ms ease-out';
+          wrap.style.opacity = '0';
+          setTimeout(() => {
+            wrap.style.display = 'none';
+          }, 300);
+        }
+      }, 3000);
     }
-    aria.setAttribute('aria-valuenow', String(selected.length));
   }
 
-  // Accessibility focus on first show
-  setTimeout(() => node?.focus?.(), 0);
-}
-
-function update() {
-  const el = document.getElementById('ftue-pick3');
-  if (!el) return;
-  const { picked, done } = state();
-  if (done) {
-    el.classList.add('ftue--hide');
-    setTimeout(() => el.remove(), 200);
-    return;
+  function render(n) {
+    const wrap = document.getElementById('ftue-wrap');
+    if (!wrap) return;
+    
+    const percentage = (n / 3) * 100;
+    wrap.innerHTML = `
+      <div class="ftue-header">
+        <div style="flex: 1;">
+          <div class="ftue-title">Pick 3 parties you like</div>
+          <div class="ftue-sub">${n}/3 selected • save & sync to calendar</div>
+        </div>
+        <div class="ftue-progress" aria-label="Selection progress" role="progressbar" aria-valuemin="0" aria-valuemax="3" aria-valuenow="${n}">
+          <i style="width:${percentage}%"></i>
+        </div>
+      </div>`;
   }
-  el.outerHTML = tpl(picked);
-}
 
-function nudgePick() {
-  const { picked, done } = state();
-  if (done) return;
-  const next = Math.min(picked + 1, GOAL);
-  const completed = next >= GOAL;
-  save(next, completed);
-  update();
-  if (completed) {
-    // small celebratory toast
-    document.dispatchEvent(new CustomEvent('ui:toast', { detail: { type: 'ok', message: 'Nice! Feed personalized.' } }));
-    Events.emit('ftue.pick3.completed');
-  } else {
-    Events.emit('ftue.pick3.progress', { picked: next, goal: GOAL });
+  function init() {
+    const wrap = document.getElementById('ftue-wrap');
+    if (!wrap) return;
+    
+    // Check if already completed
+    if (getStore(COMPLETED_KEY)) {
+      wrap.style.display = 'none';
+      return;
+    }
+    
+    // Track first visit
+    if (!getStore(FIRST_VISIT_KEY)) {
+      setStore(FIRST_VISIT_KEY, Date.now());
+    }
+    
+    // Initial render
+    const count = getCount();
+    render(count);
   }
-}
 
-// Public API
-export default {
-  init(containerEl) {
-    if (isDone()) return;
-    mount(containerEl);
-  },
-  nudgePick,
-  reset() {
-    save(0, false);
-    update();
-  }
-};
+  // Initialize on DOM ready
+  document.addEventListener('DOMContentLoaded', init);
+
+  // Listen for party interest events
+  document.addEventListener('party:interest', bump);
+  
+  // Also count clicks on interest/attend buttons
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action="interest"], [data-action="attend"]');
+    if (!btn) return;
+    
+    // Debounce per card
+    const card = btn.closest('[data-id]');
+    if (card && card.dataset._picked) return;
+    if (card) card.dataset._picked = '1';
+    
+    // Emit the event that triggers bump
+    if (window.Events?.emit) {
+      window.Events.emit('party:interest');
+    } else {
+      // Fallback: directly bump
+      bump();
+    }
+  });
+
+  // Re-render on route change to parties
+  document.addEventListener('route:changed', (e) => {
+    if (e.detail?.route === 'parties') {
+      init();
+    }
+  });
+  
+  // Export for external use
+  window.ftueInit = init;
+})();

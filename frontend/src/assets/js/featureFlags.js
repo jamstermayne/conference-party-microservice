@@ -1,34 +1,60 @@
-// production-safe feature flags
-import { getJSON } from './http.js';
+// Production Feature Flags (fail-open strategy)
+import { getJSON } from '/assets/js/http.js';
 
-const ENV = window.__ENV || {};
-const ENABLED = !!ENV.FLAGS_API_ENABLED;            // defaults false in env.js
-const API_BASE = ENV.API_BASE || '/api';
-
-const Flags = {
-  cache: Object.create(null),
-
-  async refresh() {
-    if (!ENABLED) {
-      // no network in prod until backend landing
-      console.info('[flags] disabled (FLAGS_API_ENABLED=false)');
-      return this.cache;
-    }
-    try {
-      const res = await getJSON(`${API_BASE}/flags`);
-      this.cache = res?.data || Object.create(null);
-      return this.cache;
-    } catch (err) {
-      console.warn('[flags] fetch fail', err);
-      return this.cache;
-    }
-  },
-
-  get(key, fallback = false) {
-    return Object.prototype.hasOwnProperty.call(this.cache, key)
-      ? this.cache[key]
-      : fallback;
+const defaults = {
+  nav: { 
+    parties: true, 
+    hotspots: true, 
+    opportunities: true, 
+    calendar: true, 
+    invites: true, 
+    me: true, 
+    settings: true 
   }
 };
+
+const Flags = {
+  data: { ...defaults },
+  
+  async refresh() {
+    try {
+      const env = window.__ENV || {};
+      const url = env.FLAGS_URL || '/api/flags';
+      const res = await getJSON(url);
+      
+      if (res && typeof res === 'object') {
+        this.data = { ...defaults, ...res };
+      } else {
+        this.data = { ...defaults }; // fail open
+      }
+    } catch (e) {
+      console.warn('flags fetch fail', e);
+      this.data = { ...defaults };   // ✅ fail open so channels stay
+    }
+    
+    // Emit event for listeners
+    document.dispatchEvent(new CustomEvent('flags:ready', { detail: this.data }));
+    return this.data;
+  },
+  
+  get(path, fallback = true) {
+    try {
+      return path.split('.').reduce((o, k) => o && o[k], this.data) ?? fallback;
+    } catch { 
+      return fallback; 
+    }
+  },
+  
+  all() { 
+    return { ...this.data }; 
+  }
+};
+
+// Auto-refresh on load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => Flags.refresh());
+} else {
+  Flags.refresh();
+}
 
 export default Flags;

@@ -31,8 +31,14 @@ import { Store, Events } from './state.js';
       hide();
       sessionStorage.setItem(SESSION_FLAG, 'true');
       shownThisSession = true;
-      // Unified entrypoint to existing flow
-      Events.emit('addressBook:syncRequest', { source: 'emailPrompt' });
+      
+      // Use the new ContactsPermission sheet if available
+      if (window.ContactsPermission?.open) {
+        window.ContactsPermission.open();
+      } else {
+        // Fallback to existing flow
+        Events.emit('addressBook:syncRequest', { source: 'emailPrompt' });
+      }
       
       // Track for analytics
       Events.emit('analytics:track', { 

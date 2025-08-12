@@ -7,14 +7,12 @@
   <!-- PWA Meta -->
   <meta name="theme-color" content="#6b7bff" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="manifest" href="/manifest.json" />
+  <link rel="manifest" href="/manifest.json?v=4" />
 
   <!-- Content Security Policy (allows Cloud Functions + Google/LinkedIn SDKs) -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://*.googleapis.com https://*.gstatic.com https://platform.linkedin.com; connect-src 'self' https://us-central1-conference-party-app.cloudfunctions.net https://*.googleapis.com https://*.gstatic.com https://api.linkedin.com; img-src 'self' data: https://*.gstatic.com https://*.googleusercontent.com https://media.licdn.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-src https://accounts.google.com https://www.linkedin.com; worker-src 'self'; base-uri 'self'; form-action 'self' https://www.linkedin.com;" />
 
-  <!-- Load ENV before any app code -->
-  <script src="/js/env.js"></script>
 
   <title>Velocity — Gamescom 2025</title>
   <meta name="description" content="Velocity — your private conference social network.">
@@ -25,14 +23,14 @@
 
   <!-- Social: Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Velocity">
+  <meta property="og:title" content="Velocity — Gamescom 2025">
   <meta property="og:description" content="Join private conference parties and sync your calendar.">
   <meta property="og:image" content="/social/share-default.png">
   <meta property="og:url" content="https://conference-party-app.web.app">
 
   <!-- Social: Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Velocity">
+  <meta name="twitter:title" content="Velocity — Gamescom 2025">
   <meta name="twitter:description" content="Join private conference parties and sync your calendar.">
   <meta name="twitter:image" content="/social/share-default.png">
 
@@ -78,10 +76,8 @@
   </script>
   
   <link rel="stylesheet" href="assets/css/styles.css"/>
-  <link rel="stylesheet" href="assets/css/events-ftue.css"/>
-  <link rel="stylesheet" href="/assets/css/calendar.css">
-  <link rel="stylesheet" href="/assets/css/invites.css">
-  <link rel="stylesheet" href="/assets/css/contacts-permission.css">
+  <link rel="stylesheet" href="/assets/css/nav.css">
+  <link rel="stylesheet" href="/assets/css/hotspots.css">
 </head>
 <body>
   <!-- Skip link for accessibility -->
@@ -94,16 +90,29 @@
         <div class="brand">Velocity</div>
         <div class="workspace">Gamescom 2025</div>
       </div>
-      <nav class="side-nav">
-        <button class="nav-item active" data-route="parties">🗓️ Parties</button>
-        <button class="nav-item" data-route="hotspots">🔥 Hotspots</button>
-        <button class="nav-item" data-route="opportunities">🎯 Opportunities</button>
-        <button class="nav-item" data-route="calendar">📅 Calendar</button>
-        <button class="nav-item" data-route="invites">
-          🎟 Invites <span id="invite-pill" class="pill pill-gold">10</span>
+
+      <nav class="side-nav" id="side-nav">
+        <button class="nav-item" data-route="parties">
+          <span class="hash" aria-hidden="true">#</span><span class="label">Parties</span>
         </button>
-        <button class="nav-item" data-route="me">👤 Me</button>
-        <button class="nav-item" data-route="settings">⚙️ Settings</button>
+        <button class="nav-item" data-route="hotspots">
+          <span class="hash" aria-hidden="true">#</span><span class="label">Hotspots</span>
+        </button>
+        <button class="nav-item" data-route="map">
+          <span class="hash" aria-hidden="true">#</span><span class="label">Map</span>
+        </button>
+        <button class="nav-item" data-route="calendar">
+          <span class="hash" aria-hidden="true">#</span><span class="label">Calendar</span>
+        </button>
+        <button class="nav-item" data-route="invites">
+          <span class="hash" aria-hidden="true">#</span><span class="label">Invites</span>
+        </button>
+        <button class="nav-item" data-route="me">
+          <span class="hash" aria-hidden="true">#</span><span class="label">Me</span>
+        </button>
+        <button class="nav-item" data-route="settings">
+          <span class="hash" aria-hidden="true">#</span><span class="label">Settings</span>
+        </button>
       </nav>
       <div class="side-footer">
         <div class="auth-section" id="auth-section">
@@ -136,15 +145,86 @@
     <!-- Overlay (mobile) -->
     <div id="overlay" class="overlay" hidden></div>
     <!-- Main Panel -->
-    <main id="main-content">
+    <main id="main" class="main-pane">
       <header class="topbar">
         <button id="menu" class="icon-btn" aria-label="Open menu">☰</button>
         <h1 id="page-title">Parties</h1>
       </header>
-      <!-- Routes mount here -->
-      <section id="route" role="region" aria-live="polite"></section>
-      <!-- Events list for production controller -->
-      <section id="event-list" role="region" aria-label="Gaming industry parties"></section>
+      <!-- Route sections -->
+      <section data-route="parties">
+        <h2 class="text-heading">Parties</h2>
+        <!-- FTUE Pick 3 Progress -->
+        <div id="ftue-wrap"></div>
+        <div id="parties-root"></div>
+        <!-- Legacy event list mount point -->
+        <div id="event-list" role="region" aria-label="Gaming industry parties"></div>
+      </section>
+      
+      <section data-route="hotspots" hidden>
+        <h2 class="text-heading">Hotspots</h2>
+        <div id="hotspots-root">
+          <div class="hotspots-wrap">
+            <article class="hotspots-canvas-card card-elevated">
+              <header>
+                <h3>Hotspots — Live Heat</h3>
+                <div id="hotspots-legend" class="flex-1"></div>
+              </header>
+              <canvas id="hotspots-canvas" aria-label="Heatmap of active venues"></canvas>
+            </article>
+            <aside class="hotspots-list">
+              <header>
+                <h3>Venues</h3>
+                <button class="btn btn-ghost btn-small" data-action="refresh-hotspots">Refresh</button>
+              </header>
+              <div id="hotspots-list" class="hotspots-scroll"></div>
+            </aside>
+          </div>
+        </div>
+      </section>
+      
+      <section data-route="map" hidden>
+        <h2 class="text-heading">Map</h2>
+        <div id="map-root">
+          <div class="card card-outlined text-secondary">Map feature coming soon...</div>
+        </div>
+      </section>
+      
+      <section data-route="calendar" hidden>
+        <h2 class="text-heading">Calendar</h2>
+        <div class="stack-2">
+          <div class="flex gap-8" style="padding: 0 16px;">
+            <button class="btn btn-secondary" data-action="calendar-link" data-type="apple">Add to Apple Calendar</button>
+            <button class="btn btn-secondary" data-action="calendar-link" data-type="outlook">Add to Outlook</button>
+          </div>
+          <div id="calendar-days" class="flex gap-6" style="padding: 0 16px;">
+            <button class="btn btn-ghost" data-day="thu">Thu</button>
+            <button class="btn btn-ghost" data-day="fri">Fri</button>
+            <button class="btn btn-ghost" data-day="sat">Sat</button>
+            <button class="btn btn-ghost" data-day="sun">Sun</button>
+          </div>
+          <div id="calendar-list" style="padding: 0 16px;"></div>
+        </div>
+      </section>
+      
+      <section data-route="invites" hidden>
+        <h2 class="text-heading">Invites</h2>
+        <div id="invites-root"></div>
+      </section>
+      
+      <section data-route="opportunities" hidden>
+        <h2 class="text-heading">Opportunities</h2>
+        <div id="opps-root"></div>
+      </section>
+      
+      <section data-route="me" hidden>
+        <h2 class="text-heading">Your Profile</h2>
+        <div id="me-root"></div>
+      </section>
+      
+      <section data-route="settings" hidden>
+        <h2 class="text-heading">Settings</h2>
+        <div id="settings-root"></div>
+      </section>
       <!-- Enhanced Install Card with Accessibility -->
       <div id="install-card" class="install-card hidden" role="dialog" aria-labelledby="install-title" aria-describedby="install-desc">
         <div class="install-content" tabindex="-1">
@@ -165,35 +245,40 @@
       <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
     </main>
   </div>
-  <!-- GPT-5 Foundation (enterprise-grade core) -->
-  <script type="module" src="/assets/js/foundation/app-bootstrap.js"></script>
-  <script type="module" src="/assets/js/foundation/sw-register.js"></script>
-  
-  <!-- Ensure these load after env.js -->
-  <script src="/js/metrics-shim.js" type="module"></script>
-  <script src="/assets/js/metrics.js"></script>
-  
-  <!-- App scripts (order matters: foundation first, then features, then wireup) -->
-  <script type="module" src="/js/store.js"></script>
-  <script type="module" src="/js/events.js"></script>
-  <script type="module" src="/js/ui-feedback.js"></script>
-  <script type="module" src="/js/install.js"></script>
-  <script type="module" src="/js/auth.js"></script>
-  <script type="module" src="/js/router.js"></script>
-  <script type="module" src="/js/invite.js"></script>
-  <script type="module" src="/js/invite-badge.js"></script>
-  <script type="module" src="/js/invite-panel.js"></script>
-  <script type="module" src="/js/invite-badge-sync.js"></script>
-  <script type="module" src="/js/calendar-integration.js"></script>
-  <script type="module" src="/js/calendar-polish.js"></script>
-  <script type="module" src="/js/events-controller.js"></script>
-  <script type="module" src="/js/app-wireup.js"></script>
-  
-  <!-- Metrics bridge must load after router/events -->
-  <script type="module" src="/assets/js/router-route-metrics.js"></script>
-  
-  <!-- Contacts Permission Sheet -->
-  <script src="/assets/js/contacts-permission.js"></script>
+  <!-- ENV must come first -->
+  <script src="/js/env.js?v=6"></script>
+
+  <!-- Foundation (module) -->
+  <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=6"></script>
+  <script type="module" src="/assets/js/foundation/sw-register.js?v=6"></script>
+
+  <!-- Metrics: shim ONLY (no ESM metrics module right now) -->
+  <script nomodule src="/js/metrics-shim.js?v=6"></script>
+
+  <!-- Core modules -->
+  <script type="module" src="/js/store.js?v=6"></script>
+  <script type="module" src="/js/events.js?v=6"></script>
+  <script type="module" src="/js/ui-feedback.js?v=6"></script>
+  <script type="module" src="/js/install.js?v=6"></script>
+  <script type="module" src="/js/auth.js?v=6"></script>
+  <script type="module" src="/js/router.js?v=6"></script>
+
+  <!-- Feature controllers -->
+  <script type="module" src="/js/invite.js?v=6"></script>
+  <script type="module" src="/js/invite-panel.js?v=6"></script>
+  <script type="module" src="/js/invite-badge-sync.js?v=6"></script>
+  <script type="module" src="/js/calendar-integration.js?v=6"></script>
+  <script type="module" src="/js/events-controller.js?v=6"></script>
+
+  <!-- Keep optional modules MODULED (prevents "import outside module") -->
+  <script type="module" src="/js/ftue-progress.js?v=6"></script>
+  <script type="module" src="/js/router-route-metrics.js?v=6"></script>
+
+  <!-- TEMP: comment out if your file isn't ready; or keep with fixed file below -->
+  <script type="module" src="/js/activity-feed.js?v=6"></script>
+
+  <!-- Final wire-up -->
+  <script type="module" src="/js/app-wireup.js?v=6"></script>
   
   <!-- PWA Install Handler -->
   <script type="module">
@@ -245,18 +330,7 @@
       try { window.Metrics?.trackRoute?.(location.hash || '#/parties'); } catch {}
     });
   </script>
-<!-- ARIA live region for screen reader announcements -->
-<div id="aria-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-<!-- Ensure events.css is included -->
-<link rel="stylesheet" href="/assets/css/events.css">
-
-<!-- Load FTUE progress script -->
-<script src="/js/ftue-progress.js"></script>
-
-<!-- Load production-safe metrics and flags -->
-<script type="module" src="/assets/js/metrics.js"></script>
-<script type="module" src="/assets/js/featureFlags.js"></script>
 
 </body>
 </html>
