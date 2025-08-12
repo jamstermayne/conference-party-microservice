@@ -278,3 +278,85 @@ body {
 /* Utility classes */
 .stack { display: flex; flex-direction: column; }
 .mt-16 { margin-top: 16px; }
+
+/* --- Sidebar & header hardening --- */
+.side-nav {
+  width: 260px;
+  flex: 0 0 260px;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  z-index: 3;              /* keep it above any toolbar chips */
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-header .toolbar {
+  margin-left: auto;       /* push chips to the right end of header */
+  display: flex;
+  gap: 8px;
+}
+.page-header .toolbar .chip {
+  position: static;        /* kill any absolute/negative margins */
+}
+
+/* Prevent any header pills from drifting into the sidebar */
+.main {
+  position: relative;
+  z-index: 1;
+  padding-left: 8px;
+}
+
+/* --- Premium card uniformity --- */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 16px;
+}
+
+.event-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 240px;       /* consistent height across all cards */
+  box-shadow: 0 6px 18px rgba(0,0,0,.25) inset, 0 8px 24px rgba(0,0,0,.25);
+}
+
+.event-card .card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.event-card .event-title { font-weight: 600; font-size: 18px; }
+.event-card .event-meta {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 10px;
+}
+.event-card .event-desc { color: var(--text-secondary); }
+
+.event-card .card-actions {
+  margin-top: auto;        /* buttons always sit on the baseline */
+  display: flex;
+  gap: 8px;
+}
+
+.badge.subtle {
+  background: rgba(107,123,255,.15);
+  border: 1px solid rgba(107,123,255,.35);
+  color: #cfd3ff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
