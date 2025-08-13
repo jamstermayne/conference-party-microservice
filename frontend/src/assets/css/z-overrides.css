@@ -1,26 +1,25 @@
-:root{ --sidebar-w:280px; }
+:root{ --sidebar-w:280px }
 .app{
-  display:grid \!important;
-  grid-template-columns: var(--sidebar-w) minmax(0,1fr) \!important;
-  grid-auto-rows:auto \!important;
-  height:100vh \!important;
+  display:grid !important;
+  grid-template-columns: var(--sidebar-w) minmax(0,1fr) !important;
+  grid-auto-rows:auto !important;
+  height:100vh !important;
 }
 aside.sidebar,[data-role="sidebar"]{
-  position:sticky \!important;
-  top:0 \!important;
-  height:100vh \!important;
-  transform:none \!important;   /* stop mobile slide transforms covering main */
+  position:sticky !important;
+  top:0 !important;
+  height:100vh !important;
+  transform:none !important;
 }
 #main{
-  position:relative \!important;
-  min-width:0 \!important;      /* allow grid child to shrink instead of overflow */
-  height:100vh \!important;
-  overflow-y:auto \!important;
-  overflow-x:hidden \!important;
-  z-index:0 \!important;
+  position:relative !important;
+  min-width:0 !important;
+  height:100vh !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  z-index:0 !important;
 }
-/* Neutralize any full-viewport masks that may be sitting on top */
+/* neutralize any full-viewport masks */
 .modal-backdrop,.overlay,.veil,.scrim,[data-overlay],[data-backdrop]{
-  display:none \!important;
-  pointer-events:none \!important;
+  display:none !important; pointer-events:none !important;
 }

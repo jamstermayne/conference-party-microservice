@@ -10,7 +10,7 @@ if ! grep -qE '<script type="module" src="/js/router\.js\?v=b0[0-9]+"' frontend/
 fi
 
 # B) Router must mount #main (not #app)
-if ! grep -q "getElementById(\"main\")" frontend/src/js/router.js; then
+if ! grep -q "getElementById('main')" frontend/src/js/router.js; then
   red "✖ Router must mount #main"; exit 1
 fi
 

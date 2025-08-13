@@ -67,8 +67,13 @@
       -webkit-overflow-scrolling: touch;
     }
   }
-  <link rel="stylesheet" href="/assets/css/hero-cards.css?v=001">
+  <link rel="stylesheet" href="/assets/css/hero-cards.css?v=b023">
   <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b023">
+  <style id="layout-hotfix">
+    .app{display:grid;grid-template-columns:280px minmax(0,1fr);height:100vh}
+    #main{min-width:0;height:100vh;overflow-y:auto;overflow-x:hidden;position:relative}
+    aside.sidebar,[data-role=sidebar]{position:sticky;top:0;height:100vh}
+  </style>
 </style></head>
 <body>
   <div id="app" class="app">
