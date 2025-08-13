@@ -1,0 +1,15 @@
+.slack-sidebar{width:260px;min-width:220px;background:var(--bg-secondary);border-right:1px solid var(--border);position:fixed;left:0;top:0;bottom:0;display:flex;flex-direction:column;z-index:var(--z-nav)}
+.side-head{padding:14px 16px 10px;border-bottom:1px solid var(--border)}
+.brand-logo{width:28px;height:28px;border-radius:6px;vertical-align:middle;display:inline-block;margin-right:8px}
+.workspace{color:var(--text-primary);font-weight:600}
+.subtitle{color:var(--text-muted);font-size:12px;margin-top:2px}
+.side-nav{padding:8px 4px;overflow:auto}
+.nav-item{width:100%;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;color:var(--text-secondary);background:transparent;border:none;text-align:left;cursor:pointer}
+.nav-item .hash{color:var(--text-muted);font-weight:700;display:inline-block}
+.nav-item:hover{background:rgba(107,123,255,0.08);color:var(--text-primary)}
+.nav-item.active{color:var(--text-primary);background:linear-gradient(90deg, rgba(107,123,255,0.15), transparent)}
+.nav-item.active::before{content:"";width:3px;height:18px;border-radius:2px;background:var(--accent-primary);display:inline-block;margin-right:8px}
+.nav-item.settings .gear{opacity:.9;margin-right:6px}
+.settings-label{opacity:.9}
+@media (max-width: 920px){.slack-sidebar{position:fixed;transform:translateX(0)}}
+.main-pane{margin-left:260px;padding:18px}

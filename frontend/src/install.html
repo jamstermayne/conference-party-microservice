@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Install velocity.ai</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#1a1a1f"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="velocity.ai"/>
+
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="/assets/icons/icon-512.png">
+
+  <link rel="stylesheet" href="/assets/css/install.css?v=1">
+</head>
+<body class="theme-dark install-body">
+  <main class="install-wrap">
+    <header class="install-header">
+      <img src="/assets/brand/v-logo.svg" alt="velocity.ai" class="logo">
+      <div>
+        <h1>Install velocity.ai</h1>
+        <p class="muted">Get offline access, push-class UX, and fast re-entry from your home screen.</p>
+      </div>
+    </header>
+
+    <section id="platform-card" class="card"></section>
+
+    <section class="card alt">
+      <h3>Or open on your phone</h3>
+      <div class="qr-row">
+        <canvas id="qr" width="160" height="160" aria-label="QR code"></canvas>
+        <div class="links">
+          <a id="smsLink" class="btn" href="#">Text me the link</a>
+          <a id="emailLink" class="btn" href="#">Email me the link</a>
+          <button id="copyLink" class="btn">Copy link</button>
+        </div>
+      </div>
+      <p class="muted small">We don't store phone or email—your client opens a pre-filled message.</p>
+    </section>
+
+    <section class="card alt">
+      <h3>Having trouble?</h3>
+      <ul class="steps">
+        <li>Make sure cookies are enabled for prompts.</li>
+        <li>Update your browser to the latest version.</li>
+        <li>On iOS: use Safari for "Add to Home Screen".</li>
+      </ul>
+    </section>
+  </main>
+
+  <script type="module" src="/js/install-guide.js?v=1"></script>
+</body>
+</html>
