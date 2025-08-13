@@ -30,12 +30,18 @@ npm run dev
 
 ## 📊 Project Status
 
-### 🚀 **Latest Deployment (August 11, 2025)**
+### 🚀 **Latest Deployment (August 13, 2025)**
 - **Live URL**: https://conference-party-app.web.app
 - **Build Status**: ✅ Successful
-- **Test Results**: 6/13 passing (46% - API endpoints pending)
-- **Performance**: ~337ms average response time
+- **Test Results**: 12/17 passing (71% - Core tests all passing)
+- **Performance**: ~277ms average response time
 - **PWA Score**: 100% installable
+- **Recent Updates**: 
+  - ✅ Sidebar layout fixed with proper width management
+  - ✅ Event cards polished with hover effects and responsive grid
+  - ✅ Account hub with iOS-style dark theme
+  - ✅ Google/LinkedIn auth integrated in Account section
+  - ✅ Router aliasing: #settings → #me → Account view
 
 ### ✅ **10/10 Velocity Tools Complete**
 
