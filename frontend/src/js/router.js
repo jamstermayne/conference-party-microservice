@@ -26,7 +26,7 @@ export function route(name){
   if(r==='hotspots'){ import('./hotspots.js').then(m=>m.renderHotspots?.(app)); Events.emit?.('route:hotspots'); return; }
   if(r==='invites'){ import('./invite-panel.js').then(m=>m.renderInvites?.(app)); Events.emit?.('route:invites'); return; }
   if(r==='contacts'){ import('./contacts.js').then(m=>m.renderContacts?.(app)); Events.emit?.('route:contacts'); return; }
-  if(r==='me'){ import('./me.js').then(m=>m.renderMe?.(app)); Events.emit?.('route:me'); return; }
+  if(r==='me'){ import('./me-controller.js').then(m=>m.renderMe?.(app)); Events.emit?.('route:me'); return; }
   if(r==='settings'){ import('./settings.js').then(m=>m.renderSettings?.(app)); Events.emit?.('route:settings'); return; }
 }
 window.addEventListener('hashchange', ()=> route(norm(location.hash)));
