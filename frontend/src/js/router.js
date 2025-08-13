@@ -1,5 +1,6 @@
 // Minimal hash router + sidebar binder (production)
 import Events from './events.js';
+import { renderAccount } from './account.js';
 
 const ROUTES = [
   { id:'parties',   label:'#parties'   },
@@ -8,7 +9,6 @@ const ROUTES = [
   { id:'calendar',  label:'#calendar'  },
   { id:'invites',   label:'#invites'   },
   { id:'me',        label:'#me'        },
-  { id:'account',   label:'#account'   }, // temporary nav item
 ];
 
 const views = {
@@ -17,8 +17,9 @@ const views = {
   map:      () => import('./map-controller.js').then(m=>m.renderMap?.()),
   calendar: () => import('./calendar-integration.js').then(m=>m.renderCalendar?.()),
   invites:  () => import('./invite-panel.js').then(m=>m.renderInvites?.()),
-  me:       () => import('./profile-controller.js').then(m=>m.renderProfile?.()),
-  account:  () => import('./account-controller.js').then(m=>m.renderAccount()),
+  me:       () => { renderAccount(); return Promise.resolve(); },
+  account:  () => { renderAccount(); return Promise.resolve(); },
+  settings: () => { renderAccount(); return Promise.resolve(); }, // Alias
 };
 
 function setActive(routeId) {
@@ -28,12 +29,21 @@ function setActive(routeId) {
 }
 
 export function navigate(routeId) {
-  const id = ROUTES.some(r=>r.id===routeId) ? routeId : 'parties';
+  // Alias legacy "#/settings" -> "me"
+  let id = routeId;
+  if (id === 'settings') id = 'me';
+  if (id === 'account') id = 'me';
+  
+  id = ROUTES.some(r=>r.id===id) ? id : 'parties';
   if (location.hash !== `#/${id}`) location.hash = `#/${id}`;
   setActive(id);
   // Clean, single title region
   const h = document.getElementById('page-title');
-  if (h) h.textContent = id === 'account' ? 'Account' : id.charAt(0).toUpperCase()+id.slice(1);
+  if (h) h.textContent = id === 'me' ? 'Account' : id.charAt(0).toUpperCase()+id.slice(1);
+  
+  // Emit route event
+  Events.emit?.('route:change', { name: id });
+  if (id === 'me' || id === 'account') Events.emit?.('route:account');
   // load view
   return views[id]?.().catch(()=> {
     const main = document.getElementById('main') || document.getElementById('page-root');
