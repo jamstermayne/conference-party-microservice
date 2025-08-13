@@ -3,187 +3,57 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- PWA Meta -->
-  <meta name="theme-color" content="#6b7bff" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="manifest" href="/manifest.json?v=001" />
-
-  <!-- Content Security Policy (allows Cloud Functions + Google/LinkedIn SDKs) -->
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://*.googleapis.com https://*.gstatic.com https://platform.linkedin.com; connect-src 'self' https://us-central1-conference-party-app.cloudfunctions.net https://*.googleapis.com https://*.gstatic.com https://api.linkedin.com; img-src 'self' data: https://*.gstatic.com https://*.googleusercontent.com https://media.licdn.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-src https://accounts.google.com https://www.linkedin.com; worker-src 'self'; base-uri 'self'; form-action 'self' https://www.linkedin.com;" />
-
-
   <title>velocity.ai — Gamescom 2025</title>
-  <meta name="application-name" content="velocity.ai — Gamescom 2025">
-  <meta name="description" content="velocity.ai — your private conference social network.">
-
-  <!-- Favicon & Icons -->
-  <link rel="icon" type="image/svg+xml" href="/images/veloc-v.svg">
-  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-  <!-- Social: Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="velocity.ai — Gamescom 2025">
-  <meta property="og:description" content="Join private conference parties and sync your calendar.">
-  <meta property="og:image" content="/social/share-default.png">
-  <meta property="og:url" content="https://conference-party-app.web.app">
-
-  <!-- Social: Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="velocity.ai — Gamescom 2025">
-  <meta name="twitter:description" content="Join private conference parties and sync your calendar.">
-  <meta name="twitter:image" content="/social/share-default.png">
-
-  <!-- SEO -->
-  <link rel="canonical" href="https://conference-party-app.web.app">
-  
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Event",
-    "name": "Tech Leaders Networking Party",
-    "startDate": "2025-08-19T19:00:00+01:00",
-    "endDate": "2025-08-19T23:00:00+01:00",
-    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-    "eventStatus": "https://schema.org/EventScheduled",
-    "location": {
-      "@type": "Place",
-      "name": "Rooftop Bar",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "123 Conference Ave",
-        "addressLocality": "Cologne",
-        "addressCountry": "DE"
-      }
-    },
-    "image": [
-      "https://conference-party-app.web.app/social/event-tech-leaders.png"
-    ],
-    "description": "Join industry leaders for an exclusive networking party during Gamescom.",
-    "organizer": {
-      "@type": "Organization",
-      "name": "Velocity",
-      "url": "https://conference-party-app.web.app"
-    }
-  }
-  </script>
-  
-  <!-- Metrics boot -->
-  <script>
-    // Safe Metrics boot
-    try { window.Metrics?.track?.('app_boot', { inline: true }); } catch(e) {}
-  </script>
-  
-  <link rel="stylesheet" href="assets/css/styles.css"/>
-  <link rel="stylesheet" href="/assets/css/app-shell.css?v=001">
-  <link rel="stylesheet" href="/assets/css/header-actions.css?v=001">
-  <link rel="stylesheet" href="/assets/css/nav.css">
-  <link rel="stylesheet" href="/assets/css/hotspots.css">
-  <link rel="stylesheet" href="/css/hotspots.css?v=001">
-  <link rel="stylesheet" href="/css/calendar.css?v=001">
-  <link rel="stylesheet" href="/css/ftue-nudge.css?v=001">
-  <link rel="stylesheet" href="/css/panels.css?v=001">
-  <link rel="stylesheet" href="/css/layout-polish.css?v=001">
-  <link rel="stylesheet" href="/css/cards-parties.css?v=001">
-  <link rel="stylesheet" href="/css/calendar-strip.css?v=001">
-  <link rel="stylesheet" href="/css/toast.css?v=001">
-  <link rel="stylesheet" href="/css/invite-panel.css?v=001">
-  <link rel="stylesheet" href="/css/layout.css?v=001">
-  <link rel="stylesheet" href="/css/app.css?v=001">
-  <link rel="stylesheet" href="/css/sidebar.css?v=001">
-  <link rel="stylesheet" href="/css/sections.css?v=001">
-  <link rel="stylesheet" href="/css/loading.css?v=001">
-  <link rel="stylesheet" href="/css/events-cards.css?v=001">
-  <link rel="stylesheet" href="/css/cards.css?v=001">
-  <link rel="stylesheet" href="/css/account.css?v=001">
-  <link rel="stylesheet" href="/css/sidebar-fix.css?v=001">
-  <link rel="stylesheet" href="/css/sidebar-polish.css?v=001">
-  <link rel="stylesheet" href="/assets/css/party-cards.css?v=001">
-  <link rel="stylesheet" href="/css/events.css?v=001">
-</head>
-<body>
-  <!-- App Shell: stable two-panel layout -->
-  <div class="app-shell">
-    <aside id="sidebar" class="sidebar" data-sidebar></aside>
-    <main id="app" class="content" role="main" aria-live="polite">
-      <header class="page-header">
-        <h1 data-page-title>Parties</h1>
-        <span data-page-chip class="chip">#parties</span>
-      </header>
-      
-      <!-- View sections - only one visible at a time -->
-      <section data-view="parties" id="events-list"></section>
-      <section data-view="hotspots" id="hotspots-root" class="hidden"></section>
-      <section data-view="map" id="map-root" class="hidden"></section>
-      <section data-view="calendar" id="calendar-root" class="hidden"></section>
-      <section data-view="invites" id="invites-root" class="hidden"></section>
-      <section data-view="me" id="account-root" class="hidden"></section>
-      <section data-view="settings" id="settings-root" class="hidden"></section>
-    </main>
-  </div>
+  <meta name="theme-color" content="#6b7bff" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="preload" href="/css/app.css?v=8" as="style" />
+  <link rel="stylesheet" href="/css/app.css?v=8" />
   <!-- ENV must come first -->
-  <script src="/js/env.js?v=001"></script>
+  <script src="/js/env.js?v=8"></script>
+</head>
+<body class="app app-dark">
+  <div class="layout">
+    <aside class="sidebar" aria-label="Main navigation">
+      <header class="brand">
+        <img src="/assets/svg/velocity-logo.svg" alt="" class="brand-logo" />
+        <div class="brand-meta">
+          <div class="brand-name">velocity.ai</div>
+          <div class="brand-space">Gamescom 2025</div>
+        </div>
+      </header>
 
-  <!-- Single deterministic entry -->
-  <script type="module" src="/js/bootstrap.js?v=001"></script>
-  
-  <!-- Service Worker Registration with bypass -->
-  <script src="/js/sw-register.js?v=001"></script>
-  
-  <!-- PWA Install Handler -->
-  <script type="module">
-    // Handle PWA install prompt
-    let deferredPrompt;
-    
-    window.addEventListener('beforeinstallprompt', (e) => {
-      // Prevent the mini-infobar from appearing on mobile
-      e.preventDefault();
-      // Stash the event so it can be triggered later
-      deferredPrompt = e;
-      // Update UI to show install button
-      const installBtn = document.getElementById('btn-install');
-      if (installBtn) {
-        installBtn.style.display = 'block';
-      }
-    });
-    
-    // Handle install button click
-    document.getElementById('btn-install')?.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        // Show the install prompt
-        deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User response to the install prompt: ${outcome}`);
-        // Clear the deferred prompt
-        deferredPrompt = null;
-        // Hide the install button
-        document.getElementById('btn-install').style.display = 'none';
-      }
-    });
-    
-    // Check if already installed
-    window.addEventListener('appinstalled', () => {
-      console.log('PWA was installed');
-      const btnInstall = document.getElementById('btn-install');
-      if (btnInstall) btnInstall.style.display = 'none';
-    });
-  </script>
-  
-  <!-- Safe bootstrap (ensures clean route initialization) -->
-  <script type="module">
-    import Router from '/js/router.js';
-    // Ensure default route
-    if (!location.hash) location.hash = '#/parties';
-    // Light route metric hook (won't throw if not wired)
-    window.addEventListener('hashchange', () => {
-      try { window.Metrics?.trackRoute?.(location.hash || '#/parties'); } catch {}
-    });
-  </script>
+      <nav id="sidebar" class="channels" role="navigation">
+        <button class="channel active" data-route="parties"><span class="hash">#</span>parties</button>
+        <button class="channel" data-route="hotspots"><span class="hash">#</span>hotspots</button>
+        <button class="channel" data-route="map"><span class="hash">#</span>map</button>
+        <button class="channel" data-route="calendar"><span class="hash">#</span>calendar</button>
+        <button class="channel" data-route="invites"><span class="hash">#</span>invites</button>
+        <div class="divider"></div>
+        <button class="channel channel-utility" data-route="me" title="Account">
+          <span class="gear" aria-hidden="true">⚙︎</span><span class="utility-label">Account</span>
+        </button>
+      </nav>
+    </aside>
 
+    <main id="app" class="main" tabindex="-1" aria-live="polite"></main>
+  </div>
 
+  <!-- Foundation + App -->
+  <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=8"></script>
+  <script type="module" src="/assets/js/foundation/sw-register.js?v=8"></script>
+  <script type="module" src="/js/events.js?v=8"></script>
+  <script type="module" src="/js/install.js?v=8"></script>
+  <script type="module" src="/js/store.js?v=8"></script>
+
+  <!-- Router + Controllers -->
+  <script type="module" src="/js/route-title.js?v=8"></script>
+  <script type="module" src="/js/router.js?v=8"></script>
+  <script type="module" src="/js/events-controller.js?v=8"></script>
+  <script type="module" src="/js/hotspots.js?v=8"></script>
+  <script type="module" src="/js/calendar-view.js?v=8"></script>
+  <script type="module" src="/js/invite-panel.js?v=8"></script>
+  <script type="module" src="/js/map-controller.js?v=8"></script>
+  <script type="module" src="/js/account.js?v=8"></script>
+  <script type="module" src="/js/app-wireup.js?v=8"></script>
 </body>
 </html>

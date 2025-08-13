@@ -1,101 +1,88 @@
 /**
- * Router: toggles [data-view] and asks view-registry to render only the active
- * Never clears #app; the shell is stable.
+ * Minimal hash router + sidebar binder (production-safe).
+ * Two-panel layout: sidebar + #app main. No third panel.
  */
-import Events from './events.js';
-import { setTitles } from './route-title.js';
+import Events from '/assets/js/events.js';
 
-const NAV = ['parties','hotspots','map','calendar','invites','me'];
-let _current = null;
+const NAV = ['parties','hotspots','map','calendar','invites','me']; // no settings channel
 
-const q = sel => document.querySelector(sel);
-const qa = sel => Array.from(document.querySelectorAll(sel));
-const norm = (hash)=> (hash||'#/parties').replace(/^#\/?/, '').split('?')[0] || 'parties';
+let _sidebar, _app;
 
-export function bindSidebar(doc=document){
-  const sb = doc.getElementById('sidebar');
-  if (!sb) return;
-  
-  // Only render if not already rendered
-  if (!sb.dataset.wired) {
-    sb.innerHTML = `
-      <div class="brand">
-        <a href="#/parties" class="brand-link">
-          <img src="/images/veloc-v.svg" alt="velocity.ai" width="24" height="24" />
-          <div class="brand-meta">
-            <div class="b-name">velocity.ai</div>
-            <div class="b-sub">gamescom 2025</div>
-          </div>
-        </a>
-      </div>
-      <nav class="nav">
-        ${NAV.map(n=>`<a data-route="${n}" href="#/${n}"><span class="hash">#</span><span class="lbl">${n}</span></a>`).join('')}
-      </nav>`;
-    sb.dataset.wired = '1';
-    
-    sb.querySelectorAll('a[data-route]').forEach(a=>{
-      a.addEventListener('click', (e)=>{ 
-        e.preventDefault(); 
-        route(a.dataset.route); 
-      }, {passive:false});
-    });
-  }
+function norm(hash) {
+  if (!hash) return 'parties';
+  return hash.replace(/^#\/?/, '').split('?')[0] || 'parties';
 }
 
-export async function route(to){
-  const r = norm(to || location.hash);
-  
-  // Normalize special routes
-  const actualRoute = (r === 'settings') ? 'me' : r;
-  
-  if (_current === actualRoute) return;
-  _current = actualRoute;
+export function currentRoute(){ return norm(location.hash); }
 
-  // Update URL if needed
-  if (location.hash !== `#/${actualRoute}`) {
-    location.hash = `#/${actualRoute}`;
-  }
-
-  // Highlight active in sidebar
-  q('#sidebar')?.querySelectorAll('a[data-route]').forEach(a=>{
-    a.classList.toggle('active', a.dataset.route === actualRoute);
+function setActive(r){
+  if(!_sidebar) _sidebar = document.getElementById('sidebar');
+  if(!_sidebar) return;
+  _sidebar.querySelectorAll('.channel').forEach(btn=>{
+    btn.classList.toggle('active', btn.getAttribute('data-route')===r);
   });
+}
 
-  // Toggle [data-view] sections
-  qa('[data-view]').forEach(s => {
-    s.classList.toggle('hidden', s.getAttribute('data-view') !== actualRoute);
-  });
+export function route(r){
+  if(!r || !NAV.includes(r)) r='parties';
+  if(location.hash !== `#/${r}`) location.hash = `#/${r}`;
+  setActive(r);
+  render(r);
+  Events.emit?.('navigate', r);
+}
 
-  // Update titles
-  setTitles(actualRoute);
-  
-  // Page header
-  const pageTitle = q('[data-page-title]');
-  const pageChip = q('[data-page-chip]');
-  if (pageTitle) pageTitle.textContent = actualRoute.charAt(0).toUpperCase() + actualRoute.slice(1);
-  if (pageChip) pageChip.textContent = `#${actualRoute}`;
+async function render(r){
+  _app = _app || document.getElementById('app');
+  if(!_app) return;
+  _app.innerHTML = ''; // no duplicate headings, no stray titles
 
-  // Ask the view registry to render the active mount only
-  try {
-    const { renderActive } = await import('./view-registry.js' + (window.__ENV?.BUILD ? `?v=${window.__ENV.BUILD}` : ''));
-    await renderActive(actualRoute);
-  } catch (e) {
-    console.error('route render error', actualRoute, e);
+  if(r==='parties'){
+    const m = await import('./events-controller.js');
+    return m.renderParties?.(_app);
   }
-
-  Events.emit?.('route:change', { name: actualRoute });
+  if(r==='hotspots'){
+    const m = await import('./hotspots.js');
+    return m.renderHotspots?.(_app);
+  }
+  if(r==='calendar'){
+    const m = await import('./calendar-view.js');
+    return m.renderCalendar?.(_app);
+  }
+  if(r==='map'){
+    const m = await import('./map-controller.js');
+    return m.renderMap?.(_app);
+  }
+  if(r==='invites'){
+    const m = await import('./invite-panel.js');
+    return m.renderInvites?.(_app);
+  }
+  if(r==='me'){
+    const m = await import('./account.js');
+    return m.renderAccount?.(_app);
+  }
 }
 
-// Initialize on load
-function routeFromHash() {
-  return norm(location.hash);
+export function bindSidebar(){
+  _sidebar = document.getElementById('sidebar');
+  if(!_sidebar) return;
+  _sidebar.querySelectorAll('.channel').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.preventDefault();
+      const name = el.getAttribute('data-route');
+      route(name);
+    }, { passive:false });
+  });
 }
 
-window.addEventListener('hashchange', ()=>route(routeFromHash()), {passive:true});
+window.addEventListener('hashchange', ()=>{
+  const r = currentRoute();
+  setActive(r);
+  render(r);
+});
 
-export function startRouter() { 
-  bindSidebar(); 
-  return route(routeFromHash()); 
-}
-
-export default { route, bindSidebar, startRouter };
+document.addEventListener('DOMContentLoaded', ()=>{
+  bindSidebar();
+  const r = currentRoute();
+  setActive(r);
+  render(r);
+});

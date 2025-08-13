@@ -1,161 +1,74 @@
-/**
- * Parties / Events Controller (uniform cards + per-card Save & Sync)
- */
 import Events from '/assets/js/events.js';
-import Store from '/js/store.js';
-import { toast, emptyState } from '/js/ui-feedback.js';
 
-const API_BASE = (window.__ENV && window.__ENV.API_BASE) || '/api';
+const API = '/api/parties?conference=gamescom2025';
 
-function el(html){ const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; }
-
-async function getJSON(url) {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`HTTP ${r.status}: ${await r.text().catch(()=>r.statusText)}`);
-  return r.json();
+function el(tag, cls, html){
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(html!=null) n.innerHTML = html;
+  return n;
 }
 
-function icsFor(item) {
-  // Minimal ICS per event; caller triggers download
-  const dtstamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
-  const uid = `${item.id || (item.title||'event').replace(/\s+/g,'-')}@velocity`;
-  const dt = item.dateISO || new Date().toISOString();
-  // Without precise times, still valid ICS (all-day)
-  return [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//velocity.ai//events//EN',
-    'BEGIN:VEVENT',
-    `UID:${uid}`,
-    `DTSTAMP:${dtstamp}`,
-    `SUMMARY:${(item.title||'Party').replace(/\n/g,' ')}`,
-    item.venue ? `LOCATION:${item.venue}` : '',
-    `DTSTART:${dt.replace(/[-:]/g,'').split('.')[0].replace('Z','')}`,
-    'END:VEVENT',
-    'END:VCALENDAR'
-  ].filter(Boolean).join('\r\n');
-}
-
-function download(filename, content, type='text/calendar') {
-  const blob = new Blob([content], { type });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 0);
-}
-
-function card(item) {
-  const c = el(`
-    <div class="event-card">
-      <div>
-        <div class="event-title">${(item.title||'Untitled')}</div>
-        <div class="event-tags">
-          ${item.date ? `<span class="event-tag">${item.date}</span>` : ''}
-          ${item.time ? `<span class="event-tag">${item.time}</span>` : ''}
-          ${item.venue ? `<span class="event-tag">${item.venue}</span>` : ''}
-          ${item.price ? `<span class="event-tag">${item.price}</span>` : ''}
-        </div>
-      </div>
-      <div class="event-actions">
-        <button class="event-btn" data-action="save" data-id="${item.id}">Save</button>
-        <button class="event-btn" data-action="sync" data-id="${item.id}">Sync</button>
-        <button class="event-btn" data-action="share" data-id="${item.id}">Share</button>
+function card(event){
+  const c = el('article', 'card');
+  const price = event.price ? `<span class="badge">${event.price}</span>` : '';
+  c.innerHTML = `
+    <div class="card-header">
+      <div class="card-title">${event.title || event['Event Name'] || 'Untitled'}</div>
+      <div class="badges">
+        ${price}
+        <span class="badge ok">live</span>
       </div>
     </div>
-  `);
-
-  c.addEventListener('click', async (e)=>{
-    const btn = e.target.closest('button[data-action]');
-    if (!btn) return;
-    const action = btn.dataset.action;
-    if (action === 'save') {
-      // Local save
-      const saved = Store.get('events.saved') || [];
-      if (!saved.find(x=>x.id===item.id)) {
-        saved.push({ id:item.id, title:item.title, date:item.date, time:item.time, venue:item.venue });
-        Store.patch('events.saved', saved);
-      }
-      toast('Saved', 'ok');
-    }
-    if (action === 'sync') {
-      // ICS per event
-      const ics = icsFor(item);
-      const fname = (item.title || 'event').replace(/\s+/g,'_') + '.ics';
-      download(fname, ics);
-      toast('Opening calendar…', 'ok');
-    }
-    if (action === 'share') {
-      const text = `${item.title} @ ${item.venue || ''} ${item.date||''} ${item.time||''}`.trim();
-      try {
-        await navigator.share({ title: item.title, text, url: location.href });
-      } catch { navigator.clipboard?.writeText(text).then(()=>toast('Copied', 'ok')); }
-    }
-  });
-
+    <div class="card-body">
+      <div class="card-row">📍 ${event.venue || event['Location'] || 'TBA'}</div>
+      <div class="card-row">🗓️ ${event.date || event['Date'] || ''} ${event.time ? '— '+event.time : ''}</div>
+      ${event.hosts ? `<div class="card-row">🎙️ ${event.hosts}</div>` : ''}
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-primary" data-action="save-sync">Save & Sync</button>
+      <button class="btn btn-outline" data-action="details">Details</button>
+    </div>
+  `;
+  c.querySelector('[data-action="save-sync"]').addEventListener('click', ()=>{
+    Events.emit?.('calendar:add', { event });
+  }, {passive:true});
   return c;
 }
 
-export async function renderEvents(mount) {
-  const root = mount || document.getElementById('events-list') || document.getElementById('app');
-  if (!root) return;
+async function fetchEvents(){
+  const resp = await fetch(API).catch(()=>null);
+  if(!resp || !resp.ok) return [];
+  const json = await resp.json().catch(()=>({data:[]}));
+  return json.data || [];
+}
 
-  root.innerHTML = `
-    <div class="events-wrap">
-      <div class="events-grid" id="events-grid"></div>
-    </div>
+export async function renderParties(root){
+  const wrap = el('section','section-card');
+  wrap.appendChild(el('div','left-accent'));
+  const body = el('div','section-body');
+  const header = el('div','header-row');
+  header.innerHTML = `
+    <div class="header-title">Recommended events</div>
+    <div class="header-meta muted">Scroll to explore</div>
   `;
+  body.appendChild(header);
 
-  const grid = document.getElementById('events-grid');
+  const grid = el('div','grid grid-3');
+  body.appendChild(grid);
+  wrap.appendChild(body);
+  root.appendChild(wrap);
 
-  // Prefer hosting path that's confirmed working:
-  // /api/parties?conference=gamescom2025  (works via hosting rewrite)
-  const url = `${API_BASE}/parties?conference=gamescom2025`;
+  // skeletons
+  for(let i=0;i<6;i++){ const s=el('div','skeleton'); s.style.height='160px'; grid.appendChild(s); }
 
-  let data = [];
-  try {
-    const json = await getJSON(url);
-    data = Array.isArray(json?.data) ? json.data : [];
-  } catch (e) {
-    console.warn('Failed to fetch parties:', e);
-  }
-
-  if (!data.length) {
-    grid.append(emptyState('No events yet.')); 
+  const items = await fetchEvents();
+  grid.innerHTML = '';
+  if(!items.length){
+    const empty = el('div','muted','No events yet.');
+    empty.style.padding='24px';
+    grid.appendChild(empty);
     return;
   }
-
-  data.forEach(item => grid.append(card(item)));
+  items.forEach(ev=> grid.appendChild(card(ev)));
 }
-
-// Boot on route
-try {
-  document.addEventListener('route:change', (e)=>{
-    if ((e.detail?.name) === 'parties') renderEvents();
-  });
-} catch {}
-
-// Keep existing exports for compatibility
-export async function renderParties(rootEl) {
-  return renderEvents(rootEl);
-}
-
-export async function initPartiesView() {
-  return renderEvents();
-}
-
-export async function initEventsController(containerId) {
-  // Legacy compatibility
-  if (containerId === 'parties-list') {
-    return renderEvents();
-  }
-  const container = document.getElementById(containerId);
-  if (!container) {
-    console.error(`initEventsController: No container with id ${containerId}`);
-    return;
-  }
-  return renderEvents(container);
-}
-
-export default { renderEvents, renderParties, initEventsController, initPartiesView };
