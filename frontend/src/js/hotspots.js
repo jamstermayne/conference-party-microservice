@@ -1,9 +1,4 @@
 export async function renderHotspots(root){
-  // Guard against undefined root
-  if(!root) {
-    console.warn('[hotspots] renderHotspots called with undefined root');
-    return;
-  }
   const wrap = document.createElement('section');
   wrap.className = 'section-card';
   wrap.innerHTML = `

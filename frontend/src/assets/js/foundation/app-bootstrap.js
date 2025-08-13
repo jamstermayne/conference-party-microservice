@@ -1,18 +1,19 @@
-import { initDrawer } from './drawer.js';
-import { bindSidebar, route, currentRoute, renderNav } from '/js/sidebar.js';
+// Single entry: verifies/initializes foundation modules safely
+import './logger.js';
+import Events from './events.js';
+import Store from './store.js';
+import Router from './router.js';
+import './actionDelegate.js';
+import Metrics from './metrics.js';
+import Flags from './featureFlags.js';
 
-// Render sidebar links & bind clicks
-renderNav();
-bindSidebar();
+// Minimal boot diagnostics
+Events.emit('app:boot', { ts: Date.now(), route: location.hash });
 
-// Initialize drawer behavior
-initDrawer();
+// Optional: expose ready promise for controllers that want to wait
+export const FoundationReady = Promise.resolve({ Events, Store, Router, Metrics, Flags });
+if (!window.FoundationReady) window.FoundationReady = FoundationReady;
 
-// Initial route
-route(location.hash);
-
-// Keep title updated
-import('/js/route-title.js').then(m => m.init?.());
-
-// Optional: expose for debugging
-window.__app = { route, currentRoute };
+// Gentle test pings (remove if noisy)
+Metrics.track('app_boot', { route: location.hash || '#parties' });
+Flags.refresh();

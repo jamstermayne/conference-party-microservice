@@ -1,38 +1,88 @@
+/**
+ * Minimal hash router + sidebar binder (production-safe).
+ * Two-panel layout: sidebar + #app main. No third panel.
+ */
 import Events from '/assets/js/events.js';
-import { mountSidebar } from '/js/sidebar.js';
-const ROUTES = ['parties','hotspots','map','calendar','invites','me','settings','contacts'];
-const appEl = ()=>document.getElementById('app');
-const norm = h => (h||'parties').replace(/^#\/?/, '').split('?')[0] || 'parties';
-// Mount sidebar once on DOM ready
-document.addEventListener('DOMContentLoaded', ()=>{
-  try { mountSidebar('#sidebar'); } catch(e){console.error('Sidebar mount error:', e);}
-});
-export async function route(hash){
-  const r = norm(hash); 
-  const app = appEl() || document.getElementById('main');
-  if(!app) return;
-  app.innerHTML = '';
-  switch(r){
-    case 'parties':   (await import('./events-controller.js')).renderParties?.(app); break;
-    case 'hotspots':  (await import('./hotspots.js')).renderHotspots?.(app); break;
-    case 'map':       (await import('./map-controller.js')).renderMap?.(app); break;
-    case 'calendar':  (await import('./calendar-view.js')).renderCalendar?.(app); break;
-    case 'invites':   (await import('./invite-panel.js')).renderInvites?.(app); break;
-    case 'contacts':  (await import('./contacts.js')).renderContacts?.(app); break;
-    case 'me':        (await import('./account-panel.js')).renderAccount?.(app); break;
-    case 'settings':  (await import('./settings-panel.js')).renderSettings?.(app); break;
-    default:          (await import('./events-controller.js')).renderParties?.(app);
+
+const NAV = ['parties','hotspots','map','calendar','invites','me']; // no settings channel
+
+let _sidebar, _app;
+
+function norm(hash) {
+  if (!hash) return 'parties';
+  return hash.replace(/^#\/?/, '').split('?')[0] || 'parties';
+}
+
+export function currentRoute(){ return norm(location.hash); }
+
+function setActive(r){
+  if(!_sidebar) _sidebar = document.getElementById('sidebar');
+  if(!_sidebar) return;
+  _sidebar.querySelectorAll('.channel').forEach(btn=>{
+    btn.classList.toggle('active', btn.getAttribute('data-route')===r);
+  });
+}
+
+export function route(r){
+  if(!r || !NAV.includes(r)) r='parties';
+  if(location.hash !== `#/${r}`) location.hash = `#/${r}`;
+  setActive(r);
+  render(r);
+  Events.emit?.('navigate', r);
+}
+
+async function render(r){
+  _app = _app || document.getElementById('app');
+  if(!_app) return;
+  _app.innerHTML = ''; // no duplicate headings, no stray titles
+
+  if(r==='parties'){
+    const m = await import('./events-controller.js');
+    return m.renderParties?.(_app);
   }
-  Events?.emit?.('route:changed', { route: r });
+  if(r==='hotspots'){
+    const m = await import('./hotspots.js');
+    return m.renderHotspots?.(_app);
+  }
+  if(r==='calendar'){
+    const m = await import('./calendar-view.js');
+    return m.renderCalendar?.(_app);
+  }
+  if(r==='map'){
+    const m = await import('./map-controller.js');
+    return m.renderMap?.(_app);
+  }
+  if(r==='invites'){
+    const m = await import('./invite-panel.js');
+    return m.renderInvites?.(_app);
+  }
+  if(r==='me'){
+    const m = await import('./account.js');
+    return m.renderAccount?.(_app);
+  }
 }
 
-// Handle hash changes
-window.addEventListener('hashchange', ()=> route(location.hash));
-
-// Initial route on load
-window.addEventListener('DOMContentLoaded', ()=> route(location.hash));
-
-// Export for backwards compatibility
-export function bindSidebar() {
-  // No-op, sidebar is now self-mounting
+export function bindSidebar(){
+  _sidebar = document.getElementById('sidebar');
+  if(!_sidebar) return;
+  _sidebar.querySelectorAll('.channel').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.preventDefault();
+      const name = el.getAttribute('data-route');
+      route(name);
+    }, { passive:false });
+  });
 }
+
+window.addEventListener('hashchange', ()=>{
+  const r = currentRoute();
+  setActive(r);
+  render(r);
+});
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  bindSidebar();
+  const r = currentRoute();
+  setActive(r);
+  render(r);
+});

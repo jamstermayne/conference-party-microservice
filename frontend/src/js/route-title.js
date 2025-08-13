@@ -1,11 +1,17 @@
-export function init(){
-  const el = document.getElementById('routeTitle');
-  const set = () => {
-    const h = location.hash.replace(/^#\/?/, '').split('?')[0] || 'parties';
-    const tag = '#'+h;
-    if (el) el.textContent = tag;
-    document.title = `velocity.ai — ${tag}`;
-  };
-  window.addEventListener('hashchange', set);
-  set();
+import Events from '/assets/js/events.js';
+
+const FRIENDLY = {
+  parties:'Parties',
+  hotspots:'Hotspots',
+  map:'Map',
+  calendar:'Calendar',
+  invites:'Invites',
+  me:'Account'
+};
+
+function setTitles(route){
+  const name = FRIENDLY[route] || 'Parties';
+  // We purposefully do not render a page-level h1 here to avoid duplication.
+  document.title = `velocity.ai — ${name}`;
 }
+Events.on?.('navigate', setTitles);
