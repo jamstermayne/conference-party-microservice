@@ -26,11 +26,11 @@ export function route(name) {
 
 export function bindSidebar() {
   _mount = document.getElementById('app') || document.getElementById('main');
-  const sidenav = document.getElementById('sidenav') || document.querySelector('.sidenav');
-  if (!sidenav) return;
+  const sidebar = document.getElementById('sidebar') || document.querySelector('.channels');
+  if (!sidebar) return;
 
   // click binding
-  sidenav.querySelectorAll('[data-route]').forEach(el => {
+  sidebar.querySelectorAll('[data-route]').forEach(el => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
       const r = el.getAttribute('data-route');
@@ -40,22 +40,13 @@ export function bindSidebar() {
 
   // active state sync
   const applyActive = (r) => {
-    sidenav.querySelectorAll('[data-route]').forEach(el => {
+    sidebar.querySelectorAll('[data-route]').forEach(el => {
       const match = el.getAttribute('data-route') === r;
       el.classList.toggle('active', match);
       el.setAttribute('aria-current', match ? 'page' : 'false');
-      // Ensure Slack-style label "#channel"
-      const text = el.getAttribute('data-label') || el.textContent.trim().replace(/^#+/,'');
-      el.textContent = `#${text.toLowerCase()}`;
     });
-    // left accent on active
-    document.querySelectorAll('.left-accent').forEach(a => a.remove());
-    const active = sidenav.querySelector('.active');
-    if (active) {
-      const accent = document.createElement('div');
-      accent.className = 'left-accent';
-      active.prepend(accent);
-    }
+    // Update route title
+    Events.emit?.('navigate', r);
   };
 
   window.addEventListener('hashchange', () => {
