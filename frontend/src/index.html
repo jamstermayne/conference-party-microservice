@@ -32,6 +32,11 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="/js/auth.js?v=b023"></script>
   <style data-vmain>#main{overflow:auto;max-height:100vh;padding-bottom:24px}</style>
+<style id="layout-lock">
+  html, body { height:100%; overflow:visible !important; }
+  .app       { height:100%; overflow:visible !important; }
+  #main      { overflow:auto !important; height:100%; min-height:100vh; -webkit-overflow-scrolling: touch; }
+</style>
 </head>
 <body>
   <div id="app" class="app">
