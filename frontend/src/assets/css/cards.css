@@ -1,76 +1,46 @@
-/* Card base styles with unified rhythm */
-.card-base {
-  background: linear-gradient(180deg, #1a1f2f 0%, #141a27 100%);
-  border: 1px solid rgba(255,255,255,.06);
-  box-shadow: 0 8px 32px rgba(90, 91, 255, .18);
-  border-radius: 16px;
-  padding: var(--card-pad, 16px);
-  position: relative;
+/* ---------- Shared primitives ---------- */
+.btn{ display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:.6rem; background:#222; color:#ddd; border:1px solid #333; }
+.btn--primary{ background:linear-gradient(180deg,#6b6bff,#7a49fa); border-color:#6b6bff; color:#fff; box-shadow:0 0 18px rgba(123,89,255,.25); }
+.chip{ padding:.35rem .75rem; border-radius:1rem; background:#1c1c2b; color:#9aa3b2; border:1px solid #26293a; }
+.chip.is-active{ background:linear-gradient(90deg,#203458,#2e2750); color:#e9ecff; }
+
+/* ---------- Parties view (namespaced) ---------- */
+.view--parties .hero{ margin:1.25rem 0 1rem; padding:.75rem 1rem; border-radius:1rem; background:linear-gradient(180deg,#151a26,#10141c); border:1px solid #222638; }
+.view--parties .hero__title{ font-size:1.25rem; font-weight:700; color:#e7ebff; }
+.view--parties .hero__hint{ color:#8b95a7; font-size:.9rem; }
+
+.view--parties .parties-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
+  gap: 1.1rem;
 }
 
-/* Party / Calendar hero card */
-.party-card,
-.calendar-card {
-  /* Unify visual rhythm: height is #slots × --slot-height */
-  min-height: var(--slot-height);
-  height: calc(var(--slot-height) * var(--duration-slots, 2));
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.view--parties .party-card{
+  position:relative; overflow:hidden;
+  border-radius:1rem; padding:1rem 1.1rem;
+  background:radial-gradient(1200px 320px at -200px -100px,#11203a 0%,#0f121a 65%);
+  border:1px solid #22263a; color:#dfe4ff;
+  box-shadow: 0 8px 28px rgba(20,24,38,.35), inset 0 0 0 1px rgba(255,255,255,.02);
 }
 
-.party-card .title,
-.calendar-card .title {
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--ink, #e8ecff);
-  margin-bottom: 8px;
-}
+/* ---------- Calendar view (namespaced) ---------- */
+.view--calendar .calendar-controls{ display:flex; gap:.6rem; margin:.5rem 0 1rem; }
+.view--calendar .calendar-wrap{ position:relative; height: calc(100vh - 160px); overflow:auto; border-radius:1rem; border:1px solid #1f2333; background:linear-gradient(180deg,#0e121a,#0b0f16); }
+.view--calendar .calendar-grid{ position:relative; margin-left:4.5rem; padding:1rem 1rem 2rem 0; }
 
-.party-card .meta,
-.calendar-card .meta {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: var(--ink-dim, #a7b0cc);
-}
+.view--calendar .cal-row{ position:relative; height:48px; border-bottom:1px dashed rgba(255,255,255,.06); }
+.view--calendar .cal-hour{ position:absolute; left:-4.5rem; top:-.6rem; width:3.8rem; text-align:right; color:#7f8898; font-variant-numeric:tabular-nums; }
 
-.badge {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: rgba(111,108,255,.18);
-  border: 1px solid rgba(111,108,255,.28);
-  color: var(--chip-txt, #c9c3ff);
+.view--calendar .cal-card{
+  position:absolute; left:0; right:1rem;
+  min-height:24px; /* one 30-min block */
+  border-radius:1rem; padding:14px 16px;
+  background:radial-gradient(1400px 400px at -240px -160px,#1a2a50 0%,rgba(16,20,28,.65) 55%), linear-gradient(180deg,rgba(146,115,255,.08),rgba(146,115,255,0) 50%);
+  border:1px solid rgba(123,89,255,.35);
+  box-shadow: 0 10px 22px rgba(26,33,58,.5), 0 0 0 1px rgba(255,255,255,.02) inset, 0 0 18px rgba(123,89,255,.2);
+  color:#e9ecff;
+  backdrop-filter: blur(8px);
 }
-
-.actions {
-  display: flex;
-  gap: 8px;
-  margin-top: auto;
-  padding-top: 12px;
-}
-
-.btn {
-  appearance: none;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-weight: 600;
-  font-size: 12px;
-  cursor: pointer;
-  background: #212634;
-  color: #c9d3df;
-  transition: all 0.2s ease;
-}
-
-.btn-primary {
-  background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
-  color: white;
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,.2);
-}
+.view--calendar .cal-card__title{ font-weight:800; font-size:1.1rem; letter-spacing:.2px; }
+.view--calendar .cal-card__meta{ margin:.35rem 0 .6rem; color:#b6bfd1; }
+.view--calendar .cal-card__actions{ display:flex; gap:.5rem; }

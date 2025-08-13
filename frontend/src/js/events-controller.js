@@ -1,75 +1,36 @@
 /**
- * events-controller.js — Parties (hero cards) with resilient data fetch.
- * Guarantees cards render by falling back to /assets/seed/events.json when API is empty or fails.
+ * events-controller.js - Parties page controller
+ * Build: b016
  */
 import { createPartyCard } from './party-card.js?v=b011';
 
-const API_URL = '/api/parties?conference=gamescom2025';
-const SEED_URL = '/assets/seed/events.json';
-
-/** Fetch JSON with guardrails. */
-async function safeGet(url) {
-  try {
-    const r = await fetch(url, { credentials: 'include', cache: 'no-store' });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    return await r.json();
-  } catch (e) {
-    console.warn('[parties] fetch failed:', url, e.message || e);
-    return null;
-  }
-}
-
-/** Normalize API/seed shapes into a common event model the card understands. */
-function normalize(list = []) {
-  return list.map(ev => ({
-    id: ev.id || crypto.randomUUID(),
-    title: ev.title || ev.name || 'Untitled',
-    venue: ev.venue || ev.location || '',
-    priceLabel: ev.priceLabel || ev.price || '',
-    isLive: Boolean(ev.isLive ?? true),
-    start: ev.start || ev.startTime,
-    end: ev.end || ev.endTime,
-    rsvpUrl: ev.rsvpUrl || ev.url || '#',
-    detailUrl: ev.detailUrl || ev.url || '#'
-  }));
-}
-
-export async function renderParties(mount) {
+export async function renderParties(mount){
   if (!mount) return;
 
-  // Header
   mount.innerHTML = `
-    <div class="section-card">
-      <div class="left-accent" aria-hidden="true"></div>
-      <h2 class="text-heading">Recommended events</h2>
-      <div class="text-subtle">Scroll to explore</div>
-      <div id="party-cards" class="cards-grid" style="margin-top:16px;"></div>
+    <div class="hero hero--parties">
+      <h2 class="hero__title">Recommended events</h2>
+      <div class="hero__hint">Scroll to explore</div>
     </div>
+    <div class="parties-grid" id="partiesGrid" role="list"></div>
   `;
 
-  const grid = mount.querySelector('#party-cards');
+  const grid = mount.querySelector('#partiesGrid');
 
-  // Try API, then seed. Always render something.
-  let data = await safeGet(API_URL);
-  let events = normalize(Array.isArray(data?.events) ? data.events : data);
+  // fetch parties (cached SW will serve fallback)
+  const res = await fetch('/api/parties?conference=gamescom2025').catch(()=>null);
+  const data = res && res.ok ? await res.json() : [];
+  // Fallback demo cards if API quiet:
+  const items = (data && data.length ? data : [
+    { id:'meet-2025', title:'MeetToMatch The Cologne Edition 2025', venue:'Koelnmesse Confex', start:'2025-08-22T09:00:00+02:00', end:'2025-08-22T18:00:00+02:00', price:'From £127.04', live:true },
+    { id:'mixer', title:'Marriott Rooftop Mixer', venue:'Marriott Hotel', start:'2025-08-22T20:00:00+02:00', end:'2025-08-22T23:30:00+02:00', price:'Free', live:true }
+  ]);
 
-  if (!events?.length) {
-    const fallback = await safeGet(SEED_URL);
-    events = normalize(fallback);
-  }
-
-  if (!events?.length) {
-    grid.innerHTML = `<div class="text-subtle">No events available.</div>`;
-    return;
-  }
-
-  // Render hero cards
-  const frag = document.createDocumentFragment();
-  events.slice(0, 20).forEach(ev => {
-    const card = createPartyCard(ev); // uses existing beautiful card component & CSS
-    frag.appendChild(card);
+  items.forEach(ev => {
+    const card = createPartyCard(ev);
+    card.setAttribute('role','listitem');
+    grid.appendChild(card);
   });
-  grid.appendChild(frag);
 }
 
 export default { renderParties };

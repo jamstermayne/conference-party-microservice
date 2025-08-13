@@ -1,56 +1,56 @@
 /**
- * Router — single entry, single mount (#main). Build b018.
- * No CSS imports; all modules are versioned (?v=b018)
+ * Router - Single mount point, consistent versioning
+ * Build: b016
  */
-const ROUTES = ["parties","calendar","map","hotspots","invites","contacts","me","settings"];
-const currentRoute = () => (location.hash || "#/parties").replace(/^#\/?/, "").split("?")[0] || "parties";
+import Events from '/assets/js/events.js?v=b011';
+import { ensureShell, setActive } from './shell.js?v=b011';
 
-function mount() {
-  return document.getElementById("main");
-}
+export const ROUTES = ['parties','calendar','map','hotspots','invites','contacts','me','settings'];
+export const currentRoute = () => (location.hash.replace(/^#\/?/, '')||'parties').split('?')[0];
 
-async function render(r) {
-  const el = mount();
-  if (!el) return;
-  el.innerHTML = "";
+export async function route(){
+  await ensureShell();
+  const r = currentRoute();
+  setActive(r);
 
-  switch (r) {
-    case "parties":
-      (await import("./events-controller.js?v=b018")).renderParties(el);
+  const main = document.getElementById('main');
+  if (!main) return;
+
+  // hard reset the mount and inject a namespaced wrapper
+  main.innerHTML = `<div id="view" class="view view--${r}"></div>`;
+  const mount = document.getElementById('view');
+
+  switch(r){
+    case 'parties':
+      (await import('./events-controller.js?v=b011')).renderParties(mount);
       break;
-    case "calendar":
-      (await import("./calendar-view.js?v=b017")).renderCalendar(el);
+    case 'calendar':
+      (await import('./calendar-view.js?v=b011')).renderCalendar?.(mount);
       break;
-    case "invites":
-      (await import("./invite-panel.js?v=b018")).renderInvites(el);
+    case 'map':
+      (await import('./map-controller.js?v=b011')).renderMap?.(mount);
       break;
-    case "contacts":
-      (await import("./contacts-panel.js?v=b018")).renderContacts(el);
+    case 'hotspots':
+      (await import('./hotspots.js?v=b011')).renderHotspots?.(mount);
       break;
-    case "me":
-      (await import("./me-panel.js?v=b018")).renderMe(el);
+    case 'invites':
+      (await import('./invite-panel.js?v=b011')).renderInvites?.(mount);
       break;
-    case "map":
-    case "hotspots":
-    case "settings":
-      el.innerHTML = `
-        <div class="section-card">
-          <div class="left-accent" aria-hidden="true"></div>
-          <h2 class="text-heading" style="margin-bottom:8px;">${r.charAt(0).toUpperCase()+r.slice(1)}</h2>
-          <p class="muted">Coming soon.</p>
-        </div>`;
+    case 'contacts':
+      (await import('./contacts-panel.js?v=b011')).renderContacts?.(mount);
+      break;
+    case 'me':
+      (await import('./me-panel.js?v=b011')).renderMe?.(mount);
+      break;
+    case 'settings':
+      (await import('./settings-panel.js?v=b011')).renderSettings?.(mount);
       break;
     default:
-      (await import("./events-controller.js?v=b018")).renderParties(el);
+      (await import('./events-controller.js?v=b011')).renderParties(mount);
+      break;
   }
+  Events.emit?.(`route:${r}`);
 }
 
-function start() {
-  const go = () => render(currentRoute());
-  addEventListener("hashchange", go, { passive:true });
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", go, { once:true });
-  } else { go(); }
-}
-start();
-export { currentRoute };
+window.addEventListener('hashchange', route, { passive:true });
+window.addEventListener('DOMContentLoaded', route, { passive:true });
