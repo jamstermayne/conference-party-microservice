@@ -4,6 +4,7 @@ import express, {Request, Response} from "express";
 import cors from "cors";
 import {getHotspots} from "./hotspots";
 const invitesRouter = require("../../routes/invites");
+const adminRouter = require("../../routes/admin");
 
 try {admin.initializeApp();} catch (error) {
   console.log("Firebase admin already initialized:", error);
@@ -14,6 +15,7 @@ const app = express();
 app.use(cors({origin: true}));
 app.use(express.json());
 app.use("/api/invites", invitesRouter);
+app.use("/api/admin", adminRouter);
 
 const FALLBACK_EVENTS = [
   {
