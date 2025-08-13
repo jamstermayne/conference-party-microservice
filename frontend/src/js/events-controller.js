@@ -1,17 +1,36 @@
 export async function renderParties(root){
-  const el = root || document.getElementById('app'); if(!el) return;
+  const mount = root || document.getElementById('app'); 
+  if(!mount) return;
+  
   const events = await getSample(); // replace with your API fetch
-  el.innerHTML = `
-    <section class="section-card">
-      <div class="left-accent" aria-hidden="true"></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <h2 style="margin:0">Recommended events</h2>
-        <small style="color:var(--muted)">Scroll to explore</small>
-      </div>
-      <div class="events-grid">
-        ${events.map(ev=>card(ev)).join('')}
-      </div>
-    </section>`;
+  
+  // Create section wrapper
+  const section = document.createElement('section');
+  section.className = 'section-card';
+  
+  // Add accent
+  const accent = document.createElement('div');
+  accent.className = 'left-accent';
+  accent.setAttribute('aria-hidden', 'true');
+  section.appendChild(accent);
+  
+  // Add header
+  const header = document.createElement('div');
+  header.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:10px';
+  header.innerHTML = `
+    <h2 style="margin:0">Recommended events</h2>
+    <small style="color:var(--muted)">Scroll to explore</small>
+  `;
+  section.appendChild(header);
+  
+  // Create responsive grid
+  const grid = document.createElement('div');
+  grid.className = 'card-grid'; // 1 col mobile, 2 col tablet, 3 col desktop via CSS
+  grid.innerHTML = events.map(ev=>card(ev)).join('');
+  section.appendChild(grid);
+  
+  // Replace mount children
+  mount.replaceChildren(section);
 }
 function card(ev){
   const price = ev.price ? `From ${ev.price}` : (ev.free ? 'Free' : '');
