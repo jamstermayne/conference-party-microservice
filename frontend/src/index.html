@@ -16,7 +16,9 @@
     nav a.active, nav a:hover{background:linear-gradient(90deg,#16233c,#15223a);color:#fff}
     main{padding:24px;min-height:100vh;overflow-y:auto}
   </style>
-  <script>window.BUILD="b_launch_fix_1755114769";</script>
+  <link rel="stylesheet" href="/assets/css/cards.css?v=b021">
+  <link rel="stylesheet" href="/assets/css/calendar.css?v=b021">
+  <script>window.BUILD="b021";</script>
   <script>
     // kill any stale SW right now
     if('serviceWorker' in navigator){
@@ -42,6 +44,12 @@
     </aside>
     <main id="main"><!-- routed content --></main>
   </div>
-  <script type="module" src="/js/router.js?b=b_launch_fix_1755114769"></script>
+  <script type="module" src="/js/router.js?v=b021"></script>
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));
+  caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
+}
+  </script>
 </body>
 </html>

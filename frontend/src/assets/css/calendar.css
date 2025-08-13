@@ -1,15 +1,8 @@
 :root{
-  --cal-hour-px: 300;   /* 1h = 300px -> 30m = 150px (>= card min height) */
-  --cal-left-col-w: 64px;
+  --hour-height: 260px;     /* increase calendar, don't shrink cards */
+  --half-hour: calc(var(--hour-height)/2);
 }
-.cal-wrap{ padding:8px 6px 24px 6px; }
-.cal-head{ display:flex; gap:10px; margin:4px 0 14px 0; }
-.cal-shell{ display:grid; grid-template-columns: var(--cal-left-col-w) 1fr; gap:14px; }
-.cal-hours .tick{ height:var(--cal-hour-px); color:#7782a3; font-size:12px; display:flex; justify-content:flex-end; padding-right:8px }
-.cal-track{
-  position:relative;border:1px solid #20263a;border-radius:14px;overflow:hidden;
-  background:
-   repeating-linear-gradient(to bottom, rgba(108,121,160,0.10) 0px, rgba(108,121,160,0.10) 1px, transparent 1px, transparent 150px),
-   radial-gradient(1200px 420px at -220px -160px,#141b2b 0%,#0d1119 60%);
-}
-.cal-event{ position:absolute; left:14px; right:14px; box-shadow:0 0 0 1px rgba(64,72,112,0.35) inset,0 14px 40px rgba(60,80,160,0.06) }
+.calendar-grid{position:relative;padding:0 8px}
+.calendar-grid .hour-row{height:var(--hour-height);border-bottom:1px solid rgba(255,255,255,.04);position:relative}
+.cal-event{position:absolute;left:0;right:0}
+.cal-event .vcard{margin:0} /* use full card inside */
