@@ -1,45 +1,74 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>velocity.ai</title>
-  <link rel="icon" href="/assets/icons/app-icon.svg"/>
-  <link rel="stylesheet" href="/assets/css/app.css?v=frame03"/>
-  <!-- LAST: hard overrides kill any stray white backgrounds -->
-  <link rel="stylesheet" href="/assets/css/fix.css?v=frame03"/>
-  <script src="/js/env.js"></script>
+
+  <!-- App Icons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="/assets/icons/icon-512.png">
+
+  <meta name="theme-color" content="#6b7bff"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+
+  <!-- Global ENV (fill real keys in Firebase Hosting later) -->
+  <script>
+    window.__ENV = Object.assign({
+      GOOGLE_CLIENT_ID: "",            // OAuth web client ID (GIS)
+      LINKEDIN_CLIENT_ID: "",          // LinkedIn app client ID
+      MAPS_KEY: "",                    // Google Maps JS API key
+      ACTIVITY_API: false,             // until backend ready
+      METRICS_ENABLED: true,
+      ADMIN_EMAILS: ["jamynigri@gmail.com","jamy@nigriconsulting.com"],
+      BUILD: "brand-ftue-invites-v1"
+    }, window.__ENV || {});
+  </script>
+
+  <link rel="manifest" href="/manifest.json"/>
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="/assets/css/tokens.css?v=1"/>
+  <link rel="stylesheet" href="/assets/css/sidebar.css?v=1"/>
+  <link rel="stylesheet" href="/assets/css/cards.css?v=1"/>
+  <link rel="stylesheet" href="/assets/css/ftue.css?v=1"/>
 </head>
-<body class="app app-dark">
-  <aside id="sidenav" class="side">
-    <div class="brand">
-      <span class="logo-v" aria-hidden="true">V</span>
-      <div class="brand-meta">
-        <strong>velocity.ai</strong>
-        <small>Gamescom 2025</small>
-      </div>
+<body class="theme-dark">
+  <aside id="sidebar" class="slack-sidebar" aria-label="Main navigation">
+    <div class="side-head">
+      <img src="/assets/brand/v-logo.svg" alt="velocity.ai" class="brand-logo"/>
+      <div class="workspace">velocity.ai</div>
+      <div class="subtitle">Gamescom 2025</div>
     </div>
-    <nav class="channels" aria-label="Primary">
-      <a href="#/parties"   data-route="parties"><span>#</span>parties</a>
-      <a href="#/hotspots"  data-route="hotspots"><span>#</span>hotspots</a>
-      <a href="#/map"       data-route="map"><span>#</span>map</a>
-      <a href="#/calendar"  data-route="calendar"><span>#</span>calendar</a>
-      <a href="#/invites"   data-route="invites"><span>#</span>invites</a>
-      <a href="#/me"        data-route="me"><span>#</span>me</a>
+    <nav id="side-nav" class="side-nav">
+      <button class="nav-item" data-route="parties"><span class="hash">#</span>parties</button>
+      <button class="nav-item" data-route="calendar"><span class="hash">#</span>calendar</button>
+      <button class="nav-item" data-route="map"><span class="hash">#</span>map</button>
+      <button class="nav-item" data-route="hotspots"><span class="hash">#</span>hotspots</button>
+      <button class="nav-item" data-route="invites"><span class="hash">#</span>invites</button>
+      <button class="nav-item" data-route="contacts"><span class="hash">#</span>contacts</button>
+      <button class="nav-item" data-route="me"><span class="hash">#</span>me</button>
+      <button class="nav-item settings" data-route="settings" aria-label="Settings">
+        <span class="gear" aria-hidden="true">⚙</span><span class="settings-label">settings</span>
+      </button>
     </nav>
   </aside>
 
-  <main id="app" class="main" role="main" aria-live="polite"></main>
+  <main id="app" class="main-pane" tabindex="-1" aria-live="polite"></main>
 
-  <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=frame03"></script>
-  <script type="module" src="/assets/js/metrics.js?v=frame03"></script>
-  <script type="module" src="/js/route-title.js?v=frame03"></script>
-  <script type="module" src="/js/router.js?v=frame03"></script>
-  <script type="module">
-    import { bindSidebar, route } from '/js/router.js?v=frame03';
-    bindSidebar();
-    route(location.hash);
-    addEventListener('hashchange', () => route(location.hash));
-  </script>
+  <!-- Scripts (ENV first, then foundation, then app) -->
+  <script src="/js/env.js"></script>
+  <script type="module" src="/assets/js/foundation/app-bootstrap.js"></script>
+  <script type="module" src="/assets/js/metrics.js"></script>
+  <script type="module" src="/js/events.js"></script>
+  <script type="module" src="/js/router.js"></script>
+  <script type="module" src="/js/ui-feedback.js"></script>
+  <script type="module" src="/js/ftue.js"></script>
+  <script type="module" src="/js/events-controller.js"></script>
+  <script type="module" src="/js/invite-panel.js"></script>
+  <script type="module" src="/js/calendar-view.js"></script>
+  <script type="module" src="/js/map-controller.js"></script>
+  <script type="module" src="/js/app-wireup.js"></script>
 </body>
 </html>

@@ -1,50 +1,16 @@
-export function renderMap(root){
-  // Guard against undefined root
-  if(!root) {
-    console.warn('[map-controller] renderMap called with undefined root');
-    return;
-  }
-  const wrap=document.createElement('section');
-  wrap.className='section-card';
-  wrap.innerHTML=`
-    <div class="left-accent" aria-hidden="true"></div>
-    <div class="section-body">
-      <div class="header-row">
-        <div class="header-title">Map</div>
-        <div class="header-meta muted">Venues around Gamescom</div>
+export function renderMap(rootEl){
+  const root = rootEl || document.getElementById('app'); if(!root) return;
+  root.innerHTML = `
+    <section class="section-card">
+      <div class="left-accent"></div>
+      <h2 class="text-heading">Map</h2>
+      <div class="text-secondary">Heatmap & venue pins will appear here.</div>
+      <div class="actions">
+        <button class="btn btn-primary" data-action="load-heatmap">Load Heatmap</button>
       </div>
-
-      <div class="grid grid-3" id="map-venues">
-        <div class="skeleton" style="height:140px"></div>
-        <div class="skeleton" style="height:140px"></div>
-        <div class="skeleton" style="height:140px"></div>
-      </div>
-    </div>
-  `;
-  root.appendChild(wrap);
-
-  const v = document.getElementById('map-venues');
-  setTimeout(()=> {
-    if(!v) return;
-    v.innerHTML = [
-      venue('Kölnmesse Confex','Messepl. 1, 50679 Köln','Kölnmesse Confex'),
-      venue('Riverside','Rheinpromenade, Köln','Riverside Cologne'),
-      venue('Hall 10','Kölnmesse Hall 10','Kölnmesse Hall 10')
-    ].join('');
-  }, 250);
-
-  function venue(name, addr, q){
-    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q||name)}`;
-    return `
-      <article class="card">
-        <div class="card-header"><div class="card-title">${name}</div></div>
-        <div class="card-body">
-          <div class="card-row">📍 ${addr}</div>
-        </div>
-        <div class="card-actions">
-          <a class="btn btn-primary" target="_blank" rel="noopener" href="${url}">Open in Maps</a>
-        </div>
-      </article>
-    `;
-  }
+    </section>`;
+  root.querySelector('[data-action="load-heatmap"]').addEventListener('click', ()=>{
+    // If MAPS_KEY present, load Maps JS; else show toast
+    if(!window.__ENV?.MAPS_KEY){ document.dispatchEvent(new CustomEvent('ui:toast',{detail:{message:'Maps key missing'}})); }
+  });
 }

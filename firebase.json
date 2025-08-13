@@ -46,6 +46,7 @@
       }
     ],
     "rewrites": [
+      { "source": "/api/metrics", "function": "api" },
       { "source": "/api/**", "function": "api" },
       { "source": "**", "destination": "/index.html" }
     ]

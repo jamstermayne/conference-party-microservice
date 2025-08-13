@@ -1,0 +1,7 @@
+.ftue-overlay{position:fixed;inset:0;background:rgba(10,10,14,.84);backdrop-filter:saturate(140%) blur(6px);display:none;align-items:center;justify-content:center;z-index:70}
+.ftue-overlay.show{display:flex}
+.ftue-card{width:min(960px,92vw);max-height:86vh;overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px}
+.ftue-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ftue-title{color:var(--text-primary);font-size:18px;font-weight:700}
+.ftue-sub{color:var(--text-secondary);font-size:13px}
+.ftue-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
