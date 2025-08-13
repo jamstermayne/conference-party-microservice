@@ -3,6 +3,11 @@ const admin = require('firebase-admin');
 const crypto = require('crypto');
 const checkAuth = require('../lib/checkAuth');
 
+// Initialize admin if not already done
+if (!admin.apps.length) {
+  admin.initializeApp();
+}
+
 const db = admin.firestore();
 const router = express.Router();
 
