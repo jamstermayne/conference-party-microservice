@@ -1,4 +1,5 @@
 import { cardGrid, partyCard } from './components/cards.js?v=b018';
+import { applyDurationSlots } from './utils/duration-slots.js?v=b018';
 
 // --- Infinite scroll impl (30 LINES, minimal + resilient) ---
 export async function renderParties(mount){
@@ -29,7 +30,14 @@ export async function renderParties(mount){
     try {
       const items = await fetchPartiesPage(page);
       if (!items || !items.length) { done = true; return; }
-      items.forEach(p => grid.appendChild(partyCard(p)));
+      items.forEach(p => {
+        const card = partyCard(p);
+        // Apply duration slots if start/end times available
+        if (p.start && p.end) {
+          applyDurationSlots(card, p.start, p.end);
+        }
+        grid.appendChild(card);
+      });
       page += 1;
     } catch(e){ console.warn('[UI] loadMore failed', e); done = true; }
     finally { loading = false; }
@@ -63,24 +71,41 @@ async function fetchPartiesPage(page=1){
     }
   }catch(e){ /* fall through to demo */ }
 
-  // Fallback to demo data (repeatable pages)
+  // Fallback to demo data (repeatable pages) with start/end times for duration
+  const baseDate = new Date('2025-08-22T00:00:00');
   const seed = [
     { id:'meet-2025', title:'MeetToMatch The Cologne Edition 2025', venue:'Kölnmesse Confex',
-      when:'Fri Aug 22, 09:00 – 18:00', price:'£127.04', live:true },
+      when:'Fri Aug 22, 09:00 – 18:00', price:'£127.04', live:true,
+      start: new Date('2025-08-22T09:00:00').toISOString(),
+      end: new Date('2025-08-22T18:00:00').toISOString() },
     { id:'marriott-mix', title:'Marriott Rooftop Mixer', venue:'Marriott Hotel',
-      when:'Fri Aug 22, 20:00 – 23:30', live:true },
+      when:'Fri Aug 22, 20:00 – 23:30', live:true,
+      start: new Date('2025-08-22T20:00:00').toISOString(),
+      end: new Date('2025-08-22T23:30:00').toISOString() },
     { id:'dev-conf', title:'devcom Developer Conference', venue:'Kölnmesse Confex',
-      when:'Mon Aug 18, 09:00 – 23:30', price:'€299' },
+      when:'Mon Aug 18, 09:00 – 23:30', price:'€299',
+      start: new Date('2025-08-18T09:00:00').toISOString(),
+      end: new Date('2025-08-18T23:30:00').toISOString() },
     { id:'launch', title:'Gamescom Launch Party', venue:'rooftop58',
-      when:'Tue Aug 19, 20:00 – 00:00', live:true },
+      when:'Tue Aug 19, 20:00 – 00:00', live:true,
+      start: new Date('2025-08-19T20:00:00').toISOString(),
+      end: new Date('2025-08-20T00:00:00').toISOString() },
     { id:'pocket-gamer', title:'Pocket Gamer Mobile Game Awards', venue:'Gorzenich Koln',
-      when:'Tue Aug 19, 18:30 – 23:30', price:'VIP' },
+      when:'Tue Aug 19, 18:30 – 23:30', price:'VIP',
+      start: new Date('2025-08-19T18:30:00').toISOString(),
+      end: new Date('2025-08-19T23:30:00').toISOString() },
     { id:'indie-reveal', title:'INDIE Reveal during Gamescom', venue:'Filmforum NRW',
-      when:'Wed Aug 20, 19:30 – 22:00' },
+      when:'Wed Aug 20, 19:30 – 22:00',
+      start: new Date('2025-08-20T19:30:00').toISOString(),
+      end: new Date('2025-08-20T22:00:00').toISOString() },
     { id:'safe-world', title:'Safe In Our World Reception', venue:'Cologne Fair',
-      when:'Thu Aug 21, 16:00 – 19:00', live:true },
+      when:'Thu Aug 21, 16:00 – 19:00', live:true,
+      start: new Date('2025-08-21T16:00:00').toISOString(),
+      end: new Date('2025-08-21T19:00:00').toISOString() },
     { id:'xrai-hack', title:'Global XRAI Hack', venue:'STARTPLATZ',
-      when:'Sun Aug 17, 09:00 – 19:00', price:'Free' }
+      when:'Sun Aug 17, 09:00 – 19:00', price:'Free',
+      start: new Date('2025-08-17T09:00:00').toISOString(),
+      end: new Date('2025-08-17T19:00:00').toISOString() }
   ];
   // create a fake page by offsetting ids
   return seed.map((x,i)=> normalizeParty({ ...x, id:`${x.id}-p${page}-${i}` }));
@@ -93,7 +118,9 @@ function normalizeParty(x){
     venue: x.venue,
     when: x.when,
     price: x.price,
-    live: !!x.live
+    live: !!x.live,
+    start: x.start,
+    end: x.end
   };
 }
 

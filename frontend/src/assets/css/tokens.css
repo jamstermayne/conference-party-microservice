@@ -16,6 +16,19 @@
   --err-bg: rgba(239, 68, 68, .16);
   --err-txt: #ffb3b3;
   --shadow-1: 0 6px 30px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.03) inset;
+  
+  /* UI Rhythm - single source of truth */
+  --bg: #0f1115;
+  --panel: #151823;
+  --panel-2: #171b27;
+  --ink: #e8ecff;
+  --ink-dim: #a7b0cc;
+  --accent: #6f6cff;
+  
+  /* Calendar/Card rhythm — 30 minutes equals this height */
+  --slot-height: 40px;
+  /* Optional: scale all spacing off the slot */
+  --card-pad: calc(var(--slot-height) * 0.5);
 }
 
 .hero-wrap{

@@ -1,0 +1,76 @@
+/* Card base styles with unified rhythm */
+.card-base {
+  background: linear-gradient(180deg, #1a1f2f 0%, #141a27 100%);
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: 0 8px 32px rgba(90, 91, 255, .18);
+  border-radius: 16px;
+  padding: var(--card-pad, 16px);
+  position: relative;
+}
+
+/* Party / Calendar hero card */
+.party-card,
+.calendar-card {
+  /* Unify visual rhythm: height is #slots × --slot-height */
+  min-height: var(--slot-height);
+  height: calc(var(--slot-height) * var(--duration-slots, 2));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.party-card .title,
+.calendar-card .title {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink, #e8ecff);
+  margin-bottom: 8px;
+}
+
+.party-card .meta,
+.calendar-card .meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--ink-dim, #a7b0cc);
+}
+
+.badge {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(111,108,255,.18);
+  border: 1px solid rgba(111,108,255,.28);
+  color: var(--chip-txt, #c9c3ff);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.btn {
+  appearance: none;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  background: #212634;
+  color: #c9d3df;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+  color: white;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
