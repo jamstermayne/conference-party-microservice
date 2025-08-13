@@ -1,11 +1,61 @@
 /**
  * events-controller.js - Parties page controller
- * Build: b016
+ * Build: b017
  */
-import { createPartyCard } from './party-card.js?v=b011';
+
+function basicPartyCard(ev){
+  const el = document.createElement('article');
+  el.className = 'party-card';
+  el.innerHTML = `
+    <header class="pc-head">
+      <h3 class="pc-title">${ev.title}</h3>
+      <div class="pc-badges">
+        ${ev.price ? `<span class="pc-pill">${ev.price}</span>`:''}
+        ${ev.live ? `<span class="pc-dot">live</span>`:''}
+      </div>
+    </header>
+    <div class="pc-meta">📍 ${ev.venue} · 🗓️ ${new Date(ev.start).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+      – ${new Date(ev.end).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>
+    <div class="pc-actions">
+      <button class="btn btn--primary">Save & Sync</button>
+      <button class="btn">Details</button>
+    </div>`;
+  return el;
+}
+
+async function getCardFactory(){
+  try {
+    const m = await import('./party-card.js?v=b011');
+    if (m?.createPartyCard) return m.createPartyCard;
+  } catch(e){
+    console.warn('[Parties] party-card module unavailable, using basic card', e);
+  }
+  return basicPartyCard;
+}
+
+function ensureCardsCss(){
+  const id='cards-css-b011';
+  if (!document.getElementById(id)) {
+    const link = document.createElement('link');
+    link.id = id;
+    link.rel = 'stylesheet';
+    link.href = '/assets/css/cards.css?v=b011';
+    document.head.appendChild(link);
+  }
+}
+
+// Fallback demo data if API quiet
+const DEMO = [
+  { id:'meet-2025', title:'MeetToMatch The Cologne Edition 2025', venue:'Koelnmesse Confex',
+    start:'2025-08-22T09:00:00+02:00', end:'2025-08-22T18:00:00+02:00', price:'From £127.04', live:true },
+  { id:'mixer', title:'Marriott Rooftop Mixer', venue:'Marriott Hotel',
+    start:'2025-08-22T20:00:00+02:00', end:'2025-08-22T23:30:00+02:00', price:'Free', live:true }
+];
 
 export async function renderParties(mount){
   if (!mount) return;
+
+  ensureCardsCss();
 
   mount.innerHTML = `
     <div class="hero hero--parties">
@@ -17,17 +67,18 @@ export async function renderParties(mount){
 
   const grid = mount.querySelector('#partiesGrid');
 
-  // fetch parties (cached SW will serve fallback)
-  const res = await fetch('/api/parties?conference=gamescom2025').catch(()=>null);
-  const data = res && res.ok ? await res.json() : [];
-  // Fallback demo cards if API quiet:
-  const items = (data && data.length ? data : [
-    { id:'meet-2025', title:'MeetToMatch The Cologne Edition 2025', venue:'Koelnmesse Confex', start:'2025-08-22T09:00:00+02:00', end:'2025-08-22T18:00:00+02:00', price:'From £127.04', live:true },
-    { id:'mixer', title:'Marriott Rooftop Mixer', venue:'Marriott Hotel', start:'2025-08-22T20:00:00+02:00', end:'2025-08-22T23:30:00+02:00', price:'Free', live:true }
-  ]);
+  let items = DEMO;
+  try {
+    const res = await fetch('/api/parties?conference=gamescom2025');
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length) items = data;
+    }
+  } catch(_) { /* keep DEMO */ }
 
+  const makeCard = await getCardFactory();
   items.forEach(ev => {
-    const card = createPartyCard(ev);
+    const card = makeCard(ev);
     card.setAttribute('role','listitem');
     grid.appendChild(card);
   });

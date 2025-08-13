@@ -1,46 +1,15 @@
-/* ---------- Shared primitives ---------- */
-.btn{ display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .9rem; border-radius:.6rem; background:#222; color:#ddd; border:1px solid #333; }
-.btn--primary{ background:linear-gradient(180deg,#6b6bff,#7a49fa); border-color:#6b6bff; color:#fff; box-shadow:0 0 18px rgba(123,89,255,.25); }
-.chip{ padding:.35rem .75rem; border-radius:1rem; background:#1c1c2b; color:#9aa3b2; border:1px solid #26293a; }
-.chip.is-active{ background:linear-gradient(90deg,#203458,#2e2750); color:#e9ecff; }
-
-/* ---------- Parties view (namespaced) ---------- */
-.view--parties .hero{ margin:1.25rem 0 1rem; padding:.75rem 1rem; border-radius:1rem; background:linear-gradient(180deg,#151a26,#10141c); border:1px solid #222638; }
-.view--parties .hero__title{ font-size:1.25rem; font-weight:700; color:#e7ebff; }
-.view--parties .hero__hint{ color:#8b95a7; font-size:.9rem; }
-
-.view--parties .parties-grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
-  gap: 1.1rem;
-}
-
-.view--parties .party-card{
-  position:relative; overflow:hidden;
-  border-radius:1rem; padding:1rem 1.1rem;
-  background:radial-gradient(1200px 320px at -200px -100px,#11203a 0%,#0f121a 65%);
-  border:1px solid #22263a; color:#dfe4ff;
-  box-shadow: 0 8px 28px rgba(20,24,38,.35), inset 0 0 0 1px rgba(255,255,255,.02);
-}
-
-/* ---------- Calendar view (namespaced) ---------- */
-.view--calendar .calendar-controls{ display:flex; gap:.6rem; margin:.5rem 0 1rem; }
-.view--calendar .calendar-wrap{ position:relative; height: calc(100vh - 160px); overflow:auto; border-radius:1rem; border:1px solid #1f2333; background:linear-gradient(180deg,#0e121a,#0b0f16); }
-.view--calendar .calendar-grid{ position:relative; margin-left:4.5rem; padding:1rem 1rem 2rem 0; }
-
-.view--calendar .cal-row{ position:relative; height:48px; border-bottom:1px dashed rgba(255,255,255,.06); }
-.view--calendar .cal-hour{ position:absolute; left:-4.5rem; top:-.6rem; width:3.8rem; text-align:right; color:#7f8898; font-variant-numeric:tabular-nums; }
-
-.view--calendar .cal-card{
-  position:absolute; left:0; right:1rem;
-  min-height:24px; /* one 30-min block */
-  border-radius:1rem; padding:14px 16px;
-  background:radial-gradient(1400px 400px at -240px -160px,#1a2a50 0%,rgba(16,20,28,.65) 55%), linear-gradient(180deg,rgba(146,115,255,.08),rgba(146,115,255,0) 50%);
-  border:1px solid rgba(123,89,255,.35);
-  box-shadow: 0 10px 22px rgba(26,33,58,.5), 0 0 0 1px rgba(255,255,255,.02) inset, 0 0 18px rgba(123,89,255,.2);
-  color:#e9ecff;
-  backdrop-filter: blur(8px);
-}
-.view--calendar .cal-card__title{ font-weight:800; font-size:1.1rem; letter-spacing:.2px; }
-.view--calendar .cal-card__meta{ margin:.35rem 0 .6rem; color:#b6bfd1; }
-.view--calendar .cal-card__actions{ display:flex; gap:.5rem; }
+/* tiny shared primitives so we always see something */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .9rem;border-radius:.6rem;background:#222;color:#ddd;border:1px solid #333}
+.btn--primary{background:linear-gradient(180deg,#6b6bff,#7a49fa);border-color:#6b6bff;color:#fff;box-shadow:0 0 18px rgba(123,89,255,.25)}
+.hero{margin:1rem 0 .75rem;padding:.75rem 1rem;border-radius:1rem;background:linear-gradient(180deg,#151a26,#10141c);border:1px solid #222638}
+.hero__title{font-size:1.1rem;font-weight:700;color:#e7ebff}
+.hero__hint{color:#8b95a7;font-size:.9rem}
+.parties-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(520px,1fr));gap:1rem}
+.party-card{border:1px solid #22263a;border-radius:1rem;padding:1rem 1.1rem;background:radial-gradient(1200px 320px at -200px -100px,#11203a 0%,#0f121a 65%);color:#dfe4ff}
+.pc-head{display:flex;justify-content:space-between;gap:1rem;margin-bottom:.35rem}
+.pc-title{font-weight:800}
+.pc-badges{display:flex;gap:.4rem}
+.pc-pill{font-size:.75rem;padding:.2rem .5rem;border-radius:1rem;background:#1c1c2b;border:1px solid #2a2f42;color:#c7d0e2}
+.pc-dot{font-size:.75rem;padding:.2rem .5rem;border-radius:1rem;background:#17291f;border:1px solid #2b5742;color:#a7eac3}
+.pc-meta{color:#b6bfd1;margin:.25rem 0 .6rem}
+.pc-actions{display:flex;gap:.5rem}
