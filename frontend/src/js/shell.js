@@ -8,7 +8,7 @@ export async function ensureShell() {
 }
 
 export function setActive(route) {
-  document.querySelectorAll('.side-link').forEach(a => {
+  document.querySelectorAll('[data-route]').forEach(a => {
     a.classList.toggle('active', a.dataset.route === route);
   });
 }

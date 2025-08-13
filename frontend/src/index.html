@@ -16,9 +16,9 @@
     nav a.active, nav a:hover{background:linear-gradient(90deg,#16233c,#15223a);color:#fff}
     main{padding:24px;min-height:100vh;overflow-y:auto}
   </style>
-  <link rel="stylesheet" href="/assets/css/cards.css?v=b022">
-  <link rel="stylesheet" href="/assets/css/calendar.css?v=b022">
-  <script>window.BUILD="b022";</script>
+  <link rel="stylesheet" href="/assets/css/hero-cards.css?v=b021">
+  <link rel="stylesheet" href="/assets/css/calendar-uniform.css?v=b021">
+  <script>window.BUILD="b021";</script>
   <script>
     // kill any stale SW right now
     if('serviceWorker' in navigator){
@@ -44,7 +44,8 @@
     </aside>
     <main id="main"><!-- routed content --></main>
   </div>
-  <script type="module" src="/js/router.js?v=b022"></script>
+  <script src="/js/kill-sw.js?v=b021"></script>
+  <script type="module" src="/js/router.js?v=b021"></script>
   <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));
