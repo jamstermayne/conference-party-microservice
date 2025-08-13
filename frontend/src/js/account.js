@@ -34,8 +34,9 @@ function readState() {
   };
 }
 
-export function renderAccount(root = document.body) {
-  const mount = q('#main') || q('#page-root') || q('#app') || root;
+export async function renderAccount(mount) {
+  if (!mount) mount = document.getElementById('account-root') || document.getElementById('app');
+  if (!mount) return;
   const { user, profile, stats } = readState();
 
   mount.innerHTML = `

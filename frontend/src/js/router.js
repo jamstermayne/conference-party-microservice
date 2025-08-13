@@ -1,31 +1,24 @@
-// Minimal hash router + sidebar binder (production)
+/**
+ * Router: toggles [data-view] and asks view-registry to render only the active
+ * Never clears #app; the shell is stable.
+ */
 import Events from './events.js';
-import { renderAccount } from './account.js';
 import { setTitles } from './route-title.js';
 
 const NAV = ['parties','hotspots','map','calendar','invites','me'];
-let _sidebarEl = null;
 let _current = null;
 
-function norm(hash) {
-  if (!hash) return 'parties';
-  return hash.replace(/^#\/?/, '').split('?')[0] || 'parties';
-}
+const q = sel => document.querySelector(sel);
+const qa = sel => Array.from(document.querySelectorAll(sel));
+const norm = (hash)=> (hash||'#/parties').replace(/^#\/?/, '').split('?')[0] || 'parties';
 
-function highlightSidebar() {
-  if (!_sidebarEl) return;
-  _sidebarEl.querySelectorAll('a[data-route]').forEach(el => {
-    el.classList.toggle('active', el.dataset.route === _current);
-  });
-}
-
-export function bindSidebar(root=document) {
-  _sidebarEl = root.querySelector('[data-sidebar]');
-  if (!_sidebarEl) return;
+export function bindSidebar(doc=document){
+  const sb = doc.getElementById('sidebar');
+  if (!sb) return;
   
-  // Render once (prevents blink/disappear)
-  if (_sidebarEl.dataset.wired !== '1') {
-    _sidebarEl.innerHTML = `
+  // Only render if not already rendered
+  if (!sb.dataset.wired) {
+    sb.innerHTML = `
       <div class="brand">
         <a href="#/parties" class="brand-link">
           <img src="/images/veloc-v.svg" alt="velocity.ai" width="24" height="24" />
@@ -36,73 +29,73 @@ export function bindSidebar(root=document) {
         </a>
       </div>
       <nav class="nav">
-        ${NAV.map(n=>`<a href="#/${n}" data-route="${n}"><span class="hash">#</span><span class="lbl">${n}</span></a>`).join('')}
+        ${NAV.map(n=>`<a data-route="${n}" href="#/${n}"><span class="hash">#</span><span class="lbl">${n}</span></a>`).join('')}
       </nav>`;
-    _sidebarEl.dataset.wired = '1';
-    _sidebarEl.querySelectorAll('a[data-route]').forEach(el=>{
-      el.addEventListener('click',(e)=>{ 
+    sb.dataset.wired = '1';
+    
+    sb.querySelectorAll('a[data-route]').forEach(a=>{
+      a.addEventListener('click', (e)=>{ 
         e.preventDefault(); 
-        route(el.getAttribute('data-route')); 
+        route(a.dataset.route); 
       }, {passive:false});
     });
   }
-  highlightSidebar();
 }
 
-export function route(to) {
-  const name = typeof to === 'string' ? to : norm(location.hash);
-  const r = (name === 'settings') ? 'me' : name;
-  _current = r;
-  highlightSidebar();
-  Events.emit?.('route:change', { name: r });
-  setTitles(r);
+export async function route(to){
+  const r = norm(to || location.hash);
   
-  const app = document.getElementById('app'); 
-  if (app) app.innerHTML = '';
+  // Normalize special routes
+  const actualRoute = (r === 'settings') ? 'me' : r;
   
-  if (r === 'parties')   { 
-    import('./events-controller.js').then(m=>m.renderParties?.(app));
-    Events.emit?.('route:parties');
-    return;
+  if (_current === actualRoute) return;
+  _current = actualRoute;
+
+  // Update URL if needed
+  if (location.hash !== `#/${actualRoute}`) {
+    location.hash = `#/${actualRoute}`;
   }
-  if (r === 'hotspots')  { 
-    import('./hotspots.js').then(m=>m.renderHotspots?.(app));
-    Events.emit?.('route:hotspots');
-    return;
-  }
-  if (r === 'calendar')  { 
-    import('./calendar-view.js').then(m=>m.renderCalendar?.(app));
-    Events.emit?.('route:calendar');
-    return;
-  }
-  if (r === 'map')       { 
-    import('./map-controller.js').then(m=>m.renderMap?.(app));
-    Events.emit?.('route:map');
-    return;
-  }
-  if (r === 'invites')   { 
-    import('./invite-panel.js').then(m=>m.renderInvites?.(app));
-    Events.emit?.('route:invites');
-    return;
-  }
-  if (r === 'me' || r === 'account')        { 
-    renderAccount?.();
-    Events.emit?.('route:account');
-    return;
-  }
+
+  // Highlight active in sidebar
+  q('#sidebar')?.querySelectorAll('a[data-route]').forEach(a=>{
+    a.classList.toggle('active', a.dataset.route === actualRoute);
+  });
+
+  // Toggle [data-view] sections
+  qa('[data-view]').forEach(s => {
+    s.classList.toggle('hidden', s.getAttribute('data-view') !== actualRoute);
+  });
+
+  // Update titles
+  setTitles(actualRoute);
   
-  // Fallback
-  if (app) app.innerHTML = `<div class="card"><div style="color:#9aa3b2">This feature isn't available yet.</div></div>`;
+  // Page header
+  const pageTitle = q('[data-page-title]');
+  const pageChip = q('[data-page-chip]');
+  if (pageTitle) pageTitle.textContent = actualRoute.charAt(0).toUpperCase() + actualRoute.slice(1);
+  if (pageChip) pageChip.textContent = `#${actualRoute}`;
+
+  // Ask the view registry to render the active mount only
+  try {
+    const { renderActive } = await import('./view-registry.js' + (window.__ENV?.BUILD ? `?v=${window.__ENV.BUILD}` : ''));
+    await renderActive(actualRoute);
+  } catch (e) {
+    console.error('route render error', actualRoute, e);
+  }
+
+  Events.emit?.('route:change', { name: actualRoute });
 }
 
+// Initialize on load
 function routeFromHash() {
   return norm(location.hash);
 }
 
-// boot
-window.addEventListener('hashchange', ()=> route(routeFromHash()));
+window.addEventListener('hashchange', ()=>route(routeFromHash()), {passive:true});
+
 export function startRouter() { 
   bindSidebar(); 
   return route(routeFromHash()); 
 }
+
 export default { route, bindSidebar, startRouter };

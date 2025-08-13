@@ -7,7 +7,7 @@
   <!-- PWA Meta -->
   <meta name="theme-color" content="#6b7bff" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="manifest" href="/manifest.json?v=002" />
+  <link rel="manifest" href="/manifest.json?v=003" />
 
   <!-- Content Security Policy (allows Cloud Functions + Google/LinkedIn SDKs) -->
   <meta http-equiv="Content-Security-Policy"
@@ -78,43 +78,57 @@
   </script>
   
   <link rel="stylesheet" href="assets/css/styles.css"/>
-  <link rel="stylesheet" href="/assets/css/app-shell.css?v=002">
-  <link rel="stylesheet" href="/assets/css/header-actions.css?v=002">
+  <link rel="stylesheet" href="/assets/css/app-shell.css?v=003">
+  <link rel="stylesheet" href="/assets/css/header-actions.css?v=003">
   <link rel="stylesheet" href="/assets/css/nav.css">
   <link rel="stylesheet" href="/assets/css/hotspots.css">
-  <link rel="stylesheet" href="/css/hotspots.css?v=002">
-  <link rel="stylesheet" href="/css/calendar.css?v=002">
-  <link rel="stylesheet" href="/css/ftue-nudge.css?v=002">
-  <link rel="stylesheet" href="/css/panels.css?v=002">
-  <link rel="stylesheet" href="/css/layout-polish.css?v=002">
-  <link rel="stylesheet" href="/css/cards-parties.css?v=002">
-  <link rel="stylesheet" href="/css/calendar-strip.css?v=002">
-  <link rel="stylesheet" href="/css/toast.css?v=002">
-  <link rel="stylesheet" href="/css/invite-panel.css?v=002">
-  <link rel="stylesheet" href="/css/layout.css?v=002">
-  <link rel="stylesheet" href="/css/app.css?v=002">
-  <link rel="stylesheet" href="/css/sidebar.css?v=002">
-  <link rel="stylesheet" href="/css/sections.css?v=002">
-  <link rel="stylesheet" href="/css/loading.css?v=002">
-  <link rel="stylesheet" href="/css/events-cards.css?v=002">
-  <link rel="stylesheet" href="/css/cards.css?v=002">
-  <link rel="stylesheet" href="/css/account.css?v=002">
-  <link rel="stylesheet" href="/css/sidebar-fix.css?v=002">
-  <link rel="stylesheet" href="/css/sidebar-polish.css?v=002">
-  <link rel="stylesheet" href="/assets/css/party-cards.css?v=002">
-  <link rel="stylesheet" href="/css/events.css?v=002">
+  <link rel="stylesheet" href="/css/hotspots.css?v=003">
+  <link rel="stylesheet" href="/css/calendar.css?v=003">
+  <link rel="stylesheet" href="/css/ftue-nudge.css?v=003">
+  <link rel="stylesheet" href="/css/panels.css?v=003">
+  <link rel="stylesheet" href="/css/layout-polish.css?v=003">
+  <link rel="stylesheet" href="/css/cards-parties.css?v=003">
+  <link rel="stylesheet" href="/css/calendar-strip.css?v=003">
+  <link rel="stylesheet" href="/css/toast.css?v=003">
+  <link rel="stylesheet" href="/css/invite-panel.css?v=003">
+  <link rel="stylesheet" href="/css/layout.css?v=003">
+  <link rel="stylesheet" href="/css/app.css?v=003">
+  <link rel="stylesheet" href="/css/sidebar.css?v=003">
+  <link rel="stylesheet" href="/css/sections.css?v=003">
+  <link rel="stylesheet" href="/css/loading.css?v=003">
+  <link rel="stylesheet" href="/css/events-cards.css?v=003">
+  <link rel="stylesheet" href="/css/cards.css?v=003">
+  <link rel="stylesheet" href="/css/account.css?v=003">
+  <link rel="stylesheet" href="/css/sidebar-fix.css?v=003">
+  <link rel="stylesheet" href="/css/sidebar-polish.css?v=003">
+  <link rel="stylesheet" href="/assets/css/party-cards.css?v=003">
+  <link rel="stylesheet" href="/css/events.css?v=003">
 </head>
 <body>
   <!-- App Shell: stable two-panel layout -->
   <div class="app-shell">
-    <aside class="sidebar" data-sidebar></aside>
-    <main id="app" class="content" role="main" aria-live="polite"></main>
+    <aside id="sidebar" class="sidebar" data-sidebar></aside>
+    <main id="app" class="content" role="main" aria-live="polite">
+      <header class="page-header">
+        <h1 data-page-title>Parties</h1>
+        <span data-page-chip class="chip">#parties</span>
+      </header>
+      
+      <!-- View sections - only one visible at a time -->
+      <section data-view="parties" id="events-list"></section>
+      <section data-view="hotspots" id="hotspots-root" class="hidden"></section>
+      <section data-view="map" id="map-root" class="hidden"></section>
+      <section data-view="calendar" id="calendar-root" class="hidden"></section>
+      <section data-view="invites" id="invites-root" class="hidden"></section>
+      <section data-view="me" id="account-root" class="hidden"></section>
+      <section data-view="settings" id="settings-root" class="hidden"></section>
+    </main>
   </div>
   <!-- ENV must come first -->
-  <script src="/js/env.js?v=002"></script>
+  <script src="/js/env.js?v=003"></script>
 
   <!-- Single deterministic entry -->
-  <script type="module" src="/js/bootstrap.js?v=002"></script>
+  <script type="module" src="/js/bootstrap.js?v=003"></script>
   
   <!-- PWA Install Handler -->
   <script type="module">

@@ -7,6 +7,13 @@
   --rail-glow:  0 0 18px rgba(255,107,255,.25), 0 0 12px rgba(0,229,255,.25);
 }
 
+/* Utility classes */
+.hidden { display: none !important; }
+.grid-2{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+.rank{list-style:none;margin:8px 0;padding:0}
+.rank li{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #2a2e36}
+.heat-placeholder{height:100%;display:flex;align-items:center;justify-content:center;color:#8b93a7}
+
 /* Sidebar channel with rail on active */
 .side-nav .nav-item{
   position: relative;

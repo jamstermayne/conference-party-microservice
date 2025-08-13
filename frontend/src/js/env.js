@@ -13,5 +13,5 @@ window.__ENV = Object.assign({}, window.__ENV || {}, {
   FLAGS_URL: '/api/flags',
   
   // Build tag – will be auto-bumped by predeploy script
-  BUILD: 'b002'
+  BUILD: 'b003'
 });

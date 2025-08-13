@@ -97,8 +97,8 @@ function card(item) {
   return c;
 }
 
-export async function renderParties(rootEl) {
-  const root = rootEl || document.getElementById('app') || document.getElementById('route-parties') || document.getElementById('main') || document.getElementById('eventsContainer');
+export async function renderEvents(mount) {
+  const root = mount || document.getElementById('events-list') || document.getElementById('app');
   if (!root) return;
 
   root.innerHTML = `
@@ -132,26 +132,30 @@ export async function renderParties(rootEl) {
 // Boot on route
 try {
   document.addEventListener('route:change', (e)=>{
-    if ((e.detail?.name) === 'parties') renderParties();
+    if ((e.detail?.name) === 'parties') renderEvents();
   });
 } catch {}
 
 // Keep existing exports for compatibility
+export async function renderParties(rootEl) {
+  return renderEvents(rootEl);
+}
+
 export async function initPartiesView() {
-  return renderParties();
+  return renderEvents();
 }
 
 export async function initEventsController(containerId) {
   // Legacy compatibility
   if (containerId === 'parties-list') {
-    return renderParties();
+    return renderEvents();
   }
   const container = document.getElementById(containerId);
   if (!container) {
     console.error(`initEventsController: No container with id ${containerId}`);
     return;
   }
-  return renderParties();
+  return renderEvents(container);
 }
 
-export default { renderParties, initEventsController, initPartiesView };
+export default { renderEvents, renderParties, initEventsController, initPartiesView };
