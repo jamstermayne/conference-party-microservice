@@ -1,112 +1,84 @@
 /**
- * Velocity Router (hash-based, stable)
- * Exports: bindSidebar, route, currentRoute
+ * router.js – tiny hash router with sidebar binding.
+ * Guarantees at most one render per tick.
  */
+
 import Events from '/assets/js/events.js';
 
-const ROUTES = ['parties','hotspots','map','calendar','invites','contacts','me','settings'];
-let _mount = null;
+const NAV = ['parties','calendar','map','hotspots','invites','contacts','me','settings'];
+let ticking = false;
 
-/** Normalize "#/name" → "name" (default 'parties') */
-function normalize(hash) {
-  if (!hash) return 'parties';
-  return hash.replace(/^#\/?/, '').split('?')[0] || 'parties';
+export function currentRoute(){
+  return (location.hash.replace(/^#\/?/, '') || 'parties').split('?')[0];
 }
 
-export function currentRoute() {
-  return normalize(location.hash);
+function normRoute(h){
+  return (h || '').replace(/^#\/?/, '') || 'parties';
 }
 
-export function route(name) {
-  const r = normalize('#/'+name);
-  if (!ROUTES.includes(r)) return;
-  if (location.hash !== '#/'+r) location.hash = '#/'+r;
-  render(r);
-}
+export function bindSidebar(){
+  const list = document.querySelector('.sidebar nav, .sidebar');
+  if (!list) return;
 
-export function bindSidebar() {
-  _mount = document.getElementById('app') || document.getElementById('main');
-  const sidebar = document.getElementById('sidebar') || document.querySelector('.channels');
-  if (!sidebar) return;
-
-  // click binding
-  sidebar.querySelectorAll('[data-route]').forEach(el => {
-    el.addEventListener('click', (e) => {
+  list.querySelectorAll('[data-route]').forEach(el=>{
+    el.addEventListener('click', (e)=>{
       e.preventDefault();
       const r = el.getAttribute('data-route');
-      route(r);
+      if (!r) return;
+      if (currentRoute() === r) return;
+      location.hash = `#${r}`;
     }, { passive:false });
   });
-
-  // active state sync
-  const applyActive = (r) => {
-    sidebar.querySelectorAll('[data-route]').forEach(el => {
-      const match = el.getAttribute('data-route') === r;
-      el.classList.toggle('active', match);
-      el.setAttribute('aria-current', match ? 'page' : 'false');
-    });
-    // Update route title
-    Events.emit?.('navigate', r);
-  };
-
-  window.addEventListener('hashchange', () => {
-    const r = currentRoute();
-    applyActive(r);
-    render(r);
-  });
-
-  const r0 = currentRoute();
-  applyActive(r0);
-  render(r0);
 }
 
-async function render(r) {
-  _mount = _mount || document.getElementById('app') || document.getElementById('main');
-  if (!_mount) return;
-  _mount.innerHTML = ''; // always clear
-
-  try {
-    if (r === 'parties') {
-      const m = await import('/js/events-controller.js');
-      return m.renderParties?.(_mount);
-    }
-    if (r === 'hotspots') {
-      const m = await import('/js/hotspots.js');
-      return m.renderHotspots?.(_mount);
-    }
-    if (r === 'map') {
-      const m = await import('/js/map-controller.js');
-      return m.renderMap?.(_mount);
-    }
-    if (r === 'calendar') {
-      const m = await import('/js/calendar-view.js'); // view has renderCalendar
-      return m.renderCalendar?.(_mount);
-    }
-    if (r === 'invites') {
-      const m = await import('/js/invite-panel.js');
-      return m.renderInvites?.(_mount);
-    }
-    if (r === 'contacts') {
-      const m = await import('/js/contacts-panel.js');
-      return m.renderContacts?.(_mount);
-    }
-    if (r === 'me') {
-      const m = await import('/js/account-panel.js');
-      return m.renderAccount?.(_mount);
-    }
-    if (r === 'settings') {
-      const m = await import('/js/settings-panel.js');
-      return m.renderSettings?.(_mount);
-    }
-    // Fallback
-    _mount.innerHTML = `<div class="section-card"><h2 class="text-heading">Not found</h2></div>`;
-  } catch (e) {
-    console.error('[router] render error', e);
-    _mount.innerHTML = `<div class="section-card"><h2 class="text-heading">Loading error</h2><p class="text-secondary">${String(e)}</p></div>`;
+async function dispatch(route){
+  const app = document.getElementById('app') || document.getElementById('main');
+  if (app) app.innerHTML = '';
+  switch(route){
+    case 'parties':
+      (await import('./events-controller.js')).renderParties(app);
+      Events.emit?.('route:parties');
+      break;
+    case 'hotspots':
+      (await import('./hotspots.js')).renderHotspots?.(app);
+      Events.emit?.('route:hotspots');
+      break;
+    case 'calendar':
+      (await import('./calendar-view.js')).renderCalendar?.(app);
+      Events.emit?.('route:calendar');
+      break;
+    case 'map':
+      (await import('./map-controller.js')).renderMap?.(app);
+      Events.emit?.('route:map');
+      break;
+    case 'invites':
+      (await import('./invite-panel.js')).renderInvites?.(app);
+      Events.emit?.('route:invites');
+      break;
+    default:
+      (await import('./events-controller.js')).renderParties(app);
+      Events.emit?.('route:parties');
+      break;
   }
 }
 
-// Auto-bind on DOM ready if included via index.html
-document.addEventListener('DOMContentLoaded', () => {
-  try { bindSidebar(); } catch (e) { console.error('[router] bind error', e); }
+function tick(){
+  if (ticking) return;
+  ticking = true;
+  queueMicrotask(()=>{
+    ticking = false;
+    const r = normRoute(location.hash).split('?')[0];
+    dispatch(r);
+  });
+}
+
+window.addEventListener('hashchange', tick);
+window.addEventListener('DOMContentLoaded', ()=>{
+  bindSidebar();
+  tick();
 });
+
+export function route(name){
+  if (!name) return;
+  location.hash = `#${name}`;
+}

@@ -1,122 +1,13 @@
 {
-  "name": "velocity.ai — gamescom 2025",
-  "short_name": "velocity.ai",
-  "description": "Discover the best parties and events at Gamescom 2025 in Cologne",
-  "start_url": "/",
+  "name": "velocity.ai",
+  "short_name": "velocity",
+  "description": "Parties, people and calendar — all in one place.",
+  "start_url": "/#parties",
   "display": "standalone",
-  "background_color": "#0F0F12",
-  "theme_color": "#0F0F12",
-  "orientation": "portrait-primary",
-  "categories": [
-    "entertainment",
-    "social",
-    "events"
-  ],
-  "lang": "en",
-  "dir": "ltr",
+  "background_color": "#0d0f14",
+  "theme_color": "#0d0f14",
   "icons": [
-    {
-      "src": "/assets/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/assets/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/veloc-v.svg",
-      "sizes": "256x256",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/images/screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Mobile event discovery"
-    },
-    {
-      "src": "/images/screenshot-desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Desktop event browser"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Search Events",
-      "short_name": "Search",
-      "description": "Search for parties and events",
-      "url": "/?action=search",
-      "icons": [
-        {
-          "src": "/images/search-icon.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "Today's Events",
-      "short_name": "Today",
-      "description": "See what's happening today",
-      "url": "/?filter=today",
-      "icons": [
-        {
-          "src": "/images/today-icon.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "My Calendar",
-      "short_name": "Calendar",
-      "description": "View saved events",
-      "url": "/?view=calendar",
-      "icons": [
-        {
-          "src": "/images/calendar-icon.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "Map View",
-      "short_name": "Map",
-      "description": "Browse events on map",
-      "url": "/?view=map",
-      "icons": [
-        {
-          "src": "/images/map-icon.png",
-          "sizes": "96x96"
-        }
-      ]
-    }
-  ],
-  "scope": "/",
-  "id": "gamescom-party-discovery",
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  },
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "minimal-ui",
-    "browser"
-  ],
-  "protocol_handlers": [
-    {
-      "protocol": "web+gamescom",
-      "url": "/?event=%s"
-    }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false
+    { "src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
 }

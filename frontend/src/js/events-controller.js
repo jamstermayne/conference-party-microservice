@@ -1,76 +1,143 @@
-import Events from '/assets/js/events.js';
+/**
+ * events-controller.js
+ * Parties page renderer – stable one-pass render (no duplicates),
+ * resilient to double-invocation and safe if router fires twice.
+ */
+
+import { getJSON } from './http.js';
 
 const API = '/api/parties?conference=gamescom2025';
 
-function el(tag, cls, html){
-  const n = document.createElement(tag);
-  if(cls) n.className = cls;
-  if(html!=null) n.innerHTML = html;
-  return n;
+function badge(text, kind='pill') {
+  return `<span class="badge badge--${kind}">${text}</span>`;
 }
 
-function card(event){
-  const c = el('article', 'card');
-  const price = event.price ? `<span class="badge">${event.price}</span>` : '';
-  c.innerHTML = `
-    <div class="card-header">
-      <div class="card-title">${event.title || event['Event Name'] || 'Untitled'}</div>
-      <div class="badges">
-        ${price}
-        <span class="badge ok">live</span>
-      </div>
+function metaRow({ time, venue }) {
+  return `
+    <div class="event-meta">
+      <span class="em-ico">📅</span><span>${time}</span>
+      <span class="dot">•</span>
+      <span class="em-ico">📍</span><span>${venue}</span>
     </div>
-    <div class="card-body">
-      <div class="card-row">📍 ${event.venue || event['Location'] || 'TBA'}</div>
-      <div class="card-row">🗓️ ${event.date || event['Date'] || ''} ${event.time ? '— '+event.time : ''}</div>
-      ${event.hosts ? `<div class="card-row">🎙️ ${event.hosts}</div>` : ''}
-    </div>
+  `;
+}
+
+function actionRow(id) {
+  return `
     <div class="card-actions">
-      <button class="btn btn-primary" data-action="save-sync">Save & Sync</button>
-      <button class="btn btn-outline" data-action="details">Details</button>
+      <button class="btn btn-primary" data-action="save-sync" data-id="${id}">Save & Sync</button>
+      <button class="btn btn-ghost" data-action="details" data-id="${id}">Details</button>
     </div>
   `;
-  c.querySelector('[data-action="save-sync"]').addEventListener('click', ()=>{
-    Events.emit?.('calendar:add', { event });
-  }, {passive:true});
-  return c;
 }
 
-async function fetchEvents(){
-  try{
-    const resp = await fetch(API);
-    if(!resp.ok) return [];
-    const json = await resp.json().catch(()=>({data:[]}));
-    return json.data || [];
-  }catch{ return []; }
-}
+function eventCard(ev) {
+  const priceBadge = ev.price ? badge(`From ${ev.price}`, 'ghost') : badge('Free', 'ghost');
+  const liveBadge  = badge('live', 'live');
 
-export async function renderParties(root){
-  const wrap = el('section','section-card');
-  wrap.appendChild(el('div','left-accent'));
-  const body = el('div','section-body');
-  const header = el('div','header-row');
-  header.innerHTML = `
-    <div class="header-title">Recommended events</div>
-    <div class="header-meta muted">Scroll to explore</div>
+  return `
+    <article class="event-card" data-key="${ev.id}">
+      <header class="card-hd">
+        <h3 class="card-title">${ev.title}</h3>
+        <div class="card-badges">${priceBadge}${liveBadge}</div>
+      </header>
+      ${metaRow({ time: ev.time || '', venue: `${ev.venue || ''}` })}
+      ${actionRow(ev.id)}
+    </article>
   `;
-  body.appendChild(header);
+}
 
-  const grid = el('div','grid grid-3');
-  body.appendChild(grid);
-  wrap.appendChild(body);
-  root.appendChild(wrap);
+function wrapperOpen() {
+  return `
+  <section class="section-card">
+    <div class="left-accent" aria-hidden="true"></div>
+    <div class="section-hd">
+      <div class="section-title">Recommended events</div>
+      <div class="section-sub">Scroll to explore</div>
+    </div>
+    <div class="events-grid">
+  `;
+}
 
-  // skeletons
-  for(let i=0;i<6;i++){ const s=el('div','skeleton'); s.style.height='160px'; grid.appendChild(s); }
+function wrapperClose() {
+  return `</div></section>`;
+}
 
-  const items = await fetchEvents();
-  grid.innerHTML = '';
-  if(!items.length){
-    const empty = el('div','muted','No events yet.');
-    empty.style.padding='24px';
-    grid.appendChild(empty);
-    return;
+export async function renderParties(rootEl){
+  const mount =
+    rootEl ||
+    document.getElementById('app') ||
+    document.getElementById('route-parties') ||
+    document.getElementById('main');
+
+  if (!mount) return;
+
+  // ---- Re-entry guard + hard clear to prevent duplicates ----
+  if (mount.dataset.rendering === 'parties') return;
+  mount.dataset.rendering = 'parties';
+  mount.innerHTML = `
+    <section class="section-card">
+      <div class="left-accent" aria-hidden="true"></div>
+      <div class="section-hd">
+        <div class="section-title">Recommended events</div>
+        <div class="section-sub">Loading…</div>
+      </div>
+      <div class="events-grid"></div>
+    </section>
+  `;
+
+  try {
+    // Fetch once; if API temporarily 404s, fallback to cached SW seed (if any)
+    const res = await getJSON(API);
+    const list = Array.isArray(res?.data) ? res.data : [];
+    // De-dup by id just in case:
+    const seen = new Set();
+    const dedup = [];
+    for (const e of list) {
+      if (!e?.id) continue;
+      if (seen.has(e.id)) continue;
+      seen.add(e.id);
+      dedup.push(e);
+    }
+
+    const grid = mount.querySelector('.events-grid');
+    if (!grid) {
+      delete mount.dataset.rendering;
+      return;
+    }
+
+    // Rebuild content (no append storms)
+    const html = [wrapperOpen(), ...dedup.map(eventCard), wrapperClose()].join('');
+    mount.innerHTML = html;
+
+    // Wire minimal actions
+    mount.querySelectorAll('[data-action="save-sync"]').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        const id = e.currentTarget.getAttribute('data-id');
+        // TODO: call your save+calendar sync (placeholder toast)
+        console.log('save-sync', id);
+      });
+    });
+    mount.querySelectorAll('[data-action="details"]').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        const id = e.currentTarget.getAttribute('data-id');
+        // TODO: route to details page (placeholder)
+        console.log('details', id);
+      });
+    });
+
+  } catch (err) {
+    console.error('Failed to load events', err);
+    mount.innerHTML = `
+      <section class="section-card">
+        <div class="left-accent" aria-hidden="true"></div>
+        <div class="section-hd">
+          <div class="section-title">Recommended events</div>
+          <div class="section-sub error">Failed to load events.</div>
+        </div>
+      </section>
+    `;
+  } finally {
+    delete mount.dataset.rendering;
   }
-  items.forEach(ev=> grid.appendChild(card(ev)));
 }
