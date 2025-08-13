@@ -1,0 +1,28 @@
+/* === Velocity overrides (loaded last) === */
+
+/* 1) Calendar rows tall enough for hero cards */
+:root{
+  /* 60 minutes = 240px → 30 minutes = 120px (cards align perfectly) */
+  --hour-height: 240px !important;
+}
+.cal-grid .hour-row{ height: var(--hour-height) !important; border-bottom: 1px dashed rgba(255,255,255,.06); }
+.cal-event{ position:absolute; left:0; right:0; }
+.cal-event .vcard{ height:100%; display:flex; flex-direction:column; justify-content:center; }
+
+/* 2) Sidebar fixed; main panel scrolls */
+#sidebar{
+  position: sticky !important;
+  top: 0 !important;
+  height: 100vh !important;
+  overflow-y: auto !important;
+}
+#main{
+  height: 100vh !important;
+  overflow-y: auto !important;
+  overscroll-behavior-y: contain;
+}
+
+/* 3) Guardrails: keep everything dark in the main content area */
+#main *{
+  color-scheme: dark;
+}
