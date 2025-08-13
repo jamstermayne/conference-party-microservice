@@ -1,5 +1,5 @@
 /* calendar view — SCOPED */
-.calendar-wrap                { --px-per-30m: 60; --px-per-minute: calc(var(--px-per-30m) / 30);
+.calendar-wrap                { --px-per-30m: 56; --px-per-minute: calc(var(--px-per-30m) / 30);
   position:relative; height: calc(14 * var(--px-per-30m)); /* 7 hours visible (tweak as you like) */
   border-radius:16px; background: #0e1116; box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset;
 }
