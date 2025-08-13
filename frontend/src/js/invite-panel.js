@@ -1,51 +1,85 @@
-import Events from '/assets/js/events.js';
+import { cardGrid, inviteCard } from './components/cards.js?v=b018';
 
-const getInvitesLeft = () => (window.Store?.get?.('invites.left')) ?? 5;
+export async function renderInvites(mount){
+  if(!mount) return;
+  
+  // Create header
+  const container = document.createElement('div');
+  container.innerHTML = `<div class="section-card"><div class="section-head"><div>Invites</div><span style="opacity:.6;font-size:.85rem">Hall of Fame • single-use</span></div></div>`;
+  mount.appendChild(container);
+  
+  // Create grid
+  const grid = cardGrid(document.createElement('div'));
+  mount.appendChild(grid);
 
-export function renderInvites(root){
-  const wrap=document.createElement('section');
-  wrap.className='section-card';
-  wrap.innerHTML=`
-    <div class="left-accent" aria-hidden="true"></div>
-    <div class="section-body">
-      <div class="header-row">
-        <div class="header-title">Invites</div>
-        <div class="header-meta muted">Share access • Earn bonuses</div>
-      </div>
+  // Mock invite data
+  const mockInvites = [
+    {
+      code: 'GAME2025VIP',
+      email: 'john.doe@gaming.com',
+      name: 'John Doe',
+      status: 'redeemed',
+      sentAt: '2 days ago',
+      redeemedAt: '1 day ago'
+    },
+    {
+      code: 'CONF2025ABC',
+      email: 'sarah.smith@studio.io',
+      name: 'Sarah Smith',
+      status: 'pending',
+      sentAt: '3 days ago'
+    },
+    {
+      code: 'DEV2025XYZ',
+      email: 'mike.jones@indie.dev',
+      name: 'Mike Jones',
+      status: 'pending',
+      sentAt: '1 week ago'
+    },
+    {
+      code: 'VIP2025123',
+      email: 'alex.chen@publisher.com',
+      name: 'Alex Chen',
+      status: 'redeemed',
+      sentAt: '5 days ago',
+      redeemedAt: '4 days ago'
+    },
+    {
+      code: 'MEET2025QWE',
+      email: 'emma.wilson@games.co',
+      name: 'Emma Wilson',
+      status: 'revoked',
+      sentAt: '2 weeks ago'
+    },
+    {
+      code: 'PARTY2025RTY',
+      email: 'david.lee@mobile.games',
+      name: 'David Lee',
+      status: 'pending',
+      sentAt: 'Just now'
+    }
+  ];
+  
+  // Render invite cards
+  mockInvites.forEach(i => grid.appendChild(inviteCard(i)));
 
-      <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Summary</div></div>
-          <div class="card-body">
-            <div class="card-row">Invites left: <strong id="inv-left">${getInvitesLeft()}</strong></div>
-            <div class="card-row muted">Bonus +5 after 10 redemptions.</div>
-          </div>
-          <div class="card-actions">
-            <button class="btn btn-primary" data-action="copy-link">Copy Invite Link</button>
-            <button class="btn btn-outline" data-action="send-email">Send Email</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header"><div class="card-title">Recent Activity</div></div>
-          <div class="card-body" id="inv-activity">
-            <div class="muted">No activity yet.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-  root.appendChild(wrap);
-
-  const act = wrap.querySelector('#inv-activity');
-  const onCopy = async ()=>{
-    const link = location.origin + '/?ref=' + (crypto?.randomUUID?.() || Date.now());
-    try{ await navigator.clipboard.writeText(link); }catch{}
-    act.innerHTML=`<div class="card-row">🔗 Copied: <span class="muted">${link}</span></div>`;
-  };
-  wrap.querySelector('[data-action="copy-link"]').addEventListener('click', onCopy, {passive:true});
-  wrap.querySelector('[data-action="send-email"]').addEventListener('click', ()=>{
-    const link = location.origin + '/?ref=' + (crypto?.randomUUID?.() || Date.now());
-    location.href='mailto:?subject=Join me at Gamescom parties&body=' + encodeURIComponent(link);
-  }, {passive:true});
+  // Wire up actions
+  mount.addEventListener('click', (e)=>{
+    const el = e.target.closest('[data-action]');
+    if(!el) return;
+    const act = el.dataset.action;
+    if(act==='resend'){ 
+      console.log('[UI] Resend invite', el.dataset.code);
+      // Trigger resend API call
+    }
+    if(act==='copy'){ 
+      const inviteUrl = window.location.origin + '/invite/' + el.dataset.code;
+      navigator.clipboard?.writeText(inviteUrl).then(() => {
+        console.log('[UI] Copied invite link:', inviteUrl);
+        // Show toast notification
+      });
+    }
+  });
 }
+
+export default { renderInvites };

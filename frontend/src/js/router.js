@@ -19,11 +19,19 @@ async function render(r) {
       (await import("./events-controller.js?v=b018")).renderParties(el);
       break;
     case "calendar":
+      (await import("./calendar-view.js?v=b018")).renderCalendar(el);
+      break;
+    case "invites":
+      (await import("./invite-panel.js?v=b018")).renderInvites(el);
+      break;
+    case "contacts":
+      (await import("./contacts-panel.js?v=b018")).renderContacts(el);
+      break;
+    case "me":
+      (await import("./me-panel.js?v=b018")).renderMe(el);
+      break;
     case "map":
     case "hotspots":
-    case "invites":
-    case "contacts":
-    case "me":
     case "settings":
       el.innerHTML = `
         <div class="section-card">
