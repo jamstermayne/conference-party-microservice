@@ -154,7 +154,7 @@ export default class HomeControllerLegacy {
   }
 
   render() {
-    const container = document.getElementById('app');
+    const container = document.getElementById('main');
     if (!container) return;
     
     // Get current state
