@@ -1,0 +1,35 @@
+/* Build: b018 — fixed sidebar + scrollable main */
+:root { --sidebar-w: 220px; }
+
+html, body { height: 100%; }
+body { overflow: hidden; } /* prevent body scroll; we'll scroll #main */
+
+.app-shell{
+  display:grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  height: 100vh;
+}
+
+/* If your sidebar element has a different selector, add it here too */
+#sidebar, .sidebar {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  overflow: auto;          /* let sidebar itself scroll if needed */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Main content scrolls independently */
+#main, .main-scroll {
+  height: 100vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Mobile: collapse to a single column, keep main scroll */
+@media (max-width: 680px){
+  :root { --sidebar-w: 64px; }
+  .app-shell{ grid-template-columns: var(--sidebar-w) 1fr; }
+}

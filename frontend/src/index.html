@@ -28,11 +28,12 @@
     /* Host panel spacing */
     #main { padding:24px; }
   </style>
+  <link rel="stylesheet" href="/assets/css/layout.css?v=b018" />
 </head>
 <body>
-  <div id="shell">
+  <div id="shell" class="app-shell">
     <aside id="sidebar"></aside>
-    <main id="main" role="main"></main>
+    <main id="main" class="main-scroll" role="main"></main>
   </div>
 
   <!-- One-time SW kill while we stabilize (prevents stale JS) -->
