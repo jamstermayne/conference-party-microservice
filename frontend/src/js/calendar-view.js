@@ -1,121 +1,139 @@
 /**
- * Calendar view
- * Build: b018 - Uses shared ui-card factory
+ * Calendar view (day) — places hero cards by exact start/end times.
+ * - 30-minute grid
+ * - Calendar grows to fit cards; cards are never shrunk
  */
+const BUILD = (window.BUILD || 'b018');
 
-import { ensureCardsCss, createHeroCard } from './ui-card.js?v=b018';
-
-const DAY_EVENTS = [
-  { id: 'e1', title: 'Gamescom Keynote', venue: 'Confex Hall A', when: '09:00–10:00', start: '09:00', duration: 60 },
-  { id: 'e2', title: 'Indie Mixer', venue: 'Hall B Patio', when: '10:30–11:00', start: '10:30', duration: 30 },
-  { id: 'e3', title: 'BizDev Roundtable', venue: 'Marriott', when: '13:00–14:00', start: '13:00', duration: 60 },
-  { id: 'e4', title: 'Evening Party @ Rheinterr', venue: 'Rheinterr', when: '20:00–22:30', start: '20:00', duration: 150, free: true, live: true },
-];
-
-// Convert time string to minutes since midnight
-function timeToMinutes(timeStr) {
-  const [hours, minutes] = timeStr.split(':').map(Number);
-  return hours * 60 + minutes;
+/* idempotent CSS loader */
+function ensureCss(href){
+  const id = 'cal-css:'+href;
+  if (document.getElementById(id)) return;
+  const l = document.createElement('link');
+  l.id = id; l.rel = 'stylesheet'; l.href = href + (href.includes('?')?'&':'?') + 'v='+BUILD;
+  document.head.appendChild(l);
 }
 
-export async function renderCalendar(mount) {
-  if (!mount) return;
-  
-  // Ensure CSS is loaded
-  ensureCardsCss();
-  addCss('/assets/css/calendar.css?v=b018');
+/* read a CSS pixel variable from :root */
+function cssPx(varName, fallback){
+  const v = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+  const n = parseFloat(v);
+  return Number.isFinite(n) ? n : fallback;
+}
 
-  // Calculate calendar bounds
-  const startHour = 9;  // 9:00 AM
-  const endHour = 23;   // 11:00 PM
-  const totalHours = endHour - startHour;
-  const pixelsPerHour = 60; // Each hour is 60px tall
-  const pixelsPerMinute = pixelsPerHour / 60;
+/* minutes since 00:00 from "HH:MM" */
+function toMin(hhmm){
+  const [h,m] = hhmm.split(':').map(x=>parseInt(x,10));
+  return (h*60) + (m||0);
+}
 
-  // Generate hour labels
-  const hourLabels = [];
-  for (let h = startHour; h <= endHour; h++) {
-    hourLabels.push(`<div class="cal-hour-label">${h}:00</div>`);
-  }
+/* Build demo data if none is provided */
+function demoEvents(){
+  return [
+    { id:'ev-keynote',   title:'Gamescom Keynote',  where:'Confex Hall A', start:'09:00', end:'10:00', badges:['live'] },
+    { id:'ev-indie',     title:'Indie Mixer',       where:'Hall B Patio',  start:'10:30', end:'11:00', badges:[] },
+    { id:'ev-round',     title:'BizDev Roundtable', where:'Marriott',      start:'13:00', end:'14:00', badges:['free','live'] },
+    { id:'ev-party',     title:'Evening Party @ Rheinterr', where:'Rheinterr', start:'20:00', end:'22:30', badges:['free','live'] },
+  ];
+}
 
-  // Generate hour slots (30-minute intervals)
-  const hourSlots = [];
-  for (let h = startHour; h < endHour; h++) {
-    hourSlots.push(`<div class="cal-hour"></div>`);
-    hourSlots.push(`<div class="cal-half"></div>`);
-  }
-
-  mount.innerHTML = `
-    <div class="v-stack">
-      <h2 class="section-title">Today's Schedule</h2>
-      <div class="cal-wrap" style="--hour-h: ${pixelsPerHour}px">
-        <div class="cal-grid">
-          <div class="cal-hour-labels">
-            ${hourLabels.join('')}
-          </div>
-          <div class="cal-hours">
-            ${hourSlots.join('')}
-          </div>
-          <div class="cal-events" id="cal-events"></div>
-        </div>
+/* hero card HTML (shared look) */
+function cardHTML(ev){
+  const pills = (ev.badges||[]).map(b=>`<span class="vcard__pill ${b==='live'?'is-live':''} ${b==='free'?'is-free':''}">${b}</span>`).join('');
+  return `
+    <div class="vcard">
+      <div class="vcard__head">
+        <div class="vcard__title">${ev.title}</div>
+        <div class="vcard__badges">${pills}</div>
+      </div>
+      <div class="vcard__subtitle">📍 ${ev.where}</div>
+      <ul class="vcard__meta">
+        <li>⏱️ ${ev.start} – ${ev.end}</li>
+      </ul>
+      <div class="vcard__actions">
+        <button class="btn btn-primary" data-act="save" data-id="${ev.id}">Save & Sync</button>
+        <button class="btn" data-act="details" data-id="${ev.id}">Details</button>
       </div>
     </div>
   `;
-
-  // Place event cards with proper positioning
-  const eventsContainer = document.getElementById('cal-events');
-  if (eventsContainer) {
-    const eventCards = DAY_EVENTS.map(event => {
-      // Calculate position based on start time
-      const eventStartMinutes = timeToMinutes(event.start);
-      const calendarStartMinutes = startHour * 60;
-      const minutesFromStart = eventStartMinutes - calendarStartMinutes;
-      const topPosition = minutesFromStart * pixelsPerMinute;
-      
-      // Calculate height based on duration
-      const height = (event.duration || 60) * pixelsPerMinute;
-      
-      // Create card with slot kind for calendar-specific styling
-      const card = createHeroCard('slot', {
-        title: event.title,
-        time: event.when,
-        venue: event.venue,
-        badges: [
-          event.free && { text: 'free', class: 'free' },
-          event.live && { text: 'live', class: 'live' }
-        ].filter(Boolean),
-        actions: [
-          { text: 'Add to Calendar', kind: 'primary' },
-          { text: 'Details', kind: 'ghost' }
-        ]
-      });
-      
-      return `
-        <div class="cal-event" style="top: ${topPosition}px; height: ${height}px; min-height: var(--card-min-h);">
-          ${card}
-        </div>
-      `;
-    });
-    
-    eventsContainer.innerHTML = eventCards.join('');
-    
-    // Set calendar container height to accommodate all events
-    const lastEvent = DAY_EVENTS[DAY_EVENTS.length - 1];
-    if (lastEvent) {
-      const lastEventEnd = timeToMinutes(lastEvent.start) + (lastEvent.duration || 60);
-      const totalMinutes = lastEventEnd - (startHour * 60);
-      const containerHeight = Math.max(totalMinutes * pixelsPerMinute, totalHours * pixelsPerHour);
-      eventsContainer.style.height = `${containerHeight}px`;
-    }
-  }
 }
 
-function addCss(href) {
-  if ([...document.styleSheets].some(s => s.href && s.href.includes(href.split('?')[0]))) return;
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = href;
-  document.head.appendChild(link);
+export async function renderCalendar(mount){
+  if (!mount) return;
+
+  // Bring in shared styles
+  ensureCss('/assets/css/cards.css');
+  ensureCss('/assets/css/calendar.css');
+
+  // Config
+  const HOUR_PX = cssPx('--cal-hour-px', 320);
+  const DAY_START = 8;   // 08:00
+  const DAY_END   = 22;  // 22:00
+  const pxPerMin  = HOUR_PX / 60;
+
+  // Data source: window.CALENDAR_EVENTS or fallback demo
+  const events = (window.CALENDAR_EVENTS && window.CALENDAR_EVENTS.length)
+    ? window.CALENDAR_EVENTS
+    : demoEvents();
+
+  // Template
+  mount.innerHTML = `
+    <section class="cal-wrap">
+      <div class="cal-head">
+        <button class="btn btn-primary">Today</button>
+        <button class="btn">Tomorrow</button>
+        <button class="btn">This week</button>
+      </div>
+
+      <div class="cal-shell">
+        <div class="cal-hours" id="cal-hours"></div>
+        <div class="cal-track" id="cal-track"></div>
+      </div>
+    </section>
+  `;
+
+  const hoursEl = mount.querySelector('#cal-hours');
+  const trackEl = mount.querySelector('#cal-track');
+
+  // Hours column (08 → 22)
+  let hoursHtml = '';
+  for (let h=DAY_START; h<=DAY_END; h++){
+    const label = (h<=12) ? `${h}:00` : `${h-12}:00`;
+    hoursHtml += `<div class="tick"><span>${label}</span></div>`;
+  }
+  hoursEl.innerHTML = hoursHtml;
+
+  // Track height
+  const totalHours = (DAY_END - DAY_START);
+  trackEl.style.height = (totalHours * HOUR_PX) + 'px';
+
+  // Place events exactly by minute
+  const dayMin0 = DAY_START*60;
+  for (const ev of events){
+    const start = toMin(ev.start);
+    const end   = toMin(ev.end);
+    const dur   = Math.max(0, end - start);
+
+    const top    = Math.max(0, (start - dayMin0) * pxPerMin);
+    const height = Math.max(dur * pxPerMin, 0); // calendar grows; do not shrink cards
+
+    const el = document.createElement('article');
+    el.className = 'cal-event';
+    el.style.top = `${top}px`;
+    el.style.height = `${height}px`;
+    el.innerHTML = cardHTML(ev);
+
+    trackEl.appendChild(el);
+  }
+
+  // Simple actions (no-ops for now)
+  trackEl.addEventListener('click', (e)=>{
+    const btn = e.target.closest('button[data-act]');
+    if (!btn) return;
+    const id = btn.getAttribute('data-id');
+    const act = btn.getAttribute('data-act');
+    console.log(`[calendar] ${act}`, id);
+  });
 }
 
 export default { renderCalendar };
