@@ -1,18 +1,48 @@
-rules_version='2'
-
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      // This rule allows anyone with your database reference to view, edit,
-      // and delete all data in your database. It is useful for getting
-      // started, but it is configured to expire after 30 days because it
-      // leaves your app open to attackers. At that time, all client
-      // requests to your database will be denied.
-      //
-      // Make sure to write security rules for your app before that time, or
-      // else all client requests to your database will be denied until you
-      // update your rules.
-      allow read, write: if request.time < timestamp.date(2025, 9, 2);
+
+    function isSignedIn() { return request.auth != null; }
+    function isSelf(uid) { return isSignedIn() && request.auth.uid == uid; }
+    function isAdmin() {
+      return isSignedIn() &&
+        ((request.auth.token.admin == true) ||
+         exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin == true);
+    }
+
+    match /users/{uid} {
+      allow read: if isSelf(uid) || isAdmin();
+      allow write: if isSelf(uid) || isAdmin();
+    }
+
+    // Invites & tokens are written by backend Admin SDK; block direct client writes.
+    match /invites/{doc} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+
+    match /inviteTokens/{doc} {
+      allow read, write: if false; // never readable directly by clients
+    }
+
+    match /inviteEdges/{doc} {
+      allow read: if isAdmin(); // or relax later if you want public leaderboards
+      allow write: if false;
+    }
+
+    match /contacts/{uid} {
+      allow read, write: if isSelf(uid) || isAdmin();
+    }
+
+    match /calendar/{doc} {
+      allow read, create: if isSignedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    match /eventsCache/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
   }
 }
