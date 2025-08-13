@@ -17,6 +17,7 @@ async function go(){
     case 'invites':   (await import('./invite-panel.js?v=b023')).renderInvites?.(main); break;
     case 'map':       (await import('./map-controller.js?v=b023')).renderMap?.(main); break;
     case 'hotspots':  (await import('./hotspots.js?v=b023')).renderHotspots?.(main); break;
+    case 'settings':  (await import('./settings-panel.js?v=b023')).renderSettings?.(main); break;
     default:          (await import('./events-controller.js?v=b023')).renderParties(main);
   }
 }
