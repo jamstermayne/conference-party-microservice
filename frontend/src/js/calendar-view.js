@@ -32,6 +32,8 @@ function demoEvents(){
 }
 
 export async function renderCalendar(mount){
+  injectCalendarCSSOnce();
+  setCalendarRowHeightFromCard();
   ensureCss('/assets/css/cards.css'); ensureCss('/assets/css/calendar.css');
   const HOUR_PX = cssPx('--cal-hour-px', 300);
   const pxPerMin = HOUR_PX/60;
@@ -72,3 +74,23 @@ export async function renderCalendar(mount){
   });
 }
 export default { renderCalendar };
+
+function injectCalendarCSSOnce(){
+  if (document.querySelector('link[data-cal-fit]')) return;
+  const l = document.createElement('link');
+  l.rel = 'stylesheet';
+  l.href = '/assets/css/calendar-fit.css' + (window.BUILD ? `?v=${window.BUILD}` : '');
+  l.setAttribute('data-cal-fit','1');
+  document.head.appendChild(l);
+}
+function setCalendarRowHeightFromCard(){
+  const probe = document.createElement('div');
+  probe.className = 'card vcard';
+  probe.style.cssText = 'position:absolute;visibility:hidden;left:-9999px;top:-9999px;width:520px;';
+  probe.innerHTML = '<div class="vcard__head"><div class="vcard__title">Probe</div></div><div class="vcard__meta">⏰ 09:00 – 10:00</div>';
+  document.body.appendChild(probe);
+  const h = Math.ceil(probe.getBoundingClientRect().height);
+  probe.remove();
+  const row = Math.max(h, 148) + 12; // breathing room
+  document.documentElement.style.setProperty('--cal-hour-px', `${row}`);
+}
