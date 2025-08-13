@@ -95,6 +95,7 @@ export async function renderInvites(mount){
 
     <div style="margin-top:16px;display:flex;gap:8px">
       <button id="btn-new" class="vbtn primary">Create new invite</button>
+      <button id="btn-bulk" class="vbtn">Bulk import</button>
     </div>
   </section>`;
 
