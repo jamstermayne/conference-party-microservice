@@ -1,23 +1,24 @@
-/* Namespaced, collision-proof hero cards */
 :root{
-  --v-bg:#0c111b; --v-panel:#0f1625; --v-border:#20263a; --v-sheen1:#0e1320; --v-sheen2:#14213d;
-  --v-text:#eaf0ff; --v-muted:#9aa7bf; --v-accent:#6b7bff; --v-good:#16c784;
-  --v-radius:16px; --v-pad:14px; --v-shadow:0 10px 40px rgba(18,20,40,.35);
+  --v-bg:#0b1020; --v-panel:#0f1625; --v-border:#20263a; --v-sheen2:#14213d;
+  --v-text:#eaf0ff; --v-muted:#9aa7bf; --v-accent:#6b7bff;
+  --v-radius:16px; --v-pad:14px; --v-shadow:0 10px 40px rgba(10,12,30,.35);
 }
-.vcard {
+.vlist{margin:24px}
+.vh2{color:var(--v-text);margin:0 0 12px 0;font-size:18px;font-weight:800}
+.vcard{
   position:relative; border:1px solid var(--v-border); border-radius:var(--v-radius);
   padding:var(--v-pad); color:var(--v-text);
-  background: radial-gradient(1200px 320px at -200px -140px,var(--v-sheen2) 0%,var(--v-panel) 60%);
+  background: radial-gradient(1200px 320px at -200px -140px, var(--v-sheen2) 0%, var(--v-panel) 60%);
   box-shadow: var(--v-shadow);
 }
-.vcard + .vcard { margin-top: 14px; }
-.vcard__head { display:flex; gap:12px; justify-content:space-between; align-items:center; margin-bottom:8px; }
-.vcard__title { font-weight:800; font-size:18px; line-height:1.15; }
-.vcard__badges { display:flex; gap:6px; flex-wrap:wrap; }
-.vpill { padding:6px 8px; font-size:12px; border-radius:999px; border:1px solid #29344f; background:#121a2a; color:#cfe0ff }
-.vpill.live { border-color:#184d31; background:#102616; color:#baf5d3; }
-.vpill.free { border-color:#2a3f6e; background:#101c35; color:#cfe0ff }
-.vmeta { display:flex; gap:12px; flex-wrap:wrap; color:var(--v-muted); margin:6px 0 10px; }
-.vactions { display:flex; gap:8px; }
-.vbtn { padding:8px 12px; font-weight:700; border-radius:12px; border:1px solid #2b2f45; background:#202a44; color:#dee9ff; }
-.vbtn.primary { background:linear-gradient(180deg,#8c7aff 0%,#5b47ff 100%); border:0; color:#fff; }
+.vcard + .vcard{margin-top:14px}
+.vhead{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-bottom:8px}
+.vtitle{font-weight:800;font-size:18px;line-height:1.15}
+.vbadges{display:flex;gap:6px;flex-wrap:wrap}
+.vpill{padding:6px 8px;font-size:12px;border-radius:999px;border:1px solid #2b2f45;background:#141b2b;color:#cfe0ff}
+.vpill.live{border-color:#184d31;background:#102616;color:#baf5d3}
+.vpill.free{border-color:#2a3f6e;background:#101c35;color:#cfe0ff}
+.vmeta{display:flex;gap:12px;flex-wrap:wrap;color:var(--v-muted);margin:6px 0 10px}
+.vactions{display:flex;gap:8px}
+.vbtn{padding:8px 12px;font-weight:700;border-radius:12px;border:1px solid #2b2f45;background:#202a44;color:#dee9ff;cursor:pointer}
+.vbtn.primary{background:linear-gradient(180deg,#8c7aff 0%,#5b47ff 100%);border:0;color:#fff}
