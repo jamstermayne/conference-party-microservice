@@ -11,25 +11,10 @@
   <script src="/js/env.js"></script>
 </head>
 <body class="app app-dark">
-  <aside id="sidenav" class="side">
-    <div class="brand">
-      <span class="logo-v" aria-hidden="true">V</span>
-      <div class="brand-meta">
-        <strong>velocity.ai</strong>
-        <small>Gamescom 2025</small>
-      </div>
-    </div>
-    <nav class="channels" aria-label="Primary">
-      <a href="#/parties"   data-route="parties"><span>#</span>parties</a>
-      <a href="#/hotspots"  data-route="hotspots"><span>#</span>hotspots</a>
-      <a href="#/map"       data-route="map"><span>#</span>map</a>
-      <a href="#/calendar"  data-route="calendar"><span>#</span>calendar</a>
-      <a href="#/invites"   data-route="invites"><span>#</span>invites</a>
-      <a href="#/me"        data-route="me"><span>#</span>me</a>
-    </nav>
-  </aside>
-
-  <main id="app" class="main" role="main" aria-live="polite"></main>
+  <div id="layout" style="display:grid; grid-template-columns:auto 1fr; gap:0; min-height:100vh;">
+    <aside id="sidebar"></aside>
+    <main id="app" class="main" role="main" aria-live="polite"></main>
+  </div>
 
   <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=frame03"></script>
   <script type="module" src="/assets/js/metrics.js?v=frame03"></script>
