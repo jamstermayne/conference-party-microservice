@@ -1,4 +1,4 @@
-import { InvitesAPI } from './invites-api.js';
+import { InvitesAPI } from './invites-api.js?v=b011';
 
 export async function renderAccount(root){
   const mount = root || document.getElementById('app');

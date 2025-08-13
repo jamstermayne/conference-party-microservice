@@ -2,7 +2,7 @@
  * Invite Controller - Manage invites
  */
 
-import Store from '/js/store.js';
+import Store from '/js/store.js?v=b011';
 
 export async function renderInvites(mount) {
   if (!mount) mount = document.getElementById('invites-root') || document.getElementById('app');

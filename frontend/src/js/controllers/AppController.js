@@ -3,13 +3,13 @@
  * Main orchestrator for all controllers in the Professional Intelligence Platform
  */
 
-import { BaseController } from './BaseController.js';
-import { EventController } from './EventController.js';
-import { SearchController } from './SearchController.js';
-import { NetworkingController } from './NetworkingController.js';
-import { Store } from '../store.js';
-import { api } from '../services/api.js';
-import router from '../router.js';
+import { BaseController } from './BaseController.js?v=b011';
+import { EventController } from './EventController.js?v=b011';
+import { SearchController } from './SearchController.js?v=b011';
+import { NetworkingController } from './NetworkingController.js?v=b011';
+import { Store } from '../store.js?v=b011';
+import { api } from '../services/api.js?v=b011';
+import router from '../router.js?v=b011';
 
 export class AppController extends BaseController {
   constructor() {
@@ -90,10 +90,10 @@ export class AppController extends BaseController {
     }
     
     // Register lazy-loaded controllers
-    this.registerLazyController('home', () => import('./HomeController.js'));
-    this.registerLazyController('people', () => import('./PeopleController.js'));
-    this.registerLazyController('opportunities', () => import('./OpportunitiesController.js'));
-    this.registerLazyController('profile', () => import('./ProfileController.js'));
+    this.registerLazyController('home', () => import('./HomeController.js?v=b011'));
+    this.registerLazyController('people', () => import('./PeopleController.js?v=b011'));
+    this.registerLazyController('opportunities', () => import('./OpportunitiesController.js?v=b011'));
+    this.registerLazyController('profile', () => import('./ProfileController.js?v=b011'));
   }
 
   /**
@@ -315,7 +315,7 @@ export class AppController extends BaseController {
   async initializeServiceWorker() {
     if ('serviceWorker' in navigator) {
       try {
-        const registration = await navigator.serviceWorker.register('/sw.js');
+        const registration = await navigator.serviceWorker.register('/sw.js?v=b011');
         console.log('✅ Service Worker registered');
         
         // Check for updates

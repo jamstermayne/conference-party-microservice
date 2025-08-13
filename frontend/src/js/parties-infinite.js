@@ -1,5 +1,5 @@
 // Simple infinite scroller for parties
-import { eventCard, wireCardActions } from '/js/party-cards.js';
+import { eventCard, wireCardActions } from '/js/party-cards.js?v=b011';
 
 const PAGE = 10;
 

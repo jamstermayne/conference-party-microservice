@@ -1,6 +1,6 @@
 // Router wiring (vanilla, Slack-style)
-import Events from '/assets/js/events.js';
-import { mountHotspots, unmountHotspots } from '/js/hotspots-controller.js';
+import Events from '/assets/js/events.js?v=b011';
+import { mountHotspots, unmountHotspots } from '/js/hotspots-controller.js?v=b011';
 
 const ROUTES = ['parties','hotspots','calendar','invites','opportunities','me','settings'];
 const VALID_ROUTES = new Set(ROUTES);

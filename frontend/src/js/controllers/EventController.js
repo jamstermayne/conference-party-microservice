@@ -3,10 +3,10 @@
  * Manages party/event list, filtering, and interactions
  */
 
-import { BaseController } from './BaseController.js';
-import { api } from '../services/api.js';
-import { Store } from '../store.js';
-import { chips } from '../ui/provenance.js';
+import { BaseController } from './BaseController.js?v=b011';
+import { api } from '../services/api.js?v=b011';
+import { Store } from '../store.js?v=b011';
+import { chips } from '../ui/provenance.js?v=b011';
 
 export class EventController extends BaseController {
   constructor(element) {

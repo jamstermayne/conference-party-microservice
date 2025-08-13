@@ -8,28 +8,28 @@
 let Store, router, api, nav, eventSystem, Events, motion, viewTX;
 
 // Import enhanced modules
-import './deep-links.js';
-import './ui.js';
-import './errors.js';
-import './api/events.js';
-import './api/calendar.js';
-import './api/invites.js';
-import './pwa-detector.js';
+import './deep-links.js?v=b011';
+import './ui.js?v=b011';
+import './errors.js?v=b011';
+import './api/events.js?v=b011';
+import './api/calendar.js?v=b011';
+import './api/invites.js?v=b011';
+import './pwa-detector.js?v=b011';
 let bindPressFeedback, createFPSWatchdog, mountInstallFTUE;
 
 // Controller registry for dynamic loading
 const CONTROLLER_MODULES = {
-  home: () => import('./controllers/HomeController.js').then(m => m.HomeController),
-  people: () => import('./controllers/PeopleController.js').then(m => m.PeopleController),
-  opportunities: () => import('./controllers/OpportunitiesController.js').then(m => m.OpportunitiesController),
-  events: () => import('./controllers/EventController.js').then(m => m.EventController),
-  me: () => import('./controllers/MeController.js').then(m => m.MeController),
-  invite: () => import('./controllers/InviteController.js').then(m => m.InviteController),
-  calendar: () => import('./controllers/CalendarController.js').then(m => m.CalendarController),
-  fomo: () => import('./controllers/FomoController.js').then(m => m.FomoController),
-  'account-link': () => import('./controllers/AccountLinkController.js').then(m => m.AccountLinkController),
-  'calendar-sync': () => import('./controllers/CalendarSyncController.js').then(m => m.CalendarSyncController),
-  'invite-panel': () => import('./controllers/InvitePanelController.js').then(m => m.InvitePanelController)
+  home: () => import('./controllers/HomeController.js?v=b011').then(m => m.HomeController),
+  people: () => import('./controllers/PeopleController.js?v=b011').then(m => m.PeopleController),
+  opportunities: () => import('./controllers/OpportunitiesController.js?v=b011').then(m => m.OpportunitiesController),
+  events: () => import('./controllers/EventController.js?v=b011').then(m => m.EventController),
+  me: () => import('./controllers/MeController.js?v=b011').then(m => m.MeController),
+  invite: () => import('./controllers/InviteController.js?v=b011').then(m => m.InviteController),
+  calendar: () => import('./controllers/CalendarController.js?v=b011').then(m => m.CalendarController),
+  fomo: () => import('./controllers/FomoController.js?v=b011').then(m => m.FomoController),
+  'account-link': () => import('./controllers/AccountLinkController.js?v=b011').then(m => m.AccountLinkController),
+  'calendar-sync': () => import('./controllers/CalendarSyncController.js?v=b011').then(m => m.CalendarSyncController),
+  'invite-panel': () => import('./controllers/InvitePanelController.js?v=b011').then(m => m.InvitePanelController)
 };
 
 // Module loading utilities
@@ -98,17 +98,17 @@ const ModuleLoader = {
 // Load core modules with error recovery
 async function loadCoreModules() {
   const modules = [
-    ['./store.js', 'Store'],
-    ['./router.js', 'default'],
-    ['./services/api.js', 'api'],
-    ['./services/nav.js', 'nav'],
-    ['./events.js', 'default'],
-    ['./events.js', 'Events'],
-    ['./ui/motion.js', 'motion'],
-    ['./ui/viewTX.js', 'viewTX'],
-    ['./ui/press.js', 'bindPressFeedback'],
-    ['./ui/fpsWatchdog.js', 'createFPSWatchdog'],
-    ['./pwa/installFTUE.js', 'mountInstallFTUE']
+    ['./store.js?v=b011', 'Store'],
+    ['./router.js?v=b011', 'default'],
+    ['./services/api.js?v=b011', 'api'],
+    ['./services/nav.js?v=b011', 'nav'],
+    ['./events.js?v=b011', 'default'],
+    ['./events.js?v=b011', 'Events'],
+    ['./ui/motion.js?v=b011', 'motion'],
+    ['./ui/viewTX.js?v=b011', 'viewTX'],
+    ['./ui/press.js?v=b011', 'bindPressFeedback'],
+    ['./ui/fpsWatchdog.js?v=b011', 'createFPSWatchdog'],
+    ['./pwa/installFTUE.js?v=b011', 'mountInstallFTUE']
   ];
   
   const results = await Promise.allSettled(
@@ -125,8 +125,8 @@ async function loadCoreModules() {
   
   // Load self-initializing modules
   try {
-    await import('./ui/templates.js');
-    await import('./pwa/installBonus.js');
+    await import('./ui/templates.js?v=b011');
+    await import('./pwa/installBonus.js?v=b011');
   } catch (error) {
     console.warn('⚠️ Self-initializing modules failed:', error);
   }
@@ -1033,7 +1033,7 @@ class ProfessionalIntelligenceApp {
     if (!canvas) return;
 
     // Import and initialize canvas field
-    import('./ui/canvasField.js').then(({ canvasField }) => {
+    import('./ui/canvasField.js?v=b011').then(({ canvasField }) => {
       this.signalField = canvasField;
       this.signalField.init(canvas);
       console.log('✅ Signal field initialized');
@@ -1352,7 +1352,7 @@ class ProfessionalIntelligenceApp {
     // Resume proximity if enabled
     const proximity = Store.get('proximity.enabled');
     if (proximity) {
-      import('./services/proximity.js').then(({ proximity }) => {
+      import('./services/proximity.js?v=b011').then(({ proximity }) => {
         proximity.startTracking();
       });
     }
@@ -1536,7 +1536,7 @@ document.querySelectorAll('.nav-item').forEach(b=>{
 });
 
 // Import enhanced router
-import('/js/router-enhanced.js').then(module => {
+import('/js/router-enhanced.js?v=b011').then(module => {
   console.log('Enhanced router loaded');
 }).catch(err => {
   console.warn('Enhanced router failed, using fallback', err);
@@ -1569,7 +1569,7 @@ async function syncNavFromRoute(){
   
   // Mount hotspots when route is active
   if (r === 'hotspots') {
-    const module = await import('/js/hotspots-controller.js');
+    const module = await import('/js/hotspots-controller.js?v=b011');
     if (module.mountHotspots) {
       module.mountHotspots();
     }

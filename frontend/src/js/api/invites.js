@@ -4,7 +4,7 @@
  * Based on GPT-5 architecture
  */
 
-import { handleError, showEmptyState, showLoadingState, clearContainerState, handleApiResponse, withRetry } from '../errors.js';
+import { handleError, showEmptyState, showLoadingState, clearContainerState, handleApiResponse, withRetry } from '../errors.js?v=b011';
 
 /**
  * Send invite to email address

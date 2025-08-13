@@ -1,6 +1,6 @@
 // js/controllers/AccountLinkController.js
-import { Events } from '../events.js';
-import { Store }  from '../store.js';
+import { Events } from '../events.js?v=b011';
+import { Store }  from '../store.js?v=b011';
 
 // BACKEND endpoints (implement server-side)
 const LI = {

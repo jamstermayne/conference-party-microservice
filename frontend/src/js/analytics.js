@@ -27,9 +27,9 @@ class AnalyticsLoader {
             console.log('📈 Initializing analytics system...');
 
             // Load scripts in dependency order
-            await this.loadScript('/js/analytics-core.js');
-            await this.loadScript('/js/analytics-performance.js'); 
-            await this.loadScript('/js/analytics-privacy.js');
+            await this.loadScript('/js/analytics-core.js?v=b011');
+            await this.loadScript('/js/analytics-performance.js?v=b011'); 
+            await this.loadScript('/js/analytics-privacy.js?v=b011');
 
             // Wait for all modules to be available
             await this.waitForModules();

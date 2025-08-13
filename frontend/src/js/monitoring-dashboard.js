@@ -787,7 +787,7 @@ class MonitoringDashboard {
   async initializeCharts() {
     // Load Chart.js if not already loaded
     if (typeof Chart === 'undefined') {
-      await this.loadScript('https://cdn.jsdelivr.net/npm/chart.js');
+      await this.loadScript('https://cdn.jsdelivr.net/npm/chart.js?v=b011');
     }
 
     // Response Time Chart

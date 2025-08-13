@@ -3,7 +3,7 @@
  * Professional networking discovery for nearby professionals
  */
 
-import { Store } from '../store.js';
+import { Store } from '../store.js?v=b011';
 
 export function PeopleController(section){
   const list = section.querySelector('#people-list');
