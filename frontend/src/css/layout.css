@@ -77,13 +77,13 @@ body { background:#0b0c12; }
   display: grid;
   gap: 20px;
 }
-.card {
+ .legacy-card {
   background: linear-gradient(180deg, #141521, #0f1018);
   border: 1px solid var(--divider);
   border-radius: 14px;
   padding: 20px;
 }
-.card h3 {
+ .legacy-card h3 {
   margin: 0 0 12px;
   color: #fff;
   font-size: 1.1rem;

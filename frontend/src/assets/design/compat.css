@@ -34,7 +34,7 @@
 }
 
 /* Card Enhancements */
-.card {
+ .legacy-card {
   background: var(--surface-secondary);
   border: 1px solid var(--border-primary);
   border-radius: var(--radius-lg);
@@ -43,7 +43,7 @@
   transition: all var(--transition-medium);
 }
 
-.card:hover {
+ .legacy-card:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }

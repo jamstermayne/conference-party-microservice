@@ -56,7 +56,7 @@
   background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple));
 }
 
-.card{
+ .legacy-card{
   display:flex; flex-direction:column; gap: 12px;
   padding:16px 18px 18px 18px;
   background: var(--card-bg);
@@ -82,12 +82,12 @@
 .btn.primary{ background:linear-gradient(90deg, var(--accent-purple), var(--accent-blue)); color:white; }
 .btn.ghost{ background:#1a1f2a; color:#b9c3d1; border:1px solid var(--card-border); }
 
-/* Calendar card tweaks */
+/* Calendar  legacy-card tweaks */
 .card-slot .card-title{ font-size:1rem; }
 .card-slot .card-sub{ font-size:.85rem; }
 
-/* Profile card tweaks */
-.card.profile{ gap:10px; }
+/* Profile  legacy-card tweaks */
+ .legacy-card.profile{ gap:10px; }
 .profile-row{ display:flex; gap:12px; align-items:center; }
 .avatar{
   width:40px; height:40px; border-radius:50%;

@@ -1,0 +1,40 @@
+:root{
+  --v-bg:#0b0f1a; --v-panel:#0f1523; --v-border:#232a41;
+  --v-text:#e9eeff; --v-muted:#9aa7bf;
+  --v-p1:#8c7aff; --v-p2:#5b47ff; --v-hover:rgba(111,128,255,.08);
+  --v-radius:16px;
+}
+html,body{background:var(--v-bg);color:var(--v-text)}
+.muted{color:var(--v-muted)}
+
+ /* Sidebar active highlight */
+[data-route].active,
+.nav-item.active{
+  background:linear-gradient(135deg,#1a2340 0%,#14213d 100%);
+  border:1px solid #2b3558; color:#e9eeff !important;
+  border-radius:14px;
+}
+
+ /* Unified buttons: affects .vbtn, .btn, and plain <button> */
+.vbtn,.btn,button{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:12px;border:1px solid #2b2f45;
+  background:#202a44;color:#dee9ff;font-weight:700;cursor:pointer;
+}
+.vbtn.primary,.btn.primary,button.primary{
+  background:linear-gradient(180deg,var(--v-p1) 0%,var(--v-p2) 100%);
+  border:0;color:#fff;
+}
+.vbtn:hover,.btn:hover,button:hover{background:#1a2238;border-color:#394267}
+.vbtn.primary:hover,.btn.primary:hover,button.primary:hover{
+  filter:brightness(1.05);
+}
+
+/* Kill white/grey legacy button skins that slipped in */
+button:where(.secondary,.ghost), .btn:where(.secondary,.ghost){
+  background:transparent;border:1px solid #2b2f45;color:#cfe0ff;
+}
+
+/* Calendar rows tall enough to fit hero cards */
+:root{ --hour-height: 240px; }
+.hour-row{ height: var(--hour-height); border-bottom:1px dashed rgba(255,255,255,.06); }

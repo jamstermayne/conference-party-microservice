@@ -8,4 +8,4 @@
   height: var(--row-h);
 }
 /* Keep hero cards from being shrunk inside calendar */
-.calendar-wrap .card, .calendar .card { min-height: var(--card-min-h, 148px); }
+.calendar-wrap  .legacy-card, .calendar  .legacy-card { min-height: var(--card-min-h, 148px); }

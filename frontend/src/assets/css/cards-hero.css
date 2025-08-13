@@ -1,4 +1,4 @@
-/* Hero Cards - Additional styling for card grid layouts */
+/* Hero Cards - Additional styling for  legacy-card grid layouts */
 .hero-wrap {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -94,7 +94,7 @@
 }
 
 /* Calendar slot cards */
-.card-slot .card {
+.card-slot  .legacy-card {
   min-height: 140px;
 }
 

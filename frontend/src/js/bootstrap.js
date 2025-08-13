@@ -9,29 +9,29 @@ const V = ENV.BUILD ? `?v=${ENV.BUILD}` : '';
 const imp = (p) => import(p + V);
 
 /** 1) Core (order matters) */
-await imp('/js/events.js').catch(()=>import('/assets/js/events.js?v=b021' + V)); // try both paths
+await imp('/js/events.js?v=b022').catch(()=>import('/assets/js/events.js?v=b021' + V)); // try both paths
 const Events = window.Events; // global export from events.js
 
 /** 2) Utilities and shared */
-await imp('/js/store.js');
-await imp('/js/ui-feedback.js').catch(()=>({}));
-await imp('/js/http.js').catch(()=>({}));
+await imp('/js/store.js?v=b022');
+await imp('/js/ui-feedback.js?v=b022').catch(()=>({}));
+await imp('/js/http.js?v=b022').catch(()=>({}));
 
 /** 3) Features / views / router */
-await imp('/js/route-title.js');
-await imp('/js/router.js');
-await imp('/js/hotspots.js');     // registers its route listener
-await imp('/js/events-controller.js').catch(()=>({})); // parties view
-await imp('/js/invite.js').catch(()=>({}));
-await imp('/js/calendar-integration.js').catch(()=>({}));
-await imp('/js/install.js').catch(()=>({}));
-await imp('/js/account.js').catch(()=>({})); // ok if not present yet
+await imp('/js/route-title.js?v=b022');
+await imp('/js/router.js?v=b022');
+await imp('/js/hotspots.js?v=b022');     // registers its route listener
+await imp('/js/events-controller.js?v=b022').catch(()=>({})); // parties view
+await imp('/js/invite.js?v=b022').catch(()=>({}));
+await imp('/js/calendar-integration.js?v=b022').catch(()=>({}));
+await imp('/js/install.js?v=b022').catch(()=>({}));
+await imp('/js/account.js?v=b022').catch(()=>({})); // ok if not present yet
 
 /** 4) Sanity check: exports we rely on must exist */
 const checks = [
-  ['/js/router.js', 'route', 'route()'],
-  ['/js/router.js', 'bindSidebar', 'bindSidebar()'],
-  ['/js/route-title.js','setTitles','setTitles()'],
+  ['/js/router.js?v=b022', 'route', 'route()'],
+  ['/js/router.js?v=b022', 'bindSidebar', 'bindSidebar()'],
+  ['/js/route-title.js?v=b022','setTitles','setTitles()'],
 ];
 for (const [m, key, label] of checks) {
   try {

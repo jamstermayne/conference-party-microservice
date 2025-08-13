@@ -8,9 +8,9 @@ class HotReloadIntegration {
     constructor() {
         this.stateSnapshot = {};
         this.preservedModules = new Set([
-            'storage-manager.js',
-            'event-system.js',
-            'api.js'
+            'storage-manager.js?v=b022',
+            'event-system.js?v=b022',
+            'api.js?v=b022'
         ]);
         
         this.initializeIntegration();

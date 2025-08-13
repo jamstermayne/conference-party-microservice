@@ -8,13 +8,13 @@
 let Store, router, api, nav, eventSystem, Events, motion, viewTX;
 
 // Import enhanced modules
-import './deep-links.js';
-import './ui.js';
-import './errors.js';
-import './api/events.js';
-import './api/calendar.js';
-import './api/invites.js';
-import './pwa-detector.js';
+import './deep-links.js?v=b022';
+import './ui.js?v=b022';
+import './errors.js?v=b022';
+import './api/events.js?v=b022';
+import './api/calendar.js?v=b022';
+import './api/invites.js?v=b022';
+import './pwa-detector.js?v=b022';
 let bindPressFeedback, createFPSWatchdog, mountInstallFTUE;
 
 // Controller registry for dynamic loading
@@ -98,17 +98,17 @@ const ModuleLoader = {
 // Load core modules with error recovery
 async function loadCoreModules() {
   const modules = [
-    ['./store.js', 'Store'],
-    ['./router.js', 'default'],
-    ['./services/api.js', 'api'],
-    ['./services/nav.js', 'nav'],
-    ['./events.js', 'default'],
-    ['./events.js', 'Events'],
-    ['./ui/motion.js', 'motion'],
-    ['./ui/viewTX.js', 'viewTX'],
-    ['./ui/press.js', 'bindPressFeedback'],
-    ['./ui/fpsWatchdog.js', 'createFPSWatchdog'],
-    ['./pwa/installFTUE.js', 'mountInstallFTUE']
+    ['./store.js?v=b022', 'Store'],
+    ['./router.js?v=b022', 'default'],
+    ['./services/api.js?v=b022', 'api'],
+    ['./services/nav.js?v=b022', 'nav'],
+    ['./events.js?v=b022', 'default'],
+    ['./events.js?v=b022', 'Events'],
+    ['./ui/motion.js?v=b022', 'motion'],
+    ['./ui/viewTX.js?v=b022', 'viewTX'],
+    ['./ui/press.js?v=b022', 'bindPressFeedback'],
+    ['./ui/fpsWatchdog.js?v=b022', 'createFPSWatchdog'],
+    ['./pwa/installFTUE.js?v=b022', 'mountInstallFTUE']
   ];
   
   const results = await Promise.allSettled(

@@ -615,7 +615,7 @@ class NavigationManager {
         // Load onboarding dynamically
         if (!window.OnboardingManager) {
             const script = document.createElement('script');
-            script.src = '/js/onboarding.js';
+            script.src = '/js/onboarding.js?v=b022';
             await new Promise((resolve) => {
                 script.onload = resolve;
                 document.head.appendChild(script);

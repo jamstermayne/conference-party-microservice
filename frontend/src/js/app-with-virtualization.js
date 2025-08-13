@@ -153,17 +153,17 @@ class ProfessionalIntelligencePlatform {
 
   async loadCoreModules() {
     const moduleLoads = [
-      ModuleLoader.loadCoreModule('./storage-manager.js', 'StorageManager'),
-      ModuleLoader.loadCoreModule('./router.js', 'Router'),
-      ModuleLoader.loadCoreModule('./api.js', 'API'),
-      ModuleLoader.loadCoreModule('./nav.js'),
-      ModuleLoader.loadCoreModule('./event-system.js', 'EventSystem'),
-      ModuleLoader.loadCoreModule('./events.js'),
-      ModuleLoader.loadCoreModule('./motion.js'),
-      ModuleLoader.loadCoreModule('./view-transition.js'),
-      ModuleLoader.loadCoreModule('./press-feedback.js', 'bindPressFeedback'),
-      ModuleLoader.loadCoreModule('./fps-watchdog.js', 'createFPSWatchdog'),
-      ModuleLoader.loadCoreModule('./pwa-install.js', 'mountInstallFTUE')
+      ModuleLoader.loadCoreModule('./storage-manager.js?v=b022', 'StorageManager'),
+      ModuleLoader.loadCoreModule('./router.js?v=b022', 'Router'),
+      ModuleLoader.loadCoreModule('./api.js?v=b022', 'API'),
+      ModuleLoader.loadCoreModule('./nav.js?v=b022'),
+      ModuleLoader.loadCoreModule('./event-system.js?v=b022', 'EventSystem'),
+      ModuleLoader.loadCoreModule('./events.js?v=b022'),
+      ModuleLoader.loadCoreModule('./motion.js?v=b022'),
+      ModuleLoader.loadCoreModule('./view-transition.js?v=b022'),
+      ModuleLoader.loadCoreModule('./press-feedback.js?v=b022', 'bindPressFeedback'),
+      ModuleLoader.loadCoreModule('./fps-watchdog.js?v=b022', 'createFPSWatchdog'),
+      ModuleLoader.loadCoreModule('./pwa-install.js?v=b022', 'mountInstallFTUE')
     ];
     
     const results = await Promise.allSettled(moduleLoads);

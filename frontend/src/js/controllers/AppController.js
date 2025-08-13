@@ -315,7 +315,7 @@ export class AppController extends BaseController {
   async initializeServiceWorker() {
     if ('serviceWorker' in navigator) {
       try {
-        const registration = await navigator.serviceWorker.register('/sw.js');
+        const registration = await navigator.serviceWorker.register('/sw.js?v=b022');
         console.log('✅ Service Worker registered');
         
         // Check for updates
