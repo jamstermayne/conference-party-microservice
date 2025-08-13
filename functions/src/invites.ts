@@ -27,7 +27,7 @@ const INVITES_PER_USER = 11;
 
 // TEMP: Admins (email)  pull from env or default to Jamy's
 const ADMIN_EMAILS = new Set<string>(
-  (process.env.ADMIN_EMAILS || 'jamynigri@gmail.com,jamy@nigriconsulting.com')
+  (process.env['ADMIN_EMAILS'] || 'jamynigri@gmail.com,jamy@nigriconsulting.com')
     .split(',').map(s=>s.trim().toLowerCase()).filter(Boolean)
 );
 
@@ -52,7 +52,7 @@ async function getOrCreateUser(email: string): Promise<FirebaseFirestore.Documen
 // GET /api/invites/mine?email=me@example.com
 export async function getMyInvites(req: Request, res: Response) {
   try {
-    const email = String(req.query.email || '').toLowerCase();
+    const email = String(req.query['email'] || '').toLowerCase();
     if (!email) return res.status(400).json({ error: 'email required' });
 
     const userRef = await getOrCreateUser(email);
@@ -166,7 +166,7 @@ export async function redeemInvite(req: Request, res: Response) {
 // GET /api/me?email=x
 export async function getMe(req: Request, res: Response) {
   try {
-    const email = String(req.query.email || '').toLowerCase();
+    const email = String(req.query['email'] || '').toLowerCase();
     if (!email) return res.status(400).json({ error:'email required' });
     const ref = db.collection('users').doc(email);
     const snap = await ref.get();
