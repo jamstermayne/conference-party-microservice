@@ -1,0 +1,9 @@
+/* --- shell fallback (ensures two-column layout) --- */
+#shell{display:flex;min-height:100vh;background:#0f1117;color:#e8e9ed;}
+#app{flex:1;min-width:0;padding:24px;}
+.section-card{
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;
+  padding:16px;
+}

@@ -1,88 +1,106 @@
 /**
- * Minimal hash router + sidebar binder (production-safe).
- * Two-panel layout: sidebar + #app main. No third panel.
+ * Minimal hash router with stable sidebar and title updates.
  */
-import Events from '/assets/js/events.js';
+import { setTitles } from './route-title.js';
 
-const NAV = ['parties','hotspots','map','calendar','invites','me']; // no settings channel
+const NAV = [
+  ['parties','#parties'],
+  ['hotspots','#hotspots'],
+  ['map','#map'],
+  ['calendar','#calendar'],
+  ['invites','#invites'],
+  ['me','account'] // not a channel; label shown without '#'
+];
 
-let _sidebar, _app;
+let _side=null, _app=null, _current='';
 
-function norm(hash) {
-  if (!hash) return 'parties';
+function norm(hash){
+  if(!hash) return 'parties';
   return hash.replace(/^#\/?/, '').split('?')[0] || 'parties';
 }
 
-export function currentRoute(){ return norm(location.hash); }
+function ensureSidebar(){
+  _side = document.getElementById('sidebar');
+  if(!_side) return;
 
-function setActive(r){
-  if(!_sidebar) _sidebar = document.getElementById('sidebar');
-  if(!_sidebar) return;
-  _sidebar.querySelectorAll('.channel').forEach(btn=>{
-    btn.classList.toggle('active', btn.getAttribute('data-route')===r);
+  const missing = NAV.some(([r])=>!_side.querySelector(`[data-route="${r}"]`));
+  if(missing){
+    _side.innerHTML = NAV.map(([r,label])=>{
+      const isAccount = r==='me';
+      const icon = isAccount ? `<span class="gear">⚙️</span>` : `<span class="hash">#</span>`;
+      const text = isAccount ? 'account' : label.replace(/^##?/,'#'); // normalize single '#'
+      return `<button class="channel" data-route="${r}" aria-label="${text}">${icon}<span>${text}</span></button>`;
+    }).join('');
+  }
+
+  _side.querySelectorAll('.channel').forEach(btn=>{
+    btn.onclick = (e)=>{ e.preventDefault(); route(btn.getAttribute('data-route')); };
   });
 }
 
-export function route(r){
-  if(!r || !NAV.includes(r)) r='parties';
-  if(location.hash !== `#/${r}`) location.hash = `#/${r}`;
-  setActive(r);
-  render(r);
-  Events.emit?.('navigate', r);
+function highlight(route){
+  if(!_side) return;
+  _side.querySelectorAll('.channel').forEach(b=>b.classList.remove('active'));
+  const el = _side.querySelector(`[data-route="${route}"]`);
+  if(el) el.classList.add('active');
 }
 
-async function render(r){
-  _app = _app || document.getElementById('app');
+async function mount(route){
+  _app = document.getElementById('app');
   if(!_app) return;
-  _app.innerHTML = ''; // no duplicate headings, no stray titles
 
-  if(r==='parties'){
+  // clean mount
+  _app.innerHTML = '';
+
+  if(route==='parties'){
     const m = await import('./events-controller.js');
-    return m.renderParties?.(_app);
+    await m.renderParties(_app);
+    return;
   }
-  if(r==='hotspots'){
+  if(route==='hotspots'){
     const m = await import('./hotspots.js');
-    return m.renderHotspots?.(_app);
+    await m.renderHotspots(_app);
+    return;
   }
-  if(r==='calendar'){
+  if(route==='calendar'){
     const m = await import('./calendar-view.js');
-    return m.renderCalendar?.(_app);
+    await m.renderCalendar(_app);
+    return;
   }
-  if(r==='map'){
+  if(route==='map'){
     const m = await import('./map-controller.js');
-    return m.renderMap?.(_app);
+    await m.renderMap(_app);
+    return;
   }
-  if(r==='invites'){
+  if(route==='invites'){
     const m = await import('./invite-panel.js');
-    return m.renderInvites?.(_app);
+    await m.renderInvites(_app);
+    return;
   }
-  if(r==='me'){
+  if(route==='me'){
     const m = await import('./account.js');
-    return m.renderAccount?.(_app);
+    await m.renderAccount(_app);
+    return;
   }
+  _app.textContent = 'Not found.';
 }
 
-export function bindSidebar(){
-  _sidebar = document.getElementById('sidebar');
-  if(!_sidebar) return;
-  _sidebar.querySelectorAll('.channel').forEach(el=>{
-    el.addEventListener('click', e=>{
-      e.preventDefault();
-      const name = el.getAttribute('data-route');
-      route(name);
-    }, { passive:false });
-  });
+export async function route(next){
+  const r = norm(typeof next==='string' ? next : location.hash);
+  if(r===_current) return;
+  _current = r;
+
+  ensureSidebar();
+  highlight(r);
+  setTitles(r);
+
+  // update hash without double hashes
+  if(location.hash.replace(/^#\/?/, '') !== r){
+    history.replaceState(null,'',`#/${r}`);
+  }
+
+  await mount(r);
 }
 
-window.addEventListener('hashchange', ()=>{
-  const r = currentRoute();
-  setActive(r);
-  render(r);
-});
-
-document.addEventListener('DOMContentLoaded', ()=>{
-  bindSidebar();
-  const r = currentRoute();
-  setActive(r);
-  render(r);
-});
+window.addEventListener('hashchange', ()=>route(location.hash));
+window.addEventListener('DOMContentLoaded', ()=>route(location.hash));

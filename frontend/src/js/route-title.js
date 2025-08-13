@@ -1,17 +1,6 @@
-import Events from '/assets/js/events.js';
-
-const FRIENDLY = {
-  parties:'Parties',
-  hotspots:'Hotspots',
-  map:'Map',
-  calendar:'Calendar',
-  invites:'Invites',
-  me:'Account'
-};
-
-function setTitles(route){
-  const name = FRIENDLY[route] || 'Parties';
-  // We purposefully do not render a page-level h1 here to avoid duplication.
-  document.title = `velocity.ai — ${name}`;
+export function setTitles(routeName){
+  const pretty = String(routeName||'parties').replace(/^#?/,'');
+  document.title = `Velocity — ${pretty}`;
+  const chip = document.querySelector('[data-route-chip]');
+  if(chip) chip.textContent = `#${pretty}`;
 }
-Events.on?.('navigate', setTitles);
