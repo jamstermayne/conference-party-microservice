@@ -9,29 +9,29 @@ const V = ENV.BUILD ? `?v=${ENV.BUILD}` : '';
 const imp = (p) => import(p + V);
 
 /** 1) Core (order matters) */
-await imp('/js/events.js?v=b022').catch(()=>import('/assets/js/events.js?v=b022' + V)); // try both paths
+await imp('/js/events.js?v=b023').catch(()=>import('/assets/js/events.js?v=b023' + V)); // try both paths
 const Events = window.Events; // global export from events.js
 
 /** 2) Utilities and shared */
-await imp('/js/store.js?v=b022');
-await imp('/js/ui-feedback.js?v=b022').catch(()=>({}));
-await imp('/js/http.js?v=b022').catch(()=>({}));
+await imp('/js/store.js?v=b023');
+await imp('/js/ui-feedback.js?v=b023').catch(()=>({}));
+await imp('/js/http.js?v=b023').catch(()=>({}));
 
 /** 3) Features / views / router */
-await imp('/js/route-title.js?v=b022');
-await imp('/js/router.js?v=b022');
-await imp('/js/hotspots.js?v=b022');     // registers its route listener
-await imp('/js/events-controller.js?v=b022').catch(()=>({})); // parties view
-await imp('/js/invite.js?v=b022').catch(()=>({}));
-await imp('/js/calendar-integration.js?v=b022').catch(()=>({}));
-await imp('/js/install.js?v=b022').catch(()=>({}));
-await imp('/js/account.js?v=b022').catch(()=>({})); // ok if not present yet
+await imp('/js/route-title.js?v=b023');
+await imp('/js/router.js?v=b023');
+await imp('/js/hotspots.js?v=b023');     // registers its route listener
+await imp('/js/events-controller.js?v=b023').catch(()=>({})); // parties view
+await imp('/js/invite.js?v=b023').catch(()=>({}));
+await imp('/js/calendar-integration.js?v=b023').catch(()=>({}));
+await imp('/js/install.js?v=b023').catch(()=>({}));
+await imp('/js/account.js?v=b023').catch(()=>({})); // ok if not present yet
 
 /** 4) Sanity check: exports we rely on must exist */
 const checks = [
-  ['/js/router.js?v=b022', 'route', 'route()'],
-  ['/js/router.js?v=b022', 'bindSidebar', 'bindSidebar()'],
-  ['/js/route-title.js?v=b022','setTitles','setTitles()'],
+  ['/js/router.js?v=b023', 'route', 'route()'],
+  ['/js/router.js?v=b023', 'bindSidebar', 'bindSidebar()'],
+  ['/js/route-title.js?v=b023','setTitles','setTitles()'],
 ];
 for (const [m, key, label] of checks) {
   try {
@@ -50,14 +50,14 @@ for (const [m, key, label] of checks) {
 }
 
 /** 5) Mount stable shell: sidebar + content */
-import('/js/router.js?v=b022' + V).then(({ bindSidebar, route })=>{
+import('/js/router.js?v=b023' + V).then(({ bindSidebar, route })=>{
   bindSidebar(document);
   route(location.hash);
 });
 
 /** 6) Update titles on route change */
 if (Events && Events.on) {
-  Events.on('route:change', (e)=>import('/js/route-title.js?v=b022'+V).then(m=>m.setTitles(e.name)));
+  Events.on('route:change', (e)=>import('/js/route-title.js?v=b023'+V).then(m=>m.setTitles(e.name)));
 }
 
 console.log('[BOOT] Complete with BUILD:', ENV.BUILD);

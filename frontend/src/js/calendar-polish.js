@@ -1,6 +1,6 @@
 // Calendar polish (production)
-import Store from '/js/store.js?v=b022';
-import Events from '/js/events.js?v=b022';
+import Store from '/js/store.js?v=b023';
+import Events from '/js/events.js?v=b023';
 
 const ENV = window.__ENV || {};
 const FEED_URL = ENV.ICS_FEED_URL || '';     // e.g. https://.../calendar/feed.ics

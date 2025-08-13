@@ -158,14 +158,14 @@ class LazyLoader {
 const lazyLoader = new LazyLoader();
 
 // Register heavy modules for lazy loading
-lazyLoader.register('maps', () => import('../maps.js?v=b022'));
-lazyLoader.register('calendar', () => import('../calendar.js?v=b022'));
-lazyLoader.register('analytics', () => import('../analytics.js?v=b022'));
-lazyLoader.register('monitoring', () => import('../monitoring-dashboard.js?v=b022'));
-lazyLoader.register('editor', () => import('../live-editor.js?v=b022'));
-lazyLoader.register('proximity', () => import('../proximity-manager.js?v=b022'));
-lazyLoader.register('conference', () => import('../conference-manager.js?v=b022'));
-lazyLoader.register('opportunity', () => import('../opportunity-toggle.js?v=b022'));
+lazyLoader.register('maps', () => import('../maps.js?v=b023'));
+lazyLoader.register('calendar', () => import('../calendar.js?v=b023'));
+lazyLoader.register('analytics', () => import('../analytics.js?v=b023'));
+lazyLoader.register('monitoring', () => import('../monitoring-dashboard.js?v=b023'));
+lazyLoader.register('editor', () => import('../live-editor.js?v=b023'));
+lazyLoader.register('proximity', () => import('../proximity-manager.js?v=b023'));
+lazyLoader.register('conference', () => import('../conference-manager.js?v=b023'));
+lazyLoader.register('opportunity', () => import('../opportunity-toggle.js?v=b023'));
 
 // Export convenience functions
 export const lazyLoad = (name) => lazyLoader.load(name);

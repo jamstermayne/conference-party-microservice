@@ -1,4 +1,4 @@
-import Events from '/assets/js/events.js?v=b022'; // uses current backend wiring if available
+import Events from '/assets/js/events.js?v=b023'; // uses current backend wiring if available
 const demo=[
   {id:"meet", title:"MeetToMatch The Cologne Edition 2025", venue:"Kölnmesse Confex", start:"09:00", end:"18:00", price:"From £127.04", live:true},
   {id:"mix",  title:"Marriott Rooftop Mixer", venue:"Marriott Hotel", start:"20:00", end:"23:30", price:"Free", live:true}

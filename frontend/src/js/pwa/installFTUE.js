@@ -1,5 +1,5 @@
 // Android: capture prompt; iOS: show coachmark. No backend.
-import { Events } from '../events.js?v=b022';
+import { Events } from '../events.js?v=b023';
 
 const KEY = { lastHint: 'pwa.lastHintAt', dismissed: 'pwa.dismissed' };
 let deferredPrompt = null, shown = false;

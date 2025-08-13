@@ -3,9 +3,9 @@
  * Manages global search functionality across events, people, and opportunities
  */
 
-import { BaseController } from './BaseController.js?v=b022';
-import { Store } from '../store.js?v=b022';
-import { api } from '../services/api.js?v=b022';
+import { BaseController } from './BaseController.js?v=b023';
+import { Store } from '../store.js?v=b023';
+import { api } from '../services/api.js?v=b023';
 
 export class SearchController extends BaseController {
   constructor(element) {

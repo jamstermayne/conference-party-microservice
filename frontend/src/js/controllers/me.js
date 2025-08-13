@@ -3,9 +3,9 @@
  * User profile, settings, and account management
  */
 
-import { Store } from '../store.js?v=b022';
-import { Events } from '../events.js?v=b022';
-import * as Inv from '../services/invites.js?v=b022';
+import { Store } from '../store.js?v=b023';
+import { Events } from '../events.js?v=b023';
+import * as Inv from '../services/invites.js?v=b023';
 
 export function MeController(section){
   const profile = section.querySelector('#profile');
@@ -366,11 +366,11 @@ export default class MeControllerLegacy {
         case 'proximity':
           store.set('proximity.enabled', value);
           if (value) {
-            const { proximity } = await import('../services/proximity.js?v=b022');
+            const { proximity } = await import('../services/proximity.js?v=b023');
             await proximity.requestPermission();
             proximity.startTracking();
           } else {
-            const { proximity } = await import('../services/proximity.js?v=b022');
+            const { proximity } = await import('../services/proximity.js?v=b023');
             proximity.stopTracking();
           }
           break;

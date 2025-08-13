@@ -3,11 +3,11 @@
  * Manages professional network, connections, and people discovery
  */
 
-import { BaseController } from './BaseController.js?v=b022';
-import { Store } from '../store.js?v=b022';
-import { api } from '../services/api.js?v=b022';
-import * as Connections from '../services/connections.js?v=b022';
-import { renderConnectionCard } from '../ui/connectionCard.js?v=b022';
+import { BaseController } from './BaseController.js?v=b023';
+import { Store } from '../store.js?v=b023';
+import { api } from '../services/api.js?v=b023';
+import * as Connections from '../services/connections.js?v=b023';
+import { renderConnectionCard } from '../ui/connectionCard.js?v=b023';
 
 export class PeopleController extends BaseController {
   constructor(element) {

@@ -2,8 +2,8 @@
  * FTUE nudge: When user types into any email-like input, show "Sync address book".
  * Debounced, once per session. Uses Store('ftue.addrNudged') guard.
  */
-import Store from '/js/store.js?v=b022';
-import { toast } from '/js/ui-feedback.js?v=b022';
+import Store from '/js/store.js?v=b023';
+import { toast } from '/js/ui-feedback.js?v=b023';
 
 let shown = false;
 

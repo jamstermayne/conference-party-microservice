@@ -3,7 +3,7 @@
  * Privacy-first professional proximity detection for networking
  */
 
-import { Store } from '../store.js?v=b022';
+import { Store } from '../store.js?v=b023';
 
 export async function fetchHotspots(){
   try{
