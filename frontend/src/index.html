@@ -4,57 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>velocity.ai — Gamescom 2025</title>
-  <meta name="theme-color" content="#6b7bff" />
+  <meta name="theme-color" content="#7757ff" />
   <link rel="manifest" href="/manifest.json" />
-  <link rel="preload" href="/css/app.css?v=001" as="style" />
-  <link rel="stylesheet" href="/css/app.css?v=001" />
-  <link rel="stylesheet" href="/assets/css/ui-stability.css?v=lock1" />
   <!-- ENV must come first -->
   <script src="/js/env.js?v=001"></script>
 </head>
-<body class="app app-dark">
-  <div class="layout">
-    <aside class="sidebar" aria-label="Main navigation">
-      <header class="brand">
-        <img src="/assets/svg/velocity-logo.svg" alt="" class="brand-logo" />
-        <div class="brand-meta">
-          <div class="brand-name">velocity.ai</div>
-          <div class="brand-space">Gamescom 2025</div>
-        </div>
-      </header>
-
-      <nav id="sidebar" class="channels" role="navigation">
-        <button class="channel active" data-route="parties"><span class="hash">#</span>parties</button>
-        <button class="channel" data-route="hotspots"><span class="hash">#</span>hotspots</button>
-        <button class="channel" data-route="map"><span class="hash">#</span>map</button>
-        <button class="channel" data-route="calendar"><span class="hash">#</span>calendar</button>
-        <button class="channel" data-route="invites"><span class="hash">#</span>invites</button>
-        <div class="divider"></div>
-        <button class="channel channel-utility" data-route="me" title="Account">
-          <span class="gear" aria-hidden="true">⚙︎</span><span class="utility-label">Account</span>
-        </button>
-      </nav>
-    </aside>
-
-    <main id="app" class="main" tabindex="-1" aria-live="polite"></main>
-  </div>
-
-  <!-- Foundation + App -->
-  <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=001"></script>
-  <script type="module" src="/assets/js/foundation/sw-register.js?v=001"></script>
-  <script type="module" src="/js/events.js?v=001"></script>
-  <script type="module" src="/js/install.js?v=001"></script>
-  <script type="module" src="/js/store.js?v=001"></script>
-
-  <!-- Router + Controllers -->
-  <script type="module" src="/js/route-title.js?v=001"></script>
-  <script type="module" src="/js/router.js?v=001"></script>
-  <script type="module" src="/js/events-controller.js?v=001"></script>
-  <script type="module" src="/js/hotspots.js?v=001"></script>
-  <script type="module" src="/js/calendar-view.js?v=001"></script>
-  <script type="module" src="/js/invite-panel.js?v=001"></script>
-  <script type="module" src="/js/map-controller.js?v=001"></script>
-  <script type="module" src="/js/account.js?v=001"></script>
-  <script type="module" src="/js/app-wireup.js?v=001"></script>
+<body>
+  <!-- Shell will be injected here by shell.js -->
+  
+  <!-- Core modules only - shell handles everything else -->
+  <script type="module" src="/js/router.js?v=b006"></script>
+  <script type="module" src="/js/shell.js?v=b006"></script>
 </body>
 </html>
