@@ -61,27 +61,27 @@ export function route(to) {
   if (app) app.innerHTML = '';
   
   if (r === 'parties')   { 
-    import('./events-controller.js').then(m=>m.renderParties?.());
+    import('./events-controller.js').then(m=>m.renderParties?.(app));
     Events.emit?.('route:parties');
     return;
   }
   if (r === 'hotspots')  { 
-    import('./hotspots.js').then(m=>m.renderHotspots?.());
+    import('./hotspots.js').then(m=>m.renderHotspots?.(app));
     Events.emit?.('route:hotspots');
     return;
   }
   if (r === 'calendar')  { 
-    import('./calendar-integration.js').then(m=>m.renderCalendar?.());
+    import('./calendar-view.js').then(m=>m.renderCalendar?.(app));
     Events.emit?.('route:calendar');
     return;
   }
   if (r === 'map')       { 
-    import('./map-controller.js').then(m=>m.renderMap?.());
+    import('./map-controller.js').then(m=>m.renderMap?.(app));
     Events.emit?.('route:map');
     return;
   }
   if (r === 'invites')   { 
-    import('./invite-panel.js').then(m=>m.renderInvites?.());
+    import('./invite-panel.js').then(m=>m.renderInvites?.(app));
     Events.emit?.('route:invites');
     return;
   }

@@ -88,8 +88,8 @@ function itemRow(ev){
   return row;
 }
 
-export async function renderCalendar(){
-  const root = document.getElementById('route-calendar') || document.getElementById('main');
+export async function renderCalendar(rootEl){
+  const root = rootEl || document.getElementById('app') || document.getElementById('route-calendar') || document.getElementById('main');
   if(!root) return;
   root.innerHTML = `
     <div class="calendar-wrap">

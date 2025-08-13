@@ -97,8 +97,8 @@ function card(item) {
   return c;
 }
 
-export async function renderParties() {
-  const root = document.getElementById('route-parties') || document.getElementById('main') || document.getElementById('eventsContainer');
+export async function renderParties(rootEl) {
+  const root = rootEl || document.getElementById('app') || document.getElementById('route-parties') || document.getElementById('main') || document.getElementById('eventsContainer');
   if (!root) return;
 
   root.innerHTML = `
