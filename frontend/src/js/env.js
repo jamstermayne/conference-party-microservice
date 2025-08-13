@@ -10,5 +10,8 @@ window.__ENV = Object.assign({}, window.__ENV || {}, {
   FLAGS_API: false,
   // optional endpoints (when you flip to true)
   METRICS_URL: '/api/metrics',
-  FLAGS_URL: '/api/flags'
+  FLAGS_URL: '/api/flags',
+  
+  // Build tag – will be auto-bumped by predeploy script
+  BUILD: 'b001'
 });

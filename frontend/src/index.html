@@ -111,77 +111,10 @@
     <main id="app" class="content" role="main" aria-live="polite"></main>
   </div>
   <!-- ENV must come first -->
-  <script src="/js/env.js?v=9"></script>
+  <script src="/js/env.js?v=001"></script>
 
-  <!-- Foundation (module) -->
-  <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=6"></script>
-  <script type="module" src="/assets/js/foundation/sw-register.js?v=6"></script>
-
-  <!-- Metrics: shim ONLY (no ESM metrics module right now) -->
-  <script nomodule src="/js/metrics-shim.js?v=6"></script>
-
-  <!-- Core modules -->
-  <script type="module" src="/js/store.js?v=6"></script>
-  <script type="module" src="/js/events.js?v=6"></script>
-  <script type="module" src="/js/me-controller.js?v=14"></script>
-  <script type="module" src="/js/ui-feedback.js?v=6"></script>
-  <script type="module" src="/js/install.js?v=6"></script>
-  <script type="module" src="/js/auth.js?v=6"></script>
-  <script type="module" src="/js/router.js?v=7"></script>
-
-  <!-- Feature controllers -->
-  <script type="module" src="/js/invite.js?v=6"></script>
-  <script type="module" src="/js/invite-panel.js?v=6"></script>
-  <script type="module" src="/js/invite-badge-sync.js?v=6"></script>
-  <script type="module" src="/js/calendar-integration.js?v=6"></script>
-  <script type="module" src="/js/events-controller.js?v=10"></script>
-  
-  <!-- Selection and sync modules -->
-  <script type="module" src="/js/selection-store.js?v=1"></script>
-  <script type="module" src="/js/calendar-sync.js?v=1"></script>
-  <script type="module" src="/js/account-controller.js?v=1"></script>
-  <script type="module" src="/js/account.js?v=12"></script>
-  <script type="module" src="/js/calendar-view.js?v=11"></script>
-  <script type="module" src="/js/account-hub.js?v=11"></script>
-  <script type="module" src="/js/ftue-addressbook-prompt.js?v=11"></script>
-
-  <!-- Keep optional modules MODULED (prevents "import outside module") -->
-  <script type="module" src="/js/ftue-progress.js?v=6"></script>
-  <script type="module" src="/js/router-route-metrics.js?v=6"></script>
-
-  <!-- TEMP: comment out if your file isn't ready; or keep with fixed file below -->
-  <script type="module" src="/js/activity-feed.js?v=6"></script>
-
-  <!-- Route controllers -->
-  <script type="module" src="/js/route-title.js?v=10"></script>
-  <script type="module" src="/js/hotspots-controller.js?v=10"></script>
-  
-  <!-- Panel enhancements -->
-  <script type="module" src="/js/hotspots.js?v=7"></script>
-  <script type="module" src="/js/map.js?v=7"></script>
-  <script type="module" src="/js/parties-polish.js?v=7"></script>
-
-  <!-- Layout polish -->
-  <script type="module" src="/js/route-title.js?v=7"></script>
-  <script type="module" src="/js/layout-snap.js?v=7"></script>
-
-  <!-- Drop H enhancements -->
-  <script type="module" src="/js/hotspots-polish.js?v=8"></script>
-  <script type="module" src="/js/calendar-strip.js?v=8"></script>
-  <script type="module" src="/js/toast.js?v=8"></script>
-
-  <!-- Drop I - Invite growth loop -->
-  <script type="module" src="/js/invite-growth-loop.js?v=9"></script>
-
-  <!-- Drop J - Nav and layout fixes -->
-  <script type="module" src="/js/nav.js?v=10"></script>
-
-  <!-- Accent Rail System -->
-  <script type="module" src="/js/rail-autowrap.js?v=11"></script>
-  <script type="module" src="/js/rail-sync.js?v=11"></script>
-
-  <!-- Final wire-up -->
-  <script type="module" src="/js/app-wireup.js?v=7"></script>
+  <!-- Single deterministic entry -->
+  <script type="module" src="/js/bootstrap.js?v=001"></script>
   
   <!-- PWA Install Handler -->
   <script type="module">

@@ -6,11 +6,12 @@
  * Cache Version: 1.0.0
  */
 
+const BUILD = (self && self.__ENV && self.__ENV.BUILD) || 'b001';
 const SW_VERSION = '1.0.1'; // bump
 const CACHE_VERSION = SW_VERSION;
 const CACHE_NAME = 'gamescom-party-discovery-v1';
 const DATA_CACHE = 'gamescom-data-v1';
-const RUNTIME_CACHE = 'gamescom-runtime-v1';
+const RUNTIME_CACHE = `runtime-${BUILD}`;
 
 // Essential files to cache immediately
 const ESSENTIAL_CACHE = [
@@ -86,6 +87,9 @@ self.addEventListener('activate', event => {
  */
 self.addEventListener('fetch', event => {
     const { request } = event;
+    if (request.method !== 'GET') return;
+    // Never cache HTML document to avoid old shell sticking around
+    if (request.destination === 'document') return;
     const url = new URL(request.url);
     
     if (API_CACHE_PATTERNS.some(pattern => pattern.test(url.pathname))) {
