@@ -6,7 +6,14 @@ export function cardGrid(container){
 
 export function partyCard(evt){
   const el = document.createElement('div');
-  el.className = 'section-card';
+  el.className = 'section-card party-card';
+  
+  // If start and end times are provided, set duration slots
+  if (evt.start && evt.end) {
+    el.dataset.start = evt.start;
+    el.dataset.end = evt.end;
+  }
+  
   el.innerHTML = `
     <div class="section-head">
       <div>${escapeHTML(evt.category || 'Recommended events')}</div>
@@ -115,8 +122,15 @@ export function meCard(profile){
 
 export function calendarSlotCard(slot){
   const el = document.createElement('div');
-  el.className = 'section-card card-slot';
+  el.className = 'section-card card-slot calendar-card';
   const isBusy = !!slot.title;
+  
+  // If start and end times are provided, set duration slots
+  if (slot.start && slot.end) {
+    el.dataset.start = slot.start;
+    el.dataset.end = slot.end;
+  }
+  
   el.innerHTML = `
     <div class="section-head">
       <div>${escapeHTML(slot.dayLabel || slot.date || '')}</div>

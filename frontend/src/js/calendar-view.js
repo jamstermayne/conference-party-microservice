@@ -3,6 +3,7 @@
  * Build: b017
  */
 import Events from '/assets/js/events.js?v=b011';
+import { applyDurationSlots, formatDuration } from './utils/duration-slots.js?v=b018';
 
 const START_MIN = 8*60;   // 08:00
 const END_MIN   = 24*60;  // 24:00
@@ -111,13 +112,17 @@ export async function renderCalendar(mount){
     const card = document.createElement('div');
     card.className='cal-card';
     card.style.top  = `${8 + top}px`;      // +8 to offset header
-    card.style.height = `${height}px`;
+    
+    // Apply duration-based height using CSS custom property
+    applyDurationSlots(card, ev.start, ev.end);
+    
+    const duration = formatDuration(ev.start, ev.end);
     card.innerHTML = `
       <h4>${ev.title}</h4>
       <div class="cal-meta">
         <span>📍 ${ev.venue}</span>
         <span>🕒 ${new Date(ev.start).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}
-         – ${new Date(ev.end).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+         – ${new Date(ev.end).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} (${duration})</span>
       </div>
       <div class="cal-actions">
         <button class="btn primary">Save & Sync</button>
