@@ -1,137 +1,57 @@
-import { cardGrid, partyCard } from './components/cards.js?v=b018';
-import { applyDurationSlots } from './utils/duration-slots.js?v=b018';
+/**
+ * events-controller.js — Parties page controller (hero cards)
+ */
+import { createPartyCard } from './party-card.js?v=b011';
 
-// --- Infinite scroll impl (30 LINES, minimal + resilient) ---
-export async function renderParties(mount){
-  const root = mount || document.getElementById('main') || document.getElementById('app');
-  if (!root) return;
+export async function renderParties(mount) {
+  if (!mount) return;
 
-  // Shell with a dedicated scroller area; we rely on #main to scroll
-  root.innerHTML = `
-    <section class="section-card">
-      <div class="left-accent" aria-hidden="true"></div>
-      <header class="section-head">
-        <h2 class="text-heading">Recommended events</h2>
-        <div class="muted" style="font-size:12px;">Scroll to explore</div>
-      </header>
-    </section>
-    <div id="party-grid" class="hero-wrap"></div>
-    <div id="party-sentinel" style="height: 1px; margin: 20px;"></div>
-  `;
-
-  const grid = root.querySelector('#party-grid');
-  const sentinel = root.querySelector('#party-sentinel');
-
-  let page = 1, loading = false, done = false;
-
-  async function loadMore() {
-    if (loading || done) return;
-    loading = true;
-    try {
-      const items = await fetchPartiesPage(page);
-      if (!items || !items.length) { done = true; return; }
-      items.forEach(p => {
-        const card = partyCard(p);
-        // Apply duration slots if start/end times available
-        if (p.start && p.end) {
-          applyDurationSlots(card, p.start, p.end);
-        }
-        grid.appendChild(card);
-      });
-      page += 1;
-    } catch(e){ console.warn('[UI] loadMore failed', e); done = true; }
-    finally { loading = false; }
+  // Ensure parties CSS is loaded once
+  if (!document.querySelector('link[data-css="cards-parties"]')) {
+    const l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = '/assets/css/cards-parties.css?v=b011';
+    l.setAttribute('data-css','cards-parties');
+    document.head.appendChild(l);
   }
 
-  // Prime first two pages for a polished feel
-  await loadMore(); 
-  await loadMore();
+  mount.innerHTML = `
+    <section>
+      <header class="section-header">
+        <h2 class="section-title">Recommended events</h2>
+        <span class="section-subtle">Scroll to explore</span>
+      </header>
+      <div class="party-list" id="partyList"></div>
+    </section>
+  `;
 
-  // Infinite scroll trigger
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(en => { if (en.isIntersecting) loadMore(); });
-  }, { root: document.getElementById('main') || null, rootMargin: '600px 0px', threshold: 0 });
-  io.observe(sentinel);
+  const list = mount.querySelector('#partyList');
 
-  // Wire up actions
-  wirePartyActions(root);
-}
+  // Fetch parties (your existing endpoint/service can be swapped in)
+  let events = [];
+  try {
+    const res = await fetch('/api/parties?conference=gamescom2025');
+    if (res.ok) events = await res.json();
+  } catch (e) {
+    // fallback demo
+    events = [
+      { id:'meet-2025', title:'MeetToMatch The Cologne Edition 2025', venue:'Koelnmesse Confex', datePretty:'Fri Aug 22', timePretty:'09:00 – 18:00', price:127.04, live:true },
+      { id:'mixer',     title:'Marriott Rooftop Mixer', venue:'Marriott Hotel', datePretty:'Fri Aug 22', timePretty:'20:00 – 23:30', price:null, live:true },
+      { id:'devconf',   title:'devcom Developer Conference', venue:'Koelnmesse Confex', datePretty:'Mon Aug 18', timePretty:'09:00 – 23:30', price:299, live:true },
+      { id:'launch',    title:'Gamescom Launch Party', venue:'rooftop58', datePretty:'Tue Aug 19', timePretty:'20:00 – 00:00', price:null, live:true },
+    ];
+  }
 
-// Simple page fetcher with resilient fallback
-async function fetchPartiesPage(page=1){
-  // Prefer API if available
-  try{
-    const u = `/api/parties?conference=gamescom2025&page=${page}`;
-    const res = await fetch(u, { credentials:'include' });
-    if (res.ok){
-      const json = await res.json();
-      // support {items:[], nextCursor:?} or plain array
-      const list = Array.isArray(json) ? json : (json.items || json.data || []);
-      return list.map(normalizeParty);
-    }
-  }catch(e){ /* fall through to demo */ }
+  list.innerHTML = events.map(createPartyCard).join('');
 
-  // Fallback to demo data (repeatable pages) with start/end times for duration
-  const baseDate = new Date('2025-08-22T00:00:00');
-  const seed = [
-    { id:'meet-2025', title:'MeetToMatch The Cologne Edition 2025', venue:'Kölnmesse Confex',
-      when:'Fri Aug 22, 09:00 – 18:00', price:'£127.04', live:true,
-      start: new Date('2025-08-22T09:00:00').toISOString(),
-      end: new Date('2025-08-22T18:00:00').toISOString() },
-    { id:'marriott-mix', title:'Marriott Rooftop Mixer', venue:'Marriott Hotel',
-      when:'Fri Aug 22, 20:00 – 23:30', live:true,
-      start: new Date('2025-08-22T20:00:00').toISOString(),
-      end: new Date('2025-08-22T23:30:00').toISOString() },
-    { id:'dev-conf', title:'devcom Developer Conference', venue:'Kölnmesse Confex',
-      when:'Mon Aug 18, 09:00 – 23:30', price:'€299',
-      start: new Date('2025-08-18T09:00:00').toISOString(),
-      end: new Date('2025-08-18T23:30:00').toISOString() },
-    { id:'launch', title:'Gamescom Launch Party', venue:'rooftop58',
-      when:'Tue Aug 19, 20:00 – 00:00', live:true,
-      start: new Date('2025-08-19T20:00:00').toISOString(),
-      end: new Date('2025-08-20T00:00:00').toISOString() },
-    { id:'pocket-gamer', title:'Pocket Gamer Mobile Game Awards', venue:'Gorzenich Koln',
-      when:'Tue Aug 19, 18:30 – 23:30', price:'VIP',
-      start: new Date('2025-08-19T18:30:00').toISOString(),
-      end: new Date('2025-08-19T23:30:00').toISOString() },
-    { id:'indie-reveal', title:'INDIE Reveal during Gamescom', venue:'Filmforum NRW',
-      when:'Wed Aug 20, 19:30 – 22:00',
-      start: new Date('2025-08-20T19:30:00').toISOString(),
-      end: new Date('2025-08-20T22:00:00').toISOString() },
-    { id:'safe-world', title:'Safe In Our World Reception', venue:'Cologne Fair',
-      when:'Thu Aug 21, 16:00 – 19:00', live:true,
-      start: new Date('2025-08-21T16:00:00').toISOString(),
-      end: new Date('2025-08-21T19:00:00').toISOString() },
-    { id:'xrai-hack', title:'Global XRAI Hack', venue:'STARTPLATZ',
-      when:'Sun Aug 17, 09:00 – 19:00', price:'Free',
-      start: new Date('2025-08-17T09:00:00').toISOString(),
-      end: new Date('2025-08-17T19:00:00').toISOString() }
-  ];
-  // create a fake page by offsetting ids
-  return seed.map((x,i)=> normalizeParty({ ...x, id:`${x.id}-p${page}-${i}` }));
-}
-
-function normalizeParty(x){
-  return {
-    id: x.id,
-    title: x.title,
-    venue: x.venue,
-    when: x.when,
-    price: x.price,
-    live: !!x.live,
-    start: x.start,
-    end: x.end
-  };
-}
-
-function wirePartyActions(root){
-  root.addEventListener('click', e=>{
-    const el = e.target.closest('[data-action]');
-    if(!el) return;
-    const act = el.dataset.action;
-    const id = el.dataset.id;
-    if(act==='saveSync'){ console.log('[UI] Save & Sync', id); /* call your calendar sync here */ }
-    if(act==='details'){ console.log('[UI] Details', id); /* open modal */ }
+  // Wire actions
+  list.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    const action = btn.dataset.action;
+    console.log('[UI] %s %s', action, id);
+    // TODO: call RSVP/sync/detail handlers
   });
 }
 
