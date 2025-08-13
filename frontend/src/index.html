@@ -19,7 +19,7 @@
   <meta name="description" content="velocity.ai — your private conference social network.">
 
   <!-- Favicon & Icons -->
-  <link rel="icon" type="image/svg+xml" href="/assets/icons/velocity-logo.svg">
+  <link rel="icon" type="image/svg+xml" href="/images/veloc-v.svg">
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -105,54 +105,13 @@
   <link rel="stylesheet" href="/css/events.css?v=8">
 </head>
 <body>
-  <aside id="sidenav" class="sidenav">
-    <!-- brand -->
-    <div class="brand">
-      <span class="logo-glyph">V</span>
-      <div class="brand-text">
-        <div class="brand-name">velocity.ai</div>
-        <div class="brand-sub">gamescom 2025</div>
-      </div>
-    </div>
-
-    <!-- channels -->
-    <nav class="side-nav">
-      <button class="nav-item active" data-route="parties"><span class="hash">#</span><span class="label">parties</span></button>
-      <button class="nav-item" data-route="hotspots"><span class="hash">#</span><span class="label">hotspots</span></button>
-      <button class="nav-item" data-route="map"><span class="hash">#</span><span class="label">map</span></button>
-      <button class="nav-item" data-route="calendar"><span class="hash">#</span><span class="label">calendar</span></button>
-      <button class="nav-item" data-route="invites"><span class="hash">#</span><span class="label">invites</span></button>
-      <button class="nav-item" data-route="me"><span class="hash">#</span><span class="label">me</span></button>
-      <button class="nav-item" data-route="settings"><span class="hash">#</span><span class="label">settings</span></button>
-    </nav>
-  </aside>
-
-  <section class="content">
-    <header class="topbar">
-      <button id="nav-toggle" aria-label="Navigation" class="icon-btn">≡</button>
-      <h1 id="page-title" class="page-title">Parties</h1>
-      <span id="route-chip" class="chip">#parties</span>
-    </header>
-
-    <!-- main content area -->
-    <main id="main" class="main">
-      <div class="page-head">
-        <div class="route-label">
-          <h1 data-role="route-title" class="route-title">#parties</h1>
-          <span data-role="route-subtitle" class="route-subtitle">Pick parties and save to your calendar</span>
-        </div>
-      </div>
-
-      <section id="route-parties"></section>
-      <section id="route-hotspots" hidden></section>
-      <section id="route-map" hidden></section>
-      <section id="route-calendar" hidden></section>
-      <section id="route-invites" hidden></section>
-      <section id="route-account" hidden></section>
-    </main>
-  </section>
+  <!-- App Shell: stable two-panel layout -->
+  <div class="app-shell">
+    <aside class="sidebar" data-sidebar></aside>
+    <main id="app" class="content" role="main" aria-live="polite"></main>
+  </div>
   <!-- ENV must come first -->
-  <script src="/js/env.js?v=6"></script>
+  <script src="/js/env.js?v=9"></script>
 
   <!-- Foundation (module) -->
   <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=6"></script>

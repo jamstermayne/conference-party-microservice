@@ -1,84 +1,108 @@
 // Minimal hash router + sidebar binder (production)
 import Events from './events.js';
 import { renderAccount } from './account.js';
+import { setTitles } from './route-title.js';
 
-const ROUTES = [
-  { id:'parties',   label:'#parties'   },
-  { id:'hotspots',  label:'#hotspots'  },
-  { id:'map',       label:'#map'       },
-  { id:'calendar',  label:'#calendar'  },
-  { id:'invites',   label:'#invites'   },
-  { id:'me',        label:'#me'        },
-];
+const NAV = ['parties','hotspots','map','calendar','invites','me'];
+let _sidebarEl = null;
+let _current = null;
 
-const views = {
-  parties:  () => import('./events-controller.js').then(m=>m.renderParties()),
-  hotspots: () => import('./hotspots-controller.js').then(m=>m.renderHotspots?.()),
-  map:      () => import('./map-controller.js').then(m=>m.renderMap?.()),
-  calendar: () => import('./calendar-integration.js').then(m=>m.renderCalendar?.()),
-  invites:  () => import('./invite-panel.js').then(m=>m.renderInvites?.()),
-  me:       () => { renderAccount(); return Promise.resolve(); },
-  account:  () => { renderAccount(); return Promise.resolve(); },
-  settings: () => { renderAccount(); return Promise.resolve(); }, // Alias
-};
+function norm(hash) {
+  if (!hash) return 'parties';
+  return hash.replace(/^#\/?/, '').split('?')[0] || 'parties';
+}
 
-function setActive(routeId) {
-  document.querySelectorAll('.side-nav .nav-item').forEach(el=>{
-    el.classList.toggle('active', el.dataset.route === routeId);
+function highlightSidebar() {
+  if (!_sidebarEl) return;
+  _sidebarEl.querySelectorAll('a[data-route]').forEach(el => {
+    el.classList.toggle('active', el.dataset.route === _current);
   });
 }
 
-export function navigate(routeId) {
-  // Alias legacy "#/settings" -> "me"
-  let id = routeId;
-  if (id === 'settings') id = 'me';
-  if (id === 'account') id = 'me';
+export function bindSidebar(root=document) {
+  _sidebarEl = root.querySelector('[data-sidebar]');
+  if (!_sidebarEl) return;
   
-  id = ROUTES.some(r=>r.id===id) ? id : 'parties';
-  if (location.hash !== `#/${id}`) location.hash = `#/${id}`;
-  setActive(id);
-  // Clean, single title region
-  const h = document.getElementById('page-title');
-  if (h) h.textContent = id === 'me' ? 'Account' : id.charAt(0).toUpperCase()+id.slice(1);
-  
-  // Emit route event
-  Events.emit?.('route:change', { name: id });
-  if (id === 'me' || id === 'account') Events.emit?.('route:account');
-  // load view
-  return views[id]?.().catch(()=> {
-    const main = document.getElementById('main') || document.getElementById('page-root');
-    if (main) main.innerHTML = `<div class="card card-outlined"><div class="text-secondary">This feature isn't available yet.</div></div>`;
-  });
-}
-
-export function route(name) { return navigate(name); }
-
-export function bindSidebar() {
-  const nav = document.querySelector('.side-nav');
-  if (!nav) return;
-  // rebuild once to prevent duplicates/bleed
-  nav.innerHTML = '';
-  for (const r of ROUTES) {
-    const btn = document.createElement('button');
-    btn.className = 'nav-item';
-    btn.dataset.route = r.id;
-    btn.innerHTML = `<span class="label">${r.label}</span>`;
-    btn.addEventListener('click', (e)=>{
-      e.preventDefault();
-      navigate(r.id);
-    }, { passive:false });
-    nav.appendChild(btn);
+  // Render once (prevents blink/disappear)
+  if (_sidebarEl.dataset.wired !== '1') {
+    _sidebarEl.innerHTML = `
+      <div class="brand">
+        <a href="#/parties" class="brand-link">
+          <img src="/images/veloc-v.svg" alt="velocity.ai" width="24" height="24" />
+          <div class="brand-meta">
+            <div class="b-name">velocity.ai</div>
+            <div class="b-sub">gamescom 2025</div>
+          </div>
+        </a>
+      </div>
+      <nav class="nav">
+        ${NAV.map(n=>`<a href="#/${n}" data-route="${n}"><span class="hash">#</span><span class="lbl">${n}</span></a>`).join('')}
+      </nav>`;
+    _sidebarEl.dataset.wired = '1';
+    _sidebarEl.querySelectorAll('a[data-route]').forEach(el=>{
+      el.addEventListener('click',(e)=>{ 
+        e.preventDefault(); 
+        route(el.getAttribute('data-route')); 
+      }, {passive:false});
+    });
   }
-  // mark active by hash
-  const id = (location.hash.replace('#/','')||'parties');
-  setActive(id);
+  highlightSidebar();
+}
+
+export function route(to) {
+  const name = typeof to === 'string' ? to : norm(location.hash);
+  const r = (name === 'settings') ? 'me' : name;
+  _current = r;
+  highlightSidebar();
+  Events.emit?.('route:change', { name: r });
+  setTitles(r);
+  
+  const app = document.getElementById('app'); 
+  if (app) app.innerHTML = '';
+  
+  if (r === 'parties')   { 
+    import('./events-controller.js').then(m=>m.renderParties?.());
+    Events.emit?.('route:parties');
+    return;
+  }
+  if (r === 'hotspots')  { 
+    import('./hotspots.js').then(m=>m.renderHotspots?.());
+    Events.emit?.('route:hotspots');
+    return;
+  }
+  if (r === 'calendar')  { 
+    import('./calendar-integration.js').then(m=>m.renderCalendar?.());
+    Events.emit?.('route:calendar');
+    return;
+  }
+  if (r === 'map')       { 
+    import('./map-controller.js').then(m=>m.renderMap?.());
+    Events.emit?.('route:map');
+    return;
+  }
+  if (r === 'invites')   { 
+    import('./invite-panel.js').then(m=>m.renderInvites?.());
+    Events.emit?.('route:invites');
+    return;
+  }
+  if (r === 'me' || r === 'account')        { 
+    renderAccount?.();
+    Events.emit?.('route:account');
+    return;
+  }
+  
+  // Fallback
+  if (app) app.innerHTML = `<div class="card"><div style="color:#9aa3b2">This feature isn't available yet.</div></div>`;
 }
 
 function routeFromHash() {
-  return (location.hash.replace('#/','') || 'parties');
+  return norm(location.hash);
 }
 
 // boot
-window.addEventListener('hashchange', ()=> navigate(routeFromHash()));
-export function startRouter() { bindSidebar(); return navigate(routeFromHash()); }
-export default { navigate, bindSidebar, startRouter, route };
+window.addEventListener('hashchange', ()=> route(routeFromHash()));
+export function startRouter() { 
+  bindSidebar(); 
+  return route(routeFromHash()); 
+}
+export default { route, bindSidebar, startRouter };

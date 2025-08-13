@@ -1,117 +1,109 @@
-/* ===== Sidebar & Main Layout ===== */
-:root {
-  --sidebar-width: 240px;
+/* ===== App layout (two-panel) ===== */
+:root{
+  --divider: rgba(255,255,255,.06);
+  --bg: #0b0c12;
 }
-
-body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: #0c0c0c;
-  color: #fff;
+html,body,.app-shell { height:100%; }
+body { background:#0b0c12; }
+.app-shell{
+  display:grid;
+  grid-template-columns: 240px 1fr; /* two panel */
+  gap:0;
+  height:100%;
 }
+.sidebar{ position:sticky; top:0; align-self:start; height:100vh; overflow:auto; background:#111217; border-right:1px solid var(--divider); }
+.content{ padding:24px; min-width:0; overflow:auto; }
+.content h1.page-title{ margin:0 0 16px; font-size:1.5rem; color:#fff; }
+.route-chip{ margin-left:8px; font-size:.85rem; opacity:.8; color:#9aa3b2; }
 
-/* Sidebar */
-.sidebar {
-  width: var(--sidebar-width);
-  background: #1a1a1a;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  overflow-y: auto;
-  border-right: 1px solid rgba(255,255,255,0.05);
+/* Brand area */
+.brand {
+  padding: 20px;
+  border-bottom: 1px solid var(--divider);
 }
-
-/* Main Content Area */
-.main-content {
-  margin-left: var(--sidebar-width);
-  padding: 1.5rem;
-  transition: margin-left 0.3s ease;
-  min-height: 100vh;
-}
-
-/* Responsive Collapse */
-@media (max-width: 768px) {
-  :root {
-    --sidebar-width: 0px;
-  }
-  .main-content {
-    margin-left: 0;
-    padding: 1rem;
-  }
-}
-
-/* --- HEADER ALIGNMENT FIX --- */
-.header-brand {
+.brand-link {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  text-decoration: none;
+  color: #fff;
 }
-
-.header-brand .logo {
-  display: inline-flex;
-  height: 26px;
-}
-
-.header-title {
+.brand-meta {
   display: flex;
   flex-direction: column;
-  line-height: 1.1;
 }
-
-.header-title .brand {
-  text-transform: lowercase;
+.b-name {
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: -0.5px;
 }
-
-.header-title .context {
-  font-size: 12px;
-  color: var(--text-secondary);
+.b-sub {
+  font-size: 0.75rem;
+  color: #9aa3b2;
 }
 
-/* --- NAV CHANNEL HASH PREFIX --- */
-.nav-channel::before {
-  content: "#";
-  margin-right: 4px;
-  color: var(--color-secondary);
+/* Navigation */
+.nav {
+  padding: 12px 8px;
+}
+.nav a {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin: 2px 0;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #9aa3b2;
+  transition: all 0.2s ease;
+}
+.nav a:hover {
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+}
+.nav a.active {
+  background: rgba(124,138,255,0.15);
+  color: #7c8aff;
+}
+.nav .hash {
+  margin-right: 6px;
+  opacity: 0.6;
+}
+.nav .lbl {
+  font-size: 0.9rem;
 }
 
-/* --- REMOVE DUPLICATE HOTSPOTS/VENUES --- */
-.nav-section[data-section="hotspots"],
-.main-panel .panel-section[data-section="hotspots"] {
-  display: none !important; /* Only one instance will remain */
-}
-
-/* --- TWO PANEL ENFORCEMENT --- */
-.app-container {
+/* Cards */
+.cards-wrap {
   display: grid;
-  grid-template-columns: 260px 1fr; /* Sidebar + Main Panel */
-  gap: 0;
+  gap: 20px;
+}
+.card {
+  background: linear-gradient(180deg, #141521, #0f1018);
+  border: 1px solid var(--divider);
+  border-radius: 14px;
+  padding: 20px;
+}
+.card h3 {
+  margin: 0 0 12px;
+  color: #fff;
+  font-size: 1.1rem;
+}
+.pill {
+  display: inline-block;
+  padding: 6px 12px;
+  background: rgba(124,138,255,0.15);
+  color: #7c8aff;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin-right: 8px;
 }
 
-.panel-third {
-  display: none !important; /* Kill accidental 3rd panel */
-}
-
-/* --- SECTION RAIL --- */
-.section-rail {
-  position: relative;
-  background: #141419;
-  border: 1px solid #22232B;
-  border-radius: 16px;
-  padding: 20px 20px 20px 28px;
-}
-
-.section-rail.is-current::before {
-  content: "";
-  position: absolute;
-  left: -12px;
-  top: 16px;
-  bottom: 16px;
-  width: var(--rail-w);
-  border-radius: var(--rail-radius);
-  background: linear-gradient(180deg, var(--rail-start), var(--rail-end));
-  box-shadow: var(--rail-glow);
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    display: none;
+  }
 }
