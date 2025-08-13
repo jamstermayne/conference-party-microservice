@@ -2,7 +2,7 @@ import Store from './store.js';
 import { toast } from './ui-feedback.js';
 import { Events } from './events.js';
 
-export function renderAccount() {
+export function renderMe() {
   const root = document.querySelector('[data-view="me"]');
   if (!root) {
     // Fallback to legacy selector
@@ -69,5 +69,5 @@ function renderAccountToElement(root) {
 
 // on route enter
 Events.on('navigate', (path)=>{
-  if ((path||'').replace('#/','') === 'me') renderAccount();
+  if ((path||'').replace('#/','') === 'me') renderMe();
 });

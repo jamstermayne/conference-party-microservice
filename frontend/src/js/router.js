@@ -28,7 +28,7 @@ export async function route(hash){
     case 'map':       (await import('./map-controller.js')).renderMap?.(app); break;
     case 'calendar':  (await import('./calendar-view.js')).renderCalendar?.(app); break;
     case 'invites':   (await import('./invite-panel.js')).renderInvites?.(app); break;
-    case 'me':        (await import('./account-view.js')).renderAccount?.(app); break;
+    case 'me':        (await import('./me-controller.js')).renderMe?.(app); break;
     default:          (await import('./events-controller.js')).renderParties?.(app);
   }
   Events?.emit?.('route:enter', r);
