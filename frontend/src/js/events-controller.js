@@ -1,76 +1,56 @@
-import Events from '/assets/js/events.js';
+/**
+ * Parties controller — stable mock to prove shell & routing. Build b018.
+ * Replace with API call later; markup matches your card styles.
+ */
+export async function renderParties(root) {
+  if (!root) return;
+  root.innerHTML = `
+    <section class="section-card">
+      <div class="left-accent" aria-hidden="true"></div>
+      <header class="section-head">
+        <h2 class="text-heading">Recommended events</h2>
+        <div class="muted" style="font-size:12px;">Scroll to explore</div>
+      </header>
 
-const API = '/api/parties?conference=gamescom2025';
-
-function el(tag, cls, html){
-  const n = document.createElement(tag);
-  if(cls) n.className = cls;
-  if(html!=null) n.innerHTML = html;
-  return n;
-}
-
-function card(event){
-  const c = el('article', 'card');
-  const price = event.price ? `<span class="badge">${event.price}</span>` : '';
-  c.innerHTML = `
-    <div class="card-header">
-      <div class="card-title">${event.title || event['Event Name'] || 'Untitled'}</div>
-      <div class="badges">
-        ${price}
-        <span class="badge ok">live</span>
+      <div class="party-grid">
+        ${partyCard({
+          title: "MeetToMatch The Cologne Edition 2025",
+          date: "Fri Aug 22",
+          time: "09:00 – 18:00",
+          venue: "Kölnmesse Confex",
+          badge: "From £127.04",
+        })}
+        ${partyCard({
+          title: "Marriott Rooftop Mixer",
+          date: "Fri Aug 22",
+          time: "20:00 – 23:30",
+          venue: "Marriott Hotel",
+          badge: "Free",
+        })}
       </div>
-    </div>
-    <div class="card-body">
-      <div class="card-row">📍 ${event.venue || event['Location'] || 'TBA'}</div>
-      <div class="card-row">🗓️ ${event.date || event['Date'] || ''} ${event.time ? '— '+event.time : ''}</div>
-      ${event.hosts ? `<div class="card-row">🎙️ ${event.hosts}</div>` : ''}
-    </div>
-    <div class="card-actions">
-      <button class="btn btn-primary" data-action="save-sync">Save & Sync</button>
-      <button class="btn btn-outline" data-action="details">Details</button>
-    </div>
+    </section>
   `;
-  c.querySelector('[data-action="save-sync"]').addEventListener('click', ()=>{
-    Events.emit?.('calendar:add', { event });
-  }, {passive:true});
-  return c;
 }
 
-async function fetchEvents(){
-  try{
-    const resp = await fetch(API);
-    if(!resp.ok) return [];
-    const json = await resp.json().catch(()=>({data:[]}));
-    return json.data || [];
-  }catch{ return []; }
+function partyCard({ title, date, time, venue, badge }) {
+  return `
+  <article class="party-card">
+    <div class="party-top">
+      <div class="party-title">${escapeHtml(title)}</div>
+      <span class="pill">${escapeHtml(badge)}</span>
+    </div>
+    <ul class="party-meta">
+      <li>📅 ${escapeHtml(date)}</li>
+      <li>⏰ ${escapeHtml(time)}</li>
+      <li>📍 ${escapeHtml(venue)}</li>
+    </ul>
+    <div class="party-actions">
+      <button class="btn btn-primary">Save &amp; Sync</button>
+      <button class="btn btn-ghost">Details</button>
+    </div>
+  </article>`;
 }
 
-export async function renderParties(root){
-  const wrap = el('section','section-card');
-  wrap.appendChild(el('div','left-accent'));
-  const body = el('div','section-body');
-  const header = el('div','header-row');
-  header.innerHTML = `
-    <div class="header-title">Recommended events</div>
-    <div class="header-meta muted">Scroll to explore</div>
-  `;
-  body.appendChild(header);
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[m]));}
 
-  const grid = el('div','grid grid-3');
-  body.appendChild(grid);
-  wrap.appendChild(body);
-  root.appendChild(wrap);
-
-  // skeletons
-  for(let i=0;i<6;i++){ const s=el('div','skeleton'); s.style.height='160px'; grid.appendChild(s); }
-
-  const items = await fetchEvents();
-  grid.innerHTML = '';
-  if(!items.length){
-    const empty = el('div','muted','No events yet.');
-    empty.style.padding='24px';
-    grid.appendChild(empty);
-    return;
-  }
-  items.forEach(ev=> grid.appendChild(card(ev)));
-}
+export default { renderParties };

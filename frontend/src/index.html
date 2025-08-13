@@ -1,59 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>velocity.ai — Gamescom 2025</title>
-  <meta name="theme-color" content="#6b7bff" />
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="preload" href="/css/app.css?v=001" as="style" />
-  <link rel="stylesheet" href="/css/app.css?v=001" />
-  <!-- ENV must come first -->
-  <script src="/js/env.js?v=001"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>velocity.ai — #parties</title>
+  <link rel="icon" href="/assets/icons/icon-192.png" />
+  <link rel="stylesheet" href="/assets/css/tokens.css?v=b018" />
+  <link rel="stylesheet" href="/assets/css/cards.css?v=b018" />
+  <style id="sidebar-inline">
+    /* Minimal, locked sidebar — same on every route */
+    :root { color-scheme: dark; }
+    body { margin:0; background:#0e1116; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial; }
+    #shell { display:grid; grid-template-columns: minmax(180px,220px) 1fr; min-height: 100vh; }
+    #sidebar { background:#12151c; border-right:1px solid rgba(255,255,255,.06); padding:12px 10px; }
+    .brand { display:flex; align-items:center; gap:10px; padding:8px 6px 14px; }
+    .vmark { width:22px; height:22px; border-radius:6px; background:linear-gradient(135deg,#6c4df6,#2bb1ff); box-shadow:0 0 12px rgba(100,80,255,.25); }
+    .brand-name { color:#e9edf5; font-weight:600; font-size:13px; letter-spacing:.2px; }
+    .brand-sub { color:#8a93a5; font-size:11px; margin-top:2px; }
+    .side-nav ul { list-style:none; margin:0; padding:6px; }
+    .side-nav li { margin:2px 0; }
+    .side-link { display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:8px; color:#c8cfdb; text-decoration:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .side-link .hash { color:#8aa1ff; opacity:.9; }
+    .side-link:hover { background:rgba(255,255,255,.05); }
+    .side-link.active { background:linear-gradient(90deg,rgba(116,84,255,.22),rgba(46,170,255,.18)); color:#fff; box-shadow:inset 2px 0 0 #7a5af8; }
+    @media (max-width:720px){ #shell{ grid-template-columns:64px 1fr } .brand-text{ display:none } .side-link{ gap:6px; padding:10px 8px } .side-link .chan{ display:none } }
+    /* Host panel spacing */
+    #main { padding:24px; }
+  </style>
 </head>
-<body class="app app-dark">
-  <div class="layout">
-    <aside class="sidebar" aria-label="Main navigation">
-      <header class="brand">
-        <img src="/assets/svg/velocity-logo.svg" alt="" class="brand-logo" />
-        <div class="brand-meta">
-          <div class="brand-name">velocity.ai</div>
-          <div class="brand-space">Gamescom 2025</div>
-        </div>
-      </header>
-
-      <nav id="sidebar" class="channels" role="navigation">
-        <button class="channel active" data-route="parties"><span class="hash">#</span>parties</button>
-        <button class="channel" data-route="hotspots"><span class="hash">#</span>hotspots</button>
-        <button class="channel" data-route="map"><span class="hash">#</span>map</button>
-        <button class="channel" data-route="calendar"><span class="hash">#</span>calendar</button>
-        <button class="channel" data-route="invites"><span class="hash">#</span>invites</button>
-        <div class="divider"></div>
-        <button class="channel channel-utility" data-route="me" title="Account">
-          <span class="gear" aria-hidden="true">⚙︎</span><span class="utility-label">Account</span>
-        </button>
-      </nav>
-    </aside>
-
-    <main id="app" class="main" tabindex="-1" aria-live="polite"></main>
+<body>
+  <div id="shell">
+    <aside id="sidebar"></aside>
+    <main id="main" role="main"></main>
   </div>
 
-  <!-- Foundation + App -->
-  <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=001"></script>
-  <script type="module" src="/assets/js/foundation/sw-register.js?v=001"></script>
-  <script type="module" src="/js/events.js?v=001"></script>
-  <script type="module" src="/js/install.js?v=001"></script>
-  <script type="module" src="/js/store.js?v=001"></script>
+  <!-- One-time SW kill while we stabilize (prevents stale JS) -->
+  <script>
+    (function(){
+      try {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister()));
+        }
+      } catch (e) {}
+    })();
+  </script>
 
-  <!-- Router + Controllers -->
-  <script type="module" src="/js/route-title.js?v=001"></script>
-  <script type="module" src="/js/router.js?v=001"></script>
-  <script type="module" src="/js/events-controller.js?v=001"></script>
-  <script type="module" src="/js/hotspots.js?v=001"></script>
-  <script type="module" src="/js/calendar-view.js?v=001"></script>
-  <script type="module" src="/js/invite-panel.js?v=001"></script>
-  <script type="module" src="/js/map-controller.js?v=001"></script>
-  <script type="module" src="/js/account.js?v=001"></script>
-  <script type="module" src="/js/app-wireup.js?v=001"></script>
+  <!-- Inline, zero-dep sidebar builder -->
+  <script>
+    (function(){
+      const CHANNELS = [
+        "parties","calendar","map","hotspots","invites","contacts","me","settings"
+      ];
+      function buildSidebar(){
+        const sb = document.getElementById('sidebar');
+        if (!sb) return;
+        sb.innerHTML =
+          '<div class="brand">'+
+            '<div class="vmark"></div>'+
+            '<div class="brand-text">'+
+              '<div class="brand-name">velocity.ai</div>'+
+              '<div class="brand-sub">Gamescom 2025</div>'+
+            '</div>'+
+          '</div>'+
+          '<nav class="side-nav" aria-label="Channels"><ul id="side-list"></ul></nav>';
+        const ul = sb.querySelector('#side-list');
+        CHANNELS.forEach(id => {
+          const a = document.createElement('a');
+          a.className = 'side-link';
+          a.href = `#/${id}`;
+          a.dataset.route = id;
+          a.innerHTML = '<span class="hash">#</span><span class="chan">'+id+'</span>';
+          const li = document.createElement('li'); li.appendChild(a); ul.appendChild(li);
+        });
+      }
+      function setActive(){
+        const r = (location.hash||'#/parties').replace(/^#\/?/,'').split('?')[0]||'parties';
+        document.querySelectorAll('.side-link').forEach(a => {
+          a.classList.toggle('active', a.dataset.route === r);
+        });
+      }
+      function init(){
+        buildSidebar();
+        setActive();
+        addEventListener('hashchange', setActive, { passive:true });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init, { once:true });
+      } else { init(); }
+    })();
+  </script>
+
+  <!-- Single, versioned module entry -->
+  <script type="module" src="/js/router.js?v=b018"></script>
+  <script nomodule>document.getElementById('main').textContent='Please use a modern browser.';</script>
 </body>
 </html>
