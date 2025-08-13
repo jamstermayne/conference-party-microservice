@@ -1,30 +1,39 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>velocity.ai</title>
-  <link rel="icon" href="/assets/icons/app-icon.svg"/>
-  <link rel="stylesheet" href="/assets/css/app.css?v=frame03"/>
-  <!-- LAST: hard overrides kill any stray white backgrounds -->
-  <link rel="stylesheet" href="/assets/css/fix.css?v=frame03"/>
-  <script src="/js/env.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>velocity.ai — #parties</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="/assets/css/app.css">
+  <script>window.__BUILD = window.__BUILD || (Date.now().toString(36));</script>
 </head>
-<body class="app app-dark">
-  <div id="layout" style="display:grid; grid-template-columns:auto 1fr; gap:0; min-height:100vh;">
-    <aside id="sidebar"></aside>
-    <main id="app" class="main" role="main" aria-live="polite"></main>
-  </div>
+<body class="v-app">
+  <!-- Off-canvas mask for mobile -->
+  <div class="v-mask" id="mask" hidden></div>
 
-  <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=frame03"></script>
-  <script type="module" src="/assets/js/metrics.js?v=frame03"></script>
-  <script type="module" src="/js/route-title.js?v=frame03"></script>
-  <script type="module" src="/js/router.js?v=frame03"></script>
-  <script type="module">
-    import { bindSidebar, route } from '/js/router.js?v=frame03';
-    bindSidebar();
-    route(location.hash);
-    addEventListener('hashchange', () => route(location.hash));
-  </script>
+  <!-- Sidebar (desktop sticky, mobile off-canvas) -->
+  <aside class="v-sidebar" id="sidebar" aria-hidden="true">
+    <div class="v-brand">
+      <div class="v-logo">V</div>
+      <div class="v-meta">
+        <div class="v-name">velocity.ai</div>
+        <div class="v-conf">Gamescom 2025</div>
+      </div>
+    </div>
+    <nav class="v-nav" id="nav"><!-- injected --></nav>
+  </aside>
+
+  <main class="v-main">
+    <header class="v-header">
+      <button class="v-burger" id="burger" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <h1 id="routeTitle">#parties</h1>
+    </header>
+    <section id="app" class="v-hero"><!-- views mount here --></section>
+  </main>
+
+  <script type="module" src="/assets/js/foundation/app-bootstrap.js?b="+window.__BUILD></script>
 </body>
 </html>

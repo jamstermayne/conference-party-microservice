@@ -1,60 +1,59 @@
-/**
- * Sidebar (single mount, never replaced)
- * Keeps channels consistent across routes and only toggles active state.
- */
-import Events from '/assets/js/events.js';
-
-export const CHANNELS = [
-  { id: 'parties',   label: '#parties'   },
-  { id: 'calendar',  label: '#calendar'  },
-  { id: 'map',       label: '#map'       },
-  { id: 'hotspots',  label: '#hotspots'  },
-  { id: 'invites',   label: '#invites'   },
-  { id: 'contacts',  label: '#contacts'  },
-  { id: 'me',        label: '#me'        },
-  { id: 'settings',  label: '#settings'  },
+const CHANNELS = [
+  'parties','calendar','map','hotspots','invites','contacts','me','settings'
 ];
 
-let mounted = false;
+export function renderNav(){
+  const nav = document.getElementById('nav');
+  if(!nav) return;
+  nav.innerHTML = CHANNELS.map(c => `
+    <a href="#/${c}" data-route="${c}" class="v-link" id="nav-${c}">
+      <span class="hash">#</span><span class="label">${c}</span>
+    </a>
+  `).join('');
+}
 
-export function mountSidebar(rootSel = '#sidebar') {
-  const el = typeof rootSel === 'string' ? document.querySelector(rootSel) : rootSel;
-  if (!el || mounted) return;
-  el.classList.add('sidebar');
-  
-  const channelItems = CHANNELS.map(c => 
-    `<button class="nav-item" data-route="${c.id}" aria-label="${c.label}">${c.label}</button>`
-  ).join('');
-  
-  el.innerHTML = `
-    <div class="brand">
-      <div class="vlogo" aria-hidden="true">V</div>
-      <div class="brand-lines">
-        <div class="brand-title">velocity.ai</div>
-        <div class="brand-sub">Gamescom 2025</div>
-      </div>
-    </div>
-    <nav class="nav-list" id="navList">
-      ${channelItems}
-    </nav>
-  `;
-
-  el.querySelectorAll('.nav-item').forEach(btn=>{
-    btn.addEventListener('click',(e)=>{
+export function bindSidebar(){
+  const nav = document.getElementById('nav');
+  if(!nav) return;
+  nav.querySelectorAll('a.v-link').forEach(a=>{
+    a.addEventListener('click', e=>{
       e.preventDefault();
-      const r = btn.getAttribute('data-route');
-      location.hash = `#/${r}`;
+      const r = a.getAttribute('data-route');
+      route('#/'+r);
     }, { passive:false });
   });
+}
 
-  // react to route changes
-  const setActive = (r)=>{
-    el.querySelectorAll('.nav-item').forEach(n=>{
-      n.classList.toggle('active', n.getAttribute('data-route') === r);
-    });
+export function currentRoute(){
+  const h = location.hash.replace(/^#\/?/, '').split('?')[0];
+  return h || 'parties';
+}
+
+export function route(hash){
+  if (hash) location.hash = hash;
+  const r = currentRoute();
+  // highlight active
+  document.querySelectorAll('.v-nav a').forEach(a => a.classList.remove('active'));
+  const active = document.getElementById('nav-'+r);
+  active?.classList.add('active');
+  // set title
+  const title = document.getElementById('routeTitle');
+  if (title) title.textContent = '#'+r;
+
+  // mount view
+  const app = document.getElementById('app');
+  if (!app) return;
+  app.innerHTML = '';
+
+  const routes = {
+    parties: () => import('./events-controller.js').then(m => m.renderParties?.(app)),
+    calendar: () => import('./calendar-view.js').then(m => m.renderCalendar?.(app)),
+    map: () => import('./map-controller.js').then(m => m.renderMap?.(app)),
+    hotspots: () => import('./hotspots.js').then(m => m.renderHotspots?.(app)),
+    invites: () => import('./invite-panel.js').then(m => m.renderInvites?.(app)),
+    contacts: () => import('./contacts.js').then(m => m.renderContacts?.(app)),
+    me: () => import('./account.js').then(m => m.renderAccount?.(app)),
+    settings: () => import('./settings.js').then(m => m.renderSettings?.(app)),
   };
-  Events.on?.('route:changed', ({route})=> setActive(route));
-  setActive((location.hash.replace(/^#\/?/,'')||'parties').split('?')[0]);
-
-  mounted = true;
+  (routes[r] || routes['parties'])?.();
 }
