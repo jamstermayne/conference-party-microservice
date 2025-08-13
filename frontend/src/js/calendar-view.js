@@ -1,174 +1,117 @@
-/**
- * Calendar v2 polish:
- * - Week strip with selected day persisted in Store('calendar.day') (ISO yyyy-mm-dd)
- * - Event list filtered by day (falls back to all if unknown)
- * - Add to Calendar (ICS) per item and Google quick link
- */
-import Store from '/js/store.js';
-import { toast, emptyState } from '/js/ui-feedback.js';
+import Events from '/assets/js/events.js';
 
-const API_BASE = (window.__ENV && window.__ENV.API_BASE) || '/api';
+const KEY='calendar.selectedDay'; // Store key (string date)
 
-function fmtISO(d){ return d.toISOString().slice(0,10); }
-function startOfWeek(d){
-  const x = new Date(d); const day = (x.getDay()+6)%7; // Mon=0
-  x.setDate(x.getDate()-day); x.setHours(0,0,0,0); return x;
-}
-function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
-function el(html){ const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; }
+function el(t,c,h){ const n=document.createElement(t); if(c) n.className=c; if(h!=null) n.innerHTML=h; return n; }
+function fmt(d){ return d.toLocaleDateString(undefined,{weekday:'short', month:'short', day:'numeric'}); }
+function ymd(d){ return d.toISOString().slice(0,10); }
 
-async function getJSON(url){
-  const r=await fetch(url);
-  if(!r.ok) throw new Error(`HTTP ${r.status}`);
-  return r.json();
+function weekDays(start=new Date()){
+  const s=new Date(start); s.setHours(12,0,0,0); // noon avoids DST edges
+  // start week on Mon
+  const day=(s.getDay()+6)%7; s.setDate(s.getDate()-day);
+  return Array.from({length:7},(_,i)=>{const d=new Date(s); d.setDate(s.getDate()+i); return d;});
 }
 
-function icsFor(item){
-  const dtstamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
-  const uid = `${(item.id||item.title||'event').replace(/\s+/g,'-')}@velocity`;
-  const dt = (item.dateISO || new Date().toISOString()).replace(/[-:]/g,'').split('.')[0].replace('Z','');
-  return [
-    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//velocity.ai//calendar//EN',
-    'BEGIN:VEVENT',
-    `UID:${uid}`,`DTSTAMP:${dtstamp}`,
-    `SUMMARY:${(item.title||'Event')}`,
-    item.venue?`LOCATION:${item.venue}`:'',
-    `DTSTART:${dt}`,
-    'END:VEVENT','END:VCALENDAR'
-  ].filter(Boolean).join('\r\n');
-}
-function download(filename, content, type='text/calendar'){
-  const blob=new Blob([content],{type});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename;
-  document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},0);
-}
-
-function googleLink(item){
-  const text = encodeURIComponent(item.title||'Event');
-  const dates = new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
-  const details = encodeURIComponent(`${item.venue||''}`);
-  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${dates}/${dates}&details=${details}`;
-}
-
-function dayCell(dISO, activeISO){
-  const d=new Date(dISO+'T00:00:00Z');
-  const wd=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][(d.getDay()+6)%7];
-  const num = d.getUTCDate();
-  const active = dISO===activeISO?' active':'';
-  return el(`<div class="cal-day${active}" data-date="${dISO}" role="button" tabindex="0" aria-pressed="${active?'true':'false'}"><div class="w">${wd}</div><div class="d">${num}</div></div>`);
-}
-
-function itemRow(ev){
-  const row = el(`
-    <div class="cal-item">
-      <div class="left">
-        <div class="title">${ev.title||'Untitled'}</div>
-        <div class="meta">
-          ${ev.time?`<span>${ev.time}</span>`:''}
-          ${ev.venue?`<span>${ev.venue}</span>`:''}
-        </div>
-      </div>
-      <div class="right">
-        <button class="btn btn-secondary btn-small" data-action="google">Google</button>
-        <button class="btn btn-primary btn-small" data-action="ics">ICS</button>
-      </div>
+function card(ev){
+  const c=el('article','card');
+  c.innerHTML=`
+    <div class="card-header">
+      <div class="card-title">${ev.title||'Untitled'}</div>
+      <div class="badges"><span class="badge">${ev.date||''}</span></div>
     </div>
-  `);
-  row.addEventListener('click',(e)=>{
-    const b=e.target.closest('button[data-action]');
-    if(!b) return;
-    if(b.dataset.action==='ics'){
-      const ics = icsFor(ev);
-      const fname=(ev.title||'event').replace(/\s+/g,'_')+'.ics';
-      download(fname, ics); toast('ICS downloaded','ok');
-    } else {
-      window.open(googleLink(ev),'_blank','noopener'); toast('Opening Google Calendar…','ok');
-    }
-  });
-  return row;
-}
-
-export async function renderCalendar(rootEl){
-  const root = rootEl || document.getElementById('app') || document.getElementById('route-calendar') || document.getElementById('main');
-  if(!root) return;
-  root.innerHTML = `
-    <div class="calendar-wrap">
-      <div class="calendar-head">
-        <div class="cal-title">your calendar</div>
-        <div class="cal-controls">
-          <button class="btn btn-outline btn-small" data-cal="prev">Prev</button>
-          <button class="btn btn-outline btn-small" data-cal="today">Today</button>
-          <button class="btn btn-outline btn-small" data-cal="next">Next</button>
-        </div>
-      </div>
-      <div class="cal-week" id="cal-week"></div>
-      <section class="cal-list" id="cal-list"></section>
+    <div class="card-body">
+      <div class="card-row">📍 ${ev.venue||'TBA'}</div>
+      <div class="card-row">🕒 ${ev.time||''}</div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-primary" data-action="add">Save & Sync</button>
+      <a class="btn btn-outline" href="${icsHref(ev)}" download="${safe(ev.title)}.ics">Download .ics</a>
     </div>
   `;
-
-  // Determine active week & day
-  const today = new Date();
-  let activeISO = Store.get('calendar.day') || fmtISO(today);
-  let anchor = startOfWeek(new Date(activeISO));
-
-  function paintWeek(){
-    const weekEl = document.getElementById('cal-week');
-    weekEl.innerHTML='';
-    for(let i=0;i<7;i++){
-      const iso = fmtISO(addDays(anchor,i));
-      const c = dayCell(iso, activeISO);
-      c.addEventListener('click', ()=>{ activeISO=iso; Store.patch('calendar.day', activeISO); paintWeek(); paintList(); });
-      c.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' ') { e.preventDefault(); c.click(); }});
-      weekEl.append(c);
-    }
-  }
-
-  let events = [];
-  async function load(){
-    try {
-      const json = await getJSON(`${API_BASE}/parties?conference=gamescom2025`);
-      events = Array.isArray(json?.data)? json.data : [];
-    } catch { events = []; }
-  }
-
-  function normalizeISO(ev){
-    if(ev.dateISO) return ev.dateISO.slice(0,10);
-    // heuristic from "Fri Aug 22" → yyyy-mm-dd for 2025 Gamescom
-    const m = String(ev.date||'').match(/(\w{3})\s+(\w{3})\s+(\d{1,2})/i);
-    if(m){
-      const year='2025';
-      const d = new Date(`${m[2]} ${m[3]}, ${year} 12:00:00 GMT`);
-      if(!isNaN(d)) return fmtISO(d);
-    }
-    return null;
-  }
-
-  function paintList(){
-    const list = document.getElementById('cal-list');
-    list.innerHTML='';
-    if(!events.length){ list.append(emptyState('No events yet.')); return; }
-    const filtered = events.filter(ev => normalizeISO(ev)===activeISO);
-    const show = filtered.length? filtered : events; // fallback to all if none that day
-    show.forEach(ev => list.append(itemRow(ev)));
-  }
-
-  // controls
-  root.addEventListener('click',(e)=>{
-    const b = e.target.closest('button[data-cal]');
-    if(!b) return;
-    const act = b.dataset.cal;
-    if(act==='prev'){ anchor = addDays(anchor,-7); }
-    if(act==='next'){ anchor = addDays(anchor, 7); }
-    if(act==='today'){ anchor = startOfWeek(new Date()); activeISO = fmtISO(new Date()); Store.patch('calendar.day', activeISO); }
-    paintWeek(); paintList();
-  });
-
-  await load();
-  paintWeek(); paintList();
+  c.querySelector('[data-action="add"]').addEventListener('click', ()=> {
+    Events.emit?.('calendar:add',{event:ev});
+  }, {passive:true});
+  return c;
 }
 
-try{
-  document.addEventListener('route:change', (e)=>{
-    if((e.detail?.name)==='calendar') renderCalendar();
+function safe(s='event'){ return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); }
+function icsHref(ev){
+  const dt = new Date(); // placeholder datetime; a real backend can provide exact ISO
+  const uid = crypto?.randomUUID?.() || Date.now();
+  const ics = [
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//velocity.ai//calendar//EN',
+    'BEGIN:VEVENT',
+    `UID:${uid}@velocity.ai`,
+    `DTSTAMP:${dt.toISOString().replace(/[-:]/g,'').split('.')[0]}Z`,
+    `SUMMARY:${(ev.title||'Event').replace(/\n/g,' ')}`,
+    `LOCATION:${(ev.venue||'TBA').replace(/\n/g,' ')}`,
+    'END:VEVENT','END:VCALENDAR'
+  ].join('\r\n');
+  return 'data:text/calendar;charset=utf-8,'+encodeURIComponent(ics);
+}
+
+async function fetchByDay(_day){
+  // placeholder: get all and filter client-side; backend route can be added later
+  const resp=await fetch('/api/parties?conference=gamescom2025').catch(()=>null);
+  if(!resp||!resp.ok) return [];
+  const json=await resp.json().catch(()=>({data:[]}));
+  const items=json.data||[];
+  if(!_day) return items;
+  return items.filter(e=> (e.date||'').toLowerCase().includes(_day.toLowerCase()));
+}
+
+export async function renderCalendar(root){
+  const wrap = el('section','section-card');
+  wrap.appendChild(el('div','left-accent'));
+  const body = el('div','section-body');
+
+  const header = el('div','header-row');
+  header.innerHTML = `
+    <div class="header-title">Calendar</div>
+    <div class="header-meta muted">Select a day • Add events to your calendar</div>
+  `;
+  body.appendChild(header);
+
+  // Week strip
+  const strip = el('div','chips'); strip.setAttribute('role','tablist'); strip.setAttribute('aria-label','Week');
+  const days = weekDays();
+  const saved = localStorage.getItem(KEY);
+  let selected = saved ? new Date(saved) : days[0];
+
+  days.forEach(d=>{
+    const b=el('button','chip'+(ymd(d)===ymd(selected)?' active':''), fmt(d));
+    b.setAttribute('role','tab');
+    b.addEventListener('click', async ()=>{
+      selected=d;
+      localStorage.setItem(KEY, ymd(selected));
+      strip.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      await renderList();
+    }, {passive:true});
+    strip.appendChild(b);
   });
-}catch{}
+  body.appendChild(strip);
+
+  const grid = el('div','calendar-grid');
+  body.appendChild(grid);
+
+  wrap.appendChild(body);
+  root.appendChild(wrap);
+
+  // initial
+  await renderList();
+
+  async function renderList(){
+    grid.innerHTML='';
+    for(let i=0;i<4;i++){ const s=el('div','skeleton'); s.style.height='140px'; grid.appendChild(s); }
+    const label = selected.toLocaleDateString(undefined,{weekday:'short'});
+    const items = await fetchByDay(label);
+    grid.innerHTML='';
+    if(!items.length){
+      const empty=el('div','muted','No events for this day yet.');
+      empty.style.padding='24px'; grid.appendChild(empty); return;
+    }
+    items.slice(0,8).forEach(ev=>grid.appendChild(card(ev)));
+  }
+}

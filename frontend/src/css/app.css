@@ -23,7 +23,7 @@ body.app-dark{margin:0;background:var(--bg-primary);color:var(--text-primary);fo
 .channel .hash{color:var(--text-muted);font-weight:600}
 .channel:hover{background:rgba(107,123,255,.07);color:var(--text-primary)}
 .channel.active{color:var(--text-primary);background:rgba(107,123,255,.12)}
-.channel.active::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;border-radius:2px;background:linear-gradient(180deg,var(--accent),var(--accent-2))}
+.channel.active::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;border-radius:3px;background:linear-gradient(180deg,var(--accent),var(--accent-2))}
 .channel-utility{gap:10px}
 .channel-utility .gear{opacity:.9}
 .divider{height:1px;background:var(--border);margin:8px 4px}
@@ -31,7 +31,7 @@ body.app-dark{margin:0;background:var(--bg-primary);color:var(--text-primary);fo
 .main{padding:18px 22px}
 .section-card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow)}
 .section-card .left-accent{position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:3px;background:linear-gradient(180deg,var(--accent),var(--accent-2))}
-.section-body{padding:18px 18px 8px 18px}
+.section-body{padding:18px}
 
 .header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .header-title{font-size:18px;font-weight:700;letter-spacing:.2px}
@@ -60,3 +60,12 @@ body.app-dark{margin:0;background:var(--bg-primary);color:var(--text-primary);fo
 
 .muted{color:var(--text-secondary)}
 .hidden{display:none !important}
+
+/* Chips / week strip */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.chip{border:1px solid var(--border);color:var(--text-secondary);padding:6px 10px;border-radius:999px;cursor:pointer;background:transparent;transition:all var(--t) var(--ease)}
+.chip:hover{color:var(--text-primary);border-color:var(--accent)}
+.chip.active{background:rgba(107,123,255,.15);color:#fff;border-color:rgba(107,123,255,.4)}
+/* Calendar grid */
+.calendar-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.calendar-grid{grid-template-columns:1fr}}

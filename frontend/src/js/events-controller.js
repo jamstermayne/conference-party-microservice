@@ -37,10 +37,12 @@ function card(event){
 }
 
 async function fetchEvents(){
-  const resp = await fetch(API).catch(()=>null);
-  if(!resp || !resp.ok) return [];
-  const json = await resp.json().catch(()=>({data:[]}));
-  return json.data || [];
+  try{
+    const resp = await fetch(API);
+    if(!resp.ok) return [];
+    const json = await resp.json().catch(()=>({data:[]}));
+    return json.data || [];
+  }catch{ return []; }
 }
 
 export async function renderParties(root){
