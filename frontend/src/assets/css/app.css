@@ -1,25 +1,17 @@
 :root{
-  --bg:#101216;
-  --panel:#161a20;
-  --panel-2:#1b2028;
-  --text:#e9eef6;
-  --muted:#a6b0c3;
-  --brand-1:#6c5cff;
-  --brand-2:#3ac6ff;
+  --bg:#101216; --panel:#161a20; --panel-2:#1b2028; --panel-3:#0e1117;
+  --text:#e9eef6; --muted:#a6b0c3; --line:#232834;
+  --brand-1:#6c5cff; --brand-2:#3ac6ff; --success:#4ade80; --danger:#ff5d5d;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
-body.app.app-dark{
-  margin:0; background:var(--bg); color:var(--text);
+body.app{ margin:0; color:var(--text); background:var(--bg);
   font:14px/1.45 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
-  display:grid; grid-template-columns:auto 1fr; min-height:100vh;
-}
+  display:grid; grid-template-columns:auto 1fr; min-height:100vh; }
+
 .side{
-  background:var(--panel);
-  border-right:1px solid #232834;
-  padding:16px 12px;
-  position:sticky; top:0; align-self:start;
-  height:100dvh; overflow:auto;
+  background:var(--panel); border-right:1px solid var(--line);
+  padding:16px 12px; position:sticky; top:0; height:100dvh; overflow:auto;
   width:max(180px, calc(8ch + 56px));
 }
 .brand{display:flex; gap:10px; align-items:center; margin-bottom:12px}
@@ -30,10 +22,62 @@ body.app.app-dark{
 .channels a{display:flex; gap:8px; align-items:center; padding:10px 12px; border-radius:10px;
   text-decoration:none; color:var(--text); white-space:nowrap; width:max-content; max-width:220px}
 .channels a span{color:var(--muted)}
-.channels a.active{background:color-mix(in oklab, var(--panel-2), white 2%); box-shadow: inset 0 0 0 1px #232834}
-.main{padding:20px clamp(12px,4vw,32px); min-height:100dvh}
-.section-card{background:var(--panel-2); border:1px solid #232834; border-radius:16px; padding:18px; position:relative}
-.left-accent{position:absolute; left:10px; top:14px; bottom:14px; width:6px; border-radius:8px;
-  background:linear-gradient(180deg, var(--brand-2), var(--brand-1)); opacity:.9}
-.card-grid{display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr))}
-@media (max-width:740px){ .side{width:max(150px, calc(7ch + 48px));} .main{padding:16px 14px} }
+.channels a.active{background:color-mix(in oklab, var(--panel-2), white 2%); box-shadow: inset 0 0 0 1px var(--line)}
+
+.main{ padding:20px clamp(12px,4vw,32px); }
+.page-title{ margin:0 0 12px; font-size:28px; font-weight:800; letter-spacing:.2px }
+
+.container{ max-width:min(1200px, 92vw); margin-inline:auto; }
+
+/* Section wrapper (the big rounded dark block with the vertical accent) */
+.section-card{
+  background:var(--panel-2); border:1px solid var(--line); border-radius:16px;
+  padding:18px 18px 20px 24px; position:relative;
+  box-shadow: 0 6px 20px rgba(0,0,0,.25) inset, 0 1px 0 rgba(255,255,255,.02);
+}
+.section-card .left-accent{
+  position:absolute; left:10px; top:14px; bottom:14px; width:6px; border-radius:8px;
+  background:linear-gradient(180deg, var(--brand-2), var(--brand-1)); opacity:.9
+}
+
+/* Resilient card grid (works even if markup is plain) */
+.card-grid{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); }
+
+/* Event blocks – style any first-level child inside .section-card as a pretty card */
+.section-card > .event-card,
+.section-card > .recommend,
+.section-card > .card,
+.section-card > div{
+  background: radial-gradient(120% 120% at 0% 0%, rgba(108,92,255,.08) 0%, rgba(18,20,26,0) 40%),
+              linear-gradient(180deg, rgba(58,198,255,.06), rgba(58,198,255,0));
+  border:1px solid var(--line); border-radius:14px; padding:16px;
+}
+
+/* Badges */
+.badge{
+  display:inline-flex; align-items:center; padding:5px 9px; border-radius:999px;
+  font-size:12px; color:#dfe7ff; background:rgba(110,120,170,.14); border:1px solid rgba(180,200,255,.08);
+}
+.badge.live{ background:rgba(76,255,180,.10); border-color:rgba(76,255,180,.20); color:#d9ffe8 }
+
+/* Buttons – style raw <button> nicely inside cards */
+.section-card button,
+.section-card .btn{
+  appearance:none; border:0; cursor:pointer; user-select:none;
+  padding:10px 12px; border-radius:10px; font-weight:600;
+  background:linear-gradient(180deg, color-mix(in oklab, var(--brand-2), white 10%), var(--brand-1));
+  color:white; box-shadow: 0 8px 18px rgba(108,92,255,.25), inset 0 1px 0 rgba(255,255,255,.15);
+}
+.section-card button:hover{filter:saturate(1.05) brightness(1.05)}
+.section-card .btn-secondary{
+  background:linear-gradient(180deg, #2a2f3a, #1d222c); color:#dfe7ff; box-shadow:none; border:1px solid var(--line);
+}
+
+/* Simple meta rows */
+.meta{ display:flex; gap:10px; flex-wrap:wrap; color:var(--muted); font-size:12.5px }
+.meta .dot{ width:6px; height:6px; border-radius:50%; background:#8ea4ff; display:inline-block; margin-right:6px }
+
+@media (max-width:740px){
+  .side{ width:max(150px, calc(7ch + 48px)); }
+  .page-title{ font-size:24px }
+}

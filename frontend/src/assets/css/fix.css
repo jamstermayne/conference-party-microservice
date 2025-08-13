@@ -1,15 +1,5 @@
-/* Hard overrides: ensure fully dark app even if legacy CSS sets white backgrounds */
+/* Last-mile dark protection */
 html, body, #app, .main { background:#101216 !important; color:#e9eef6; }
-
-/* Kill unknown wrappers that might be forcing white */
-:where(.container,.content,.wrap,.page,.panel,.surface,section,article,main) {
-  background:transparent !important;
-}
-
-/* Ensure card-like blocks stay dark */
-:where(.card,.event-card,.recommend-card,.section-card){
-  background:#1b2028 !important; border:1px solid #232834 !important; border-radius:16px !important;
-}
-
-/* Text contrast protection */
-:where(h1,h2,h3,h4,h5,h6,p,li,small,span){ color:inherit !important; }
+:where(.container,.content,.wrap,.page,.panel,.surface,section,article,main){ background:transparent !important; }
+:where(.card,.event-card,.recommend-card,.section-card){ background:#1b2028 !important; border:1px solid #232834 !important; border-radius:16px !important; }
+:where(h1,h2,h3,h4,h5,h6,p,li,small,span,label){ color:inherit !important; }
