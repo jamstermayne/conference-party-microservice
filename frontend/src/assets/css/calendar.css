@@ -28,26 +28,26 @@
 /* 30-minute rows — 32 slots from 08:00 to 24:00 (16 hours * 2) */
 .time-col{
   display:grid;
-  grid-template-rows: repeat(32, 40px); /* 40px per 30 min = 80px per hour */
+  grid-template-rows: repeat(32, var(--slot-height, 40px)); /* Use CSS variable */
   color:#7f8899; font:500 11px/1 Inter,system-ui; padding-top:8px;
 }
 .time-col .tick{
   border-top:1px solid rgba(255,255,255,.06);
-  position:relative; padding-top:8px; height:40px;
+  position:relative; padding-top:8px; height:var(--slot-height, 40px);
 }
 .time-col .tick .lbl{position:absolute; top:-8px; right:8px}
 
 .day-col{
   position:relative;
   display:grid;
-  grid-template-rows: repeat(32, 40px);
+  grid-template-rows: repeat(32, var(--slot-height, 40px));
   background:linear-gradient(180deg, rgba(255,255,255,.02), transparent 20%) ;
   border-left:1px solid rgba(255,255,255,.06);
 }
 
 .slot-row{
   border-top:1px dashed rgba(255,255,255,.04);
-  height:40px;
+  height:var(--slot-height, 40px);
 }
 
 /* Event "hero card" */

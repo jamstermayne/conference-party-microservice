@@ -7,7 +7,7 @@ import Events from '/assets/js/events.js?v=b011';
 const START_MIN = 8*60;   // 08:00
 const END_MIN   = 24*60;  // 24:00
 const STEP      = 30;     // 30-min increments
-const ROW_H     = 40;     // 40px per step (80px/hr)
+const ROW_H     = 40;     // 40px per step (80px/hr) - matches CSS var(--slot-height)
 
 function mm(n){ return String(n).padStart(2,'0'); }
 function labelFor(mins){
