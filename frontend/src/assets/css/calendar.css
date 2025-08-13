@@ -1,21 +1,95 @@
-:root{
-  --hour-h:240px;     /* grow calendar to suit card height */
-  --minor-steps:2;    /* 30 min */
-  --grid-ink:#647097; --grid-faint:#39415a;
+/**
+ * Calendar styles
+ * Build: b018
+ */
+
+:root {
+  --hour-h: 60px;      /* Each hour is 60px tall */
+  --minor-steps: 2;    /* 30 min intervals */
+  --grid-ink: #647097;
+  --grid-faint: #39415a;
 }
-.cal-wrap{ position:relative; }
-.cal-grid{ position:relative; border-radius:18px; border:1px solid rgba(130,140,255,.14);
-  background:linear-gradient(180deg, rgba(18,22,34,.9) 0%, rgba(12,15,24,.98) 100%);
-  overflow:hidden; padding:16px 0; }
-.cal-hour-labels{ position:absolute; left:16px; top:0; bottom:0; width:56px; pointer-events:none; }
-.cal-hour-labels > div{ height:var(--hour-h); display:flex; align-items:flex-start; justify-content:flex-end;
-  font-size:12px; color:var(--grid-ink); padding-top:4px; }
-.cal-hours{ position:relative; margin-left:84px;
-  background:repeating-linear-gradient(to bottom,
-    transparent 0,
-    transparent calc(var(--hour-h)/var(--minor-steps) - 1px),
-    rgba(255,255,255,.04) calc(var(--hour-h)/var(--minor-steps))
-  ); }
-.cal-hours > .slot{ position:relative; height:var(--hour-h); }
-.cal-events{ position:absolute; left:84px; right:16px; top:0; bottom:0; }
-.cal-event{ position:absolute; right:8px; left:8px; }
+
+.cal-wrap {
+  position: relative;
+  margin-top: 16px;
+}
+
+.cal-grid {
+  position: relative;
+  border-radius: 18px;
+  border: 1px solid rgba(130, 140, 255, .14);
+  background: linear-gradient(180deg, rgba(18, 22, 34, .9) 0%, rgba(12, 15, 24, .98) 100%);
+  overflow: hidden;
+  padding: 16px 0;
+  min-height: calc(var(--hour-h) * 14); /* Minimum height for 14 hours */
+}
+
+.cal-hour-labels {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  width: 56px;
+  pointer-events: none;
+}
+
+.cal-hour-label {
+  height: var(--hour-h);
+  display: flex;
+  align-items: flex-start;
+  font-size: 12px;
+  color: var(--grid-ink);
+  padding-top: 4px;
+}
+
+.cal-hours {
+  position: relative;
+  margin-left: 84px;
+  margin-right: 16px;
+  min-height: calc(var(--hour-h) * 14);
+}
+
+/* Hour and half-hour grid lines */
+.cal-hour {
+  height: calc(var(--hour-h) / 2);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+}
+
+.cal-half {
+  height: calc(var(--hour-h) / 2);
+  border-bottom: 1px dashed rgba(255, 255, 255, .03);
+}
+
+.cal-events {
+  position: absolute;
+  left: 84px;
+  right: 16px;
+  top: 16px;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.cal-event {
+  position: absolute;
+  right: 8px;
+  left: 8px;
+  pointer-events: all;
+  transition: transform 0.2s ease;
+}
+
+.cal-event:hover {
+  transform: translateX(2px);
+  z-index: 10;
+}
+
+/* Calendar-specific card adjustments */
+.cal-event .vcard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cal-event .vcard .actions {
+  margin-top: auto;
+}
