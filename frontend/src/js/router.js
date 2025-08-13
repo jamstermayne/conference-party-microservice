@@ -1,5 +1,5 @@
 import Events from '/assets/js/events.js';
-const ROUTES = ['parties','hotspots','map','calendar','invites','me'];
+const ROUTES = ['parties','hotspots','map','calendar','invites','me','settings'];
 const appEl = ()=>document.getElementById('app');
 const norm = h => (h||'parties').replace(/^#\/?/, '').split('?')[0] || 'parties';
 function setActive(r){
@@ -29,6 +29,7 @@ export async function route(hash){
     case 'calendar':  (await import('./calendar-view.js')).renderCalendar?.(app); break;
     case 'invites':   (await import('./invite-panel.js')).renderInvites?.(app); break;
     case 'me':        (await import('./me-controller.js')).renderMe?.(app); break;
+    case 'settings':  (await import('./settings-panel.js')).renderSettings?.(app); break;
     default:          (await import('./events-controller.js')).renderParties?.(app);
   }
   Events?.emit?.('route:enter', r);

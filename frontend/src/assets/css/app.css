@@ -60,6 +60,33 @@ body.app{ margin:0; color:var(--text); background:var(--bg);
 }
 .badge.live{ background:rgba(76,255,180,.10); border-color:rgba(76,255,180,.20); color:#d9ffe8 }
 
+/* Admin badge */
+.badge-admin{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:12px;
+  line-height:1;
+  background: rgba(107,123,255,.12);
+  border:1px solid rgba(107,123,255,.45);
+  color:#cfd2ff;
+  font-weight:600;
+}
+
+/* Key-value rows (Settings) */
+.kv{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 0;
+  border-bottom:1px solid var(--line);
+}
+.kv:last-child{ border-bottom:none; }
+.kv-label{ color:var(--muted); }
+.kv-value a{ color:var(--text); text-decoration:underline; }
+
 /* Buttons – style raw <button> nicely inside cards */
 .section-card button,
 .section-card .btn{

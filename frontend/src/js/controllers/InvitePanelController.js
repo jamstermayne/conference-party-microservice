@@ -168,9 +168,11 @@ export function InvitePanelController(section){
     ].filter(Boolean);
     
     badges.forEach(badge => {
-      badge.textContent = String(left);
-      badge.classList.toggle('glow', left > 0);
-      badge.style.display = left > 0 ? 'block' : 'none';
+      const unlimited = Store.get('invites.unlimited') === true || !Number.isFinite(left);
+      const displayValue = unlimited ? '∞' : String(left);
+      badge.textContent = displayValue;
+      badge.classList.toggle('glow', unlimited || left > 0);
+      badge.style.display = (unlimited || left > 0) ? 'block' : 'none';
     });
 
     // Check for surprise bonuses from the backend
