@@ -1,0 +1,39 @@
+:root{
+  --bg:#101216;
+  --panel:#161a20;
+  --panel-2:#1b2028;
+  --text:#e9eef6;
+  --muted:#a6b0c3;
+  --brand-1:#6c5cff;
+  --brand-2:#3ac6ff;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body.app.app-dark{
+  margin:0; background:var(--bg); color:var(--text);
+  font:14px/1.45 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+  display:grid; grid-template-columns:auto 1fr; min-height:100vh;
+}
+.side{
+  background:var(--panel);
+  border-right:1px solid #232834;
+  padding:16px 12px;
+  position:sticky; top:0; align-self:start;
+  height:100dvh; overflow:auto;
+  width:max(180px, calc(8ch + 56px));
+}
+.brand{display:flex; gap:10px; align-items:center; margin-bottom:12px}
+.logo-v{display:inline-grid; place-items:center; width:28px; height:28px; border-radius:8px;
+  background:linear-gradient(140deg, var(--brand-1), var(--brand-2)); color:#fff; font-weight:800}
+.brand-meta small{color:var(--muted)}
+.channels{display:flex; flex-direction:column; gap:6px; margin-top:8px}
+.channels a{display:flex; gap:8px; align-items:center; padding:10px 12px; border-radius:10px;
+  text-decoration:none; color:var(--text); white-space:nowrap; width:max-content; max-width:220px}
+.channels a span{color:var(--muted)}
+.channels a.active{background:color-mix(in oklab, var(--panel-2), white 2%); box-shadow: inset 0 0 0 1px #232834}
+.main{padding:20px clamp(12px,4vw,32px); min-height:100dvh}
+.section-card{background:var(--panel-2); border:1px solid #232834; border-radius:16px; padding:18px; position:relative}
+.left-accent{position:absolute; left:10px; top:14px; bottom:14px; width:6px; border-radius:8px;
+  background:linear-gradient(180deg, var(--brand-2), var(--brand-1)); opacity:.9}
+.card-grid{display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr))}
+@media (max-width:740px){ .side{width:max(150px, calc(7ch + 48px));} .main{padding:16px 14px} }

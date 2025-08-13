@@ -1,28 +1,45 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Velocity — loading…</title>
-  <meta name="theme-color" content="#0d0f14" />
-  <link rel="manifest" href="/manifest.json">
-  <link rel="icon" href="/images/velocity-icon.svg">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/css/app.css">
-  <link rel="stylesheet" href="/css/sidebar.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>velocity.ai</title>
+  <link rel="icon" href="/assets/icons/app-icon.svg"/>
+  <link rel="stylesheet" href="/assets/css/app.css?v=frame02"/>
+  <!-- LAST: hard overrides kill any stray white backgrounds -->
+  <link rel="stylesheet" href="/assets/css/fix.css?v=frame02"/>
+  <script src="/js/env.js"></script>
 </head>
-<body>
-  <div id="shell">
-    <aside id="sidebar" aria-label="Primary"></aside>
-    <main id="app" role="main" tabindex="-1"></main>
-  </div>
+<body class="app app-dark">
+  <aside id="sidenav" class="side">
+    <div class="brand">
+      <span class="logo-v" aria-hidden="true">V</span>
+      <div class="brand-meta">
+        <strong>velocity.ai</strong>
+        <small>Gamescom 2025</small>
+      </div>
+    </div>
+    <nav class="channels" aria-label="Primary">
+      <a href="#/parties"   data-route="parties"><span>#</span>parties</a>
+      <a href="#/hotspots"  data-route="hotspots"><span>#</span>hotspots</a>
+      <a href="#/map"       data-route="map"><span>#</span>map</a>
+      <a href="#/calendar"  data-route="calendar"><span>#</span>calendar</a>
+      <a href="#/invites"   data-route="invites"><span>#</span>invites</a>
+      <a href="#/me"        data-route="me"><span>#</span>me</a>
+    </nav>
+  </aside>
 
-  <!-- Temporary cache clear (remove after one deploy) -->
-  <script src="/js/clear-cache.js"></script>
-  
-  <!-- Order matters: env -> bootstrap -> router -->
-  <script src="/js/env.js" defer></script>
-  <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=b002"></script>
-  <script type="module" src="/js/router.js?v=b002"></script>
+  <main id="app" class="main" role="main" aria-live="polite"></main>
+
+  <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=frame02"></script>
+  <script type="module" src="/assets/js/metrics.js?v=frame02"></script>
+  <script type="module" src="/js/route-title.js?v=frame02"></script>
+  <script type="module" src="/js/router.js?v=frame02"></script>
+  <script type="module">
+    import { bindSidebar, route } from '/js/router.js?v=frame02';
+    bindSidebar();
+    route(location.hash);
+    addEventListener('hashchange', () => route(location.hash));
+  </script>
 </body>
 </html>
