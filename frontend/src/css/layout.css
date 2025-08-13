@@ -1,3 +1,46 @@
+/* ===== Sidebar & Main Layout ===== */
+:root {
+  --sidebar-width: 240px;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0c0c0c;
+  color: #fff;
+}
+
+/* Sidebar */
+.sidebar {
+  width: var(--sidebar-width);
+  background: #1a1a1a;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Main Content Area */
+.main-content {
+  margin-left: var(--sidebar-width);
+  padding: 1.5rem;
+  transition: margin-left 0.3s ease;
+  min-height: 100vh;
+}
+
+/* Responsive Collapse */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 0px;
+  }
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}
+
 /* --- HEADER ALIGNMENT FIX --- */
 .header-brand {
   display: flex;

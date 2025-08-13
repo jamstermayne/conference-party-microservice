@@ -1,11 +1,9 @@
-/* Event Cards Layout & Styling */
+/* ===== Event Cards Grid ===== */
 .events-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.25rem;
-  padding: 1.5rem;
-  margin-left: var(--sidebar-width, 240px);
-  transition: margin-left 0.3s ease;
+  align-items: stretch;
 }
 
 /* Card Container */
@@ -46,6 +44,7 @@
   font-size: 0.75rem;
   padding: 0.3rem 0.65rem;
   border-radius: 6px;
+  white-space: nowrap;
 }
 
 /* Button Row */
@@ -72,8 +71,6 @@
 /* Mobile Optimization */
 @media (max-width: 768px) {
   .events-grid {
-    margin-left: 0;
-    padding: 1rem;
     grid-template-columns: 1fr;
   }
 }
