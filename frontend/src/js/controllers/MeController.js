@@ -3,10 +3,10 @@
  * Manages user profile, settings, and personal data
  */
 
-import { BaseController } from './BaseController.js';
-import { Store } from '../store.js';
-import { api } from '../services/api.js';
-import { renderConnectionCard } from '../ui/connectionCard.js';
+import { BaseController } from './BaseController.js?v=b021';
+import { Store } from '../store.js?v=b021';
+import { api } from '../services/api.js?v=b021';
+import { renderConnectionCard } from '../ui/connectionCard.js?v=b021';
 
 export class MeController extends BaseController {
   constructor(element) {

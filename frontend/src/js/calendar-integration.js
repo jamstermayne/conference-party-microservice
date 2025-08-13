@@ -5,8 +5,8 @@
  * Based on GPT-5 architecture for Professional Intelligence Platform
  */
 
-import Store from './store.js';
-import { Events } from './events.js';
+import Store from './store.js?v=b021';
+import { Events } from './events.js?v=b021';
 
 /**
  * Production API base URL

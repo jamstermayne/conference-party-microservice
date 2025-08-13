@@ -4,10 +4,10 @@
  * Provides monitoring and automatic optimization
  */
 
-import domCache, { $, $$, batchDOM } from './dom-cache.js';
-import eventDelegate, { on, off, throttle, debounce } from './event-delegate.js';
-import lazyLoader, { lazyLoad, loadOnIdle, loadOnVisible } from './lazy-load.js';
-import requestCache, { cachedFetch, batchFetch, prefetch } from './request-cache.js';
+import domCache, { $, $$, batchDOM } from './dom-cache.js?v=b021';
+import eventDelegate, { on, off, throttle, debounce } from './event-delegate.js?v=b021';
+import lazyLoader, { lazyLoad, loadOnIdle, loadOnVisible } from './lazy-load.js?v=b021';
+import requestCache, { cachedFetch, batchFetch, prefetch } from './request-cache.js?v=b021';
 
 class PerformanceOptimizer {
   constructor() {

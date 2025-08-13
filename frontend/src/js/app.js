@@ -19,17 +19,17 @@ let bindPressFeedback, createFPSWatchdog, mountInstallFTUE;
 
 // Controller registry for dynamic loading
 const CONTROLLER_MODULES = {
-  home: () => import('./controllers/HomeController.js').then(m => m.HomeController),
-  people: () => import('./controllers/PeopleController.js').then(m => m.PeopleController),
-  opportunities: () => import('./controllers/OpportunitiesController.js').then(m => m.OpportunitiesController),
-  events: () => import('./controllers/EventController.js').then(m => m.EventController),
-  me: () => import('./controllers/MeController.js').then(m => m.MeController),
-  invite: () => import('./controllers/InviteController.js').then(m => m.InviteController),
-  calendar: () => import('./controllers/CalendarController.js').then(m => m.CalendarController),
-  fomo: () => import('./controllers/FomoController.js').then(m => m.FomoController),
-  'account-link': () => import('./controllers/AccountLinkController.js').then(m => m.AccountLinkController),
-  'calendar-sync': () => import('./controllers/CalendarSyncController.js').then(m => m.CalendarSyncController),
-  'invite-panel': () => import('./controllers/InvitePanelController.js').then(m => m.InvitePanelController)
+  home: () => import('./controllers/HomeController.js?v=b021').then(m => m.HomeController),
+  people: () => import('./controllers/PeopleController.js?v=b021').then(m => m.PeopleController),
+  opportunities: () => import('./controllers/OpportunitiesController.js?v=b021').then(m => m.OpportunitiesController),
+  events: () => import('./controllers/EventController.js?v=b021').then(m => m.EventController),
+  me: () => import('./controllers/MeController.js?v=b021').then(m => m.MeController),
+  invite: () => import('./controllers/InviteController.js?v=b021').then(m => m.InviteController),
+  calendar: () => import('./controllers/CalendarController.js?v=b021').then(m => m.CalendarController),
+  fomo: () => import('./controllers/FomoController.js?v=b021').then(m => m.FomoController),
+  'account-link': () => import('./controllers/AccountLinkController.js?v=b021').then(m => m.AccountLinkController),
+  'calendar-sync': () => import('./controllers/CalendarSyncController.js?v=b021').then(m => m.CalendarSyncController),
+  'invite-panel': () => import('./controllers/InvitePanelController.js?v=b021').then(m => m.InvitePanelController)
 };
 
 // Module loading utilities
@@ -125,8 +125,8 @@ async function loadCoreModules() {
   
   // Load self-initializing modules
   try {
-    await import('./ui/templates.js');
-    await import('./pwa/installBonus.js');
+    await import('./ui/templates.js?v=b021');
+    await import('./pwa/installBonus.js?v=b021');
   } catch (error) {
     console.warn('⚠️ Self-initializing modules failed:', error);
   }
@@ -1033,7 +1033,7 @@ class ProfessionalIntelligenceApp {
     if (!canvas) return;
 
     // Import and initialize canvas field
-    import('./ui/canvasField.js').then(({ canvasField }) => {
+    import('./ui/canvasField.js?v=b021').then(({ canvasField }) => {
       this.signalField = canvasField;
       this.signalField.init(canvas);
       console.log('✅ Signal field initialized');
@@ -1352,7 +1352,7 @@ class ProfessionalIntelligenceApp {
     // Resume proximity if enabled
     const proximity = Store.get('proximity.enabled');
     if (proximity) {
-      import('./services/proximity.js').then(({ proximity }) => {
+      import('./services/proximity.js?v=b021').then(({ proximity }) => {
         proximity.startTracking();
       });
     }
@@ -1536,7 +1536,7 @@ document.querySelectorAll('.nav-item').forEach(b=>{
 });
 
 // Import enhanced router
-import('/js/router-enhanced.js').then(module => {
+import('/js/router-enhanced.js?v=b021').then(module => {
   console.log('Enhanced router loaded');
 }).catch(err => {
   console.warn('Enhanced router failed, using fallback', err);
@@ -1569,7 +1569,7 @@ async function syncNavFromRoute(){
   
   // Mount hotspots when route is active
   if (r === 'hotspots') {
-    const module = await import('/js/hotspots-controller.js');
+    const module = await import('/js/hotspots-controller.js?v=b021');
     if (module.mountHotspots) {
       module.mountHotspots();
     }

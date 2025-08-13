@@ -3,9 +3,9 @@
  * Manages professional networking features including invites, proximity, and opportunities
  */
 
-import { BaseController } from './BaseController.js';
-import { Store } from '../store.js';
-import { api } from '../services/api.js';
+import { BaseController } from './BaseController.js?v=b021';
+import { Store } from '../store.js?v=b021';
+import { api } from '../services/api.js?v=b021';
 
 export class NetworkingController extends BaseController {
   constructor(element) {

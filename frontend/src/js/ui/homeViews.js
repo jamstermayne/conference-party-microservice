@@ -3,7 +3,7 @@
  * Template rendering functions for Professional Intelligence Platform home view
  */
 
-import { ViewTX } from './viewTX.js';
+import { ViewTX } from './viewTX.js?v=b021';
 
 export function renderStatusCard(mount, s) {
   const html = `

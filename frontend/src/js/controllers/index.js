@@ -3,18 +3,18 @@
  * Export all controllers for easy importing
  */
 
-export { BaseController } from './BaseController.js';
-export { AppController } from './AppController.js';
-export { EventController } from './EventController.js';
-export { SearchController } from './SearchController.js';
-export { NetworkingController } from './NetworkingController.js';
-export { HomeController } from './HomeController.js';
-export { PeopleController } from './PeopleController.js';
-export { OpportunitiesController } from './OpportunitiesController.js';
-export { MeController } from './MeController.js';
-export { InviteController } from './InviteController.js';
-export { CalendarController } from './CalendarController.js';
+export { BaseController } from './BaseController.js?v=b021';
+export { AppController } from './AppController.js?v=b021';
+export { EventController } from './EventController.js?v=b021';
+export { SearchController } from './SearchController.js?v=b021';
+export { NetworkingController } from './NetworkingController.js?v=b021';
+export { HomeController } from './HomeController.js?v=b021';
+export { PeopleController } from './PeopleController.js?v=b021';
+export { OpportunitiesController } from './OpportunitiesController.js?v=b021';
+export { MeController } from './MeController.js?v=b021';
+export { InviteController } from './InviteController.js?v=b021';
+export { CalendarController } from './CalendarController.js?v=b021';
 
 // Default export is the AppController singleton
-import appController from './AppController.js';
+import appController from './AppController.js?v=b021';
 export default appController;

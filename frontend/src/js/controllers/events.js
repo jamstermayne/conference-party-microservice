@@ -3,12 +3,12 @@
  * Gaming conference events discovery and management
  */
 
-import { Store } from '../store.js';
-import { Events } from '../events.js';
-import { renderEvents } from '../ui/homeViews.js';
-import * as API from '../services/api.js';
-import * as CAL from '../services/calendar.js';
-import * as NAV from '../services/nav.js';
+import { Store } from '../store.js?v=b021';
+import { Events } from '../events.js?v=b021';
+import { renderEvents } from '../ui/homeViews.js?v=b021';
+import * as API from '../services/api.js?v=b021';
+import * as CAL from '../services/calendar.js?v=b021';
+import * as NAV from '../services/nav.js?v=b021';
 
 export function EventsController(section){
   const tonightMount = section.querySelector('#tonight');
@@ -203,7 +203,7 @@ export default class EventsControllerLegacy {
 
     try {
       // Import and initialize map
-      const { maps } = await import('../services/maps.js');
+      const { maps } = await import('../services/maps.js?v=b021');
       await maps.init(mapContainer);
       
       // Add events to map

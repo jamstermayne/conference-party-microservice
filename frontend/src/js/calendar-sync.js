@@ -1,5 +1,5 @@
 // calendar-sync.js
-import Events from './events.js';
+import Events from './events.js?v=b021';
 
 function toICSDate(d) {
   // Input: ISO or Date; Output: YYYYMMDDTHHMMSSZ

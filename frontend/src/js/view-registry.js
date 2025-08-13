@@ -8,31 +8,31 @@ const V = window.__ENV?.BUILD ? `?v=${window.__ENV.BUILD}` : '';
 const VIEWS = {
   'parties': {
     mount: '#events-list',
-    loader: () => import('/js/events-controller.js' + V).then(m => m.renderEvents)
+    loader: () => import('/js/events-controller.js?v=b021' + V).then(m => m.renderEvents)
   },
   'hotspots': {
     mount: '#hotspots-root',
-    loader: () => import('/js/hotspot-controller.js' + V).then(m => m.renderHotspots)
+    loader: () => import('/js/hotspot-controller.js?v=b021' + V).then(m => m.renderHotspots)
   },
   'map': {
     mount: '#map-root',
-    loader: () => import('/js/map-controller.js' + V).then(m => m.renderMap)
+    loader: () => import('/js/map-controller.js?v=b021' + V).then(m => m.renderMap)
   },
   'calendar': {
     mount: '#calendar-root',
-    loader: () => import('/js/calendar-view.js' + V).then(m => m.renderCalendar)
+    loader: () => import('/js/calendar-view.js?v=b021' + V).then(m => m.renderCalendar)
   },
   'invites': {
     mount: '#invites-root',
-    loader: () => import('/js/invite-controller.js' + V).then(m => m.renderInvites)
+    loader: () => import('/js/invite-controller.js?v=b021' + V).then(m => m.renderInvites)
   },
   'me': {
     mount: '#account-root',
-    loader: () => import('/js/account.js' + V).then(m => m.renderAccount)
+    loader: () => import('/js/account.js?v=b021' + V).then(m => m.renderAccount)
   },
   'settings': {
     mount: '#account-root',  // Same as 'me'
-    loader: () => import('/js/account.js' + V).then(m => m.renderAccount)
+    loader: () => import('/js/account.js?v=b021' + V).then(m => m.renderAccount)
   }
 };
 

@@ -4,7 +4,7 @@
  * Based on GPT-5 architecture with Slack-style experience preservation
  */
 
-import { showToast } from './ui.js';
+import { showToast } from './ui.js?v=b021';
 
 /**
  * Handle errors with context-specific messaging

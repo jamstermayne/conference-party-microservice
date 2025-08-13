@@ -39,7 +39,7 @@ export async function redeem(code) {
     
     // Viral growth: New user gets their own 10 invites
     if (result.success) {
-      const { Store } = await import('../store.js');
+      const { Store } = await import('../store.js?v=b021');
       Store.patch('invites', { 
         left: 10,  // Fresh allocation for viral growth
         myCode: result.newUserCode  // Their personal invite code
@@ -74,7 +74,7 @@ export async function redeemWithGoogle(code) {
     
     // Success: Store user data and grants
     if (data.success) {
-      const { Store } = await import('../store.js');
+      const { Store } = await import('../store.js?v=b021');
       Store.patch('user', data.user);
       Store.patch('invites', { 
         left: data.grants.invites,  // Backend determines invite allocation

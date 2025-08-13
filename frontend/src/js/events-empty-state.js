@@ -1,5 +1,5 @@
 // events-empty-state.js — skeleton + empty-state helpers
-import { emptyState as _emptyState } from '/js/ui-feedback.js';
+import { emptyState as _emptyState } from '/js/ui-feedback.js?v=b021';
 
 function emptyState(message = 'No events yet.') {
   if (typeof _emptyState === 'function') return _emptyState(message);

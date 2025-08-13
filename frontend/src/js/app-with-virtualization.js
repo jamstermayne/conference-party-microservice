@@ -4,9 +4,9 @@
  */
 
 // Import virtualized components
-import('./components/VirtualizedEventList.js');
-import('./event-list-integration.js');
-import('./hot-reload-integration.js');
+import('./components/VirtualizedEventList.js?v=b021');
+import('./event-list-integration.js?v=b021');
+import('./hot-reload-integration.js?v=b021');
 
 // ⚡ OPTIMIZED MODULE LOADING - Dynamic imports with virtualization
 let Store, router, api, nav, eventSystem, Events, motion, viewTX;
@@ -15,17 +15,17 @@ let eventListManager; // New virtualized event manager
 
 // Enhanced controller registry with performance monitoring
 const CONTROLLER_MODULES = {
-  home: () => import('./controllers/HomeController.js').then(m => m.HomeController),
-  people: () => import('./controllers/PeopleController.js').then(m => m.PeopleController),
-  opportunities: () => import('./controllers/OpportunitiesController.js').then(m => m.OpportunitiesController),
-  events: () => import('./controllers/EventController.js').then(m => m.EventController),
-  me: () => import('./controllers/MeController.js').then(m => m.MeController),
-  invite: () => import('./controllers/InviteController.js').then(m => m.InviteController),
-  calendar: () => import('./controllers/CalendarController.js').then(m => m.CalendarController),
-  fomo: () => import('./controllers/FomoController.js').then(m => m.FomoController),
-  'account-link': () => import('./controllers/AccountLinkController.js').then(m => m.AccountLinkController),
-  'calendar-sync': () => import('./controllers/CalendarSyncController.js').then(m => m.CalendarSyncController),
-  'invite-panel': () => import('./controllers/InvitePanelController.js').then(m => m.InvitePanelController)
+  home: () => import('./controllers/HomeController.js?v=b021').then(m => m.HomeController),
+  people: () => import('./controllers/PeopleController.js?v=b021').then(m => m.PeopleController),
+  opportunities: () => import('./controllers/OpportunitiesController.js?v=b021').then(m => m.OpportunitiesController),
+  events: () => import('./controllers/EventController.js?v=b021').then(m => m.EventController),
+  me: () => import('./controllers/MeController.js?v=b021').then(m => m.MeController),
+  invite: () => import('./controllers/InviteController.js?v=b021').then(m => m.InviteController),
+  calendar: () => import('./controllers/CalendarController.js?v=b021').then(m => m.CalendarController),
+  fomo: () => import('./controllers/FomoController.js?v=b021').then(m => m.FomoController),
+  'account-link': () => import('./controllers/AccountLinkController.js?v=b021').then(m => m.AccountLinkController),
+  'calendar-sync': () => import('./controllers/CalendarSyncController.js?v=b021').then(m => m.CalendarSyncController),
+  'invite-panel': () => import('./controllers/InvitePanelController.js?v=b021').then(m => m.InvitePanelController)
 };
 
 // Enhanced module loader with performance tracking

@@ -4,8 +4,8 @@
  * Based on GPT-5 architecture with Professional Intelligence Platform integration
  */
 
-import Store from './store.js';
-import { Events } from './events.js';
+import Store from './store.js?v=b021';
+import { Events } from './events.js?v=b021';
 
 /**
  * Production-ready invite redemption flow (GPT-5)
