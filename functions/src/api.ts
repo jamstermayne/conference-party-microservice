@@ -6,6 +6,7 @@ import db, {col} from "./db";
 import {ApiResponse, User, Invite, CalendarSave, InviteToken, InviteEdge} from "./types";
 import {isAdminEmail, getUserFromAuth} from "./auth";
 import {ENV} from "./env";
+import { getMyInvites, generateInvites, redeemInvite, getMe } from './invites';
 
 const app = express();
 app.use(cors({ origin: true }));
@@ -261,5 +262,11 @@ app.post("/admin/grant", async (req: express.Request, res: express.Response)=>{
   await col.users().doc(target.uid).set({ admin: true, invitesRemaining: 999999, invitesGranted: 999999, updatedAt: Date.now() }, { merge: true });
   return ok(res, { email, admin: true });
 });
+
+// --- Invites / Account micro-MVP ---
+app.get('/invites/mine', getMyInvites);         // ?email=
+app.post('/invites/generate', generateInvites); // { email, count }
+app.post('/invites/redeem', redeemInvite);      // { code, email, invitedByEmail? }
+app.get('/me', getMe);                           // ?email=
 
 export default app;

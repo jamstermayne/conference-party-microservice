@@ -154,6 +154,15 @@ body.app{ margin:0; color:var(--text); background:var(--bg);
 .skeleton{ padding:24px; color:var(--muted); }
 .empty{ padding:24px; color:var(--muted); }
 
+/* Invites layout */
+.invites-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+.inv-column{ background: rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:12px; }
+.codes-list .code-item{ display:flex; gap:8px; align-items:center; justify-content:space-between; padding:8px; border-radius:10px; background: rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); margin-bottom:8px; }
+.hof-item{ display:flex; gap:10px; align-items:center; padding:8px; border-radius:10px; background: rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); margin-bottom:8px; }
+.avatar{ width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,#6b6bff,#8338ec); color:#0b0b12; font-weight:800; display:flex; align-items:center; justify-content:center; }
+.input{ background:#0f121a; color:#e7e9ff; border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:7px 10px; }
+
+@media (max-width: 900px){ .invites-grid{ grid-template-columns: 1fr; } }
 @media (max-width:740px){
   .side{ width:max(150px, calc(7ch + 48px)); }
   .sidebar{ width:max(150px, calc(7ch + 48px)); }
