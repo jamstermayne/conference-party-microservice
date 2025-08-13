@@ -1,6 +1,6 @@
 /**
  * Router — single entry, single mount (#main). Build b018.
- * No CSS imports; all modules are versioned (?v=b018).
+ * No CSS imports; all modules are versioned (?v=b018)
  */
 const ROUTES = ["parties","calendar","map","hotspots","invites","contacts","me","settings"];
 const currentRoute = () => (location.hash || "#/parties").replace(/^#\/?/, "").split("?")[0] || "parties";
@@ -19,7 +19,7 @@ async function render(r) {
       (await import("./events-controller.js?v=b018")).renderParties(el);
       break;
     case "calendar":
-      (await import("./calendar-view.js?v=b018")).renderCalendar(el);
+      (await import("./calendar-view.js?v=b017")).renderCalendar(el);
       break;
     case "invites":
       (await import("./invite-panel.js?v=b018")).renderInvites(el);
