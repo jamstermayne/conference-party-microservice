@@ -1,58 +1,26 @@
-/* === Velocity overrides (loaded last) === */
-
-/* 1) Calendar rows tall enough for hero cards */
-:root{
-  /* 60 minutes = 240px → 30 minutes = 120px (cards align perfectly) */
-  --hour-height: 240px !important;
+:root{ --sidebar-w:280px; }
+.app{
+  display:grid \!important;
+  grid-template-columns: var(--sidebar-w) minmax(0,1fr) \!important;
+  grid-auto-rows:auto \!important;
+  height:100vh \!important;
 }
-.cal-grid .hour-row{ height: var(--hour-height) !important; border-bottom: 1px dashed rgba(255,255,255,.06); }
-.cal-event{ position:absolute; left:0; right:0; }
-.cal-event .vcard{ height:100%; display:flex; flex-direction:column; justify-content:center; }
-
-/* 2) Sidebar fixed; main panel scrolls */
-#sidebar{
-  position: sticky !important;
-  top: 0 !important;
-  height: 100vh !important;
-  overflow-y: auto !important;
+aside.sidebar,[data-role="sidebar"]{
+  position:sticky \!important;
+  top:0 \!important;
+  height:100vh \!important;
+  transform:none \!important;   /* stop mobile slide transforms covering main */
 }
 #main{
-  height: 100vh !important;
-  overflow-y: auto !important;
-  overscroll-behavior-y: contain;
+  position:relative \!important;
+  min-width:0 \!important;      /* allow grid child to shrink instead of overflow */
+  height:100vh \!important;
+  overflow-y:auto \!important;
+  overflow-x:hidden \!important;
+  z-index:0 \!important;
 }
-
-/* 3) Guardrails: keep everything dark in the main content area */
-#main *{
-  color-scheme: dark;
-}
-
-/* ===== Layout guardrails (loaded last) ===== */
-.app{                 /* the container that wraps sidebar + main */
-  display:flex !important;
-  height:100vh !important;
-}
-
-#sidebar{
-  flex:0 0 280px !important;   /* fixed column */
-  width:280px !important;
-  position:sticky !important;
-  top:0 !important;
-  height:100vh !important;
-  overflow-y:auto !important;
-  z-index:2;
-}
-
-#main{
-  flex:1 1 auto !important;    /* take remaining width */
-  min-width:0 !important;       /* critical: lets flex child actually shrink instead of overflowing */
-  height:100vh !important;
-  overflow-y:auto !important;
-  position:relative;
-  z-index:1;
-}
-
-/* Remove any decorative vertical rail that might overlay the main column */
-.left-accent, .app::before, .app::after{
-  display:none !important;
+/* Neutralize any full-viewport masks that may be sitting on top */
+.modal-backdrop,.overlay,.veil,.scrim,[data-overlay],[data-backdrop]{
+  display:none \!important;
+  pointer-events:none \!important;
 }
