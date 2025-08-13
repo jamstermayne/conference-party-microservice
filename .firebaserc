@@ -1,1 +1,15 @@
-{"projects":{"default":"conference-party-app"}}
+{
+  "projects": {
+    "default": "conference-party-app"
+  },
+  "targets": {
+    "conference-party-app": {
+      "hosting": {
+        "frontend": [
+          "conference-party-app"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

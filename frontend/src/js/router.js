@@ -1,88 +1,121 @@
 /**
- * Minimal hash router + sidebar binder (production-safe).
- * Two-panel layout: sidebar + #app main. No third panel.
+ * Velocity Router (hash-based, stable)
+ * Exports: bindSidebar, route, currentRoute
  */
 import Events from '/assets/js/events.js';
 
-const NAV = ['parties','hotspots','map','calendar','invites','me']; // no settings channel
+const ROUTES = ['parties','hotspots','map','calendar','invites','contacts','me','settings'];
+let _mount = null;
 
-let _sidebar, _app;
-
-function norm(hash) {
+/** Normalize "#/name" → "name" (default 'parties') */
+function normalize(hash) {
   if (!hash) return 'parties';
   return hash.replace(/^#\/?/, '').split('?')[0] || 'parties';
 }
 
-export function currentRoute(){ return norm(location.hash); }
-
-function setActive(r){
-  if(!_sidebar) _sidebar = document.getElementById('sidebar');
-  if(!_sidebar) return;
-  _sidebar.querySelectorAll('.channel').forEach(btn=>{
-    btn.classList.toggle('active', btn.getAttribute('data-route')===r);
-  });
+export function currentRoute() {
+  return normalize(location.hash);
 }
 
-export function route(r){
-  if(!r || !NAV.includes(r)) r='parties';
-  if(location.hash !== `#/${r}`) location.hash = `#/${r}`;
-  setActive(r);
+export function route(name) {
+  const r = normalize('#/'+name);
+  if (!ROUTES.includes(r)) return;
+  if (location.hash !== '#/'+r) location.hash = '#/'+r;
   render(r);
-  Events.emit?.('navigate', r);
 }
 
-async function render(r){
-  _app = _app || document.getElementById('app');
-  if(!_app) return;
-  _app.innerHTML = ''; // no duplicate headings, no stray titles
+export function bindSidebar() {
+  _mount = document.getElementById('app') || document.getElementById('main');
+  const sidenav = document.getElementById('sidenav') || document.querySelector('.sidenav');
+  if (!sidenav) return;
 
-  if(r==='parties'){
-    const m = await import('./events-controller.js');
-    return m.renderParties?.(_app);
-  }
-  if(r==='hotspots'){
-    const m = await import('./hotspots.js');
-    return m.renderHotspots?.(_app);
-  }
-  if(r==='calendar'){
-    const m = await import('./calendar-view.js');
-    return m.renderCalendar?.(_app);
-  }
-  if(r==='map'){
-    const m = await import('./map-controller.js');
-    return m.renderMap?.(_app);
-  }
-  if(r==='invites'){
-    const m = await import('./invite-panel.js');
-    return m.renderInvites?.(_app);
-  }
-  if(r==='me'){
-    const m = await import('./account.js');
-    return m.renderAccount?.(_app);
-  }
-}
-
-export function bindSidebar(){
-  _sidebar = document.getElementById('sidebar');
-  if(!_sidebar) return;
-  _sidebar.querySelectorAll('.channel').forEach(el=>{
-    el.addEventListener('click', e=>{
+  // click binding
+  sidenav.querySelectorAll('[data-route]').forEach(el => {
+    el.addEventListener('click', (e) => {
       e.preventDefault();
-      const name = el.getAttribute('data-route');
-      route(name);
+      const r = el.getAttribute('data-route');
+      route(r);
     }, { passive:false });
   });
+
+  // active state sync
+  const applyActive = (r) => {
+    sidenav.querySelectorAll('[data-route]').forEach(el => {
+      const match = el.getAttribute('data-route') === r;
+      el.classList.toggle('active', match);
+      el.setAttribute('aria-current', match ? 'page' : 'false');
+      // Ensure Slack-style label "#channel"
+      const text = el.getAttribute('data-label') || el.textContent.trim().replace(/^#+/,'');
+      el.textContent = `#${text.toLowerCase()}`;
+    });
+    // left accent on active
+    document.querySelectorAll('.left-accent').forEach(a => a.remove());
+    const active = sidenav.querySelector('.active');
+    if (active) {
+      const accent = document.createElement('div');
+      accent.className = 'left-accent';
+      active.prepend(accent);
+    }
+  };
+
+  window.addEventListener('hashchange', () => {
+    const r = currentRoute();
+    applyActive(r);
+    render(r);
+  });
+
+  const r0 = currentRoute();
+  applyActive(r0);
+  render(r0);
 }
 
-window.addEventListener('hashchange', ()=>{
-  const r = currentRoute();
-  setActive(r);
-  render(r);
-});
+async function render(r) {
+  _mount = _mount || document.getElementById('app') || document.getElementById('main');
+  if (!_mount) return;
+  _mount.innerHTML = ''; // always clear
 
-document.addEventListener('DOMContentLoaded', ()=>{
-  bindSidebar();
-  const r = currentRoute();
-  setActive(r);
-  render(r);
+  try {
+    if (r === 'parties') {
+      const m = await import('/js/events-controller.js');
+      return m.renderParties?.(_mount);
+    }
+    if (r === 'hotspots') {
+      const m = await import('/js/hotspots.js');
+      return m.renderHotspots?.(_mount);
+    }
+    if (r === 'map') {
+      const m = await import('/js/map-controller.js');
+      return m.renderMap?.(_mount);
+    }
+    if (r === 'calendar') {
+      const m = await import('/js/calendar-view.js'); // view has renderCalendar
+      return m.renderCalendar?.(_mount);
+    }
+    if (r === 'invites') {
+      const m = await import('/js/invite-panel.js');
+      return m.renderInvites?.(_mount);
+    }
+    if (r === 'contacts') {
+      const m = await import('/js/contacts-panel.js');
+      return m.renderContacts?.(_mount);
+    }
+    if (r === 'me') {
+      const m = await import('/js/account-panel.js');
+      return m.renderAccount?.(_mount);
+    }
+    if (r === 'settings') {
+      const m = await import('/js/settings-panel.js');
+      return m.renderSettings?.(_mount);
+    }
+    // Fallback
+    _mount.innerHTML = `<div class="section-card"><h2 class="text-heading">Not found</h2></div>`;
+  } catch (e) {
+    console.error('[router] render error', e);
+    _mount.innerHTML = `<div class="section-card"><h2 class="text-heading">Loading error</h2><p class="text-secondary">${String(e)}</p></div>`;
+  }
+}
+
+// Auto-bind on DOM ready if included via index.html
+document.addEventListener('DOMContentLoaded', () => {
+  try { bindSidebar(); } catch (e) { console.error('[router] bind error', e); }
 });
