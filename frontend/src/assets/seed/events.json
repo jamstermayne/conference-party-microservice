@@ -1,0 +1,35 @@
+[
+  {
+    "id": "meet-2025",
+    "title": "MeetToMatch The Cologne Edition 2025",
+    "venue": "Kölnmesse Confex",
+    "priceLabel": "From £127.04",
+    "isLive": true,
+    "start": "2025-08-22T09:00:00Z",
+    "end":   "2025-08-22T10:30:00Z",
+    "rsvpUrl": "#",
+    "detailUrl": "#"
+  },
+  {
+    "id": "marriott-mixer",
+    "title": "Marriott Rooftop Mixer",
+    "venue": "Marriott Hotel",
+    "priceLabel": "Free",
+    "isLive": true,
+    "start": "2025-08-22T09:55:00Z",
+    "end":   "2025-08-22T11:30:00Z",
+    "rsvpUrl": "#",
+    "detailUrl": "#"
+  },
+  {
+    "id": "devconf",
+    "title": "devcom Developer Conference",
+    "venue": "Kölnmesse Confex",
+    "priceLabel": "From €299",
+    "isLive": true,
+    "start": "2025-08-19T09:00:00Z",
+    "end":   "2025-08-19T23:30:00Z",
+    "rsvpUrl": "#",
+    "detailUrl": "#"
+  }
+]

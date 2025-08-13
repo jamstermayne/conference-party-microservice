@@ -94,3 +94,13 @@
   background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
   display:flex; align-items:center; justify-content:center; color:white; font-weight:700;
 }
+
+/* Layout guards */
+:root { --sidebar-w: 288px; }
+body, html { height: 100%; }
+#app, #main { min-height: 100%; }
+.app-shell { display:flex; }
+.app-shell .sidebar { width: var(--sidebar-w); position: sticky; top: 0; height: 100vh; }
+.app-shell .main    { flex:1; min-width: 0; overflow-y: auto; height: 100vh; }
+.cards-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 16px; }
+.hero-card  { background: rgba(22, 24, 34, .65); border-radius: 16px; }
