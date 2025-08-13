@@ -1,5 +1,5 @@
-import '/assets/css/tokens.css';
-import { currentRoute, route } from './router.js';
+import '/assets/css/tokens.css?v=b011';
+import { currentRoute, route } from './router.js?v=b011';
 
 let injected=false;
 export async function ensureShell(){

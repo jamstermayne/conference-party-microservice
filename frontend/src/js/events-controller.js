@@ -3,7 +3,7 @@
  * Build: b012
  */
 
-import { createPartyCard } from './party-card.js';
+import { createPartyCard } from './party-card.js?v=b011';
 
 export async function renderParties(mount) {
   if (!mount) return;
@@ -136,7 +136,7 @@ function getSampleEvents() {
 // Add CSS import
 const link = document.createElement('link');
 link.rel = 'stylesheet';
-link.href = '/assets/css/cards.css?v=b012';
+link.href = '/assets/css/cards.css?v=b011';
 document.head.appendChild(link);
 
 export default { renderParties };

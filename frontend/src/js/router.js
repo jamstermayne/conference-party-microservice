@@ -3,8 +3,8 @@
  * Build: b011
  */
 
-import Events from '/assets/js/events.js';
-import { ensureShell, setActive } from './shell.js';
+import Events from '/assets/js/events.js?v=b011';
+import { ensureShell, setActive } from './shell.js?v=b011';
 
 export const ROUTES = ['parties','calendar','map','hotspots','invites','contacts','me','settings'];
 export const currentRoute = () => (location.hash.replace(/^#\/?/, '')||'parties').split('?')[0];
