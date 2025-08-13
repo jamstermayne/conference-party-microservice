@@ -1,78 +1,22 @@
-import { cardGrid, contactCard } from './components/cards.js?v=b018';
+import { contactCardHTML } from './ui-cards.js?v=b018';
+
+const SEED = [
+  { id:'c1', name:'Alex Chen',   role:'Producer', company:'Nebula Games', email:'alex@nebula.gg' },
+  { id:'c2', name:'Sam Rivera',  role:'Biz Dev',  company:'Solar Forge',  email:'sam@solarforge.io' },
+  { id:'c3', name:'Dana Patel',  role:'Publisher',company:'Blue Owl',     email:'dana@blueowl.com' },
+];
 
 export async function renderContacts(mount){
   if(!mount) return;
-  
-  // Create header
-  const container = document.createElement('div');
-  container.innerHTML = `<div class="section-card"><div class="section-head"><div>Contacts</div><span style="opacity:.6;font-size:.85rem">Your conference graph</span></div></div>`;
-  mount.appendChild(container);
-  
-  // Create grid
-  const grid = cardGrid(document.createElement('div'));
-  mount.appendChild(grid);
+  addCss('/assets/css/cards.css?v=b018');
+  mount.innerHTML = `<div class="v-stack" id="cards-contacts"></div>`;
+  const root = document.getElementById('cards-contacts');
+  root.innerHTML = SEED.map(contactCardHTML).join('');
+}
 
-  // Mock contacts data
-  const mockContacts = [
-    {
-      name: 'Alice Johnson',
-      role: 'Game Director',
-      company: 'Epic Studios',
-      linkedIn: 'https://linkedin.com/in/alicej',
-      email: 'alice@epicstudios.com',
-      tag: 'VIP'
-    },
-    {
-      name: 'Bob Martinez',
-      role: 'Technical Lead',
-      company: 'Indie Collective',
-      linkedIn: 'https://linkedin.com/in/bobm',
-      email: 'bob@indiecollective.io'
-    },
-    {
-      name: 'Carol Chen',
-      role: 'Publishing Manager',
-      company: 'Global Games Ltd',
-      linkedIn: 'https://linkedin.com/in/carolc',
-      tag: 'Publisher'
-    },
-    {
-      name: 'David Kumar',
-      role: 'Senior Developer',
-      company: 'Mobile First Games',
-      email: 'david@mobilefirst.dev'
-    },
-    {
-      name: 'Emma Thompson',
-      role: 'Art Director',
-      company: 'Visual Dreams Studio',
-      linkedIn: 'https://linkedin.com/in/emmat',
-      email: 'emma@visualdreams.com',
-      tag: 'Creative'
-    },
-    {
-      name: 'Frank Wilson',
-      role: 'Business Development',
-      company: 'GameVentures Capital',
-      linkedIn: 'https://linkedin.com/in/frankw',
-      tag: 'Investor'
-    },
-    {
-      name: 'Grace Park',
-      role: 'Community Manager',
-      company: 'Social Gaming Co',
-      email: 'grace@socialgaming.co'
-    },
-    {
-      name: 'Henry Liu',
-      role: 'QA Lead',
-      company: 'Quality First Games',
-      linkedIn: 'https://linkedin.com/in/henryl'
-    }
-  ];
-
-  // Render contact cards
-  mockContacts.forEach(p => grid.appendChild(contactCard(p)));
+function addCss(href){
+  if ([...document.styleSheets].some(s=>s.href && s.href.includes('cards.css'))) return;
+  const link = document.createElement('link'); link.rel='stylesheet'; link.href=href; document.head.appendChild(link);
 }
 
 export default { renderContacts };

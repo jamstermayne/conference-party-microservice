@@ -1,28 +1,21 @@
-/* calendar view — SCOPED */
-.calendar-wrap                { --px-per-30m: 56; --px-per-minute: calc(var(--px-per-30m) / 30);
-  position:relative; height: calc(14 * var(--px-per-30m)); /* 7 hours visible (tweak as you like) */
-  border-radius:16px; background: #0e1116; box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset;
+:root{
+  --hour-h:240px;     /* grow calendar to suit card height */
+  --minor-steps:2;    /* 30 min */
+  --grid-ink:#647097; --grid-faint:#39415a;
 }
-.calendar-grid                { position:absolute; inset:0; background:
-  repeating-linear-gradient(to bottom,
-    rgba(255,255,255,.06) 0 1px, transparent 1px 1px,
-    transparent calc(var(--px-per-30m) - 1px) var(--px-per-30m));
-}
-.calendar-event               { position:absolute; left:0; right:0; margin:0 24px; padding:16px;
-  border-radius:16px; background: radial-gradient(120% 120% at 0% 0%, rgba(96,116,255,.10), rgba(11,13,19,.7) 60%) #121418;
-  box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset, 0 10px 30px rgba(22,20,35,.30);
-  color:#eef1ff;
-}
-.calendar-event .title        { font-weight:800; margin:0 0 8px; }
-.calendar-event .meta         { color:#b8bed6; font-size:14px; display:flex; gap:10px; align-items:center; }
-.calendar-event .actions      { display:flex; gap:10px; margin-top:12px; }
-.calendar-event .btn--primary { padding:8px 14px; border-radius:10px; border:1px solid rgba(93, 76, 255, .6);
-  background: linear-gradient(180deg,#6d6aff,#5a43ff); color:#fff; font-weight:700;
-}
-.calendar-event .btn--ghost   { padding:8px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.04); color:#e7e9ff;
-}
-
-/* helper: set position by minutes from day start via inline style:
-   style="top: calc(var(--px-per-minute) * MINUTES_FROM_START * 1px);
-          height: calc(var(--px-per-minute) * DURATION_MIN * 1px);" */
+.cal-wrap{ position:relative; }
+.cal-grid{ position:relative; border-radius:18px; border:1px solid rgba(130,140,255,.14);
+  background:linear-gradient(180deg, rgba(18,22,34,.9) 0%, rgba(12,15,24,.98) 100%);
+  overflow:hidden; padding:16px 0; }
+.cal-hour-labels{ position:absolute; left:16px; top:0; bottom:0; width:56px; pointer-events:none; }
+.cal-hour-labels > div{ height:var(--hour-h); display:flex; align-items:flex-start; justify-content:flex-end;
+  font-size:12px; color:var(--grid-ink); padding-top:4px; }
+.cal-hours{ position:relative; margin-left:84px;
+  background:repeating-linear-gradient(to bottom,
+    transparent 0,
+    transparent calc(var(--hour-h)/var(--minor-steps) - 1px),
+    rgba(255,255,255,.04) calc(var(--hour-h)/var(--minor-steps))
+  ); }
+.cal-hours > .slot{ position:relative; height:var(--hour-h); }
+.cal-events{ position:absolute; left:84px; right:16px; top:0; bottom:0; }
+.cal-event{ position:absolute; right:8px; left:8px; }

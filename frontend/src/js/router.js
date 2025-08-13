@@ -29,10 +29,10 @@ export async function route(){
   try {
     switch(r){
       case 'parties':
-        (await import('./events-controller.js?v=b011')).renderParties(mount);
+        (await import('./events-controller.js?v=b018')).renderParties(mount);
         break;
       case 'calendar':
-        (await import('./calendar-view.js?v=b011')).renderCalendar?.(mount);
+        (await import('./calendar-view.js?v=b018')).renderCalendar?.(mount);
         break;
       case 'map':
         (await import('./map-controller.js?v=b011')).renderMap?.(mount);
@@ -41,19 +41,19 @@ export async function route(){
         (await import('./hotspots.js?v=b011')).renderHotspots?.(mount);
         break;
       case 'invites':
-        (await import('./invite-panel.js?v=b011')).renderInvites?.(mount);
+        (await import('./invite-panel.js?v=b018')).renderInvites?.(mount);
         break;
       case 'contacts':
-        (await import('./contacts-panel.js?v=b011')).renderContacts?.(mount);
+        (await import('./contacts-panel.js?v=b018')).renderContacts?.(mount);
         break;
       case 'me':
-        (await import('./me-panel.js?v=b011')).renderMe?.(mount);
+        (await import('./me-panel.js?v=b018')).renderMe?.(mount);
         break;
       case 'settings':
         (await import('./settings-panel.js?v=b011')).renderSettings?.(mount);
         break;
       default:
-        (await import('./events-controller.js?v=b011')).renderParties(mount);
+        (await import('./events-controller.js?v=b018')).renderParties(mount);
         break;
     }
   } catch (e) {
