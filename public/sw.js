@@ -2,14 +2,14 @@
  * 🚀 GAMESCOM 2025 PARTY DISCOVERY - SERVICE WORKER
  * 
  * Offline-first PWA functionality with intelligent caching
- * Generated: 2025-08-13T01:30:50.881Z
+ * Generated: 2025-08-13T02:22:14.166Z
  * Cache Version: 1.0.0
  */
 
-const CACHE_VERSION = '1.0.1';
-const CACHE_NAME = 'velocity-ai-v1';
-const DATA_CACHE = 'velocity-data-v1';
-const RUNTIME_CACHE = 'velocity-runtime-v1';
+const CACHE_VERSION = '1.0.0';
+const CACHE_NAME = 'gamescom-party-discovery-v1';
+const DATA_CACHE = 'gamescom-data-v1';
+const RUNTIME_CACHE = 'gamescom-runtime-v1';
 
 // Essential files to cache immediately
 const ESSENTIAL_CACHE = [

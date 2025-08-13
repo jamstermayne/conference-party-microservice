@@ -1,4 +1,9 @@
 export function renderMap(root){
+  // Guard against undefined root
+  if(!root) {
+    console.warn('[map-controller] renderMap called with undefined root');
+    return;
+  }
   const wrap=document.createElement('section');
   wrap.className='section-card';
   wrap.innerHTML=`

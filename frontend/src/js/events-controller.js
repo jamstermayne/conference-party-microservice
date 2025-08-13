@@ -46,6 +46,11 @@ async function fetchEvents(){
 }
 
 export async function renderParties(root){
+  // Guard against undefined root
+  if(!root) {
+    console.warn('[events-controller] renderParties called with undefined root');
+    return;
+  }
   const wrap = el('section','section-card');
   wrap.appendChild(el('div','left-accent'));
   const body = el('div','section-body');

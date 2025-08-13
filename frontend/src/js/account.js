@@ -1,4 +1,9 @@
 export function renderAccount(root){
+  // Guard against undefined root
+  if(!root) {
+    console.warn('[account] renderAccount called with undefined root');
+    return;
+  }
   const wrap = document.createElement('section');
   wrap.className = 'section-card';
   wrap.innerHTML = `

@@ -8,8 +8,8 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" href="/images/velocity-icon.svg">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="/assets/css/base.css?v=b002">
-  <link rel="stylesheet" href="/css/sidebar.css?v=b002">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/sidebar.css">
 </head>
 <body>
   <div id="shell">
@@ -17,6 +17,9 @@
     <main id="app" role="main" tabindex="-1"></main>
   </div>
 
+  <!-- Temporary cache clear (remove after one deploy) -->
+  <script src="/js/clear-cache.js"></script>
+  
   <!-- Order matters: env -> bootstrap -> router -->
   <script src="/js/env.js" defer></script>
   <script type="module" src="/assets/js/foundation/app-bootstrap.js?v=b002"></script>

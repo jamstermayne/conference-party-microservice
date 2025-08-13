@@ -3,6 +3,11 @@ import Events from '/assets/js/events.js';
 const getInvitesLeft = () => (window.Store?.get?.('invites.left')) ?? 5;
 
 export function renderInvites(root){
+  // Guard against undefined root
+  if(!root) {
+    console.warn('[invite-panel] renderInvites called with undefined root');
+    return;
+  }
   const wrap=document.createElement('section');
   wrap.className='section-card';
   wrap.innerHTML=`
