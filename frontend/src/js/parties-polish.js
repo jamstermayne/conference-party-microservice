@@ -2,7 +2,7 @@
  * Parties polish (non-destructive): shows skeletons, renders compact cards,
  * and falls back to a friendly empty state. Works with your Events bus if present.
  */
-import Events from './events.js?v=b021';
+import Events from './events.js?v=b022';
 
 const q = (s, r=document)=>r.querySelector(s);
 const qa = (s, r=document)=>Array.from(r.querySelectorAll(s));

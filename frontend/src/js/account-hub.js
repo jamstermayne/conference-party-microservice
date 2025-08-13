@@ -2,8 +2,8 @@
  * Account Hub: summary + invites + connections
  * Pulls from Store where possible; API calls guarded for future endpoints.
  */
-import Store from '/js/store.js?v=b021';
-import { emptyState, toast } from '/js/ui-feedback.js?v=b021';
+import Store from '/js/store.js?v=b022';
+import { emptyState, toast } from '/js/ui-feedback.js?v=b022';
 
 const API_BASE = (window.__ENV && window.__ENV.API_BASE) || '/api';
 

@@ -1,4 +1,4 @@
-import { chips } from './provenance.js?v=b021';
+import { chips } from './provenance.js?v=b022';
 
 export function renderPartyCard(p){
   return `

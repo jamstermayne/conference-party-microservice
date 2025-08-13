@@ -9,7 +9,7 @@ const V = ENV.BUILD ? `?v=${ENV.BUILD}` : '';
 const imp = (p) => import(p + V);
 
 /** 1) Core (order matters) */
-await imp('/js/events.js?v=b022').catch(()=>import('/assets/js/events.js?v=b021' + V)); // try both paths
+await imp('/js/events.js?v=b022').catch(()=>import('/assets/js/events.js?v=b022' + V)); // try both paths
 const Events = window.Events; // global export from events.js
 
 /** 2) Utilities and shared */
@@ -50,14 +50,14 @@ for (const [m, key, label] of checks) {
 }
 
 /** 5) Mount stable shell: sidebar + content */
-import('/js/router.js?v=b021' + V).then(({ bindSidebar, route })=>{
+import('/js/router.js?v=b022' + V).then(({ bindSidebar, route })=>{
   bindSidebar(document);
   route(location.hash);
 });
 
 /** 6) Update titles on route change */
 if (Events && Events.on) {
-  Events.on('route:change', (e)=>import('/js/route-title.js?v=b021'+V).then(m=>m.setTitles(e.name)));
+  Events.on('route:change', (e)=>import('/js/route-title.js?v=b022'+V).then(m=>m.setTitles(e.name)));
 }
 
 console.log('[BOOT] Complete with BUILD:', ENV.BUILD);

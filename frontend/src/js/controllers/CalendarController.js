@@ -3,11 +3,11 @@
  * Manages calendar connections, sync, and Meet to Match integration
  */
 
-import { Store } from '../store.js?v=b021';
-import { Events } from '../events.js?v=b021';
-import * as GCal from '../services/googleCalendar.js?v=b021';
-import * as ICS from '../services/icsSync.js?v=b021';
-import * as CalSync from '../services/calendarSync.js?v=b021';
+import { Store } from '../store.js?v=b022';
+import { Events } from '../events.js?v=b022';
+import * as GCal from '../services/googleCalendar.js?v=b022';
+import * as ICS from '../services/icsSync.js?v=b022';
+import * as CalSync from '../services/calendarSync.js?v=b022';
 
 export function CalendarController(section) {
   const mount = section.querySelector('#calendar-connect-mount');

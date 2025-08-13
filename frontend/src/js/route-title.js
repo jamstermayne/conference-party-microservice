@@ -1,4 +1,4 @@
-import Events from '/assets/js/events.js?v=b021';
+import Events from '/assets/js/events.js?v=b022';
 
 const FRIENDLY = {
   parties:'Parties',

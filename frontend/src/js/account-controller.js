@@ -2,9 +2,9 @@
  * Account Hub (v1) — aggregates profile + invites + connections
  * Vanilla JS, Events/Store integrated, safe if APIs are missing.
  */
-import Events from '/assets/js/events.js?v=b021';
-import Store from '/js/store.js?v=b021';
-import { toast, emptyState } from '/js/ui-feedback.js?v=b021';
+import Events from '/assets/js/events.js?v=b022';
+import Store from '/js/store.js?v=b022';
+import { toast, emptyState } from '/js/ui-feedback.js?v=b022';
 
 const API_BASE = (window.__ENV && window.__ENV.API_BASE) || '/api';
 

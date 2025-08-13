@@ -2,7 +2,7 @@
  * Hotspots (Heatmap v1) — pure SVG circles with intensity, no external SDK.
  * Builds density from /api/parties (venue frequency).
  */
-import { emptyState } from '/js/ui-feedback.js?v=b021';
+import { emptyState } from '/js/ui-feedback.js?v=b022';
 
 const API_BASE = (window.__ENV && window.__ENV.API_BASE) || '/api';
 

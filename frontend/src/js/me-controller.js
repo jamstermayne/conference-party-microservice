@@ -1,6 +1,6 @@
-import Store from './store.js?v=b021';
-import { toast } from './ui-feedback.js?v=b021';
-import { Events } from './events.js?v=b021';
+import Store from './store.js?v=b022';
+import { toast } from './ui-feedback.js?v=b022';
+import { Events } from './events.js?v=b022';
 
 export function renderAccount() {
   const root = document.querySelector('[data-view="me"]');
@@ -42,7 +42,7 @@ function renderAccountToElement(root) {
 
   root.querySelector('[data-auth="google"]')?.addEventListener('click', async ()=>{
     try { 
-      const authModule = await import('./auth.js?v=b021');
+      const authModule = await import('./auth.js?v=b022');
       await authModule.signInWithGoogle?.(); 
       toast('Google connected', 'success'); 
     } catch(e){ 
@@ -53,7 +53,7 @@ function renderAccountToElement(root) {
   
   root.querySelector('[data-auth="linkedin"]')?.addEventListener('click', async ()=>{
     try { 
-      const authModule = await import('./auth.js?v=b021');
+      const authModule = await import('./auth.js?v=b022');
       await authModule.signInWithLinkedIn?.(); 
       toast('LinkedIn connected', 'success'); 
     } catch(e){ 

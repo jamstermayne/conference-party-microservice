@@ -1,5 +1,5 @@
-import { route, currentRoute, bindSidebar } from './router.js?v=b021';
-import Events from '/assets/js/events.js?v=b021';
+import { route, currentRoute, bindSidebar } from './router.js?v=b022';
+import Events from '/assets/js/events.js?v=b022';
 
 (function boot(){
   console.log('✅ App wire-up complete');

@@ -2,8 +2,8 @@
  * AccountController — aggregates profile + invites + contacts
  * Route: data-route="account"
  */
-import Store from '../store.js?v=b021';
-import Events from '../events.js?v=b021';
+import Store from '../store.js?v=b022';
+import Events from '../events.js?v=b022';
 
 export default class AccountController {
   constructor(root) {

@@ -1,5 +1,5 @@
 // Post-install visual reward (+5 UI only)
-import { Events } from '../events.js?v=b021';
+import { Events } from '../events.js?v=b022';
 
 let bonusAwarded = false;
 

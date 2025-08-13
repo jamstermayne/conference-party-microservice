@@ -3,13 +3,13 @@
  * Main orchestrator for all controllers in the Professional Intelligence Platform
  */
 
-import { BaseController } from './BaseController.js?v=b021';
-import { EventController } from './EventController.js?v=b021';
-import { SearchController } from './SearchController.js?v=b021';
-import { NetworkingController } from './NetworkingController.js?v=b021';
-import { Store } from '../store.js?v=b021';
-import { api } from '../services/api.js?v=b021';
-import router from '../router.js?v=b021';
+import { BaseController } from './BaseController.js?v=b022';
+import { EventController } from './EventController.js?v=b022';
+import { SearchController } from './SearchController.js?v=b022';
+import { NetworkingController } from './NetworkingController.js?v=b022';
+import { Store } from '../store.js?v=b022';
+import { api } from '../services/api.js?v=b022';
+import router from '../router.js?v=b022';
 
 export class AppController extends BaseController {
   constructor() {
@@ -90,10 +90,10 @@ export class AppController extends BaseController {
     }
     
     // Register lazy-loaded controllers
-    this.registerLazyController('home', () => import('./HomeController.js?v=b021'));
-    this.registerLazyController('people', () => import('./PeopleController.js?v=b021'));
-    this.registerLazyController('opportunities', () => import('./OpportunitiesController.js?v=b021'));
-    this.registerLazyController('profile', () => import('./ProfileController.js?v=b021'));
+    this.registerLazyController('home', () => import('./HomeController.js?v=b022'));
+    this.registerLazyController('people', () => import('./PeopleController.js?v=b022'));
+    this.registerLazyController('opportunities', () => import('./OpportunitiesController.js?v=b022'));
+    this.registerLazyController('profile', () => import('./ProfileController.js?v=b022'));
   }
 
   /**

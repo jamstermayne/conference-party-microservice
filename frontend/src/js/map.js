@@ -1,8 +1,8 @@
 // Lightweight map scaffold to keep parity with hotspots panel.
 // If a real map SDK is not loaded yet, we show a polished placeholder.
 
-import Events from './events.js?v=b021';
-import Store from './store.js?v=b021';
+import Events from './events.js?v=b022';
+import Store from './store.js?v=b022';
 
 function qs(s, r=document){return r.querySelector(s);}
 

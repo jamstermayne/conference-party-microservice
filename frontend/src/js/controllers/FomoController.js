@@ -1,6 +1,6 @@
 // js/controllers/FomoController.js
-import { Events } from '../events.js?v=b021';
-import { Store }  from '../store.js?v=b021';
+import { Events } from '../events.js?v=b022';
+import { Store }  from '../store.js?v=b022';
 
 const API = '/api/events?filter=tonight';
 

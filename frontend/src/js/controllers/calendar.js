@@ -3,9 +3,9 @@
  * Meet to Match integration and calendar syncing functionality
  */
 
-import { Store } from '../store.js?v=b021';
-import { Events } from '../events.js?v=b021';
-import { calendar } from '../services/calendar.js?v=b021';
+import { Store } from '../store.js?v=b022';
+import { Events } from '../events.js?v=b022';
+import { calendar } from '../services/calendar.js?v=b022';
 
 export function CalendarController(section) {
   const connectMount = section.querySelector('#calendar-connect-mount');
@@ -49,7 +49,7 @@ export function CalendarController(section) {
       `;
 
       // Use Google OAuth from invites service
-      const { signInWithGoogle } = await import('../services/invites.js?v=b021');
+      const { signInWithGoogle } = await import('../services/invites.js?v=b022');
       const auth = await signInWithGoogle();
       
       // Connect calendar

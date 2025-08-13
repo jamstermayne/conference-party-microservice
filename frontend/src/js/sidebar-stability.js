@@ -4,7 +4,7 @@
  * - Converts `#settings` channel to a gear "Account" item
  * - Highlights active with gradient bar
  */
-import Events from '/assets/js/events.js?v=b021';
+import Events from '/assets/js/events.js?v=b022';
 
 export function hardenSidebar() {
   const aside = document.getElementById('sidenav') || document.querySelector('aside.sidenav');

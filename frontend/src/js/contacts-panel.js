@@ -1,40 +1,26 @@
-const SEED = [
-  { id: 'c1', name: 'Alex Chen', role: 'Producer', company: 'Nebula Games', location: 'Hall 7, Booth A23', status: 'online' },
-  { id: 'c2', name: 'Sam Rivera', role: 'Biz Dev', company: 'Solar Forge', location: 'Business Area', verified: true },
-  { id: 'c3', name: 'Dana Patel', role: 'Publisher', company: 'Blue Owl', linkedin: 'linkedin.com/in/danapatel' },
-  { id: 'c4', name: 'Jordan Kim', role: 'Investor', company: 'GameVentures', location: 'VIP Lounge', status: 'online', verified: true },
-  { id: 'c5', name: 'Morgan Lee', role: 'Developer', company: 'Indie Studio', linkedin: 'linkedin.com/in/morganlee' },
-];
-
 export async function renderContacts(mount){
   if(!mount) return;
-  
-  mount.innerHTML = `
-    <section style="padding:16px 20px">
-      <h2 style="color:#eaf0ff;margin:0 0 12px">Professional Network</h2>
-      <div id="c-list"></div>
-    </section>`;
-  
-  const list = mount.querySelector('#c-list');
-  list.innerHTML = SEED.map(p=>`
+  const people = [
+    { name:"Alex Chen",   title:"Producer online", org:"Nebula Games",  loc:"Hall 7, Booth A23", link:"" },
+    { name:"Sam Rivera",  title:"Biz Dev verified", org:"Solar Forge",   loc:"Business Area",     link:"" },
+    { name:"Dana Patel",  title:"Publisher",        org:"Blue Owl",      loc:"",                  link:"linkedin.com/in/danapatel" }
+  ];
+  mount.innerHTML = `<section style="margin:24px">
+    <h2 style="margin:0 0 14px">Professional Network</h2>
+    <div id="people"></div>
+  </section>`;
+  const el = document.getElementById("people");
+  el.innerHTML = people.map(p => `
     <article class="vcard">
-      <div class="vcard__head">
-        <div class="vcard__title">${p.name||'Unknown'}</div>
-        <div class="vcard__badges">
-          ${p.role?`<span class="vcard__pill">${p.role}</span>`:''}
-          ${p.status==='online'?'<span class="vcard__pill is-live">online</span>':''}
-          ${p.verified?'<span class="vcard__pill is-free">verified</span>':''}
-        </div>
+      <div class="vcard__head"><div class="vcard__title">${p.name}</div></div>
+      <div class="vmeta">${p.title}${p.org ? " • "+p.org : ""}</div>
+      ${p.loc  ? `<div class="vmeta">📍 ${p.loc}</div>` : ""}
+      ${p.link ? `<div class="vmeta">🔗 ${p.link}</div>` : ""}
+      <div class="vactions">
+        <button class="vbtn primary">Connect</button>
+        <button class="vbtn">Message</button>
       </div>
-      <div class="vcard__subtitle">${p.company||''}</div>
-      <ul class="vcard__meta">
-        ${p.location?`<li>📍 ${p.location}</li>`:''}
-        ${p.linkedin?`<li>🔗 ${p.linkedin}</li>`:''}
-      </ul>
-      <div class="vcard__actions">
-        <button class="btn-primary">Connect</button>
-        <button class="btn">Message</button>
-      </div>
-    </article>`).join('');
+    </article>
+  `).join("");
 }
 export default { renderContacts };

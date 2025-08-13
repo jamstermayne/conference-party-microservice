@@ -8,7 +8,7 @@ export function ensureCardsCss() {
   if (!document.querySelector('link[data-cards="1"]')) {
     const l = document.createElement('link');
     l.rel = 'stylesheet';
-    l.href = '/assets/css/cards.css?v=b018';
+    l.href = '/assets/css/cards.css?v=b022';
     l.setAttribute('data-cards', '1');
     document.head.appendChild(l);
   }

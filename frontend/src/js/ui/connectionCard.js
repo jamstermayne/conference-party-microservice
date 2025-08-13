@@ -1,5 +1,5 @@
-import { ViewTX } from './viewTX.js?v=b021';
-import * as Conn from '../services/connections.js?v=b021';
+import { ViewTX } from './viewTX.js?v=b022';
+import * as Conn from '../services/connections.js?v=b022';
 
 export function renderConnectionCard(data){
   const tpl = document.getElementById('tpl-connection-card');

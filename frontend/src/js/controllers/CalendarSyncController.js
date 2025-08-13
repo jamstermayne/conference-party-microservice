@@ -1,6 +1,6 @@
 // js/controllers/CalendarSyncController.js
-import { Events } from '../events.js?v=b021';
-import { Store }  from '../store.js?v=b021';
+import { Events } from '../events.js?v=b022';
+import { Store }  from '../store.js?v=b022';
 // Services you already have
 // GCal.connect(), GCal.list(), ICS.subscribe(url), CalSync.syncNow({ window:'conference' })
 

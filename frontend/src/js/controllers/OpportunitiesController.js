@@ -3,9 +3,9 @@
  * Manages job opportunities, collaborations, and professional matching
  */
 
-import { BaseController } from './BaseController.js?v=b021';
-import { Store } from '../store.js?v=b021';
-import { api } from '../services/api.js?v=b021';
+import { BaseController } from './BaseController.js?v=b022';
+import { Store } from '../store.js?v=b022';
+import { api } from '../services/api.js?v=b022';
 
 export class OpportunitiesController extends BaseController {
   constructor(element) {

@@ -27,6 +27,7 @@
     }
   </script>
   <link rel="stylesheet" href="/assets/css/theme.css?v=b022">
+  <link rel="stylesheet" href="/assets/css/theme-unified.css?v=b022">
 </head>
 <body>
   <div class="app">
@@ -45,13 +46,15 @@
     </aside>
     <main id="main"><!-- routed content --></main>
   </div>
-  <script src="/js/kill-sw.js?v=b021"></script>
-  <script type="module" src="/js/router.js?v=b021"></script>
+  
+  
   <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));
   caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
 }
   </script>
+<script src="/js/kill-sw.js?v=b022"></script>
+<script type="module" src="/js/router.js?v=b022"></script>
 </body>
 </html>

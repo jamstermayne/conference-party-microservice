@@ -3,12 +3,12 @@
  * Main dashboard view for Professional Intelligence Platform
  */
 
-import { Store } from '../store.js?v=b021';
-import { Events } from '../events.js?v=b021';
-import { renderStatusCard, renderHotspots, renderEvents } from '../ui/homeViews.js?v=b021';
-import { mountSignalField } from '../ui/canvasField.js?v=b021';
-import * as Proximity from '../services/proximity.js?v=b021';
-import * as API from '../services/api.js?v=b021';
+import { Store } from '../store.js?v=b022';
+import { Events } from '../events.js?v=b022';
+import { renderStatusCard, renderHotspots, renderEvents } from '../ui/homeViews.js?v=b022';
+import { mountSignalField } from '../ui/canvasField.js?v=b022';
+import * as Proximity from '../services/proximity.js?v=b022';
+import * as API from '../services/api.js?v=b022';
 
 export function HomeController(section){
   const statusMount = section.querySelector('#status-card');

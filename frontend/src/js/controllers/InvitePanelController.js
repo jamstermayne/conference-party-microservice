@@ -1,6 +1,6 @@
 // js/controllers/InvitePanelController.js
-import { Events } from '../events.js?v=b021';
-import { Store }  from '../store.js?v=b021';
+import { Events } from '../events.js?v=b022';
+import { Store }  from '../store.js?v=b022';
 
 const API = {
   status: '/api/invites/status',        // GET -> { invitesLeft, redeemed, totalGiven, personalLink, recent: [...] }
