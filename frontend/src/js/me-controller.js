@@ -1,6 +1,6 @@
 import Store from './store.js';
 import { toast } from './ui-feedback.js';
-import { Events } from './events.js';
+import Events from './events.js';
 
 export function renderMe() {
   const root = document.querySelector('[data-view="me"]');
@@ -42,23 +42,31 @@ function renderAccountToElement(root) {
 
   root.querySelector('[data-auth="google"]')?.addEventListener('click', async ()=>{
     try { 
-      const authModule = await import('./auth.js');
-      await authModule.signInWithGoogle?.(); 
+      const authModule = await import('./auth.js').catch(() => null);
+      if (!authModule?.signInWithGoogle) {
+        toast('Google auth not available', 'error');
+        return;
+      }
+      await authModule.signInWithGoogle(); 
       toast('Google connected', 'success'); 
     } catch(e){ 
-      console.error(e);
-      toast('Google sign-in failed','error'); 
+      console.error('Google auth error:', e);
+      toast('Google sign-in failed', 'error'); 
     }
   });
   
   root.querySelector('[data-auth="linkedin"]')?.addEventListener('click', async ()=>{
     try { 
-      const authModule = await import('./auth.js');
-      await authModule.signInWithLinkedIn?.(); 
+      const authModule = await import('./auth.js').catch(() => null);
+      if (!authModule?.signInWithLinkedIn) {
+        toast('LinkedIn auth not available', 'error');
+        return;
+      }
+      await authModule.signInWithLinkedIn(); 
       toast('LinkedIn connected', 'success'); 
     } catch(e){ 
-      console.error(e);
-      toast('LinkedIn sign-in failed','error'); 
+      console.error('LinkedIn auth error:', e);
+      toast('LinkedIn sign-in failed', 'error'); 
     }
   });
 
