@@ -8,19 +8,23 @@ export function createPartyCard(p) {
     (p.datePretty || '');
     
   const el = document.createElement('article');
-  el.className = 'party-card';
+  el.className = 'vcard';
   el.dataset.id = p.id;
   el.innerHTML = `
-    <h3 class="party-card__title">${p.title}</h3>
-    <div class="party-card__row">📍 ${p.venue || ''}</div>
-    <div class="party-card__row">📅 ${datePretty} — ${timeRange}</div>
-    <div class="party-card__badges">
-      <span class="badge-pill">${price}</span>
-      ${p.isLive ? '<span class="badge-pill">live</span>' : ''}
-    </div>
-    <div class="party-card__actions">
-      <button class="btn--primary" data-action="save-sync" data-id="${p.id}">Save & Sync</button>
-      <button class="btn--ghost" data-action="details"   data-id="${p.id}">Details</button>
+    <header class="vcard__head">
+      <h3 class="vcard__title">${p.title}</h3>
+      <div class="vcard__badges">
+        <span class="vcard__pill${price === 'Free' ? ' is-free' : ''}">${price}</span>
+        ${p.isLive || p.live ? '<span class="vcard__pill is-live">live</span>' : ''}
+      </div>
+    </header>
+    <ul class="vcard__meta">
+      <li>📍 ${p.venue || ''}</li>
+      <li>📅 ${datePretty} — ${timeRange}</li>
+    </ul>
+    <div class="vcard__actions">
+      <button class="btn btn--primary" data-action="save-sync" data-id="${p.id}">Save & Sync</button>
+      <button class="btn" data-action="details" data-id="${p.id}">Details</button>
     </div>
   `;
   return el;

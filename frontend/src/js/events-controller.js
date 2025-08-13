@@ -5,18 +5,20 @@
 
 function basicPartyCard(ev){
   const el = document.createElement('article');
-  el.className = 'party-card';
+  el.className = 'vcard';
   el.innerHTML = `
-    <header class="pc-head">
-      <h3 class="pc-title">${ev.title}</h3>
-      <div class="pc-badges">
-        ${ev.price ? `<span class="pc-pill">${ev.price}</span>`:''}
-        ${ev.live ? `<span class="pc-dot">live</span>`:''}
+    <header class="vcard__head">
+      <h3 class="vcard__title">${ev.title}</h3>
+      <div class="vcard__badges">
+        ${ev.price ? `<span class="vcard__pill">${ev.price}</span>`:''}
+        ${ev.live ? `<span class="vcard__pill is-live">live</span>`:''}
       </div>
     </header>
-    <div class="pc-meta">📍 ${ev.venue} · 🗓️ ${new Date(ev.start).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
-      – ${new Date(ev.end).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>
-    <div class="pc-actions">
+    <ul class="vcard__meta">
+      <li>📍 ${ev.venue}</li>
+      <li>🗓️ ${new Date(ev.start).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})} – ${new Date(ev.end).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</li>
+    </ul>
+    <div class="vcard__actions">
       <button class="btn btn--primary">Save & Sync</button>
       <button class="btn">Details</button>
     </div>`;

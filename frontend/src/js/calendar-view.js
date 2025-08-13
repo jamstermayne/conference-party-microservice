@@ -28,11 +28,12 @@ export async function renderCalendar(mount){
 
   const grid = mount.querySelector('#calGrid');
 
-  // build time grid
+  // build time grid with taller rows for cards
   for(let h = DAY_START; h <= DAY_END; h++){
     const row = document.createElement('div');
     row.className = 'cal-row';
     row.dataset.hour = h;
+    row.style.height = 'var(--cal-hour-h, 260px)'; // use CSS variable for row height
     row.innerHTML = `<div class="cal-hour">${String(h).padStart(2,'0')}:00</div>`;
     grid.appendChild(row);
   }
@@ -53,13 +54,21 @@ export async function renderCalendar(mount){
     const topBlocks = ((start.getHours() - DAY_START) * 60 + start.getMinutes()) / SLOT_MINUTES;
 
     const card = document.createElement('div');
-    card.className = 'cal-card'; // calendar-scoped card
+    card.className = 'vcard'; // use unified vcard class
+    card.style.position = 'absolute';
+    card.style.left = '10px';
+    card.style.right = '10px';
     card.style.top = `${topBlocks * slotHeight}px`;
-    card.style.height = `${blocks * slotHeight}px`;
+    card.style.minHeight = `${blocks * slotHeight}px`;
     card.innerHTML = `
-      <div class="cal-card__title">${ev.title}</div>
-      <div class="cal-card__meta">📍 ${ev.venue} · 🕓 ${start.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} – ${end.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
-      <div class="cal-card__actions">
+      <header class="vcard__head">
+        <h3 class="vcard__title">${ev.title}</h3>
+      </header>
+      <ul class="vcard__meta">
+        <li>📍 ${ev.venue}</li>
+        <li>🕓 ${start.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} – ${end.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</li>
+      </ul>
+      <div class="vcard__actions">
         <button class="btn btn--primary">Save & Sync</button>
         <button class="btn">Details</button>
       </div>

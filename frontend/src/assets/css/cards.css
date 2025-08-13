@@ -1,15 +1,29 @@
-/* tiny shared primitives so we always see something */
-.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .9rem;border-radius:.6rem;background:#222;color:#ddd;border:1px solid #333}
-.btn--primary{background:linear-gradient(180deg,#6b6bff,#7a49fa);border-color:#6b6bff;color:#fff;box-shadow:0 0 18px rgba(123,89,255,.25)}
-.hero{margin:1rem 0 .75rem;padding:.75rem 1rem;border-radius:1rem;background:linear-gradient(180deg,#151a26,#10141c);border:1px solid #222638}
-.hero__title{font-size:1.1rem;font-weight:700;color:#e7ebff}
-.hero__hint{color:#8b95a7;font-size:.9rem}
-.parties-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(520px,1fr));gap:1rem}
-.party-card{border:1px solid #22263a;border-radius:1rem;padding:1rem 1.1rem;background:radial-gradient(1200px 320px at -200px -100px,#11203a 0%,#0f121a 65%);color:#dfe4ff}
-.pc-head{display:flex;justify-content:space-between;gap:1rem;margin-bottom:.35rem}
-.pc-title{font-weight:800}
-.pc-badges{display:flex;gap:.4rem}
-.pc-pill{font-size:.75rem;padding:.2rem .5rem;border-radius:1rem;background:#1c1c2b;border:1px solid #2a2f42;color:#c7d0e2}
-.pc-dot{font-size:.75rem;padding:.2rem .5rem;border-radius:1rem;background:#17291f;border:1px solid #2b5742;color:#a7eac3}
-.pc-meta{color:#b6bfd1;margin:.25rem 0 .6rem}
-.pc-actions{display:flex;gap:.5rem}
+:root{
+  --card-min-h: 148px;
+  --card-pad: 14px;
+  --card-radius: 16px;
+  --card-border: #22263a;
+  --card-sheen: radial-gradient(1200px 320px at -200px -120px,#14213d 0%,#0e131c 60%);
+  --card-muted: #9aa7bf;
+  --card-title: #eaf0ff;
+  --cal-hour-h: 260px;  /* calendar rows tall enough for cards */
+  --cal-minor-steps: 2; /* 30-min ticks */
+}
+.vcard{
+  min-height:var(--card-min-h);
+  padding:var(--card-pad);
+  border-radius:var(--card-radius);
+  border:1px solid var(--card-border);
+  background:var(--card-sheen);
+  color:#dfe4ff;
+}
+.vcard + .vcard{margin-top:12px}
+.vcard__head{display:flex;justify-content:space-between;gap:12px;margin-bottom:6px}
+.vcard__title{font-size:18px;line-height:1.15;font-weight:800;color:var(--card-title)}
+.vcard__badges{display:flex;gap:6px;flex-wrap:wrap}
+.vcard__pill{font-size:12px;padding:6px 8px;border-radius:999px;border:1px solid #2b2f45;background:#141825;color:#cbd7ff}
+.vcard__pill.is-live{border-color:#2b5742;background:#11261a;color:#b6f3c8}
+.vcard__pill.is-free{border-color:#2e4a65;background:#0f2034;color:#a9cffc}
+.vcard__subtitle{color:#d6def7;margin-bottom:4px}
+.vcard__meta{list-style:none;margin:4px 0 10px;padding:0;color:var(--card-muted);display:flex;gap:12px;flex-wrap:wrap}
+.vcard__actions{display:flex;gap:8px}
