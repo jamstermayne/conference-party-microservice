@@ -26,3 +26,33 @@
 #main *{
   color-scheme: dark;
 }
+
+/* ===== Layout guardrails (loaded last) ===== */
+.app{                 /* the container that wraps sidebar + main */
+  display:flex !important;
+  height:100vh !important;
+}
+
+#sidebar{
+  flex:0 0 280px !important;   /* fixed column */
+  width:280px !important;
+  position:sticky !important;
+  top:0 !important;
+  height:100vh !important;
+  overflow-y:auto !important;
+  z-index:2;
+}
+
+#main{
+  flex:1 1 auto !important;    /* take remaining width */
+  min-width:0 !important;       /* critical: lets flex child actually shrink instead of overflowing */
+  height:100vh !important;
+  overflow-y:auto !important;
+  position:relative;
+  z-index:1;
+}
+
+/* Remove any decorative vertical rail that might overlay the main column */
+.left-accent, .app::before, .app::after{
+  display:none !important;
+}
