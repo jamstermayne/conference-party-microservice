@@ -1,3 +1,2 @@
-import * as functions from "firebase-functions";
-export declare const apiFn: functions.https.HttpsFunction;
+export declare const apiFn: import("firebase-functions/v2/https").HttpsFunction;
 //# sourceMappingURL=index.d.ts.map

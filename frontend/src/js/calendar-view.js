@@ -5,6 +5,10 @@
  * - Absolute-positioned .vcard events with overlap lanes
  * - "Now" line on Today
  */
+import { buildICS, downloadICS, outlookDeeplink } from "./services/ics.js?v=b035";
+import * as M2M from "./services/m2m.js?v=b035";
+import { openM2MModal } from "./ui/m2m-modal.js?v=b035";
+import { toast } from "./ui/toast.js?v=b035";
 const HOUR_H = () => parseFloat(getComputedStyle(document.documentElement)
   .getPropertyValue('--hour-height')) || 240;
 
@@ -123,6 +127,12 @@ function nowTopPx() {
 /** Render entry */
 export async function renderCalendar(mount){
   if(!mount) return;
+  
+  // fetch MeetToMatch events
+  let m2m = { events: [], connected: false };
+  try { 
+    m2m = await M2M.events({}); 
+  } catch(e) {}
 
   mount.innerHTML = `
     <section class="calendar-screen">
@@ -130,6 +140,7 @@ export async function renderCalendar(mount){
         <button class="vbtn primary" data-nav="today">Today</button>
         <button class="vbtn" data-nav="tomorrow">Tomorrow</button>
         <button class="vbtn" data-nav="week">This week</button>
+        <button class="vbtn" data-m2m-connect>${m2m.connected ? "MeetToMatch ✓" : "Connect MeetToMatch"}</button>
       </div>
 
       <div class="cal-grid">
@@ -141,8 +152,19 @@ export async function renderCalendar(mount){
   `;
 
   const layer = mount.querySelector('#cal-events');
-  const blocks = layoutEvents(today);
+  // Merge local events with M2M events
+  const allEvents = [...today, ...(m2m.events||[])];
+  const blocks = layoutEvents(allEvents);
   layer.innerHTML = blocks.map(b => b.html).join('');
+
+  // M2M Connect button handler
+  mount.querySelector("[data-m2m-connect]")?.addEventListener("click", ()=>{
+    if (m2m.connected){ 
+      toast("MeetToMatch already connected"); 
+      return; 
+    }
+    openM2MModal();
+  });
 
   // Handlers (stubs; wire to real hooks later)
   layer.addEventListener('click', e => {

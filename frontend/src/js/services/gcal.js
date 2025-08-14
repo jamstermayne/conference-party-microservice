@@ -4,13 +4,20 @@ const BASE = '/api/googleCalendar';
 export const GCal = {
   isConnected: async () => {
     const r = await fetch(`${BASE}/status`, { credentials: 'include' });
-    return r.ok;
+    if (!r.ok) return false;  // Never throws; UI can render CTA
+    const j = await r.json().catch(() => ({connected: false}));
+    return !!j.connected;
   },
   startOAuth: () => {
     location.assign(`${BASE}/google/start`);
   },
   listEvents: async (range = 'today') => {
-    const r = await fetch(`${BASE}/events?range=${encodeURIComponent(range)}`, { credentials: 'include' });
+    const r = await fetch(`${BASE}/events?range=${encodeURIComponent(range)}`, { 
+      credentials: 'include',
+      headers: { 'Accept': 'application/json' }
+    });
+    // Return empty array for auth errors instead of throwing
+    if (r.status === 401 || r.status === 403) return [];
     if (!r.ok) throw new Error('events_failed');
     return r.json();
   },
@@ -18,7 +25,7 @@ export const GCal = {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const r = await fetch(`${BASE}/create`, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({
         summary: party.title,
@@ -29,7 +36,13 @@ export const GCal = {
         privateKey: { partyId: party.id } // for idempotency
       })
     });
-    if (!r.ok) throw new Error('create_failed');
+    if (!r.ok) {
+      // Surface a clean message instead of throwing raw 403
+      const msg = r.status === 401 || r.status === 403
+        ? 'Connect Google Calendar to add events'
+        : `Calendar error (${r.status})`;
+      throw new Error(msg);
+    }
     return r.json();
   }
 };

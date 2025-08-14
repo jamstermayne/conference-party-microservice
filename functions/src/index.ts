@@ -1,9 +1,16 @@
-import * as functions from "firebase-functions";
+import {onRequest} from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
 import express, {Request, Response} from "express";
 import cors from "cors";
 import {getHotspots} from "./hotspots";
 import {googleCalendarRouter} from "./googleCalendar/router";
+import {
+  googleStatus, googleStart, googleCallback,
+  googleCalendarEvents, googleCalendarCreate,
+  googlePeopleSearch, googleGmailDraft, googleGmailDraftIcs
+} from "./google";
+import { m2mVerify, m2mSubscribe, m2mEvents } from "./m2m";
+import m2mRouter from "./routes/m2m";
 const invitesRouter = require("../routes/invites");
 const adminRouter = require("../routes/admin");
 
@@ -28,6 +35,24 @@ app.use(express.json());
 app.use("/api/invites", invitesRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/googleCalendar", googleCalendarRouter);
+
+// Additional Google API endpoints
+app.get("/api/google/status", (req, res) => googleStatus(req as any, res as any));
+app.get("/api/google/start", (req, res) => googleStart(req as any, res as any));
+app.get("/api/google/callback", (req, res) => googleCallback(req as any, res as any));
+app.get("/api/google/calendar/events", (req, res) => googleCalendarEvents(req as any, res as any));
+app.post("/api/google/calendar/create", (req, res) => googleCalendarCreate(req as any, res as any));
+app.get("/api/google/people/search", (req, res) => googlePeopleSearch(req as any, res as any));
+app.post("/api/google/gmail/draft", (req, res) => googleGmailDraft(req as any, res as any));
+app.post("/api/google/gmail/draft-ics", (req, res) => googleGmailDraftIcs(req as any, res as any));
+
+// MeetToMatch (ICS) - Router version
+app.use("/api/m2m", m2mRouter);
+
+// Legacy M2M endpoints (kept for compatibility)
+app.post("/api/m2m/verify", (req, res) => m2mVerify(req as any, res as any));
+app.post("/api/m2m/subscribe", (req, res) => m2mSubscribe(req as any, res as any));
+app.get("/api/m2m/events", (req, res) => m2mEvents(req as any, res as any));
 
 const FALLBACK_EVENTS: EventData[] = [
   {
@@ -112,4 +137,9 @@ app.post("/api/metrics", (req, res) => {
   res.status(204).send(); // No Content
 });
 
-export const apiFn = functions.https.onRequest(app);
+// Use v2 functions with public invoker for unauthenticated access
+export const apiFn = onRequest({
+  cors: true,
+  invoker: "public",
+  maxInstances: 10,
+}, app);

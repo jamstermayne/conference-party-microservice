@@ -20,3 +20,19 @@
 .vactions{ display:flex; gap:8px }
 .vbtn{ padding:8px 12px; font-weight:700; border-radius:12px; border:1px solid #2b2f45; background:#202a44; color:#dee9ff }
 .vbtn.primary{ background:linear-gradient(180deg,#8c7aff 0%,#5b47ff 100%); border:0; color:#fff }
+
+/* M2M additions (tiny, scoped) */
+.vpill.m2m { border-color:#3c2f6e; background:#151235; color:#cbd7ff }
+.vspinner { display:inline-block; width:16px; height:16px; border-radius:50%;
+  border:2px solid rgba(255,255,255,.25); border-top-color:#fff; animation:vspin .7s linear infinite; }
+@keyframes vspin { to { transform: rotate(360deg); } }
+
+/* Modal — lightweight, isolated */
+.vmodal{ position:fixed; inset:0; display:grid; place-items:center; background:rgba(6,10,20,.55); z-index: 9999; }
+.vmodal__panel{ width:min(520px, 92vw); background:#0f1625; border:1px solid #20263a; border-radius:16px; padding:16px; }
+.vmodal__title{ margin:0 0 6px 0; color:#eaf0ff; font-weight:800; }
+.vmodal__desc{ margin:0 0 10px 0; color:#9aa7bf; }
+.vmodal__row{ margin:10px 0; }
+.vmodal__panel input[type="url"]{ width:100%; padding:10px; border-radius:10px; border:1px solid #2b2f45; background:#0b1220; color:#eaf0ff; }
+.vmodal__msg{ margin-top:8px; min-height:18px; font-size:13px; }
+.vmodal__close{ position:absolute; right:18px; top:10px; background:transparent; border:0; color:#9aa7bf; font-size:22px; cursor:pointer }
