@@ -1,6 +1,7 @@
 import { GCal } from './services/gcal.js?v=b034';
 import { buildICS, downloadICS, outlookDeeplink } from './services/ics.js?v=b034';
 import { draftICS } from './services/ggmail-ics.js?v=b034';
+import { listEvents as m2mEvents } from '/js/services/m2m.js?v=b034';
 import { mountM2MControls, mergeAndDedup } from '/js/m2m-hooks.js?v=b034';
 
 export async function renderCalendar(mount){
@@ -33,12 +34,26 @@ export async function renderCalendar(mount){
     const el = panel.querySelector('#agenda');
     el.setAttribute('aria-busy','true');
     try {
-      const events = await GCal.listEvents(range);
+      // Fetch events from all sources
+      const googleEvents = await GCal.listEvents(range);
+      
+      // Fetch M2M events
+      let m2m = [];
+      try { 
+        const r = await m2mEvents(); 
+        m2m = r.connected ? r.events : []; 
+      } catch {}
+      
+      // Merge and deduplicate
+      const events = mergeAndDedup(googleEvents, m2m);
+      
       el.innerHTML = events.map(ev => `
         <article class="vcard">
           <div class="vcard__head">
-            <div class="vcard__title">${ev.summary}</div>
-            <div class="vcard__badges"><span class="vpill">calendar</span></div>
+            <div class="vcard__title">${ev.summary || ev.title}</div>
+            <div class="vcard__badges">
+              <span class="vpill ${ev.source === 'm2m' ? 'm2m' : ''}">${ev.source === 'm2m' ? 'MeetToMatch' : 'calendar'}</span>
+            </div>
           </div>
           <div class="vmeta">📍 ${ev.location||'—'} • 🕒 ${ev.start}–${ev.end}</div>
           <div class="vactions">
