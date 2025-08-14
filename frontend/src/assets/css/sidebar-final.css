@@ -1,0 +1,39 @@
+/* Layout: rail = content width, main = fill */
+.app{
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) !important; /* ← key */
+  column-gap: 0 !important;
+}
+
+/* Sidebar should size to its contents and never wrap */
+aside.sidebar,
+[data-role="sidebar"],
+#sidebar{
+  width: max-content !important;
+  min-width: max-content !important;
+  white-space: nowrap !important;
+}
+
+/* Base nav item */
+.sidebar .nav a,
+.sidebar [data-route]{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: #cfe0ff;
+  text-decoration: none;
+}
+
+/* Active accent (revives the "glow pill") */
+.sidebar .nav a.active,
+.sidebar [data-route].active{
+  background:
+    radial-gradient(120% 120% at -20% -40%, rgba(139,129,255,.25) 0%, rgba(22,26,45,.0) 65%),
+    linear-gradient(180deg, rgba(139,129,255,.15), rgba(84,74,255,.12));
+  box-shadow:
+    0 0 0 1px rgba(110,130,255,.28),
+    0 8px 24px rgba(0,0,0,.35);
+  color: #eef2ff;
+}
