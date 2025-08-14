@@ -3,6 +3,10 @@ module.exports = {
   testEnvironment: "node",
   extensionsToTreatAsEsm: [".ts"],
   roots: ["<rootDir>/src", "<rootDir>/tests", "<rootDir>/routes", "<rootDir>/lib"],
+  moduleNameMapper: {
+    "^../lib/(.*)$": "<rootDir>/lib/$1",
+    "^../routes/(.*)$": "<rootDir>/routes/$1"
+  },
   testMatch: [
     "**/__tests__/**/*.+(ts|tsx|js)",
     "**/*.(test|spec).+(ts|tsx|js)",
