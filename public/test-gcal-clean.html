@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean GCal Integration Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 { color: #333; }
+    .status {
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      font-weight: 500;
+    }
+    .connected { background: #e8f5e9; color: #2e7d32; }
+    .disconnected { background: #ffebee; color: #c62828; }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      background: #4285f4;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover { background: #357ae8; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .secondary { background: #757575; }
+    .secondary:hover { background: #616161; }
+    .log {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .event-form {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+    .event-form input {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🗓️ Clean GCal Integration</h1>
+    
+    <div id="status" class="status disconnected">
+      Checking connection...
+    </div>
+    
+    <div>
+      <button onclick="checkStatus()">Check Status</button>
+      <button onclick="connectCalendar()">Connect Calendar</button>
+      <button onclick="disconnectCalendar()" class="secondary">Disconnect</button>
+    </div>
+    
+    <div class="event-form">
+      <h3>Test Event Creation</h3>
+      <input type="text" id="title" placeholder="Event title" value="Test Meeting">
+      <input type="text" id="location" placeholder="Location" value="Conference Room A">
+      <input type="datetime-local" id="start" value="">
+      <input type="datetime-local" id="end" value="">
+      <button onclick="createTestEvent()">Create Event</button>
+    </div>
+    
+    <div>
+      <button onclick="testEnsureConnected()">Test ensureConnected()</button>
+      <button onclick="listMyEvents()">List Events</button>
+      <button onclick="getUserInfo()">Get User Info</button>
+    </div>
+    
+    <div class="log" id="log">Log output will appear here...</div>
+  </div>
+
+  <script type="module">
+    import * as gcal from './js/services/gcal-clean.js';
+    
+    // Make functions available globally for onclick handlers
+    window.gcal = gcal;
+    
+    function log(msg, data) {
+      const logEl = document.getElementById('log');
+      const time = new Date().toLocaleTimeString();
+      let entry = `[${time}] ${msg}`;
+      if (data) entry += '\n' + JSON.stringify(data, null, 2);
+      logEl.textContent = entry + '\n' + logEl.textContent;
+    }
+    
+    window.checkStatus = async function() {
+      try {
+        log('Checking status...');
+        const status = await gcal.status();
+        log('Status:', status);
+        updateUI(status.connected);
+      } catch (err) {
+        log('Status check failed:', err.message);
+      }
+    };
+    
+    window.connectCalendar = async function() {
+      try {
+        log('Starting OAuth flow...');
+        const connected = await gcal.ensureConnected();
+        log('Connection result:', connected);
+        if (connected) {
+          updateUI(true);
+          log('✅ Successfully connected!');
+        } else {
+          log('❌ Connection failed');
+        }
+      } catch (err) {
+        log('Connection error:', err.message);
+      }
+    };
+    
+    window.disconnectCalendar = async function() {
+      try {
+        log('Disconnecting...');
+        await gcal.disconnect();
+        log('Disconnected');
+        updateUI(false);
+      } catch (err) {
+        log('Disconnect error:', err.message);
+      }
+    };
+    
+    window.createTestEvent = async function() {
+      try {
+        const title = document.getElementById('title').value;
+        const location = document.getElementById('location').value;
+        const start = document.getElementById('start').value;
+        const end = document.getElementById('end').value;
+        
+        if (!title || !start || !end) {
+          log('Please fill in all fields');
+          return;
+        }
+        
+        log('Creating event...');
+        const result = await gcal.createEvent({
+          summary: title,
+          location: location,
+          start: new Date(start).toISOString(),
+          end: new Date(end).toISOString(),
+          description: 'Test event created via Clean GCal API'
+        });
+        log('Event created:', result);
+      } catch (err) {
+        log('Create event failed:', err.message);
+      }
+    };
+    
+    window.testEnsureConnected = async function() {
+      try {
+        log('Testing ensureConnected()...');
+        const connected = await gcal.ensureConnected();
+        log('ensureConnected result:', connected);
+      } catch (err) {
+        log('ensureConnected error:', err.message);
+      }
+    };
+    
+    window.listMyEvents = async function() {
+      try {
+        log('Listing events...');
+        const events = await gcal.listEvents('week');
+        log(`Found ${events.length} events:`, events);
+      } catch (err) {
+        log('List events error:', err.message);
+      }
+    };
+    
+    window.getUserInfo = async function() {
+      try {
+        log('Getting user info...');
+        const user = await gcal.getUser();
+        log('User info:', user);
+      } catch (err) {
+        log('Get user error:', err.message);
+      }
+    };
+    
+    function updateUI(connected) {
+      const statusEl = document.getElementById('status');
+      if (connected) {
+        statusEl.className = 'status connected';
+        statusEl.textContent = '✅ Google Calendar connected';
+      } else {
+        statusEl.className = 'status disconnected';
+        statusEl.textContent = '❌ Google Calendar not connected';
+      }
+    }
+    
+    // Set default datetime values
+    const now = new Date();
+    const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    tomorrow.setHours(14, 0, 0, 0);
+    const tomorrowEnd = new Date(tomorrow.getTime() + 60 * 60 * 1000);
+    
+    document.getElementById('start').value = tomorrow.toISOString().slice(0, 16);
+    document.getElementById('end').value = tomorrowEnd.toISOString().slice(0, 16);
+    
+    // Initial status check
+    checkStatus();
+    log('Clean GCal API loaded. Ready for testing.');
+  </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 // views/calendar-providers.js
-import { isConnected, startOAuth, disconnect } from '../services/gcal.js';
+import { isConnected, startOAuth, disconnect } from '../services/gcal-clean.js';
 import { createIcsFileForNextEvent } from '../services/ics.js';
 
 export async function renderCalendar(mount){
