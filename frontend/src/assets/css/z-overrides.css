@@ -36,3 +36,28 @@ aside.sidebar .nav, aside.sidebar ul{
   color:#eef2ff!important;
   border-radius:16px;
 }
+/* --- Sidebar rail lock (authoritative) --- */
+:root { --rail-max: 260px; }
+
+.app, .app-layout {
+  display: grid !important;
+  /* First track hugs content but never exceeds --rail-max */
+  grid-template-columns: fit-content(var(--rail-max)) minmax(0, 1fr) !important;
+  column-gap: 0 !important;
+}
+
+aside.sidebar, [data-role="sidebar"], #sidebar {
+  /* Let content define width, cap at rail-max, prevent wrap-induced growth */
+  width: auto !important;
+  max-width: var(--rail-max) !important;
+  white-space: nowrap !important;
+  overflow: hidden;  /* clip accidental long text */
+  text-overflow: ellipsis;
+}
+
+/* Ensure main can actually shrink and scroll */
+#main {
+  min-width: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
