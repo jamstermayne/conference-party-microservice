@@ -1,0 +1,33 @@
+/* ===== App grid shell ===== */
+:root{
+  --rail-cap: 280px;      /* max sidebar width */
+  --rail-gap: 0px;        /* column gap */
+}
+
+/* The two-column layout: rail auto-sizes to content (capped), main fills */
+.app{
+  display: grid !important;
+  grid-template-columns: fit-content(var(--rail-cap)) minmax(0,1fr) !important;
+  column-gap: var(--rail-gap) !important;
+  height: 100vh !important;
+}
+
+/* Sidebar: do NOT force a width; let the grid track size it */
+aside.sidebar,
+[data-role="sidebar"]{
+  position: sticky !important;
+  top: 0 !important;
+  height: 100vh !important;
+  transform: none !important;
+  /* remove any width/max-content lines you may have added before */
+}
+
+/* Main must scroll and be allowed to shrink */
+#main{
+  position: relative !important;
+  min-width: 0 !important;
+  height: 100vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  z-index: 0 !important;
+}

@@ -85,7 +85,8 @@ aside.sidebar button{
 }
 
 /* Safety: prevent any old rule from stretching the rail */
-.app > aside { width: max-content !important; }
+/* REMOVED: width: max-content was causing sidebar width issues */
+/* Let grid-template-columns handle the sizing naturally */
 
 /* Reassert main scroll (safety) */
 #main{
