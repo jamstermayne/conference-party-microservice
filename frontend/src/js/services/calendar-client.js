@@ -51,5 +51,21 @@ async function connectGoogle(){
   } catch(e){ console.warn(e); alert('Could not start Google connect.'); }
 }
 
+function dayBounds(d=new Date()) {
+  const s = new Date(d); s.setHours(8,0,0,0);
+  const e = new Date(d); e.setHours(22,0,0,0);
+  return { from: s.toISOString(), to: e.toISOString() };
+}
+
+async function loadUserEvents(){
+  try {
+    const { from, to } = dayBounds();
+    const { connected, events } = await authed(`https://us-central1-conference-party-app.cloudfunctions.net/api/calendar/events?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`);
+    return { connected, events };
+  } catch(e){ if (e.status===401) return { connected:false, events:[] }; return { connected:false, events:[] }; }
+}
+
 window.CalendarClient = CalendarClient;
 window.connectGoogle = connectGoogle;
+window.dayBounds = dayBounds;
+window.loadUserEvents = loadUserEvents;
