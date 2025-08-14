@@ -1,7 +1,6 @@
 /* App Shell: sidebar + main (Slack-ish) */
 .app {
-  display: grid;
-  grid-template-columns: 280px 1fr;   /* sidebar | main */
+  display: grid;   /* sidebar | main */
   grid-template-rows: 1fr;
   min-height: 100vh;
   background: var(--bg-primary);

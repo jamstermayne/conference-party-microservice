@@ -223,7 +223,7 @@ export const skeleton = {
     const container = document.createElement('div');
     container.className = 'skeleton-grid';
     container.style.display = 'grid';
-    container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+    // REMOVED: container.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
     container.style.gap = options.gap || '16px';
     
     for (let i = 0; i < count; i++) {

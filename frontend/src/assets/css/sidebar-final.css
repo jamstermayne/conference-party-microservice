@@ -3,7 +3,6 @@
 .app{
   display: grid;
   grid-template-areas: "side main";
-  grid-template-columns: fit-content(var(--rail-max)) minmax(0, 1fr) !important;
   column-gap: 0 !important;
 }
 

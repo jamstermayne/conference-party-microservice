@@ -7,7 +7,6 @@
 /* The two-column layout: rail auto-sizes to content (capped), main fills */
 .app{
   display: grid !important;
-  grid-template-columns: fit-content(var(--rail-cap)) minmax(0,1fr) !important;
   column-gap: var(--rail-gap) !important;
   height: 100vh !important;
 }

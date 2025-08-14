@@ -1,88 +1,38 @@
-:root{  }
-body .app, #app.app, .app{
-  display:grid !important;
-  grid-template-columns: fit-content(var(--rail-max, 260px)) minmax(0,1fr) !important; /* natural sizing */
-  grid-auto-rows:auto !important;
-  height:100vh !important;
-  gap:0 !important;
-  column-gap:0 !important;
-  padding:0 !important;
-  margin:0 !important;
-  box-sizing:border-box !important;
-}
-/* Natural sizing: let sidebar size to its content */
-body .app > aside.sidebar,
-body #app > aside.sidebar,
-.app > aside.sidebar {
-  grid-column:1 / span 1 !important;
-  /* width handled by sidebar-final.css */
-  margin:0 !important;
-  padding:18px 16px !important; /* restore natural padding */
-  border:0 !important;
-  box-sizing:border-box !important;
-  transform:none !important;
-  position:sticky !important;
-  top:0 !important;
-  height:100vh !important;
-}
-/* Main column: starts after naturally-sized sidebar */
-body #main,
-#app #main,
-main#main {
-  grid-column:2 / span 1 !important;
-  margin:0 !important;           /* kill any framework margins */
-  left:0 !important;             /* kill stray left offsets */
-  right:auto !important;
-  transform:none !important;     /* kill translateX shifts */
-  padding:0 !important;
-  min-width:0 !important;
-  height:100vh !important;
-  overflow-y:auto !important;
-  overflow-x:hidden !important;
-  position:relative !important;
-  z-index:0 !important;
-  width:auto !important;
-  max-width:none !important;
+:root{ --rail-max:260px; }
+
+/* Canonical app grid: rail is content-sized up to 260px; main fills the rest */
+.app, .app-layout{
+  display:grid;
+  grid-template-columns: fit-content(var(--rail-max)) minmax(0,1fr);
+  column-gap: 0;
+  min-height:100vh;
 }
 
-/* Neutralize any full-viewport masks that may be sitting on top */
-.modal-backdrop,.overlay,.veil,.scrim,[data-overlay],[data-backdrop]{
-  display:none !important;
-  pointer-events:none !important;
+/* Sidebar rail: no wrapping => labels don't widen the rail */
+aside.sidebar, [data-role="sidebar"], #sidebar{
+  max-width: var(--rail-max);
+  width:auto;
+  min-width:0;
+  white-space:nowrap;
+  overflow:hidden;
 }
 
-/* Remove legacy left gutters inside main */
-#main .container,#main .content,#main .page,#main .panel,#main .wrap{
-  margin-left:0 !important;
-  padding-left:0 !important;
-  max-width:100% !important;
+/* Stack links neatly; never introduce columns */
+aside.sidebar .nav, aside.sidebar ul{
+  display:flex; flex-direction:column; gap:.5rem;
 }
 
-/* Keep hero cards full-width within main track */
-#main .vcard{ width:100% !important; }
+/* Main column: shrink-safe and scrollable */
+#main{ min-width:0; overflow-y:auto; }
 
-/* --- Sidebar shrinkwrap & nav items --- */
-/* REMOVED: These rules were conflicting with sidebar-final.css */
-/* The sidebar sizing is now handled by grid-template-columns and sidebar-final.css */
-
-/* Nav items should not force full-width tracks */
-aside.sidebar a,
-aside.sidebar .nav,
-aside.sidebar .channel,
-aside.sidebar li,
-aside.sidebar button{
-  display: inline-flex !important;
-  width: auto !important;
-  white-space: nowrap;                 /* keep the pill look */
-}
-
-/* Safety: prevent any old rule from stretching the rail */
-/* REMOVED: width: max-content was causing sidebar width issues */
-/* Let grid-template-columns handle the sizing naturally */
-
-/* Reassert main scroll (safety) */
-#main{
-  min-width: 0 !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+/* Active channel accent (revives the pill look) */
+.sidebar [data-route].active,
+.sidebar .nav a.active,
+.sidebar a[aria-current="page"]{
+  background:
+    radial-gradient(120% 120% at -20% -40%, rgba(139,129,255,.25) 0, rgba(22,26,45,0) 65%),
+    linear-gradient(180deg, rgba(139,129,255,.18), rgba(84,74,255,.12));
+  box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 8px 24px rgba(0,0,0,.35);
+  color:#eef2ff!important;
+  border-radius:16px;
 }

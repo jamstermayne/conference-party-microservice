@@ -7,8 +7,18 @@ const invitesRouter = require("../routes/invites");
 const adminRouter = require("../routes/admin");
 export { api as googleCalendar } from './calendar/google';
 
+interface EventData {
+  id: string;
+  title: string;
+  venue: string;
+  date: string;
+  time: string;
+  price: string;
+  source: string;
+}
+
 try {admin.initializeApp();} catch (error) {
-  console.log("Firebase admin already initialized:", error);
+  // Firebase admin already initialized - this is expected in some environments
 }
 
 const db = admin.firestore?.();
@@ -18,7 +28,7 @@ app.use(express.json());
 app.use("/api/invites", invitesRouter);
 app.use("/api/admin", adminRouter);
 
-const FALLBACK_EVENTS = [
+const FALLBACK_EVENTS: EventData[] = [
   {
     id: "meettomatch-the-cologne-edition-2025",
     title: "MeetToMatch The Cologne Edition 2025",
@@ -57,14 +67,14 @@ app.get("/api/health", (_req: Request, res: Response) => {
 
 app.get("/api/parties", async (_req: Request, res: Response) => {
   try {
-    let data: any[] = [];
+    let data: EventData[] = [];
     if (db) {
       const snap = await db.collection("events").limit(100).get();
-      data = snap.docs.map((d) => ({id: d.id, ...d.data()}));
+      data = snap.docs.map((d) => ({id: d.id, ...d.data()} as EventData));
     }
     if (!data?.length) data = FALLBACK_EVENTS;
     res.status(200).json({success: true, data});
-  } catch {
+  } catch (error) {
     res.status(200).json({success: true, data: FALLBACK_EVENTS, note: "fallback_due_to_error"});
   }
 });
