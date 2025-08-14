@@ -2,7 +2,7 @@
  * Calendar View with Google Calendar Integration
  * Handles both connected and disconnected states
  */
-import GCal from './services/gcal.js?v=b030';
+import GCal from './services/gcal-lite.js?v=b030';
 
 const HOUR_H = () => parseFloat(getComputedStyle(document.documentElement)
   .getPropertyValue('--hour-height')) || 240;
