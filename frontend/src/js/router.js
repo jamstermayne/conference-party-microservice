@@ -1,4 +1,5 @@
 import { ensureShell, setActive } from './shell.js?v=b023';
+import "./gcal-hooks.js?v=b028";
 
 export const ROUTES = ['parties','calendar','map','hotspots','invites','contacts','me','settings'];
 export const currentRoute = () => (location.hash.replace(/^#\/?/, '')||'parties').split('?')[0];

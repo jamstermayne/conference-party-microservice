@@ -3,8 +3,9 @@ import * as admin from "firebase-admin";
 import express, {Request, Response} from "express";
 import cors from "cors";
 import {getHotspots} from "./hotspots";
-const invitesRouter = require("../../routes/invites");
-const adminRouter = require("../../routes/admin");
+const invitesRouter = require("../routes/invites");
+const adminRouter = require("../routes/admin");
+export { api as googleCalendar } from './calendar/google';
 
 try {admin.initializeApp();} catch (error) {
   console.log("Firebase admin already initialized:", error);

@@ -4,8 +4,12 @@ const crypto = require('crypto');
 const checkAuth = require('../lib/checkAuth');
 
 // Initialize admin if not already done
-if (!admin.apps.length) {
-  admin.initializeApp();
+try {
+  if (!admin.apps || !admin.apps.length) {
+    admin.initializeApp();
+  }
+} catch (error) {
+  // Already initialized
 }
 
 const db = admin.firestore();
