@@ -1,35 +1,28 @@
-:root{ --rail-width: 180px; } /* fixed sidebar width */
+:root { --rail-max: 260px; } /* cap, but still content-width */
 
 .app{
   display: grid;
   grid-template-areas: "side main";
-  grid-template-columns: var(--rail-width) minmax(0, 1fr) !important;
+  grid-template-columns: fit-content(var(--rail-max)) minmax(0, 1fr) !important;
   column-gap: 0 !important;
 }
 
+/* Only the real sidebar lives in column 1 */
 aside.sidebar, [data-role="sidebar"], #sidebar{
   grid-area: side;
-  width: var(--rail-width) !important;
-  overflow-x: hidden !important; /* prevent overflow */
-  white-space: nowrap !important; /* no mid-label wrapping */
+  width: max-content !important;
+  min-width: max-content !important;
+  white-space: nowrap !important;
+  justify-self: start !important;
 }
 
-/* Ensure nav doesn't push sidebar wider */
-.sidebar nav,
-.sidebar .nav {
-  width: 100%;
-  max-width: var(--rail-width);
-  overflow-x: hidden;
-}
-
+/* Main content column */
 #main{
   grid-area: main;
-  min-width: 0 !important;  /* prevent squeezing */
+  min-width: 0 !important;   /* prevent squeeze */
 }
 
-/* 🔒 Critical guard:
-   Any other direct child of .app is forced to column 2 (main).
-   This prevents accidental column-1 contributions that bloat the rail. */
+/* Guardrail: ANY other .app child is forced to column 2 */
 .app > :not(aside):not(#main){
   grid-column: 2 !important;
 }
@@ -44,15 +37,10 @@ aside.sidebar, [data-role="sidebar"], #sidebar{
   border-radius: 12px;
   color: #cfe0ff;
   text-decoration: none;
-  width: 100%;
-  max-width: calc(var(--rail-width) - 32px); /* account for sidebar padding */
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
-  box-sizing: border-box;
 }
 
-/* Active "glow pill" */
+/* Pretty active pill like your reference */
 .sidebar [data-route].active,
 .sidebar .nav a.active{
   background:
@@ -60,4 +48,5 @@ aside.sidebar, [data-role="sidebar"], #sidebar{
     linear-gradient(180deg, rgba(139,129,255,.15), rgba(84,74,255,.12));
   box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 8px 24px rgba(0,0,0,.35);
   color: #eef2ff !important;
+  border-radius: 16px;
 }
