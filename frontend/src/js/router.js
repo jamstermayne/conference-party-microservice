@@ -13,7 +13,7 @@ async function go(){
 
   switch(r){
     case 'parties':   (await import('./events-controller.js?v=b029')).renderParties(main); break;
-    case 'calendar':  (await import('./calendar-clean.js?v=b034')).renderCalendar(main); break;
+    case 'calendar':  (await import('./calendar-clean.js?v=b035')).renderCalendar(main); break;
     case 'contacts':  (await import('./contacts-panel.js?v=b029')).renderContacts?.(main); break;
     case 'invites':   (await import('./invite-panel.js?v=b029')).renderInvites?.(main); break;
     case 'map':       (await import('./map-controller.js?v=b029')).renderMap?.(main); break;

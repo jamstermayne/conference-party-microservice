@@ -1,8 +1,10 @@
-import { GCal } from './services/gcal.js?v=b034';
-import { buildICS, downloadICS, outlookDeeplink } from './services/ics.js?v=b034';
-import { draftICS } from './services/ggmail-ics.js?v=b034';
-import { listEvents as m2mEvents } from '/js/services/m2m.js?v=b034';
-import { mountM2MControls, mergeAndDedup } from '/js/m2m-hooks.js?v=b034';
+function badgeForSource(src){ return (src === "m2m") ? '<span class="vpill m2m">M2M</span>' : ""; }
+
+import { GCal } from './services/gcal.js?v=b035';
+import { buildICS, downloadICS, outlookDeeplink } from './services/ics.js?v=b035';
+import { draftICS } from './services/ggmail-ics.js?v=b035';
+import { listEvents as m2mEvents } from '/js/services/m2m.js?v=b035';
+import { mountM2MControls, mergeAndDedup } from '/js/m2m-hooks.js?v=b035';
 
 export async function renderCalendar(mount){
   mount.innerHTML = '';
@@ -48,10 +50,10 @@ export async function renderCalendar(mount){
       const events = mergeAndDedup(googleEvents, m2m);
       
       el.innerHTML = events.map(ev => `
-        <article class="vcard">
+        <article class="vcard" data-source="${ev.source||""}">
           <div class="vcard__head">
             <div class="vcard__title">${ev.summary || ev.title}</div>
-            <div class="vcard__badges">
+            <div class="vcard__badges">${badgeForSource(ev.source)}
               <span class="vpill ${ev.source === 'm2m' ? 'm2m' : ''}">${ev.source === 'm2m' ? 'MeetToMatch' : 'calendar'}</span>
             </div>
           </div>
