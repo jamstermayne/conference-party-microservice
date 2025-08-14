@@ -164,13 +164,7 @@ export const apiFn = onRequest({
 export const api = app;
 
 // Scheduled function to ingest parties every 15 minutes
-export const ingestParties = onSchedule({
-  schedule: "every 15 minutes",
-  timeZone: "UTC",
-  retryCount: 2,
-  maxInstances: 1,
-  memory: "256MiB",
-}, async (_context): Promise<void> => {
+export const ingestParties = onSchedule("every 15 minutes", async (_context): Promise<void> => {
   console.log("[ingestParties] Scheduled ingestion started");
   
   try {
