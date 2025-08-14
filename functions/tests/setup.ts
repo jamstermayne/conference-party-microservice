@@ -3,15 +3,23 @@
  */
 
 // Mock the problematic routers before they're imported
-jest.mock("../routes/invites", () => ({
-  __esModule: true,
-  default: require("express").Router()
-}));
+jest.mock("../routes/invites", () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, new-cap
+  const router = require("express").Router();
+  return {
+    __esModule: true,
+    default: router
+  };
+});
 
-jest.mock("../routes/admin", () => ({
-  __esModule: true,
-  default: require("express").Router()
-}));
+jest.mock("../routes/admin", () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, new-cap
+  const router = require("express").Router();
+  return {
+    __esModule: true,
+    default: router
+  };
+});
 
 // Load test environment variables
 // eslint-disable-next-line @typescript-eslint/no-var-requires
