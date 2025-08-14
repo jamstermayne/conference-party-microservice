@@ -77,6 +77,7 @@ async function fetchICS(url: string, cache?: CacheMeta) {
   return { ok:true, text, etag, lastModified: lm };
 }
 
+// eslint-disable-next-line new-cap
 const router = express.Router();
 
 // POST /api/m2m/verify  { url }

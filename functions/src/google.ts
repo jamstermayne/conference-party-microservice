@@ -12,7 +12,8 @@ function userId(req: any): string {
 function oauthFor(uid: string) {
   const CLIENT_ID = process.env['GOOGLE_CLIENT_ID'] || '';
   const CLIENT_SECRET = process.env['GOOGLE_CLIENT_SECRET'] || '';
-  const REDIRECT_URI = process.env['OAUTH_REDIRECT'] || 'https://us-central1-conference-party-app.cloudfunctions.net/api/google/callback';
+  const REDIRECT_URI = process.env['OAUTH_REDIRECT'] || 
+    'https://us-central1-conference-party-app.cloudfunctions.net/api/google/callback';
   
   const client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
   

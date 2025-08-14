@@ -13,7 +13,9 @@ import {
 } from "./google";
 import { m2mVerify, m2mSubscribe, m2mEvents } from "./m2m";
 import m2mRouter from "./routes/m2m";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const invitesRouter = require("../routes/invites");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const adminRouter = require("../routes/admin");
 
 interface EventData {

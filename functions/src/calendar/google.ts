@@ -12,7 +12,8 @@ try {
   // Already initialized
 }
 
-const OAUTH_REDIRECT = process.env['OAUTH_REDIRECT'] || 'https://us-central1-conference-party-app.cloudfunctions.net/api/calendar/google/callback';
+const OAUTH_REDIRECT = process.env['OAUTH_REDIRECT'] || 
+  'https://us-central1-conference-party-app.cloudfunctions.net/api/calendar/google/callback';
 const CLIENT_ID = process.env['GOOGLE_CLIENT_ID'] || '';
 const CLIENT_SECRET = process.env['GOOGLE_CLIENT_SECRET'] || '';
 const SCOPES = ['https://www.googleapis.com/auth/calendar.events','https://www.googleapis.com/auth/calendar.readonly'];

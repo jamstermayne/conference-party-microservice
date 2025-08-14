@@ -3,6 +3,7 @@ import { google } from 'googleapis';
 import { ensureSession, saveTokens, loadTokens, clearTokens } from '../lib/session';
 import { createState, consumeState } from '../lib/oauthState';
 
+// eslint-disable-next-line new-cap
 const router = Router();
 
 // at top of the file (or near other constants)
@@ -60,7 +61,7 @@ router.get('/googleCalendar/status', async (req: any, res: any) => {
 
 router.get('/googleCalendar/google/start', async (req: any, res: any) => {
   const state = await createState(); // one-time, stored server-side
-  const redirect_uri = `${baseUrl(req)}/api/googleCalendar/google/callback`;
+  const redirectUri = `${baseUrl(req)}/api/googleCalendar/google/callback`;
 
   const client = oauthClient();
   const url = client.generateAuthUrl({
@@ -72,7 +73,7 @@ router.get('/googleCalendar/google/start', async (req: any, res: any) => {
       'https://www.googleapis.com/auth/userinfo.profile',
     ],
     state,
-    redirect_uri,
+    redirect_uri: redirectUri,
   });
 
   // no CSRF cookie needed anymore
@@ -147,9 +148,9 @@ router.get('/googleCalendar/google/callback', async (req: any, res: any) => {
 </html>`);
   }
 
-  const redirect_uri = `${baseUrl(req)}/api/googleCalendar/google/callback`;
+  const redirectUri = `${baseUrl(req)}/api/googleCalendar/google/callback`;
   const client = oauthClient();
-  const { tokens } = await client.getToken({ code, redirect_uri });
+  const { tokens } = await client.getToken({ code, redirect_uri: redirectUri });
 
   // Get user info and persist tokens
   const sid = ensureSession(req, res);
@@ -217,12 +218,13 @@ router.get('/googleCalendar/events', async (req: any, res: any) => {
     let timeMax;
 
     switch (range) {
-      case 'today':
+      case 'today': {
         const endOfDay = new Date(now);
         endOfDay.setHours(23, 59, 59, 999);
         timeMax = endOfDay.toISOString();
         break;
-      case 'tomorrow':
+      }
+      case 'tomorrow': {
         const tomorrow = new Date(now);
         tomorrow.setDate(tomorrow.getDate() + 1);
         tomorrow.setHours(0, 0, 0, 0);
@@ -231,12 +233,14 @@ router.get('/googleCalendar/events', async (req: any, res: any) => {
         endOfTomorrow.setHours(23, 59, 59, 999);
         timeMax = endOfTomorrow.toISOString();
         break;
+      }
       case 'week':
-      default:
+      default: {
         const weekEnd = new Date(now);
         weekEnd.setDate(weekEnd.getDate() + 7);
         timeMax = weekEnd.toISOString();
         break;
+      }
     }
 
     const response = await calendar.events.list({
