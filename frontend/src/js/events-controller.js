@@ -50,3 +50,9 @@ export async function renderParties(mount){
   }).join("");
 }
 export default { renderParties };
+function normalizeSource(ev){
+  if(ev.source) return ev;
+  const link=(ev.url||ev.link||"").toLowerCase();
+  ev.source = /meet.?to.?match|meettomatch|m2m/.test(link) ? "m2m" : (ev.source||"");
+  return ev;
+}

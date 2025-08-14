@@ -1,10 +1,10 @@
 function badgeForSource(src){ return (src === "m2m") ? '<span class="vpill m2m">M2M</span>' : ""; }
 
-import { GCal } from './services/gcal.js?v=b035';
-import { buildICS, downloadICS, outlookDeeplink } from './services/ics.js?v=b035';
-import { draftICS } from './services/ggmail-ics.js?v=b035';
-import { listEvents as m2mEvents } from '/js/services/m2m.js?v=b035';
-import { mountM2MControls, mergeAndDedup } from '/js/m2m-hooks.js?v=b035';
+import { GCal } from './services/gcal.js?v=b036';
+import { buildICS, downloadICS, outlookDeeplink } from './services/ics.js?v=b036';
+import { draftICS } from './services/ggmail-ics.js?v=b036';
+import { listEvents as m2mEvents } from '/js/services/m2m.js?v=b036';
+import { mountM2MControls, mergeAndDedup } from '/js/m2m-hooks.js?v=b036';
 
 export async function renderCalendar(mount){
   mount.innerHTML = '';
