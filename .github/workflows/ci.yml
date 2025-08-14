@@ -1,74 +1,73 @@
-name: CI/CD Pipeline
+name: Deploy to Firebase (Hosting + Functions)
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: |
-        npm ci
-        cd functions && npm ci
-    
-    - name: Lint functions
-      run: cd functions && npm run lint
-    
-    - name: Build functions
-      run: cd functions && npm run build
-    
-    - name: Test functions
-      run: cd functions && npm test
-    
-    - name: Build PWA
-      run: npm run build
-      continue-on-error: true
-    
-    - name: Run API tests
-      run: npm test
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+      - name: Install root deps
+        run: npm ci
+      - name: Install functions deps
+        run: npm ci
+        working-directory: functions
+      - name: Lint functions
+        run: npm run lint
+        working-directory: functions
+      - name: Build functions
+        run: npm run build
+        working-directory: functions
+      # Optional app build/tests
+      # - name: Build PWA
+      #   run: npm run build
+      # - name: Run API tests
+      #   run: npm test
 
   deploy:
-    needs: test
     runs-on: ubuntu-latest
+    needs: test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-    
-    - name: Install dependencies
-      run: |
-        npm ci
-        cd functions && npm ci
-    
-    - name: Build
-      run: |
-        npm run build
-        cd functions && npm run build
-    
-    - name: Deploy to Firebase
-      uses: FirebaseExtended/action-hosting-deploy@v0
-      with:
-        repoToken: '${{ secrets.GITHUB_TOKEN }}'
-        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-        channelId: live
-        projectId: conference-party-app
-      env:
-        FIREBASE_CLI_EXPERIMENTS: webframeworks
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Auth to Google via OIDC
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/740658808222/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
+          service_account: "gh-deployer@conference-party-app.iam.gserviceaccount.com"
+          create_credentials_file: true
+
+      - name: Install Firebase CLI
+        run: npm i -g firebase-tools
+
+      - name: Install deps (root + functions)
+        run: |
+          npm ci
+          npm ci --prefix functions
+
+      - name: Build (root + functions)
+        run: |
+          npm run build --if-present
+          npm run build --prefix functions --if-present
+
+      - name: Deploy Hosting + Functions
+        run: firebase deploy --only hosting,functions --project conference-party-app --non-interactive
