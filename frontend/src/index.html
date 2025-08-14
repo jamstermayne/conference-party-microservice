@@ -7,15 +7,10 @@
   <meta name="theme-color" content="#0b0f17"/>
   <style>
     html,body{margin:0;height:100%;background:#0b0f17;color:#e8ecff;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    .app{display:grid;grid-template-columns:fit-content(280px) minmax(0,1fr);gap:0;min-height:100vh}
     aside{background:#0e1320;border-right:1px solid #1a2134;padding:18px 16px;position:sticky;top:0;height:100vh;box-sizing:border-box}
-    /* Natural content sizing */
     .brand{display:flex;align-items:center;gap:10px;margin:4px 0 18px}
     .dot{width:16px;height:16px;border-radius:6px;background:linear-gradient(135deg,#6b8cff,#8a6bff)}
     .brand h1{font-size:15px;margin:0}
-    nav a{display:block;padding:10px 12px;border-radius:12px;margin:4px 0;color:#cfd7ff;text-decoration:none}
-    nav a.active, nav a:hover{background:linear-gradient(90deg,#16233c,#15223a);color:#fff}
-    main{padding:0;min-height:100vh;overflow-y:auto;box-sizing:border-box}
   </style>
   <link rel="stylesheet" href="/assets/css/calendar-uniform.css?v=b029">
   <script>window.BUILD="b029";</script>
@@ -36,7 +31,7 @@
   <link rel="stylesheet" href="/assets/css/sidebar-final.css?v=b030">
   <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b030"><!-- last: layout lock -->
   <script async defer src="https://apis.google.com/js/api.js"></script>
-  <script async defer src="https://accounts.google.com/gsi/client" crossorigin="anonymous"></script>
+  <script async defer src="https://accounts.google.com/gsi/client"></script>
 </head>
 <body>
   <div id="app" class="app">

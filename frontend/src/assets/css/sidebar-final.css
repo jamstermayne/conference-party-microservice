@@ -10,8 +10,15 @@
 aside.sidebar, [data-role="sidebar"], #sidebar{
   grid-area: side;
   width: max-content !important;
-  min-width: max-content !important;
+  max-width: var(--rail-max) !important; /* enforce the cap */
   white-space: nowrap !important; /* no mid-label wrapping */
+}
+
+/* Ensure nav doesn't push sidebar wider */
+.sidebar nav,
+.sidebar .nav {
+  width: 100%;
+  max-width: var(--rail-max);
 }
 
 #main{
