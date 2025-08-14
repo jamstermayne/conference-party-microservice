@@ -1,6 +1,6 @@
-import { Store } from '../store.js';
-import * as GCal from './googleCalendar.js';
-import * as ICS from './icsSync.js';
+import { Store } from '../store.js?v=b023';
+import * as GCal from './googleCalendar.js?v=b023';
+import * as ICS from './icsSync.js?v=b023';
 
 export async function syncNow({ window='conference' }={}){
   const { timeMin, timeMax } = getWindow(window);

@@ -1,5 +1,5 @@
 // selection-store.js (ESM)
-import Events from './events.js';
+import Events from './events.js?v=b023';
 
 const KEY = 'savedEvents_v1';
 const LIMIT = 3;

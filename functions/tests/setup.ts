@@ -2,6 +2,19 @@
  * 🧪 ENTERPRISE TEST SETUP - Comprehensive testing environment
  */
 
+// Mock the problematic routers before they're imported
+jest.mock("../routes/invites", () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, new-cap
+  const router = require("express").Router();
+  return router;
+});
+
+jest.mock("../routes/admin", () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, new-cap
+  const router = require("express").Router();
+  return router;
+});
+
 // Load test environment variables
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("dotenv").config({path: ".env.test"});

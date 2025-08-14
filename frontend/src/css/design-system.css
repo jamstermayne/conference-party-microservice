@@ -372,7 +372,7 @@ body {
 .gap-xl { gap: var(--space-xl); }
 
 /* ===== CARD SYSTEM ===== */
-.card {
+ .legacy-card {
   background-color: var(--bg-primary);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -380,7 +380,7 @@ body {
   transition: all var(--transition-normal);
 }
 
-.card:hover {
+ .legacy-card:hover {
   border-color: var(--border-hover);
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
@@ -787,7 +787,7 @@ body {
     transform: none;
   }
   
-  .card:hover {
+   .legacy-card:hover {
     transform: none;
   }
 }

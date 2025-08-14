@@ -762,7 +762,7 @@ section {
 }
 
 /* ===== CARDS ===== */
-.card,
+ .legacy-card,
 .pi-card {
   background-color: var(--surface);
   border: 1px solid var(--border);
@@ -771,7 +771,7 @@ section {
   transition: all var(--t-normal) var(--ease-out);
 }
 
-.card:hover,
+ .legacy-card:hover,
 .pi-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
@@ -1493,7 +1493,7 @@ section {
     --space-6: 18px;
   }
 
-  .card,
+   .legacy-card,
   .pi-card,
   .pi-opportunity,
   .event-card {
@@ -1667,7 +1667,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
     padding-bottom: 0;
   }
   
-  .card,
+   .legacy-card,
   .pi-card {
     box-shadow: none;
     border: 1px solid #000;

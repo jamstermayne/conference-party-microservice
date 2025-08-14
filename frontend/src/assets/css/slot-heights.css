@@ -1,0 +1,48 @@
+/* shared baseline: 30min = 40px */
+:root {
+  --slot-height: 40px;
+}
+
+.calendar-time-slot {
+  height: var(--slot-height);
+}
+
+/* Calendar event blocks scale based on duration */
+.calendar-event {
+  min-height: var(--slot-height);
+  height: calc(var(--slot-height) * var(--duration-slots, 1));
+}
+
+/* Hero card height uses same calc */
+.party-card,
+.calendar-card {
+  min-height: var(--slot-height);
+  height: calc(var(--slot-height) * var(--duration-slots, 1));
+}
+
+/* Time grid rows */
+.time-col .tick,
+.slot-row {
+  height: var(--slot-height);
+}
+
+/* Minimum heights for readability */
+.cal-card {
+  min-height: calc(var(--slot-height) * 1.5); /* At least 1.5 slots for content */
+}
+
+/* Optional: Auto-sizing based on content with slot constraints */
+.auto-slot {
+  height: auto;
+  min-height: var(--slot-height);
+  max-height: calc(var(--slot-height) * 8); /* Max 4 hours */
+}
+
+/* Duration-based modifiers */
+.duration-30min { --duration-slots: 1; }
+.duration-1hr { --duration-slots: 2; }
+.duration-90min { --duration-slots: 3; }
+.duration-2hr { --duration-slots: 4; }
+.duration-3hr { --duration-slots: 6; }
+.duration-4hr { --duration-slots: 8; }
+.duration-all-day { --duration-slots: 32; } /* 16 hours */

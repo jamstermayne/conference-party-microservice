@@ -1,174 +1,200 @@
 /**
- * Calendar v2 polish:
- * - Week strip with selected day persisted in Store('calendar.day') (ISO yyyy-mm-dd)
- * - Event list filtered by day (falls back to all if unknown)
- * - Add to Calendar (ICS) per item and Google quick link
+ * Calendar View (08:00–22:00, 240px per hour)
+ * - Sticky toolbar
+ * - Hour rows with left gutter labels
+ * - Absolute-positioned .vcard events with overlap lanes
+ * - "Now" line on Today
  */
-import Store from '/js/store.js';
-import { toast, emptyState } from '/js/ui-feedback.js';
+import { buildICS, downloadICS, outlookDeeplink } from "./services/ics.js?v=b035";
+import * as M2M from "./services/m2m.js?v=b035";
+import { openM2MModal } from "./ui/m2m-modal.js?v=b035";
+import { toast } from "./ui/toast.js?v=b035";
+const HOUR_H = () => parseFloat(getComputedStyle(document.documentElement)
+  .getPropertyValue('--hour-height')) || 240;
 
-const API_BASE = (window.__ENV && window.__ENV.API_BASE) || '/api';
+const BASE = 8;  // 08:00 baseline
+const END  = 22; // 22:00 end
+const GUTTER = () => parseFloat(getComputedStyle(document.documentElement)
+  .getPropertyValue('--cal-gutter')) || 56;
 
-function fmtISO(d){ return d.toISOString().slice(0,10); }
-function startOfWeek(d){
-  const x = new Date(d); const day = (x.getDay()+6)%7; // Mon=0
-  x.setDate(x.getDate()-day); x.setHours(0,0,0,0); return x;
-}
-function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
-function el(html){ const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; }
+/** Utilities */
+const mins = t => { const [h,m] = String(t).split(':').map(Number); return h*60 + (m||0); };
+const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
 
-async function getJSON(url){
-  const r=await fetch(url);
-  if(!r.ok) throw new Error(`HTTP ${r.status}`);
-  return r.json();
-}
+/** Demo data (replace with real source when wired) */
+const today = [
+  { id:'keynote', title:'Gamescom Keynote', venue:'Confex Hall A', start:'09:00', end:'10:00', live:true },
+  { id:'indie',   title:'Indie Mixer', venue:'Hall B Patio', start:'10:30', end:'11:00', live:true },
+  { id:'biz',     title:'BizDev Roundtable', venue:'Marriott', start:'13:00', end:'14:00' },
+  { id:'party',   title:'Evening Party @ Rheinterr', venue:'Rheinterr', start:'20:00', end:'22:30' }
+];
 
-function icsFor(item){
-  const dtstamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
-  const uid = `${(item.id||item.title||'event').replace(/\s+/g,'-')}@velocity`;
-  const dt = (item.dateISO || new Date().toISOString()).replace(/[-:]/g,'').split('.')[0].replace('Z','');
-  return [
-    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//velocity.ai//calendar//EN',
-    'BEGIN:VEVENT',
-    `UID:${uid}`,`DTSTAMP:${dtstamp}`,
-    `SUMMARY:${(item.title||'Event')}`,
-    item.venue?`LOCATION:${item.venue}`:'',
-    `DTSTART:${dt}`,
-    'END:VEVENT','END:VCALENDAR'
-  ].filter(Boolean).join('\r\n');
-}
-function download(filename, content, type='text/calendar'){
-  const blob=new Blob([content],{type});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename;
-  document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},0);
+/** Build hour rows once */
+function hourRows() {
+  const rows = [];
+  for (let h = BASE; h < END; h++) {
+    const label = `${String(h).padStart(2,'0')}:00`;
+    rows.push(`<div class="hour-row"><span class="label">${label}</span></div>`);
+  }
+  return rows.join('');
 }
 
-function googleLink(item){
-  const text = encodeURIComponent(item.title||'Event');
-  const dates = new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
-  const details = encodeURIComponent(`${item.venue||''}`);
-  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${dates}/${dates}&details=${details}`;
-}
+/** Convert events to positioned blocks + simple overlap lanes */
+function layoutEvents(items) {
+  const hourH = HOUR_H();
+  const baseM = BASE * 60, endM = END * 60;
 
-function dayCell(dISO, activeISO){
-  const d=new Date(dISO+'T00:00:00Z');
-  const wd=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][(d.getDay()+6)%7];
-  const num = d.getUTCDate();
-  const active = dISO===activeISO?' active':'';
-  return el(`<div class="cal-day${active}" data-date="${dISO}" role="button" tabindex="0" aria-pressed="${active?'true':'false'}"><div class="w">${wd}</div><div class="d">${num}</div></div>`);
-}
+  // Normalize
+  const evs = items.map(e => {
+    const s = clamp(mins(e.start), baseM, endM);
+    const en = clamp(mins(e.end  ), s+15, endM + 180); // allow spill
+    return { ...e, _s:s, _e:en };
+  }).sort((a,b)=> a._s - b._s || a._e - b._e);
 
-function itemRow(ev){
-  const row = el(`
-    <div class="cal-item">
-      <div class="left">
-        <div class="title">${ev.title||'Untitled'}</div>
-        <div class="meta">
-          ${ev.time?`<span>${ev.time}</span>`:''}
-          ${ev.venue?`<span>${ev.venue}</span>`:''}
-        </div>
-      </div>
-      <div class="right">
-        <button class="btn btn-secondary btn-small" data-action="google">Google</button>
-        <button class="btn btn-primary btn-small" data-action="ics">ICS</button>
-      </div>
-    </div>
-  `);
-  row.addEventListener('click',(e)=>{
-    const b=e.target.closest('button[data-action]');
-    if(!b) return;
-    if(b.dataset.action==='ics'){
-      const ics = icsFor(ev);
-      const fname=(ev.title||'event').replace(/\s+/g,'_')+'.ics';
-      download(fname, ics); toast('ICS downloaded','ok');
+  // Overlap grouping into lanes
+  let active = [];
+  evs.forEach(e => {
+    // remove finished
+    active = active.filter(a => a._e > e._s);
+    // find available lane
+    const used = new Set(active.map(a => a._lane));
+    let lane = 0; while (used.has(lane)) lane++;
+    e._lane = lane;
+    active.push(e);
+  });
+
+  // Compute max lane per cluster for width
+  // We need cluster sizes; do a second pass
+  const clusters = [];
+  active = [];
+  evs.forEach(e => {
+    if (!active.length || active.some(a => a._e > e._s)) {
+      active.push(e);
     } else {
-      window.open(googleLink(ev),'_blank','noopener'); toast('Opening Google Calendar…','ok');
+      clusters.push(active); active = [e];
     }
   });
-  return row;
+  if (active.length) clusters.push(active);
+  const widths = new Map();
+  clusters.forEach(group => {
+    const maxLane = Math.max(...group.map(g => g._lane)) + 1;
+    group.forEach(g => widths.set(g.id, maxLane));
+  });
+
+  // Produce positioned blocks
+  return evs.map(e => {
+    const top    = ((e._s - baseM)/60) * hourH;
+    const height = ((e._e - e._s)/60) * hourH;
+    const cols   = widths.get(e.id) || 1;
+    const laneW  = 100/cols;         // percent of the events layer (to the right of gutter)
+    const leftPct= e._lane * laneW;
+
+    return {
+      id: e.id, top, height, leftPct, widthPct: laneW,
+      html: `
+        <div class="cal-event" style="
+          top:${top}px; height:${height}px;
+          left: calc(${GUTTER()}px + ${leftPct}%);
+          width: calc(${laneW}% - ${16}px);
+        ">
+          <article class="vcard">
+            <div class="vcard__head">
+              <div class="vcard__title">${e.title}</div>
+              <div class="vcard__badges">
+                ${e.live ? `<span class="vpill live">live</span>` : ``}
+              </div>
+            </div>
+            <div class="vmeta">📍 ${e.venue} • 🕒 ${e.start} – ${e.end}</div>
+            <div class="vactions">
+              <button class="vbtn primary" data-act="add" data-id="${e.id}">Add to Calendar</button>
+              <button class="vbtn" data-act="details" data-id="${e.id}">Details</button>
+            </div>
+          </article>
+        </div>`
+    };
+  });
 }
 
-export async function renderCalendar(rootEl){
-  const root = rootEl || document.getElementById('app') || document.getElementById('route-calendar') || document.getElementById('main');
-  if(!root) return;
-  root.innerHTML = `
-    <div class="calendar-wrap">
-      <div class="calendar-head">
-        <div class="cal-title">your calendar</div>
-        <div class="cal-controls">
-          <button class="btn btn-outline btn-small" data-cal="prev">Prev</button>
-          <button class="btn btn-outline btn-small" data-cal="today">Today</button>
-          <button class="btn btn-outline btn-small" data-cal="next">Next</button>
-        </div>
+/** Now line (today only) */
+function nowTopPx() {
+  const hourH = HOUR_H();
+  const m = new Date();
+  const minsNow = m.getHours()*60 + m.getMinutes();
+  const minRef  = BASE*60;
+  return ((minsNow - minRef)/60) * hourH;
+}
+
+/** Render entry */
+export async function renderCalendar(mount){
+  if(!mount) return;
+  
+  // fetch MeetToMatch events
+  let m2m = { events: [], connected: false };
+  try { 
+    m2m = await M2M.events({}); 
+  } catch(e) {}
+
+  mount.innerHTML = `
+    <section class="calendar-screen">
+      <div class="cal-toolbar">
+        <button class="vbtn primary" data-nav="today">Today</button>
+        <button class="vbtn" data-nav="tomorrow">Tomorrow</button>
+        <button class="vbtn" data-nav="week">This week</button>
+        <button class="vbtn" data-m2m-connect>${m2m.connected ? "MeetToMatch ✓" : "Connect MeetToMatch"}</button>
       </div>
-      <div class="cal-week" id="cal-week"></div>
-      <section class="cal-list" id="cal-list"></section>
-    </div>
+
+      <div class="cal-grid">
+        ${hourRows()}
+        <div class="cal-events" id="cal-events"></div>
+        <div class="cal-now" id="cal-now" style="display:none"><span class="tick">now</span></div>
+      </div>
+    </section>
   `;
 
-  // Determine active week & day
-  const today = new Date();
-  let activeISO = Store.get('calendar.day') || fmtISO(today);
-  let anchor = startOfWeek(new Date(activeISO));
+  const layer = mount.querySelector('#cal-events');
+  // Merge local events with M2M events
+  const allEvents = [...today, ...(m2m.events||[])];
+  const blocks = layoutEvents(allEvents);
+  layer.innerHTML = blocks.map(b => b.html).join('');
 
-  function paintWeek(){
-    const weekEl = document.getElementById('cal-week');
-    weekEl.innerHTML='';
-    for(let i=0;i<7;i++){
-      const iso = fmtISO(addDays(anchor,i));
-      const c = dayCell(iso, activeISO);
-      c.addEventListener('click', ()=>{ activeISO=iso; Store.patch('calendar.day', activeISO); paintWeek(); paintList(); });
-      c.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' ') { e.preventDefault(); c.click(); }});
-      weekEl.append(c);
+  // M2M Connect button handler
+  mount.querySelector("[data-m2m-connect]")?.addEventListener("click", ()=>{
+    if (m2m.connected){ 
+      toast("MeetToMatch already connected"); 
+      return; 
     }
-  }
-
-  let events = [];
-  async function load(){
-    try {
-      const json = await getJSON(`${API_BASE}/parties?conference=gamescom2025`);
-      events = Array.isArray(json?.data)? json.data : [];
-    } catch { events = []; }
-  }
-
-  function normalizeISO(ev){
-    if(ev.dateISO) return ev.dateISO.slice(0,10);
-    // heuristic from "Fri Aug 22" → yyyy-mm-dd for 2025 Gamescom
-    const m = String(ev.date||'').match(/(\w{3})\s+(\w{3})\s+(\d{1,2})/i);
-    if(m){
-      const year='2025';
-      const d = new Date(`${m[2]} ${m[3]}, ${year} 12:00:00 GMT`);
-      if(!isNaN(d)) return fmtISO(d);
-    }
-    return null;
-  }
-
-  function paintList(){
-    const list = document.getElementById('cal-list');
-    list.innerHTML='';
-    if(!events.length){ list.append(emptyState('No events yet.')); return; }
-    const filtered = events.filter(ev => normalizeISO(ev)===activeISO);
-    const show = filtered.length? filtered : events; // fallback to all if none that day
-    show.forEach(ev => list.append(itemRow(ev)));
-  }
-
-  // controls
-  root.addEventListener('click',(e)=>{
-    const b = e.target.closest('button[data-cal]');
-    if(!b) return;
-    const act = b.dataset.cal;
-    if(act==='prev'){ anchor = addDays(anchor,-7); }
-    if(act==='next'){ anchor = addDays(anchor, 7); }
-    if(act==='today'){ anchor = startOfWeek(new Date()); activeISO = fmtISO(new Date()); Store.patch('calendar.day', activeISO); }
-    paintWeek(); paintList();
+    openM2MModal();
   });
 
-  await load();
-  paintWeek(); paintList();
+  // Handlers (stubs; wire to real hooks later)
+  layer.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-act]');
+    if(!btn) return;
+    const id = btn.dataset.id;
+    const act = btn.dataset.act;
+    if (act === 'add') {
+      console.log('[cal] add to calendar', id);
+      // TODO: call /googleCalendar/create when auth is wired.
+    } else if (act === 'details') {
+      console.log('[cal] details', id);
+    }
+  });
+
+  // Show "now" line if viewing "today"
+  const nowEl = mount.querySelector('#cal-now');
+  const setNow = () => {
+    const top = nowTopPx();
+    const min = 0, max = (END-BASE) * HOUR_H();
+    if (top >= min && top <= max) {
+      nowEl.style.display = 'block';
+      nowEl.style.top = `${top}px`;
+    } else {
+      nowEl.style.display = 'none';
+    }
+  };
+  setNow();
+  const timer = setInterval(setNow, 60 * 1000);
+  // Clean up if route changes
+  window.addEventListener('hashchange', () => clearInterval(timer), { once: true });
 }
-
-try{
-  document.addEventListener('route:change', (e)=>{
-    if((e.detail?.name)==='calendar') renderCalendar();
-  });
-}catch{}
+export default { renderCalendar };

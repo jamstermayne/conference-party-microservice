@@ -100,7 +100,7 @@ class OptimizedNavigationManager {
         const navigation = window.DOM.create(navTemplate);
         
         // Batch insert at document start
-        const app = document.getElementById('app');
+        const app = document.getElementById('main');
         window.DOM.batch(app, {
             properties: { prepend: navigation }
         });

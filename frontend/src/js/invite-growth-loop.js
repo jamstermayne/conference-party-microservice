@@ -1,4 +1,4 @@
-import { showToast } from './toast.js';
+import { showToast } from './toast.js?v=b023';
 
 const q = (s,r=document)=>r.querySelector(s);
 

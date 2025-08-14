@@ -1,0 +1,69 @@
+/**
+ * Sidebar Layout Override
+ * Authoritative grid rules with !important
+ */
+
+:root { 
+  --rail-max: 260px; 
+}
+
+/* Grid layout */
+.app, .app-layout {
+  display: grid !important;
+  grid-template-columns: fit-content(var(--rail-max)) minmax(0, 1fr) !important;
+  column-gap: 0 !important;
+  min-height: 100vh !important;
+}
+
+/* Sidebar sizing */
+aside.sidebar, [data-role="sidebar"], #sidebar {
+  width: auto !important;
+  max-width: var(--rail-max) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
+
+/* Main content */
+#main, .main-panel {
+  min-width: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Navigation layout */
+aside.sidebar .nav, 
+aside.sidebar ul {
+  display: flex; 
+  flex-direction: column; 
+  gap: .5rem;
+}
+
+/* Active state styling */
+.sidebar [data-nav].active,
+.sidebar [data-route].active,
+.sidebar .nav a.active,
+.sidebar a[aria-current="page"] {
+  background:
+    radial-gradient(120% 120% at -20% -40%, rgba(139,129,255,.25) 0, rgba(22,26,45,0) 65%),
+    linear-gradient(180deg, rgba(139,129,255,.18), rgba(84,74,255,.12));
+  box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 8px 24px rgba(0,0,0,.35);
+  color: #eef2ff !important;
+  border-radius: 16px;
+  padding: 8px 12px;
+}
+/* kill-brand-dot */
+aside .brand .dot,
+aside .brand .badge,
+aside .brand::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* kill-brand-dot */
+aside .brand .dot,
+aside .brand .badge,
+aside .brand::before {
+  display: none !important;
+  content: none !important;
+}

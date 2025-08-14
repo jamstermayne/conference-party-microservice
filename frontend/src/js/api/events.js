@@ -4,7 +4,7 @@
  * Based on GPT-5 architecture for Professional Intelligence Platform
  */
 
-import { handleError, showEmptyState, showLoadingState, clearContainerState, handleApiResponse } from '../errors.js';
+import { handleError, showEmptyState, showLoadingState, clearContainerState, handleApiResponse } from '../errors.js?v=b023';
 
 /**
  * Load events with enhanced error handling and empty states

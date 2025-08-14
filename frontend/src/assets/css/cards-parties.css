@@ -1,0 +1,24 @@
+/* parties hero cards — SCOPED */
+.party-list                   { display:grid; gap:24px; }
+@media (min-width:900px){ .party-list { grid-template-columns: 1fr 1fr; } }
+@media (min-width:1400px){ .party-list { grid-template-columns: 1fr 1fr; } }
+
+.party-card                   { position:relative; border-radius:16px; padding:20px;
+  background: radial-gradient(120% 120% at 0% 0%, rgba(96,116,255,.08), rgba(10,10,14,.7) 60%) #121418;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset, 0 10px 30px rgba(22,20,35,.30);
+}
+
+.party-card__title            { font-weight:700; font-size:18px; margin:0 0 10px; color:#eef1ff; }
+.party-card__row              { display:flex; align-items:center; gap:10px; color:#aeb4cd; font-size:14px; margin:6px 0; }
+.party-card__badges           { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+.badge-pill                   { font-size:12px; padding:6px 10px; border-radius:999px;
+  background: rgba(255,255,255,.06); color:#cfd5ff; border:1px solid rgba(255,255,255,.08);
+}
+.party-card__actions          { display:flex; gap:10px; margin-top:14px; }
+.btn--primary                 { padding:8px 14px; border-radius:10px; border:1px solid rgba(93, 76, 255, .6);
+  background: linear-gradient(180deg,#6d6aff,#5a43ff);
+  color:#fff; font-weight:700; box-shadow: 0 12px 25px rgba(106,72,255,.35);
+}
+.btn--ghost                   { padding:8px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04); color:#e7e9ff;
+}

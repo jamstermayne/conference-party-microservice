@@ -3,9 +3,9 @@
  * Manages the exclusive invite system for professional networking
  */
 
-import { BaseController } from './BaseController.js';
-import { Store } from '../store.js';
-import { api } from '../services/api.js';
+import { BaseController } from './BaseController.js?v=b023';
+import { Store } from '../store.js?v=b023';
+import { api } from '../services/api.js?v=b023';
 
 export class InviteController extends BaseController {
   constructor(element) {

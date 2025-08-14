@@ -3,10 +3,10 @@
  * Professional opportunity matching and management
  */
 
-import { Store } from '../store.js';
-import { Events } from '../events.js';
-import { springTo } from '../ui/motion.js';
-import * as Opp from '../services/opportunities.js';
+import { Store } from '../store.js?v=b023';
+import { Events } from '../events.js?v=b023';
+import { springTo } from '../ui/motion.js?v=b023';
+import * as Opp from '../services/opportunities.js?v=b023';
 
 export function OpportunitiesController(section){
   const toggleMount = section.querySelector('#intent-toggle');

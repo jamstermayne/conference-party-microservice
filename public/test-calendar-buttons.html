@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar Button Integration</title>
+  <link rel="stylesheet" href="/assets/css/calendar-modal.css">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0a0c10;
+      color: #e6ebff;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .event-card {
+      background: #12141a;
+      border: 1px solid #293042;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .event-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .event-meta {
+      color: #8892b0;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .add-btn {
+      padding: 10px 16px;
+      background: #6e5ef6;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .add-btn:hover {
+      background: #5d4dd8;
+    }
+    .add-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    #log {
+      margin-top: 30px;
+      padding: 15px;
+      background: #1c2030;
+      border: 1px solid #293042;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Calendar Button Integration Demo</h1>
+  <p style="color:#8892b0">Click any "Add to Calendar" button to test the smart integration</p>
+
+  <!-- Event cards with inline data -->
+  <div class="event-card">
+    <div class="event-title">Gamescom Opening Night</div>
+    <div class="event-meta">📅 Aug 20, 2025 • 📍 Koelnmesse • ⏱️ 8:00 PM</div>
+    <button 
+      class="add-btn" 
+      data-action="add-to-calendar"
+      data-party='{"title":"Gamescom Opening Night","location":"Koelnmesse","start":"2025-08-20T20:00:00","end":"2025-08-20T22:00:00","description":"The biggest gaming event kickoff","slug":"gamescom-opening"}'
+    >
+      Add to Calendar
+    </button>
+  </div>
+
+  <div class="event-card">
+    <div class="event-title">Indie Showcase</div>
+    <div class="event-meta">📅 Aug 21, 2025 • 📍 Hall 10.2 • ⏱️ 2:00 PM</div>
+    <button 
+      class="add-btn" 
+      data-action="add-to-calendar"
+      data-party='{"title":"Indie Showcase","location":"Hall 10.2","start":"2025-08-21T14:00:00","end":"2025-08-21T17:00:00","description":"Discover amazing indie games","slug":"indie-showcase"}'
+    >
+      Add to Calendar
+    </button>
+  </div>
+
+  <!-- Event card with JS object -->
+  <div class="event-card">
+    <div class="event-title">Developer Mixer</div>
+    <div class="event-meta">📅 Aug 22, 2025 • 📍 Hyatt Regency • ⏱️ 6:00 PM</div>
+    <button 
+      class="add-btn" 
+      data-action="add-to-calendar"
+      id="mixer-btn"
+    >
+      Add to Calendar
+    </button>
+  </div>
+
+  <div id="log">Event log:</div>
+
+  <script type="module">
+    // Attach party data via JS object
+    document.getElementById('mixer-btn').__party = {
+      title: 'Developer Mixer',
+      location: 'Hyatt Regency Cologne',
+      start: '2025-08-22T18:00:00',
+      end: '2025-08-22T20:00:00',
+      description: 'Network with game developers',
+      slug: 'dev-mixer'
+    };
+
+    // Custom toast for demo
+    window.toast = function(msg) {
+      const log = document.getElementById('log');
+      const time = new Date().toLocaleTimeString();
+      log.innerHTML += `\n[${time}] ${msg}`;
+      log.scrollTop = log.scrollHeight;
+    };
+
+    // Import the handler - it automatically attaches to all [data-action="add-to-calendar"] buttons
+    import('./js/calendar-add-handler.js').then(() => {
+      toast('Calendar handler loaded - buttons ready!');
+    });
+  </script>
+</body>
+</html>

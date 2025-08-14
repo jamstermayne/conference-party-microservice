@@ -1,16 +1,14 @@
 /**
- * Map Controller - Interactive venue map
+ * Map controller
  */
 
 export async function renderMap(mount) {
-  if (!mount) mount = document.getElementById('map-root') || document.getElementById('app');
   if (!mount) return;
   
   mount.innerHTML = `
-    <div class="section-card">
-      <div class="left-accent" aria-hidden="true"></div>
-      <h2 class="text-heading">Venue Map</h2>
-      <p class="text-secondary">Interactive venue map coming soon...</p>
+    <div class="v-stack">
+      <h2 style="color: #e8ecff; margin-bottom: 1rem;">Map</h2>
+      <p style="color: #8b95a7;">Interactive map coming soon.</p>
     </div>
   `;
 }

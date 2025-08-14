@@ -3,9 +3,9 @@
  * Foundation for all controllers in the Professional Intelligence Platform
  */
 
-import { Store } from '../store.js';
-import { Events } from '../events.js';
-import { motion } from '../ui/motion.js';
+import { Store } from '../store.js?v=b023';
+import { Events } from '../events.js?v=b023';
+import { motion } from '../ui/motion.js?v=b023';
 
 export class BaseController {
   constructor(element, options = {}) {

@@ -1,0 +1,9 @@
+/* safe: tiny modal styles (only used when user clicks Add) */
+.modal-wrap{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.35);z-index:9999}
+.modal{background:#12141a;border:1px solid #293042;border-radius:16px;padding:20px;width:320px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.modal h3{margin:0 0 8px}
+.modal .dim{opacity:.7;margin:0 0 12px;font-size:.9rem}
+.modal-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:10px 14px;border-radius:12px;border:1px solid #2b2f3c;background:#1c2030;color:#e6ebff}
+.btn-primary{background:#6e5ef6;border-color:#6e5ef6}
+.btn-ghost{background:transparent}

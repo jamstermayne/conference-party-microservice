@@ -2,10 +2,10 @@
  * Invite Controller - Manage invites
  */
 
-import Store from '/js/store.js';
+import Store from '/js/store.js?v=b023';
 
 export async function renderInvites(mount) {
-  if (!mount) mount = document.getElementById('invites-root') || document.getElementById('app');
+  if (!mount) mount = document.getElementById('invites-root') || document.getElementById('main');
   if (!mount) return;
   
   const invites = Store.get('invites') || { sent: 0, remaining: 10 };

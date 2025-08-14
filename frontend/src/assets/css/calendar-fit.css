@@ -1,0 +1,11 @@
+:root{
+  --cal-hour-px: 180;                /* default; JS will set this */
+  --cal-minute-px: calc(var(--cal-hour-px) / 60);
+}
+.calendar-wrap, .calendar, .cal-grid { --row-h: var(--cal-hour-px); }
+.cal-grid .hour-row, .calendar .hour-row, .calendar-wrap .hour-row, [data-hour-row]{
+  min-height: var(--row-h);
+  height: var(--row-h);
+}
+/* Keep hero cards from being shrunk inside calendar */
+.calendar-wrap  .legacy-card, .calendar  .legacy-card { min-height: var(--card-min-h, 148px); }

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Calendar Add Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #0a0c10;
+      color: #e6ebff;
+    }
+    h1 { margin-bottom: 30px; }
+    .event-card {
+      background: #12141a;
+      border: 1px solid #293042;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .event-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .event-meta {
+      color: #8892b0;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    button {
+      padding: 10px 16px;
+      background: #6e5ef6;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    button:hover { background: #5d4dd8; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .code-example {
+      background: #1c2030;
+      border: 1px solid #293042;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 20px 0;
+      font-family: monospace;
+      font-size: 13px;
+      overflow-x: auto;
+    }
+    .log {
+      background: #1c2030;
+      border: 1px solid #293042;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 30px;
+      font-family: monospace;
+      font-size: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>🗓️ Simple Calendar Add Demo</h1>
+  
+  <div class="code-example">
+    <strong>Usage:</strong><br>
+    import { addToCalendar } from './add-to-calendar-wrapper.js';<br><br>
+    await addToCalendar({<br>
+    &nbsp;&nbsp;title: 'Team Meeting',<br>
+    &nbsp;&nbsp;start: '2025-08-20T14:00:00Z',<br>
+    &nbsp;&nbsp;end: '2025-08-20T15:00:00Z',<br>
+    &nbsp;&nbsp;location: 'Conference Room A'<br>
+    });
+  </div>
+
+  <!-- Method 1: Simple function call -->
+  <div class="event-card">
+    <div class="event-title">Method 1: Direct Function Call</div>
+    <div class="event-meta">📅 Tomorrow at 2 PM • 📍 Conference Room A</div>
+    <button onclick="addSimpleEvent()">Add to Calendar</button>
+  </div>
+
+  <!-- Method 2: Data attribute -->
+  <div class="event-card">
+    <div class="event-title">Method 2: Data Attribute</div>
+    <div class="event-meta">📅 Friday at 6 PM • 📍 Rooftop Bar</div>
+    <button 
+      data-calendar-add
+      data-event='{"title":"Happy Hour","location":"Rooftop Bar","start":"2025-08-22T18:00:00","end":"2025-08-22T20:00:00","description":"Team happy hour event"}'
+    >
+      Add to Calendar
+    </button>
+  </div>
+
+  <!-- Method 3: Object property -->
+  <div class="event-card">
+    <div class="event-title">Method 3: Object Property</div>
+    <div class="event-meta">📅 Monday at 10 AM • 📍 Main Office</div>
+    <button data-calendar-add id="monday-meeting">
+      Add to Calendar
+    </button>
+  </div>
+
+  <!-- Method 4: Batch creation -->
+  <div class="event-card">
+    <div class="event-title">Method 4: Create Multiple Events</div>
+    <div class="event-meta">📅 Weekly standup series</div>
+    <button onclick="addWeeklyEvents()">Add All Standups</button>
+  </div>
+
+  <div class="log" id="log">Event log:</div>
+
+  <script type="module">
+    // Import the simple wrapper
+    import { addToCalendar } from './js/add-to-calendar-wrapper.js';
+    
+    // Also import the global handler for data-attribute buttons
+    import './js/global-calendar-handler.js';
+    
+    // Method 1: Direct function call
+    window.addSimpleEvent = async function() {
+      try {
+        log('Adding simple event...');
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(14, 0, 0, 0);
+        
+        const result = await addToCalendar({
+          summary: 'Team Meeting',
+          location: 'Conference Room A',
+          description: 'Weekly team sync meeting',
+          start: tomorrow.toISOString(),
+          end: new Date(tomorrow.getTime() + 3600000).toISOString()
+        });
+        log('✅ Event added successfully', result);
+      } catch (error) {
+        log('❌ Failed to add event: ' + error.message);
+      }
+    };
+    
+    // Method 3: Attach event data to button
+    document.getElementById('monday-meeting').__event = {
+      summary: 'Monday Planning',
+      location: 'Main Office',
+      description: 'Weekly planning session',
+      start: getNextMonday(),
+      end: new Date(new Date(getNextMonday()).getTime() + 3600000).toISOString()
+    };
+    
+    // Method 4: Batch creation
+    window.addWeeklyEvents = async function() {
+      const standups = [];
+      for (let i = 1; i <= 5; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() + i);
+        date.setHours(9, 30, 0, 0);
+        
+        standups.push({
+          summary: `Daily Standup - Day ${i}`,
+          location: 'Team Channel',
+          description: '15-minute daily standup',
+          start: date.toISOString(),
+          end: new Date(date.getTime() + 900000).toISOString() // 15 min
+        });
+      }
+      
+      try {
+        log('Adding 5 standup meetings...');
+        for (const event of standups) {
+          await addToCalendar(event);
+          log(`✅ Added: ${event.summary}`);
+        }
+        log('All standups added!');
+      } catch (error) {
+        log('❌ Failed to add standups: ' + error.message);
+      }
+    };
+    
+    function getNextMonday() {
+      const d = new Date();
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1) + 7;
+      d.setDate(diff);
+      d.setHours(10, 0, 0, 0);
+      return d.toISOString();
+    }
+    
+    function log(message, data) {
+      const logEl = document.getElementById('log');
+      const time = new Date().toLocaleTimeString();
+      let entry = `\n[${time}] ${message}`;
+      if (data && typeof data === 'object') {
+        entry += '\n' + JSON.stringify(data, null, 2);
+      }
+      logEl.textContent += entry;
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+    
+    log('Simple calendar add demo loaded');
+  </script>
+</body>
+</html>

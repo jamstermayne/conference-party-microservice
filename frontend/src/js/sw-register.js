@@ -9,7 +9,7 @@
     }
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then(reg => {
+        navigator.serviceWorker.register('/sw.js?v=b023').then(reg => {
           console.log('🚀 Service Worker loaded, version:', '1.0.1');
           // always update on page load during polish
           reg.update().catch(()=>{});

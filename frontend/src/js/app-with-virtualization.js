@@ -4,9 +4,9 @@
  */
 
 // Import virtualized components
-import('./components/VirtualizedEventList.js');
-import('./event-list-integration.js');
-import('./hot-reload-integration.js');
+import('./components/VirtualizedEventList.js?v=b023');
+import('./event-list-integration.js?v=b023');
+import('./hot-reload-integration.js?v=b023');
 
 // ⚡ OPTIMIZED MODULE LOADING - Dynamic imports with virtualization
 let Store, router, api, nav, eventSystem, Events, motion, viewTX;
@@ -15,17 +15,17 @@ let eventListManager; // New virtualized event manager
 
 // Enhanced controller registry with performance monitoring
 const CONTROLLER_MODULES = {
-  home: () => import('./controllers/HomeController.js').then(m => m.HomeController),
-  people: () => import('./controllers/PeopleController.js').then(m => m.PeopleController),
-  opportunities: () => import('./controllers/OpportunitiesController.js').then(m => m.OpportunitiesController),
-  events: () => import('./controllers/EventController.js').then(m => m.EventController),
-  me: () => import('./controllers/MeController.js').then(m => m.MeController),
-  invite: () => import('./controllers/InviteController.js').then(m => m.InviteController),
-  calendar: () => import('./controllers/CalendarController.js').then(m => m.CalendarController),
-  fomo: () => import('./controllers/FomoController.js').then(m => m.FomoController),
-  'account-link': () => import('./controllers/AccountLinkController.js').then(m => m.AccountLinkController),
-  'calendar-sync': () => import('./controllers/CalendarSyncController.js').then(m => m.CalendarSyncController),
-  'invite-panel': () => import('./controllers/InvitePanelController.js').then(m => m.InvitePanelController)
+  home: () => import('./controllers/HomeController.js?v=b023').then(m => m.HomeController),
+  people: () => import('./controllers/PeopleController.js?v=b023').then(m => m.PeopleController),
+  opportunities: () => import('./controllers/OpportunitiesController.js?v=b023').then(m => m.OpportunitiesController),
+  events: () => import('./controllers/EventController.js?v=b023').then(m => m.EventController),
+  me: () => import('./controllers/MeController.js?v=b023').then(m => m.MeController),
+  invite: () => import('./controllers/InviteController.js?v=b023').then(m => m.InviteController),
+  calendar: () => import('./controllers/CalendarController.js?v=b023').then(m => m.CalendarController),
+  fomo: () => import('./controllers/FomoController.js?v=b023').then(m => m.FomoController),
+  'account-link': () => import('./controllers/AccountLinkController.js?v=b023').then(m => m.AccountLinkController),
+  'calendar-sync': () => import('./controllers/CalendarSyncController.js?v=b023').then(m => m.CalendarSyncController),
+  'invite-panel': () => import('./controllers/InvitePanelController.js?v=b023').then(m => m.InvitePanelController)
 };
 
 // Enhanced module loader with performance tracking
@@ -153,17 +153,17 @@ class ProfessionalIntelligencePlatform {
 
   async loadCoreModules() {
     const moduleLoads = [
-      ModuleLoader.loadCoreModule('./storage-manager.js', 'StorageManager'),
-      ModuleLoader.loadCoreModule('./router.js', 'Router'),
-      ModuleLoader.loadCoreModule('./api.js', 'API'),
-      ModuleLoader.loadCoreModule('./nav.js'),
-      ModuleLoader.loadCoreModule('./event-system.js', 'EventSystem'),
-      ModuleLoader.loadCoreModule('./events.js'),
-      ModuleLoader.loadCoreModule('./motion.js'),
-      ModuleLoader.loadCoreModule('./view-transition.js'),
-      ModuleLoader.loadCoreModule('./press-feedback.js', 'bindPressFeedback'),
-      ModuleLoader.loadCoreModule('./fps-watchdog.js', 'createFPSWatchdog'),
-      ModuleLoader.loadCoreModule('./pwa-install.js', 'mountInstallFTUE')
+      ModuleLoader.loadCoreModule('./storage-manager.js?v=b023', 'StorageManager'),
+      ModuleLoader.loadCoreModule('./router.js?v=b023', 'Router'),
+      ModuleLoader.loadCoreModule('./api.js?v=b023', 'API'),
+      ModuleLoader.loadCoreModule('./nav.js?v=b023'),
+      ModuleLoader.loadCoreModule('./event-system.js?v=b023', 'EventSystem'),
+      ModuleLoader.loadCoreModule('./events.js?v=b023'),
+      ModuleLoader.loadCoreModule('./motion.js?v=b023'),
+      ModuleLoader.loadCoreModule('./view-transition.js?v=b023'),
+      ModuleLoader.loadCoreModule('./press-feedback.js?v=b023', 'bindPressFeedback'),
+      ModuleLoader.loadCoreModule('./fps-watchdog.js?v=b023', 'createFPSWatchdog'),
+      ModuleLoader.loadCoreModule('./pwa-install.js?v=b023', 'mountInstallFTUE')
     ];
     
     const results = await Promise.allSettled(moduleLoads);

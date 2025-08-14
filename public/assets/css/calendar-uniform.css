@@ -1,0 +1,6 @@
+/* Make calendar fit cards: 30-min slots, tall hours */
+:root{ --hour-height: 240px; --slot-steps: 2; } /* 2 slots per hour = 30 mins */
+.cal-grid { position:relative; }
+.cal-grid .hour-row { height: var(--hour-height); border-bottom:1px dashed rgba(255,255,255,.06); }
+.cal-event { position:absolute; left:0; right:0; }
+.cal-event .vcard { height:100%; display:flex; flex-direction:column; justify-content:center; }

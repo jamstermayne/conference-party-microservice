@@ -1,0 +1,168 @@
+/* Hero Cards - Additional styling for  legacy-card grid layouts */
+.hero-wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  padding: 16px 0 32px;
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 768px) {
+  .hero-wrap {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px 0 24px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero-wrap {
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 20px;
+  }
+}
+
+/* Card hover effects */
+.section-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.section-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.05) inset;
+}
+
+/* Button interactions */
+.btn {
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn.primary:hover {
+  background: linear-gradient(90deg, #8b7cf6, #5ab3ff);
+  box-shadow: 0 4px 12px rgba(123,108,246,.3);
+}
+
+.btn.ghost:hover {
+  background: #222836;
+  border-color: rgba(255,255,255,.12);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Badge animations */
+.badge {
+  transition: all 0.15s ease;
+}
+
+.badge.live {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Profile avatars */
+.avatar {
+  font-size: 14px;
+  text-shadow: 0 1px 3px rgba(0,0,0,.3);
+  flex-shrink: 0;
+}
+
+/* Card actions alignment */
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.actions a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+/* Calendar slot cards */
+.card-slot  .legacy-card {
+  min-height: 140px;
+}
+
+.card-slot .badge {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Invite status colors */
+.badge.pending {
+  animation: fade 1.5s infinite;
+}
+
+@keyframes fade {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Loading skeletons */
+.skeleton {
+  background: linear-gradient(90deg, 
+    var(--card-bg) 0%, 
+    var(--card-surface) 50%, 
+    var(--card-bg) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+  min-height: 160px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Section headers */
+.section-head {
+  font-size: 14px;
+}
+
+.section-head > div:first-child {
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+/* Meta text */
+.muted {
+  color: var(--text-2);
+  opacity: 0.8;
+}
+
+/* Card meta bullets */
+.card-sub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-2);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Empty states */
+.hero-wrap:empty::after {
+  content: 'No items to display';
+  display: block;
+  text-align: center;
+  color: var(--text-2);
+  padding: 48px 24px;
+  font-size: 14px;
+}

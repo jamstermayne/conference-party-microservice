@@ -1,189 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- PWA Meta -->
-  <meta name="theme-color" content="#6b7bff" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="manifest" href="/manifest.json?v=001" />
-
-  <!-- Content Security Policy (allows Cloud Functions + Google/LinkedIn SDKs) -->
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://*.googleapis.com https://*.gstatic.com https://platform.linkedin.com; connect-src 'self' https://us-central1-conference-party-app.cloudfunctions.net https://*.googleapis.com https://*.gstatic.com https://api.linkedin.com; img-src 'self' data: https://*.gstatic.com https://*.googleusercontent.com https://media.licdn.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; frame-src https://accounts.google.com https://www.linkedin.com; worker-src 'self'; base-uri 'self'; form-action 'self' https://www.linkedin.com;" />
-
-
-  <title>velocity.ai — Gamescom 2025</title>
-  <meta name="application-name" content="velocity.ai — Gamescom 2025">
-  <meta name="description" content="velocity.ai — your private conference social network.">
-
-  <!-- Favicon & Icons -->
-  <link rel="icon" type="image/svg+xml" href="/images/veloc-v.svg">
-  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-  <!-- Social: Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="velocity.ai — Gamescom 2025">
-  <meta property="og:description" content="Join private conference parties and sync your calendar.">
-  <meta property="og:image" content="/social/share-default.png">
-  <meta property="og:url" content="https://conference-party-app.web.app">
-
-  <!-- Social: Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="velocity.ai — Gamescom 2025">
-  <meta name="twitter:description" content="Join private conference parties and sync your calendar.">
-  <meta name="twitter:image" content="/social/share-default.png">
-
-  <!-- SEO -->
-  <link rel="canonical" href="https://conference-party-app.web.app">
-  
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Event",
-    "name": "Tech Leaders Networking Party",
-    "startDate": "2025-08-19T19:00:00+01:00",
-    "endDate": "2025-08-19T23:00:00+01:00",
-    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-    "eventStatus": "https://schema.org/EventScheduled",
-    "location": {
-      "@type": "Place",
-      "name": "Rooftop Bar",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "123 Conference Ave",
-        "addressLocality": "Cologne",
-        "addressCountry": "DE"
-      }
-    },
-    "image": [
-      "https://conference-party-app.web.app/social/event-tech-leaders.png"
-    ],
-    "description": "Join industry leaders for an exclusive networking party during Gamescom.",
-    "organizer": {
-      "@type": "Organization",
-      "name": "Velocity",
-      "url": "https://conference-party-app.web.app"
-    }
-  }
-  </script>
-  
-  <!-- Metrics boot -->
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>velocity.ai — #</title>
+  <meta name="theme-color" content="#0b0f17"/>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="shortcut icon" href="/favicon.svg">
+  <style>
+    html,body{margin:0;height:100%;background:#0b0f17;color:#e8ecff;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .sidebar{background:#0e1320;border-right:1px solid #1a2134;padding:18px 16px;position:sticky;top:0;height:100vh;box-sizing:border-box}
+    .brand{display:flex;align-items:center;gap:10px;margin:4px 0 18px}
+    .dot{width:16px;height:16px;border-radius:6px;background:linear-gradient(135deg,#6b8cff,#8a6bff)}
+    .brand h1{font-size:15px;margin:0}
+  </style>
+  <link rel="stylesheet" href="/assets/css/calendar-uniform.css?v=b029">
+  <script>window.BUILD="b029";</script>
   <script>
-    // Safe Metrics boot
-    try { window.Metrics?.track?.('app_boot', { inline: true }); } catch(e) {}
+    // kill any stale SW right now
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));
+      caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
+    }
   </script>
-  
-  <link rel="stylesheet" href="assets/css/styles.css"/>
-  <link rel="stylesheet" href="/assets/css/app-shell.css?v=001">
-  <link rel="stylesheet" href="/assets/css/header-actions.css?v=001">
-  <link rel="stylesheet" href="/assets/css/nav.css">
-  <link rel="stylesheet" href="/assets/css/hotspots.css">
-  <link rel="stylesheet" href="/css/hotspots.css?v=001">
-  <link rel="stylesheet" href="/css/calendar.css?v=001">
-  <link rel="stylesheet" href="/css/ftue-nudge.css?v=001">
-  <link rel="stylesheet" href="/css/panels.css?v=001">
-  <link rel="stylesheet" href="/css/layout-polish.css?v=001">
-  <link rel="stylesheet" href="/css/cards-parties.css?v=001">
-  <link rel="stylesheet" href="/css/calendar-strip.css?v=001">
-  <link rel="stylesheet" href="/css/toast.css?v=001">
-  <link rel="stylesheet" href="/css/invite-panel.css?v=001">
-  <link rel="stylesheet" href="/css/layout.css?v=001">
-  <link rel="stylesheet" href="/css/app.css?v=001">
-  <link rel="stylesheet" href="/css/sidebar.css?v=001">
-  <link rel="stylesheet" href="/css/sections.css?v=001">
-  <link rel="stylesheet" href="/css/loading.css?v=001">
-  <link rel="stylesheet" href="/css/events-cards.css?v=001">
-  <link rel="stylesheet" href="/css/cards.css?v=001">
-  <link rel="stylesheet" href="/css/account.css?v=001">
-  <link rel="stylesheet" href="/css/sidebar-fix.css?v=001">
-  <link rel="stylesheet" href="/css/sidebar-polish.css?v=001">
-  <link rel="stylesheet" href="/assets/css/party-cards.css?v=001">
-  <link rel="stylesheet" href="/css/events.css?v=001">
+  <link rel="stylesheet" href="/assets/css/theme.css?v=b029">
+  <link rel="stylesheet" href="/assets/css/theme-unified.css?v=b029">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="/js/auth.js?v=b029"></script>
+  <!-- Consolidated layout styles -->
+  <link rel="stylesheet" href="/assets/css/hero-cards.css?v=b030">
+  <link rel="stylesheet" href="/assets/css/sidebar-final.css?v=b030">
+  <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b030"><!-- last: layout lock -->
+  <script async defer src="https://apis.google.com/js/api.js"></script>
+  <!-- Load GIS as a classic script (NOT type="module", no crossorigin, no fetch) -->
 </head>
 <body>
-  <!-- App Shell: stable two-panel layout -->
-  <div class="app-shell">
-    <aside id="sidebar" class="sidebar" data-sidebar></aside>
-    <main id="app" class="content" role="main" aria-live="polite">
-      <header class="page-header">
-        <h1 data-page-title>Parties</h1>
-        <span data-page-chip class="chip">#parties</span>
-      </header>
-      
-      <!-- View sections - only one visible at a time -->
-      <section data-view="parties" id="events-list"></section>
-      <section data-view="hotspots" id="hotspots-root" class="hidden"></section>
-      <section data-view="map" id="map-root" class="hidden"></section>
-      <section data-view="calendar" id="calendar-root" class="hidden"></section>
-      <section data-view="invites" id="invites-root" class="hidden"></section>
-      <section data-view="me" id="account-root" class="hidden"></section>
-      <section data-view="settings" id="settings-root" class="hidden"></section>
-    </main>
+  <div id="app" class="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="dot"></div><h1>velocity.ai</h1></div>
+      <nav id="nav">
+        <a data-route="parties"   href="#/parties"># parties</a>
+        <a data-route="calendar"  href="#/calendar"># calendar</a>
+        <a data-route="map"       href="#/map"># map</a>
+        <a data-route="hotspots"  href="#/hotspots"># hotspots</a>
+        <a data-route="invites"   href="#/invites"># invites</a>
+        <a data-route="contacts"  href="#/contacts"># contacts</a>
+        <a data-route="me"        href="#/me"># me</a>
+        <a data-route="settings"  href="#/settings"># settings</a>
+      </nav>
+    </aside>
+    <main id="main"><!-- routed content --></main>
   </div>
-  <!-- ENV must come first -->
-  <script src="/js/env.js?v=001"></script>
-
-  <!-- Single deterministic entry -->
-  <script type="module" src="/js/bootstrap.js?v=001"></script>
   
-  <!-- Service Worker Registration with bypass -->
-  <script src="/js/sw-register.js?v=001"></script>
   
-  <!-- PWA Install Handler -->
-  <script type="module">
-    // Handle PWA install prompt
-    let deferredPrompt;
-    
-    window.addEventListener('beforeinstallprompt', (e) => {
-      // Prevent the mini-infobar from appearing on mobile
-      e.preventDefault();
-      // Stash the event so it can be triggered later
-      deferredPrompt = e;
-      // Update UI to show install button
-      const installBtn = document.getElementById('btn-install');
-      if (installBtn) {
-        installBtn.style.display = 'block';
-      }
-    });
-    
-    // Handle install button click
-    document.getElementById('btn-install')?.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        // Show the install prompt
-        deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User response to the install prompt: ${outcome}`);
-        // Clear the deferred prompt
-        deferredPrompt = null;
-        // Hide the install button
-        document.getElementById('btn-install').style.display = 'none';
-      }
-    });
-    
-    // Check if already installed
-    window.addEventListener('appinstalled', () => {
-      console.log('PWA was installed');
-      const btnInstall = document.getElementById('btn-install');
-      if (btnInstall) btnInstall.style.display = 'none';
-    });
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));
+  caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
+}
   </script>
-  
-  <!-- Safe bootstrap (ensures clean route initialization) -->
-  <script type="module">
-    import Router from '/js/router.js';
-    // Ensure default route
-    if (!location.hash) location.hash = '#/parties';
-    // Light route metric hook (won't throw if not wired)
-    window.addEventListener('hashchange', () => {
-      try { window.Metrics?.trackRoute?.(location.hash || '#/parties'); } catch {}
-    });
-  </script>
-
-
+<script src="/js/kill-sw.js?v=b027"></script>
+<script type="module" src="/js/router.js?v=b029"></script>
+  <script src="/js/theme-patch.js?v=001"></script>
 </body>
 </html>

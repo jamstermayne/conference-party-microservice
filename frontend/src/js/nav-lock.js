@@ -20,5 +20,5 @@ window.addEventListener('load', ensureSidebarOpen);
 document.addEventListener('flags:ready', () => setTimeout(ensureSidebarOpen, 10));
 
 // Optional: if you use a Store,
-// import Store from './store.js';
+// import Store from './store.js?v=b023';
 // Store.patch('ui.sidebarOpen', true);
