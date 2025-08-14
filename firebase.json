@@ -115,10 +115,6 @@
         "function": "apiFn"
       },
       {
-        "source": "/googleCalendar/**",
-        "function": "googleCalendar"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
       }

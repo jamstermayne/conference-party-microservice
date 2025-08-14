@@ -6,7 +6,6 @@ import {getHotspots} from "./hotspots";
 import {googleCalendarRouter} from "./googleCalendar/router";
 const invitesRouter = require("../routes/invites");
 const adminRouter = require("../routes/admin");
-export { api as googleCalendar } from './calendar/google';
 
 interface EventData {
   id: string;
