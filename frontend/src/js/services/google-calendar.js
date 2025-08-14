@@ -8,10 +8,15 @@ export async function startOAuth() {
 }
 export async function addToCalendar(evt) {
   try {
+    // Default to Europe/Berlin for Gamescom events
+    const eventData = {
+      ...evt,
+      timeZone: evt.timeZone || 'Europe/Berlin'
+    };
     const res = await fetch("/googleCalendar/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(evt)
+      body: JSON.stringify(eventData)
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data?.error || res.statusText);

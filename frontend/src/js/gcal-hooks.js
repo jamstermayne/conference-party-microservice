@@ -19,10 +19,11 @@ document.addEventListener("click", (e) => {
   }
   if (t.hasAttribute("data-gcal-add")) {
     const card = t.closest(".vcard");
-    const title = closestAttr(t, "title") || card?.querySelector(".vcard__title")?.textContent?.trim() || "Event";
+    const title = closestAttr(t, "title") || card?.querySelector(".vcard__title")?.textContent?.trim() || card?.querySelector(".vtitle")?.textContent?.trim() || "Event";
     const venue = closestAttr(t, "venue") || card?.querySelector(".vmeta")?.textContent?.trim() || "";
     const start = closestAttr(t, "start") || t.getAttribute("data-start") || "";
     const end   = closestAttr(t, "end")   || t.getAttribute("data-end")   || "";
-    addToCalendar({ title, location: venue, start, end, description: "Added from Conference Party" });
+    const timeZone = closestAttr(t, "timezone") || t.getAttribute("data-timezone") || "Europe/Berlin";
+    addToCalendar({ title, location: venue, start, end, timeZone, description: "Added from Conference Party" });
   }
 });

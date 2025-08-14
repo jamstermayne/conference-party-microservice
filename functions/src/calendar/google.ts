@@ -115,7 +115,7 @@ app.get('/calendar/events', requireAuth, async (req,res): Promise<any> =>{
 
 // --- 4) create party as event ---
 app.post('/calendar/create', requireAuth, express.json(), async (req,res): Promise<any> =>{
-  const { partyId, title, start, end, location, description } = req.body || {};
+  const { partyId, title, start, end, location, description, timeZone } = req.body || {};
   const uid = (req as any).uid;
   const client = await getClientFor(uid);
   if(!client) return res.status(412).json({ error:'not_connected' });
@@ -130,8 +130,8 @@ app.post('/calendar/create', requireAuth, express.json(), async (req,res): Promi
     calendarId: 'primary',
     requestBody: {
       summary: title, location, description,
-      start: { dateTime: start },
-      end:   { dateTime: end   },
+      start: { dateTime: start, timeZone: timeZone || 'Europe/Berlin' },
+      end:   { dateTime: end,   timeZone: timeZone || 'Europe/Berlin' },
       source: { title: 'velocity.ai', url: 'https://conference-party-app.web.app/#/parties' }
     }
   });
