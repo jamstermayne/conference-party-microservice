@@ -20,7 +20,7 @@ async function api(path, method="GET", body){
   return data;
 }
 
-function btn(label, cls="vbtn", attrs=""){ return `<button class="${cls}" ${attrs}>${label}</button>`; }
+function btn(label, cls="vbtn", attrs=""){ return `<button class="vbtn ${cls}" ${attrs}>${label}</button>`; }
 function copy(text){ navigator.clipboard?.writeText(text).catch(()=>{}); }
 
 function inviteCard(i){
@@ -34,7 +34,7 @@ function inviteCard(i){
       ? `${btn('Copy Link','vbtn','data-act="copy" data-url="'+(i.url||'')+'"')} ${btn('Revoke','vbtn','data-act="revoke" data-code="'+i.code+'"')}`
       : `${btn('Share','vbtn','data-act="copy" data-url="'+(i.url||'')+'"')}`;
   return `
-    <article class="vcard" data-code="${i.code}">
+    <article class="vcard vcard" data-code="${i.code}">
       <div class="vcard__head">
         <div class="vcard__title">${title}</div>
         <div class="vcard__badges">${badge}</div>
@@ -50,7 +50,7 @@ export async function renderInvites(mount){
   const user = window.Auth.current();
   mount.innerHTML = `
   <section style="margin:24px">
-    <article class="vcard">
+    <article class="vcard vcard">
       <div class="vcard__head">
         <div class="vcard__title">Invites</div>
         <div class="vcard__badges"><span class="vpill">single-use</span></div>
@@ -59,19 +59,19 @@ export async function renderInvites(mount){
       <div class="vmeta" id="inv-meta">Sign in to manage your invites.</div>
 
       <div class="vactions" id="inv-auth">
-        ${user ? '' : '<button class="vbtn primary" id="btnSignIn">Sign in with Google</button>'}
-        ${user ? '<button class="vbtn" id="btnSignOut">Sign out</button>' : ''}
+        ${user ? '' : '<button class="vbtn vbtn primary" id="btnSignIn">Sign in with Google</button>'}
+        ${user ? '<button class="vbtn vbtn" id="btnSignOut">Sign out</button>' : ''}
       </div>
     </article>
 
     <div id="authedArea" style="display:${user?'block':'none'};margin-top:14px">
-      <article class="vcard">
+      <article class="vcard vcard">
         <div class="vcard__head">
           <div class="vcard__title">Your invite credits: <span id="inv-left">—</span></div>
         </div>
         <div class="vactions">
           <input id="inv-email" placeholder="optional email to prefill…" style="flex:1;min-width:220px;padding:8px;border-radius:10px;border:1px solid #2b2f45;background:#121a2a;color:#eaf0ff">
-          <button class="vbtn primary" id="btnCreate">Create Invite</button>
+          <button class="vbtn vbtn primary" id="btnCreate">Create Invite</button>
         </div>
       </article>
 
