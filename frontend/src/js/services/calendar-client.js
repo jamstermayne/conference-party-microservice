@@ -65,7 +65,60 @@ async function loadUserEvents(){
   } catch(e){ if (e.status===401) return { connected:false, events:[] }; return { connected:false, events:[] }; }
 }
 
+async function addAndSync(p){
+  try {
+    await authed('https://us-central1-conference-party-app.cloudfunctions.net/api/calendar/create', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        partyId: p.id, title: p.title, start: p.startISO, end: p.endISO,
+        location: p.venue, description: p.description||''
+      })
+    });
+    toast('Saved to your calendar ✓'); markSynced(p.id);
+  } catch(e){
+    if (e.status===412 && e.body?.error==='not_connected') { return fallbackICS(p); }
+    toast('Could not save. Exporting ICS…'); return fallbackICS(p);
+  }
+}
+
+function toast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:12px 20px;border-radius:4px;z-index:9999';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+function markSynced(partyId) {
+  const el = document.querySelector(`[data-party-id="${partyId}"]`);
+  if (el) el.classList.add('synced');
+}
+
+function fallbackICS(p) {
+  const ics = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:${p.id}@conference-party-app.web.app
+SUMMARY:${p.title}
+DTSTART:${p.startISO.replace(/[-:]/g,'').replace('.000Z','Z')}
+DTEND:${p.endISO.replace(/[-:]/g,'').replace('.000Z','Z')}
+LOCATION:${p.venue}
+DESCRIPTION:${p.description||''}
+END:VEVENT
+END:VCALENDAR`;
+  const blob = new Blob([ics], { type: 'text/calendar' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${p.id}.ics`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 window.CalendarClient = CalendarClient;
 window.connectGoogle = connectGoogle;
 window.dayBounds = dayBounds;
 window.loadUserEvents = loadUserEvents;
+window.addAndSync = addAndSync;
+window.fallbackICS = fallbackICS;
