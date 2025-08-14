@@ -35,16 +35,11 @@
   <link rel="stylesheet" href="/assets/css/hero-cards.css?v=b030">
   <link rel="stylesheet" href="/assets/css/sidebar-final.css?v=b030">
   <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b030"><!-- last: layout lock -->
-  <style id="layout-hotfix">
-    #app{display:grid !important;grid-template-columns:fit-content(280px) minmax(0,1fr) !important;height:100vh !important;gap:0 !important}
-    #app > aside.sidebar{grid-column:1 / 2 !important;width:auto !important;position:sticky !important;top:0 !important}
-    #app > #main{grid-column:2 / 3 !important;min-width:0 !important;overflow-y:auto !important;position:relative !important;margin:0 !important}
-  </style>
   <script async defer src="https://apis.google.com/js/api.js"></script>
   <script async defer src="https://accounts.google.com/gsi/client" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div id="app" class="app">
+  <div id="app" class="app" style="grid-template-columns: 280px minmax(0,1fr)">
     <aside class="sidebar">
       <div class="brand"><div class="dot"></div><h1>velocity.ai</h1></div>
       <nav id="nav">
