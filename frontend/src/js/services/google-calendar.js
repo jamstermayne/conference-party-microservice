@@ -7,25 +7,22 @@ export async function startOAuth() {
   if (!popup) alert("Please allow popups to connect Google Calendar.");
 }
 export async function addToCalendar(evt) {
-  try {
-    // Default to Europe/Berlin for Gamescom events
-    const eventData = {
-      ...evt,
-      timeZone: evt.timeZone || 'Europe/Berlin'
-    };
-    const res = await fetch("/googleCalendar/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(eventData)
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data?.error || res.statusText);
-    console.log("[gcal] created", data);
-    alert("✅ Added to your Google Calendar");
-  } catch (e) {
-    console.warn("[gcal] create failed", e);
-    alert("⚠️ Couldn't add to Google Calendar. Try connecting first.");
+  const eventData = {
+    ...evt,
+    timeZone: evt.timeZone || 'Europe/Berlin'
+  };
+  const res = await fetch("/googleCalendar/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(eventData)
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    console.warn("[gcal] create failed", data?.error || res.statusText);
+    throw new Error(data?.error || res.statusText);
   }
+  console.log("[gcal] created", data);
+  return data;
 }
 export async function listEvents() {
   const r = await fetch("/googleCalendar/events");
