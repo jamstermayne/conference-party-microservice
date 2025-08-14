@@ -41,4 +41,15 @@ class CalendarClient {
   }
 }
 
+async function connectGoogle(){
+  try {
+    const { url } = await authed('https://us-central1-conference-party-app.cloudfunctions.net/api/calendar/google/start');
+    const w = window.open(url + '&state=' + encodeURIComponent(await firebase.auth().currentUser.getIdToken()),
+                          '_blank','width=520,height=640');
+    if (!w) { alert('Please allow popups to connect Google Calendar.'); return; }
+    const t = setInterval(()=>{ if (w.closed){ clearInterval(t); location.reload(); } }, 700);
+  } catch(e){ console.warn(e); alert('Could not start Google connect.'); }
+}
+
 window.CalendarClient = CalendarClient;
+window.connectGoogle = connectGoogle;
