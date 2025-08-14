@@ -46,6 +46,19 @@ export async function renderCalendar(mount){
         m2m = r.connected ? r.events : []; 
       } catch {}
       
+      // Demo M2M event for testing badge (remove in production)
+      if (window.location.hash.includes('demo')) {
+        m2m.push({
+          id: 'demo-m2m-1',
+          title: 'MeetToMatch Developer Breakfast',
+          summary: 'MeetToMatch Developer Breakfast',
+          location: 'Hall 4.1',
+          start: new Date().toISOString(),
+          end: new Date(Date.now() + 3600000).toISOString(),
+          source: 'm2m'
+        });
+      }
+      
       // Merge and deduplicate
       const events = mergeAndDedup(googleEvents, m2m);
       
