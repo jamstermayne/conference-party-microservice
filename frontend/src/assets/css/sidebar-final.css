@@ -1,17 +1,29 @@
-/* Layout: rail = content width, main = fill */
+:root{ --rail-max: 260px; } /* tune if you want a cap */
+
 .app{
   display: grid;
-  grid-template-columns: max-content minmax(0, 1fr) !important; /* ← key */
+  grid-template-areas: "side main";
+  grid-template-columns: fit-content(var(--rail-max)) minmax(0, 1fr) !important;
   column-gap: 0 !important;
 }
 
-/* Sidebar should size to its contents and never wrap */
-aside.sidebar,
-[data-role="sidebar"],
-#sidebar{
+aside.sidebar, [data-role="sidebar"], #sidebar{
+  grid-area: side;
   width: max-content !important;
   min-width: max-content !important;
-  white-space: nowrap !important;
+  white-space: nowrap !important; /* no mid-label wrapping */
+}
+
+#main{
+  grid-area: main;
+  min-width: 0 !important;  /* prevent squeezing */
+}
+
+/* 🔒 Critical guard:
+   Any other direct child of .app is forced to column 2 (main).
+   This prevents accidental column-1 contributions that bloat the rail. */
+.app > :not(aside):not(#main){
+  grid-column: 2 !important;
 }
 
 /* Base nav item */
@@ -26,14 +38,12 @@ aside.sidebar,
   text-decoration: none;
 }
 
-/* Active accent (revives the "glow pill") */
-.sidebar .nav a.active,
-.sidebar [data-route].active{
+/* Active "glow pill" */
+.sidebar [data-route].active,
+.sidebar .nav a.active{
   background:
-    radial-gradient(120% 120% at -20% -40%, rgba(139,129,255,.25) 0%, rgba(22,26,45,.0) 65%),
+    radial-gradient(120% 120% at -20% -40%, rgba(139,129,255,.25) 0%, rgba(22,26,45,0) 65%),
     linear-gradient(180deg, rgba(139,129,255,.15), rgba(84,74,255,.12));
-  box-shadow:
-    0 0 0 1px rgba(110,130,255,.28),
-    0 8px 24px rgba(0,0,0,.35);
-  color: #eef2ff;
+  box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 8px 24px rgba(0,0,0,.35);
+  color: #eef2ff !important;
 }
