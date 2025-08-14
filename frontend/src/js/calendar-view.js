@@ -1,60 +1,178 @@
-function cssNum(v,def){ const n=parseFloat(v); return Number.isFinite(n)?n:def; }
-function mins(t){ 
-  if (t.includes('T')) {
-    const d = new Date(t);
-    return d.getHours()*60 + d.getMinutes();
-  }
-  const [h,m]=String(t).split(":").map(Number); 
-  return (h*60 + (m||0)); 
-}
-function topFor(t,hourH){ return ((mins(t)-8*60)/60)*hourH; }           // day starts 08:00
-function heightFor(a,b,hourH){ return ((mins(b)-mins(a))/60)*hourH; }
+/**
+ * Calendar View (08:00–22:00, 240px per hour)
+ * - Sticky toolbar
+ * - Hour rows with left gutter labels
+ * - Absolute-positioned .vcard events with overlap lanes
+ * - "Now" line on Today
+ */
+const HOUR_H = () => parseFloat(getComputedStyle(document.documentElement)
+  .getPropertyValue('--hour-height')) || 240;
 
-const sampleDay = [
-  { id:"key", title:"Gamescom Keynote", venue:"Confex Hall A", start:"2025-08-21T09:00:00", end:"2025-08-21T10:00:00" },
-  { id:"ind", title:"Indie Mixer", venue:"Hall B Patio", start:"2025-08-21T10:30:00", end:"2025-08-21T11:00:00" },
-  { id:"biz", title:"BizDev Roundtable", venue:"Marriott", start:"2025-08-21T13:00:00", end:"2025-08-21T14:00:00" },
-  { id:"eve", title:"Evening Party @ Rheinterr", venue:"Rheinterr", start:"2025-08-21T20:00:00", end:"2025-08-21T22:30:00" }
+const BASE = 8;  // 08:00 baseline
+const END  = 22; // 22:00 end
+const GUTTER = () => parseFloat(getComputedStyle(document.documentElement)
+  .getPropertyValue('--cal-gutter')) || 56;
+
+/** Utilities */
+const mins = t => { const [h,m] = String(t).split(':').map(Number); return h*60 + (m||0); };
+const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
+/** Demo data (replace with real source when wired) */
+const today = [
+  { id:'keynote', title:'Gamescom Keynote', venue:'Confex Hall A', start:'09:00', end:'10:00', live:true },
+  { id:'indie',   title:'Indie Mixer', venue:'Hall B Patio', start:'10:30', end:'11:00', live:true },
+  { id:'biz',     title:'BizDev Roundtable', venue:'Marriott', start:'13:00', end:'14:00' },
+  { id:'party',   title:'Evening Party @ Rheinterr', venue:'Rheinterr', start:'20:00', end:'22:30' }
 ];
 
+/** Build hour rows once */
+function hourRows() {
+  const rows = [];
+  for (let h = BASE; h < END; h++) {
+    const label = `${String(h).padStart(2,'0')}:00`;
+    rows.push(`<div class="hour-row"><span class="label">${label}</span></div>`);
+  }
+  return rows.join('');
+}
+
+/** Convert events to positioned blocks + simple overlap lanes */
+function layoutEvents(items) {
+  const hourH = HOUR_H();
+  const baseM = BASE * 60, endM = END * 60;
+
+  // Normalize
+  const evs = items.map(e => {
+    const s = clamp(mins(e.start), baseM, endM);
+    const en = clamp(mins(e.end  ), s+15, endM + 180); // allow spill
+    return { ...e, _s:s, _e:en };
+  }).sort((a,b)=> a._s - b._s || a._e - b._e);
+
+  // Overlap grouping into lanes
+  let active = [];
+  evs.forEach(e => {
+    // remove finished
+    active = active.filter(a => a._e > e._s);
+    // find available lane
+    const used = new Set(active.map(a => a._lane));
+    let lane = 0; while (used.has(lane)) lane++;
+    e._lane = lane;
+    active.push(e);
+  });
+
+  // Compute max lane per cluster for width
+  // We need cluster sizes; do a second pass
+  const clusters = [];
+  active = [];
+  evs.forEach(e => {
+    if (!active.length || active.some(a => a._e > e._s)) {
+      active.push(e);
+    } else {
+      clusters.push(active); active = [e];
+    }
+  });
+  if (active.length) clusters.push(active);
+  const widths = new Map();
+  clusters.forEach(group => {
+    const maxLane = Math.max(...group.map(g => g._lane)) + 1;
+    group.forEach(g => widths.set(g.id, maxLane));
+  });
+
+  // Produce positioned blocks
+  return evs.map(e => {
+    const top    = ((e._s - baseM)/60) * hourH;
+    const height = ((e._e - e._s)/60) * hourH;
+    const cols   = widths.get(e.id) || 1;
+    const laneW  = 100/cols;         // percent of the events layer (to the right of gutter)
+    const leftPct= e._lane * laneW;
+
+    return {
+      id: e.id, top, height, leftPct, widthPct: laneW,
+      html: `
+        <div class="cal-event" style="
+          top:${top}px; height:${height}px;
+          left: calc(${GUTTER()}px + ${leftPct}%);
+          width: calc(${laneW}% - ${16}px);
+        ">
+          <article class="vcard">
+            <div class="vcard__head">
+              <div class="vcard__title">${e.title}</div>
+              <div class="vcard__badges">
+                ${e.live ? `<span class="vpill live">live</span>` : ``}
+              </div>
+            </div>
+            <div class="vmeta">📍 ${e.venue} • 🕒 ${e.start} – ${e.end}</div>
+            <div class="vactions">
+              <button class="vbtn primary" data-act="add" data-id="${e.id}">Add to Calendar</button>
+              <button class="vbtn" data-act="details" data-id="${e.id}">Details</button>
+            </div>
+          </article>
+        </div>`
+    };
+  });
+}
+
+/** Now line (today only) */
+function nowTopPx() {
+  const hourH = HOUR_H();
+  const m = new Date();
+  const minsNow = m.getHours()*60 + m.getMinutes();
+  const minRef  = BASE*60;
+  return ((minsNow - minRef)/60) * hourH;
+}
+
+/** Render entry */
 export async function renderCalendar(mount){
   if(!mount) return;
-  const cs = getComputedStyle(document.documentElement);
-  const hourH = cssNum(cs.getPropertyValue("--hour-height"), 240);
 
   mount.innerHTML = `
-    <section class="vwrap">
-      <div class="vactions" style="margin-bottom:12px">
-        <button class="vbtn primary" data-gcal-start>Connect Google Calendar</button>
-        <button class="vbtn">Today</button>
-        <button class="vbtn">Tomorrow</button>
+    <section class="calendar-screen">
+      <div class="cal-toolbar">
+        <button class="vbtn primary" data-nav="today">Today</button>
+        <button class="vbtn" data-nav="tomorrow">Tomorrow</button>
+        <button class="vbtn" data-nav="week">This week</button>
       </div>
-      <div class="cal-grid" style="min-height:${hourH*15}px">
-        ${Array.from({length:15}).map((_,i)=>`<div class="hour-row">${(8+i).toString().padStart(2,"0")}:00</div>`).join("")}
-        ${sampleDay.map(ev => {
-          const startTime = new Date(ev.start).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
-          const endTime = new Date(ev.end).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
-          return `
-          <div class="cal-event" style="top:${topFor(ev.start,hourH)}px; height:${heightFor(ev.start,ev.end,hourH)}px">
-            <article class="vcard">
-              <div class="vhead">
-                <div class="vtitle">${ev.title}</div>
-                <div class="vbadges"><span class="vpill live">live</span></div>
-              </div>
-              <div class="vmeta">📍 ${ev.venue} • 🕒 ${startTime} – ${endTime}</div>
-              <div class="vactions">
-                <button class="vbtn primary"
-                        data-gcal-add
-                        data-title="${ev.title}"
-                        data-venue="${ev.venue}"
-                        data-start="${ev.start}"
-                        data-end="${ev.end}">Add to Calendar</button>
-                <button class="vbtn">Details</button>
-              </div>
-            </article>
-          </div>`;
-        }).join("")}
+
+      <div class="cal-grid">
+        ${hourRows()}
+        <div class="cal-events" id="cal-events"></div>
+        <div class="cal-now" id="cal-now" style="display:none"><span class="tick">now</span></div>
       </div>
-    </section>`;
+    </section>
+  `;
+
+  const layer = mount.querySelector('#cal-events');
+  const blocks = layoutEvents(today);
+  layer.innerHTML = blocks.map(b => b.html).join('');
+
+  // Handlers (stubs; wire to real hooks later)
+  layer.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-act]');
+    if(!btn) return;
+    const id = btn.dataset.id;
+    const act = btn.dataset.act;
+    if (act === 'add') {
+      console.log('[cal] add to calendar', id);
+      // TODO: call /googleCalendar/create when auth is wired.
+    } else if (act === 'details') {
+      console.log('[cal] details', id);
+    }
+  });
+
+  // Show "now" line if viewing "today"
+  const nowEl = mount.querySelector('#cal-now');
+  const setNow = () => {
+    const top = nowTopPx();
+    const min = 0, max = (END-BASE) * HOUR_H();
+    if (top >= min && top <= max) {
+      nowEl.style.display = 'block';
+      nowEl.style.top = `${top}px`;
+    } else {
+      nowEl.style.display = 'none';
+    }
+  };
+  setNow();
+  const timer = setInterval(setNow, 60 * 1000);
+  // Clean up if route changes
+  window.addEventListener('hashchange', () => clearInterval(timer), { once: true });
 }
 export default { renderCalendar };
