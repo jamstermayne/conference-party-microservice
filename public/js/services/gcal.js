@@ -1,96 +1,127 @@
-// minimal, solid client for backend-only OAuth
+// Dead simple Google Calendar integration - server-side OAuth only
 const BASE = '/api/googleCalendar';
 
+const ORIGIN =
+  location.origin.includes('web.app')
+    ? 'https://conference-party-app.web.app'
+    : location.origin;
+
 export const GCal = {
+  // Check if connected
   isConnected: async () => {
-    const r = await fetch(`${BASE}/status`, { credentials: 'include' });
-    if (!r.ok) return false;  // Never throws; UI can render CTA
-    const j = await r.json().catch(() => ({connected: false}));
-    return !!j.connected;
-  },
-  startOAuth: (usePopup = true) => {
-    const authUrl = `${BASE}/google/start`;
-    
-    if (usePopup) {
-      const w = 500;
-      const h = 600;
-      const y = Math.max(0, (window.outerHeight - h) / 2);
-      const x = Math.max(0, (window.outerWidth - w) / 2);
-      
-      const popup = window.open(authUrl, 'gcal_oauth',
-        `width=${w},height=${h},left=${x},top=${y},resizable=yes,scrollbars=yes`);
-      
-      if (!popup) {
-        // Popup blocked, fallback to redirect
-        location.assign(authUrl);
-        return;
-      }
-      
-      // Return a promise that resolves when auth completes
-      return new Promise((resolve, reject) => {
-        const messageHandler = (event) => {
-          if (event.origin !== location.origin) return;
-          if (event.data?.type === 'gcal-auth') {
-            window.removeEventListener('message', messageHandler);
-            if (event.data.ok) {
-              resolve(event.data);
-            } else {
-              reject(new Error(event.data.error || 'Authentication failed'));
-            }
-          }
-        };
-        
-        window.addEventListener('message', messageHandler);
-        
-        // Check if popup is closed
-        const checkClosed = setInterval(() => {
-          if (popup.closed) {
-            clearInterval(checkClosed);
-            window.removeEventListener('message', messageHandler);
-            reject(new Error('Popup closed'));
-          }
-        }, 1000);
+    try {
+      const r = await fetch(`${BASE}/status`, { 
+        credentials: 'include' 
       });
-    } else {
-      // Direct redirect
-      location.assign(authUrl);
+      const data = await r.json();
+      return data.connected || false;
+    } catch {
+      return false;
     }
   },
-  listEvents: async (range = 'today') => {
-    const r = await fetch(`${BASE}/events?range=${encodeURIComponent(range)}`, { 
-      credentials: 'include',
-      headers: { 'Accept': 'application/json' }
+
+  // Start OAuth flow - popup or redirect
+  startOAuth: async ({ usePopup = false } = {}) => {
+    const url = `${BASE}/google/start`;
+    if (!usePopup) {
+      location.href = url;
+      return;
+    }
+
+    const popup = window.open(url, 'gcal_oauth', 'width=600,height=700');
+    if (!popup) throw new Error('Popup blocked');
+
+    return new Promise((resolve, reject) => {
+      const checkClosed = setInterval(() => {
+        if (popup.closed) {
+          cleanup();
+          reject(new Error('Popup closed'));
+        }
+      }, 500);
+
+      function onMsg(ev) {
+        if (ev.origin !== ORIGIN) return;
+        const d = ev.data || {};
+        if (d.type === 'gcal:connected') {
+          cleanup();
+          resolve(true);
+        } else if (d.type === 'gcal:error') {
+          cleanup();
+          reject(new Error(d.reason || 'OAuth failed'));
+        }
+      }
+
+      function cleanup() {
+        clearInterval(checkClosed);
+        window.removeEventListener('message', onMsg);
+        try { popup.close(); } catch {}
+      }
+
+      window.addEventListener('message', onMsg);
     });
-    // Return empty array for auth errors instead of throwing
-    if (r.status === 401 || r.status === 403) return [];
-    if (!r.ok) throw new Error('events_failed');
-    const j = await r.json();
-    return j.events || [];
   },
+
+  // List calendar events
+  listEvents: async (range = 'week') => {
+    try {
+      const r = await fetch(`${BASE}/events?range=${range}`, { 
+        credentials: 'include' 
+      });
+      if (!r.ok) return [];
+      const data = await r.json();
+      return data.events || [];
+    } catch {
+      return [];
+    }
+  },
+
+  // Create event from party
   createFromParty: async (party) => {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const r = await fetch(`${BASE}/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({
         summary: party.title,
-        location: party.venue,
-        start: party.startISO,
-        end: party.endISO,
-        timeZone: tz,
-        privateKey: { partyId: party.id } // for idempotency
+        location: party.venue || party.location,
+        description: party.description || '',
+        start: party.startISO || party.start,
+        end: party.endISO || party.end,
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
       })
     });
+    
     if (!r.ok) {
-      // Surface a clean message instead of throwing raw 403
-      const msg = r.status === 401 || r.status === 403
-        ? 'Connect Google Calendar to add events'
-        : `Calendar error (${r.status})`;
-      throw new Error(msg);
+      throw new Error('Failed to create event');
     }
+    
     return r.json();
+  },
+
+  // Disconnect calendar
+  disconnect: async () => {
+    const r = await fetch(`${BASE}/disconnect`, {
+      method: 'POST',
+      credentials: 'include'
+    });
+    return r.ok;
+  },
+
+  // Get user info
+  getUser: async () => {
+    try {
+      const r = await fetch(`${BASE}/user`, {
+        credentials: 'include'
+      });
+      if (!r.ok) return null;
+      return r.json();
+    } catch {
+      return null;
+    }
   }
 };
+
+// Re-export individual functions for tree-shaking
+export const { isConnected, startOAuth, listEvents, createFromParty, disconnect, getUser } = GCal;
 
 export default GCal;

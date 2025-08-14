@@ -1,6 +1,11 @@
 // Dead simple Google Calendar integration - server-side OAuth only
 const BASE = '/api/googleCalendar';
 
+const ORIGIN =
+  location.origin.includes('web.app')
+    ? 'https://conference-party-app.web.app'
+    : location.origin;
+
 export const GCal = {
   // Check if connected
   isConnected: async () => {
@@ -16,53 +21,44 @@ export const GCal = {
   },
 
   // Start OAuth flow - popup or redirect
-  startOAuth: (usePopup = true) => {
-    const authUrl = `${BASE}/google/start`;
-    
-    if (usePopup) {
-      const w = 500;
-      const h = 600;
-      const y = Math.max(0, (window.outerHeight - h) / 2);
-      const x = Math.max(0, (window.outerWidth - w) / 2);
-      
-      const popup = window.open(authUrl, 'gcal_oauth',
-        `width=${w},height=${h},left=${x},top=${y},resizable=yes,scrollbars=yes`);
-      
-      if (!popup) {
-        // Popup blocked, fallback to redirect
-        window.location.href = authUrl;
-        return;
-      }
-      
-      // Return a promise that resolves when auth completes
-      return new Promise((resolve, reject) => {
-        const messageHandler = (event) => {
-          if (event.origin !== location.origin) return;
-          if (event.data?.type === 'gcal-auth') {
-            window.removeEventListener('message', messageHandler);
-            if (event.data.ok) {
-              resolve(event.data);
-            } else {
-              reject(new Error(event.data.error || 'Authentication failed'));
-            }
-          }
-        };
-        
-        window.addEventListener('message', messageHandler);
-        
-        // Check if popup is closed
-        const checkClosed = setInterval(() => {
-          if (popup.closed) {
-            clearInterval(checkClosed);
-            window.removeEventListener('message', messageHandler);
-            reject(new Error('Popup closed'));
-          }
-        }, 1000);
-      });
-    } else {
-      // Direct redirect
-      window.location.href = authUrl;
+  startOAuth: async ({ usePopup = false } = {}) => {
+    const url = `${BASE}/google/start`;
+    if (!usePopup) {
+      location.href = url;
+      return;
     }
+
+    const popup = window.open(url, 'gcal_oauth', 'width=600,height=700');
+    if (!popup) throw new Error('Popup blocked');
+
+    return new Promise((resolve, reject) => {
+      const checkClosed = setInterval(() => {
+        if (popup.closed) {
+          cleanup();
+          reject(new Error('Popup closed'));
+        }
+      }, 500);
+
+      function onMsg(ev) {
+        if (ev.origin !== ORIGIN) return;
+        const d = ev.data || {};
+        if (d.type === 'gcal:connected') {
+          cleanup();
+          resolve(true);
+        } else if (d.type === 'gcal:error') {
+          cleanup();
+          reject(new Error(d.reason || 'OAuth failed'));
+        }
+      }
+
+      function cleanup() {
+        clearInterval(checkClosed);
+        window.removeEventListener('message', onMsg);
+        try { popup.close(); } catch {}
+      }
+
+      window.addEventListener('message', onMsg);
+    });
   },
 
   // List calendar events
@@ -124,5 +120,8 @@ export const GCal = {
     }
   }
 };
+
+// Re-export individual functions for tree-shaking
+export const { isConnected, startOAuth, listEvents, createFromParty, disconnect, getUser } = GCal;
 
 export default GCal;

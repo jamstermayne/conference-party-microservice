@@ -1,5 +1,5 @@
 // views/calendar-providers.js
-import { isConnected as gIsConnected, startOAuth as gStart, disconnect as gDisconnect } from '../services/gcal.js';
+import { isConnected, startOAuth, disconnect } from '../services/gcal.js';
 import { createIcsFileForNextEvent } from '../services/ics.js';
 
 export async function renderCalendar(mount){
@@ -13,7 +13,7 @@ export async function renderCalendar(mount){
     </div>
   `;
   try {
-    const { connected } = await gIsConnected();
+    const connected = await isConnected();
     const n = mount.querySelector('#card-google');
     n.outerHTML = cardGoogle({ connected });
     wireGoogle(mount);
@@ -62,11 +62,27 @@ function cardMeetToMatch(){
 /* --- Wiring --- */
 function wireGoogle(root){
   const connect = root.querySelector('#g-connect');
-  const disconnect = root.querySelector('#g-disconnect');
-  if (connect)    connect.addEventListener('click', () => gStart({ usePopup:true }));
-  if (disconnect) disconnect.addEventListener('click', async () => {
-    try { await gDisconnect(); location.reload(); } catch(e){ console.warn(e); }
-  });
+  const disconnectBtn = root.querySelector('#g-disconnect');
+  if (connect) {
+    connect.addEventListener('click', async () => {
+      try {
+        await startOAuth({ usePopup: true });
+        location.reload();
+      } catch(e) {
+        console.warn('OAuth failed:', e);
+      }
+    });
+  }
+  if (disconnectBtn) {
+    disconnectBtn.addEventListener('click', async () => {
+      try { 
+        await disconnect(); 
+        location.reload(); 
+      } catch(e) { 
+        console.warn(e); 
+      }
+    });
+  }
 }
 function wireMicrosoft(root){
   const toWeb = root.querySelector('#ms-open-web');
