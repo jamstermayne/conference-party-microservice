@@ -5,6 +5,9 @@ import { createState, consumeState } from '../lib/oauthState';
 
 const router = Router();
 
+// at top of the file (or near other constants)
+const HOSTING_ORIGIN = process.env['HOSTING_ORIGIN'] || 'https://conference-party-app.web.app';
+
 function baseUrl(req: any) {
   const proto = (req.get('x-forwarded-proto') || 'https').toLowerCase();
   const host  = (req.get('x-forwarded-host') || req.get('host')).toLowerCase();
@@ -90,61 +93,23 @@ router.get('/googleCalendar/google/callback', async (req: any, res: any) => {
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="color-scheme" content="dark light">
   <title>Authorization Cancelled</title>
-  <style>
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
-    .container {
-      background: white;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      text-align: center;
-      max-width: 400px;
-    }
-    .error-icon {
-      font-size: 48px;
-      margin-bottom: 20px;
-    }
-    h1 {
-      color: #2d3748;
-      margin: 0 0 10px 0;
-      font-size: 24px;
-    }
-    p {
-      color: #718096;
-      margin: 0;
-    }
-  </style>
 </head>
-<body>
-  <div class="container">
-    <div class="error-icon">❌</div>
-    <h1>Authorization Cancelled</h1>
-    <p>You can close this window and try again.</p>
-  </div>
+<body style="font:14px system-ui;padding:16px">
+  Authorization cancelled. You can close this window and try again.
   <script>
-    try {
-      if (window.opener && window.opener !== window) {
-        window.opener.postMessage({
-          type: 'gcal-auth',
-          ok: false,
+    (function () {
+      var ORIGIN = ${JSON.stringify(HOSTING_ORIGIN)};
+      try {
+        (window.opener || window.parent)?.postMessage({
+          type: 'gcal:error',
           error: 'cancelled'
-        }, location.origin);
-        setTimeout(() => window.close(), 1500);
-      } else {
-        setTimeout(() => window.location.href = '/', 1500);
-      }
-    } catch (e) {
-      setTimeout(() => window.location.href = '/', 2000);
-    }
+        }, ORIGIN);
+      } catch (e) {}
+      setTimeout(function(){ window.close(); }, 50);
+      setTimeout(function(){ location.href = ORIGIN; }, 200);
+    })();
   </script>
 </body>
 </html>`);
@@ -160,61 +125,23 @@ router.get('/googleCalendar/google/callback', async (req: any, res: any) => {
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="color-scheme" content="dark light">
   <title>Security Error</title>
-  <style>
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
-    .container {
-      background: white;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      text-align: center;
-      max-width: 400px;
-    }
-    .error-icon {
-      font-size: 48px;
-      margin-bottom: 20px;
-    }
-    h1 {
-      color: #2d3748;
-      margin: 0 0 10px 0;
-      font-size: 24px;
-    }
-    p {
-      color: #718096;
-      margin: 0;
-    }
-  </style>
 </head>
-<body>
-  <div class="container">
-    <div class="error-icon">⚠️</div>
-    <h1>Security Check Failed</h1>
-    <p>Please try connecting again from the app.</p>
-  </div>
+<body style="font:14px system-ui;padding:16px">
+  Security check failed. Please try connecting again from the app.
   <script>
-    try {
-      if (window.opener && window.opener !== window) {
-        window.opener.postMessage({
-          type: 'gcal-auth',
-          ok: false,
+    (function () {
+      var ORIGIN = ${JSON.stringify(HOSTING_ORIGIN)};
+      try {
+        (window.opener || window.parent)?.postMessage({
+          type: 'gcal:error',
           error: 'csrf_failed'
-        }, location.origin);
-        setTimeout(() => window.close(), 2000);
-      } else {
-        setTimeout(() => window.location.href = '/', 2000);
-      }
-    } catch (e) {
-      setTimeout(() => window.location.href = '/', 2000);
-    }
+        }, ORIGIN);
+      } catch (e) {}
+      setTimeout(function(){ window.close(); }, 50);
+      setTimeout(function(){ location.href = ORIGIN; }, 200);
+    })();
   </script>
 </body>
 </html>`);
@@ -245,70 +172,24 @@ router.get('/googleCalendar/google/callback', async (req: any, res: any) => {
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="color-scheme" content="dark light">
   <title>Connected</title>
-  <style>
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    .container {
-      background: white;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      text-align: center;
-      max-width: 400px;
-    }
-    .success-icon {
-      font-size: 48px;
-      margin-bottom: 20px;
-    }
-    h1 {
-      color: #2d3748;
-      margin: 0 0 10px 0;
-      font-size: 24px;
-    }
-    p {
-      color: #718096;
-      margin: 0;
-    }
-  </style>
 </head>
-<body>
-  <div class="container">
-    <div class="success-icon">✅</div>
-    <h1>Google Calendar Connected!</h1>
-    <p>You can close this window and return to the app.</p>
-  </div>
+<body style="font:14px system-ui;padding:16px">
+  Connected to Google Calendar. You can close this window.
   <script>
-    // Notify parent window if this was opened as a popup
-    try {
-      if (window.opener && window.opener !== window) {
-        window.opener.postMessage({
-          type: 'gcal-auth',
-          ok: true,
+    (function () {
+      var ORIGIN = ${JSON.stringify(HOSTING_ORIGIN)};
+      try {
+        (window.opener || window.parent)?.postMessage({ 
+          type: 'gcal:connected',
           email: ${JSON.stringify(userInfo.email || null)}
-        }, location.origin);
-        // Auto-close after a short delay
-        setTimeout(() => window.close(), 1500);
-      } else {
-        // If not a popup, redirect to calendar view
-        setTimeout(() => {
-          window.location.href = '${baseUrl(req)}/#calendar';
-        }, 1500);
-      }
-    } catch (e) {
-      console.error('PostMessage failed:', e);
-      // Fallback to redirect
-      setTimeout(() => {
-        window.location.href = '${baseUrl(req)}/#calendar';
-      }, 2000);
-    }
+        }, ORIGIN);
+      } catch (e) {}
+      // close quickly; hard fallback to calendar if popup blockers interfere
+      setTimeout(function(){ window.close(); }, 50);
+      setTimeout(function(){ location.href = ORIGIN + '/#calendar'; }, 200);
+    })();
   </script>
 </body>
 </html>`);

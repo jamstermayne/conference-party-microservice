@@ -54,11 +54,17 @@ function startGoogleOAuthAndWait() {
     }, 1000);
 
     const onMsg = (ev) => {
-      if (ev.data && ev.data.type === 'gcal-auth' && ev.data.ok === true) {
+      if (ev.data && (ev.data.type === 'gcal-auth' || ev.data.type === 'gcal:connected')) {
         clearInterval(iv);
         try { w.close(); } catch {}
         window.removeEventListener('message', onMsg);
         resolve();
+      }
+      if (ev.data && ev.data.type === 'gcal:error') {
+        clearInterval(iv);
+        try { w.close(); } catch {}
+        window.removeEventListener('message', onMsg);
+        reject(new Error(ev.data.error || 'auth_failed'));
       }
     };
     window.addEventListener('message', onMsg);
