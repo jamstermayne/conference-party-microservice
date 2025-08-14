@@ -1,7 +1,7 @@
 const express = require('express');
 const admin = require('firebase-admin');
 const crypto = require('crypto');
-const checkAuth = require('../lib/checkAuth');
+const checkAuth = require('../middleware/checkAuth');
 
 // Initialize admin if not already done
 try {
