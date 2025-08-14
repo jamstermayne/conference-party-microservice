@@ -1,63 +1,54 @@
-:root{ --rail-max:260px; }
+/**
+ * Sidebar Layout Override
+ * Authoritative grid rules with !important
+ */
 
-/* Canonical app grid: rail is content-sized up to 260px; main fills the rest */
-.app, .app-layout{
-  display:grid;
-  grid-template-columns: fit-content(var(--rail-max)) minmax(0,1fr);
-  column-gap: 0;
-  min-height:100vh;
+:root { 
+  --rail-max: 260px; 
 }
 
-/* Sidebar rail: no wrapping => labels don't widen the rail */
-aside.sidebar, [data-role="sidebar"], #sidebar{
-  max-width: var(--rail-max);
-  width:auto;
-  min-width:0;
-  white-space:nowrap;
-  overflow:hidden;
+/* Grid layout */
+.app, .app-layout {
+  display: grid !important;
+  grid-template-columns: fit-content(var(--rail-max)) minmax(0, 1fr) !important;
+  column-gap: 0 !important;
+  min-height: 100vh !important;
 }
 
-/* Stack links neatly; never introduce columns */
-aside.sidebar .nav, aside.sidebar ul{
-  display:flex; flex-direction:column; gap:.5rem;
+/* Sidebar sizing */
+aside.sidebar, [data-role="sidebar"], #sidebar {
+  width: auto !important;
+  max-width: var(--rail-max) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 
-/* Main column: shrink-safe and scrollable */
-#main{ min-width:0; overflow-y:auto; }
+/* Main content */
+#main, .main-panel {
+  min-width: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
 
-/* Active channel accent (revives the pill look) */
+/* Navigation layout */
+aside.sidebar .nav, 
+aside.sidebar ul {
+  display: flex; 
+  flex-direction: column; 
+  gap: .5rem;
+}
+
+/* Active state styling */
+.sidebar [data-nav].active,
 .sidebar [data-route].active,
 .sidebar .nav a.active,
-.sidebar a[aria-current="page"]{
+.sidebar a[aria-current="page"] {
   background:
     radial-gradient(120% 120% at -20% -40%, rgba(139,129,255,.25) 0, rgba(22,26,45,0) 65%),
     linear-gradient(180deg, rgba(139,129,255,.18), rgba(84,74,255,.12));
   box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 8px 24px rgba(0,0,0,.35);
-  color:#eef2ff!important;
-  border-radius:16px;
-}
-/* --- Sidebar rail lock (authoritative) --- */
-:root { --rail-max: 260px; }
-
-.app, .app-layout {
-  display: grid !important;
-  /* First track hugs content but never exceeds --rail-max */
-  grid-template-columns: fit-content(var(--rail-max)) minmax(0, 1fr) !important;
-  column-gap: 0 !important;
-}
-
-aside.sidebar, [data-role="sidebar"], #sidebar {
-  /* Let content define width, cap at rail-max, prevent wrap-induced growth */
-  width: auto !important;
-  max-width: var(--rail-max) !important;
-  white-space: nowrap !important;
-  overflow: hidden;  /* clip accidental long text */
-  text-overflow: ellipsis;
-}
-
-/* Ensure main can actually shrink and scroll */
-#main {
-  min-width: 0 !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  color: #eef2ff !important;
+  border-radius: 16px;
+  padding: 8px 12px;
 }
