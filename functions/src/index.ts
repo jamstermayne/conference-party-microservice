@@ -113,4 +113,4 @@ app.post("/api/metrics", (req, res) => {
   res.status(204).send(); // No Content
 });
 
-export const api = functions.https.onRequest(app);
+export const apiFn = functions.https.onRequest(app);
