@@ -1,7 +1,7 @@
 :root{  }
 body .app, #app.app, .app{
   display:grid !important;
-  grid-template-columns: fit-content(280px) minmax(0,1fr) !important; /* natural sizing */
+  grid-template-columns: fit-content(var(--rail-max, 260px)) minmax(0,1fr) !important; /* natural sizing */
   grid-auto-rows:auto !important;
   height:100vh !important;
   gap:0 !important;
@@ -15,9 +15,7 @@ body .app > aside.sidebar,
 body #app > aside.sidebar,
 .app > aside.sidebar {
   grid-column:1 / span 1 !important;
-  width:auto !important;
-  min-width:auto !important;
-  max-width:none !important;
+  /* width handled by sidebar-final.css */
   margin:0 !important;
   padding:18px 16px !important; /* restore natural padding */
   border:0 !important;
@@ -64,13 +62,8 @@ main#main {
 #main .vcard{ width:100% !important; }
 
 /* --- Sidebar shrinkwrap & nav items --- */
-aside.sidebar, [data-role="sidebar"], #sidebar{
-  width: max-content !important;      /* shrink to widest channel */
-  max-width: 280px !important;        /* hard cap so it never explodes */
-  box-sizing: border-box !important;
-  padding-left: 16px !important;
-  padding-right: 16px !important;
-}
+/* REMOVED: These rules were conflicting with sidebar-final.css */
+/* The sidebar sizing is now handled by grid-template-columns and sidebar-final.css */
 
 /* Nav items should not force full-width tracks */
 aside.sidebar a,
@@ -80,7 +73,6 @@ aside.sidebar li,
 aside.sidebar button{
   display: inline-flex !important;
   width: auto !important;
-  max-width: 100% !important;         /* allow wrapping if names are huge */
   white-space: nowrap;                 /* keep the pill look */
 }
 
