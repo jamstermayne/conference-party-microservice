@@ -80,10 +80,6 @@
         ]
       },
       {
-        "source": "**",
-        "headers": []
-      },
-      {
         "source": "/**",
         "headers": [
           {
