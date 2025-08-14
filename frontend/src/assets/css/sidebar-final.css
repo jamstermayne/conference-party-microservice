@@ -1,16 +1,16 @@
-:root{ --rail-max: 260px; } /* tune if you want a cap */
+:root{ --rail-width: 180px; } /* fixed sidebar width */
 
 .app{
   display: grid;
   grid-template-areas: "side main";
-  grid-template-columns: fit-content(var(--rail-max)) minmax(0, 1fr) !important;
+  grid-template-columns: var(--rail-width) minmax(0, 1fr) !important;
   column-gap: 0 !important;
 }
 
 aside.sidebar, [data-role="sidebar"], #sidebar{
   grid-area: side;
-  width: max-content !important;
-  max-width: var(--rail-max) !important; /* enforce the cap */
+  width: var(--rail-width) !important;
+  overflow-x: hidden !important; /* prevent overflow */
   white-space: nowrap !important; /* no mid-label wrapping */
 }
 
@@ -18,7 +18,8 @@ aside.sidebar, [data-role="sidebar"], #sidebar{
 .sidebar nav,
 .sidebar .nav {
   width: 100%;
-  max-width: var(--rail-max);
+  max-width: var(--rail-width);
+  overflow-x: hidden;
 }
 
 #main{
@@ -43,6 +44,12 @@ aside.sidebar, [data-role="sidebar"], #sidebar{
   border-radius: 12px;
   color: #cfe0ff;
   text-decoration: none;
+  width: 100%;
+  max-width: calc(var(--rail-width) - 32px); /* account for sidebar padding */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 /* Active "glow pill" */
