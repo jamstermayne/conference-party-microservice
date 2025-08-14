@@ -17,8 +17,8 @@
     nav a.active, nav a:hover{background:linear-gradient(90deg,#16233c,#15223a);color:#fff}
     main{padding:0;min-height:100vh;overflow-y:auto;box-sizing:border-box}
   </style>
-  <link rel="stylesheet" href="/assets/css/calendar-uniform.css?v=b027">
-  <script>window.BUILD="b021";</script>
+  <link rel="stylesheet" href="/assets/css/calendar-uniform.css?v=b029">
+  <script>window.BUILD="b029";</script>
   <script>
     // kill any stale SW right now
     if('serviceWorker' in navigator){
@@ -26,16 +26,15 @@
       caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
     }
   </script>
-  <link rel="stylesheet" href="/assets/css/theme.css?v=b027">
-  <link rel="stylesheet" href="/assets/css/theme-unified.css?v=b027">
+  <link rel="stylesheet" href="/assets/css/theme.css?v=b029">
+  <link rel="stylesheet" href="/assets/css/theme-unified.css?v=b029">
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="/js/auth.js?v=b027"></script>
+  <script src="/js/auth.js?v=b029"></script>
   <!-- Consolidated layout styles -->
-  <link rel="stylesheet" href="/assets/css/hero-cards.css?v=b027">
-  <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b027">
-  <link rel="stylesheet" href="/assets/css/grid-layout-fix.css?v=b028">
-  <link rel="stylesheet" href="/assets/css/sidebar-rail.css?v=b028">
+  <link rel="stylesheet" href="/assets/css/hero-cards.css?v=b029">
+  <link rel="stylesheet" href="/assets/css/sidebar.css?v=b029">
+  <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b029"><!-- last: layout lock -->
   <style id="layout-hotfix">
     #app{display:grid !important;grid-template-columns:fit-content(280px) minmax(0,1fr) !important;height:100vh !important;gap:0 !important}
     #app > aside.sidebar{grid-column:1 / 2 !important;width:auto !important;position:sticky !important;top:0 !important}
@@ -70,7 +69,7 @@ if ('serviceWorker' in navigator) {
 }
   </script>
 <script src="/js/kill-sw.js?v=b027"></script>
-<script type="module" src="/js/router.js?v=b027"></script>
+<script type="module" src="/js/router.js?v=b029"></script>
   <script src="/js/theme-patch.js?v=001"></script>
 </body>
 </html>

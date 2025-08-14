@@ -1,4 +1,4 @@
-import { startOAuth, addToCalendar } from "./services/google-calendar.js?v=b028";
+import { startOAuth, addToCalendar } from "./services/google-calendar.js?v=b029";
 
 function withBusy(btn, fn) {
   const prev = { text: btn.textContent, disabled: btn.disabled };
