@@ -52,3 +52,18 @@ aside.sidebar ul {
   border-radius: 16px;
   padding: 8px 12px;
 }
+/* kill-brand-dot */
+aside .brand .dot,
+aside .brand .badge,
+aside .brand::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* kill-brand-dot */
+aside .brand .dot,
+aside .brand .badge,
+aside .brand::before {
+  display: none !important;
+  content: none !important;
+}

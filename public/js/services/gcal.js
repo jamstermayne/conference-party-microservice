@@ -1,21 +1,13 @@
-// Dead simple Google Calendar integration - server-side OAuth only
+// minimal, solid client for backend-only OAuth
 const BASE = '/api/googleCalendar';
 
 export const GCal = {
-  // Check if connected
   isConnected: async () => {
-    try {
-      const r = await fetch(`${BASE}/status`, { 
-        credentials: 'include' 
-      });
-      const data = await r.json();
-      return data.connected || false;
-    } catch {
-      return false;
-    }
+    const r = await fetch(`${BASE}/status`, { credentials: 'include' });
+    if (!r.ok) return false;  // Never throws; UI can render CTA
+    const j = await r.json().catch(() => ({connected: false}));
+    return !!j.connected;
   },
-
-  // Start OAuth flow - popup or redirect
   startOAuth: (usePopup = true) => {
     const authUrl = `${BASE}/google/start`;
     
@@ -30,7 +22,7 @@ export const GCal = {
       
       if (!popup) {
         // Popup blocked, fallback to redirect
-        window.location.href = authUrl;
+        location.assign(authUrl);
         return;
       }
       
@@ -61,67 +53,43 @@ export const GCal = {
       });
     } else {
       // Direct redirect
-      window.location.href = authUrl;
+      location.assign(authUrl);
     }
   },
-
-  // List calendar events
-  listEvents: async (range = 'week') => {
-    try {
-      const r = await fetch(`${BASE}/events?range=${range}`, { 
-        credentials: 'include' 
-      });
-      if (!r.ok) return [];
-      const data = await r.json();
-      return data.events || [];
-    } catch {
-      return [];
-    }
+  listEvents: async (range = 'today') => {
+    const r = await fetch(`${BASE}/events?range=${encodeURIComponent(range)}`, { 
+      credentials: 'include',
+      headers: { 'Accept': 'application/json' }
+    });
+    // Return empty array for auth errors instead of throwing
+    if (r.status === 401 || r.status === 403) return [];
+    if (!r.ok) throw new Error('events_failed');
+    const j = await r.json();
+    return j.events || [];
   },
-
-  // Create event from party
   createFromParty: async (party) => {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const r = await fetch(`${BASE}/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({
         summary: party.title,
-        location: party.venue || party.location,
-        description: party.description || '',
-        start: party.startISO || party.start,
-        end: party.endISO || party.end,
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        location: party.venue,
+        start: party.startISO,
+        end: party.endISO,
+        timeZone: tz,
+        privateKey: { partyId: party.id } // for idempotency
       })
     });
-    
     if (!r.ok) {
-      throw new Error('Failed to create event');
+      // Surface a clean message instead of throwing raw 403
+      const msg = r.status === 401 || r.status === 403
+        ? 'Connect Google Calendar to add events'
+        : `Calendar error (${r.status})`;
+      throw new Error(msg);
     }
-    
     return r.json();
-  },
-
-  // Disconnect calendar
-  disconnect: async () => {
-    const r = await fetch(`${BASE}/disconnect`, {
-      method: 'POST',
-      credentials: 'include'
-    });
-    return r.ok;
-  },
-
-  // Get user info
-  getUser: async () => {
-    try {
-      const r = await fetch(`${BASE}/user`, {
-        credentials: 'include'
-      });
-      if (!r.ok) return null;
-      return r.json();
-    } catch {
-      return null;
-    }
   }
 };
 

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Calendar OAuth Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+    }
+    .status {
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+    .connected {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    .disconnected {
+      background: #ffebee;
+      color: #c62828;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #4285f4;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    .btn:hover {
+      background: #357ae8;
+    }
+    .btn.secondary {
+      background: #757575;
+    }
+    .btn.secondary:hover {
+      background: #616161;
+    }
+    .events {
+      margin-top: 30px;
+    }
+    .event {
+      border-left: 4px solid #4285f4;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      background: #f9f9f9;
+    }
+    .event-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .event-details {
+      color: #666;
+      font-size: 14px;
+    }
+    .user-info {
+      padding: 15px;
+      background: #f0f7ff;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🗓️ Google Calendar OAuth Test</h1>
+    
+    <div id="status" class="status disconnected">
+      Checking connection status...
+    </div>
+    
+    <div id="user-info"></div>
+    
+    <div id="actions">
+      <button class="btn" onclick="connectCalendar()" id="connect-btn" style="display:none">
+        Connect Google Calendar
+      </button>
+      <button class="btn secondary" onclick="disconnectCalendar()" id="disconnect-btn" style="display:none">
+        Disconnect
+      </button>
+      <button class="btn" onclick="loadEvents()" id="load-events-btn" style="display:none">
+        Load Events
+      </button>
+      <button class="btn" onclick="testCreateEvent()" id="create-event-btn" style="display:none">
+        Create Test Event
+      </button>
+    </div>
+    
+    <div id="events" class="events"></div>
+    
+    <div id="debug" style="margin-top: 30px;">
+      <h3>Debug Info</h3>
+      <pre id="debug-output"></pre>
+    </div>
+  </div>
+
+  <script>
+    const BASE = '/api/googleCalendar';
+    let isConnected = false;
+    
+    function log(message, data = null) {
+      const debug = document.getElementById('debug-output');
+      const timestamp = new Date().toLocaleTimeString();
+      debug.textContent += `[${timestamp}] ${message}\n`;
+      if (data) {
+        debug.textContent += JSON.stringify(data, null, 2) + '\n';
+      }
+    }
+    
+    async function checkStatus() {
+      try {
+        log('Checking connection status...');
+        const response = await fetch(`${BASE}/status`, { 
+          credentials: 'include',
+          headers: { 'Accept': 'application/json' }
+        });
+        const data = await response.json();
+        log('Status response:', data);
+        
+        isConnected = data.connected || false;
+        updateUI();
+        
+        if (isConnected) {
+          loadUserInfo();
+        }
+      } catch (error) {
+        log('Error checking status:', error.message);
+        isConnected = false;
+        updateUI();
+      }
+    }
+    
+    async function loadUserInfo() {
+      try {
+        log('Loading user info...');
+        const response = await fetch(`${BASE}/user`, { 
+          credentials: 'include' 
+        });
+        if (response.ok) {
+          const user = await response.json();
+          log('User info:', user);
+          
+          document.getElementById('user-info').innerHTML = `
+            <div class="user-info">
+              <strong>Connected as:</strong> ${user.email || 'Unknown'}<br>
+              ${user.name ? `<strong>Name:</strong> ${user.name}` : ''}
+            </div>
+          `;
+        }
+      } catch (error) {
+        log('Error loading user info:', error.message);
+      }
+    }
+    
+    function updateUI() {
+      const statusEl = document.getElementById('status');
+      const connectBtn = document.getElementById('connect-btn');
+      const disconnectBtn = document.getElementById('disconnect-btn');
+      const loadEventsBtn = document.getElementById('load-events-btn');
+      const createEventBtn = document.getElementById('create-event-btn');
+      
+      if (isConnected) {
+        statusEl.className = 'status connected';
+        statusEl.textContent = '✅ Google Calendar is connected';
+        connectBtn.style.display = 'none';
+        disconnectBtn.style.display = 'inline-block';
+        loadEventsBtn.style.display = 'inline-block';
+        createEventBtn.style.display = 'inline-block';
+      } else {
+        statusEl.className = 'status disconnected';
+        statusEl.textContent = '❌ Google Calendar is not connected';
+        connectBtn.style.display = 'inline-block';
+        disconnectBtn.style.display = 'none';
+        loadEventsBtn.style.display = 'none';
+        createEventBtn.style.display = 'none';
+        document.getElementById('user-info').innerHTML = '';
+        document.getElementById('events').innerHTML = '';
+      }
+    }
+    
+    function connectCalendar() {
+      log('Starting OAuth flow...');
+      window.location.href = `${BASE}/google/start`;
+    }
+    
+    async function disconnectCalendar() {
+      try {
+        log('Disconnecting calendar...');
+        const response = await fetch(`${BASE}/disconnect`, {
+          method: 'POST',
+          credentials: 'include'
+        });
+        
+        if (response.ok) {
+          log('Successfully disconnected');
+          isConnected = false;
+          updateUI();
+        } else {
+          log('Failed to disconnect:', response.status);
+        }
+      } catch (error) {
+        log('Error disconnecting:', error.message);
+      }
+    }
+    
+    async function loadEvents() {
+      try {
+        log('Loading events...');
+        const eventsDiv = document.getElementById('events');
+        eventsDiv.innerHTML = '<p>Loading events...</p>';
+        
+        const response = await fetch(`${BASE}/events?range=week`, { 
+          credentials: 'include' 
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const data = await response.json();
+        log('Events loaded:', data);
+        
+        if (data.events && data.events.length > 0) {
+          eventsDiv.innerHTML = '<h3>Your Events (Next 7 Days)</h3>';
+          data.events.forEach(event => {
+            const eventEl = document.createElement('div');
+            eventEl.className = 'event';
+            eventEl.innerHTML = `
+              <div class="event-title">${event.summary}</div>
+              <div class="event-details">
+                📅 ${new Date(event.start).toLocaleString()}<br>
+                ${event.location ? `📍 ${event.location}` : ''}
+              </div>
+            `;
+            eventsDiv.appendChild(eventEl);
+          });
+        } else {
+          eventsDiv.innerHTML = '<p>No events found in the next 7 days.</p>';
+        }
+      } catch (error) {
+        log('Error loading events:', error.message);
+        document.getElementById('events').innerHTML = `<p style="color: red">Error: ${error.message}</p>`;
+      }
+    }
+    
+    async function testCreateEvent() {
+      try {
+        log('Creating test event...');
+        
+        const now = new Date();
+        const start = new Date(now.getTime() + 24 * 60 * 60 * 1000); // Tomorrow
+        start.setHours(14, 0, 0, 0); // 2 PM
+        const end = new Date(start.getTime() + 60 * 60 * 1000); // 1 hour later
+        
+        const eventData = {
+          summary: 'Test Event from OAuth Flow',
+          description: 'This is a test event created to verify the OAuth integration works correctly.',
+          location: 'Conference Center',
+          start: start.toISOString(),
+          end: end.toISOString(),
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        };
+        
+        log('Event data:', eventData);
+        
+        const response = await fetch(`${BASE}/create`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(eventData)
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const result = await response.json();
+        log('Event created successfully:', result);
+        
+        alert('✅ Test event created successfully! Check your Google Calendar.');
+        loadEvents(); // Reload events to show the new one
+      } catch (error) {
+        log('Error creating event:', error.message);
+        alert(`❌ Failed to create event: ${error.message}`);
+      }
+    }
+    
+    // Check for OAuth callback
+    if (window.location.hash === '#calendar') {
+      log('OAuth callback detected');
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    // Initialize
+    checkStatus();
+  </script>
+</body>
+</html>

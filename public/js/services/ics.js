@@ -56,19 +56,3 @@ export function outlookDeeplink({ title, body="", location="", startISO, endISO 
   });
   return `${base}?${q.toString()}`;
 }
-
-// Create ICS file for the next upcoming event
-export async function createIcsFileForNextEvent() {
-  // Sample event - in production, fetch from your event source
-  const nextEvent = {
-    title: 'Gamescom Party',
-    location: 'Cologne, Germany',
-    description: 'Annual gaming conference party',
-    start: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
-    end: new Date(Date.now() + 90000000).toISOString()    // Tomorrow + 1hr
-  };
-  
-  const icsContent = buildICS(nextEvent);
-  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-  return URL.createObjectURL(blob);
-}

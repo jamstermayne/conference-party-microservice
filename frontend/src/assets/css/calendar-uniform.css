@@ -78,3 +78,39 @@
 
 /* Buttons (re-use vbtn palette) */
 .cal-toolbar .vbtn{ padding: 8px 12px; border-radius: 12px; }
+
+/* provider-grid */
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.provider-card {
+  background: var(--panel, rgba(255,255,255,.02));
+  border: 1px solid var(--panel-border, rgba(255,255,255,.06));
+  border-radius: 16px;
+  padding: 16px;
+}
+.provider-card .title { display:flex; align-items:center; gap:12px; font-weight:600; }
+.provider-card .subtitle { opacity:.7; margin:6px 0 12px; }
+.provider-card .actions { display:flex; flex-wrap:wrap; gap:8px; }
+.provider-card.connected { outline:1px solid var(--accent, #7c6cff); }
+
+/* provider-grid */
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.provider-card {
+  background: var(--panel, rgba(255,255,255,.02));
+  border: 1px solid var(--panel-border, rgba(255,255,255,.06));
+  border-radius: 16px;
+  padding: 16px;
+}
+.provider-card .title { display:flex; align-items:center; gap:12px; font-weight:600; }
+.provider-card .subtitle { opacity:.7; margin:6px 0 12px; }
+.provider-card .actions { display:flex; flex-wrap:wrap; gap:8px; }
+.provider-card.connected { outline:1px solid var(--accent, #7c6cff); }

@@ -2,8 +2,10 @@ import {onRequest} from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
 import express, {Request, Response} from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import {canonicalHost} from "./middleware/canonicalHost";
 import {getHotspots} from "./hotspots";
-import {googleCalendarRouter} from "./googleCalendar/router";
+import googleCalendarRouter from "./googleCalendar/router";
 import {
   googleStatus, googleStart, googleCallback,
   googleCalendarEvents, googleCalendarCreate,
@@ -31,10 +33,15 @@ try {admin.initializeApp();} catch (error) {
 const db = admin.firestore?.();
 const app = express();
 app.use(cors({origin: true, credentials: true}));
+app.use(cookieParser());
 app.use(express.json());
+
+// Apply canonical host redirect to all /api routes
+app.use('/api', canonicalHost);
+
 app.use("/api/invites", invitesRouter);
 app.use("/api/admin", adminRouter);
-app.use("/api/googleCalendar", googleCalendarRouter);
+app.use("/api", googleCalendarRouter);
 
 // Additional Google API endpoints
 app.get("/api/google/status", (req, res) => googleStatus(req as any, res as any));
@@ -142,4 +149,5 @@ export const apiFn = onRequest({
   cors: true,
   invoker: "public",
   maxInstances: 10,
+  secrets: ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"],
 }, app);
