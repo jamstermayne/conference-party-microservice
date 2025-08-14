@@ -153,3 +153,6 @@ export const apiFn = onRequest({
   maxInstances: 10,
   secrets: ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"],
 }, app);
+
+// Export the Express app for testing
+export const api = app;
