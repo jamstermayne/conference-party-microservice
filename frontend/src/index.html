@@ -31,7 +31,8 @@
   <link rel="stylesheet" href="/assets/css/sidebar-final.css?v=b030">
   <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b030"><!-- last: layout lock -->
   <script async defer src="https://apis.google.com/js/api.js"></script>
-  <script async defer src="https://accounts.google.com/gsi/client"></script>
+  <!-- Load GIS as a classic script (NOT type="module", no crossorigin, no fetch) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <div id="app" class="app">
