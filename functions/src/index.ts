@@ -3,6 +3,7 @@ import * as admin from "firebase-admin";
 import express, {Request, Response} from "express";
 import cors from "cors";
 import {getHotspots} from "./hotspots";
+import {googleCalendarRouter} from "./googleCalendar/router";
 const invitesRouter = require("../routes/invites");
 const adminRouter = require("../routes/admin");
 export { api as googleCalendar } from './calendar/google';
@@ -23,10 +24,11 @@ try {admin.initializeApp();} catch (error) {
 
 const db = admin.firestore?.();
 const app = express();
-app.use(cors({origin: true}));
+app.use(cors({origin: true, credentials: true}));
 app.use(express.json());
 app.use("/api/invites", invitesRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/googleCalendar", googleCalendarRouter);
 
 const FALLBACK_EVENTS: EventData[] = [
   {
