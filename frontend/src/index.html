@@ -7,16 +7,17 @@
   <meta name="theme-color" content="#0b0f17"/>
   <style>
     html,body{margin:0;height:100%;background:#0b0f17;color:#e8ecff;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    .app{display:grid;grid-template-columns:260px 1fr;gap:0;min-height:100vh}
-    aside{background:#0e1320;border-right:1px solid #1a2134;padding:18px 16px;position:sticky;top:0;height:100vh}
+    .app{display:grid;grid-template-columns:fit-content(280px) minmax(0,1fr);gap:0;min-height:100vh}
+    aside{background:#0e1320;border-right:1px solid #1a2134;padding:18px 16px;position:sticky;top:0;height:100vh;box-sizing:border-box}
+    /* Natural content sizing */
     .brand{display:flex;align-items:center;gap:10px;margin:4px 0 18px}
     .dot{width:16px;height:16px;border-radius:6px;background:linear-gradient(135deg,#6b8cff,#8a6bff)}
     .brand h1{font-size:15px;margin:0}
     nav a{display:block;padding:10px 12px;border-radius:12px;margin:4px 0;color:#cfd7ff;text-decoration:none}
     nav a.active, nav a:hover{background:linear-gradient(90deg,#16233c,#15223a);color:#fff}
-    main{padding:24px;min-height:100vh;overflow-y:auto}
+    main{padding:0;min-height:100vh;overflow-y:auto;box-sizing:border-box}
   </style>
-  <link rel="stylesheet" href="/assets/css/calendar-uniform.css?v=b022">
+  <link rel="stylesheet" href="/assets/css/calendar-uniform.css?v=b027">
   <script>window.BUILD="b021";</script>
   <script>
     // kill any stale SW right now
@@ -25,56 +26,20 @@
       caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
     }
   </script>
-  <link rel="stylesheet" href="/assets/css/theme.css?v=b022">
-  <link rel="stylesheet" href="/assets/css/theme-unified.css?v=b022">
+  <link rel="stylesheet" href="/assets/css/theme.css?v=b027">
+  <link rel="stylesheet" href="/assets/css/theme-unified.css?v=b027">
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="/js/auth.js?v=b023"></script>
-  <style data-vmain>#main{overflow:auto;max-height:100vh;padding-bottom:24px}</style>
-<style id="layout-lock">
-  html, body { height:100%; overflow:visible !important; }
-  .app       { height:100%; overflow:visible !important; }
-  #main      { overflow:auto !important; height:100%; min-height:100vh; -webkit-overflow-scrolling: touch; }
-</style>
-
-<style id="sidebar-lock">
-  :root { --sidebar-w: 240px; }
-  /* Desktop: fixed left nav, independent scrolling main */
-  @media (min-width: 900px){
-    aside.sidebar{
-      position: fixed; left:0; top:0; bottom:0;
-      width: var(--sidebar-w); overflow:hidden;
-      will-change: transform;
-    }
-    main#main{
-      margin-left: var(--sidebar-w);
-      height: 100vh; overflow:auto !important;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-  /* Mobile: sidebar as off-canvas drawer; main remains scrollable */
-  @media (max-width: 899px){
-    aside.sidebar{
-      position: fixed; left:0; top:0; bottom:0;
-      width: 86vw; max-width: 360px;
-      transform: translateX(-100%);
-      transition: transform .25s ease;
-      z-index: 1000;
-    }
-    aside.sidebar.is-open{ transform: translateX(0); }
-    main#main{
-      height: 100vh; overflow:auto !important;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-  <link rel="stylesheet" href="/assets/css/hero-cards.css?v=b023">
-  <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b023">
+  <script src="/js/auth.js?v=b027"></script>
+  <!-- Consolidated layout styles -->
+  <link rel="stylesheet" href="/assets/css/hero-cards.css?v=b027">
+  <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b027">
   <style id="layout-hotfix">
-    .app{display:grid;grid-template-columns:280px minmax(0,1fr);height:100vh}
-    #main{min-width:0;height:100vh;overflow-y:auto;overflow-x:hidden;position:relative}
-    aside.sidebar,[data-role=sidebar]{position:sticky;top:0;height:100vh}
+    #app{display:grid !important;grid-template-columns:fit-content(280px) minmax(0,1fr) !important;height:100vh !important;gap:0 !important}
+    #app > aside.sidebar{grid-column:1 / 2 !important;width:auto !important;position:sticky !important;top:0 !important}
+    #app > #main{grid-column:2 / 3 !important;min-width:0 !important;overflow-y:auto !important;position:relative !important;margin:0 !important}
   </style>
-</style></head>
+</head>
 <body>
   <div id="app" class="app">
     <aside class="sidebar">
@@ -100,8 +65,8 @@ if ('serviceWorker' in navigator) {
   caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
 }
   </script>
-<script src="/js/kill-sw.js?v=b022"></script>
-<script type="module" src="/js/router.js?v=b022"></script>
+<script src="/js/kill-sw.js?v=b027"></script>
+<script type="module" src="/js/router.js?v=b027"></script>
   <script src="/js/theme-patch.js?v=001"></script>
 </body>
 </html>

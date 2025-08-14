@@ -1,25 +1,95 @@
-:root{ --sidebar-w:280px }
-.app{
+:root{  }
+body .app, #app.app, .app{
   display:grid !important;
-  grid-template-columns: var(--sidebar-w) minmax(0,1fr) !important;
+  grid-template-columns: fit-content(280px) minmax(0,1fr) !important; /* natural sizing */
   grid-auto-rows:auto !important;
   height:100vh !important;
+  gap:0 !important;
+  column-gap:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
 }
-aside.sidebar,[data-role="sidebar"]{
+/* Natural sizing: let sidebar size to its content */
+body .app > aside.sidebar,
+body #app > aside.sidebar,
+.app > aside.sidebar {
+  grid-column:1 / span 1 !important;
+  width:auto !important;
+  min-width:auto !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:18px 16px !important; /* restore natural padding */
+  border:0 !important;
+  box-sizing:border-box !important;
+  transform:none !important;
   position:sticky !important;
   top:0 !important;
   height:100vh !important;
-  transform:none !important;
 }
-#main{
-  position:relative !important;
+/* Main column: starts after naturally-sized sidebar */
+body #main,
+#app #main,
+main#main {
+  grid-column:2 / span 1 !important;
+  margin:0 !important;           /* kill any framework margins */
+  left:0 !important;             /* kill stray left offsets */
+  right:auto !important;
+  transform:none !important;     /* kill translateX shifts */
+  padding:0 !important;
   min-width:0 !important;
   height:100vh !important;
   overflow-y:auto !important;
   overflow-x:hidden !important;
+  position:relative !important;
   z-index:0 !important;
+  width:auto !important;
+  max-width:none !important;
 }
-/* neutralize any full-viewport masks */
+
+/* Neutralize any full-viewport masks that may be sitting on top */
 .modal-backdrop,.overlay,.veil,.scrim,[data-overlay],[data-backdrop]{
-  display:none !important; pointer-events:none !important;
+  display:none !important;
+  pointer-events:none !important;
+}
+
+/* Remove legacy left gutters inside main */
+#main .container,#main .content,#main .page,#main .panel,#main .wrap{
+  margin-left:0 !important;
+  padding-left:0 !important;
+  max-width:100% !important;
+}
+
+/* Keep hero cards full-width within main track */
+#main .vcard{ width:100% !important; }
+
+/* --- Sidebar shrinkwrap & nav items --- */
+aside.sidebar, [data-role="sidebar"], #sidebar{
+  width: max-content !important;      /* shrink to widest channel */
+  max-width: 280px !important;        /* hard cap so it never explodes */
+  box-sizing: border-box !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+
+/* Nav items should not force full-width tracks */
+aside.sidebar a,
+aside.sidebar .nav,
+aside.sidebar .channel,
+aside.sidebar li,
+aside.sidebar button{
+  display: inline-flex !important;
+  width: auto !important;
+  max-width: 100% !important;         /* allow wrapping if names are huge */
+  white-space: nowrap;                 /* keep the pill look */
+}
+
+/* Safety: prevent any old rule from stretching the rail */
+.app > aside { width: max-content !important; }
+
+/* Reassert main scroll (safety) */
+#main{
+  min-width: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
