@@ -40,6 +40,13 @@ jobs:
           if [ -f package.json ]; then npm ci || true; fi
           if [ -d functions ] && [ -f functions/package.json ]; then (cd functions && npm ci || true); fi
 
+      - name: Build functions
+        run: |
+          if [ -d functions ] && [ -f functions/package.json ]; then
+            cd functions
+            npm run build || true
+          fi
+
       - name: Deploy Hosting + Functions
         env:
           # enables framework deploys when present; harmless otherwise
