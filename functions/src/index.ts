@@ -1,4 +1,5 @@
 import {onRequest} from "firebase-functions/v2/https";
+import {onSchedule} from "firebase-functions/v2/scheduler";
 import * as admin from "firebase-admin";
 import express, {Request, Response} from "express";
 import cors from "cors";
@@ -13,26 +14,29 @@ import {
 } from "./google";
 import { m2mVerify, m2mSubscribe, m2mEvents } from "./m2m";
 import m2mRouter from "./routes/m2m";
+import partiesRouter from "./routes/parties";
+import { runIngest } from "./jobs/ingest-parties";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const invitesRouter = require("../../routes/invites");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const adminRouter = require("../../routes/admin");
 
-interface EventData {
-  id: string;
-  title: string;
-  venue: string;
-  date: string;
-  time: string;
-  price: string;
-  source: string;
-}
+// EventData interface - kept for reference
+// interface EventData {
+//   id: string;
+//   title: string;
+//   venue: string;
+//   date: string;
+//   time: string;
+//   price: string;
+//   source: string;
+// }
 
 try {admin.initializeApp();} catch (error) {
   // Firebase admin already initialized - this is expected in some environments
 }
 
-const db = admin.firestore?.();
+// const db = admin.firestore?.(); // Not used after refactoring to use routes
 const app = express();
 app.use(cors({origin: true, credentials: true}));
 app.use(cookieParser());
@@ -44,6 +48,7 @@ app.use('/api', canonicalHost);
 app.use("/api/invites", invitesRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api", googleCalendarRouter);
+app.use("/api/parties", partiesRouter);
 
 // Additional Google API endpoints
 app.get("/api/google/status", (req, res) => googleStatus(req as any, res as any));
@@ -63,7 +68,7 @@ app.post("/api/m2m/verify", (req, res) => m2mVerify(req as any, res as any));
 app.post("/api/m2m/subscribe", (req, res) => m2mSubscribe(req as any, res as any));
 app.get("/api/m2m/events", (req, res) => m2mEvents(req as any, res as any));
 
-const FALLBACK_EVENTS: EventData[] = [
+/* const FALLBACK_EVENTS: EventData[] = [ // Not used after refactoring to use routes
   {
     id: "meettomatch-the-cologne-edition-2025",
     title: "MeetToMatch The Cologne Edition 2025",
@@ -82,7 +87,7 @@ const FALLBACK_EVENTS: EventData[] = [
     price: "Free",
     source: "fallback",
   },
-];
+]; */
 
 app.get("/api/health", (_req: Request, res: Response) => {
   res.status(200).json({
@@ -100,19 +105,20 @@ app.get("/api/health", (_req: Request, res: Response) => {
   });
 });
 
-app.get("/api/parties", async (_req: Request, res: Response) => {
-  try {
-    let data: EventData[] = [];
-    if (db) {
-      const snap = await db.collection("events").limit(100).get();
-      data = snap.docs.map((d) => ({id: d.id, ...d.data()} as EventData));
-    }
-    if (!data?.length) data = FALLBACK_EVENTS;
-    res.status(200).json({success: true, data});
-  } catch (error) {
-    res.status(200).json({success: true, data: FALLBACK_EVENTS, note: "fallback_due_to_error"});
-  }
-});
+// Parties endpoint is now handled by partiesRouter
+// app.get("/api/parties", async (_req: Request, res: Response) => {
+//   try {
+//     let data: EventData[] = [];
+//     if (db) {
+//       const snap = await db.collection("events").limit(100).get();
+//       data = snap.docs.map((d) => ({id: d.id, ...d.data()} as EventData));
+//     }
+//     if (!data?.length) data = FALLBACK_EVENTS;
+//     res.status(200).json({success: true, data});
+//   } catch (error) {
+//     res.status(200).json({success: true, data: FALLBACK_EVENTS, note: "fallback_due_to_error"});
+//   }
+// });
 
 app.get("/api/sync", (_req, res) => res.status(200).json({ok: true, status: "queued", mode: "get"}));
 app.post("/api/sync", (_req, res) => res.status(200).json({ok: true, status: "queued", mode: "post"}));
@@ -156,3 +162,23 @@ export const apiFn = onRequest({
 
 // Export the Express app for testing
 export const api = app;
+
+// Scheduled function to ingest parties every 15 minutes
+export const ingestParties = onSchedule({
+  schedule: "every 15 minutes",
+  timeZone: "UTC",
+  retryCount: 2,
+  maxInstances: 1,
+  memory: "256MiB",
+}, async (_context): Promise<void> => {
+  console.log("[ingestParties] Scheduled ingestion started");
+  
+  try {
+    const result = await runIngest();
+    console.log("[ingestParties] Scheduled ingestion completed:", result);
+    // Don't return value, just log
+  } catch (error) {
+    console.error("[ingestParties] Scheduled ingestion failed:", error);
+    throw error; // Re-throw to trigger retry
+  }
+});
