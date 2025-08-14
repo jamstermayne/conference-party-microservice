@@ -1,0 +1,39 @@
+name: Deploy to Firebase (Hosting + Functions)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Auth to Google via OIDC
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/740658808222/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
+          service_account: "gh-deployer@conference-party-app.iam.gserviceaccount.com"
+          create_credentials_file: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Firebase CLI
+        run: npm i -g firebase-tools
+
+      - name: Install deps (root + functions)
+        run: |
+          npm ci || true
+          cd functions && npm ci || true
+
+      - name: Firebase deploy
+        run: firebase deploy --only hosting,functions --project conference-party-app --non-interactive
