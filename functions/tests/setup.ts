@@ -6,19 +6,13 @@
 jest.mock("../routes/invites", () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires, new-cap
   const router = require("express").Router();
-  return {
-    __esModule: true,
-    default: router
-  };
+  return router;
 });
 
 jest.mock("../routes/admin", () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires, new-cap
   const router = require("express").Router();
-  return {
-    __esModule: true,
-    default: router
-  };
+  return router;
 });
 
 // Load test environment variables
