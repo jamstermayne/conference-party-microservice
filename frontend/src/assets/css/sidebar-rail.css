@@ -1,0 +1,44 @@
+/* Rail list column */
+.sidebar .nav{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 10px;
+}
+
+/* Single-line labels; never wrap; ellipsis for overflows within cap */
+.sidebar .nav a{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--rail-border, #1f2536);
+  border-radius: 14px;
+  background: transparent;
+  color: #cfd8ff;
+  text-decoration: none;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  max-inline-size: var(--rail-cap);  /* belt-and-suspenders under the grid cap */
+}
+
+/* Optional hash marker kept narrow and non-wrapping */
+.sidebar .nav a .hash{ opacity: .7; }
+
+/* Active accent (pairs with the gradient chip you liked) */
+.sidebar .nav a.is-active{
+  background: #111a33;
+  color: #eef3ff;
+  border-color: rgba(107,123,255,.35);
+  box-shadow: 0 0 0 2px rgba(107,123,255,.35), 0 14px 28px rgba(20,32,84,.45);
+}
+
+/* Hover focus */
+.sidebar .nav a:hover{ background: rgba(255,255,255,.03); }
+.sidebar .nav a:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(107,123,255,.35), 0 0 0 4px rgba(107,123,255,.25);
+}
