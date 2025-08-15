@@ -1,6 +1,18 @@
 name: Design Token Enforcement
 
 on:
+  push:
+    paths-ignore:
+      - "_graveyard/**"
+      - "public/**"
+      - "tools/**"
+      - "vendor/**"
+  pull_request:
+    paths-ignore:
+      - "_graveyard/**"
+      - "public/**"
+      - "tools/**"
+      - "vendor/**"
   pull_request:
     paths:
       - 'frontend/src/**/*.css'

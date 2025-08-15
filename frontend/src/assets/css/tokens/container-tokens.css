@@ -1,0 +1,8 @@
+:root {
+  /* Container max-widths */
+  --container-xs: 20rem;    /* 320px */
+  --container-sm: 25rem;    /* 400px */
+  --container-md: 31.25rem; /* 500px */
+  --container-lg: 48rem;    /* 768px */
+  --container-xl: 64rem;    /* 1024px */
+}
