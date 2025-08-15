@@ -85,10 +85,8 @@ aside .brand::before {
   content: none !important;
 }
 
-/* kill-brand-dot */
-aside .brand .dot,
-aside .brand .badge,
-aside .brand::before {
-  display: none !important;
-  content: none !important;
+/* Map container full height */
+#main .map-container {
+  height: calc(100vh - 2px) !important;
+  overflow: hidden !important;
 }
