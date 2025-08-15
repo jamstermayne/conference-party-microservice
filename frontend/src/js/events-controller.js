@@ -1,5 +1,5 @@
 import { groupPartiesByDay } from './services/parties-utils.js?v=b037';
-import { equalizeCards, observeEqualize } from './equalize-cards.js';
+import { equalizeCards, scheduleEqualize, observeGrid } from './ui/equalize-cards.js';
 
 const demo = [
   { id:"meet", title:"MeetToMatch • Cologne Edition 2025", venue:"Kölnmesse Confex", start:"2025-08-21T09:00:00", end:"2025-08-21T18:00:00", price:"From £127.04", live:true },
@@ -69,11 +69,14 @@ export async function renderParties(mount){
     </article>`;
   }).join("");
   
-  // Equalize card heights after render
-  equalizeCards('.vcard, .card');
+  // Find and observe the grid
+  const grid = mount.querySelector('.vgrid');
+  if (grid) {
+    observeGrid(grid);
+  }
   
-  // Set up observer for dynamic changes (only once per view)
-  observeEqualize('.vcard, .card');
+  // Schedule equalization after paint
+  scheduleEqualize();
 }
 export default { renderParties };
 function normalizeSource(ev){

@@ -1,4 +1,4 @@
-import { equalizeCards, observeEqualize } from '../equalize-cards.js';
+import { equalizeCards, scheduleEqualize, observeGrid } from '../ui/equalize-cards.js';
 
 const EVENTS = [
   { id:'m2m',  title:'MeetToMatch The Cologne Edition 2025', where:'Kölnmesse Confex', when:'Fri Aug 22 — 09:00 – 18:00', badges:['live'], price:'From £127.04' },
@@ -48,10 +48,15 @@ export async function renderParties(m){
     </section>
   `;
   
-  // Equalize card heights after render
-  equalizeCards('.vcard, .card');
+  // Find the grid we just created
+  const grid = m.querySelector('.vgrid');
   
-  // Set up observer for dynamic changes (only once per view)
-  observeEqualize('.vcard, .card');
+  // Observe this grid for changes
+  if (grid) {
+    observeGrid(grid);
+  }
+  
+  // Schedule equalization after paint
+  scheduleEqualize();
 }
 export default { renderParties };

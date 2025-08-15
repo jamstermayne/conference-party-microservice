@@ -9,7 +9,7 @@ import { buildICS, downloadICS, outlookDeeplink } from "./services/ics.js?v=b035
 import * as M2M from "./services/m2m.js?v=b035";
 import { openM2MModal } from "./ui/m2m-modal.js?v=b035";
 import { toast } from "./ui/toast.js?v=b035";
-import { equalizeCards, observeEqualize } from './equalize-cards.js';
+import { equalizeCards, scheduleEqualize, observeGrid } from './ui/equalize-cards.js';
 const HOUR_H = () => parseFloat(getComputedStyle(document.documentElement)
   .getPropertyValue('--hour-height')) || 240;
 

@@ -894,7 +894,7 @@ class ProfessionalIntelligenceApp {
     
     // Initialize card equalization system
     try {
-      import('./equalize-cards.js').then(module => {
+      import('./ui/equalize-cards.js').then(module => {
         if (module.equalizeCards) {
           // Initial equalization
           module.equalizeCards();
