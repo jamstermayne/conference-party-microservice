@@ -438,6 +438,13 @@ class ProfessionalIntelligenceApp {
     // Update navigation states
     this.updateActiveTab(route);
     this.updateActiveSidebar(route);
+    
+    // Schedule card equalization after navigation
+    import('./ui/equalize-cards.js').then(module => {
+      if (module.scheduleEqualize) {
+        module.scheduleEqualize();
+      }
+    });
   }
 
   /**
