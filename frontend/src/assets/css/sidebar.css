@@ -138,3 +138,5 @@
 .v-day-subnav .day-pill[aria-pressed="true"] {
   background: color-mix(in srgb, var(--brand-500) 16%, transparent);
 }
+.v-day-subnav{display:none}
+.v-day-subnav.is-visible{display:grid}

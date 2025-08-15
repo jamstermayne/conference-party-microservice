@@ -1,27 +1,52 @@
 {
   "hosting": {
     "public": "frontend/src",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
     "headers": [
       {
         "source": "**",
         "headers": [
-          { "key": "Strict-Transport-Security", "value": "max-age=31556926; includeSubDomains; preload" },
-          { "key": "X-Content-Type-Options", "value": "nosniff" },
-          { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-          { "key": "Permissions-Policy", "value": "geolocation=(self), microphone=(), camera=()" },
-          { "key": "Cross-Origin-Opener-Policy", "value": "same-origin-allow-popups" },
+          {
+            "key": "Strict-Transport-Security",
+            "value": "max-age=31556926; includeSubDomains; preload"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "SAMEORIGIN"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "geolocation=(self), microphone=(), camera=()"
+          },
+          {
+            "key": "Cross-Origin-Opener-Policy",
+            "value": "same-origin-allow-popups"
+          },
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://www.googleapis.com https://maps.googleapis.com https://maps.gstatic.com; img-src 'self' data: https://maps.gstatic.com https://*.googleapis.com; script-src 'self' 'unsafe-inline' https://maps.googleapis.com https://accounts.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src https://accounts.google.com; frame-ancestors 'none'; base-uri 'self'"
+            "value": "default-src 'self';\n                      script-src 'self' https://maps.googleapis.com https://www.googletagmanager.com;\n                      style-src 'self' 'unsafe-inline';\n                      img-src 'self' data: https://maps.gstatic.com https://maps.googleapis.com;\n                      connect-src 'self' https://*.a.run.app https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://www.googleapis.com https://maps.googleapis.com https://maps.gstatic.com;\n                      frame-ancestors 'none';\n                      frame-src https://accounts.google.com"
           }
         ]
       },
       {
         "source": "**/*.@(js|css)",
         "headers": [
-          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
         ]
       }
     ],
@@ -33,7 +58,10 @@
           "region": "us-central1"
         }
       },
-      { "source": "**", "destination": "/index.html" }
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   },
   "functions": {
