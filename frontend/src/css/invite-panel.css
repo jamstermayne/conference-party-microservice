@@ -1,12 +1,12 @@
 .invite-panel {
   background: var(--surface);
   border-radius: var(--r-lg);
-  padding: 16px;
+  padding: var(--s-4);
   border: 1px solid var(--border);
   max-width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--s-3);
 }
 
 .invite-header {
@@ -58,7 +58,7 @@
   justify-content: center;
 }
 .invite-btn:hover { 
-  background: var(--accent-primary-hover, #5a6aee); 
+  background: var(--accent-primary-hover, var(--alias-5a6aee)); 
 }
 
 .invite-btn.secondary {

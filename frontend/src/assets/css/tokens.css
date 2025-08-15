@@ -1,29 +1,29 @@
 :root{
-  --card-bg: #13161b;
-  --card-surface: #171b22;
+  --card-bg: var(--neutral-100);
+  --card-surface: var(--neutral-100);
   --card-border: rgba(255,255,255,0.06);
   --card-soft: rgba(255,255,255,0.04);
-  --accent-purple: #7b6cf6;
-  --accent-blue: #4aa3ff;
-  --text-1: #e9edf2;
-  --text-2: #aeb8c4;
+  --accent-purple: var(--alias-7b6cf6);
+  --accent-blue: var(--alias-4aa3ff);
+  --text-1: var(--alias-e9edf2);
+  --text-2: var(--alias-aeb8c4);
   --chip-bg: rgba(123,108,246,.12);
-  --chip-txt: #c9c3ff;
+  --chip-txt: var(--alias-c9c3ff);
   --ok-bg: rgba(36, 180, 126, .14);
-  --ok-txt: #5be0b9;
+  --ok-txt: var(--alias-5be0b9);
   --warn-bg: rgba(245, 158, 11, .16);
-  --warn-txt: #ffd188;
+  --warn-txt: var(--alias-ffd188);
   --err-bg: rgba(239, 68, 68, .16);
-  --err-txt: #ffb3b3;
+  --err-txt: var(--alias-ffb3b3);
   --shadow-1: 0 6px 30px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.03) inset;
   
   /* UI Rhythm - single source of truth */
-  --bg: #0f1115;
-  --panel: #151823;
-  --panel-2: #171b27;
-  --ink: #e8ecff;
-  --ink-dim: #a7b0cc;
-  --accent: #6f6cff;
+  --bg: var(--alias-0f1115);
+  --panel: var(--neutral-100);
+  --panel-2: var(--neutral-100);
+  --ink: var(--alias-e8ecff);
+  --ink-dim: var(--alias-a7b0cc);
+  --accent: var(--alias-6f6cff);
   
   /* Calendar/Card rhythm — 30 minutes equals this height */
   --slot-height: 40px;
@@ -34,12 +34,12 @@
 .hero-wrap{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 16px;
-  padding: 16px 0 32px;
+  gap: var(--s-4);
+  padding: var(--s-4) 0 32px;
 }
 
 .section-card{
-  border-radius: 16px;
+  border-radius: var(--s-4);
   background: linear-gradient(180deg, rgba(123,108,246,.08), rgba(74,163,255,.06)) , var(--card-surface);
   border: 1px solid var(--card-border);
   box-shadow: var(--shadow-1);
@@ -57,7 +57,7 @@
 }
 
  .legacy-card{
-  display:flex; flex-direction:column; gap: 12px;
+  display:flex; flex-direction:column; gap: var(--s-3);
   padding:16px 18px 18px 18px;
   background: var(--card-bg);
   border-top: 1px solid var(--card-soft);
@@ -77,10 +77,10 @@
 .actions{ display:flex; gap:8px; margin-top: 8px; }
 .btn{
   appearance:none; border:none; border-radius:10px; padding:10px 12px; font-weight:600;
-  background:#212634; color:#c9d3df; cursor:pointer;
+  background:var(--neutral-200); color:var(--alias-c9d3df); cursor:pointer;
 }
 .btn.primary{ background:linear-gradient(90deg, var(--accent-purple), var(--accent-blue)); color:white; }
-.btn.ghost{ background:#1a1f2a; color:#b9c3d1; border:1px solid var(--card-border); }
+.btn.ghost{ background:var(--neutral-100); color:var(--alias-b9c3d1); border:1px solid var(--card-border); }
 
 /* Calendar  legacy-card tweaks */
 .card-slot .card-title{ font-size:1rem; }
@@ -102,5 +102,5 @@ body, html { height: 100%; }
 .app-shell { display:flex; }
 .app-shell .sidebar { width: var(--sidebar-w); position: sticky; top: 0; height: 100vh; }
 .app-shell .main    { flex:1; min-width: 0; overflow-y: auto; height: 100vh; }
-.cards-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 16px; }
-.hero-card  { background: rgba(22, 24, 34, .65); border-radius: 16px; }
+.cards-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: var(--s-4); }
+.hero-card  { background: rgba(22, 24, 34, .65); border-radius: var(--s-4); }

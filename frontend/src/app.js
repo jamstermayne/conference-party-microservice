@@ -232,7 +232,7 @@ class ConferenceApp {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #ff4757;
+            background: var(--alias-ff4757);
             color: white;
             padding: 12px 20px;
             border-radius: 6px;

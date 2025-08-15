@@ -3,7 +3,7 @@
  * Unified interface for Google Calendar, Outlook (.ics), and Meet to Match
  */
 
-import { status, create, startOAuth, disconnect } from './services/gcal.js?v=b030';
+import { status, create, startOAuth, disconnect } from './services/gcal.js?v=b031';
 
 /**
  * Add event to Google Calendar
@@ -170,10 +170,10 @@ function showToast(message, type = 'info') {
   toast.className = `toast toast-${type}`;
   
   const colors = {
-    success: 'linear-gradient(135deg, #27ae60, #2ecc71)',
-    error: 'linear-gradient(135deg, #e74c3c, #c0392b)',
-    warning: 'linear-gradient(135deg, #f39c12, #f1c40f)',
-    info: 'linear-gradient(135deg, #3498db, #2980b9)'
+    success: 'linear-gradient(135deg, var(--neutral-200), var(--neutral-200))',
+    error: 'linear-gradient(135deg, var(--alias-e74c3c), var(--alias-c0392b))',
+    warning: 'linear-gradient(135deg, var(--alias-f39c12), var(--alias-f1c40f))',
+    info: 'linear-gradient(135deg, var(--alias-3498db), var(--neutral-200))'
   };
   
   toast.style.cssText = `

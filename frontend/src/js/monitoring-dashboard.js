@@ -375,7 +375,7 @@ class MonitoringDashboard {
   async loadStyles() {
     const styles = `
       .monitoring-dashboard {
-        background: #f8f9fa;
+        background: var(--alias-f8f9fa);
         min-height: 100vh;
         padding: 20px;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -394,7 +394,7 @@ class MonitoringDashboard {
 
       .dashboard-header h1 {
         margin: 0;
-        color: #2c3e50;
+        color: var(--neutral-200);
         display: flex;
         align-items: center;
         gap: 10px;
@@ -412,13 +412,13 @@ class MonitoringDashboard {
 
       .time-range-selector, .refresh-btn {
         padding: 8px 16px;
-        border: 1px solid #ddd;
+        border: 1px solid var(--alias-ddd);
         border-radius: 6px;
         font-size: 14px;
       }
 
       .refresh-btn {
-        background: #3498db;
+        background: var(--alias-3498db);
         color: white;
         cursor: pointer;
         display: flex;
@@ -427,7 +427,7 @@ class MonitoringDashboard {
       }
 
       .refresh-btn:hover {
-        background: #2980b9;
+        background: var(--neutral-200);
       }
 
       .auto-refresh-toggle {
@@ -437,7 +437,7 @@ class MonitoringDashboard {
       }
 
       .alert-bar {
-        background: #e74c3c;
+        background: var(--alias-e74c3c);
         color: white;
         padding: 10px 20px;
         border-radius: 6px;
@@ -462,17 +462,17 @@ class MonitoringDashboard {
 
       .panel-header {
         padding: 15px 20px;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid var(--alias-eee);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: #f8f9fa;
+        background: var(--alias-f8f9fa);
       }
 
       .panel-header h2 {
         margin: 0;
         font-size: 16px;
-        color: #2c3e50;
+        color: var(--neutral-200);
         display: flex;
         align-items: center;
         gap: 8px;
@@ -491,21 +491,21 @@ class MonitoringDashboard {
       .metric-card {
         text-align: center;
         padding: 15px;
-        border: 1px solid #eee;
+        border: 1px solid var(--alias-eee);
         border-radius: 6px;
-        background: #f8f9fa;
+        background: var(--alias-f8f9fa);
       }
 
       .metric-label {
         font-size: 12px;
-        color: #7f8c8d;
+        color: var(--alias-7f8c8d);
         margin-bottom: 5px;
       }
 
       .metric-value {
         font-size: 24px;
         font-weight: bold;
-        color: #2c3e50;
+        color: var(--neutral-200);
         margin-bottom: 5px;
       }
 
@@ -514,9 +514,9 @@ class MonitoringDashboard {
         font-weight: 500;
       }
 
-      .metric-trend.positive { color: #27ae60; }
-      .metric-trend.negative { color: #e74c3c; }
-      .metric-trend.neutral { color: #7f8c8d; }
+      .metric-trend.positive { color: var(--neutral-200); }
+      .metric-trend.negative { color: var(--alias-e74c3c); }
+      .metric-trend.neutral { color: var(--alias-7f8c8d); }
 
       .system-health-indicator {
         display: flex;
@@ -528,9 +528,9 @@ class MonitoringDashboard {
         font-size: 16px;
       }
 
-      .health-status.healthy { color: #27ae60; }
-      .health-status.warning { color: #f39c12; }
-      .health-status.critical { color: #e74c3c; }
+      .health-status.healthy { color: var(--neutral-200); }
+      .health-status.warning { color: var(--alias-f39c12); }
+      .health-status.critical { color: var(--alias-e74c3c); }
 
       .chart-container {
         height: 200px;
@@ -573,9 +573,9 @@ class MonitoringDashboard {
         font-size: 12px;
       }
 
-      .threat-indicator.low { color: #27ae60; }
-      .threat-indicator.medium { color: #f39c12; }
-      .threat-indicator.high { color: #e74c3c; }
+      .threat-indicator.low { color: var(--neutral-200); }
+      .threat-indicator.medium { color: var(--alias-f39c12); }
+      .threat-indicator.high { color: var(--alias-e74c3c); }
 
       .security-metrics {
         display: flex;
@@ -601,20 +601,20 @@ class MonitoringDashboard {
       .meter-label {
         flex: 0 0 100px;
         font-size: 12px;
-        color: #7f8c8d;
+        color: var(--alias-7f8c8d);
       }
 
       .meter-bar {
         flex: 1;
         height: 8px;
-        background: #ecf0f1;
+        background: var(--alias-ecf0f1);
         border-radius: 4px;
         overflow: hidden;
       }
 
       .meter-fill {
         height: 100%;
-        background: linear-gradient(90deg, #27ae60, #f39c12, #e74c3c);
+        background: linear-gradient(90deg, var(--neutral-200), var(--alias-f39c12), var(--alias-e74c3c));
         transition: width 0.3s ease;
       }
 
@@ -636,7 +636,7 @@ class MonitoringDashboard {
         align-items: center;
         gap: 8px;
         padding: 8px;
-        background: #f8f9fa;
+        background: var(--alias-f8f9fa);
         border-radius: 4px;
       }
 
@@ -646,9 +646,9 @@ class MonitoringDashboard {
         border-radius: 50%;
       }
 
-      .service-indicator.healthy { background: #27ae60; }
-      .service-indicator.warning { background: #f39c12; }
-      .service-indicator.critical { background: #e74c3c; }
+      .service-indicator.healthy { background: var(--neutral-200); }
+      .service-indicator.warning { background: var(--alias-f39c12); }
+      .service-indicator.critical { background: var(--alias-e74c3c); }
 
       .kpi-grid {
         display: grid;
@@ -657,34 +657,34 @@ class MonitoringDashboard {
 
       .kpi-card {
         padding: 15px;
-        border: 1px solid #eee;
+        border: 1px solid var(--alias-eee);
         border-radius: 6px;
-        background: #f8f9fa;
+        background: var(--alias-f8f9fa);
       }
 
       .kpi-value {
         font-size: 24px;
         font-weight: bold;
-        color: #2c3e50;
+        color: var(--neutral-200);
         margin: 5px 0;
       }
 
       .kpi-target {
         font-size: 12px;
-        color: #7f8c8d;
+        color: var(--alias-7f8c8d);
         margin-bottom: 10px;
       }
 
       .progress-bar {
         height: 6px;
-        background: #ecf0f1;
+        background: var(--alias-ecf0f1);
         border-radius: 3px;
         overflow: hidden;
       }
 
       .progress-fill {
         height: 100%;
-        background: #3498db;
+        background: var(--alias-3498db);
         transition: width 0.3s ease;
       }
 
@@ -700,13 +700,13 @@ class MonitoringDashboard {
         padding: 10px;
         border-left: 4px solid;
         margin-bottom: 10px;
-        background: #f8f9fa;
+        background: var(--alias-f8f9fa);
         border-radius: 0 4px 4px 0;
       }
 
-      .alert-item.critical { border-left-color: #e74c3c; }
-      .alert-item.warning { border-left-color: #f39c12; }
-      .alert-item.info { border-left-color: #3498db; }
+      .alert-item.critical { border-left-color: var(--alias-e74c3c); }
+      .alert-item.warning { border-left-color: var(--alias-f39c12); }
+      .alert-item.info { border-left-color: var(--alias-3498db); }
 
       .alert-summary {
         display: flex;
@@ -721,9 +721,9 @@ class MonitoringDashboard {
         color: white;
       }
 
-      .alert-count.critical { background: #e74c3c; }
-      .alert-count.warning { background: #f39c12; }
-      .alert-count.info { background: #3498db; }
+      .alert-count.critical { background: var(--alias-e74c3c); }
+      .alert-count.warning { background: var(--alias-f39c12); }
+      .alert-count.info { background: var(--alias-3498db); }
 
       .loading-overlay {
         position: fixed;
@@ -742,8 +742,8 @@ class MonitoringDashboard {
       .loading-spinner {
         width: 40px;
         height: 40px;
-        border: 3px solid #f3f3f3;
-        border-top: 3px solid #3498db;
+        border: 3px solid var(--alias-f3f3f3);
+        border-top: 3px solid var(--alias-3498db);
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin-bottom: 15px;
@@ -755,7 +755,7 @@ class MonitoringDashboard {
       }
 
       .loading-text {
-        color: #7f8c8d;
+        color: var(--alias-7f8c8d);
         font-size: 14px;
       }
 
@@ -800,7 +800,7 @@ class MonitoringDashboard {
           datasets: [{
             label: 'Response Time (ms)',
             data: [],
-            borderColor: '#3498db',
+            borderColor: 'var(--alias-3498db)',
             backgroundColor: 'rgba(52, 152, 219, 0.1)',
             fill: true,
             tension: 0.4
@@ -815,10 +815,10 @@ class MonitoringDashboard {
           scales: {
             y: {
               beginAtZero: true,
-              grid: { color: '#f0f0f0' }
+              grid: { color: 'var(--alias-f0f0f0)' }
             },
             x: {
-              grid: { color: '#f0f0f0' }
+              grid: { color: 'var(--alias-f0f0f0)' }
             }
           }
         }
@@ -835,7 +835,7 @@ class MonitoringDashboard {
           datasets: [{
             label: 'Active Users',
             data: [],
-            borderColor: '#27ae60',
+            borderColor: 'var(--neutral-200)',
             backgroundColor: 'rgba(39, 174, 96, 0.1)',
             fill: true,
             tension: 0.4
@@ -850,10 +850,10 @@ class MonitoringDashboard {
           scales: {
             y: {
               beginAtZero: true,
-              grid: { color: '#f0f0f0' }
+              grid: { color: 'var(--alias-f0f0f0)' }
             },
             x: {
-              grid: { color: '#f0f0f0' }
+              grid: { color: 'var(--alias-f0f0f0)' }
             }
           }
         }
@@ -869,7 +869,7 @@ class MonitoringDashboard {
           labels: ['Mobile', 'Desktop', 'Tablet'],
           datasets: [{
             data: [72, 25, 3],
-            backgroundColor: ['#3498db', '#9b59b6', '#e67e22']
+            backgroundColor: ['var(--alias-3498db)', 'var(--alias-9b59b6)', 'var(--alias-e67e22)']
           }]
         },
         options: {

@@ -1,17 +1,29 @@
-rules_version='2'
+rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    
+    // MTM Events - Read only for authenticated owner, server-only writes
+    match /users/{uid}/mtmEvents/{id} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false; // server only
+    }
+    
+    // MTM Integration settings - Read only for authenticated owner, server-only writes
+    match /users/{uid}/integrations/mtm {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false; // server only
+    }
+    
+    // Temporary: Allow authenticated users to read/write their own data
+    // Remove or modify this rule based on your app's requirements
+    match /users/{uid}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    
+    // Temporary: Keep existing rule for backward compatibility
+    // Remove this before the expiration date
     match /{document=**} {
-      // This rule allows anyone with your database reference to view, edit,
-      // and delete all data in your database. It is useful for getting
-      // started, but it is configured to expire after 30 days because it
-      // leaves your app open to attackers. At that time, all client
-      // requests to your database will be denied.
-      //
-      // Make sure to write security rules for your app before that time, or
-      // else all client requests to your database will be denied until you
-      // update your rules.
       allow read, write: if request.time < timestamp.date(2025, 9, 2);
     }
   }

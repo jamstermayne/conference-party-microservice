@@ -1,0 +1,55 @@
+/**
+ * Single Calendar Button Styles
+ * Standardized appearance for all Add to Calendar buttons
+ */
+
+.btn.add-to-calendar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2-5) var(--s-5);
+  background: linear-gradient(135deg, var(--color-primary), var(--accent-secondary));
+  color: white;
+  border: none;
+  border-radius: var(--r-md);
+  font-size: var(--s-3-5);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn.add-to-calendar:hover {
+  background: linear-gradient(135deg, var(--alias-7d9fff), var(--alias-9c7dff));
+  transform: translateY(-1px);
+  box-shadow: 0 var(--s-1) var(--s-3) rgba(139, 129, 255, 0.3);
+}
+
+.btn.add-to-calendar:active {
+  transform: translateY(0);
+  box-shadow: 0 var(--s-0-5) var(--s-1-5) rgba(139, 129, 255, 0.2);
+}
+
+.btn.add-to-calendar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Icon support */
+.btn.add-to-calendar::before {
+  content: '📅';
+  font-size: var(--s-4);
+}
+
+/* Compact version for list views */
+.compact .btn.add-to-calendar {
+  padding: var(--s-1-5) var(--s-3);
+  font-size: 13px;
+}
+
+/* Remove any legacy btn-group styling */
+.btn-group .btn.add-to-calendar {
+  border-radius: var(--r-md) !important;
+  flex: none !important;
+}

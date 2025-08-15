@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Parties Utils</title>
+</head>
+<body>
+  <h1>Testing parties-utils.js</h1>
+  <div id="results"></div>
+  
+  <script type="module">
+    import { groupPartiesByDay, prettyDayLabel } from '/js/services/parties-utils.js';
+    
+    // Test data
+    const testParties = [
+      { id: 1, title: 'Monday Event', start: '2025-08-18T10:00:00' },
+      { id: 2, title: 'Monday Late', start: '2025-08-18T20:00:00' },
+      { id: 3, title: 'Tuesday Party', startsAt: '2025-08-19T18:00:00' },
+      { id: 4, title: 'Wednesday Mixer', startTime: '2025-08-20T14:00:00' },
+      { id: 5, title: 'Thursday Launch', start: '2025-08-21T19:00:00' },
+      { id: 6, title: 'Friday Night', start: '2025-08-22T21:00:00' },
+      { id: 7, title: 'Saturday Finale', start: '2025-08-23T20:00:00' },
+      { id: 8, title: 'Invalid Date', start: 'invalid' },
+      { id: 9, title: 'No Date' }
+    ];
+    
+    const results = document.getElementById('results');
+    
+    // Test groupPartiesByDay
+    const { days, byDay } = groupPartiesByDay(testParties);
+    
+    let html = '<h2>groupPartiesByDay Results:</h2>';
+    html += `<p>Found ${days.length} days with events</p>`;
+    html += '<ul>';
+    
+    days.forEach(day => {
+      const events = byDay.get(day);
+      const label = prettyDayLabel(day);
+      html += `<li><strong>${day} (${label})</strong>: ${events.length} events`;
+      html += '<ul>';
+      events.forEach(e => {
+        html += `<li>${e.title}</li>`;
+      });
+      html += '</ul></li>';
+    });
+    html += '</ul>';
+    
+    // Test prettyDayLabel with various dates
+    html += '<h2>prettyDayLabel Tests:</h2>';
+    html += '<ul>';
+    const testDates = [
+      '2025-08-18', // Monday
+      '2025-08-19', // Tuesday
+      '2025-08-20', // Wednesday
+      '2025-08-21', // Thursday
+      '2025-08-22', // Friday
+      '2025-08-23', // Saturday
+      '2025-12-25', // Christmas
+      '2025-01-01'  // New Year
+    ];
+    
+    testDates.forEach(date => {
+      html += `<li>${date} → ${prettyDayLabel(date)}</li>`;
+    });
+    html += '</ul>';
+    
+    // Verify Map structure
+    html += '<h2>Map Structure:</h2>';
+    html += `<p>byDay is a Map: ${byDay instanceof Map}</p>`;
+    html += `<p>Map size: ${byDay.size}</p>`;
+    html += `<p>Days array sorted: ${JSON.stringify(days)}</p>`;
+    
+    results.innerHTML = html;
+    
+    // Console logging for debugging
+    console.log('Group results:', { days, byDay });
+    console.log('Map entries:', Array.from(byDay.entries()));
+  </script>
+</body>
+</html>

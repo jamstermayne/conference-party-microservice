@@ -30,8 +30,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 20px;
-    height: 20px;
+    min-width: var(--s-5);
+    height: var(--s-5);
     padding: 0 6px;
     background: var(--warning);
     color: white;

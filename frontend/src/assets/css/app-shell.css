@@ -35,13 +35,13 @@
   position: sticky;
   top: 0;
   z-index: var(--z-sheet, 20);
-  height: 56px;
+  height: var(--s-13);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-  background: var(--bg-secondary, #21252b);
-  border-bottom: 1px solid var(--border, #383d45);
+  padding: 0 var(--s-4);
+  background: var(--bg-secondary, var(--neutral-200));
+  border-bottom: 1px solid var(--border, var(--alias-383d45));
 }
 
 /* Hide menu button on desktop, show on mobile */
@@ -62,7 +62,7 @@
 
 /* Title + #chip */
 .section-title {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: var(--s-2-5);
   font-weight: 700; color: var(--text-primary);
 }
 .section-title .hash {
@@ -71,11 +71,11 @@
 }
 
 /* Right-side actions */
-.section-actions { display: flex; align-items: center; gap: 8px; }
+.section-actions { display: flex; align-items: center; gap: var(--s-2); }
 
 /* Main content area under the sticky header */
 .main .content {
-  padding: 16px;
+  padding: var(--s-4);
 }
 
 /* Cards/FTUE block shouldn't force three columns */
@@ -84,4 +84,4 @@
 }
 
 /* Prevent stray headers duplicating */
-.content h1.page-title { margin: 12px 0 16px; }
+.content h1.page-title { margin: var(--s-3) 0 var(--s-4); }

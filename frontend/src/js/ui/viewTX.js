@@ -581,14 +581,14 @@ class ViewTransitions {
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) {
       const routeColors = {
-        home: '#6366f1',
-        events: '#f59e0b',
-        people: '#10b981',
-        opportunities: '#ef4444',
-        me: '#8b5cf6'
+        home: 'var(--alias-6366f1)',
+        events: 'var(--warning)',
+        people: 'var(--success)',
+        opportunities: 'var(--error)',
+        me: 'var(--alias-8b5cf6)'
       };
       
-      const color = routeColors[toRoute] || '#6366f1';
+      const color = routeColors[toRoute] || 'var(--alias-6366f1)';
       themeColor.setAttribute('content', color);
     }
   }

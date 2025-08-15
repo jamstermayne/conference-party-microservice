@@ -30,6 +30,6 @@ body {  } /* prevent body scroll; we'll scroll #main */
 
 /* Mobile: collapse to a single column, keep main scroll */
 @media (max-width: 680px){
-  :root { --sidebar-w: 64px; }
+  :root { --sidebar-w: var(--s-14); }
   /* grid-template-columns handled by z-overrides.css */
 }

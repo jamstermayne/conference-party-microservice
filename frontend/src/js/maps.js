@@ -14,11 +14,19 @@ class GamescomMapsApp {
         this.mapConfig = {
             center: { lat: 50.9429, lng: 6.9581 }, // Cologne, Germany
             zoom: 13,
-            styles: this.getMapStyles(),
             mapTypeControl: true,
             streetViewControl: true,
             fullscreenControl: true
         };
+        
+        // Add mapId if available (cloud styling takes precedence)
+        const MAP_ID = 'conference_party_map';
+        if (MAP_ID) {
+            this.mapConfig.mapId = MAP_ID; // Cloud styling source of truth
+        } else {
+            // Only use inline styles if no mapId
+            this.mapConfig.styles = this.getMapStyles();
+        }
     }
 
     async init() {
@@ -92,13 +100,13 @@ class GamescomMapsApp {
             const coords = this.getEventCoordinates(event);
             if (!coords) return;
             
-            // Create marker
-            const marker = new google.maps.Marker({
+            // Create advanced marker
+            const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+            const marker = new AdvancedMarkerElement({
                 position: coords,
                 map: this.map,
                 title: event.name || event['Event Name'],
-                icon: this.getMarkerIcon(event),
-                animation: google.maps.Animation.DROP
+                content: this.buildMarkerContent(event)
             });
             
             // Add click listener
@@ -153,6 +161,40 @@ class GamescomMapsApp {
         };
     }
 
+    buildMarkerContent(event) {
+        const isUGC = event.isUGC || event.collection === 'ugc-events';
+        const category = event.category || event.Category || 'networking';
+        
+        const colors = {
+            networking: '#4A154B',
+            afterparty: '#FF6B35',
+            mixer: '#0084FF',
+            launch: '#00C851'
+        };
+        
+        // Create custom marker content
+        const markerDiv = document.createElement('div');
+        markerDiv.className = 'custom-marker';
+        markerDiv.style.cssText = `
+            background-color: ${colors[category.toLowerCase()] || '#333'};
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        `;
+        
+        const icon = document.createElement('div');
+        icon.style.cssText = 'color: white; font-size: 16px;';
+        icon.textContent = isUGC ? '👤' : '🎮';
+        markerDiv.appendChild(icon);
+        
+        return markerDiv;
+    }
+    
     getMarkerIcon(event) {
         const isUGC = event.isUGC || event.collection === 'ugc-events';
         const category = event.category || event.Category || 'networking';
@@ -591,7 +633,10 @@ class GamescomMapsApp {
         
         // Update map styles if map exists
         if (this.map) {
-            this.map.setOptions({ styles: this.getMapStyles() });
+            // Don't set styles when using mapId (cloud styling)
+            if (!this.mapConfig.mapId) {
+                this.map.setOptions({ styles: this.getMapStyles() });
+            }
         }
     }
 
@@ -612,7 +657,10 @@ class GamescomMapsApp {
         
         // Update map styles
         if (this.map) {
-            this.map.setOptions({ styles: this.getMapStyles() });
+            // Don't set styles when using mapId (cloud styling)
+            if (!this.mapConfig.mapId) {
+                this.map.setOptions({ styles: this.getMapStyles() });
+            }
         }
     }
 
@@ -622,15 +670,15 @@ class GamescomMapsApp {
         if (isDark) {
             // Dark mode map styles
             return [
-                { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
-                { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
-                { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
-                { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#38414e' }] },
-                { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#212a37' }] },
-                { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#9ca5b3' }] },
-                { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#17263c' }] },
-                { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#515c6d' }] },
-                { featureType: 'water', elementType: 'labels.text.stroke', stylers: [{ color: '#17263c' }] }
+                { elementType: 'geometry', stylers: [{ color: 'var(--neutral-200)' }] },
+                { elementType: 'labels.text.stroke', stylers: [{ color: 'var(--neutral-200)' }] },
+                { elementType: 'labels.text.fill', stylers: [{ color: 'var(--alias-746855)' }] },
+                { featureType: 'road', elementType: 'geometry', stylers: [{ color: 'var(--alias-38414e)' }] },
+                { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: 'var(--neutral-200)' }] },
+                { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: 'var(--alias-9ca5b3)' }] },
+                { featureType: 'water', elementType: 'geometry', stylers: [{ color: 'var(--neutral-100)' }] },
+                { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: 'var(--alias-515c6d)' }] },
+                { featureType: 'water', elementType: 'labels.text.stroke', stylers: [{ color: 'var(--neutral-100)' }] }
             ];
         }
         

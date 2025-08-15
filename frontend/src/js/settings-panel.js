@@ -1,3 +1,5 @@
+import { initMtmSettings } from './integrations/mtm.js';
+
 export async function renderSettings(mount){
   if(!mount) return;
   const allowed = new Set(['jamy@nigriconsulting.com','jamynigri@gmail.com']);
@@ -13,8 +15,55 @@ export async function renderSettings(mount){
         </div>
         <div class="vmeta">Signed in as: ${email || 'Guest'}</div>
         <div class="vactions" id="adminActions"></div>
-        <div id="adminMsg" style="margin-top:8px;color:#9aa7bf;"></div>
+        <div id="adminMsg" style="margin-top:8px;color:var(--text-muted);"></div>
       </article>
+      
+      <!-- MeetToMatch Integration -->
+      <section class="card" id="mtm-card" data-role="mtm" style="margin-top:24px">
+        <header class="row between">
+          <h3>MeetToMatch</h3>
+          <span id="mtm-status-badge" class="badge">Checking…</span>
+        </header>
+
+        <div class="stack">
+          <!-- Connect -->
+          <label>Private ICS URL (from your MeetToMatch account)</label>
+          <div class="row">
+            <input id="mtm-ics" type="password" placeholder="https://app.meettomatch.com/.../private.ics" class="grow">
+            <button id="mtm-connect" class="primary">Connect</button>
+          </div>
+          <small class="muted">
+            Only the server sees this URL. It's stored encrypted and never exposed in the browser.
+          </small>
+
+          <!-- Manual sync -->
+          <div class="row">
+            <button id="mtm-sync-now">Sync now</button>
+            <span id="mtm-last-sync" class="muted"></span>
+          </div>
+
+          <hr />
+
+          <!-- Google mirror -->
+          <div class="row">
+            <label class="row">
+              <input type="checkbox" id="mtm-mirror-toggle">
+              <span>Mirror MeetToMatch events to Google Calendar</span>
+            </label>
+          </div>
+          <div class="row">
+            <label style="min-width:160px">Google Calendar ID</label>
+            <input id="mtm-cal-id" placeholder="primary" value="primary">
+          </div>
+          <div class="row">
+            <button id="mtm-save-mirror">Save mirroring</button>
+          </div>
+
+          <small class="muted" id="mtm-hint">
+            When enabled, new/updated MTM events will be created/updated in your Google Calendar.
+          </small>
+        </div>
+      </section>
     </section>
   `;
 
@@ -51,5 +100,8 @@ export async function renderSettings(mount){
   } else {
     msg.textContent = email ? 'No admin actions available for this account.' : 'Sign in to access admin actions.';
   }
+  
+  // Initialize MTM settings
+  await initMtmSettings();
 }
 export default { renderSettings };

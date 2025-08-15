@@ -12,7 +12,7 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: var(--s-4);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -137,12 +137,12 @@ body {
 }
 
 .nav-item.active::before {
-  height: 24px;
+  height: var(--s-6);
 }
 
 .nav-icon {
-  width: 20px;
-  height: 20px;
+  width: var(--s-5);
+  height: var(--s-5);
   margin-right: var(--space-3);
   opacity: 0.8;
   transition: opacity var(--duration-fast) var(--ease-out);
@@ -161,7 +161,7 @@ body {
   padding: 2px 6px;
   border-radius: var(--radius-full);
   margin-left: auto;
-  min-width: 20px;
+  min-width: var(--s-5);
   text-align: center;
 }
 

@@ -9,20 +9,20 @@ export function openM2MModal(){
     wrap.innerHTML = `
       <div class="overlay" style="position:fixed;inset:0;background:rgba(7,9,16,.6);backdrop-filter:saturate(120%) blur(4px);z-index:9998"></div>
       <div class="sheet" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999">
-        <div class="panel" style="width:min(560px,94vw);border-radius:16px;border:1px solid #2b2f45;background:linear-gradient(180deg,#0e1320,#0b111c);box-shadow:0 10px 50px rgba(8,10,20,.6);padding:18px">
+        <div class="panel" style="width:min(560px,94vw);border-radius:16px;border:1px solid var(--neutral-300);background:linear-gradient(180deg,var(--alias-0e1320),var(--alias-0b111c));box-shadow:0 10px 50px rgba(8,10,20,.6);padding:18px">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <div style="font-weight:800;color:#eaf0ff;font-size:18px">Connect MeetToMatch</div>
-            <button id="m2m-close" style="border:0;background:#12192a;color:#cfe0ff;border-radius:10px;padding:6px 10px;cursor:pointer">✕</button>
+            <div style="font-weight:800;color:var(--alias-eaf0ff);font-size:18px">Connect MeetToMatch</div>
+            <button id="m2m-close" style="border:0;background:var(--neutral-100);color:var(--alias-cfe0ff);border-radius:10px;padding:6px 10px;cursor:pointer">✕</button>
           </div>
-          <p style="color:#9aa7bf;margin:6px 0 14px">Paste your personal MeetToMatch <b>ICS feed URL</b>. We'll verify it, save it to your account, and show those events here.</p>
+          <p style="color:var(--text-muted);margin:6px 0 14px">Paste your personal MeetToMatch <b>ICS feed URL</b>. We'll verify it, save it to your account, and show those events here.</p>
           <input id="m2m-url" type="url" placeholder="https://meettomatch.com/.../calendar.ics" 
-            style="width:100%;padding:10px 12px;border-radius:12px;border:1px solid #2b2f45;background:#0f1625;color:#eaf0ff;outline:none"/>
-          <div id="m2m-hint" style="color:#9aa7bf;font-size:12px;margin-top:6px">Only your account can read this. You can remove it anytime.</div>
+            style="width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--neutral-300);background:var(--alias-0f1625);color:var(--alias-eaf0ff);outline:none"/>
+          <div id="m2m-hint" style="color:var(--text-muted);font-size:12px;margin-top:6px">Only your account can read this. You can remove it anytime.</div>
           <div style="display:flex;gap:10px;margin-top:14px;justify-content:flex-end">
-            <button id="m2m-test" style="border:1px solid #2b2f45;background:#18223a;color:#eaf0ff;border-radius:12px;padding:8px 12px;cursor:pointer">Test</button>
-            <button id="m2m-save" style="border:0;background:linear-gradient(180deg,#8c7aff,#5b47ff);color:#fff;border-radius:12px;padding:8px 12px;cursor:pointer;font-weight:700">Save</button>
+            <button id="m2m-test" style="border:1px solid var(--neutral-300);background:var(--neutral-100);color:var(--alias-eaf0ff);border-radius:12px;padding:8px 12px;cursor:pointer">Test</button>
+            <button id="m2m-save" style="border:0;background:linear-gradient(180deg,var(--alias-8c7aff),var(--alias-5b47ff));color:var(--white);border-radius:12px;padding:8px 12px;cursor:pointer;font-weight:700">Save</button>
           </div>
-          <div id="m2m-result" style="margin-top:12px;color:#cfe0ff;font-size:13px"></div>
+          <div id="m2m-result" style="margin-top:12px;color:var(--alias-cfe0ff);font-size:13px"></div>
         </div>
       </div>`;
     document.body.appendChild(wrap);

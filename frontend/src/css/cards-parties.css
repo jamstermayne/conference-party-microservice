@@ -42,14 +42,14 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   display:inline-flex; align-items:center; gap:6px;
   padding: 4px 8px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: var(--s-3);
   border:1px solid var(--border);
   background: rgba(255,255,255,.04);
   color: var(--text-secondary);
 }
-.badge-pill[data-variant="ok"] { border-color: rgba(34,197,94,.35); color: #a8e6b5; }
-.badge-pill[data-variant="warn"] { border-color: rgba(253,224,71,.35); color: #fbf3b0; }
-.badge-pill[data-variant="prem"] { border-color: rgba(107,123,255,.45); color: #c8caff; }
+.badge-pill[data-variant="ok"] { border-color: rgba(34,197,94,.35); color: var(--alias-a8e6b5); }
+.badge-pill[data-variant="warn"] { border-color: rgba(253,224,71,.35); color: var(--alias-fbf3b0); }
+.badge-pill[data-variant="prem"] { border-color: rgba(107,123,255,.45); color: var(--alias-c8caff); }
 
 /* action cluster (RSVP/Save/Share) */
 .party-actions {
@@ -70,7 +70,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
 /* ---------- Skeletons ---------- */
 .skel {
-  position: relative; overflow: hidden; background: #1b1b21; border-radius: var(--r-lg);
+  position: relative; overflow: hidden; background: var(--neutral-100); border-radius: var(--r-lg);
   border:1px solid var(--border); height:74px;
 }
 .skel::after {

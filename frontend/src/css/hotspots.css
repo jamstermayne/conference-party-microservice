@@ -1,24 +1,24 @@
 /* Hotspots — simple SVG heatmap + ranked list */
-.hotspots-wrap { padding: 12px 16px 24px; display:grid; gap:14px; }
+.hotspots-wrap { padding: var(--s-3) 16px 24px; display:grid; gap:14px; }
 .hotspots-grid { display:grid; gap:14px; grid-template-columns: 1fr; }
 @media (min-width: 1080px){ .hotspots-grid { grid-template-columns: 1.2fr 0.8fr; } }
 
 .hotspots-map {
-  background: var(--surface,#1a1a1f);
-  border:1px solid var(--border,#2a2a35);
+  background: var(--surface,var(--bg-surface));
+  border:1px solid var(--border,var(--border-primary));
   border-radius: var(--r-lg,16px);
   overflow:hidden;
   padding: 10px;
 }
 .hotspots-list {
-  background: var(--surface,#1a1a1f);
-  border:1px solid var(--border,#2a2a35);
+  background: var(--surface,var(--bg-surface));
+  border:1px solid var(--border,var(--border-primary));
   border-radius: var(--r-lg,16px);
   padding: 10px;
 }
 .hs-item { display:flex; align-items:center; gap:10px; padding:8px; border-radius:10px; }
-.hs-item:not(:last-child){ border-bottom:1px dashed var(--border,#2a2a35); }
+.hs-item:not(:last-child){ border-bottom:1px dashed var(--border,var(--border-primary)); }
 .hs-rank { width:24px; height:24px; border-radius:6px; background:rgba(255,255,255,.06); display:grid; place-items:center; font-weight:700; }
 .hs-bar { flex:1; height:8px; border-radius:6px; background:rgba(255,255,255,.06); overflow:hidden; }
-.hs-fill { height:100%; background: linear-gradient(90deg,#6b7bff,#2c2f7a); width:0%; }
-.hs-name { color: var(--text-primary,#fff); min-width:180px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.hs-fill { height:100%; background: linear-gradient(90deg,var(--color-primary-dark),var(--neutral-200)); width:0%; }
+.hs-name { color: var(--text-primary,var(--text-primary)); min-width:180px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }

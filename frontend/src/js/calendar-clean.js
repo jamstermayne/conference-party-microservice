@@ -75,7 +75,7 @@ export async function renderCalendar(mount){
             <button class="vbtn" data-m2m='${JSON.stringify({id:ev.id||"", title:ev.summary, location:ev.location, start:ev.start, end:ev.end}).replace(/'/g,"&#39;")}'>MeetToMatch (ICS)</button>
             <button class="vbtn" data-email-ics='${JSON.stringify({id:ev.id||"", title:ev.summary, location:ev.location, start:ev.start, end:ev.end}).replace(/'/g,"&#39;")}'>Email ICS</button>
           </div>
-        </article>`).join('') || '<p style="color:#9aa7bf">No events.</p>';
+        </article>`).join('') || '<p style="color:var(--text-muted)">No events.</p>';
     } finally {
       el.removeAttribute('aria-busy');
     }

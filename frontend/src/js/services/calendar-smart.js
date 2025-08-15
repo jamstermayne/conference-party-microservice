@@ -165,7 +165,7 @@ class SmartCalendar {
       bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
-      background: ${type === 'error' ? '#e74c3c' : '#27ae60'};
+      background: ${type === 'error' ? 'var(--alias-e74c3c)' : 'var(--neutral-200)'};
       color: white;
       padding: 12px 24px;
       border-radius: 8px;
@@ -197,10 +197,10 @@ if (!document.querySelector('#calendar-smart-styles')) {
       to { transform: translate(-50%, 100%); opacity: 0; }
     }
     .vbtn.success {
-      background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+      background: linear-gradient(135deg, var(--neutral-200), var(--neutral-200)) !important;
     }
     .vbtn.error {
-      background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+      background: linear-gradient(135deg, var(--alias-e74c3c), var(--alias-c0392b)) !important;
     }
   `;
   document.head.appendChild(style);

@@ -1,7 +1,7 @@
 .section-title { 
   display: flex;
   align-items: center;
-  gap: 12px; 
+  gap: var(--s-3); 
 }
 
 .section-title-text {
@@ -14,8 +14,8 @@
   background: rgba(107,123,255,.12);
   border: 1px solid rgba(107,123,255,.35);
   color: var(--text-primary);
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
+  padding: var(--s-1) var(--s-2-5);
+  border-radius: var(--r-pill);
+  font-size: var(--s-3);
   line-height: 1;
 }

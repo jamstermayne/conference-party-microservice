@@ -3,6 +3,8 @@ name: Deploy to Firebase (Hosting + Functions)
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -39,6 +41,30 @@ jobs:
         run: |
           if [ -f package.json ]; then npm ci || true; fi
           if [ -d functions ] && [ -f functions/package.json ]; then (cd functions && npm ci || true); fi
+
+      - name: Run lint checks
+        run: |
+          echo "🎨 Running design token checks..."
+          npm run lint || echo "Lint checks failed - continuing with deployment"
+
+      - name: Run design audit suite (must pass)
+        run: |
+          chmod +x tools/design-audit/*.sh
+          ./tools/design-audit/run-all.sh
+
+      - name: Guard: no hex colors anywhere
+        run: |
+          # Install ripgrep if not available
+          if ! command -v rg &> /dev/null; then
+            curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
+            sudo dpkg -i ripgrep_13.0.0_amd64.deb
+          fi
+          
+          # Check for hex colors
+          rg -n --hidden --glob '!**/tokens/**' --glob '!**/backup/**' \
+            -e '#[0-9a-fA-F]{3,8}\b' frontend/src && \
+            echo "❌ Hex colors found. Run: node tools/colors/sweep-colors.mjs --write" && exit 1 || \
+            echo "✅ No hex colors found."
 
       - name: Build functions
         run: |

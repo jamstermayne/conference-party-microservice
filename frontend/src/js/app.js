@@ -438,6 +438,13 @@ class ProfessionalIntelligenceApp {
     // Update navigation states
     this.updateActiveTab(route);
     this.updateActiveSidebar(route);
+    
+    // Schedule card equalization after navigation
+    import('./ui/equalize-cards.js').then(module => {
+      if (module.scheduleEqualize) {
+        module.scheduleEqualize();
+      }
+    });
   }
 
   /**
@@ -890,6 +897,25 @@ class ProfessionalIntelligenceApp {
       }
     } catch (error) {
       console.warn('⚠️ Press feedback system initialization failed:', error);
+    }
+    
+    // Initialize card equalization system
+    try {
+      import('./ui/equalize-cards.js').then(module => {
+        if (module.equalizeCards) {
+          // Initial equalization
+          module.equalizeCards();
+          // Re-equalize on resize
+          let resizeTimer;
+          window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => module.equalizeCards(), 250);
+          });
+          console.log('✅ Card equalization system initialized');
+        }
+      });
+    } catch (error) {
+      console.warn('⚠️ Card equalization system initialization failed:', error);
     }
     
     // Initialize performance monitoring

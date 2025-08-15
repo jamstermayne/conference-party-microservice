@@ -282,7 +282,7 @@ function createEnhancedToast(message, type) {
     maxWidth: '400px',
     padding: '12px 16px',
     borderRadius: '8px',
-    color: '#ffffff',
+    color: 'var(--white)',
     fontWeight: '500',
     fontSize: '14px',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
@@ -297,19 +297,19 @@ function createEnhancedToast(message, type) {
   // Apply type-specific styling
   switch (type) {
     case 'success':
-      toast.style.backgroundColor = '#22c55e';
+      toast.style.backgroundColor = 'var(--success)';
       break;
     case 'error':
-      toast.style.backgroundColor = '#ef4444';
+      toast.style.backgroundColor = 'var(--error)';
       break;
     case 'warning':
-      toast.style.backgroundColor = '#f59e0b';
+      toast.style.backgroundColor = 'var(--warning)';
       break;
     case 'info':
-      toast.style.backgroundColor = '#3b82f6';
+      toast.style.backgroundColor = 'var(--info)';
       break;
     default:
-      toast.style.backgroundColor = '#6b7280';
+      toast.style.backgroundColor = 'var(--alias-6b7280)';
   }
   
   // Style content

@@ -4,7 +4,7 @@
   <!-- Primary Meta -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#1A1D21">
+  <meta name="theme-color" content="var(--neutral-100)">
   <meta name="color-scheme" content="dark">
   <meta name="description" content="Velocity — Private conference parties & professional networking for Gamescom 2025">
   <title>Velocity — Gamescom 2025</title>
@@ -45,7 +45,7 @@
     /* Critical inline styles for fast initial paint */
     body {
       margin: 0;
-      background: #1A1D21;
+      background: var(--neutral-100);
       color: #E1E1E3;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -57,14 +57,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #1A1D21;
+      background: var(--neutral-100);
     }
     
     .spinner {
       width: 40px;
       height: 40px;
       border: 3px solid rgba(255,255,255,0.1);
-      border-top-color: #3b82f6;
+      border-top-color: var(--info);
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -77,7 +77,7 @@
       position: absolute;
       top: -40px;
       left: 0;
-      background: #3b82f6;
+      background: var(--info);
       color: white;
       padding: 8px;
       text-decoration: none;
@@ -329,7 +329,7 @@
       left: 0;
       right: 0;
       display: flex;
-      background: #2A2D31;
+      background: var(--neutral-200);
       border-top: 1px solid rgba(255,255,255,0.1);
       z-index: 1000;
       padding-bottom: env(safe-area-inset-bottom);
@@ -351,7 +351,7 @@
     }
     
     .nav-tab.active {
-      color: #3b82f6;
+      color: var(--info);
     }
     
     .nav-tab .icon {
@@ -366,7 +366,7 @@
       position: absolute;
       top: 4px;
       right: calc(50% - 16px);
-      background: #f59e0b;
+      background: var(--warning);
       color: white;
       font-size: 10px;
       padding: 2px 4px;
@@ -390,12 +390,12 @@
     }
     
     .btn-primary {
-      background: #3b82f6;
+      background: var(--info);
       color: white;
     }
     
     .btn-primary:hover {
-      background: #2563eb;
+      background: var(--neutral-200);
     }
     
     .btn-secondary {
@@ -428,7 +428,7 @@
     }
     
     .toast {
-      background: #2A2D31;
+      background: var(--neutral-200);
       color: white;
       padding: 12px 16px;
       border-radius: 8px;
@@ -447,10 +447,10 @@
       transform: translateX(0);
     }
     
-    .toast-success { background: #10b981; }
-    .toast-error { background: #ef4444; }
-    .toast-warning { background: #f59e0b; }
-    .toast-info { background: #3b82f6; }
+    .toast-success { background: var(--success); }
+    .toast-error { background: var(--error); }
+    .toast-warning { background: var(--warning); }
+    .toast-info { background: var(--info); }
     
     /* Install card */
     .install-card {
@@ -491,7 +491,7 @@
       justify-content: center;
       margin: 16px 0;
       font-size: 14px;
-      color: #666;
+      color: var(--neutral-500);
     }
     
     .button-row {
@@ -553,12 +553,12 @@
     /* Dark mode adjustments */
     @media (prefers-color-scheme: dark) {
       .install-card {
-        background: #2A2D31;
+        background: var(--neutral-200);
         color: white;
       }
       
       .install-benefits {
-        color: #aaa;
+        color: var(--alias-aaa);
       }
     }
   </style>

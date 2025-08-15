@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rail Sizing Test</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <h1>Rail Sizing & Route Sync Test</h1>
+  
+  <iframe id="testFrame" src="https://conference-party-app.web.app" 
+          style="width: 100%; height: 600px; border: 1px solid #ccc;"></iframe>
+  
+  <div id="results" style="margin-top: 20px; padding: 20px; background: #f5f5f5;">
+    <h2>Test Results:</h2>
+    <pre id="output">Loading...</pre>
+  </div>
+
+  <script>
+    const iframe = document.getElementById('testFrame');
+    const output = document.getElementById('output');
+    
+    iframe.onload = () => {
+      setTimeout(() => {
+        try {
+          // Note: Cross-origin restrictions prevent direct access
+          // This would need to be run in the browser console directly
+          output.textContent = `
+To test rail sizing and route sync:
+
+1. Open browser console at https://conference-party-app.web.app
+2. Run Test A - Rail Sizing:
+
+(() => {
+  const aside = document.querySelector('aside,[data-role=sidebar],#sidebar');
+  const items = [...aside.querySelectorAll('[data-route], .subnav a')];
+  const rail = Math.round(aside.getBoundingClientRect().width);
+  const widest = Math.round(Math.max(...items.map(el => el.getBoundingClientRect().width)));
+  return { 
+    rail, 
+    widest, 
+    delta: rail - widest, 
+    nowrapOk: items.every(el => getComputedStyle(el).whiteSpace === 'nowrap'),
+    subnavCount: aside.querySelectorAll('.subnav a').length
+  };
+})();
+
+Expected: delta near 0, nowrapOk true
+
+3. Run Test B - Route Sync:
+
+location.hash = '#/map/2025-08-20';
+setTimeout(() => {
+  const active = document.querySelector('.subnav a.active');
+  console.log('Active day:', active?.textContent, active?.dataset.day);
+  console.log('Subnav visible:', !!document.querySelector('.subnav'));
+}, 100);
+
+Expected: Active day shows "Wed, Aug 20" with data-day="2025-08-20"
+`;
+        } catch (e) {
+          output.textContent = 'Cross-origin test not possible. Run tests directly in browser console.';
+        }
+      }, 2000);
+    };
+  </script>
+</body>
+</html>

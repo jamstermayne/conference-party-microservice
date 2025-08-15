@@ -437,10 +437,10 @@ class Templates {
    */
   getPersonaGradient(persona) {
     const gradients = {
-      developer: 'linear-gradient(135deg, #10b981, #059669)',
-      publisher: 'linear-gradient(135deg, #f59e0b, #d97706)',
-      investor: 'linear-gradient(135deg, #6366f1, #4f46e5)',
-      service: 'linear-gradient(135deg, #a855f7, #9333ea)'
+      developer: 'linear-gradient(135deg, var(--success), var(--alias-059669))',
+      publisher: 'linear-gradient(135deg, var(--warning), var(--alias-d97706))',
+      investor: 'linear-gradient(135deg, var(--alias-6366f1), var(--alias-4f46e5))',
+      service: 'linear-gradient(135deg, var(--alias-a855f7), var(--alias-9333ea))'
     };
     
     return gradients[persona] || gradients.developer;

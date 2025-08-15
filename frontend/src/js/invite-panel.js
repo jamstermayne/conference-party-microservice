@@ -70,15 +70,15 @@ export async function renderInvites(mount){
           <div class="vcard__title">Your invite credits: <span id="inv-left">—</span></div>
         </div>
         <div class="vactions">
-          <input id="inv-email" placeholder="optional email to prefill…" style="flex:1;min-width:220px;padding:8px;border-radius:10px;border:1px solid #2b2f45;background:#121a2a;color:#eaf0ff">
+          <input id="inv-email" placeholder="optional email to prefill…" style="flex:1;min-width:220px;padding:8px;border-radius:10px;border:1px solid var(--neutral-300);background:var(--neutral-100);color:var(--alias-eaf0ff)">
           <button class="vbtn vbtn primary" id="btnCreate">Create Invite</button>
         </div>
       </article>
 
-      <h3 style="color:#eaf0ff;margin:16px 0 8px">Pending</h3>
+      <h3 style="color:var(--alias-eaf0ff);margin:16px 0 8px">Pending</h3>
       <div id="inv-pending"></div>
 
-      <h3 style="color:#eaf0ff;margin:20px 0 8px">Hall of Fame (accepted)</h3>
+      <h3 style="color:var(--alias-eaf0ff);margin:20px 0 8px">Hall of Fame (accepted)</h3>
       <div id="inv-hof"></div>
     </div>
   </section>`;
@@ -116,13 +116,13 @@ export async function renderInvites(mount){
       const pend = Array.isArray(data?.pending) ? data.pending : [];
       mount.querySelector('#inv-pending').innerHTML = pend.length
         ? pend.map(inviteCard).join('')
-        : '<p style="color:#9aa7bf">No pending invites.</p>';
+        : '<p style="color:var(--text-muted)">No pending invites.</p>';
 
       // accepted (Hall of Fame)
       const acc = Array.isArray(data?.accepted) ? data.accepted : [];
       mount.querySelector('#inv-hof').innerHTML = acc.length
         ? acc.map(inviteCard).join('')
-        : '<p style="color:#9aa7bf">No accepted invites yet.</p>';
+        : '<p style="color:var(--text-muted)">No accepted invites yet.</p>';
     }catch(e){
       meta.textContent = 'Error loading invites: ' + (e?.message||e);
     }

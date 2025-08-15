@@ -1,0 +1,919 @@
+
+[1;36m=== DESIGN SYSTEM AUDIT ===[0m
+Timestamp: Fri Aug 15 18:11:02 UTC 2025
+Repository: /workspaces/conference-party-microservice
+
+
+[1;36m=== Environment Probe ===[0m
+
+[1;36m=== Environment Probe ===[0m
+ROOT: /workspaces/conference-party-microservice
+FE src: /workspaces/conference-party-microservice/frontend/src
+Prod base: https://conference-party-app.web.app
+[1;33m⚠ frontend/dist missing (ok if SPA is served from /src)[0m
+[1;32m✔ public/ directory exists (main serving directory)[0m
+  Main files:
+    /workspaces/conference-party-microservice/public/test-calendar-buttons.html (3.8K)
+    /workspaces/conference-party-microservice/public/test-gcal-clean.html (6.8K)
+    /workspaces/conference-party-microservice/public/test-gcal-oauth.html (9.5K)
+    /workspaces/conference-party-microservice/public/test-simple-calendar.html (6.2K)
+    /workspaces/conference-party-microservice/public/test-smart-calendar.html (8.2K)
+  JS files:
+    calendar-view.js (4.0K)
+    add-to-calendar-wrapper.js (4.0K)
+    events-controller.js (4.0K)
+    kill-sw.js (4.0K)
+    offline-search.js (48K)
+
+Commit: b0359ad 2025-08-15  chore(tokens): sweep all remaining hex → tokens and enforce in CI
+Branch: chore/audit-fixes-prod-guardrails-20250815
+
+Testing production endpoints...
+[1;32m✔ Fetched https://conference-party-app.web.app[0m
+  Index size: 8.0K
+  Assets found:
+    href="/assets/css/spacing-tokens.css?v=b803"
+    href="/assets/css/tokens/color-tokens.css?v=b803"
+    href="/assets/css/tokens/color-compat.css?v=b803"
+    href="/assets/css/sidebar.css?v=b803"
+    href="/assets/css/hero-cards.css?v=b803"
+[1;32m✔ API health check passed[0m
+  Response: 
+<html><head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>404 Page not
+
+Design Token Files:
+[1;32m✔ spacing-tokens.css exists (78 lines)[0m
+[1;31m✘ color-tokens.css missing[0m
+
+
+[1;36m=== Environment Summary ===[0m
+📁 Project Structure:
+  - Frontend source: /workspaces/conference-party-microservice/frontend/src
+  - Public assets: /workspaces/conference-party-microservice/public
+  - CSS files: 43
+  - JS files: 213
+
+🌐 Production Status:
+  - Site: ✅ Online
+  - API: ✅ Healthy
+[1;32m✔ Completed Environment Probe[0m
+
+[1;36m=== Layout & Navigation ===[0m
+
+[1;36m=== Layout & Sidebar Audit ===[0m
+📐 Grid Layout Analysis:
+[1;32m✔ Found grid-template-columns in 44 files:[0m
+  • frontend/src/apm-dashboard.html
+    Line 25:            grid-template-columns: 250px 1fr;
+  • frontend/src/assets/css/styles.css
+    Line 142:.list-item{display:grid;grid-template-columns: 1fr auto;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--b);border-radius:var(--r-sm);padding:12px}
+  • frontend/src/assets/css/z-overrides.css
+    Line 13:  grid-template-columns: max-content minmax(0, 1fr) !important;
+  • frontend/src/assets/css/hero-cards.css
+    Line 43:  grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
+  • frontend/src/assets/css/events-cards.css
+    Line 54:  grid-template-columns: 1fr;
+  • frontend/src/assets/css/account.css
+    Line 19:.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:8px 0 var(--s-3); }
+  • frontend/src/assets/css/sidebar.css
+    Line 16:  grid-template-columns: var(--s-2) 1fr;
+  • frontend/src/assets/css/layout.css
+    Line 9:  grid-template-columns: var(--sidebar-w) 1fr;
+  • frontend/src/assets/css/cards-parties.css
+    Line 3:@media (min-width:900px){ .party-list { grid-template-columns: 1fr 1fr; } }
+  • frontend/src/assets/css/hotspots.css
+    Line 5:  grid-template-columns: 1fr 360px;
+[1;33m⚠ Issues found in Layout & Navigation[0m
+
+[1;36m=== Cards System ===[0m
+
+[1;36m=== Cards System Audit ===[0m
+🃏 Card Component Analysis:
+[1;32m✔ Found 7 card-related CSS files:[0m
+  • frontend/src/assets/css/hero-cards.css (8.0K)
+  • frontend/src/assets/css/events-cards.css (8.0K)
+  • frontend/src/assets/css/cards-parties.css (4.0K)
+  • frontend/src/assets/css/cards.css (4.0K)
+  • frontend/src/assets/css/cards-hero.css (4.0K)
+  • frontend/src/assets/css/event-cards.css (4.0K)
+  • frontend/src/assets/css/party-cards.css (4.0K)
+
+📋 Card Class Usage:
+[1;32m✔ vcard class usage: 158 instances[0m
+[1;32m✔ General card classes: 397 instances[0m
+
+🏗️ Card Structure Patterns:
+[1;32m✔ Flex-based card layouts: 21 definitions[0m
+[1;32m✔ No fixed heights on cards (good - allows flexible content)[0m
+
+📐 Card Body Flexibility:
+./tools/design-audit/20_cards_audit.sh: line 65: [: 0
+0: integer expression expected
+[1;33m⚠ Card bodies don't use flex-grow (may cause layout issues)[0m
+
+🎯 Card Grid Layouts:
+[1;32m✔ Card grid/list containers found: 5[0m
+[1;32m✔ Responsive card layouts: 4 media queries[0m
+
+✨ Card Interactions:
+  • Hover effects: 10 definitions
+./tools/design-audit/20_cards_audit.sh: line 99: [: 0
+0: integer expression expected
+
+🔘 Card Actions:
+[1;32m✔ Card action areas: 48 references[0m
+  Action types found:
+    • Save/Bookmark: 332
+    • Sync/Calendar: 1265
+
+⏳ Loading States:
+[1;32m✔ Skeleton/loading states: 26 definitions[0m
+
+♿ Card Accessibility:
+[1;32m✔ Semantic roles on cards: 2[0m
+[1;32m✔ Proper heading hierarchy in cards: 11[0m
+
+📊 Card System Summary:
+  ✅ Good practices:
+    • Flexible card layouts with flexbox
+    • No fixed heights (content-flexible)
+    • Responsive card designs
+    • Interactive hover states
+
+  ⚠️  Improvements needed:
+[1;33m⚠ Issues found in Cards System[0m
+
+[1;36m=== Design Tokens ===[0m
+
+[1;36m=== Design Tokens Audit (spacing/radius/shadow) ===[0m
+📏 Token Usage Analysis:
+[1;32m✔ Design tokens used in 38 CSS files[0m
+  Token usage breakdown:
+    • Spacing tokens: 570 instances
+    • Radius tokens: 98 instances
+    • Shadow tokens: 15 instances
+
+🚫 Raw Pixel Values (common spacing):
+[1;32m✔ No raw spacing px values found[0m
+
+🔲 Border Radius Values:
+[1;32m✔ All border-radius values use tokens[0m
+
+🎨 Color Values:
+[1;33m⚠ Found 2 hardcoded hex colors (consider using color tokens):[0m
+  • frontend/src/assets/css/styles.css:14 (#00E5FF)
+  • frontend/src/assets/css/styles.css:15 (#FF6BFF)
+
+📊 Token Compliance Summary:
+  ✅ Tokens properly defined in:
+    • spacing-tokens.css
+
+  ⚠️  Areas needing attention:
+    • Hardcoded color values
+
+📐 Line-height Analysis:
+./tools/design-audit/30_css_tokens_audit.sh: line 93: [: 0
+0: integer expression expected
+[1;33m⚠ 0
+0 line-heights with px units (prefer unitless)[0m
+[1;32m✔ Completed Design Tokens[0m
+
+[1;36m=== Maps Integration ===[0m
+
+[1;36m=== Maps Integration Audit ===[0m
+🗺️  Google Maps API Analysis:
+[1;32m✔ Maps API script found in production[0m
+  Script tag: <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cot...
+[1;32m✔ Async loading enabled (good for performance)[0m
+[1;32m✔ Advanced Marker library loaded[0m
+[1;32m✔ No deprecated libraries loaded[0m
+
+🔑 API Key Security:
+[1;31m✘ Exposed API keys found in source:[0m
+  • frontend/src/index.html:54
+    Key: AIzaSyD5Zj...otgc (masked)
+  • frontend/src/maps.html:135
+    Key: AIzaSyD5Zj...otgc (masked)
+  • frontend/src/js/auth.js:8
+    Key: AIzaSyBBHT...mFMw (masked)
+
+📍 Map Implementation:
+[1;32m✔ Found 2 map initialization(s)[0m
+[1;32m✔ Using local styles configuration[0m
+
+🎯 Marker Implementation:
+[1;32m✔ Using AdvancedMarkerElement (3 instances) - modern approach[0m
+[1;33m⚠ Still using legacy Marker (1 instances) - consider migrating[0m
+  • frontend/src/js/maps.js:104
+
+📊 Maps Summary:
+  Configuration:
+    ✅ Maps API loaded in production
+    ✅ Using modern AdvancedMarkerElement
+
+  Potential Issues:
+    ❌ Exposed API keys in source
+    ⚠️  Legacy markers still in use
+[1;32m✔ Completed Maps Integration[0m
+
+[1;36m=== Calendar Integration ===[0m
+
+[1;36m=== Calendar Integration Audit ===[0m
+📅 Backend Calendar Endpoints:
+[1;32m✔ Found 4 calendar endpoint references in backend:[0m
+  • functions/src/calendar/google.ts:16
+    Endpoint: /api/calendar/google/callback
+  • functions/src/index.ts:66
+    Endpoint: /api/googleCalendar/*
+  • functions/src/googleCalendar/router.ts:64
+    Endpoint: /api/googleCalendar/google/callback`;
+  • functions/src/googleCalendar/router.ts:151
+    Endpoint: /api/googleCalendar/google/callback`;
+
+📱 Frontend Calendar Integration:
+[1;32m✔ Calendar-related files found:[0m
+  • frontend/src/js/calendar-view.js (8.0K)
+  • frontend/src/js/add-to-calendar-wrapper.js (4.0K)
+  • frontend/src/js/calendar.js (32K)
+  • frontend/src/js/components/calendar-button.js (4.0K)
+  • frontend/src/js/components/calendar-providers.js (4.0K)
+  • frontend/src/js/calendar-click-handler.js (4.0K)
+  • frontend/src/js/calendar-integrated.js (8.0K)
+  • frontend/src/js/calendar-mtm.js (4.0K)
+  • frontend/src/js/services/calendar-client.js (8.0K)
+  • frontend/src/js/services/calendar.js (16K)
+  • frontend/src/js/services/gcal-lite.js (12K)
+  • frontend/src/js/services/gcal-backend.js (12K)
+  • frontend/src/js/services/calendarSync.js (4.0K)
+  • frontend/src/js/services/gcal.js (4.0K)
+  • frontend/src/js/services/calendar-providers.js (4.0K)
+  • frontend/src/js/services/gcal-clean.js (8.0K)
+  • frontend/src/js/services/google-calendar.js (4.0K)
+  • frontend/src/js/services/gcal-minimal.js (4.0K)
+  • frontend/src/js/services/calendar-smart.js (8.0K)
+  • frontend/src/js/calendar (16K)
+  • frontend/src/js/calendar-handler.js (4.0K)
+  • frontend/src/js/calendar-add-simple.js (4.0K)
+  • frontend/src/js/calendar-clean.js (8.0K)
+  • frontend/src/js/gcal-hooks.js.bak (4.0K)
+  • frontend/src/js/calendar-add-handler.js (4.0K)
+  • frontend/src/js/calendar-providers.js (8.0K)
+  • frontend/src/js/calendar-simple.js (12K)
+  • frontend/src/js/views/calendar-providers.js (4.0K)
+  • frontend/src/js/calendar-polish.js (8.0K)
+  • frontend/src/js/gcal-hooks.js (8.0K)
+  • frontend/src/js/calendar-strip.js (4.0K)
+  • frontend/src/js/controllers/calendar.js (8.0K)
+  • frontend/src/js/ui/add-to-calendar-clean.js (4.0K)
+  • frontend/src/js/ui/add-to-calendar.js (4.0K)
+  • frontend/src/js/calendar-sync.js (4.0K)
+  • frontend/src/js/global-calendar-handler.js (4.0K)
+  • frontend/src/js/api/calendar.js (12K)
+  • frontend/src/js/calendar-integration.js (16K)
+
+🔗 Calendar Provider Services:
+  Provider references:
+    • Google Calendar: 96 references
+    • iCal/ICS export: 605 references
+    • Outlook: 33 references
+
+🔐 OAuth Configuration:
+[1;32m✔ OAuth flow implementation found (88 references)[0m
+
+🌐 Production Endpoint Testing:
+Testing calendar endpoints:
+  https://us-central1-conference-party-app.cloudfunctions.net/api/api/gcal/connect
+    Response: HTTP/2 404 
+  https://us-central1-conference-party-app.cloudfunctions.net/api/api/googleCalendar/status
+    Response: HTTP/2 404 
+  https://us-central1-conference-party-app.cloudfunctions.net/api/api/calendar/status
+    Response: HTTP/2 404 
+
+🎯 Calendar Button Implementation:
+[1;32m✔ Calendar button implementation found (31 references)[0m
+  Event data attributes found:
+    • /workspaces/conference-party-microservice/frontend/src/js/events-controller.js:38:             data-start-iso="${ev.start||''}" 
+    • /workspaces/conference-party-microservice/frontend/src/js/events-controller.js:39:             data-end-iso="${ev.end||''}">
+    • /workspaces/conference-party-microservice/frontend/src/js/events-controller.js:65:                data-start-iso="${ev.start||''}"
+
+📊 Calendar Integration Summary:
+  ✅ Implemented:
+    • Backend calendar endpoints
+    • Frontend calendar services
+    • Google Calendar integration
+    • Calendar button components
+
+  ⚠️  Missing/Issues:
+[1;33m⚠ Issues found in Calendar Integration[0m
+
+[1;36m=== API & Data ===[0m
+
+[1;36m=== Parties API Audit ===[0m
+🎉 Testing Parties API Endpoint:
+  GET https://us-central1-conference-party-app.cloudfunctions.net/api/parties?conference=gamescom2025
+
+[1;32m✔ Successfully fetched parties data (272 bytes)[0m
+[1;31m✘ Invalid JSON response[0m
+  First 500 chars:
+    
+    <html><head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>404 Page not found</title>
+    </head>
+    <body text=#000000 bgcolor=#ffffff>
+    <h1>Error: Page not found</h1>
+    <h2>The requested URL was not found on this server.</h2>
+    <h2></h2>
+    </body></html>
+
+🔄 Testing Other API Endpoints:
+  GET https://us-central1-conference-party-app.cloudfunctions.net/api/health
+[1;33m⚠ Health endpoint returns 404[0m
+  GET https://us-central1-conference-party-app.cloudfunctions.net/api/sync
+[1;32m✔ Sync endpoint responded (272 bytes)[0m
+
+📊 API Summary:
+  Endpoints tested:
+    • /parties - Main data endpoint
+    • /health - Service health check
+    • /sync - Data synchronization
+
+🔐 Security Check:
+[1;32m✔ No obvious sensitive data exposed[0m
+[1;32m✔ Completed API & Data[0m
+
+[1;36m=== Accessibility ===[0m
+
+[1;36m=== Accessibility Audit ===[0m
+🎯 Interactive Elements:
+  Elements found:
+    • <button> elements: 686
+    • <a> links: 48
+[1;33m⚠ Buttons styled as links (consider using <a> for navigation):[0m
+  • frontend/src/referral.html:142
+  • frontend/src/sharing-test.html:238
+  • frontend/src/index-production.html:209
+
+♿ ARIA Attributes:
+  ARIA usage:
+[1;32m✔ aria-label: 51 instances[0m
+    • aria-labelledby: 7 instances
+    • aria-describedby: 4 instances
+
+  State indicators:
+    ✓ aria-pressed: 6 (toggle buttons)
+    ✓ aria-expanded: 1 (collapsibles)
+    ✓ aria-selected: 2 (selections)
+
+📝 Semantic HTML:
+  Heading hierarchy:
+    • <h1>: 66
+    • <h2>: 107
+    • <h3>: 206
+[1;32m✔ Semantic <nav> elements: 9[0m
+[1;32m✔ Semantic <main> element present[0m
+
+🖼️ Image Accessibility:
+[1;33m⚠ 3 of 15 images missing alt attributes[0m
+
+⌨️ Keyboard Navigation:
+./tools/design-audit/70_accessibility_audit.sh: line 109: [: 0
+0: integer expression expected
+[1;32m✔ tabindex usage appears correct (0 or -1 only)[0m
+[1;32m✔ Focus styles defined (18 instances)[0m
+
+🎨 Color Contrast:
+  Color usage:
+    • Text colors defined: 289
+    • Background colors defined: 79
+    • Note: Manual contrast testing recommended
+
+📱 Mobile/Touch Accessibility:
+./tools/design-audit/70_accessibility_audit.sh: line 139: [: 0
+0: integer expression expected
+[1;33m⚠ Check touch target sizes (minimum 44px recommended)[0m
+
+📊 Accessibility Summary:
+  ✅ Good practices:
+    • ARIA labels in use
+    • Semantic navigation elements
+    • Focus styles defined
+
+  ⚠️  Areas for improvement:
+./tools/design-audit/70_accessibility_audit.sh: line 158: [: 0
+0: integer expression expected
+[1;33m⚠ Issues found in Accessibility[0m
+
+[1;36m=== Performance ===[0m
+
+[1;36m=== Performance & Bundle Audit ===[0m
+📦 Bundle Analysis:
+  Public JavaScript files:
+    • offline-search.js: 48K
+    • viewTX.js: 20K
+    • templates.js: 16K
+    • motion.js: 16K
+    • homeViews.js: 16K
+    • fpsWatchdog.js: 16K
+    • skeleton.js: 12K
+    • canvasField.js: 12K
+    • provenance.js: 8.0K
+    • press.js: 8.0K
+
+🌐 Production Performance:
+[1;32m✔ Production index fetched: 8.0K[0m
+  Resources loaded:
+    • CSS files: 15
+    • JS files: 11
+
+🔍 Duplicate Resource Check:
+[1;32m✔ Single Maps API include[0m
+./tools/design-audit/80_perf_bundle_audit.sh: line 76: [: 0
+0: integer expression expected
+
+⚡ Loading Performance:
+  Script loading:
+    ✓ Async scripts: 2
+    ✓ Deferred scripts: 8
+[1;33m⚠     ⚠ Render-blocking scripts: 3[0m
+
+🖼️ Asset Optimization:
+  Image assets: 14 files
+[1;32m✔ No oversized images detected[0m
+
+💾 Caching Strategy:
+[1;32m✔ Service worker present: sw.js (44K)[0m
+    • Cache strategies implemented: 4 operations
+[1;32m✔ Web manifest present for PWA support[0m
+
+📊 CSS Performance:
+  Largest CSS files:
+    • styles.css: 20K
+    • main.css: 16K
+    • hotspots.css: 8.0K
+    • hero-cards.css: 8.0K
+    • events.css: 8.0K
+    • events-cards.css: 8.0K
+    • emailSyncPrompt.css: 8.0K
+    • email-sync-popup.css: 8.0K
+    • color-tokens.old.css: 8.0K
+    • calendar-modal.css: 8.0K
+[1;33m⚠ Issues found in Performance[0m
+
+[1;36m=== Code Duplication ===[0m
+
+[1;36m=== Duplication & Conflicts Audit ===[0m
+🔄 Checking for Duplicate Code Patterns:
+
+📝 CSS Selector Duplication:
+[1;33m⚠ Found 19 duplicate CSS selectors:[0m
+    .badge { 
+    .btn {
+    .btn { 
+    .btn-primary {
+    .event-actions {
+    .event-card {
+    .event-meta {
+    .ftue-progress {
+    .install-card {
+    .install-ios-hint {
+
+🔧 JavaScript Function Duplication:
+[1;33m⚠ Found 11 duplicate function names:[0m
+    • downloadICS
+    • el
+    • emptyState
+    • escapeHtml
+    • hash
+    • qs
+    • renderAccount
+    • renderConnect
+    • showToast
+    • toICSDate
+
+🌐 API Endpoint Duplication:
+[1;32m✔ No duplicate API endpoints (verb + path)[0m
+  Total unique endpoints: 39
+
+📦 Exported Function Collisions:
+[1;32m✔ No duplicate exported function names[0m
+
+🧩 Component File Duplication:
+[1;33m⚠ Duplicate component filenames found:[0m
+    • account-controller.js
+    • api.js
+    • calendar-providers.js
+    • calendar.js
+    • events.js
+    • invites.js
+    • map.js
+    • nav.js
+    • opportunities.js
+    • toast.js
+
+🎨 Color Definition Duplication:
+[1;32m✔ No duplicate color variable definitions[0m
+
+🏷️ HTML ID Duplication:
+[1;31m✘ Found 1 duplicate HTML IDs (must be unique):[0m
+    • #app
+
+📂 CSS File Organization:
+[1;33m⚠ Multiple calendar CSS files (6) - review for duplication[0m
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar-button-single.css
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar-buttons.css
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar-fit.css
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar-modal.css
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar-uniform.css
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar.css
+
+📥 Import Statement Analysis:
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+./tools/design-audit/90_duplication_audit.sh: line 156: [: 0
+0: integer expression expected
+
+📊 Duplication Summary:
+  Code Quality Metrics:
+    ✅ No duplicate API endpoints
+
+  Potential Issues:
+    ⚠️  Duplicate CSS selectors found
+    ⚠️  Duplicate function names
+    ❌ Duplicate HTML IDs (critical)
+[1;32m✔ Completed Code Duplication[0m
+
+[1;36m=== Token Compliance ===[0m
+Checking token compliance...
+
+📏 Spacing Tokens:
+./tools/design-audit/token-check.sh: line 13: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --s-1 not used[0m
+./tools/design-audit/token-check.sh: line 13: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --s-2 not used[0m
+./tools/design-audit/token-check.sh: line 13: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --s-3 not used[0m
+./tools/design-audit/token-check.sh: line 13: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --s-4 not used[0m
+./tools/design-audit/token-check.sh: line 13: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --s-5 not used[0m
+./tools/design-audit/token-check.sh: line 13: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --s-6 not used[0m
+./tools/design-audit/token-check.sh: line 13: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --s-7 not used[0m
+./tools/design-audit/token-check.sh: line 13: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --s-8 not used[0m
+
+🎨 Color Tokens:
+./tools/design-audit/token-check.sh: line 26: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --color-primary not used[0m
+./tools/design-audit/token-check.sh: line 26: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --bg-primary not used[0m
+./tools/design-audit/token-check.sh: line 26: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --text-primary not used[0m
+./tools/design-audit/token-check.sh: line 26: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --nav-bg not used[0m
+./tools/design-audit/token-check.sh: line 26: [[: 0
+0: syntax error in expression (error token is "0")
+[1;33m⚠ --nav-text not used[0m
+
+⚠️  Hardcoded Values:
+[1;33m⚠ Issues found in Token Compliance[0m
+
+[1;36m=== CSS Analysis ===[0m
+Analyzing CSS architecture...
+
+📁 CSS Files:
+[1;32m✔ Found 43 CSS files[0m
+
+Main stylesheets:
+  - account.css (44 lines, 1778 bytes)
+  - animations.css (172 lines, 3641 bytes)
+  - app-shell.css (86 lines, 1893 bytes)
+  - button-secondary.css (61 lines, 1303 bytes)
+  - calendar-button-single.css (54 lines, 1292 bytes)
+  - calendar-buttons.css (43 lines, 815 bytes)
+  - calendar-fit.css (10 lines, 488 bytes)
+  - calendar-modal.css (234 lines, 4833 bytes)
+  - calendar-uniform.css (116 lines, 3803 bytes)
+  - calendar.css (7 lines, 394 bytes)
+  - cards-hero.css (167 lines, 3092 bytes)
+  - cards-parties.css (23 lines, 1661 bytes)
+  - cards.css (19 lines, 1533 bytes)
+  - color-tokens.old.css (133 lines, 4290 bytes)
+  - contacts-permission.css (174 lines, 3582 bytes)
+  - email-sync-popup.css (214 lines, 5682 bytes)
+  - emailSyncPrompt.css (337 lines, 6618 bytes)
+  - event-cards.css (97 lines, 1974 bytes)
+  - events-cards.css (224 lines, 7246 bytes)
+  - events-ftue.css (188 lines, 3312 bytes)
+  - events.css (134 lines, 5458 bytes)
+  - header-actions.css (20 lines, 396 bytes)
+  - hero-cards.css (86 lines, 4521 bytes)
+  - hotspots.css (210 lines, 5101 bytes)
+  - install.css (120 lines, 2388 bytes)
+  - invites.css (97 lines, 3428 bytes)
+  - layout.css (35 lines, 885 bytes)
+  - main.css (696 lines, 13393 bytes)
+  - nav.css (186 lines, 3702 bytes)
+  - party-cards.css (42 lines, 1424 bytes)
+  - pin-button.css (62 lines, 1146 bytes)
+  - sidebar.css (63 lines, 1331 bytes)
+  - slot-heights.css (47 lines, 1218 bytes)
+  - spacing-tokens.css (78 lines, 2910 bytes)
+  - styles.css (465 lines, 17414 bytes)
+  - theme-unified.css (53 lines, 3103 bytes)
+  - theme.css (40 lines, 1700 bytes)
+  - toast.css (165 lines, 3166 bytes)
+  - tokens.css (105 lines, 4017 bytes)
+  - z-overrides.css (105 lines, 2817 bytes)
+
+🏗️  BEM Methodology:
+./tools/design-audit/css-audit.sh: line 32: [[: 0
+0: syntax error in expression (error token is "0")
+[1;32m✔ BEM naming found:[0m
+  - Elements (__): 0
+0
+  - Modifiers (--): 1619
+
+🎨 CSS Variables:
+[1;32m✔ Variable definitions: 309[0m
+[1;32m✔ Variable usage: 1417[0m
+
+📱 Responsive Design:
+[1;32m✔ Media queries found: 38[0m
+
+🔍 Code Quality:
+[1;33m⚠ Duplicate selectors found:[0m
+  -     .btn-sync 
+  -     .email-sync-popup 
+  -     .popup-text 
+  -   .contact-sheet 
+  -   .contact-sheet-content 
+[1;33m⚠ High !important usage: 34[0m
+
+📋 Organization:
+[1;33m⚠ Token files not properly organized[0m
+[1;32m✔ Component-specific CSS files: 12[0m
+[1;32m✔ Completed CSS Analysis[0m
+
+[1;36m=== Component Review ===[0m
+Reviewing component structure...
+
+📦 JavaScript Structure:
+[1;32m✔ Components directory exists (4 files)[0m
+  Components:
+    - cards.js
+    - calendar-button.js
+    - VirtualizedEventList.js
+    - calendar-providers.js
+[1;32m✔ Views directory exists (5 files)[0m
+  Views:
+    - invites.js
+    - contacts.js
+    - map.js
+    - calendar-providers.js
+    - parties.js
+[1;32m✔ Services directory exists (24 files)[0m
+
+🎨 UI Utilities:
+[1;32m✔ UI utilities directory exists (18 files)[0m
+  - homeViews.js
+  - provenance.js
+  - skeleton.js
+  - connectionCard.js
+  - equalize-cards.js
+
+🏗️  Component Patterns:
+[1;32m✔ Card pattern implemented (JS: 6, CSS: 7)[0m
+[1;32m✔ Sidebar components (JS: 3, CSS: 1)[0m
+[1;32m✔ Modal/Dialog components: 1[0m
+
+📦 Module Patterns:
+[1;32m✔ ES6 modules in use (imports: 187, exports: 396)[0m
+
+✅ Consistency Checks:
+  File naming:
+    - Kebab-case files: 126
+    - CamelCase files: 27
+[1;32m✔ Test files found: 53[0m
+
+📊 Component Summary:
+  - Total JS files: 213
+  - Total CSS files: 43
+  - Avg lines per JS: 522
+[1;32m✔ Completed Component Review[0m
+
+[1;36m=== SUMMARY ===[0m
+
+Design System Audit Report
+==========================
+Date: Fri Aug 15 18:11:05 UTC 2025
+Repository: conference-party-microservice
+
+📊 Statistics:
+  - CSS Files: 80
+  - JS Files: 284
+  - HTML Files: 22
+
+🎨 Design Tokens:
+[1;32m✔ Spacing tokens defined[0m
+[1;31m✘ Missing color tokens[0m
+
+🔍 Key Findings:
+[1;33m⚠ 522 hardcoded px values found (should use tokens)[0m
+[1;32m✔ BEM methodology in use (1676 instances)[0m
+
+📁 Component Structure:
+[1;32m✔ 4 components found[0m
+[1;32m✔ 5 views found[0m
+
+✅ Recommendations:
+  1. Continue using design tokens for all spacing and colors
+  2. Replace remaining hardcoded values with tokens
+  3. Maintain BEM naming convention for new components
+  4. Keep component/view separation clear
+  5. Document token usage in component files
+
+Report saved to: /workspaces/conference-party-microservice/design-audit-20250815-181102.txt
+
+
+[1;36m=== AUDIT COMPLETE ===[0m

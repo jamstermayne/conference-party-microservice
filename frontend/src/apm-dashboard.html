@@ -15,8 +15,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f0f0f;
-            color: #ffffff;
+            background: var(--neutral-0);
+            color: var(--white);
             overflow-x: hidden;
         }
 
@@ -27,13 +27,13 @@
         }
 
         .sidebar {
-            background: #1a1a1a;
-            border-right: 1px solid #333;
+            background: var(--neutral-100);
+            border-right: 1px solid var(--neutral-300);
             padding: 20px;
         }
 
         .sidebar h2 {
-            color: #00ff88;
+            color: var(--success-strong);
             margin-bottom: 30px;
             font-size: 18px;
         }
@@ -47,7 +47,7 @@
         }
 
         .nav-menu a {
-            color: #ccc;
+            color: var(--neutral-700);
             text-decoration: none;
             padding: 10px 15px;
             display: block;
@@ -57,8 +57,8 @@
 
         .nav-menu a:hover,
         .nav-menu a.active {
-            background: #333;
-            color: #00ff88;
+            background: var(--neutral-300);
+            color: var(--success-strong);
         }
 
         .main-content {
@@ -73,11 +73,11 @@
             align-items: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid var(--neutral-300);
         }
 
         .header h1 {
-            color: #00ff88;
+            color: var(--success-strong);
             font-size: 28px;
         }
 
@@ -87,8 +87,8 @@
         }
 
         .time-button {
-            background: #333;
-            color: #fff;
+            background: var(--neutral-300);
+            color: var(--white);
             border: none;
             padding: 8px 16px;
             border-radius: 6px;
@@ -98,8 +98,8 @@
 
         .time-button:hover,
         .time-button.active {
-            background: #00ff88;
-            color: #000;
+            background: var(--success-strong);
+            color: var(--black);
         }
 
         .status-indicator {
@@ -114,17 +114,17 @@
 
         .status-healthy {
             background: rgba(0, 255, 136, 0.2);
-            color: #00ff88;
+            color: var(--success-strong);
         }
 
         .status-degraded {
             background: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
+            color: var(--warning);
         }
 
         .status-critical {
             background: rgba(220, 53, 69, 0.2);
-            color: #dc3545;
+            color: var(--error);
         }
 
         .metrics-grid {
@@ -135,8 +135,8 @@
         }
 
         .metric-card {
-            background: #1a1a1a;
-            border: 1px solid #333;
+            background: var(--neutral-100);
+            border: 1px solid var(--neutral-300);
             border-radius: 10px;
             padding: 20px;
             position: relative;
@@ -150,7 +150,7 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, #00ff88, #00ccff);
+            background: linear-gradient(90deg, var(--success-strong), var(--info-strong));
         }
 
         .metric-header {
@@ -161,7 +161,7 @@
         }
 
         .metric-title {
-            color: #ccc;
+            color: var(--neutral-700);
             font-size: 14px;
             font-weight: 500;
         }
@@ -169,7 +169,7 @@
         .metric-value {
             font-size: 32px;
             font-weight: 700;
-            color: #fff;
+            color: var(--white);
             margin-bottom: 5px;
         }
 
@@ -181,20 +181,20 @@
         }
 
         .trend-up {
-            color: #00ff88;
+            color: var(--success-strong);
         }
 
         .trend-down {
-            color: #ff6b6b;
+            color: var(--alias-ff6b6b);
         }
 
         .trend-stable {
-            color: #ffc107;
+            color: var(--warning);
         }
 
         .chart-container {
-            background: #1a1a1a;
-            border: 1px solid #333;
+            background: var(--neutral-100);
+            border: 1px solid var(--neutral-300);
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 30px;
@@ -208,7 +208,7 @@
         }
 
         .chart-title {
-            color: #fff;
+            color: var(--white);
             font-size: 18px;
             font-weight: 600;
         }
@@ -219,8 +219,8 @@
         }
 
         .alerts-container {
-            background: #1a1a1a;
-            border: 1px solid #333;
+            background: var(--neutral-100);
+            border: 1px solid var(--neutral-300);
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 30px;
@@ -238,17 +238,17 @@
 
         .alert-critical {
             background: rgba(220, 53, 69, 0.1);
-            border-left-color: #dc3545;
+            border-left-color: var(--error);
         }
 
         .alert-high {
             background: rgba(255, 193, 7, 0.1);
-            border-left-color: #ffc107;
+            border-left-color: var(--warning);
         }
 
         .alert-medium {
             background: rgba(0, 123, 255, 0.1);
-            border-left-color: #007bff;
+            border-left-color: var(--info);
         }
 
         .alert-icon {
@@ -267,13 +267,13 @@
         }
 
         .alert-message {
-            color: #fff;
+            color: var(--white);
             font-weight: 500;
             margin-bottom: 4px;
         }
 
         .alert-time {
-            color: #999;
+            color: var(--neutral-600);
             font-size: 12px;
         }
 
@@ -285,8 +285,8 @@
         }
 
         .service-node {
-            background: #1a1a1a;
-            border: 1px solid #333;
+            background: var(--neutral-100);
+            border: 1px solid var(--neutral-300);
             border-radius: 8px;
             padding: 15px;
             text-align: center;
@@ -303,19 +303,19 @@
         }
 
         .service-healthy::before {
-            background: #00ff88;
+            background: var(--success-strong);
         }
 
         .service-degraded::before {
-            background: #ffc107;
+            background: var(--warning);
         }
 
         .service-critical::before {
-            background: #dc3545;
+            background: var(--error);
         }
 
         .service-name {
-            color: #fff;
+            color: var(--white);
             font-weight: 600;
             margin-bottom: 8px;
         }
@@ -324,7 +324,7 @@
             display: flex;
             justify-content: space-between;
             font-size: 12px;
-            color: #999;
+            color: var(--neutral-600);
         }
 
         .loading {
@@ -332,14 +332,14 @@
             align-items: center;
             justify-content: center;
             height: 200px;
-            color: #999;
+            color: var(--neutral-600);
         }
 
         .spinner {
             width: 40px;
             height: 40px;
-            border: 3px solid #333;
-            border-top: 3px solid #00ff88;
+            border: 3px solid var(--neutral-300);
+            border-top: 3px solid var(--success-strong);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 15px;
@@ -363,14 +363,14 @@
 
         .connected {
             background: rgba(0, 255, 136, 0.2);
-            color: #00ff88;
-            border: 1px solid #00ff88;
+            color: var(--success-strong);
+            border: 1px solid var(--success-strong);
         }
 
         .disconnected {
             background: rgba(220, 53, 69, 0.2);
-            color: #dc3545;
-            border: 1px solid #dc3545;
+            color: var(--error);
+            border: 1px solid var(--error);
         }
 
         @media (max-width: 768px) {
@@ -704,7 +704,7 @@
                 const alertsContainer = document.getElementById('alertsList');
                 
                 if (!data.anomalies || data.anomalies.length === 0) {
-                    alertsContainer.innerHTML = '<div style="color: #999; text-align: center; padding: 20px;">No recent alerts</div>';
+                    alertsContainer.innerHTML = '<div style="color: var(--neutral-600); text-align: center; padding: 20px;">No recent alerts</div>';
                     return;
                 }
 
@@ -729,21 +729,21 @@
                         datasets: [{
                             label: 'P50',
                             data: [],
-                            borderColor: '#00ff88',
+                            borderColor: 'var(--success-strong)',
                             backgroundColor: 'rgba(0, 255, 136, 0.1)',
                             borderWidth: 2,
                             tension: 0.4
                         }, {
                             label: 'P95',
                             data: [],
-                            borderColor: '#ffc107',
+                            borderColor: 'var(--warning)',
                             backgroundColor: 'rgba(255, 193, 7, 0.1)',
                             borderWidth: 2,
                             tension: 0.4
                         }, {
                             label: 'P99',
                             data: [],
-                            borderColor: '#dc3545',
+                            borderColor: 'var(--error)',
                             backgroundColor: 'rgba(220, 53, 69, 0.1)',
                             borderWidth: 2,
                             tension: 0.4
@@ -761,7 +761,7 @@
                         datasets: [{
                             label: 'Requests/sec',
                             data: [],
-                            borderColor: '#00ccff',
+                            borderColor: 'var(--info-strong)',
                             backgroundColor: 'rgba(0, 204, 255, 0.1)',
                             borderWidth: 2,
                             tension: 0.4,
@@ -769,7 +769,7 @@
                         }, {
                             label: 'Error Rate (‰)',
                             data: [],
-                            borderColor: '#ff6b6b',
+                            borderColor: 'var(--error-weak)',
                             backgroundColor: 'rgba(255, 107, 107, 0.1)',
                             borderWidth: 2,
                             tension: 0.4,
@@ -786,10 +786,10 @@
                                 position: 'right',
                                 grid: {
                                     drawOnChartArea: false,
-                                    color: '#333'
+                                    color: 'var(--neutral-300)'
                                 },
                                 ticks: {
-                                    color: '#999'
+                                    color: 'var(--neutral-600)'
                                 }
                             }
                         }
@@ -804,25 +804,25 @@
                     plugins: {
                         legend: {
                             labels: {
-                                color: '#fff'
+                                color: 'var(--white)'
                             }
                         }
                     },
                     scales: {
                         x: {
                             grid: {
-                                color: '#333'
+                                color: 'var(--neutral-300)'
                             },
                             ticks: {
-                                color: '#999'
+                                color: 'var(--neutral-600)'
                             }
                         },
                         y: {
                             grid: {
-                                color: '#333'
+                                color: 'var(--neutral-300)'
                             },
                             ticks: {
-                                color: '#999'
+                                color: 'var(--neutral-600)'
                             }
                         }
                     },
@@ -928,10 +928,10 @@
 
             getSeverityColor(severity) {
                 const colors = {
-                    critical: '#dc3545',
-                    high: '#ffc107',
-                    medium: '#007bff',
-                    low: '#6c757d'
+                    critical: 'var(--error)',
+                    high: 'var(--warning)',
+                    medium: 'var(--info)',
+                    low: 'var(--neutral-500)'
                 };
                 return colors[severity] || colors.low;
             }

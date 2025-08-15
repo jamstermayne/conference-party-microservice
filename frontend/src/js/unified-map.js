@@ -67,7 +67,7 @@ function createHeatmapSVG(venues) {
                    dur="2s" repeatCount="indefinite"/>
         </circle>
         <text x="${pos.x}" y="${pos.y - radius - 5}" 
-              text-anchor="middle" fill="#e8ecff" font-size="12" opacity="0" 
+              text-anchor="middle" fill="var(--alias-e8ecff)" font-size="12" opacity="0" 
               class="venue-label">
           ${v.name} (${v.weight})
         </text>
@@ -78,9 +78,9 @@ function createHeatmapSVG(venues) {
     <svg viewBox="0 0 ${w} ${h}" class="map-svg" role="img" aria-label="Venue Hotspots">
       <defs>
         <radialGradient id="heatGradient" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#8a6bff" stop-opacity="1"/>
-          <stop offset="50%" stop-color="#6b7bff" stop-opacity="0.6"/>
-          <stop offset="100%" stop-color="#2c2f7a" stop-opacity="0"/>
+          <stop offset="0%" stop-color="var(--brand-400)" stop-opacity="1"/>
+          <stop offset="50%" stop-color="var(--brand-500)" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="var(--neutral-200)" stop-opacity="0"/>
         </radialGradient>
         <filter id="glow">
           <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -93,7 +93,7 @@ function createHeatmapSVG(venues) {
       <rect width="${w}" height="${h}" rx="16" ry="16" 
             fill="rgba(14,19,32,0.95)" stroke="rgba(139,129,255,0.2)"/>
       <text x="${w/2}" y="30" text-anchor="middle" 
-            fill="#9aa7bf" font-size="14" opacity="0.8">
+            fill="var(--text-muted)" font-size="14" opacity="0.8">
         Gamescom 2025 Venue Activity
       </text>
       ${dots}
@@ -184,7 +184,7 @@ export async function renderUnifiedMap(mount) {
         margin-bottom: 24px;
       }
       .map-header h2 {
-        color: #e8ecff;
+        color: var(--alias-e8ecff);
         margin: 0;
       }
       .map-controls {
@@ -196,20 +196,20 @@ export async function renderUnifiedMap(mount) {
         padding: 8px 16px;
         background: rgba(139,129,255,0.1);
         border: 1px solid rgba(139,129,255,0.3);
-        color: #9aa7bf;
+        color: var(--text-muted);
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.2s;
       }
       .map-toggle.active {
-        background: linear-gradient(135deg, #6b8cff, #8a6bff);
+        background: linear-gradient(135deg, var(--brand-500), var(--brand-400));
         color: white;
         border-color: transparent;
       }
       .live-badge {
         padding: 4px 12px;
         background: rgba(255,92,92,0.2);
-        color: #ff5c5c;
+        color: var(--alias-ff5c5c);
         border-radius: 12px;
         font-size: 12px;
         font-weight: 600;
@@ -284,7 +284,7 @@ export async function renderUnifiedMap(mount) {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #6b8cff, #8a6bff);
+        background: linear-gradient(135deg, var(--brand-500), var(--brand-400));
         border-radius: 8px;
         font-weight: 600;
         color: white;
@@ -293,7 +293,7 @@ export async function renderUnifiedMap(mount) {
         flex: 1;
       }
       .venue-name {
-        color: #e8ecff;
+        color: var(--alias-e8ecff);
         font-weight: 500;
         margin-bottom: 4px;
       }
@@ -303,14 +303,14 @@ export async function renderUnifiedMap(mount) {
         align-items: center;
       }
       .venue-count {
-        color: #9aa7bf;
+        color: var(--text-muted);
         font-size: 14px;
       }
       .venue-action {
         padding: 4px 8px;
         background: rgba(139,129,255,0.2);
         border: 1px solid rgba(139,129,255,0.3);
-        color: #8a6bff;
+        color: var(--brand-400);
         border-radius: 6px;
         font-size: 12px;
         cursor: pointer;
@@ -328,7 +328,7 @@ export async function renderUnifiedMap(mount) {
       }
       .venue-fill {
         height: 100%;
-        background: linear-gradient(90deg, #6b8cff, #8a6bff);
+        background: linear-gradient(90deg, var(--brand-500), var(--brand-400));
         border-radius: 4px;
         transition: width 0.5s ease;
       }

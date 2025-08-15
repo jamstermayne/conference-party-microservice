@@ -58,9 +58,9 @@ class EventListManager {
             height: 60vh;
             min-height: 400px;
             margin: 20px 0;
-            border: 1px solid #333;
+            border: 1px solid var(--neutral-300);
             border-radius: 10px;
-            background: #0f0f0f;
+            background: var(--alias-0f0f0f);
         `;
         
         // Insert after search or at beginning of main content
@@ -109,8 +109,8 @@ class EventListManager {
                  data-swipeable="true"
                  style="
                     height: 100%;
-                    background: ${isUGC ? 'linear-gradient(135deg, #1a4d3a, #1a1a1a)' : 'linear-gradient(135deg, #1a1a1a, #2a2a2a)'};
-                    border: 1px solid ${isUGC ? '#00ff88' : '#333'};
+                    background: ${isUGC ? 'linear-gradient(135deg, var(--neutral-100), var(--neutral-100))' : 'linear-gradient(135deg, var(--neutral-100), var(--neutral-200))'};
+                    border: 1px solid ${isUGC ? 'var(--success)' : 'var(--neutral-300)'};
                     border-radius: 12px;
                     padding: 16px;
                     position: relative;
@@ -126,8 +126,8 @@ class EventListManager {
                     position: absolute;
                     top: 8px;
                     right: 8px;
-                    background: ${isUGC ? '#00ff88' : '#666'};
-                    color: ${isUGC ? '#000' : '#fff'};
+                    background: ${isUGC ? 'var(--success)' : 'var(--neutral-500)'};
+                    color: ${isUGC ? 'var(--black)' : 'var(--white)'};
                     padding: 4px 8px;
                     border-radius: 12px;
                     font-size: 10px;
@@ -139,7 +139,7 @@ class EventListManager {
                 <div class="event-content" style="flex: 1; min-width: 0;">
                     <div class="event-header" style="margin-bottom: 8px;">
                         <h3 class="event-title" style="
-                            color: #fff;
+                            color: var(--white);
                             font-size: 16px;
                             font-weight: 600;
                             margin: 0;
@@ -149,7 +149,7 @@ class EventListManager {
                             white-space: nowrap;
                         ">${eventName}</h3>
                         <div class="event-category" style="
-                            color: #00ff88;
+                            color: var(--success);
                             font-size: 12px;
                             font-weight: 500;
                             margin-top: 2px;
@@ -160,7 +160,7 @@ class EventListManager {
                         display: flex;
                         gap: 16px;
                         font-size: 13px;
-                        color: #ccc;
+                        color: var(--neutral-700);
                         margin-bottom: 8px;
                     ">
                         <span class="event-date" style="display: flex; align-items: center; gap: 4px;">
@@ -176,7 +176,7 @@ class EventListManager {
                         align-items: center;
                         gap: 4px;
                         font-size: 12px;
-                        color: #999;
+                        color: var(--neutral-600);
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;
@@ -188,7 +188,7 @@ class EventListManager {
                         <div class="event-description" style="
                             margin-top: 8px;
                             font-size: 12px;
-                            color: #aaa;
+                            color: var(--alias-aaa);
                             line-height: 1.4;
                             overflow: hidden;
                             display: -webkit-box;
@@ -210,8 +210,8 @@ class EventListManager {
                     <button class="btn-swipe-like" 
                             data-action="like"
                             style="
-                        background: #00ff88;
-                        color: #000;
+                        background: var(--success);
+                        color: var(--black);
                         border: none;
                         padding: 8px 16px;
                         border-radius: 20px;
@@ -225,8 +225,8 @@ class EventListManager {
                     <button class="btn-swipe-pass"
                             data-action="pass" 
                             style="
-                        background: #666;
-                        color: #fff;
+                        background: var(--neutral-500);
+                        color: var(--white);
                         border: none;
                         padding: 8px 16px;
                         border-radius: 20px;
@@ -250,7 +250,7 @@ class EventListManager {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    color: #00ff88;
+                    color: var(--success);
                     font-size: 14px;
                 ">Processing...</div>
             </div>
@@ -438,7 +438,7 @@ class EventListManager {
         if (!element) return;
         
         const isLike = action === 'like';
-        const color = isLike ? '#00ff88' : '#666';
+        const color = isLike ? 'var(--success)' : 'var(--neutral-500)';
         const emoji = isLike ? '👍' : '👎';
         
         // Flash border color
@@ -454,7 +454,7 @@ class EventListManager {
             left: 50%;
             transform: translate(-50%, -50%);
             background: ${color};
-            color: ${isLike ? '#000' : '#fff'};
+            color: ${isLike ? 'var(--black)' : 'var(--white)'};
             padding: 8px 16px;
             border-radius: 20px;
             font-weight: 600;
@@ -478,7 +478,7 @@ class EventListManager {
     showSwipeError(element) {
         if (!element) return;
         
-        element.style.borderColor = '#ff6b6b';
+        element.style.borderColor = 'var(--alias-ff6b6b)';
         element.style.animation = 'shake 0.5s ease-in-out';
         
         setTimeout(() => {
@@ -524,8 +524,8 @@ class EventListManager {
         
         modal.innerHTML = `
             <div class="modal-content" style="
-                background: #1a1a1a;
-                border: 1px solid #333;
+                background: var(--neutral-100);
+                border: 1px solid var(--neutral-300);
                 border-radius: 12px;
                 padding: 24px;
                 max-width: 500px;
@@ -541,11 +541,11 @@ class EventListManager {
                     align-items: flex-start;
                     margin-bottom: 20px;
                 ">
-                    <h2 style="color: #fff; margin: 0; flex: 1;">${eventName}</h2>
+                    <h2 style="color: var(--white); margin: 0; flex: 1;">${eventName}</h2>
                     <button class="close-modal" style="
                         background: none;
                         border: none;
-                        color: #999;
+                        color: var(--neutral-600);
                         font-size: 24px;
                         cursor: pointer;
                         padding: 0;
@@ -554,16 +554,16 @@ class EventListManager {
                 </div>
                 
                 <div class="event-meta" style="margin-bottom: 20px;">
-                    <div style="color: #00ff88; font-weight: 600; margin-bottom: 12px;">
+                    <div style="color: var(--success); font-weight: 600; margin-bottom: 12px;">
                         📅 ${eventDate} at ${eventTime}
                     </div>
-                    <div style="color: #ccc; margin-bottom: 12px;">
+                    <div style="color: var(--neutral-700); margin-bottom: 12px;">
                         📍 ${eventLocation}
                     </div>
                 </div>
                 
                 <div class="event-description" style="
-                    color: #ccc;
+                    color: var(--neutral-700);
                     line-height: 1.6;
                     margin-bottom: 24px;
                 ">${eventDescription}</div>
@@ -574,16 +574,16 @@ class EventListManager {
                     justify-content: flex-end;
                 ">
                     <button class="btn-modal-pass" style="
-                        background: #666;
-                        color: #fff;
+                        background: var(--neutral-500);
+                        color: var(--white);
                         border: none;
                         padding: 12px 24px;
                         border-radius: 6px;
                         cursor: pointer;
                     ">Pass</button>
                     <button class="btn-modal-like" style="
-                        background: #00ff88;
-                        color: #000;
+                        background: var(--success);
+                        color: var(--black);
                         border: none;
                         padding: 12px 24px;
                         border-radius: 6px;
@@ -776,7 +776,7 @@ class EventListManager {
             border-radius: 10px;
         `;
         loadingOverlay.innerHTML = `
-            <div style="text-align: center; color: #00ff88;">
+            <div style="text-align: center; color: var(--success);">
                 <div style="font-size: 24px; margin-bottom: 8px;">⟳</div>
                 <div>Loading events...</div>
             </div>
@@ -801,15 +801,15 @@ class EventListManager {
         errorDiv.style.cssText = `
             text-align: center;
             padding: 40px 20px;
-            color: #ff6b6b;
+            color: var(--alias-ff6b6b);
         `;
         errorDiv.innerHTML = `
             <div style="font-size: 48px; margin-bottom: 16px;">⚠️</div>
             <div style="font-size: 18px; margin-bottom: 8px;">Oops! Something went wrong</div>
-            <div style="font-size: 14px; color: #999; margin-bottom: 20px;">${message}</div>
+            <div style="font-size: 14px; color: var(--neutral-600); margin-bottom: 20px;">${message}</div>
             <button onclick="eventListManager.refreshEvents()" style="
-                background: #00ff88;
-                color: #000;
+                background: var(--success);
+                color: var(--black);
                 border: none;
                 padding: 12px 24px;
                 border-radius: 6px;
@@ -951,12 +951,12 @@ style.textContent = `
     
     .btn-swipe-like:hover {
         transform: scale(1.05);
-        background: #00cc70 !important;
+        background: var(--alias-00cc70) !important;
     }
     
     .btn-swipe-pass:hover {
         transform: scale(1.05);
-        background: #555 !important;
+        background: var(--alias-555) !important;
     }
     
     .event-details-modal.active .modal-content {

@@ -6,12 +6,12 @@
 /* ===== ENHANCED COLOR SYSTEM ===== */
 :root {
   /* Gradient Backgrounds */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-success: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  --gradient-accent: linear-gradient(135deg, #6b7bff 0%, #8b5cf6 100%);
-  --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
-  --gradient-cool: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-  --gradient-dark: linear-gradient(180deg, #1a1a1f 0%, #0f0f12 100%);
+  --gradient-primary: linear-gradient(135deg, var(--alias-667eea) 0%, var(--alias-764ba2) 100%);
+  --gradient-success: linear-gradient(135deg, var(--success) 0%, var(--neutral-100) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--alias-8b5cf6) 100%);
+  --gradient-warm: linear-gradient(135deg, var(--accent-warning) 0%, var(--error) 100%);
+  --gradient-cool: linear-gradient(135deg, var(--alias-06b6d4) 0%, var(--info) 100%);
+  --gradient-dark: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-tertiary) 100%);
   
   /* Glass Morphism */
   --glass-bg: rgba(255, 255, 255, 0.05);
@@ -55,7 +55,7 @@
   background: var(--gradient-accent);
   color: white;
   border: none;
-  padding: 12px 24px;
+  padding: var(--s-3) 24px;
   border-radius: var(--r-md);
   font-weight: 600;
   font-size: var(--fz-sm);
@@ -110,7 +110,7 @@
 
 /* ===== ANIMATED BACKGROUNDS ===== */
 .animated-gradient {
-  background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+  background: linear-gradient(-45deg, var(--alias-667eea), var(--alias-764ba2), var(--alias-f093fb), var(--alias-f5576c));
   background-size: 400% 400%;
   animation: gradientShift 15s ease infinite;
 }
@@ -123,7 +123,7 @@
 
 /* Mesh Gradient Background */
 .mesh-gradient {
-  background-color: #0f0f12;
+  background-color: var(--bg-tertiary);
   background-image: 
     radial-gradient(at 40% 20%, hsla(245, 100%, 70%, 0.3) 0px, transparent 50%),
     radial-gradient(at 80% 0%, hsla(289, 100%, 60%, 0.2) 0px, transparent 50%),
@@ -149,7 +149,7 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--r-md);
-  padding: 12px 16px;
+  padding: var(--s-3) 16px;
   color: var(--text-primary);
   font-size: var(--fz-md);
   transition: all var(--t-fast) var(--ease-out);
@@ -171,13 +171,13 @@
 /* ===== FLOATING LABELS ===== */
 .floating-label-group {
   position: relative;
-  margin-bottom: 24px;
+  margin-bottom: var(--s-6);
 }
 
 .floating-label {
   position: absolute;
   top: 50%;
-  left: 16px;
+  left: var(--s-4);
   transform: translateY(-50%);
   color: var(--text-muted);
   font-size: var(--fz-md);

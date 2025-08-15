@@ -10,8 +10,8 @@ import { GCal } from './services/gcal-minimal.js?v=b031';
 function renderConnect(mount) {
   mount.innerHTML = `
     <section class="calendar-connect" style="padding:24px">
-      <h2 style="color:#eaf0ff;margin:0 0 12px">Connect Your Calendar</h2>
-      <p style="color:#9aa7bf;margin:0 0 20px">
+      <h2 style="color:var(--alias-eaf0ff);margin:0 0 12px">Connect Your Calendar</h2>
+      <p style="color:var(--text-muted);margin:0 0 20px">
         See your schedule and add parties with one click
       </p>
       <button class="vbtn primary" onclick="GCal.startOAuth()">
@@ -36,7 +36,7 @@ async function renderEvents(mount) {
         <button class="vbtn" data-range="week">Week</button>
       </div>
       <div id="events-list">
-        <div style="color:#9aa7bf;text-align:center;padding:24px">
+        <div style="color:var(--text-muted);text-align:center;padding:24px">
           Loading events...
         </div>
       </div>
@@ -49,7 +49,7 @@ async function renderEvents(mount) {
     
     if (!events || !events.length) {
       list.innerHTML = `
-        <div style="color:#9aa7bf;text-align:center;padding:24px">
+        <div style="color:var(--text-muted);text-align:center;padding:24px">
           No events scheduled for today
         </div>`;
       return;
@@ -71,7 +71,7 @@ async function renderEvents(mount) {
   } catch (error) {
     console.error('Failed to load events:', error);
     document.getElementById('events-list').innerHTML = `
-      <div style="color:#f44336;text-align:center;padding:24px">
+      <div style="color:var(--error);text-align:center;padding:24px">
         Failed to load events. Please try reconnecting.
       </div>`;
   }
@@ -89,14 +89,14 @@ async function renderEvents(mount) {
     // Load new range
     const range = btn.dataset.range;
     const list = document.getElementById('events-list');
-    list.innerHTML = '<div style="color:#9aa7bf;text-align:center;padding:24px">Loading...</div>';
+    list.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:24px">Loading...</div>';
     
     try {
       const events = await GCal.listEvents(range);
       
       if (!events || !events.length) {
         list.innerHTML = `
-          <div style="color:#9aa7bf;text-align:center;padding:24px">
+          <div style="color:var(--text-muted);text-align:center;padding:24px">
             No events for ${range}
           </div>`;
         return;
@@ -116,7 +116,7 @@ async function renderEvents(mount) {
       
     } catch (error) {
       list.innerHTML = `
-        <div style="color:#f44336;text-align:center;padding:24px">
+        <div style="color:var(--error);text-align:center;padding:24px">
           Failed to load events
         </div>`;
     }
@@ -147,7 +147,7 @@ function addDemoParties(mount) {
   const section = document.createElement('section');
   section.style.padding = '0 24px 24px';
   section.innerHTML = `
-    <h3 style="color:#9aa7bf;margin:24px 0 12px">Add to Calendar</h3>
+    <h3 style="color:var(--text-muted);margin:24px 0 12px">Add to Calendar</h3>
     ${demoParties.map(party => `
       <article class="vcard" style="margin-bottom:12px;border:1px solid rgba(139,129,255,.2)">
         <div class="vcard__head">
@@ -227,9 +227,9 @@ function showToast(message, type = 'info') {
   toast.textContent = message;
   
   const colors = {
-    success: 'linear-gradient(135deg, #667eea, #764ba2)',
-    error: 'linear-gradient(135deg, #f093fb, #f5576c)',
-    info: 'linear-gradient(135deg, #4facfe, #00f2fe)'
+    success: 'linear-gradient(135deg, var(--alias-667eea), var(--alias-764ba2))',
+    error: 'linear-gradient(135deg, var(--alias-f093fb), var(--alias-f5576c))',
+    info: 'linear-gradient(135deg, var(--alias-4facfe), var(--alias-00f2fe))'
   };
   
   toast.style.cssText = `

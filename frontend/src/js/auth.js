@@ -1,15 +1,12 @@
 /**
  * auth.js — Firebase Auth (compat) + helpers
- * - Reads config from window.__ENV.firebase (if present) or inline fallback
+ * - Reads config from window.__ENV.firebase (if present) or centralized config
  * - Exposes window.Auth: init(), signInGoogle(), signOut(), getIdToken(), onChange(cb), current()
  */
+import { FIREBASE_CONFIG } from './config/env.js';
+
 (function(){
-  const FALLBACK = {
-    apiKey: "AIzaSyD-fallback",
-    authDomain: "conference-party-app.firebaseapp.com",
-    projectId: "conference-party-app",
-    appId: "1:740658808222:web:c20a2656860d3a771f828f"
-  };
+  const FALLBACK = FIREBASE_CONFIG;
 
   function cfg(){
     try { return (window.__ENV && window.__ENV.firebase) || FALLBACK; }
@@ -25,13 +22,33 @@
       console.warn("[Auth] Firebase SDK missing");
       return;
     }
-    firebase.initializeApp(cfg());
-    firebase.auth().onAuthStateChanged(u=>{
-      _user = u || null;
-      document.documentElement.classList.toggle('authed', !!_user);
-      _subs.forEach(fn=>{ try{ fn(_user); }catch(e){} });
-    });
-    _inited = true;
+    
+    try {
+      // Check if Firebase is already initialized
+      if (!firebase.apps || firebase.apps.length === 0) {
+        firebase.initializeApp(cfg());
+      }
+      
+      firebase.auth().onAuthStateChanged(u=>{
+        _user = u || null;
+        document.documentElement.classList.toggle('authed', !!_user);
+        _subs.forEach(fn=>{ try{ fn(_user); }catch(e){} });
+      });
+      _inited = true;
+    } catch (error) {
+      // Handle initialization errors gracefully
+      if (error.code === 'app/duplicate-app') {
+        // App already exists, just set up auth listener
+        firebase.auth().onAuthStateChanged(u=>{
+          _user = u || null;
+          document.documentElement.classList.toggle('authed', !!_user);
+          _subs.forEach(fn=>{ try{ fn(_user); }catch(e){} });
+        });
+        _inited = true;
+      } else {
+        console.error("[Auth] Firebase initialization error:", error);
+      }
+    }
   }
 
   async function signInGoogle(){

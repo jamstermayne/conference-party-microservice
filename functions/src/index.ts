@@ -7,13 +7,8 @@ import cookieParser from "cookie-parser";
 import {canonicalHost} from "./middleware/canonicalHost";
 import {getHotspots} from "./hotspots";
 import googleCalendarRouter from "./googleCalendar/router";
-import {
-  googleStatus, googleStart, googleCallback,
-  googleCalendarEvents, googleCalendarCreate,
-  googlePeopleSearch, googleGmailDraft, googleGmailDraftIcs
-} from "./google";
-import { m2mVerify, m2mSubscribe, m2mEvents } from "./m2m";
-import m2mRouter from "./routes/m2m";
+import m2mRouter from "./routes/m2m-enhanced";
+import mtmRoutes from "./integrations/mtm/routes";
 import partiesRouter from "./routes/parties";
 import invitesRouter from "./routes/invites";
 import adminRouter from "./routes/admin";
@@ -43,28 +38,41 @@ app.use(express.json());
 // Apply canonical host redirect to all /api routes
 app.use('/api', canonicalHost);
 
+// Apply authentication middleware to parse auth tokens
+app.use(async (req: any, _res, next) => {
+  const auth = req.headers.authorization;
+  if (auth?.startsWith('Bearer ')) {
+    try {
+      const token = auth.slice(7);
+      const decoded = await admin.auth().verifyIdToken(token);
+      req.user = { uid: decoded.uid };
+    } catch {}
+  }
+  next();
+});
+
 app.use("/api/invites", invitesRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api", googleCalendarRouter);
 app.use("/api/parties", partiesRouter);
 
-// Additional Google API endpoints
-app.get("/api/google/status", (req, res) => googleStatus(req as any, res as any));
-app.get("/api/google/start", (req, res) => googleStart(req as any, res as any));
-app.get("/api/google/callback", (req, res) => googleCallback(req as any, res as any));
-app.get("/api/google/calendar/events", (req, res) => googleCalendarEvents(req as any, res as any));
-app.post("/api/google/calendar/create", (req, res) => googleCalendarCreate(req as any, res as any));
-app.get("/api/google/people/search", (req, res) => googlePeopleSearch(req as any, res as any));
-app.post("/api/google/gmail/draft", (req, res) => googleGmailDraft(req as any, res as any));
-app.post("/api/google/gmail/draft-ics", (req, res) => googleGmailDraftIcs(req as any, res as any));
+// Safety alias: redirect /parties to /api/parties
+app.use("/parties", (req, res) => {
+  const queryString = req.originalUrl.split('?')[1];
+  const redirectUrl = queryString ? `/api/parties?${queryString}` : '/api/parties';
+  res.redirect(301, redirectUrl);
+});
 
-// MeetToMatch (ICS) - Router version
+// Google API endpoints are handled by googleCalendarRouter at /api/googleCalendar/*
+// Removed duplicate endpoints to avoid conflicts
+
+// MeetToMatch (ICS) - Router handles all /api/m2m/* endpoints
 app.use("/api/m2m", m2mRouter);
 
-// Legacy M2M endpoints (kept for compatibility)
-app.post("/api/m2m/verify", (req, res) => m2mVerify(req as any, res as any));
-app.post("/api/m2m/subscribe", (req, res) => m2mSubscribe(req as any, res as any));
-app.get("/api/m2m/events", (req, res) => m2mEvents(req as any, res as any));
+// MeetToMatch Integrations - New enhanced router at /api/integrations/mtm/*
+app.use("/api/integrations/mtm", mtmRoutes);
+
+// M2M endpoints are handled by m2mRouter - removed duplicates
 
 /* const FALLBACK_EVENTS: EventData[] = [ // Not used after refactoring to use routes
   {
@@ -150,12 +158,21 @@ app.post("/api/metrics", (req, res) => {
   res.status(204).send(); // No Content
 });
 
+import { MEETTOMATCH_CRYPTO_KEY } from './integrations/mtm/function-config';
+import { defineSecret } from 'firebase-functions/params';
+
+// Define Google OAuth secrets for MTM mirroring
+const GOOGLE_CLIENT_ID = defineSecret('GOOGLE_CLIENT_ID');
+const GOOGLE_CLIENT_SECRET = defineSecret('GOOGLE_CLIENT_SECRET');
+const GOOGLE_SHEETS_API_KEY = defineSecret('GOOGLE_SHEETS_API_KEY');
+
 // Use v2 functions with public invoker for unauthenticated access
 export const apiFn = onRequest({
+  region: 'us-central1',
   cors: true,
   invoker: "public",
   maxInstances: 10,
-  // secrets: ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"], // Temporarily disabled - secrets not configured
+  secrets: [MEETTOMATCH_CRYPTO_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_SHEETS_API_KEY],
 }, app);
 
 // Export the Express app for testing
@@ -175,3 +192,6 @@ export const api = app;
 //     throw error; // Re-throw to trigger retry
 //   }
 // });
+
+// Export MTM scheduler (if Cloud Scheduler is enabled)
+export { ingestMeetToMatch } from './schedulers/mtm';

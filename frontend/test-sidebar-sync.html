@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sidebar Active Sync Test</title>
+  <link rel="stylesheet" href="/assets/css/spacing-tokens.css">
+  <link rel="stylesheet" href="/assets/css/color-tokens.css">
+  <link rel="stylesheet" href="/assets/css/sidebar-modern.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--nav-bg, #0E121A);
+      color: var(--nav-text, #CFE0FF);
+      font-family: system-ui, -apple-system, sans-serif;
+      display: grid;
+      grid-template-columns: auto 1fr;
+    }
+    
+    #main {
+      padding: var(--s-6);
+    }
+    
+    .test-controls {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--r-lg);
+      padding: var(--s-4);
+      margin-bottom: var(--s-4);
+    }
+    
+    .test-controls h2 {
+      margin-top: 0;
+      color: var(--nav-accent-2);
+    }
+    
+    .test-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s-2);
+    }
+    
+    .test-btn {
+      padding: var(--s-2) var(--s-3);
+      background: rgba(110,94,246,0.1);
+      border: 1px solid rgba(110,94,246,0.3);
+      color: var(--nav-text);
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .test-btn:hover {
+      background: rgba(110,94,246,0.2);
+      border-color: rgba(110,94,246,0.5);
+    }
+    
+    .status {
+      background: rgba(0,0,0,0.3);
+      padding: var(--s-3);
+      border-radius: var(--r-md);
+      font-family: monospace;
+      font-size: 0.875rem;
+    }
+    
+    .log {
+      background: rgba(0,0,0,0.5);
+      padding: var(--s-3);
+      border-radius: var(--r-md);
+      margin-top: var(--s-4);
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 0.875rem;
+    }
+    
+    .log-entry {
+      padding: var(--s-1) 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .highlight {
+      color: var(--nav-accent-2);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <aside id="sidebar" class="v-sidebar">
+    <a class="v-brand" href="#/parties">velocity.ai</a>
+
+    <nav class="v-nav" aria-label="Primary">
+      <a class="v-nav__link" data-route="parties" href="#/parties">
+        <span class="v-nav__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 7h18"/><path d="M3 12h18"/><path d="M3 17h18"/>
+          </svg>
+        </span>
+        <span class="v-nav__label">parties</span>
+      </a>
+
+      <a class="v-nav__link" data-route="calendar" href="#/calendar">
+        <span class="v-nav__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>
+          </svg>
+        </span>
+        <span class="v-nav__label">calendar</span>
+      </a>
+
+      <a class="v-nav__link" data-route="map" href="#/map">
+        <span class="v-nav__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6l7-3 7 3 4-2v14l-7 3-7-3-4 2V4z"/>
+          </svg>
+        </span>
+        <span class="v-nav__label">map</span>
+      </a>
+
+      <a class="v-nav__link" data-route="invites" href="#/invites">
+        <span class="v-nav__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 12l-10 7L2 12l10-7 10 7z"/><path d="M2 12l10 7 10-7"/>
+          </svg>
+        </span>
+        <span class="v-nav__label">invites</span>
+      </a>
+
+      <a class="v-nav__link" data-route="contacts" href="#/contacts">
+        <span class="v-nav__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.5 8.5 0 0 1 13 0"/>
+          </svg>
+        </span>
+        <span class="v-nav__label">contacts</span>
+      </a>
+
+      <a class="v-nav__link" data-route="me" href="#/me">
+        <span class="v-nav__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="4"/><path d="M4 22c1.5-4 6-6 8-6s6 2 8 6"/>
+          </svg>
+        </span>
+        <span class="v-nav__label">me</span>
+      </a>
+
+      <a class="v-nav__link" data-route="settings" href="#/settings">
+        <span class="v-nav__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 8 19.9a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.1 15 1.65 1.65 0 0 0 1.59 14H1.5a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 3.1 8a1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 5.54 3.3l.06.06A1.65 1.65 0 0 0 7.42 3a1.65 1.65 0 0 0 1-1.51V1a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 13.9 3a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.9 8c.1.5.3.98.59 1.42H21a2 2 0 1 1 0 4h-.51c-.29.44-.49.92-.59 1.42z"/>
+          </svg>
+        </span>
+        <span class="v-nav__label">settings</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main id="main">
+    <h1>Sidebar Active State Sync Test</h1>
+    
+    <div class="test-controls">
+      <h2>Test Navigation</h2>
+      <p>Click buttons to change routes or use the sidebar directly:</p>
+      <div class="test-buttons">
+        <button class="test-btn" onclick="location.hash='#/parties'">Go to Parties</button>
+        <button class="test-btn" onclick="location.hash='#/calendar'">Go to Calendar</button>
+        <button class="test-btn" onclick="location.hash='#/map'">Go to Map</button>
+        <button class="test-btn" onclick="location.hash='#/invites'">Go to Invites</button>
+        <button class="test-btn" onclick="location.hash='#/contacts'">Go to Contacts</button>
+        <button class="test-btn" onclick="location.hash='#/me'">Go to Me</button>
+        <button class="test-btn" onclick="location.hash='#/settings'">Go to Settings</button>
+      </div>
+    </div>
+
+    <div class="test-controls">
+      <h2>Current State</h2>
+      <div class="status">
+        <div>Current Hash: <span id="current-hash" class="highlight"></span></div>
+        <div>Active Route: <span id="active-route" class="highlight"></span></div>
+        <div>Active Link Count: <span id="active-count" class="highlight"></span></div>
+      </div>
+    </div>
+
+    <div class="test-controls">
+      <h2>Event Log</h2>
+      <div class="log" id="log"></div>
+    </div>
+  </main>
+
+  <script>
+    // Sidebar sync code
+    (function syncSidebarActive(){
+      const links = [...document.querySelectorAll('.v-nav__link[data-route]')];
+      if (!links.length) return;
+
+      const apply = () => {
+        const h = location.hash || '#/parties';
+        // Match routes - handle both #/route and #route formats
+        const currentPath = h.replace(/^#\/?/, '').split('?')[0];
+        links.forEach(a => {
+          const linkRoute = a.dataset.route;
+          const isActive = currentPath === linkRoute || 
+                          (currentPath === '' && linkRoute === 'parties'); // Default route
+          a.classList.toggle('is-active', isActive);
+          a.classList.toggle('active', isActive); // Legacy support
+        });
+        
+        // Update status display
+        updateStatus();
+        logEvent(`Route changed to: ${currentPath || 'parties'}`);
+      };
+
+      window.addEventListener('hashchange', apply);
+      document.addEventListener('DOMContentLoaded', apply);
+      apply();
+    })();
+
+    // Test utilities
+    function updateStatus() {
+      const hash = location.hash || '#/parties';
+      const currentPath = hash.replace(/^#\/?/, '').split('?')[0] || 'parties';
+      const activeLinks = document.querySelectorAll('.v-nav__link.is-active');
+      
+      document.getElementById('current-hash').textContent = hash;
+      document.getElementById('active-route').textContent = currentPath;
+      document.getElementById('active-count').textContent = activeLinks.length;
+    }
+
+    function logEvent(message) {
+      const log = document.getElementById('log');
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      const time = new Date().toLocaleTimeString();
+      entry.innerHTML = `<span style="color: var(--nav-accent-2)">[${time}]</span> ${message}`;
+      log.insertBefore(entry, log.firstChild);
+    }
+
+    // Initial status
+    updateStatus();
+    logEvent('Page loaded, sync initialized');
+
+    // Monitor clicks on sidebar
+    document.querySelectorAll('.v-nav__link').forEach(link => {
+      link.addEventListener('click', () => {
+        logEvent(`Sidebar link clicked: ${link.dataset.route}`);
+      });
+    });
+  </script>
+</body>
+</html>

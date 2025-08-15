@@ -85,7 +85,7 @@ function toast(msg) {
   const t = document.createElement('div');
   t.className = 'toast';
   t.textContent = msg;
-  t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:12px 20px;border-radius:4px;z-index:9999';
+  t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--neutral-300);color:white;padding:12px 20px;border-radius:4px;z-index:9999';
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 3000);
 }

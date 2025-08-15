@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velocity Sidebar Test</title>
+  <link rel="stylesheet" href="/assets/css/spacing-tokens.css">
+  <link rel="stylesheet" href="/assets/css/color-tokens.css">
+  <link rel="stylesheet" href="/assets/css/sidebar-velocity.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-primary, #1a1d21);
+      color: var(--text-primary, #ffffff);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    
+    #main {
+      padding: var(--s-4);
+    }
+    
+    .test-content {
+      max-width: 800px;
+    }
+    
+    .test-content h1 {
+      color: var(--color-primary);
+      margin-bottom: var(--s-3);
+    }
+    
+    .test-card {
+      background: var(--bg-secondary, #242830);
+      border: 1px solid var(--border-color, #2a2d31);
+      border-radius: var(--r-2);
+      padding: var(--s-3);
+      margin-bottom: var(--s-3);
+    }
+    
+    .test-card h3 {
+      margin-top: 0;
+      color: var(--text-primary);
+    }
+    
+    pre {
+      background: var(--bg-tertiary, #1a1d21);
+      padding: var(--s-2);
+      border-radius: var(--r-1);
+      overflow-x: auto;
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="app">
+    <aside id="sidebar" class="v-sidebar">
+      <a class="v-brand" href="#/parties">velocity.ai</a>
+
+      <nav class="v-nav" aria-label="Primary">
+        <a class="v-nav__link active" data-route="parties" href="#/parties">
+          <span class="v-nav__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 7h18"/><path d="M3 12h18"/><path d="M3 17h18"/>
+            </svg>
+          </span>
+          <span class="v-nav__label">parties</span>
+        </a>
+
+        <a class="v-nav__link" data-route="calendar" href="#/calendar">
+          <span class="v-nav__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+          </span>
+          <span class="v-nav__label">calendar</span>
+        </a>
+
+        <a class="v-nav__link" data-route="map" href="#/map">
+          <span class="v-nav__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6l7-3 7 3 4-2v14l-7 3-7-3-4 2V4z"/>
+            </svg>
+          </span>
+          <span class="v-nav__label">map</span>
+        </a>
+
+        <a class="v-nav__link" data-route="invites" href="#/invites">
+          <span class="v-nav__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 12l-10 7L2 12l10-7 10 7z"/><path d="M2 12l10 7 10-7"/>
+            </svg>
+          </span>
+          <span class="v-nav__label">invites</span>
+        </a>
+
+        <a class="v-nav__link" data-route="contacts" href="#/contacts">
+          <span class="v-nav__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.5 8.5 0 0 1 13 0"/>
+            </svg>
+          </span>
+          <span class="v-nav__label">contacts</span>
+        </a>
+
+        <a class="v-nav__link" data-route="me" href="#/me">
+          <span class="v-nav__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="8" r="4"/><path d="M4 22c1.5-4 6-6 8-6s6 2 8 6"/>
+            </svg>
+          </span>
+          <span class="v-nav__label">me</span>
+        </a>
+
+        <a class="v-nav__link" data-route="settings" href="#/settings">
+          <span class="v-nav__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 8 19.9a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.1 15 1.65 1.65 0 0 0 1.59 14H1.5a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 3.1 8a1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 5.54 3.3l.06.06A1.65 1.65 0 0 0 7.42 3a1.65 1.65 0 0 0 1-1.51V1a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 13.9 3a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.9 8c.1.5.3.98.59 1.42H21a2 2 0 1 1 0 4h-.51c-.29.44-.49.92-.59 1.42z"/>
+            </svg>
+          </span>
+          <span class="v-nav__label">settings</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main id="main">
+      <div class="test-content">
+        <h1>Velocity Sidebar Test</h1>
+        
+        <div class="test-card">
+          <h3>✅ Semantic HTML Structure</h3>
+          <p>The sidebar now uses semantic HTML with proper ARIA labels and BEM-style classes:</p>
+          <ul>
+            <li><code>.v-sidebar</code> - Main sidebar container</li>
+            <li><code>.v-brand</code> - Brand/logo link</li>
+            <li><code>.v-nav</code> - Navigation container with aria-label</li>
+            <li><code>.v-nav__link</code> - Navigation links</li>
+            <li><code>.v-nav__icon</code> - Icon containers</li>
+            <li><code>.v-nav__label</code> - Text labels</li>
+          </ul>
+        </div>
+
+        <div class="test-card">
+          <h3>🎨 SVG Icons</h3>
+          <p>Each navigation item now has a proper SVG icon with consistent sizing (18x18) and stroke styling.</p>
+        </div>
+
+        <div class="test-card">
+          <h3>📱 Responsive Design</h3>
+          <p>On mobile (< 768px), the sidebar collapses to show only icons, hiding the labels for a cleaner look.</p>
+        </div>
+
+        <div class="test-card">
+          <h3>🎯 Active State</h3>
+          <p>The "parties" link is currently active, showing the blue accent bar and highlighted background.</p>
+        </div>
+
+        <div class="test-card">
+          <h3>Test Navigation</h3>
+          <p>Click the links below to test navigation:</p>
+          <pre id="hash-display">Current hash: #/parties</pre>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Test active state switching
+    document.querySelectorAll('.v-nav__link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        // Remove active from all
+        document.querySelectorAll('.v-nav__link').forEach(l => {
+          l.classList.remove('active', 'v-nav__link--active');
+        });
+        
+        // Add active to clicked
+        e.currentTarget.classList.add('active', 'v-nav__link--active');
+        
+        // Update hash display
+        document.getElementById('hash-display').textContent = 
+          'Current hash: ' + e.currentTarget.getAttribute('href');
+      });
+    });
+    
+    // Monitor hash changes
+    window.addEventListener('hashchange', () => {
+      const hash = location.hash || '#/parties';
+      document.getElementById('hash-display').textContent = 'Current hash: ' + hash;
+    });
+  </script>
+</body>
+</html>

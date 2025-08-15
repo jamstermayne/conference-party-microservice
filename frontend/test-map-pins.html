@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map Pin Integration Test</title>
+  <link rel="stylesheet" href="/assets/css/spacing-tokens.css">
+  <link rel="stylesheet" href="/assets/css/color-tokens.css">
+  <link rel="stylesheet" href="/assets/css/hero-cards.css">
+  <style>
+    body { 
+      padding: var(--s-4); 
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+    .vgrid { 
+      display: grid; 
+      gap: var(--s-3); 
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+    .pin {
+      background: none;
+      border: none;
+      color: var(--color-primary);
+      cursor: pointer;
+      text-decoration: none;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .pin:hover {
+      text-decoration: underline;
+    }
+    #log {
+      background: var(--bg-secondary);
+      padding: var(--s-3);
+      border-radius: var(--r-2);
+      margin-top: var(--s-4);
+      font-family: monospace;
+      font-size: 0.875rem;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Map Pin Integration Test</h1>
+    
+    <p>Click the venue pins to test map navigation:</p>
+
+    <div class="vgrid">
+      <!-- Card with coordinates -->
+      <article class="vcard" data-party-id="test-1">
+        <header class="vcard__head">
+          <h3 class="vcard__title">Kölnmesse Confex (with coords)</h3>
+        </header>
+        
+        <div class="vcard__meta">
+          <span class="meta">📅 Aug 22, 09:00 – 18:00</span>
+          <button class="link pin" 
+                  data-action="open-map" 
+                  data-lat="50.9475" 
+                  data-lng="6.9794"
+                  data-venue="Kölnmesse Confex">
+            📍 Kölnmesse Confex
+          </button>
+        </div>
+        
+        <div class="vcard__body">
+          <p class="vcard__desc">This pin has exact coordinates.</p>
+        </div>
+      </article>
+
+      <!-- Card with venue name only -->
+      <article class="vcard" data-party-id="test-2">
+        <header class="vcard__head">
+          <h3 class="vcard__title">Marriott Hotel (venue only)</h3>
+        </header>
+        
+        <div class="vcard__meta">
+          <span class="meta">📅 Aug 22, 20:00 – 23:30</span>
+          <button class="link pin" 
+                  data-action="open-map"
+                  data-venue="Marriott Hotel">
+            📍 Marriott Hotel
+          </button>
+        </div>
+        
+        <div class="vcard__body">
+          <p class="vcard__desc">This pin only has venue name.</p>
+        </div>
+      </article>
+
+      <!-- Card with no location data -->
+      <article class="vcard" data-party-id="test-3">
+        <header class="vcard__head">
+          <h3 class="vcard__title">Mystery Location</h3>
+        </header>
+        
+        <div class="vcard__meta">
+          <span class="meta">📅 Aug 23, 14:00 – 16:00</span>
+          <button class="link pin" 
+                  data-action="open-map">
+            📍 TBA
+          </button>
+        </div>
+        
+        <div class="vcard__body">
+          <p class="vcard__desc">This pin has no location data.</p>
+        </div>
+      </article>
+    </div>
+
+    <h2>Debug Log</h2>
+    <div id="log"></div>
+    
+    <h2>Current URL</h2>
+    <div id="current-url" style="font-family: monospace; background: var(--bg-secondary); padding: var(--s-2); border-radius: var(--r-1);"></div>
+  </div>
+
+  <script type="module">
+    import { wireMapPins } from '/js/map-hooks.js';
+    
+    const log = document.getElementById('log');
+    const urlDisplay = document.getElementById('current-url');
+    
+    function addLog(msg) {
+      const time = new Date().toLocaleTimeString();
+      const entry = document.createElement('div');
+      entry.textContent = `[${time}] ${msg}`;
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+    }
+    
+    // Initialize map pins
+    wireMapPins();
+    addLog('Map pins wired up');
+    
+    // Monitor clicks
+    document.addEventListener('click', (e) => {
+      const pin = e.target.closest('[data-action="open-map"]');
+      if (pin) {
+        const data = {
+          venue: pin.dataset.venue,
+          lat: pin.dataset.lat,
+          lng: pin.dataset.lng
+        };
+        addLog(`Pin clicked: ${JSON.stringify(data)}`);
+      }
+    });
+    
+    // Monitor hash changes
+    window.addEventListener('hashchange', () => {
+      const newHash = location.hash;
+      addLog(`Navigation: ${newHash}`);
+      urlDisplay.textContent = location.href;
+    });
+    
+    // Show current URL
+    urlDisplay.textContent = location.href;
+  </script>
+</body>
+</html>

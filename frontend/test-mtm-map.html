@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTM Map Integration Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0f1114;
+      color: #fff;
+    }
+    
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+    
+    .test-controls {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(26, 33, 52, 0.95);
+      border: 1px solid rgba(139, 129, 255, 0.3);
+      border-radius: 8px;
+      padding: 16px;
+      z-index: 100;
+      max-width: 300px;
+    }
+    
+    .test-controls h3 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      color: #e8ecff;
+    }
+    
+    .test-controls button {
+      display: block;
+      width: 100%;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #6b8cff, #8a6bff);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    .test-controls button:hover {
+      opacity: 0.9;
+    }
+    
+    .test-controls .status {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(139, 129, 255, 0.2);
+      font-size: 13px;
+      color: #9aa7bf;
+    }
+    
+    .test-controls .events-list {
+      margin-top: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 12px;
+    }
+    
+    .test-controls .event-item {
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(139, 129, 255, 0.1);
+    }
+    
+    .test-controls .event-item.has-location {
+      color: #6bff8c;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  
+  <div class="test-controls">
+    <h3>MTM Map Test</h3>
+    <button id="signIn">Sign In with Google</button>
+    <button id="connectMtm" disabled>Connect MTM (Test URL)</button>
+    <button id="syncMtm" disabled>Sync MTM Events</button>
+    <button id="toggleMarkers" disabled>Toggle MTM Markers</button>
+    <button id="signOut" disabled>Sign Out</button>
+    
+    <div class="status" id="status">Not signed in</div>
+    <div class="events-list" id="eventsList"></div>
+  </div>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Auth -->
+  <script src="/js/auth.js"></script>
+  
+  <!-- Google Maps -->
+  <script>
+    window.initMap = function() {
+      console.log('Google Maps ready');
+      window.mapReady = true;
+    };
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc&libraries=marker&callback=initMap" async defer></script>
+  
+  <!-- Test Script -->
+  <script type="module">
+    import { MtmMapSource } from '/js/map-mtm.js';
+    
+    let map = null;
+    let mtmSource = null;
+    let currentUser = null;
+    
+    const statusEl = document.getElementById('status');
+    const eventsListEl = document.getElementById('eventsList');
+    
+    // Initialize Auth
+    await window.Auth.init();
+    
+    // Auth state listener
+    window.Auth.onChange((user) => {
+      currentUser = user;
+      updateUI();
+      if (user) {
+        initializeMtmSource(user.uid);
+        checkMtmConnection(user.uid);
+      } else {
+        if (mtmSource) {
+          mtmSource.destroy();
+          mtmSource = null;
+        }
+      }
+    });
+    
+    // Initialize map
+    function initializeMap() {
+      if (!window.mapReady) {
+        setTimeout(initializeMap, 100);
+        return;
+      }
+      
+      const mapOptions = {
+        center: { lat: 50.9375, lng: 6.9603 }, // Cologne
+        zoom: 13,
+        mapId: 'test_mtm_map'
+      };
+      
+      map = new google.maps.Map(document.getElementById('map'), mapOptions);
+      console.log('Map initialized');
+    }
+    
+    // Initialize MTM source
+    async function initializeMtmSource(userId) {
+      if (!map) {
+        console.warn('Map not ready');
+        return;
+      }
+      
+      mtmSource = new MtmMapSource();
+      await mtmSource.init(userId);
+      
+      // Listen for events
+      mtmSource.onEventsChange = (events) => {
+        console.log(`MTM events changed: ${events.length} events`);
+        updateEventsList(events);
+        
+        // Add markers to map
+        if (mtmSource.enabled && events.length > 0) {
+          mtmSource.clearMarkers();
+          mtmSource.addMarkersToMap(map, null);
+        }
+      };
+      
+      // Initial marker load if enabled
+      if (mtmSource.enabled && mtmSource.events.length > 0) {
+        mtmSource.addMarkersToMap(map, null);
+      }
+    }
+    
+    // Check MTM connection status
+    async function checkMtmConnection(userId) {
+      try {
+        const token = await window.Auth.getIdToken();
+        const res = await fetch('/api/integrations/mtm/status', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(r => r.json());
+        
+        if (res.ok && res.connected) {
+          statusEl.textContent = `Connected to MTM (Last sync: ${res.lastSyncAt ? new Date(res.lastSyncAt).toLocaleString() : 'Never'})`;
+          document.getElementById('connectMtm').disabled = true;
+          document.getElementById('syncMtm').disabled = false;
+          document.getElementById('toggleMarkers').disabled = false;
+        } else {
+          statusEl.textContent = 'MTM not connected';
+          document.getElementById('connectMtm').disabled = false;
+        }
+      } catch (error) {
+        console.error('Failed to check MTM status:', error);
+      }
+    }
+    
+    // Update events list
+    function updateEventsList(events) {
+      if (events.length === 0) {
+        eventsListEl.innerHTML = '<div>No MTM events found</div>';
+        return;
+      }
+      
+      const html = events.map(event => {
+        const hasLocation = event.lat && event.lon;
+        const time = new Date(event.start).toLocaleString();
+        return `
+          <div class="event-item ${hasLocation ? 'has-location' : ''}">
+            <strong>${event.title}</strong><br>
+            ${time}<br>
+            ${hasLocation ? `📍 ${event.lat.toFixed(4)}, ${event.lon.toFixed(4)}` : 'No location'}
+          </div>
+        `;
+      }).join('');
+      
+      eventsListEl.innerHTML = html;
+    }
+    
+    // Update UI based on auth state
+    function updateUI() {
+      const signInBtn = document.getElementById('signIn');
+      const signOutBtn = document.getElementById('signOut');
+      const connectBtn = document.getElementById('connectMtm');
+      const syncBtn = document.getElementById('syncMtm');
+      const toggleBtn = document.getElementById('toggleMarkers');
+      
+      if (currentUser) {
+        signInBtn.disabled = true;
+        signOutBtn.disabled = false;
+        statusEl.textContent = `Signed in as ${currentUser.email}`;
+      } else {
+        signInBtn.disabled = false;
+        signOutBtn.disabled = true;
+        connectBtn.disabled = true;
+        syncBtn.disabled = true;
+        toggleBtn.disabled = true;
+        statusEl.textContent = 'Not signed in';
+        eventsListEl.innerHTML = '';
+      }
+    }
+    
+    // Button handlers
+    document.getElementById('signIn').addEventListener('click', async () => {
+      await window.Auth.signInGoogle();
+    });
+    
+    document.getElementById('signOut').addEventListener('click', async () => {
+      await window.Auth.signOut();
+    });
+    
+    document.getElementById('connectMtm').addEventListener('click', async () => {
+      // Use a test ICS URL
+      const testUrl = 'https://app.meettomatch.com/test/calendar.ics';
+      const token = await window.Auth.getIdToken();
+      
+      const res = await fetch('/api/integrations/mtm/connect', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ icsUrl: testUrl })
+      }).then(r => r.json());
+      
+      if (res.ok) {
+        alert(`Connected! Synced ${res.count} events`);
+        checkMtmConnection(currentUser.uid);
+      } else {
+        alert(`Failed: ${res.error}`);
+      }
+    });
+    
+    document.getElementById('syncMtm').addEventListener('click', async () => {
+      const token = await window.Auth.getIdToken();
+      
+      const res = await fetch('/api/integrations/mtm/syncNow', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(r => r.json());
+      
+      if (res.ok) {
+        alert(`Synced ${res.count} events`);
+        checkMtmConnection(currentUser.uid);
+      } else {
+        alert(`Failed: ${res.error}`);
+      }
+    });
+    
+    document.getElementById('toggleMarkers').addEventListener('click', () => {
+      if (mtmSource) {
+        mtmSource.toggle(!mtmSource.enabled);
+        alert(`MTM markers ${mtmSource.enabled ? 'enabled' : 'disabled'}`);
+      }
+    });
+    
+    // Initialize map
+    initializeMap();
+  </script>
+</body>
+</html>

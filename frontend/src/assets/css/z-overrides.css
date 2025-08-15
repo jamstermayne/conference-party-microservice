@@ -46,7 +46,7 @@ aside.sidebar ul {
 .sidebar [data-route],
 .sidebar [data-nav] {
   position: relative !important;
-  padding-left: 16px !important;
+  padding-left: var(--s-4) !important;
 }
 
 /* Active state styling with accent bar */
@@ -57,10 +57,10 @@ aside.sidebar ul {
   background:
     radial-gradient(120% 120% at -20% -40%, rgba(139,129,255,.25) 0, rgba(22,26,45,0) 65%),
     linear-gradient(180deg, rgba(139,129,255,.18), rgba(84,74,255,.12));
-  box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 8px 24px rgba(0,0,0,.35);
-  color: #eef2ff !important;
-  border-radius: 16px;
-  padding: 8px 12px 8px 16px;
+  box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 var(--s-2) var(--s-6) rgba(0,0,0,.35);
+  color: var(--alias-eef2ff) !important;
+  border-radius: var(--s-4);
+  padding: var(--s-2) var(--s-3) var(--s-2) var(--s-4);
 }
 
 /* Active accent bar */
@@ -74,7 +74,7 @@ aside.sidebar ul {
   top: 0;
   bottom: 0;
   width: 3px;
-  background: linear-gradient(180deg, #6b8cff, #8a6bff);
+  background: linear-gradient(180deg, var(--color-primary), var(--accent-secondary));
   border-radius: 0 3px 3px 0;
 }
 /* kill-brand-dot */
@@ -87,6 +87,19 @@ aside .brand::before {
 
 /* Map container full height */
 #main .map-container {
-  height: calc(100vh - 2px) !important;
+  height: calc(100vh - var(--s-0-5)) !important;
   overflow: hidden !important;
+}
+
+/* Remove indentation for subnav under #map */
+aside .subnav { list-style: none; margin: var(--s-1) 0 var(--s-2); padding-left: 0; border-left: none; }
+aside .subnav li { margin: var(--s-0-5) 0; }
+aside .subnav a {
+  display: block; padding: var(--s-1) var(--s-2);
+  white-space: nowrap;
+  border-left: 3px solid transparent; /* accent only when active */
+}
+aside .subnav a.active {
+  border-left-color: var(--accent, var(--alias-6e5ef6));
+  background: linear-gradient(90deg, color-mix(in oklab, var(--accent, var(--alias-6e5ef6)) 16%, transparent), transparent);
 }

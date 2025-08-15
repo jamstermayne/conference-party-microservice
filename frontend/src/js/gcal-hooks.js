@@ -1,235 +1,188 @@
-/**
- * Google Calendar Hooks
- * Handles calendar button clicks and OAuth flow
- */
-
-import { addToGoogle, addToOutlook, addToM2M } from './calendar-providers.js?v=b030';
+// gcal-hooks.js — Smart "Add to Calendar" click handler with auth polling
+import { status as getStatus, startOAuth as startOAuthPopup, create as createEvent } from './services/gcal.js?v=b037';
 
 /**
- * Handle button state during async operations
+ * Ensure user is authenticated with Google Calendar
+ * Uses status polling to handle COOP restrictions
  */
-function withBusy(btn, fn) {
-  const prev = { text: btn.textContent, disabled: btn.disabled };
-  btn.disabled = true;
-  btn.textContent = 'Working…';
-  
-  return fn().then((result) => {
-    if (result?.success) {
-      btn.textContent = '✓ Added';
-      setTimeout(() => {
-        btn.textContent = prev.text;
-        btn.disabled = prev.disabled;
-      }, 2000);
-    } else {
-      btn.textContent = 'Retry';
-      btn.disabled = false;
+async function ensureAuth() {
+  const st = await getStatus();         // { connected: boolean }
+  if (st.connected) return true;
+
+  // Start OAuth in popup
+  let popup;
+  try {
+    popup = await startOAuthPopup({ usePopup: true });
+  } catch (e) {
+    // Popup blocked or failed, fall back to redirect
+    await startOAuthPopup({ usePopup: false });
+    return false; // Will redirect, won't reach here
+  }
+
+  // Poll status until connected (popup may be blocked from closing by COOP)
+  const deadline = Date.now() + 120000; // 2 minutes
+  while (Date.now() < deadline) {
+    await new Promise(r => setTimeout(r, 1200));
+    try {
+      const s = await getStatus();
+      if (s.connected) { 
+        try { popup?.close?.(); } catch {} // Try to close popup
+        return true; 
+      }
+    } catch (_) {}
+    
+    // Check if popup was closed by user
+    try {
+      if (popup && popup.closed) break;
+    } catch {
+      // COOP may prevent checking closed state
     }
-    return result;
-  }).catch((error) => {
-    btn.textContent = 'Failed';
-    btn.disabled = false;
-    setTimeout(() => {
-      btn.textContent = prev.text;
-      btn.disabled = prev.disabled;
-    }, 2000);
-    throw error;
-  });
+  }
+  return false;
 }
 
 /**
- * Extract event data from button/card
+ * Extract event data from button/card with ISO date handling
  */
-function extractEventData(element) {
-  const card = element.closest('.vcard, .card, .party-card, .section-card');
+function extractEventData(btn) {
+  const card = btn.closest('.vcard');
+  if (!card) return null;
   
-  // Try to get data from button attributes first
-  const event = {
-    title: element.dataset.title || 
-           card?.querySelector('.vcard__title, .card-title, .vtitle')?.textContent?.trim() || 
-           'Event',
-    venue: element.dataset.venue || 
-           element.dataset.location ||
-           card?.querySelector('.venue, .location')?.textContent?.replace('📍', '').trim() || 
-           '',
-    location: element.dataset.venue || element.dataset.location || '',
-    start: element.dataset.start || element.dataset.startIso,
-    end: element.dataset.end || element.dataset.endIso,
-    description: element.dataset.description || 
-                 card?.querySelector('.description')?.textContent?.trim() || 
-                 'Added from Conference Party',
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+  const id = btn.dataset.id || card?.dataset.partyId;
+  
+  // Get title from card
+  const title = card.querySelector('.vcard__title')?.textContent?.trim() || 'Event';
+  
+  // Get location from pin button or venue
+  const locationEl = card.querySelector('.pin, [data-venue]');
+  const location = locationEl?.textContent?.replace(/📍|🏢/g, '').trim() || '';
+  
+  // Get description
+  const description = card.querySelector('.vcard__desc')?.textContent?.trim() || 
+                     `${title} at ${location}`;
+  
+  // Get dates - check for ISO format in dataset
+  let startIso = card.dataset.startIso || btn.dataset.startIso;
+  let endIso = card.dataset.endIso || btn.dataset.endIso;
+  
+  // If no ISO dates, try to parse from time display
+  if (!startIso) {
+    const timeEl = card.querySelector('.meta .i-clock')?.parentElement;
+    const timeText = timeEl?.textContent?.trim();
+    
+    if (timeText) {
+      // Parse time range like "09:00 – 18:00"
+      const timeMatch = timeText.match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);
+      if (timeMatch) {
+        const [, startTime, endTime] = timeMatch;
+        // Default to next occurrence of the event (you might want to enhance this)
+        const today = new Date();
+        const [startHour, startMin] = startTime.split(':');
+        const [endHour, endMin] = endTime.split(':');
+        
+        const startDate = new Date(today);
+        startDate.setHours(parseInt(startHour), parseInt(startMin), 0, 0);
+        
+        const endDate = new Date(today);
+        endDate.setHours(parseInt(endHour), parseInt(endMin), 0, 0);
+        
+        // If start time has passed, move to tomorrow
+        if (startDate < new Date()) {
+          startDate.setDate(startDate.getDate() + 1);
+          endDate.setDate(endDate.getDate() + 1);
+        }
+        
+        startIso = startDate.toISOString();
+        endIso = endDate.toISOString();
+      }
+    }
+  }
+  
+  // Default to 1 hour event starting now if no times found
+  if (!startIso) {
+    const now = new Date();
+    startIso = now.toISOString();
+    endIso = new Date(now.getTime() + 3600000).toISOString(); // +1 hour
+  }
+  
+  return {
+    id,
+    summary: title,
+    start: startIso,
+    end: endIso,
+    location,
+    description
   };
-  
-  // Parse when field if start/end not available
-  if (!event.start && element.dataset.when) {
-    const when = element.dataset.when;
-    const timeMatch = when.match(/(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})/);
-    if (timeMatch) {
-      const [, startHour, startMin, endHour, endMin] = timeMatch;
-      const dateMatch = when.match(/(\w+)\s+(\d+)/);
-      if (dateMatch) {
-        const [, month, day] = dateMatch;
-        const year = new Date().getFullYear();
-        const monthNum = new Date(Date.parse(month + " 1, 2025")).getMonth();
-        
-        const startDate = new Date(year, monthNum, parseInt(day), parseInt(startHour), parseInt(startMin));
-        const endDate = new Date(year, monthNum, parseInt(day), parseInt(endHour), parseInt(endMin));
-        
-        event.start = startDate.toISOString();
-        event.end = endDate.toISOString();
-        event.startISO = event.start;
-        event.endISO = event.end;
-      }
-    }
-  }
-  
-  return event;
 }
 
+
 /**
- * Show calendar provider menu
+ * Wire up all "Add to Calendar" buttons with smart auth handling
  */
-function showProviderMenu(button, event) {
-  // Remove any existing menu
-  const existingMenu = document.querySelector('.calendar-menu');
-  if (existingMenu) existingMenu.remove();
-  
-  const menu = document.createElement('div');
-  menu.className = 'calendar-menu';
-  menu.style.cssText = `
-    position: absolute;
-    top: 100%;
-    left: 0;
-    margin-top: 4px;
-    background: #1a2134;
-    border: 1px solid rgba(139,129,255,0.3);
-    border-radius: 8px;
-    padding: 4px;
-    min-width: 180px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    z-index: 1000;
-  `;
-  
-  menu.innerHTML = `
-    <button class="menu-item" data-provider="google">
-      <span>📅</span> Google Calendar
-    </button>
-    <button class="menu-item" data-provider="outlook">
-      <span>📧</span> Outlook (.ics)
-    </button>
-    <button class="menu-item" data-provider="m2m">
-      <span>🤝</span> Meet to Match
-    </button>
-  `;
-  
-  // Style menu items
-  menu.querySelectorAll('.menu-item').forEach(item => {
-    item.style.cssText = `
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 100%;
-      padding: 8px 12px;
-      background: transparent;
-      border: none;
-      color: #e8ecff;
-      font-size: 14px;
-      cursor: pointer;
-      text-align: left;
-      border-radius: 4px;
-      transition: background 0.2s;
-    `;
+export function wireAddToCalendar(container = document) {
+  container.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-action="add-to-calendar"]');
+    if (!btn) return;
     
-    item.addEventListener('mouseenter', () => {
-      item.style.background = 'rgba(139,129,255,0.2)';
-    });
-    
-    item.addEventListener('mouseleave', () => {
-      item.style.background = 'transparent';
-    });
-  });
-  
-  // Position relative to button
-  button.style.position = 'relative';
-  button.appendChild(menu);
-  
-  // Handle menu item clicks
-  menu.addEventListener('click', async (e) => {
+    e.preventDefault();
     e.stopPropagation();
-    const provider = e.target.closest('[data-provider]')?.dataset.provider;
-    if (!provider) return;
-    
-    menu.remove();
-    
-    switch (provider) {
-      case 'google':
-        await withBusy(button, () => addToGoogle(event));
-        break;
-      case 'outlook':
-        addToOutlook(event);
-        break;
-      case 'm2m':
-        addToM2M(event);
-        break;
+
+    try {
+      // Ensure authenticated first
+      const ok = await ensureAuth();
+      if (!ok) {
+        alert('Please complete Google sign-in to continue.');
+        return;
+      }
+
+      // Extract event data from the card
+      const eventData = extractEventData(btn);
+      if (!eventData) {
+        console.error('[gcal] Could not extract event data');
+        alert('Could not get event details.');
+        return;
+      }
+
+      // Update button state
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Adding...';
+
+      // Create the calendar event
+      try {
+        await createEvent({
+          summary: eventData.summary,
+          location: eventData.location,
+          description: eventData.description,
+          start: eventData.start,
+          end: eventData.end,
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        });
+        
+        btn.textContent = 'Added ✓';
+        btn.classList.add('btn-success');
+        
+        // Reset after 3 seconds
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.disabled = false;
+          btn.classList.remove('btn-success');
+        }, 3000);
+      } catch (err) {
+        console.error('[gcal] Failed to create event:', err);
+        alert('Failed to add to calendar. Please try again.');
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }
+    } catch (err) {
+      console.error('[gcal] Add error:', err);
+      alert('Could not add this to Calendar.');
     }
   });
-  
-  // Close menu on outside click
-  setTimeout(() => {
-    document.addEventListener('click', function closeMenu(e) {
-      if (!menu.contains(e.target)) {
-        menu.remove();
-        document.removeEventListener('click', closeMenu);
-      }
-    });
-  }, 0);
 }
 
-/**
- * Global click handler for calendar buttons
- */
-document.addEventListener('click', async (e) => {
-  // Handle direct calendar add buttons
-  const calendarBtn = e.target.closest('[data-action="addCalendar"], [data-gcal-add]');
-  if (calendarBtn) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const event = extractEventData(calendarBtn);
-    
-    // Check for modifier keys or menu button
-    if (e.shiftKey || e.ctrlKey || calendarBtn.dataset.showMenu) {
-      showProviderMenu(calendarBtn, event);
-    } else {
-      // Default to Google Calendar
-      await withBusy(calendarBtn, () => addToGoogle(event));
-    }
-    return;
-  }
-  
-  // Handle calendar menu toggle buttons
-  const menuBtn = e.target.closest('[data-action="calendarMenu"]');
-  if (menuBtn) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const mainBtn = menuBtn.parentElement?.querySelector('[data-action="addCalendar"]') || menuBtn;
-    const event = extractEventData(mainBtn);
-    showProviderMenu(menuBtn, event);
-    return;
-  }
-});
+// Auto-initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => wireAddToCalendar());
 
-// Listen for OAuth success messages from popup
-window.addEventListener('message', (e) => {
-  if (e.origin !== location.origin) return;
-  
-  if (e.data === 'gcal:connected' || e.data?.type === 'gcal:connected') {
-    // OAuth successful, trigger any pending calendar adds
-    const pendingButton = document.querySelector('[data-pending-calendar]');
-    if (pendingButton) {
-      pendingButton.removeAttribute('data-pending-calendar');
-      pendingButton.click();
-    }
-  }
-});
+// Also wire up any dynamically added content
+export default { wireAddToCalendar };

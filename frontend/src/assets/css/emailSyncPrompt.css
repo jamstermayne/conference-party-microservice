@@ -5,16 +5,16 @@
   background: var(--surface);
   color: var(--text-primary);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px 12px;
-  box-shadow: 0 6px 24px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.05);
+  border-radius: var(--r-md);
+  padding: var(--s-2-5) var(--s-3);
+  box-shadow: 0 var(--s-1-5) var(--s-6) rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.05);
   opacity: 0;
   transform: translateY(-8px);
   transition: opacity 180ms var(--ease-smooth), transform 180ms var(--ease-smooth);
   z-index: 2000;
-  max-width: min(520px, calc(100vw - 16px));
+  max-width: min(520px, calc(100vw - var(--s-4)));
   font-family: inherit;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(var(--s-2));
   position: fixed;
 }
 
@@ -26,12 +26,12 @@
 .sync-row { 
   display: flex; 
   align-items: center; 
-  gap: 12px; 
+  gap: var(--s-3); 
   flex-wrap: wrap;
 }
 
 .sync-text { 
-  font-size: 14px; 
+  font-size: var(--s-3-5); 
   color: var(--text-primary);
   flex: 1;
   min-width: 200px;
@@ -45,13 +45,13 @@
 .sync-actions { 
   display: flex; 
   align-items: center; 
-  gap: 8px; 
+  gap: var(--s-2); 
   flex-shrink: 0;
 }
 
 .sync-btn {
   font-size: 13px;
-  padding: 6px 12px;
+  padding: var(--s-1-5) var(--s-3);
   white-space: nowrap;
 }
 
@@ -62,8 +62,8 @@
   font-size: 18px; 
   line-height: 1; 
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
+  padding: var(--s-1);
+  border-radius: var(--s-1);
   transition: background-color 150ms var(--ease-smooth), color 150ms var(--ease-smooth);
 }
 
@@ -73,8 +73,8 @@
 }
 
 .sync-dismiss:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: var(--s-0-5) solid var(--accent);
+  outline-offset: var(--s-0-5);
 }
 
 /* Bottom sheet for provider choice */
@@ -84,11 +84,11 @@
   display: grid; 
   place-items: end center;
   background: rgba(0,0,0,.4); 
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(var(--s-1));
   opacity: 0; 
   transition: opacity 180ms var(--ease-smooth);
   z-index: 2100;
-  padding: 0 8px 8px;
+  padding: 0 var(--s-2) var(--s-2);
 }
 
 .contact-sheet.visible { 
@@ -100,12 +100,12 @@
   max-width: 520px;
   background: var(--surface); 
   border: 1px solid var(--border);
-  border-radius: 16px 16px 4px 4px; 
-  padding: 20px;
-  transform: translateY(24px); 
+  border-radius: var(--s-4) var(--s-4) var(--s-1) var(--s-1); 
+  padding: var(--s-5);
+  transform: translateY(var(--s-6)); 
   transition: transform 220ms var(--ease-smooth);
   position: relative;
-  box-shadow: 0 12px 48px rgba(0,0,0,.5);
+  box-shadow: 0 var(--s-3) var(--s-12) rgba(0,0,0,.5);
 }
 
 .contact-sheet.visible .contact-sheet-content { 
@@ -114,15 +114,15 @@
 
 .sheet-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: var(--s-3);
+  right: var(--s-3);
   background: none;
   border: none;
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: var(--s-5);
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
+  padding: var(--s-1);
+  border-radius: var(--s-1);
   transition: background-color 150ms var(--ease-smooth);
 }
 
@@ -132,31 +132,31 @@
 }
 
 .sheet-header {
-  margin-bottom: 20px;
+  margin-bottom: var(--s-5);
 }
 
 .contact-sheet h3 { 
-  margin: 0 0 8px; 
+  margin: 0 0 var(--s-2); 
   color: var(--text-primary); 
-  font-size: 20px;
+  font-size: var(--s-5);
   font-weight: 600;
 }
 
 .cs-sub { 
-  margin: 0 0 16px; 
+  margin: 0 0 var(--s-4); 
   color: var(--text-secondary); 
-  font-size: 14px; 
+  font-size: var(--s-3-5); 
   line-height: 1.4;
 }
 
 .cs-bonus {
   background: linear-gradient(135deg, rgba(107,123,255,.12), rgba(34,197,94,.08));
   border: 1px solid rgba(107,123,255,.2);
-  border-radius: 8px;
-  padding: 8px 12px;
+  border-radius: var(--r-md);
+  padding: var(--s-2) var(--s-3);
   font-size: 13px;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: var(--s-2);
 }
 
 .cs-bonus strong {
@@ -165,19 +165,19 @@
 
 .cs-actions { 
   display: flex; 
-  gap: 12px; 
+  gap: var(--s-3); 
   flex-direction: column;
-  margin-bottom: 16px;
+  margin-bottom: var(--s-4);
 }
 
 .cs-provider {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
+  gap: var(--s-2-5);
+  padding: var(--s-3) var(--s-4);
   text-align: left;
   justify-content: flex-start;
-  font-size: 14px;
+  font-size: var(--s-3-5);
   transition: all 150ms var(--ease-smooth);
   position: relative;
   overflow: hidden;
@@ -185,7 +185,7 @@
 
 .cs-provider:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+  box-shadow: 0 var(--s-1) var(--s-4) rgba(0,0,0,.2);
 }
 
 .cs-provider:disabled {
@@ -222,7 +222,7 @@
 .cs-footer {
   display: flex;
   justify-content: center;
-  padding-top: 12px;
+  padding-top: var(--s-3);
   border-top: 1px solid var(--border);
 }
 
@@ -230,7 +230,7 @@
   color: var(--text-secondary);
   background: none;
   border: 1px solid var(--border);
-  padding: 8px 20px;
+  padding: var(--s-2) var(--s-5);
   font-size: 13px;
 }
 
@@ -244,7 +244,7 @@
   .sync-row {
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: var(--s-2-5);
   }
   
   .sync-text {
@@ -261,17 +261,17 @@
   }
   
   .contact-sheet-content {
-    border-radius: 16px 16px 0 0;
+    border-radius: var(--s-4) var(--s-4) 0 0;
     max-height: 90vh;
     overflow-y: auto;
   }
   
   .cs-actions {
-    gap: 8px;
+    gap: var(--s-2);
   }
   
   .cs-provider {
-    padding: 14px 16px;
+    padding: var(--s-3-5) var(--s-4);
   }
 }
 
@@ -306,11 +306,11 @@
 @media (prefers-contrast: high) {
   .sync-toast,
   .contact-sheet-content {
-    border-width: 2px;
+    border-width: var(--s-0-5);
   }
   
   .cs-bonus {
-    border-width: 2px;
+    border-width: var(--s-0-5);
   }
 }
 
@@ -318,14 +318,14 @@
 .sync-btn:focus,
 .cs-provider:focus,
 .cs-cancel:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: var(--s-0-5) solid var(--accent);
+  outline-offset: var(--s-0-5);
 }
 
 /* Dark mode adjustments */
 @media (prefers-color-scheme: dark) {
   .sync-toast {
-    box-shadow: 0 6px 24px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08);
+    box-shadow: 0 var(--s-1-5) var(--s-6) rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08);
   }
   
   .contact-sheet {
@@ -333,6 +333,6 @@
   }
   
   .contact-sheet-content {
-    box-shadow: 0 12px 48px rgba(0,0,0,.8);
+    box-shadow: 0 var(--s-3) var(--s-12) rgba(0,0,0,.8);
   }
 }

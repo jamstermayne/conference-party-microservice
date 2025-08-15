@@ -1,0 +1,70 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-declaration-strict-value"],
+  "rules": {
+    "scale-unlimited/declaration-strict-value": [
+      [
+        "padding",
+        "padding-top",
+        "padding-right",
+        "padding-bottom",
+        "padding-left",
+        "margin",
+        "margin-top",
+        "margin-right",
+        "margin-bottom",
+        "margin-left",
+        "gap",
+        "row-gap",
+        "column-gap",
+        "border-radius",
+        "width",
+        "min-width",
+        "max-width",
+        "height",
+        "min-height",
+        "max-height",
+        "font-size",
+        "line-height"
+      ],
+      {
+        "ignoreValues": [
+          "0",
+          "auto",
+          "inherit",
+          "initial",
+          "unset",
+          "none",
+          "100%",
+          "50%",
+          "1px",
+          "/^var\\(--[a-z0-9-]+\\)$/",
+          "/^calc\\(.*\\)$/",
+          "/^\\d+(\\.\\d+)?(rem|em|vh|vw|%)$/"
+        ],
+        "message": "Use design tokens instead of hardcoded px values. See frontend/src/assets/css/spacing-tokens.css",
+        "disableFix": true
+      }
+    ],
+    "declaration-property-value-disallowed-list": {
+      "/.*/": [
+        "/^[4-9]px$/",
+        "/^[1-9][0-9]+px$/",
+        "/^border-radius:\\s*([2-9]|[1-9][0-9]+)px$/"
+      ],
+      "message": "Use design tokens instead of hardcoded px values"
+    },
+    "custom-property-pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+    "selector-class-pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+    "selector-id-pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+    "comment-empty-line-before": null,
+    "declaration-block-single-line-max-declarations": 3
+  },
+  "ignoreFiles": [
+    "node_modules/**",
+    "dist/**",
+    "build/**",
+    "*.min.css",
+    "frontend/src/assets/css/spacing-tokens.css"
+  ]
+}

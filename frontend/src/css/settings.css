@@ -1,0 +1,436 @@
+/**
+ * Settings Page Styles
+ */
+
+:root {
+  --bg-primary: var(--alias-0f1114);
+  --bg-secondary: var(--neutral-100);
+  --bg-card: var(--neutral-100);
+  --border-color: var(--border-secondary);
+  --text-primary: var(--text-primary);
+  --text-secondary: var(--text-tertiary);
+  --accent: var(--color-primary);
+  --accent-hover: var(--accent-secondary);
+  --danger: var(--error);
+  --success: var(--alias-4caf50);
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--s-5);
+}
+
+header {
+  margin-bottom: 30px;
+  padding-bottom: var(--s-5);
+  border-bottom: 1px solid var(--border-color);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+section h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Card Styles */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--s-3);
+  padding: var(--s-5);
+  margin-bottom: var(--s-4);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--s-4);
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.row > div:first-child {
+  flex: 1;
+}
+
+.row strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: var(--s-4);
+}
+
+.row small {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* Form Elements */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"] {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(107, 140, 255, 0.1);
+}
+
+input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* Buttons */
+button {
+  padding: 10px 20px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--r-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(107, 140, 255, 0.3);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button.danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+button.danger:hover:not(:disabled) {
+  background: rgba(244, 67, 54, 0.1);
+  transform: none;
+  box-shadow: none;
+}
+
+button.secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+button.secondary:hover:not(:disabled) {
+  background: var(--bg-primary);
+  transform: none;
+  box-shadow: none;
+}
+
+/* MTM Connect Section */
+.mtm-connect {
+  margin-top: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--border-color);
+}
+
+.mtm-connect.hidden {
+  display: none;
+}
+
+.mtm-connect input {
+  margin-bottom: var(--s-3);
+}
+
+.mtm-connect button {
+  margin-right: var(--s-3);
+}
+
+.mtm-connect a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.mtm-connect a:hover {
+  text-decoration: underline;
+}
+
+/* Status Indicators */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--bg-primary);
+  border-radius: var(--s-5);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status.connected {
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+
+.status.error {
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Action Buttons */
+#mtm-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+#mtm-actions button {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+/* Loading State */
+.loading {
+  display: inline-block;
+  width: var(--s-4);
+  height: var(--s-4);
+  border: 2px solid var(--border-color);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Toast Notifications */
+.toast {
+  position: fixed;
+  bottom: var(--s-5);
+  right: var(--s-5);
+  padding: var(--s-3) 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+}
+
+.toast.success {
+  border-color: var(--success);
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
+}
+
+.toast.error {
+  border-color: var(--danger);
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.1), rgba(244, 67, 54, 0.05));
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* New MTM Card Styles */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.row.between {
+  justify-content: space-between;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--s-5);
+  font-size: var(--s-3);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.badge.success {
+  color: var(--success);
+  border-color: var(--success);
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.badge.warning {
+  color: var(--alias-ff9800);
+  border-color: var(--alias-ff9800);
+  background: rgba(255, 152, 0, 0.1);
+}
+
+input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+input[type="password"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(107, 140, 255, 0.1);
+}
+
+.grow {
+  flex: 1;
+}
+
+button.primary {
+  background: var(--accent);
+  color: white;
+}
+
+button.primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.muted {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.muted.warning {
+  color: var(--alias-ff9800);
+}
+
+hr {
+  margin: var(--s-4) 0;
+  border: none;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Nested label styles for checkbox + text */
+label.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+label.row input[type="checkbox"] {
+  margin: 0;
+}
+
+#mtm-card header {
+  margin-bottom: var(--s-4);
+}
+
+#mtm-card header h3 {
+  margin: 0;
+}
+
+/* Input group styles */
+#mtm-card .row input {
+  margin-right: 8px;
+}
+
+#mtm-card .row label[style*="min-width"] {
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .container {
+    padding: var(--s-4);
+  }
+  
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-3);
+  }
+  
+  #mtm-actions {
+    width: 100%;
+  }
+  
+  #mtm-actions button {
+    flex: 1;
+  }
+  
+  .toast {
+    left: var(--s-5);
+    right: var(--s-5);
+    bottom: var(--s-5);
+  }
+}

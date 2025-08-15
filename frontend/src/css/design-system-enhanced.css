@@ -57,7 +57,7 @@
 /* Button Variants */
 .btn-primary {
     background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-    color: #000;
+    color: var(--text-on-accent);
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     box-shadow: 0 2px 4px rgba(0, 255, 136, 0.2);
@@ -113,13 +113,13 @@
 }
 
 .btn-danger {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: #fff;
+    background: linear-gradient(135deg, var(--error), var(--error));
+    color: var(--text-primary);
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     
     &:hover:not(:disabled) {
-        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        background: linear-gradient(135deg, var(--error), var(--alias-b91c1c));
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
     }
@@ -207,7 +207,7 @@
         top: 0.5rem;
         right: 0.5rem;
         background: var(--primary-500);
-        color: #000;
+        color: var(--text-on-accent);
         padding: 0.25rem 0.5rem;
         border-radius: 1rem;
         font-size: 0.75rem;
@@ -275,12 +275,12 @@
 }
 
 .event-card-ugc {
-    background: linear-gradient(135deg, #1a4d3a, var(--surface-card));
+    background: linear-gradient(135deg, var(--neutral-100), var(--surface-card));
     border-color: var(--primary-500);
     
     .event-badge {
         background: var(--primary-500);
-        color: #000;
+        color: var(--text-on-accent);
     }
 }
 
@@ -318,7 +318,7 @@
     }
     
     &.input-error {
-        border-color: var(--danger-500, #ef4444);
+        border-color: var(--danger-500, var(--error));
         box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
     }
     
@@ -411,7 +411,7 @@
 
 .badge-primary {
     background: var(--primary-500);
-    color: #000;
+    color: var(--text-on-accent);
 }
 
 .badge-secondary {
@@ -420,18 +420,18 @@
 }
 
 .badge-success {
-    background: #10b981;
-    color: #fff;
+    background: var(--success);
+    color: var(--text-primary);
 }
 
 .badge-warning {
-    background: #f59e0b;
-    color: #000;
+    background: var(--accent-warning);
+    color: var(--text-on-accent);
 }
 
 .badge-danger {
-    background: #ef4444;
-    color: #fff;
+    background: var(--error);
+    color: var(--text-primary);
 }
 
 /* Loading System */
@@ -630,7 +630,7 @@
             top: -1px;
             right: -1px;
             background: var(--primary-500);
-            color: #000;
+            color: var(--text-on-accent);
             font-size: 0.75rem;
             padding: 0.25rem 0.5rem;
             border-radius: 0 0 0 0.25rem;

@@ -3,9 +3,9 @@
 .hotspots-wrap {
   display: grid;
   grid-template-columns: 1fr 360px;
-  gap: 16px;
-  height: calc(100vh - 72px);
-  padding: 16px;
+  gap: var(--s-4);
+  height: calc(100vh - var(--s-15));
+  padding: var(--s-4);
   background: var(--bg-primary);
 }
 
@@ -13,7 +13,7 @@
   .hotspots-wrap {
     grid-template-columns: 1fr;
     height: auto;
-    min-height: calc(100vh - 72px);
+    min-height: calc(100vh - var(--s-15));
   }
 }
 
@@ -28,14 +28,14 @@
 .hotspots-canvas-card header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-3-5);
   border-bottom: 1px solid var(--border);
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
 }
 
 .hotspots-canvas-card h2 {
-  font-size: 14px;
+  font-size: var(--s-3-5);
   color: var(--text-secondary);
   letter-spacing: 0.4px;
   text-transform: uppercase;
@@ -59,31 +59,31 @@
 }
 
 .hotspots-list header {
-  padding: 12px 14px;
+  padding: var(--s-3) var(--s-3-5);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
 }
 
 .hotspots-list header h3 {
-  margin: 0; font-size: 14px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .4px;
+  margin: 0; font-size: var(--s-3-5); color: var(--text-secondary); text-transform: uppercase; letter-spacing: .4px;
 }
 
 .hotspots-scroll {
   overflow: auto;
-  padding: 8px;
+  padding: var(--s-2);
   flex: 1;
 }
 
 .hotspot-item {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 8px;
+  gap: var(--s-2);
   align-items: center;
-  padding: 10px 12px;
+  padding: var(--s-2-5) var(--s-3);
   border-radius: var(--r-md);
   border: 1px solid var(--border);
   background: rgba(255,255,255,0.02);
-  margin-bottom: 8px;
+  margin-bottom: var(--s-2);
   transition: transform var(--t-fast) var(--ease-out), background var(--t-fast) var(--ease-out);
 }
 
@@ -99,7 +99,7 @@
 }
 
 .hotspot-meta {
-  font-size: 12px;
+  font-size: var(--s-3);
   color: var(--text-secondary);
 }
 
@@ -111,37 +111,37 @@
 .badge-row {
   display: inline-grid;
   grid-auto-flow: column;
-  gap: 6px;
+  gap: var(--s-1-5);
   align-items: center;
-  margin-top: 6px;
+  margin-top: var(--s-1-5);
 }
 
 .badge-pill {
   font-size: 11px;
   line-height: 1;
-  padding: 6px 8px;
-  border-radius: 999px;
+  padding: var(--s-1-5) var(--s-2);
+  border-radius: var(--r-pill);
   border: 1px solid var(--border);
   color: var(--text-secondary);
   background: rgba(255,255,255,0.03);
 }
 
-.badge-pill.dev { border-color: #355aff33; color: #9fb3ff; }
-.badge-pill.pub { border-color: #ffb84d33; color: #ffd596; }
-.badge-pill.inv { border-color: #4dff9a33; color: #a6ffc9; }
-.badge-pill.sp  { border-color: #ff6b6b33; color: #ffb1b1; }
+.badge-pill.dev { border-color: rgba(53, 90, 255, 0.2); color: var(--alias-9fb3ff); }
+.badge-pill.pub { border-color: rgba(255, 184, 77, 0.2); color: var(--alias-ffd596); }
+.badge-pill.inv { border-color: rgba(77, 255, 154, 0.2); color: var(--alias-a6ffc9); }
+.badge-pill.sp  { border-color: rgba(255, 107, 107, 0.2); color: var(--alias-ffb1b1); }
 
 .hotspot-empty {
-  padding: 16px;
+  padding: var(--s-4);
   color: var(--text-secondary);
 }
 
 .legend {
-  display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: 12px;
+  display: flex; gap: var(--s-2); align-items: center; color: var(--text-secondary); font-size: var(--s-3);
 }
 
 .legend-swatch {
-  width: 10px; height: 10px; border-radius: 2px; display: inline-block;
+  width: var(--s-2-5); height: var(--s-2-5); border-radius: var(--s-0-5); display: inline-block;
 }
 
 .legend .low    { background: rgba(107,123,255, 0.25); }
@@ -152,13 +152,13 @@
 .hotspots-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
-  gap: 8px;
+  gap: var(--s-2);
 }
 
 .hotspot-card {
   background: var(--surface);
   border-radius: var(--r-md);
-  padding: 8px;
+  padding: var(--s-2);
   border: 1px solid var(--border);
   position: relative;
   overflow: hidden;
@@ -166,10 +166,10 @@
 .hotspot-card .hotspot-title {
   font-weight: 600;
   font-size: 13px;
-  margin-bottom: 4px;
+  margin-bottom: var(--s-1);
 }
 .hotspot-card .hotspot-metric {
-  font-size: 12px;
+  font-size: var(--s-3);
   color: var(--text-secondary);
 }
 
@@ -193,18 +193,18 @@
 .hotspots-legend {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 12px;
+  gap: var(--s-3);
+  font-size: var(--s-3);
   color: var(--text-secondary);
-  margin-top: 6px;
+  margin-top: var(--s-1-5);
 }
 .hotspots-legend .legend-item {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
 }
 .hotspots-legend .swatch {
-  width: 10px; height: 10px; border-radius: 2px;
+  width: var(--s-2-5); height: var(--s-2-5); border-radius: var(--s-0-5);
 }
 .swatch.low { background: rgba(34,197,94,.65); }
 .swatch.med { background: rgba(253,224,71,.65); }

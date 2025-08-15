@@ -1,7 +1,7 @@
 {
-  "name": "velocity.ai — Gamescom 2025",
-  "short_name": "velocity.ai",
-  "description": "Your private conference social network for Gamescom 2025",
+  "name": "Gamescom 2025 Party Discovery",
+  "short_name": "GamesCom Parties",
+  "description": "Discover the best parties and events at Gamescom 2025 in Cologne",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1a1a1a",
@@ -131,7 +131,7 @@
     }
   ],
   "scope": "/",
-  "id": "velocity-ai-gamescom",
+  "id": "gamescom-party-discovery",
   "launch_handler": {
     "client_mode": "navigate-existing"
   },

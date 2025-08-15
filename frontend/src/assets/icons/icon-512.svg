@@ -1,1 +1,1 @@
-<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" fill="#6b7bff"/><text x="256" y="280" text-anchor="middle" fill="white" font-size="120" font-family="sans-serif">GC</text></svg>
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" fill="var(--brand-500)"/><text x="256" y="280" text-anchor="middle" fill="white" font-size="120" font-family="sans-serif">GC</text></svg>

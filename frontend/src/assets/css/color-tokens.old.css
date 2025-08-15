@@ -1,0 +1,134 @@
+/* === Color Design Tokens === */
+/* Centralized color system for consistent theming */
+
+:root {
+  /* Primary Colors */
+  --color-primary: var(--brand-500);
+  --color-primary-light: var(--alias-8ba4ff);
+  --color-primary-dark: var(--brand-600);
+  --color-primary-alpha: rgba(107, 140, 255, 0.1);
+  
+  /* Accent Colors */
+  --accent-primary: var(--brand-500);
+  --accent-secondary: var(--brand-400);
+  --accent-tertiary: var(--alias-b56dff);
+  --accent-success: var(--alias-3ddc97);
+  --accent-warning: var(--warning-weak);
+  --accent-error: var(--error);
+  --accent-info: var(--info);
+  
+  /* Background Colors */
+  --bg-primary: var(--neutral-100);
+  --bg-secondary: var(--neutral-75);
+  --bg-tertiary: var(--alias-0f1625);
+  --bg-card: var(--neutral-100);
+  --bg-surface: var(--neutral-100);
+  --bg-elevated: var(--neutral-100);
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+  
+  /* Text Colors */
+  --text-primary: var(--white);
+  --text-secondary: var(--text-secondary);
+  --text-tertiary: var(--alias-6b7380);
+  --text-muted: var(--text-muted);
+  --text-disabled: rgba(255, 255, 255, 0.3);
+  --text-on-accent: var(--black);
+  
+  /* Border Colors */
+  --border-primary: var(--border-primary);
+  --border-secondary: var(--neutral-200);
+  --border-tertiary: rgba(255, 255, 255, 0.06);
+  --border-active: rgba(107, 140, 255, 0.3);
+  --border-focus: rgba(107, 140, 255, 0.5);
+  
+  /* Surface Colors */
+  --surface-primary: var(--neutral-100);
+  --surface-secondary: var(--neutral-100);
+  --surface-elevated: var(--neutral-100);
+  --surface-overlay: rgba(26, 26, 31, 0.95);
+  
+  /* Semantic Colors */
+  --success: var(--success);
+  --success-bg: rgba(34, 197, 94, 0.1);
+  --success-border: rgba(34, 197, 94, 0.3);
+  
+  --warning: var(--warning-weak);
+  --warning-bg: rgba(253, 224, 71, 0.1);
+  --warning-border: rgba(253, 224, 71, 0.3);
+  
+  --error: var(--error);
+  --error-bg: rgba(239, 68, 68, 0.1);
+  --error-border: rgba(239, 68, 68, 0.3);
+  
+  --info: var(--info);
+  --info-bg: rgba(59, 130, 246, 0.1);
+  --info-border: rgba(59, 130, 246, 0.3);
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(180deg, var(--alias-8c7aff) 0%, var(--alias-5b47ff) 100%);
+  --gradient-surface: linear-gradient(180deg, var(--surface-elevated), var(--surface-primary));
+  --gradient-card: radial-gradient(1200px 320px at -200px -140px, var(--neutral-100) 0%, var(--bg-tertiary) 60%);
+  --gradient-accent: linear-gradient(135deg, rgba(124, 138, 255, 0.25), rgba(181, 109, 255, 0.15));
+  
+  /* Alpha Colors */
+  --alpha-white-5: rgba(255, 255, 255, 0.05);
+  --alpha-white-10: rgba(255, 255, 255, 0.1);
+  --alpha-white-20: rgba(255, 255, 255, 0.2);
+  --alpha-black-10: rgba(0, 0, 0, 0.1);
+  --alpha-black-25: rgba(0, 0, 0, 0.25);
+  --alpha-black-50: rgba(0, 0, 0, 0.5);
+  
+  /* Component-Specific Colors */
+  --card-bg: var(--bg-card);
+  --card-border: var(--neutral-200);
+  --card-title: var(--alias-eaf0ff);
+  --card-muted: var(--alias-9dadcf);
+  
+  --sidebar-bg: var(--bg-secondary);
+  --sidebar-border: var(--border-primary);
+  --sidebar-active: rgba(139, 129, 255, 0.18);
+  
+  --modal-bg: var(--surface-primary);
+  --modal-overlay: var(--bg-overlay);
+  
+  --button-primary-bg: var(--accent-primary);
+  --button-primary-hover: var(--alias-5b82f6);
+  --button-secondary-bg: var(--border-primary);
+  --button-secondary-hover: var(--alias-3a3a45);
+  
+  /* State Colors */
+  --hover-bg: rgba(255, 255, 255, 0.05);
+  --active-bg: rgba(255, 255, 255, 0.1);
+  --selected-bg: rgba(107, 140, 255, 0.15);
+  --focus-ring: rgba(107, 140, 255, 0.5);
+  
+  /* Ink Scale (for subtle variations) */
+  --ink-0: var(--alias-0b0b0d);
+  --ink-1: var(--neutral-100);
+  --ink-2: var(--neutral-100);
+  --ink-3: var(--neutral-100);
+  
+  /* Foreground Scale */
+  --fg-0: var(--text-primary);
+  --fg-1: var(--alias-d8dbe6);
+  --fg-2: var(--alias-9aa3b2);
+  --fg-3: var(--alias-6b7380);
+}
+
+/* Dark theme overrides (if needed) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Already optimized for dark theme */
+  }
+}
+
+/* Light theme (future) */
+@media (prefers-color-scheme: light) {
+  :root.theme-light {
+    --bg-primary: var(--text-primary);
+    --bg-secondary: var(--alias-f9fafb);
+    --text-primary: var(--neutral-50);
+    --text-secondary: var(--alias-6b7280);
+    /* Add more light theme overrides as needed */
+  }
+}

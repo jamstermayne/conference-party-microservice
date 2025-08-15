@@ -49,7 +49,7 @@ function openModal(){
   const btnRefresh = host.querySelector("#m2m-refresh");
   const btnDisc = host.querySelector("#m2m-disconnect");
   const msg = host.querySelector("#m2m-msg");
-  function say(t, ok=false){ msg.textContent=t; msg.style.color= ok? "#baf5d3":"#ffb4b4"; }
+  function say(t, ok=false){ msg.textContent=t; msg.style.color= ok? "var(--alias-baf5d3)":"var(--alias-ffb4b4)"; }
 
   // manage state? try to fetch events to detect connection
   setBusy(true);

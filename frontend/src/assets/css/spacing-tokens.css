@@ -1,0 +1,79 @@
+/* === Spacing & Radius Design Tokens === */
+/* Consolidated token system for consistent spacing and radius values */
+
+:root {
+  /* Spacing scale (4px base) */
+  --s-1: 0.25rem;   /* 4px */
+  --s-2: 0.5rem;    /* 8px */
+  --s-3: 0.75rem;   /* 12px */
+  --s-4: 1rem;      /* 16px */
+  --s-5: 1.25rem;   /* 20px */
+  --s-6: 1.5rem;    /* 24px */
+  --s-7: 2rem;      /* 32px */
+  --s-8: 2.5rem;    /* 40px */
+  --s-10: 3rem;     /* 48px */
+  --s-12: 3rem;     /* 48px */
+  --s-16: 4rem;     /* 64px */
+  
+  /* Radius scale */
+  --r-1: 0.125rem;   /* 2px - alias for xs */
+  --r-2: 0.25rem;    /* 4px - alias for sm */
+  --r-xs: 0.125rem;  /* 2px - tiny */
+  --r-sm: 0.25rem;   /* 4px - small */
+  --r-md: 0.5rem;    /* 8px - medium */
+  --r-lg: 0.75rem;   /* 12px - large */
+  --r-xl: 1rem;      /* 16px - extra large */
+  --r-2xl: 1.5rem;   /* 24px - 2x large */
+  --r-full: 9999px;  /* pill/circle */
+  --r-pill: 9999px;  /* alias for full */
+  
+  /* Shadows (with opacity for theme adaptation) */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.04);
+  --shadow-2xl: 0 25px 50px rgba(0,0,0,0.25);
+  
+  /* Numbered shadows for easy reference */
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-2: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-3: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+  --shadow-4: 0 20px 25px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.04);
+  --shadow-5: 0 25px 50px rgba(0,0,0,0.25);
+  
+  /* Card-specific shadows (dark theme optimized) */
+  --shadow-card: 0 0 0 1px rgba(83,90,139,0.1), 0 20px 60px rgba(0,0,0,0.25);
+  --shadow-card-hover: 0 0 0 1px rgba(107,140,255,0.2), 0 24px 70px rgba(0,0,0,0.35);
+  
+  /* Accent colors for UI elements */
+  --accent-primary: var(--color-primary);
+  --accent-200: var(--alias-8ba4ff);
+}
+
+/* Utility classes for quick application */
+.gap-1 { gap: var(--s-1); }
+.gap-2 { gap: var(--s-2); }
+.gap-3 { gap: var(--s-3); }
+.gap-4 { gap: var(--s-4); }
+.gap-5 { gap: var(--s-5); }
+.gap-6 { gap: var(--s-6); }
+
+.p-1 { padding: var(--s-1); }
+.p-2 { padding: var(--s-2); }
+.p-3 { padding: var(--s-3); }
+.p-4 { padding: var(--s-4); }
+.p-5 { padding: var(--s-5); }
+.p-6 { padding: var(--s-6); }
+
+.rounded-sm { border-radius: var(--r-sm); }
+.rounded-md { border-radius: var(--r-md); }
+.rounded-lg { border-radius: var(--r-lg); }
+.rounded-xl { border-radius: var(--r-xl); }
+.rounded-full { border-radius: var(--r-full); }
+
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+.shadow-card { box-shadow: var(--shadow-card); }

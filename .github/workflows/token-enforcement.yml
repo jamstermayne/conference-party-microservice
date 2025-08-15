@@ -1,0 +1,46 @@
+name: Design Token Enforcement
+
+on:
+  pull_request:
+    paths:
+      - 'frontend/src/**/*.css'
+      - 'frontend/src/**/*.scss'
+
+jobs:
+  check-tokens:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check for hardcoded px values
+        run: |
+          echo "Checking for hardcoded px values..."
+          # Exclude token definition files
+          if grep -r --include="*.css" --include="*.scss" \
+               --exclude="*tokens*.css" --exclude="*token*.css" \
+               '[^-]px' frontend/src/assets/css/ | \
+               grep -v "var(--" | \
+               grep -v "calc(" | \
+               grep -v "^/\*" | \
+               grep -v "^\*"; then
+            echo "❌ Found hardcoded px values. Please use spacing tokens (--s-*)"
+            exit 1
+          else
+            echo "✅ No hardcoded px values found"
+          fi
+      
+      - name: Check for hardcoded hex colors
+        run: |
+          echo "Checking for hardcoded hex colors..."
+          # Exclude token definition files and comments
+          if grep -r --include="*.css" --include="*.scss" \
+               --exclude="*tokens*.css" --exclude="*token*.css" \
+               '#[0-9A-Fa-f]{3,6}' frontend/src/assets/css/ | \
+               grep -v "var(--" | \
+               grep -v "^/\*" | \
+               grep -v "^\*"; then
+            echo "❌ Found hardcoded hex colors. Please use color tokens"
+            exit 1
+          else
+            echo "✅ No hardcoded hex colors found"
+          fi

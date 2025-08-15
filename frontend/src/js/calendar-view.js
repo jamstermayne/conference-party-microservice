@@ -9,6 +9,7 @@ import { buildICS, downloadICS, outlookDeeplink } from "./services/ics.js?v=b035
 import * as M2M from "./services/m2m.js?v=b035";
 import { openM2MModal } from "./ui/m2m-modal.js?v=b035";
 import { toast } from "./ui/toast.js?v=b035";
+import { equalizeCards, scheduleEqualize, observeGrid } from './ui/equalize-cards.js';
 const HOUR_H = () => parseFloat(getComputedStyle(document.documentElement)
   .getPropertyValue('--hour-height')) || 240;
 
@@ -156,6 +157,12 @@ export async function renderCalendar(mount){
   const allEvents = [...today, ...(m2m.events||[])];
   const blocks = layoutEvents(allEvents);
   layer.innerHTML = blocks.map(b => b.html).join('');
+  
+  // Equalize card heights after render
+  equalizeCards('.vcard, .card');
+  
+  // Set up observer for dynamic changes (only once per view)
+  observeEqualize('.vcard, .card');
 
   // M2M Connect button handler
   mount.querySelector("[data-m2m-connect]")?.addEventListener("click", ()=>{

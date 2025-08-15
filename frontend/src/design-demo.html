@@ -11,8 +11,8 @@
     /* Demo-specific styles */
     body {
       font-family: var(--font-system, -apple-system, BlinkMacSystemFont, sans-serif);
-      background: var(--bg-primary, #0f0f12);
-      color: var(--text-primary, #ffffff);
+      background: var(--bg-primary, var(--neutral-0));
+      color: var(--text-primary, var(--white));
       margin: 0;
       padding: 0;
       display: flex;
@@ -22,8 +22,8 @@
     /* Sidebar Styling */
     .sidebar-professional {
       width: 280px;
-      background: var(--surface-card, #1a1a1f);
-      border-right: 1px solid var(--border-subtle, #333);
+      background: var(--surface-card, var(--neutral-100));
+      border-right: 1px solid var(--border-subtle, var(--neutral-300));
       padding: 1.5rem;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     }
@@ -34,7 +34,7 @@
       gap: 0.75rem;
       padding: 0.75rem 1rem;
       text-decoration: none;
-      color: var(--text-secondary, #999);
+      color: var(--text-secondary, var(--neutral-600));
       border-radius: 0.5rem;
       transition: all 0.15s ease;
       margin-bottom: 0.25rem;
@@ -42,14 +42,14 @@
     }
 
     .nav-vertical .nav-tab-system:hover {
-      background: var(--surface-elevated, #2a2a35);
-      color: var(--text-primary, #fff);
+      background: var(--surface-elevated, var(--border-primary));
+      color: var(--text-primary, var(--white));
     }
 
     .nav-vertical .nav-tab-system.active {
       background: rgba(0, 255, 136, 0.1);
-      color: var(--primary-500, #00ff88);
-      border-left: 3px solid var(--primary-500, #00ff88);
+      color: var(--primary-500, var(--success));
+      border-left: 3px solid var(--primary-500, var(--success));
     }
 
     .nav-icon {
@@ -73,13 +73,13 @@
 
     /* Text Styles */
     .text-primary {
-      color: var(--text-primary, #ffffff);
+      color: var(--text-primary, var(--white));
       font-weight: 600;
       margin: 0 0 0.5rem 0;
     }
 
     .text-secondary {
-      color: var(--text-secondary, #999);
+      color: var(--text-secondary, var(--neutral-600));
       margin: 0 0 1rem 0;
     }
 
@@ -106,8 +106,8 @@
 
     /* Demo Party Card */
     .demo-party-card {
-      background: linear-gradient(135deg, var(--surface-card, #1a1a1f), var(--surface-elevated, #2a2a35));
-      border: 1px solid var(--border-subtle, #333);
+      background: linear-gradient(135deg, var(--surface-card, var(--neutral-100)), var(--surface-elevated, var(--border-primary)));
+      border: 1px solid var(--border-subtle, var(--neutral-300));
       border-radius: 0.75rem;
       padding: 1.5rem;
       position: relative;
@@ -119,20 +119,20 @@
     .demo-party-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
-      border-color: var(--primary-500, #00ff88);
+      border-color: var(--primary-500, var(--success));
     }
 
     .demo-party-card.selected {
-      border-color: var(--primary-500, #00ff88);
-      background: linear-gradient(135deg, #1a4d3a, var(--surface-card, #1a1a1f));
+      border-color: var(--primary-500, var(--success));
+      background: linear-gradient(135deg, var(--neutral-100), var(--surface-card, var(--neutral-100)));
     }
 
     .party-badge {
       position: absolute;
       top: 0.75rem;
       right: 0.75rem;
-      background: var(--primary-500, #00ff88);
-      color: #000;
+      background: var(--primary-500, var(--success));
+      color: var(--black);
       padding: 0.25rem 0.75rem;
       border-radius: 1rem;
       font-size: 0.75rem;
@@ -141,7 +141,7 @@
     }
 
     .party-title {
-      color: var(--text-primary, #fff);
+      color: var(--text-primary, var(--white));
       font-size: 1.125rem;
       font-weight: 600;
       margin: 0 0 0.5rem 0;
@@ -150,14 +150,14 @@
     .party-meta {
       display: flex;
       gap: 1rem;
-      color: var(--text-secondary, #999);
+      color: var(--text-secondary, var(--neutral-600));
       font-size: 0.875rem;
       margin-bottom: 0.75rem;
       flex-wrap: wrap;
     }
 
     .party-description {
-      color: var(--text-secondary, #999);
+      color: var(--text-secondary, var(--neutral-600));
       font-size: 0.875rem;
       line-height: 1.5;
       margin-bottom: 1rem;
@@ -171,8 +171,8 @@
 
     /* Profile Card */
     .profile-card {
-      background: var(--surface-card, #1a1a1f);
-      border: 1px solid var(--primary-500, #00ff88);
+      background: var(--surface-card, var(--neutral-100));
+      border: 1px solid var(--primary-500, var(--success));
       border-radius: 0.75rem;
       padding: 2rem;
       box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
@@ -183,7 +183,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 0.75rem 0;
-      border-bottom: 1px solid var(--border-subtle, #333);
+      border-bottom: 1px solid var(--border-subtle, var(--neutral-300));
     }
 
     .profile-item:last-child {
@@ -224,7 +224,7 @@
     }
 
     .design-editable[data-editing="true"] {
-      outline: 2px dashed var(--primary-500, #00ff88);
+      outline: 2px dashed var(--primary-500, var(--success));
       outline-offset: 2px;
     }
 
@@ -233,8 +233,8 @@
       position: absolute;
       top: -1px;
       right: -1px;
-      background: var(--primary-500, #00ff88);
-      color: #000;
+      background: var(--primary-500, var(--success));
+      color: var(--black);
       font-size: 0.75rem;
       padding: 0.25rem 0.5rem;
       border-radius: 0 0 0 0.25rem;
@@ -308,7 +308,7 @@
           </div>
 
           <div class="demo-party-card design-editable" onclick="toggleParty(this)">
-            <div class="party-badge" style="background: #666; color: #fff;">Community</div>
+            <div class="party-badge" style="background: var(--neutral-500); color: var(--white);">Community</div>
             <div class="party-title">Indie Developer Meetup</div>
             <div class="party-meta">
               <span>📅 Aug 22, 2025</span>
@@ -379,7 +379,7 @@
     </section>
 
     <!-- Calendar Section -->
-    <section id="calendar" class="section">
+    <section class="section js-calendar">
       <div class="stack-system stack-gap-lg">
         <header>
           <h1 class="text-primary design-editable">Calendar Sync</h1>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTM Settings Controls Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #0f1114;
+      color: #fff;
+    }
+    
+    .card {
+      background: #1a1d24;
+      border: 1px solid #2a2e36;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .row:last-child {
+      margin-bottom: 0;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    .mtm-connect {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #2a2e36;
+    }
+    
+    button {
+      padding: 8px 16px;
+      background: #6b8cff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 8px;
+    }
+    
+    button:hover {
+      background: #8a6bff;
+    }
+    
+    input[type="url"], input[type="text"] {
+      width: 100%;
+      padding: 8px 12px;
+      background: #0f1114;
+      border: 1px solid #2a2e36;
+      border-radius: 6px;
+      color: #fff;
+      margin: 8px 0;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+      color: #8b92a6;
+    }
+    
+    a {
+      color: #6b8cff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    small {
+      color: #8b92a6;
+      font-size: 13px;
+      margin-left: 12px;
+    }
+    
+    .auth-status {
+      padding: 10px;
+      background: #2a2e36;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .auth-status.authenticated {
+      background: #1a3d1a;
+      border: 1px solid #2d5a2d;
+    }
+  </style>
+</head>
+<body>
+  <h1>MTM Settings Controls Test</h1>
+  
+  <div class="auth-status" id="authStatus">
+    Not authenticated
+  </div>
+  
+  <div style="text-align: center; margin-bottom: 20px;">
+    <button id="signIn">Sign In with Google</button>
+    <button id="signOut" style="display: none;">Sign Out</button>
+  </div>
+  
+  <!-- MTM Integration Section -->
+  <section id="integrations">
+    <h3>MeetToMatch Integration</h3>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <strong>MeetToMatch (Gamescom)</strong><br/>
+          <small>Sync your meetings via a private calendar feed (ICS). One-time connect.</small>
+        </div>
+        <div id="mtm-actions">
+          <!-- filled by JS -->
+        </div>
+      </div>
+      <div id="mtm-connect" class="mtm-connect hidden">
+        <label>MeetToMatch ICS URL</label>
+        <input type="url" id="mtm-ics-url" placeholder="https://.../calendar.ics" />
+        <button id="mtm-connect-btn">Connect</button>
+        <a href="https://app.meettomatch.com/cologne2025/site/signin/selector/" target="_blank" rel="noopener">Where do I find this?</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Auth helper -->
+  <script src="/js/auth.js"></script>
+  
+  <!-- MTM Integration -->
+  <script type="module">
+    import { initMtmIntegration } from '/js/settings-mtm.js';
+    
+    // Auth UI management
+    const authStatus = document.getElementById('authStatus');
+    const signInBtn = document.getElementById('signIn');
+    const signOutBtn = document.getElementById('signOut');
+    
+    // Wait for auth to initialize
+    window.addEventListener('DOMContentLoaded', async () => {
+      await window.Auth.init();
+      
+      // Set up auth state listener
+      window.Auth.onChange((user) => {
+        if (user) {
+          authStatus.textContent = `Authenticated as ${user.email}`;
+          authStatus.className = 'auth-status authenticated';
+          signInBtn.style.display = 'none';
+          signOutBtn.style.display = 'inline-block';
+          
+          // Initialize MTM integration when authenticated
+          initMtmIntegration();
+        } else {
+          authStatus.textContent = 'Not authenticated';
+          authStatus.className = 'auth-status';
+          signInBtn.style.display = 'inline-block';
+          signOutBtn.style.display = 'none';
+          
+          // Clear MTM UI
+          document.getElementById('mtm-actions').innerHTML = '<small>Sign in to manage integration</small>';
+        }
+      });
+      
+      // Sign in button
+      signInBtn.addEventListener('click', async () => {
+        try {
+          await window.Auth.signInGoogle();
+        } catch (error) {
+          alert('Sign in failed: ' + error.message);
+        }
+      });
+      
+      // Sign out button  
+      signOutBtn.addEventListener('click', async () => {
+        await window.Auth.signOut();
+      });
+    });
+  </script>
+</body>
+</html>

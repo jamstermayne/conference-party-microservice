@@ -1,0 +1,62 @@
+/**
+ * Secondary Button Styles
+ * For Details links and secondary actions
+ */
+
+.btn--secondary,
+.btn.btn--secondary,
+a.btn--secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-2-5) var(--s-5);
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid rgba(154, 167, 191, 0.3);
+  border-radius: var(--r-md);
+  font-size: var(--s-3-5);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn--secondary:hover {
+  background: rgba(154, 167, 191, 0.1);
+  border-color: rgba(154, 167, 191, 0.5);
+  color: var(--alias-e8ecff);
+  transform: translateY(-1px);
+}
+
+.btn--secondary:active {
+  transform: translateY(0);
+  background: rgba(154, 167, 191, 0.15);
+}
+
+.btn--secondary:focus {
+  outline: var(--s-0-5) solid rgba(154, 167, 191, 0.5);
+  outline-offset: var(--s-0-5);
+}
+
+/* External link indicator */
+.btn--secondary[target="_blank"]::after {
+  content: ' ↗';
+  font-size: var(--s-3);
+  margin-left: var(--s-1);
+  opacity: 0.7;
+}
+
+/* In action groups */
+.actions .btn--secondary,
+.vactions .btn--secondary {
+  flex: 0 0 auto;
+}
+
+/* Disabled state */
+.btn--secondary:disabled,
+.btn--secondary.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

@@ -13,23 +13,57 @@ async function startOAuthInPopup() {
   const w = window.open(
     '/api/googleCalendar/google/start',
     'gcal_oauth',
-    'width=550,height=680,menubar=no,toolbar=no,status=no'
+    'width=550,height=680,menubar=no,toolbar=no,status=no,noopener'
   );
   if (!w) throw new Error('Popup blocked');
 
   // Poll status until connected or window closed (max ~90s)
   const deadline = Date.now() + 90_000;
+  let windowClosed = false;
+  
   while (Date.now() < deadline) {
-    // If user closed the window, stop early
-    if (w.closed) break;
+    // Check if window is closed (wrapped to handle COOP restrictions)
+    try {
+      // Try to access window.closed - may fail due to COOP
+      if (w.closed) {
+        windowClosed = true;
+        break;
+      }
+    } catch (e) {
+      // COOP policy prevents access - check connection status instead
+      // The window might be closed, but we can't tell directly
+    }
+    
+    // Check if connected
     const s = await status();
     if (s.connected) {
-      try { w.close(); } catch {}
+      try { 
+        // Try to close the window - may fail due to COOP
+        w.close(); 
+      } catch {
+        // Window might already be closed or COOP prevents closing
+        // Send a message to the popup to close itself
+        try {
+          w.postMessage({ action: 'close' }, '*');
+        } catch {}
+      }
       return true;
     }
+    
+    // If we can't check window.closed due to COOP, rely on status checks
     await new Promise(r => setTimeout(r, 800));
   }
-  try { w.close(); } catch {}
+  
+  // Try to close if still open
+  try { 
+    w.close(); 
+  } catch {
+    // Send message to popup to close itself
+    try {
+      w.postMessage({ action: 'close' }, '*');
+    } catch {}
+  }
+  
   return (await status()).connected === true;
 }
 

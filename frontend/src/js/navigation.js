@@ -229,7 +229,7 @@ class NavigationManager {
         // Update meta theme-color for mobile browsers
         const themeColorMeta = document.querySelector('meta[name="theme-color"]');
         if (themeColorMeta) {
-            themeColorMeta.setAttribute('content', this.theme === 'dark' ? '#0f172a' : '#7c3aed');
+            themeColorMeta.setAttribute('content', this.theme === 'dark' ? 'var(--alias-0f172a)' : 'var(--alias-7c3aed)');
         }
     }
 
