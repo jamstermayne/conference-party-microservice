@@ -1,0 +1,39 @@
+/* panel-stack.css */
+.v-stack{ position: relative; height: 100dvh; overflow: hidden; }
+.v-panel{
+  position: absolute; inset: 0;
+  background: var(--bg-app);
+  display: grid; grid-template-rows: auto 1fr;
+  transform: translateX(100%);
+  transition: transform 260ms cubic-bezier(.2,.8,.2,1);
+  will-change: transform;
+}
+.v-panel.is-active{ transform: translateX(0); }
+.v-panel-leave{ transform: translateX(0); }
+.v-panel-leave.is-exiting{ transform: translateX(100%); }
+
+.v-topbar{
+  position: sticky; top: 0; z-index: 2;
+  display: grid; grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  height: 56px; padding-inline: var(--s-3);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-xs);
+}
+.v-topbar__back{ all: unset; width: 36px; height: 36px; border-radius: var(--r-full); display:grid; place-items:center; cursor: pointer; }
+.v-topbar__back:hover{ background: var(--surface-2); }
+.v-topbar__back:focus-visible{ outline: 2px solid var(--brand-500); outline-offset: 2px; }
+.v-topbar__title{ font: var(--text-lg); color: var(--text-primary); }
+
+.v-panel__body{
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--s-4);
+}
+
+.v-scroll{
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}

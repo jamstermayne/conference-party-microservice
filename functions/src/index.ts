@@ -56,6 +56,30 @@ app.use("/api/admin", adminRouter);
 app.use("/api", googleCalendarRouter);
 app.use("/api/parties", partiesRouter);
 
+// Party days endpoint - returns available days with events
+app.get("/api/party-days", async (req, res) => {
+  try {
+    const { conference } = req.query as { conference?: string };
+    if (!conference) {
+      return res.status(400).json({ error: "conference parameter required" });
+    }
+    
+    // For now, return static days for Gamescom 2025
+    const days = [
+      { date: "2025-08-20", label: "Wed, Aug 20" },
+      { date: "2025-08-21", label: "Thu, Aug 21" },
+      { date: "2025-08-22", label: "Fri, Aug 22" },
+      { date: "2025-08-23", label: "Sat, Aug 23" },
+      { date: "2025-08-24", label: "Sun, Aug 24" }
+    ];
+    
+    return res.json(days);
+  } catch (error) {
+    console.error("[party-days] Error:", error);
+    return res.status(500).json({ error: "Failed to fetch party days" });
+  }
+});
+
 // Safety alias: redirect /parties to /api/parties
 app.use("/parties", (req, res) => {
   const queryString = req.originalUrl.split('?')[1];
