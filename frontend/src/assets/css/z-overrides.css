@@ -4,7 +4,7 @@
  */
 
 :root { 
-  --sidebar-max: 260px;
+  --sidebar-max:16.25rem;
 }
 
 /* Grid layout */
@@ -73,9 +73,9 @@ aside.sidebar ul {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 3px;
+  width:var(--bw-3);
   background: linear-gradient(180deg, var(--color-primary), var(--accent-secondary));
-  border-radius: 0 3px 3px 0;
+  border-radius:0 var(--bw-3) var(--bw-3) 0;
 }
 /* kill-brand-dot */
 aside .brand .dot,
@@ -97,7 +97,7 @@ aside .subnav li { margin: var(--s-0-5) 0; }
 aside .subnav a {
   display: block; padding: var(--s-1) var(--s-2);
   white-space: nowrap;
-  border-left: 3px solid transparent; /* accent only when active */
+  border-left:var(--bw-3) solid transparent; /* accent only when active */
 }
 aside .subnav a.active {
   border-left-color: var(--accent, var(--alias-6e5ef6));

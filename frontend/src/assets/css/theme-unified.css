@@ -2,7 +2,7 @@
 :root{
   --bg:var(--alias-0c111b); --panel:var(--alias-0f1625); --border:var(--neutral-100); --muted:var(--text-muted); --text:var(--alias-eaf0ff);
   --accent1:var(--alias-8c7aff); --accent2:var(--alias-5b47ff); --good:var(--neutral-100); --shadow:0 var(--s-2-5) var(--s-10) rgba(18,20,40,.35);
-  --radius:16px; --pad:14px;
+  --radius:var(--s-4); --pad:var(--s-3-5);
 }
 body{background:var(--bg); color:var(--text)}
 /* Sidebar active gradient */
@@ -19,35 +19,35 @@ body{background:var(--bg); color:var(--text)}
   background:radial-gradient(1200px 320px at -220px -140px,var(--neutral-100) 0%,var(--panel) 60%);
   box-shadow:var(--shadow);
 }
-.vcard + .vcard{margin-top:14px}
-.vcard__head{display:flex; gap:12px; justify-content:space-between; align-items:center; margin-bottom:8px}
-.vcard__title{font-weight:800; font-size:18px; line-height:1.15}
-.vcard__badges{display:flex; gap:6px; flex-wrap:wrap}
-.vpill{padding:6px var(--s-2); font-size:12px; border-radius: var(--r-pill); border:1px solid var(--neutral-200); background:var(--neutral-100); color:var(--alias-cfe0ff)}
+.vcard + .vcard{margin-top:var(--s-3-5)}
+.vcard__head{display:flex; gap:var(--s-3); justify-content:space-between; align-items:center; margin-bottom:var(--s-2)}
+.vcard__title{font-weight:800; font-size:var(--text-lg); line-height:1.15}
+.vcard__badges{display:flex; gap:var(--s-1-5); flex-wrap:wrap}
+.vpill{padding:var(--s-1-5) var(--s-2); font-size:0.75rem; border-radius: var(--r-pill); border:1px solid var(--neutral-200); background:var(--neutral-100); color:var(--alias-cfe0ff)}
 .vpill.live{border-color:var(--neutral-100); background:var(--neutral-100); color:var(--alias-baf5d3)}
 .vpill.free{border-color:var(--neutral-200); background:var(--neutral-100); color:var(--alias-cfe0ff)}
-.vmeta{display:flex; gap:12px; flex-wrap:wrap; color:var(--muted); margin:6px 0 var(--s-2-5)}
-.vactions{display:flex; gap:8px; flex-wrap:wrap}
+.vmeta{display:flex; gap:var(--s-3); flex-wrap:wrap; color:var(--muted); margin:var(--s-1-5) 0 var(--s-2-5)}
+.vactions{display:flex; gap:var(--s-2); flex-wrap:wrap}
 /* Buttons */
-.vbtn{padding:10px var(--s-3-5); font-weight:800; border-radius: var(--r-lg); border:1px solid var(--neutral-300); background:var(--neutral-200); color:var(--alias-dee9ff)}
+.vbtn{padding:var(--s-2-5) var(--s-3-5); font-weight:800; border-radius: var(--r-lg); border:1px solid var(--neutral-300); background:var(--neutral-200); color:var(--alias-dee9ff)}
 .vbtn.primary{background:linear-gradient(180deg,var(--accent1) 0%,var(--accent2) 100%); border:0; color:var(--text-primary)}
 .vbtn.ghost{background:transparent; border:1px solid var(--neutral-300); color:var(--alias-cfe0ff)}
 /* Calendar rows (tall enough for hero cards) */
-:root{ --hour-height: 240px }
+:root{ --hour-height:15rem }
 .cal-grid .hour-row{ height:var(--hour-height); border-bottom:1px dashed rgba(255,255,255,.06) }
 .cal-event{ position:absolute; left:0; right:0 }
 .cal-event .vcard{ height:100%; display:flex; flex-direction:column; justify-content:center }
 
 /* ---- profile cards (uses .vcard foundation) ---- */
-.vcard.vprofile{display:flex;gap:16px;align-items:flex-start}
+.vcard.vprofile{display:flex;gap:var(--s-4);align-items:flex-start}
 .vpf-avatar{
-  width:52px;height:52px;border-radius: var(--r-pill);
+  width:3.25rem;height:3.25rem;border-radius: var(--r-pill);
   background:linear-gradient(180deg,var(--accent1),var(--accent2));
   display:flex;align-items:center;justify-content:center;
-  color:var(--text-primary);font-weight:800;font-size:16px;letter-spacing:.5px;
+  color:var(--text-primary);font-weight:800;font-size:var(--text-base);letter-spacing:.5px;
   box-shadow:var(--shadow);
 }
 .vpf-body{flex:1}
-.vpf-name{font-weight:800;font-size:18px;line-height:1.15}
-.vpf-meta{color:var(--muted);margin-top:4px}
-.vpf-row{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);margin-top:6px}
+.vpf-name{font-weight:800;font-size:var(--text-lg);line-height:1.15}
+.vpf-meta{color:var(--muted);margin-top:var(--s-1)}
+.vpf-row{display:flex;gap:var(--s-2-5);flex-wrap:wrap;color:var(--muted);margin-top:var(--s-1-5)}

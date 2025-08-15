@@ -63,11 +63,11 @@
 }
 
 .cal-menu .btn-cal-google {
-  color: #4285f4;
+  color: var(--accent);
 }
 
 .cal-menu .btn-cal-outlook {
-  color: #0078d4;
+  color: var(--accent);
 }
 
 .cal-menu .btn-cal-m2m {
