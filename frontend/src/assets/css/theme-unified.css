@@ -44,7 +44,7 @@ body{background:var(--bg); color:var(--text)}
   width:3.25rem;height:3.25rem;border-radius: var(--r-pill);
   background:linear-gradient(180deg,var(--accent1),var(--accent2));
   display:flex;align-items:center;justify-content:center;
-  color:var(--text-primary);font-weight:800;font-size:var(--text-base);letter-spacing:.5px;
+  color:var(--text-primary);font-weight:800;font-size:var(--text-base);letter-spacing:0.031rem;
   box-shadow:var(--shadow);
 }
 .vpf-body{flex:1}

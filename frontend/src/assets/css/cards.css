@@ -1,5 +1,5 @@
 :root{
-  --card-min-h: 140px;
+  --card-min-h:8.75rem;
   /* Use tokens from spacing-tokens.css */
   --card-border: var(--neutral-200);
   --card-bg: radial-gradient(1200px 320px at -180px -140px,var(--neutral-100) 0%,var(--alias-0e131c) 60%);
