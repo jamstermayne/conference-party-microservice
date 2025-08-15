@@ -164,6 +164,7 @@ import { defineSecret } from 'firebase-functions/params';
 // Define Google OAuth secrets for MTM mirroring
 const GOOGLE_CLIENT_ID = defineSecret('GOOGLE_CLIENT_ID');
 const GOOGLE_CLIENT_SECRET = defineSecret('GOOGLE_CLIENT_SECRET');
+const GOOGLE_SHEETS_API_KEY = defineSecret('GOOGLE_SHEETS_API_KEY');
 
 // Use v2 functions with public invoker for unauthenticated access
 export const apiFn = onRequest({
@@ -171,7 +172,7 @@ export const apiFn = onRequest({
   cors: true,
   invoker: "public",
   maxInstances: 10,
-  secrets: [MEETTOMATCH_CRYPTO_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET],
+  secrets: [MEETTOMATCH_CRYPTO_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_SHEETS_API_KEY],
 }, app);
 
 // Export the Express app for testing

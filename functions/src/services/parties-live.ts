@@ -1,7 +1,17 @@
 import * as admin from "firebase-admin";
 
-// Source URL for live party data
-const SOURCE_URL = "https://sheets.googleapis.com/v4/spreadsheets/1Cq-UcdgtSz2FaROahsj7Db2nmStBFCN97EZzBEHCrKg/values/Sheet1!A2:ZZ1000?key=AIzaSyBDpwrbzrpB2xi8owv9IIBzXYvtwfKLhzQ";
+// Source URL for live party data (API key will be appended from secret)
+const SPREADSHEET_ID = "1Cq-UcdgtSz2FaROahsj7Db2nmStBFCN97EZzBEHCrKg";
+const SHEET_RANGE = "Sheet1!A2:ZZ1000";
+
+// Build URL with API key from environment
+function getSourceUrl(): string {
+  const apiKey = process.env['GOOGLE_SHEETS_API_KEY'];
+  if (!apiKey) {
+    throw new Error("[parties-live] GOOGLE_SHEETS_API_KEY secret not available. Please configure the secret in Firebase.");
+  }
+  return `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_RANGE}?key=${apiKey}`;
+}
 
 // Initialize Firestore lazily
 function getDb() {
@@ -119,9 +129,10 @@ function mapSheetRowToParty(row: any[], index: number): NormalizedParty | null {
  */
 export async function fetchLive(): Promise<NormalizedParty[]> {
   try {
-    console.log("[parties-live] Fetching from:", SOURCE_URL);
+    const sourceUrl = getSourceUrl();
+    console.log("[parties-live] Fetching from Google Sheets");
     
-    const response = await fetch(SOURCE_URL);
+    const response = await fetch(sourceUrl);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
