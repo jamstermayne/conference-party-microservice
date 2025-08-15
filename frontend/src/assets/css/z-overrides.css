@@ -4,24 +4,26 @@
  */
 
 :root { 
-  --rail-max: 260px; 
+  --sidebar-max: 260px;
 }
 
 /* Grid layout */
 .app, .app-layout {
   display: grid !important;
-  grid-template-columns: fit-content(var(--rail-max)) minmax(0, 1fr) !important;
+  grid-template-columns: max-content minmax(0, 1fr) !important;
   column-gap: 0 !important;
-  min-height: 100vh !important;
+  height: 100vh !important;
 }
 
 /* Sidebar sizing */
 aside.sidebar, [data-role="sidebar"], #sidebar {
-  width: auto !important;
-  max-width: var(--rail-max) !important;
+  position: sticky !important;
+  top: 0 !important;
+  height: 100vh !important;
+  width: max-content !important;
+  max-width: var(--sidebar-max) !important;
   white-space: nowrap !important;
   overflow: hidden !important;
-  text-overflow: ellipsis;
 }
 
 /* Main content */
@@ -39,7 +41,15 @@ aside.sidebar ul {
   gap: .5rem;
 }
 
-/* Active state styling */
+/* Nav items positioning for accent bar */
+.sidebar nav a,
+.sidebar [data-route],
+.sidebar [data-nav] {
+  position: relative !important;
+  padding-left: 16px !important;
+}
+
+/* Active state styling with accent bar */
 .sidebar [data-nav].active,
 .sidebar [data-route].active,
 .sidebar .nav a.active,
@@ -50,7 +60,22 @@ aside.sidebar ul {
   box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 8px 24px rgba(0,0,0,.35);
   color: #eef2ff !important;
   border-radius: 16px;
-  padding: 8px 12px;
+  padding: 8px 12px 8px 16px;
+}
+
+/* Active accent bar */
+.sidebar [data-nav].active::before,
+.sidebar [data-route].active::before,
+.sidebar .nav a.active::before,
+.sidebar a[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #6b8cff, #8a6bff);
+  border-radius: 0 3px 3px 0;
 }
 /* kill-brand-dot */
 aside .brand .dot,

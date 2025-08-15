@@ -16,8 +16,8 @@ async function go(){
     case 'calendar':  (await import('./views/calendar-providers.js?v=b036')).renderCalendar(main); break;
     case 'contacts':  (await import('./contacts-panel.js?v=b029')).renderContacts?.(main); break;
     case 'invites':   (await import('./invite-panel.js?v=b029')).renderInvites?.(main); break;
-    case 'map':       (await import('./map-controller.js?v=b029')).renderMap?.(main); break;
-    case 'hotspots':  (await import('./hotspots.js?v=b029')).renderHotspots?.(main); break;
+    case 'map':       (await import('./unified-map.js?v=b030')).renderUnifiedMap?.(main); break;
+    case 'hotspots':  (await import('./unified-map.js?v=b030')).renderUnifiedMap?.(main); break;
     case 'me':        (await import('./me-panel.js?v=b029')).renderMe?.(main); break;
     case 'settings':  (await import('./settings-panel.js?v=b029')).renderSettings?.(main); break;
     default:          (await import('./events-controller.js?v=b029')).renderParties(main);
