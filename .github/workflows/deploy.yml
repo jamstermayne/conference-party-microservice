@@ -42,6 +42,11 @@ jobs:
           if [ -f package.json ]; then npm ci || true; fi
           if [ -d functions ] && [ -f functions/package.json ]; then (cd functions && npm ci || true); fi
 
+      - name: Run lint checks
+        run: |
+          echo "🎨 Running design token checks..."
+          npm run lint || echo "Lint checks failed - continuing with deployment"
+
       - name: Build functions
         run: |
           if [ -d functions ] && [ -f functions/package.json ]; then

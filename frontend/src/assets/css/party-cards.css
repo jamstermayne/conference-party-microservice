@@ -10,7 +10,7 @@
 
 .event-card{
   position:relative;
-  border-radius:16px;
+  border-radius: var(--r-xl);
   background:linear-gradient(140deg, rgba(133,144,255,.06), rgba(124,58,237,.04) 35%, rgba(0,0,0,.2) 70%);
   border:1px solid rgba(255,255,255,.07);
   padding:18px;

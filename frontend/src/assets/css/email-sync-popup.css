@@ -48,7 +48,7 @@
     line-height: 1.5;
     color: var(--text-primary, #fff);
     margin: 0;
-    padding-right: 24px; /* Space for close button */
+    padding-right: var(--s-6); /* Space for close button */
     font-weight: 500;
 }
 
@@ -59,7 +59,7 @@
     background: none;
     border: none;
     color: var(--text-secondary, #a5a7ad);
-    font-size: 20px;
+    font-size: var(--s-5);
     cursor: pointer;
     padding: 4px 8px;
     border-radius: var(--radius-sm, 6px);
@@ -71,8 +71,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 24px;
-    min-height: 24px;
+    min-width: var(--s-6);
+    min-height: var(--s-6);
 }
 
 .popup-close:hover {

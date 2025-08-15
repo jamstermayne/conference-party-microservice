@@ -10,7 +10,7 @@
   --warn: var(--accent-warning);
 }
 
-.events-wrap { padding: 12px 16px 80px; }
+.events-wrap { padding: var(--s-3) 16px 80px; }
 
 .ftue-header {
   position: sticky; top: 0; z-index: var(--z-nav);
@@ -31,7 +31,7 @@
   transition: width var(--t-normal) var(--ease-out);
 }
 
-.event-grid { display: grid; gap: 12px; }
+.event-grid { display: grid; gap: var(--s-3); }
 @media (min-width: 720px){ .event-grid { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 1080px){ .event-grid { grid-template-columns: 1fr 1fr 1fr; } }
 
@@ -50,7 +50,7 @@
 
 .event-venue { color: var(--text-2); font-size: 14px; margin: 6px 0 8px; }
 .event-badges { display:flex; gap:6px; flex-wrap:wrap; margin-bottom: 10px; }
-.badge { border-radius: 999px; padding: 4px 8px; font-size: 12px; border:1px solid var(--card-bd); color: var(--text-2); }
+.badge { border-radius: 999px; padding: 4px 8px; font-size: var(--s-3); border:1px solid var(--card-bd); color: var(--text-2); }
 .badge.dev { background: rgba(125,211,252, .12); color:#c6e9ff; border-color: rgba(125,211,252,.25); }
 .badge.pub { background: rgba(252,165,165,.12); color:#ffd3d3; border-color: rgba(252,165,165,.25); }
 .badge.inv { background: rgba(253,224,71,.12); color:#fff2b3; border-color: rgba(253,224,71,.25); }
@@ -84,9 +84,9 @@
 /* Install CTA card (used by install.js) */
 .install-card {
   position: sticky; bottom: 8px; z-index: var(--z-sheet);
-  margin: 12px 16px; padding: 12px; border-radius: var(--r-lg);
+  margin: var(--s-3) 16px; padding: var(--s-3); border-radius: var(--r-lg);
   background: linear-gradient(180deg, rgba(26,26,31,.9), rgba(26,26,31,.9));
-  border: 1px solid var(--card-bd); display: flex; gap: 12px; align-items: center;
+  border: 1px solid var(--card-bd); display: flex; gap: var(--s-3); align-items: center;
   box-shadow: 0 10px 30px rgba(0,0,0,.35);
 }
 .install-card .copy { flex:1; }
@@ -97,11 +97,11 @@
 .ftue-header { 
   display: flex; 
   align-items: center; 
-  gap: 12px; 
+  gap: var(--s-3); 
   padding: 8px 12px 4px;
   background: var(--surface, rgba(0,0,0,0.2));
   border-radius: var(--r-md, 8px);
-  margin-bottom: 12px;
+  margin-bottom: var(--s-3);
 }
 
 .ftue-title { 
@@ -112,7 +112,7 @@
 
 .ftue-sub { 
   color: var(--text-secondary); 
-  font-size: 12px;
+  font-size: var(--s-3);
   margin-top: 2px;
 }
 

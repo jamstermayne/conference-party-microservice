@@ -909,6 +909,6 @@
     }
     
     .growth-bar {
-        width: 20px;
+        width: var(--s-5);
     }
 }

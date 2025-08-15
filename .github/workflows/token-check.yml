@@ -1,0 +1,100 @@
+name: Design Token Enforcement
+
+on:
+  pull_request:
+    paths:
+      - 'frontend/src/**/*.css'
+      - 'frontend/src/**/*.scss'
+      - 'frontend/src/**/*.less'
+  push:
+    branches: [main, develop]
+    paths:
+      - 'frontend/src/**/*.css'
+      - 'frontend/src/**/*.scss'
+      - 'frontend/src/**/*.less'
+
+jobs:
+  check-tokens:
+    name: Check Design Tokens
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup ripgrep
+        run: |
+          curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
+          sudo dpkg -i ripgrep_13.0.0_amd64.deb
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Check for hardcoded px values
+        run: npm run lint:tokens
+          
+      - name: Comment on PR if violations found
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const output = `
+            ⚠️ **Design Token Violations Found**
+            
+            This PR contains hardcoded px values that should use design tokens.
+            
+            **Quick Reference:**
+            - Spacing: \`4px\` → \`var(--s-1)\`, \`8px\` → \`var(--s-2)\`, \`12px\` → \`var(--s-3)\`, \`16px\` → \`var(--s-4)\`
+            - More: \`20px\` → \`var(--s-5)\`, \`24px\` → \`var(--s-6)\`, \`32px\` → \`var(--s-7)\`, \`40px\` → \`var(--s-8)\`
+            - Radius: \`8px\` → \`var(--r-md)\`, \`12px\` → \`var(--r-lg)\`, \`16px\` → \`var(--r-xl)\`
+            
+            Run \`npm run check:tokens\` locally to see specific violations.
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            });
+            
+  validate-token-definitions:
+    name: Validate Token Definitions
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Check spacing-tokens.css exists
+        run: |
+          if [ ! -f "frontend/src/assets/css/spacing-tokens.css" ]; then
+            echo "❌ spacing-tokens.css not found!"
+            exit 1
+          fi
+          echo "✅ spacing-tokens.css found"
+          
+      - name: Validate token definitions
+        run: |
+          # Check that essential tokens are defined
+          TOKENS=(
+            "--s-1" "--s-2" "--s-3" "--s-4" "--s-5" "--s-6" "--s-7" "--s-8"
+            "--r-xs" "--r-sm" "--r-md" "--r-lg" "--r-xl" "--r-2xl" "--r-full"
+          )
+          
+          for token in "${TOKENS[@]}"; do
+            if ! grep -q "$token:" frontend/src/assets/css/spacing-tokens.css; then
+              echo "❌ Token $token not defined in spacing-tokens.css"
+              exit 1
+            fi
+          done
+          
+          echo "✅ All essential tokens are defined"
+          
+      - name: Check token loading in HTML
+        run: |
+          if ! grep -q "spacing-tokens.css" frontend/src/index.html; then
+            echo "⚠️ Warning: spacing-tokens.css not loaded in index.html"
+          else
+            echo "✅ spacing-tokens.css is loaded in index.html"
+          fi

@@ -42,8 +42,8 @@
   /* Spacing System */
   --space-xs: 4px;
   --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
+  --space-md: var(--s-4);
+  --space-lg: var(--s-6);
   --space-xl: 32px;
   --space-2xl: 48px;
   --space-3xl: 64px;

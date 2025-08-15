@@ -18,7 +18,7 @@ html,body{background:var(--v-bg);color:var(--v-text)}
  /* Unified buttons: affects .vbtn, .btn, and plain <button> */
 .vbtn,.btn,button{
   display:inline-flex;align-items:center;gap:8px;
-  padding:8px 12px;border-radius:12px;border:1px solid #2b2f45;
+  padding:8px 12px;border-radius: var(--r-lg);border:1px solid #2b2f45;
   background:#202a44;color:#dee9ff;font-weight:700;cursor:pointer;
 }
 .vbtn.primary,.btn.primary,button.primary{

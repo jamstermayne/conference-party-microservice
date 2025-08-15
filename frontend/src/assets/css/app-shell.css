@@ -75,7 +75,7 @@
 
 /* Main content area under the sticky header */
 .main .content {
-  padding: 16px;
+  padding: var(--s-4);
 }
 
 /* Cards/FTUE block shouldn't force three columns */
@@ -84,4 +84,4 @@
 }
 
 /* Prevent stray headers duplicating */
-.content h1.page-title { margin: 12px 0 16px; }
+.content h1.page-title { margin: var(--s-3) 0 16px; }

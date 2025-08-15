@@ -1,8 +1,8 @@
 /* FTUE: sync address book nudge */
 .ftue-nudge {
-  position: fixed; right: 16px; bottom: 18px; z-index: var(--z-toast,80);
+  position: fixed; right: var(--s-4); bottom: 18px; z-index: var(--z-toast,80);
   background: var(--surface,#1a1a1f); border:1px solid var(--border,#2a2a35);
-  border-radius: 14px; padding: 12px 12px 10px; width: 280px;
+  border-radius: 14px; padding: var(--s-3) 12px 10px; width: 280px;
   box-shadow: 0 8px 40px rgba(0,0,0,.4);
 }
 .ftue-nudge h4 { margin: 0 0 6px; color: var(--text-primary,#fff); font-size: 1rem; }

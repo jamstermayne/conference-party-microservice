@@ -8,15 +8,15 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 12px 10px;
+  padding: var(--s-3) 10px;
 }
 
 /* Single-line labels; never wrap; ellipsis for overflows within cap */
 .sidebar .nav a{
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: var(--s-3);
+  padding: var(--s-3) 14px;
   padding-left: calc(var(--rail-ic-size) + 14px + 12px);
   border: 1px solid var(--rail-border, #1f2536);
   border-radius: 14px;
@@ -38,7 +38,7 @@
   position:absolute;
   left:14px; top:50%; transform:translateY(-50%);
   width:var(--rail-ic-size); height:var(--rail-ic-size);
-  border-radius:12px;
+  border-radius: var(--r-lg);
   background:var(--rail-accent-grad);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 6px 16px rgba(31,45,105,.35);
   opacity:.85; transition:opacity .2s ease, transform .18s ease;
@@ -52,7 +52,7 @@
 /* If you later add <span class="ic">…</span> it overrides the ::before chip */
 .sidebar .nav a .ic{
   width:var(--rail-ic-size); height:var(--rail-ic-size);
-  border-radius:12px; background:var(--rail-accent-grad);
+  border-radius: var(--r-lg); background:var(--rail-accent-grad);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 6px 16px rgba(31,45,105,.35);
   display:inline-flex; align-items:center; justify-content:center;
   margin-right:12px;

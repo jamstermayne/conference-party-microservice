@@ -4,7 +4,7 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-xl);
-  padding: 16px;
+  padding: var(--s-4);
 }
 
 .section-card.active::before {

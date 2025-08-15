@@ -892,6 +892,25 @@ class ProfessionalIntelligenceApp {
       console.warn('⚠️ Press feedback system initialization failed:', error);
     }
     
+    // Initialize card equalization system
+    try {
+      import('./equalize-cards.js').then(module => {
+        if (module.equalizeCards) {
+          // Initial equalization
+          module.equalizeCards();
+          // Re-equalize on resize
+          let resizeTimer;
+          window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => module.equalizeCards(), 250);
+          });
+          console.log('✅ Card equalization system initialized');
+        }
+      });
+    } catch (error) {
+      console.warn('⚠️ Card equalization system initialization failed:', error);
+    }
+    
     // Initialize performance monitoring
     try {
       if (typeof createFPSWatchdog === 'function') {

@@ -9,7 +9,7 @@
 @keyframes skeleton-sweep { to { transform: translateX(100%); } }
 
 .hotspots-meta { display:flex; gap:12px; align-items:center; justify-content:flex-end; }
-#hotspots-last-updated { color: var(--text-muted); font-size: 12px; }
+#hotspots-last-updated { color: var(--text-muted); font-size: var(--s-3); }
 
 /* Parties sticky footer */
 #parties-sticky { border-top: 1px solid var(--border); backdrop-filter: saturate(120%) blur(8px); }

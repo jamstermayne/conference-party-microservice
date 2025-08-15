@@ -3,9 +3,9 @@
 .hotspots-wrap {
   display: grid;
   grid-template-columns: 1fr 360px;
-  gap: 16px;
+  gap: var(--s-4);
   height: calc(100vh - 72px);
-  padding: 16px;
+  padding: var(--s-4);
   background: var(--bg-primary);
 }
 
@@ -28,8 +28,8 @@
 .hotspots-canvas-card header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: var(--s-3);
+  padding: var(--s-3) 14px;
   border-bottom: 1px solid var(--border);
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
 }
@@ -59,7 +59,7 @@
 }
 
 .hotspots-list header {
-  padding: 12px 14px;
+  padding: var(--s-3) 14px;
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
 }
@@ -99,7 +99,7 @@
 }
 
 .hotspot-meta {
-  font-size: 12px;
+  font-size: var(--s-3);
   color: var(--text-secondary);
 }
 
@@ -132,12 +132,12 @@
 .badge-pill.sp  { border-color: #ff6b6b33; color: #ffb1b1; }
 
 .hotspot-empty {
-  padding: 16px;
+  padding: var(--s-4);
   color: var(--text-secondary);
 }
 
 .legend {
-  display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: 12px;
+  display: flex; gap: 8px; align-items: center; color: var(--text-secondary); font-size: var(--s-3);
 }
 
 .legend-swatch {
@@ -169,7 +169,7 @@
   margin-bottom: 4px;
 }
 .hotspot-card .hotspot-metric {
-  font-size: 12px;
+  font-size: var(--s-3);
   color: var(--text-secondary);
 }
 
@@ -193,8 +193,8 @@
 .hotspots-legend {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 12px;
+  gap: var(--s-3);
+  font-size: var(--s-3);
   color: var(--text-secondary);
   margin-top: 6px;
 }

@@ -10,9 +10,9 @@
 .loading::after {
   content: '';
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  margin-left: 12px;
+  width: var(--s-6);
+  height: var(--s-6);
+  margin-left: var(--s-3);
   border: 2px solid var(--border, #383d45);
   border-top-color: var(--accent, #6b7bff);
   border-radius: 50%;
@@ -66,7 +66,7 @@ button.loading::after {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 16px;
-  height: 16px;
+  width: var(--s-4);
+  height: var(--s-4);
   margin: 0;
 }

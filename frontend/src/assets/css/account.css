@@ -1,5 +1,5 @@
 /* Dark-only, Slack-inspired with Airbnb-style rows */
-.account { padding: 16px 20px 48px; }
+.account { padding: var(--s-4) 20px 48px; }
 .account-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
 .account-section { margin-top:16px; }
 

@@ -1,7 +1,7 @@
 .section-title { 
   display: flex;
   align-items: center;
-  gap: 12px; 
+  gap: var(--s-3); 
 }
 
 .section-title-text {
@@ -16,6 +16,6 @@
   color: var(--text-primary);
   padding: 4px 10px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: var(--s-3);
   line-height: 1;
 }

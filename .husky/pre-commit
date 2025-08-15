@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run token checks on staged CSS files
+echo "🎨 Checking design tokens..."
+npm run lint:tokens
+
+# Run other checks if they exist
+if [ -f "scripts/lint-staged.sh" ]; then
+  bash scripts/lint-staged.sh
+fi

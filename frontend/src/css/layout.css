@@ -18,13 +18,13 @@ body { background:#0b0c12; }
 
 /* Brand area */
 .brand {
-  padding: 20px;
+  padding: var(--s-5);
   border-bottom: 1px solid var(--divider);
 }
 .brand-link {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--s-3);
   text-decoration: none;
   color: #fff;
 }
@@ -44,14 +44,14 @@ body { background:#0b0c12; }
 
 /* Navigation */
 .nav {
-  padding: 12px 8px;
+  padding: var(--s-3) 8px;
 }
 .nav a {
   display: flex;
   align-items: center;
   padding: 8px 12px;
   margin: 2px 0;
-  border-radius: 8px;
+  border-radius: var(--r-md);
   text-decoration: none;
   color: #9aa3b2;
   transition: all 0.2s ease;
@@ -75,13 +75,13 @@ body { background:#0b0c12; }
 /* Cards */
 .cards-wrap {
   display: grid;
-  gap: 20px;
+  gap: var(--s-5);
 }
  .legacy-card {
   background: linear-gradient(180deg, #141521, #0f1018);
   border: 1px solid var(--divider);
   border-radius: 14px;
-  padding: 20px;
+  padding: var(--s-5);
 }
  .legacy-card h3 {
   margin: 0 0 12px;
@@ -93,7 +93,7 @@ body { background:#0b0c12; }
   padding: 6px 12px;
   background: rgba(124,138,255,0.15);
   color: #7c8aff;
-  border-radius: 20px;
+  border-radius: var(--s-5);
   font-size: 0.85rem;
   margin-right: 8px;
 }

@@ -4,7 +4,7 @@
   --cal-baseline-hour: 8;               /* 08:00 start */
   --cal-end-hour: 22;                   /* 22:00 end */
   --cal-gutter: 56px;                   /* left time gutter width */
-  --cal-pad: 16px;                      /* right padding */
+  --cal-pad: var(--s-4);                      /* right padding */
   --cal-grid-line: rgba(255,255,255,.06);
   --cal-muted: #9aa7bf;
 }
@@ -41,7 +41,7 @@
   position: absolute;
   left: 0; top: -8px; width: var(--cal-gutter);
   text-align: right; padding-right: 10px;
-  font-size: 12px; color: var(--cal-muted);
+  font-size: var(--s-3); color: var(--cal-muted);
 }
 
 /* Events layer (occupies space right of gutter) */
@@ -77,20 +77,20 @@
 }
 
 /* Buttons (re-use vbtn palette) */
-.cal-toolbar .vbtn{ padding: 8px 12px; border-radius: 12px; }
+.cal-toolbar .vbtn{ padding: 8px 12px; border-radius: var(--s-3); }
 
 /* provider-grid */
 .provider-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-  gap: 16px;
-  margin-top: 16px;
+  gap: var(--s-4);
+  margin-top: var(--s-4);
 }
 .provider-card {
   background: var(--panel, rgba(255,255,255,.02));
   border: 1px solid var(--panel-border, rgba(255,255,255,.06));
-  border-radius: 16px;
-  padding: 16px;
+  border-radius: var(--s-4);
+  padding: var(--s-4);
 }
 .provider-card .title { display:flex; align-items:center; gap:12px; font-weight:600; }
 .provider-card .subtitle { opacity:.7; margin:6px 0 12px; }
@@ -101,14 +101,14 @@
 .provider-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-  gap: 16px;
-  margin-top: 16px;
+  gap: var(--s-4);
+  margin-top: var(--s-4);
 }
 .provider-card {
   background: var(--panel, rgba(255,255,255,.02));
   border: 1px solid var(--panel-border, rgba(255,255,255,.06));
-  border-radius: 16px;
-  padding: 16px;
+  border-radius: var(--s-4);
+  padding: var(--s-4);
 }
 .provider-card .title { display:flex; align-items:center; gap:12px; font-weight:600; }
 .provider-card .subtitle { opacity:.7; margin:6px 0 12px; }

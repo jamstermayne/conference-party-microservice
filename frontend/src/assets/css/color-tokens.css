@@ -1,0 +1,134 @@
+/* === Color Design Tokens === */
+/* Centralized color system for consistent theming */
+
+:root {
+  /* Primary Colors */
+  --color-primary: #6b8cff;
+  --color-primary-light: #8ba4ff;
+  --color-primary-dark: #5b7bff;
+  --color-primary-alpha: rgba(107, 140, 255, 0.1);
+  
+  /* Accent Colors */
+  --accent-primary: #6b8cff;
+  --accent-secondary: #8a6bff;
+  --accent-tertiary: #b56dff;
+  --accent-success: #3ddc97;
+  --accent-warning: #fde047;
+  --accent-error: #ef4444;
+  --accent-info: #3b82f6;
+  
+  /* Background Colors */
+  --bg-primary: #1A1D21;
+  --bg-secondary: #15151a;
+  --bg-tertiary: #0f1625;
+  --bg-card: #151821;
+  --bg-surface: #1a1a1f;
+  --bg-elevated: #1c1f2b;
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a5a7ad;
+  --text-tertiary: #6b7380;
+  --text-muted: #9aa7bf;
+  --text-disabled: rgba(255, 255, 255, 0.3);
+  --text-on-accent: #000000;
+  
+  /* Border Colors */
+  --border-primary: #2a2a35;
+  --border-secondary: #20263a;
+  --border-tertiary: rgba(255, 255, 255, 0.06);
+  --border-active: rgba(107, 140, 255, 0.3);
+  --border-focus: rgba(107, 140, 255, 0.5);
+  
+  /* Surface Colors */
+  --surface-primary: #1a1a1f;
+  --surface-secondary: #111217;
+  --surface-elevated: #151720;
+  --surface-overlay: rgba(26, 26, 31, 0.95);
+  
+  /* Semantic Colors */
+  --success: #22c55e;
+  --success-bg: rgba(34, 197, 94, 0.1);
+  --success-border: rgba(34, 197, 94, 0.3);
+  
+  --warning: #fde047;
+  --warning-bg: rgba(253, 224, 71, 0.1);
+  --warning-border: rgba(253, 224, 71, 0.3);
+  
+  --error: #ef4444;
+  --error-bg: rgba(239, 68, 68, 0.1);
+  --error-border: rgba(239, 68, 68, 0.3);
+  
+  --info: #3b82f6;
+  --info-bg: rgba(59, 130, 246, 0.1);
+  --info-border: rgba(59, 130, 246, 0.3);
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(180deg, #8c7aff 0%, #5b47ff 100%);
+  --gradient-surface: linear-gradient(180deg, var(--surface-elevated), var(--surface-primary));
+  --gradient-card: radial-gradient(1200px 320px at -200px -140px, #14213d 0%, var(--bg-tertiary) 60%);
+  --gradient-accent: linear-gradient(135deg, rgba(124, 138, 255, 0.25), rgba(181, 109, 255, 0.15));
+  
+  /* Alpha Colors */
+  --alpha-white-5: rgba(255, 255, 255, 0.05);
+  --alpha-white-10: rgba(255, 255, 255, 0.1);
+  --alpha-white-20: rgba(255, 255, 255, 0.2);
+  --alpha-black-10: rgba(0, 0, 0, 0.1);
+  --alpha-black-25: rgba(0, 0, 0, 0.25);
+  --alpha-black-50: rgba(0, 0, 0, 0.5);
+  
+  /* Component-Specific Colors */
+  --card-bg: var(--bg-card);
+  --card-border: #262b3f;
+  --card-title: #eaf0ff;
+  --card-muted: #9dadcf;
+  
+  --sidebar-bg: var(--bg-secondary);
+  --sidebar-border: var(--border-primary);
+  --sidebar-active: rgba(139, 129, 255, 0.18);
+  
+  --modal-bg: var(--surface-primary);
+  --modal-overlay: var(--bg-overlay);
+  
+  --button-primary-bg: var(--accent-primary);
+  --button-primary-hover: #5b82f6;
+  --button-secondary-bg: #2a2a35;
+  --button-secondary-hover: #3a3a45;
+  
+  /* State Colors */
+  --hover-bg: rgba(255, 255, 255, 0.05);
+  --active-bg: rgba(255, 255, 255, 0.1);
+  --selected-bg: rgba(107, 140, 255, 0.15);
+  --focus-ring: rgba(107, 140, 255, 0.5);
+  
+  /* Ink Scale (for subtle variations) */
+  --ink-0: #0b0b0d;
+  --ink-1: #111217;
+  --ink-2: #151720;
+  --ink-3: #1c1f2b;
+  
+  /* Foreground Scale */
+  --fg-0: #ffffff;
+  --fg-1: #d8dbe6;
+  --fg-2: #9aa3b2;
+  --fg-3: #6b7380;
+}
+
+/* Dark theme overrides (if needed) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Already optimized for dark theme */
+  }
+}
+
+/* Light theme (future) */
+@media (prefers-color-scheme: light) {
+  :root.theme-light {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    /* Add more light theme overrides as needed */
+  }
+}

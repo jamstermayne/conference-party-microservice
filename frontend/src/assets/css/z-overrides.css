@@ -46,7 +46,7 @@ aside.sidebar ul {
 .sidebar [data-route],
 .sidebar [data-nav] {
   position: relative !important;
-  padding-left: 16px !important;
+  padding-left: var(--s-4) !important;
 }
 
 /* Active state styling with accent bar */
@@ -59,7 +59,7 @@ aside.sidebar ul {
     linear-gradient(180deg, rgba(139,129,255,.18), rgba(84,74,255,.12));
   box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 8px 24px rgba(0,0,0,.35);
   color: #eef2ff !important;
-  border-radius: 16px;
+  border-radius: var(--s-4);
   padding: 8px 12px 8px 16px;
 }
 

@@ -249,7 +249,7 @@
 .persona-count {
     font-weight: var(--font-weight-semibold);
     color: var(--text);
-    min-width: 20px;
+    min-width: var(--s-5);
 }
 
 .persona-label {

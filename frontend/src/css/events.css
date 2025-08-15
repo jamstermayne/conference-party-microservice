@@ -2,7 +2,7 @@
 .parties-view {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--s-3);
   padding: 8px 16px 24px;
 }
 
@@ -14,13 +14,13 @@
   align-items: center;
   justify-content: space-between;
   background: var(--bg-primary, #0f0f12);
-  padding: 12px 4px 8px;
+  padding: var(--s-3) 4px 8px;
   border-bottom: 1px solid var(--border, #2a2a35);
 }
 
 .ph-left { display: flex; align-items: center; gap: 8px; }
 .hash-tag {
-  width: 24px; height: 24px; border-radius: 6px;
+  width: var(--s-6); height: var(--s-6); border-radius: 6px;
   background: linear-gradient(180deg, #6b7bff, #3a3f99);
   display: grid; place-items: center; color: #fff; font-weight: 700;
 }
@@ -37,7 +37,7 @@
 .parties-grid {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 12px;
+  gap: var(--s-3);
 }
 
 @media (min-width: 720px) {
@@ -52,7 +52,7 @@
   background: var(--surface, #1a1a1f);
   border: 1px solid var(--border, #2a2a35);
   border-radius: var(--r-lg, 16px);
-  padding: 12px 12px 10px;
+  padding: var(--s-3) 12px 10px;
   display: flex; flex-direction: column; gap: 10px;
   transition: transform var(--t-fast, 150ms) var(--ease-out, ease), border-color var(--t-fast, 150ms);
 }
@@ -89,15 +89,15 @@
 /* Skeletons */
 .skeleton { position: relative; overflow: hidden; }
 .shimmer {
-  height: 12px;
+  height: var(--s-3);
   border-radius: 6px;
   background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.12) 37%, rgba(255,255,255,0.06) 63%);
   background-size: 400% 100%;
   animation: shimmer 1.2s linear infinite;
 }
 .pc-title.shimmer { height: 18px; width: 70%; }
-.pc-meta.shimmer { height: 12px; width: 50%; }
-.pc-btn.shimmer { height: 32px; width: 120px; border-radius: 8px; }
+.pc-meta.shimmer { height: var(--s-3); width: 50%; }
+.pc-btn.shimmer { height: 32px; width: 120px; border-radius: var(--r-md); }
 
 @keyframes shimmer {
   0% { background-position: 100% 0; }

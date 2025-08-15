@@ -5,11 +5,11 @@
   --ftue-border: var(--border-secondary);
   --ftue-progress-bg: var(--bg-tertiary);
   --ftue-progress-fill: var(--accent-purple);
-  margin-bottom: 12px;
+  margin-bottom: var(--s-3);
 }
 
 .ftue--bar {
-  padding: 16px;
+  padding: var(--s-4);
   border: 1px solid var(--ftue-border);
   border-radius: var(--r-lg);
   background: var(--ftue-bg);
@@ -26,7 +26,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: var(--s-3);
 }
 
 .ftue-title {
@@ -66,19 +66,19 @@
 
 /* Event Skeleton Loaders */
 .event-skeleton {
-  padding: 16px;
+  padding: var(--s-4);
   border: 1px solid var(--border-secondary);
   border-radius: var(--r-lg);
   background: var(--bg-secondary);
-  margin-bottom: 12px;
+  margin-bottom: var(--s-3);
   animation: skeleton-pulse 1.5s ease-in-out infinite;
 }
 
 .event-skeleton__header {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: var(--s-3);
+  margin-bottom: var(--s-3);
 }
 
 .event-skeleton__avatar {
@@ -95,7 +95,7 @@
 }
 
 .event-skeleton__title {
-  height: 16px;
+  height: var(--s-4);
   background: var(--bg-tertiary);
   border-radius: 2px;
   margin-bottom: 6px;
@@ -112,7 +112,7 @@
 .event-skeleton__actions {
   display: flex;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: var(--s-3);
 }
 
 .event-skeleton__btn {

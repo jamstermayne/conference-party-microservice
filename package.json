@@ -38,7 +38,15 @@
     "calendar:export": "node tools/calendar-helper.js export",
     "calendar:test": "node tools/calendar-helper.js test",
     "frontend:build": "node tools/frontend-builder.js build",
-    "frontend:dev": "node tools/frontend-builder.js dev"
+    "frontend:dev": "node tools/frontend-builder.js dev",
+    "lint": "npm run lint:tokens && npm run lint:stylelint",
+    "lint:tokens": "bash scripts/check-tokens.sh",
+    "lint:stylelint": "stylelint 'frontend/src/**/*.css' --allow-empty-input",
+    "check:tokens": "bash scripts/check-tokens.sh",
+    "lint:css": "npm run lint:tokens",
+    "validate:tokens": "bash tools/validate-tokens.sh",
+    "migrate:tokens": "bash tools/migrate-to-tokens.sh preview",
+    "migrate:tokens:apply": "bash tools/migrate-to-tokens.sh apply"
   },
   "dependencies": {
     "firebase-admin": "^12.7.0",
@@ -48,6 +56,9 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.46.0",
+    "stylelint": "^15.11.0",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-declaration-strict-value": "^1.10.4",
     "@types/node": "^20.4.5",
     "chokidar": "^4.0.3",
     "eslint": "^8.45.0",

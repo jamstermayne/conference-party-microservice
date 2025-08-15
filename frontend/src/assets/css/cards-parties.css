@@ -3,7 +3,7 @@
 @media (min-width:900px){ .party-list { grid-template-columns: 1fr 1fr; } }
 @media (min-width:1400px){ .party-list { grid-template-columns: 1fr 1fr; } }
 
-.party-card                   { position:relative; border-radius:16px; padding:20px;
+.party-card                   { position:relative; border-radius: var(--r-xl); padding:20px;
   background: radial-gradient(120% 120% at 0% 0%, rgba(96,116,255,.08), rgba(10,10,14,.7) 60%) #121418;
   box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset, 0 10px 30px rgba(22,20,35,.30);
 }

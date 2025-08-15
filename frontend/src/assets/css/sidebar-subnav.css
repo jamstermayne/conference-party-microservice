@@ -64,7 +64,7 @@
 .sidebar .subnav::before {
   content: '';
   position: absolute;
-  left: 24px;
+  left: var(--s-6);
   top: 0;
   bottom: 0;
   width: 1px;

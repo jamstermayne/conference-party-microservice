@@ -11,7 +11,7 @@
   background: linear-gradient(135deg, #6b8cff, #8a6bff);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--r-md);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -39,7 +39,7 @@
 /* Icon support */
 .btn.add-to-calendar::before {
   content: '📅';
-  font-size: 16px;
+  font-size: var(--s-4);
 }
 
 /* Compact version for list views */
@@ -50,6 +50,6 @@
 
 /* Remove any legacy btn-group styling */
 .btn-group .btn.add-to-calendar {
-  border-radius: 8px !important;
+  border-radius: var(--r-md) !important;
   flex: none !important;
 }

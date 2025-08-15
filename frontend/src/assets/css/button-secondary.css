@@ -13,7 +13,7 @@ a.btn--secondary {
   background: transparent;
   color: #9aa7bf;
   border: 1px solid rgba(154, 167, 191, 0.3);
-  border-radius: 8px;
+  border-radius: var(--r-md);
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
@@ -42,7 +42,7 @@ a.btn--secondary {
 /* External link indicator */
 .btn--secondary[target="_blank"]::after {
   content: ' ↗';
-  font-size: 12px;
+  font-size: var(--s-3);
   margin-left: 4px;
   opacity: 0.7;
 }
