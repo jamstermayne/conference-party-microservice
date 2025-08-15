@@ -1,6 +1,6 @@
 // Minimal, surgical wiring. No style changes.
-import { addToGoogleCalendar, ensureGoogleConnected } from './calendar/google-calendar.js';
-import { makeIcsAndDownload } from './calendar/ics.js';
+import { addToCalendar, ensureGoogleSession } from './services/gcal.js';
+import { downloadIcs } from './services/ics.js';
 
 // Helper: read party payload from the card
 function readPartyPayload(el) {
@@ -24,8 +24,8 @@ function readPartyPayload(el) {
 async function handleAddToCalendar(btn) {
   const party = readPartyPayload(btn);
   try {
-    await ensureGoogleConnected();
-    await addToGoogleCalendar(party);
+    await ensureGoogleSession();
+    await addToCalendar(party);
   } catch (err) {
     console.error('Calendar add failed:', err);
   }
@@ -33,13 +33,13 @@ async function handleAddToCalendar(btn) {
 
 async function handleGoogle(btn) {
   const party = readPartyPayload(btn);
-  await ensureGoogleConnected();            // popup → status poll
-  await addToGoogleCalendar(party);         // create event
+  await ensureGoogleSession();            // popup → status poll
+  await addToCalendar(party);             // create event
 }
 
 function handleOutlook(btn) {
   const party = readPartyPayload(btn);
-  makeIcsAndDownload(party);
+  downloadIcs(party);
 }
 
 function handleM2M() {

@@ -1,0 +1,7 @@
+{
+  "calendar.js": "/workspaces/conference-party-microservice/frontend/src/js/calendar.js",
+  "events.js": "/workspaces/conference-party-microservice/frontend/src/js/controllers/events.js",
+  "invites.js": "/workspaces/conference-party-microservice/frontend/src/js/api/invites.js",
+  "app.js": "/workspaces/conference-party-microservice/frontend/src/js/app.js",
+  "api.js": "/workspaces/conference-party-microservice/frontend/src/js/services/api.js"
+}
