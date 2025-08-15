@@ -70,9 +70,8 @@
           </span>
           <span class="v-nav__label">parties</span>
         </a>
-        
-        <!-- Subnav placeholder for parties days -->
-        <div class="v-subnav" data-subnav="parties" aria-label="Parties days"></div>
+        <!-- Minimal day filter placeholder -->
+        <div class="v-day-subnav" data-for="parties" aria-label="Parties day filter"></div>
 
         <a class="v-nav__link" data-route="calendar" href="#/calendar">
           <span class="v-nav__icon" aria-hidden="true">
@@ -91,9 +90,8 @@
           </span>
           <span class="v-nav__label">map</span>
         </a>
-        
-        <!-- Subnav placeholder for map days -->
-        <div class="v-subnav" data-subnav="map" aria-label="Map days"></div>
+        <!-- Minimal day filter placeholder -->
+        <div class="v-day-subnav" data-for="map" aria-label="Map day filter"></div>
 
         <a class="v-nav__link" data-route="invites" href="#/invites">
           <span class="v-nav__icon" aria-hidden="true">
@@ -147,7 +145,6 @@ if ('serviceWorker' in navigator) {
 <script type="module" src="/js/router.js?v=b803"></script>
 <script type="module" src="/js/gcal-hooks.js?v=b803"></script>
 <script type="module" src="/js/map-hooks.js?v=b803"></script>
-<script src="/js/sidebar-map-subnav.js?v=b803"></script>
   <script src="/js/theme-patch.js?v=001"></script>
 </body>
 </html>
