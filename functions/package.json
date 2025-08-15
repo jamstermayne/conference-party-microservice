@@ -37,6 +37,7 @@
     "@types/busboy": "^1.5.4",
     "@types/cookie-parser": "^1.4.9",
     "busboy": "^1.6.0",
+    "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^5.1.0",
@@ -46,12 +47,15 @@
     "googleapis": "^155.0.1",
     "ical": "^0.8.0",
     "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
     "node-ical": "^0.15.3",
     "papaparse": "^5.5.3"
   },
   "devDependencies": {
+    "@types/compression": "^1.8.1",
     "@types/ical": "^0.8.3",
     "@types/jest": "^29.5.14",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^20.19.9",
     "@types/papaparse": "^5.3.14",
     "@types/supertest": "^6.0.3",

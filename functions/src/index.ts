@@ -3,6 +3,8 @@ import {onRequest} from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
 import express, {Request, Response} from "express";
 import cors from "cors";
+import compression from "compression";
+import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import {canonicalHost} from "./middleware/canonicalHost";
 import {performanceMonitor, cacheMiddleware, corsCache} from "./middleware/performance";
@@ -32,8 +34,37 @@ try {admin.initializeApp();} catch (error) {
 
 // const db = admin.firestore?.(); // Not used after refactoring to use routes
 const app = express();
-app.use(cors({origin: true, credentials: true}));
-app.use(corsCache); // Cache CORS preflight requests
+
+// Optimize CORS - restrict to production domain for better security and performance
+app.use(cors({ 
+  origin: ['https://conference-party-app.web.app', 'http://localhost:3000'],
+  credentials: false,
+  maxAge: 86400 // Cache preflight for 24 hours
+}));
+
+// Enable compression for all responses (reduces payload size by ~70%)
+app.use(compression({
+  level: 6, // Balanced compression level
+  threshold: 1024, // Only compress responses > 1KB
+  filter: (req, res) => {
+    // Compress everything except server-sent events
+    const contentType = res.getHeader('Content-Type');
+    if (typeof contentType === 'string' && contentType.includes('text/event-stream')) {
+      return false;
+    }
+    return compression.filter(req, res);
+  }
+}));
+
+// Request logging - tiny format for minimal overhead
+app.use(morgan('tiny', {
+  skip: (req) => req.path === '/api/health', // Skip health check logs
+  stream: {
+    write: (message) => console.log(message.trim())
+  }
+}));
+
+app.use(corsCache); // Additional CORS preflight caching
 app.use(cookieParser());
 app.use(express.json());
 
