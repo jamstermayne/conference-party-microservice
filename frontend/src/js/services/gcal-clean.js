@@ -8,8 +8,8 @@ export async function status() {
   }
 }
 
-// --- Popup OAuth and wait until session cookie present ---
-async function startOAuthInPopup() {
+// --- Popup OAuth with URL builder callback ---
+async function startOAuthInPopup(buildAuthUrl) {
   // Open popup synchronously on user gesture
   const width = 560, height = 700;
   const left = window.screenX + Math.max(0, (window.outerWidth - width) / 2);
@@ -21,66 +21,20 @@ async function startOAuthInPopup() {
   
   // If blocked, fallback to full-page redirect
   if (!w) {
-    window.location.assign('/api/googleCalendar/google/start');
+    const authUrl = buildAuthUrl ? await buildAuthUrl() : '/api/googleCalendar/google/start';
+    window.location.assign(authUrl);
     return { connected: false, fallback: true };
   }
   
   // Now set the URL after popup exists
   try {
-    w.location.href = '/api/googleCalendar/google/start';
+    const authUrl = buildAuthUrl ? await buildAuthUrl() : '/api/googleCalendar/google/start';
+    w.location.href = authUrl;
+    return w; // Return window for external polling
   } catch (err) {
     w.close();
     throw new Error('Failed to navigate popup');
   }
-
-  // Poll status until connected or window closed (max ~90s)
-  const deadline = Date.now() + 90_000;
-  let windowClosed = false;
-  
-  while (Date.now() < deadline) {
-    // Check if window is closed (wrapped to handle COOP restrictions)
-    try {
-      // Try to access window.closed - may fail due to COOP
-      if (w.closed) {
-        windowClosed = true;
-        break;
-      }
-    } catch (e) {
-      // COOP policy prevents access - check connection status instead
-      // The window might be closed, but we can't tell directly
-    }
-    
-    // Check if connected
-    const s = await status();
-    if (s.connected) {
-      try { 
-        // Try to close the window - may fail due to COOP
-        w.close(); 
-      } catch {
-        // Window might already be closed or COOP prevents closing
-        // Send a message to the popup to close itself
-        try {
-          w.postMessage({ action: 'close' }, '*');
-        } catch {}
-      }
-      return true;
-    }
-    
-    // If we can't check window.closed due to COOP, rely on status checks
-    await new Promise(r => setTimeout(r, 800));
-  }
-  
-  // Try to close if still open
-  try { 
-    w.close(); 
-  } catch {
-    // Send message to popup to close itself
-    try {
-      w.postMessage({ action: 'close' }, '*');
-    } catch {}
-  }
-  
-  return (await status()).connected === true;
 }
 
 export async function ensureConnected() {
@@ -121,21 +75,81 @@ export async function disconnect() {
 
 // --- Convenience exports for compatibility ---
 export const isConnected = async () => (await status()).connected;
-export const startOAuth = async (eventOrOptions = {}) => {
-  // Handle both event objects and options objects
-  const isEvent = eventOrOptions?.preventDefault || eventOrOptions?.stopPropagation;
-  const options = isEvent ? { usePopup: true } : eventOrOptions;
-  
-  if (isEvent) {
-    eventOrOptions.preventDefault?.();
+export const startOAuth = async (e, buildAuthUrl) => {
+  // Handle event if provided
+  if (e?.preventDefault) {
+    e.preventDefault();
   }
   
-  if (!options.usePopup) {
-    window.location.href = '/api/googleCalendar/google/start';
+  // If no buildAuthUrl provided, use default
+  if (!buildAuthUrl) {
+    buildAuthUrl = async () => '/api/googleCalendar/google/start';
+  }
+  
+  // Open popup synchronously during click event
+  const width = 560, height = 700;
+  const left = window.screenX + Math.max(0, (window.outerWidth - width) / 2);
+  const top = window.screenY + Math.max(0, (window.outerHeight - height) / 2);
+  const features = `popup=yes,noopener=yes,resizable=yes,scrollbars=yes,width=${width},height=${height},left=${left},top=${top}`;
+  
+  // CRITICAL: Open immediately on click - no await before this!
+  const popup = window.open('about:blank', 'gcal_oauth', features);
+  
+  // If blocked, fallback to full-page redirect
+  if (!popup) {
+    const authUrl = await buildAuthUrl();
+    window.location.assign(authUrl);
     return;
   }
-  return startOAuthInPopup();
+  
+  // Fetch URL and navigate popup
+  try {
+    const authUrl = await buildAuthUrl();
+    popup.location.href = authUrl;
+    
+    // Poll for completion
+    return pollForCompletion(popup);
+  } catch (err) {
+    popup.close();
+    throw err;
+  }
 };
+
+// Helper to poll for OAuth completion
+async function pollForCompletion(popup) {
+  const deadline = Date.now() + 90_000;
+  
+  while (Date.now() < deadline) {
+    // Check if window is closed
+    try {
+      if (popup.closed) {
+        break;
+      }
+    } catch {
+      // COOP prevents access
+    }
+    
+    // Check if connected
+    const s = await status();
+    if (s.connected) {
+      try { 
+        popup.close(); 
+      } catch {
+        // Send message to close
+        try {
+          popup.postMessage({ action: 'close' }, '*');
+        } catch {}
+      }
+      return { connected: true };
+    }
+    
+    await new Promise(r => setTimeout(r, 500));
+  }
+  
+  // Check final status
+  const finalStatus = await status();
+  return { connected: finalStatus.connected };
+}
 
 // --- List events ---
 export async function listEvents(range = 'week') {

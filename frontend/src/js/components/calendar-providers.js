@@ -1,4 +1,6 @@
 // calendar-providers.js — provider modal (minimal)
+import { startOAuth } from '../services/gcal-clean.js';
+
 export function showProviderModal({ onGoogle, onOutlook, onM2M }) {
   const html = `
     <div class="modal-backdrop">
@@ -42,10 +44,34 @@ export function showProviderModal({ onGoogle, onOutlook, onM2M }) {
     setTimeout(() => el.remove(), 300);
   };
 
-  // Wire up buttons
-  el.querySelector('[data-google]').onclick = () => {
-    onGoogle?.();
-    close();
+  // Wire up buttons with proper OAuth handling
+  el.querySelector('[data-google]').onclick = (e) => {
+    // Call startOAuth immediately during click event (synchronous)
+    startOAuth(e, async () => {
+      // Build the auth URL
+      const res = await fetch('/api/googleCalendar/google/start', { 
+        credentials: 'include' 
+      });
+      // If it's a redirect response, get the Location header
+      if (res.redirected) {
+        return res.url;
+      }
+      // Otherwise try to parse JSON for URL
+      try {
+        const data = await res.json();
+        return data.url || '/api/googleCalendar/google/start';
+      } catch {
+        return '/api/googleCalendar/google/start';
+      }
+    }).then(result => {
+      if (result?.connected) {
+        onGoogle?.();
+        close();
+      }
+    }).catch(err => {
+      console.error('OAuth failed:', err);
+      toast('Failed to connect Google Calendar. Please try again.', 'error');
+    });
   };
   
   el.querySelector('[data-outlook]').onclick = () => {
