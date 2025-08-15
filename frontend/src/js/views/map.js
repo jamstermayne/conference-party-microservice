@@ -1,18 +1,15 @@
 /**
  * Unified Map View
- * Shows party markers and heatmap overlay on Google Maps
+ * Shows party markers on Google Maps
  */
 
 const API_BASE = window.__ENV?.API_BASE || '/api';
 const COLOGNE_CENTER = { lat: 50.9375, lng: 6.9603 }; // Cologne city center
 
-// Store map instance and layers
+// Store map instance and markers
 let mapInstance = null;
 let markers = [];
-// Heatmap disabled - visualization library not loaded
-// let heatmapLayer = null;
 let markersVisible = true;
-// let heatmapVisible = true;
 
 /**
  * Wait for Google Maps to be loaded
@@ -114,7 +111,7 @@ function createInfoContent(party) {
 }
 
 /**
- * Initialize map with markers and heatmap
+ * Initialize map with markers
  */
 async function initializeMap(container, parties) {
   // Create map
@@ -151,7 +148,6 @@ async function initializeMap(container, parties) {
   });
   
   // Prepare data for markers
-  // const heatmapData = []; // Heatmap disabled - visualization library not loaded
   const infoWindow = new google.maps.InfoWindow();
   
   parties.forEach(party => {
@@ -179,21 +175,7 @@ async function initializeMap(container, parties) {
     });
     
     markers.push(marker);
-    
-    // Heatmap disabled - visualization library not loaded
-    // const weight = party.price?.toLowerCase().includes('free') ? 2 : 1;
-    // heatmapData.push({
-    //   location: new google.maps.LatLng(position.lat, position.lng),
-    //   weight
-    // });
   });
-  
-  // Heatmap disabled - visualization library not loaded
-  // heatmapLayer = new google.maps.visualization.HeatmapLayer({
-  //   data: heatmapData,
-  //   map: mapInstance,
-  //   ...
-  // });
 }
 
 /**
@@ -207,16 +189,6 @@ function toggleMarkers(visible) {
 }
 
 /**
- * Toggle heatmap visibility - DISABLED (visualization library not loaded)
- */
-// function toggleHeatmap(visible) {
-//   heatmapVisible = visible;
-//   if (heatmapLayer) {
-//     heatmapLayer.setMap(visible ? mapInstance : null);
-//   }
-// }
-
-/**
  * Create map controls
  */
 function createControls() {
@@ -227,22 +199,12 @@ function createControls() {
       <input type="checkbox" id="toggle-markers" checked>
       <span>Markers</span>
     </label>
-    <!-- Heatmap disabled - visualization library not loaded -->
-    <!-- <label class="map-control">
-      <input type="checkbox" id="toggle-heatmap" checked>
-      <span>Heatmap</span>
-    </label> -->
   `;
   
   // Add event listeners
   controls.querySelector('#toggle-markers').addEventListener('change', (e) => {
     toggleMarkers(e.target.checked);
   });
-  
-  // Heatmap toggle disabled - visualization library not loaded
-  // controls.querySelector('#toggle-heatmap')?.addEventListener('change', (e) => {
-  //   toggleHeatmap(e.target.checked);
-  // });
   
   return controls;
 }
