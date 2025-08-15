@@ -12,9 +12,11 @@ echo ""
 
 # Run individual audits
 AUDITS=(
+    "00_env_probe.sh:Environment Probe"
     "token-check.sh:Token Compliance"
     "css-audit.sh:CSS Analysis"
     "component-audit.sh:Component Review"
+    "10_layout_nav_audit.sh:Layout & Navigation"
 )
 
 TOTAL_ISSUES=0
