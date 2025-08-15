@@ -71,14 +71,48 @@ async function loadGoogleMaps() {
 }
 
 /**
- * Fetch party data from API
+ * Extract ISO date from hash (e.g., #/map/2025-08-22)
+ */
+function isoFromHash() {
+  const m = location.hash.match(/^#\/map\/(\d{4}-\d{2}-\d{2})/);
+  return m ? m[1] : null;
+}
+
+/**
+ * Convert various date formats to ISO date string
+ */
+function toISO(x) {
+  if (!x) return null;
+  const d = new Date(x);
+  if (isNaN(d)) return null;
+  // normalize to local day
+  const local = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+  return local.toISOString().slice(0,10);
+}
+
+/**
+ * Fetch party data from API and filter by day if specified
  */
 async function fetchParties() {
   try {
-    const response = await fetch(`${API_BASE}/parties?conference=gamescom2025`);
+    const dayISO = isoFromHash();
+    const conf = (window.APP && APP.conference) || 'gamescom2025';
+    
+    const response = await fetch(`${API_BASE}/parties?conference=${encodeURIComponent(conf)}`);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
-    return data?.data || [];
+    const rows = data?.data || [];
+    
+    // Filter by day if specified in URL
+    if (dayISO) {
+      console.log(`Filtering parties for day: ${dayISO}`);
+      return rows.filter(e => {
+        const eventDate = e.date || toISO(e.start || e.startsAt || e.startTime || e.when);
+        return eventDate === dayISO;
+      });
+    }
+    
+    return rows;
   } catch (error) {
     console.error('Failed to fetch parties:', error);
     return [];
@@ -415,10 +449,13 @@ export async function renderMap(mount) {
     mtmSource = null;
   }
   
-  // Create container structure
+  // Create container structure with day indicator
+  const dayISO = isoFromHash();
+  const dayLabel = dayISO ? ` for ${new Date(dayISO + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}` : '';
+  
   mount.innerHTML = `
     <div class="map-container">
-      <div class="map-loading">Loading map...</div>
+      <div class="map-loading">Loading map${dayLabel}...</div>
     </div>
   `;
   
@@ -552,6 +589,29 @@ export async function renderMap(mount) {
       
       // Clear loading state
       container.innerHTML = '';
+      
+      // Add day filter indicator if filtering
+      const dayISO = isoFromHash();
+      if (dayISO) {
+        const dayIndicator = document.createElement('div');
+        dayIndicator.style.cssText = `
+          position: absolute;
+          top: 16px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: rgba(110, 94, 246, 0.9);
+          color: white;
+          padding: 8px 16px;
+          border-radius: 20px;
+          font-size: 14px;
+          font-weight: 500;
+          z-index: 10;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        `;
+        const dayDate = new Date(dayISO + 'T00:00:00');
+        dayIndicator.textContent = `Showing: ${dayDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}`;
+        container.appendChild(dayIndicator);
+      }
       
       // Create map div
       const mapDiv = document.createElement('div');

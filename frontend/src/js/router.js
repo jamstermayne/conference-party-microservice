@@ -4,7 +4,12 @@ import "./map-hooks.js?v=b031";
 import { scheduleEqualize } from './ui/equalize-cards.js';
 
 export const ROUTES = ['parties','calendar','map','invites','contacts','me','settings'];
-export const currentRoute = () => (location.hash.replace(/^#\/?/, '')||'parties').split('?')[0];
+export const currentRoute = () => {
+  const hash = location.hash.replace(/^#\/?/, '') || 'parties';
+  // Extract base route (e.g., 'map' from 'map/2025-08-22')
+  const route = hash.split('/')[0].split('?')[0];
+  return route;
+};
 
 async function go(){
   await ensureShell();
