@@ -321,7 +321,7 @@ section[data-route]{padding:var(--s-4);display:grid;gap:var(--s-3)}
   border-radius: var(--s-3);
   text-transform: uppercase;
   font-weight: 600;
-  letter-spacing: 0.5px;
+  letter-spacing:0.031rem;
 }
 .party-details { margin-bottom: var(--s-4); }
 .party-meta {
@@ -332,7 +332,7 @@ section[data-route]{padding:var(--s-4);display:grid;gap:var(--s-3)}
 }
 .party-venue, .party-time {
   color: var(--muted, var(--text-secondary));
-  font-size: 13px;
+  font-size:0.813rem;
   display: flex;
   align-items: center;
   gap: var(--s-1-5);
@@ -356,7 +356,7 @@ section[data-route]{padding:var(--s-4);display:grid;gap:var(--s-3)}
 .party-actions .btn {
   flex: 1;
   min-width: 0;
-  font-size: 13px;
+  font-size:0.813rem;
   padding: var(--s-2) var(--s-3);
 }
 .btn-success {
@@ -384,7 +384,7 @@ section[data-route]{padding:var(--s-4);display:grid;gap:var(--s-3)}
   display: block;
 }
 .empty-state-title, .error-state-title {
-  font-size: 18px;
+  font-size:var(--text-lg);
   font-weight: 600;
   margin: 0 0 var(--s-2) 0;
 }
@@ -407,7 +407,7 @@ section[data-route]{padding:var(--s-4);display:grid;gap:var(--s-3)}
   color: white;
   padding: var(--s-2) var(--s-4);
   border-radius: var(--s-5);
-  font-size: 13px;
+  font-size:0.813rem;
   font-weight: 500;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -460,7 +460,7 @@ section[data-route]{padding:var(--s-4);display:grid;gap:var(--s-3)}
 /* Slack-style channel look */
 .side-nav .nav-item { display:flex; gap:var(--s-2); align-items:center; }
 .side-nav .nav-item .hash {
-  width:18px; text-align:center; font-weight:700; opacity:.7;
+  width:var(--s-4-5); text-align:center; font-weight:700; opacity:.7;
 }
 .side-nav .nav-item .label { white-space:nowrap; }
 .side-nav .nav-item.active .hash { opacity:1; }

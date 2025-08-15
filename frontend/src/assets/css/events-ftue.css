@@ -18,7 +18,7 @@
 
 .ftue--hide {
   opacity: 0;
-  transform: translateY(-8px);
+  transform: translateY(calc(-1 * var(--s-2)));
   pointer-events: none;
 }
 

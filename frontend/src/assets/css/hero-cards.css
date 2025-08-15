@@ -9,9 +9,9 @@
   background: radial-gradient(1200px 320px at -200px -140px,var(--v-sheen2) 0%,var(--v-panel) 60%);
   box-shadow: var(--shadow-card);
 }
-.vcard + .vcard{ margin-top:14px }
+.vcard + .vcard{ margin-top:var(--s-3-5) }
 .vcard__head{ display:flex; gap:var(--s-3); justify-content:space-between; align-items:center; margin-bottom:var(--s-2) }
-.vcard__title{ font-weight:800; font-size:18px; line-height:1.15 }
+.vcard__title{ font-weight:800; font-size:var(--text-lg); line-height:1.15 }
 .vcard__badges{ display:flex; gap:var(--s-2); flex-wrap:wrap }
 .vpill{ padding:var(--s-2) var(--s-2); font-size:12px; border-radius:var(--r-full); border:1px solid var(--neutral-200); background:var(--neutral-100); color:var(--alias-cfe0ff) }
 .vpill.live{ border-color:var(--neutral-100); background:var(--neutral-100); color:var(--alias-baf5d3) }
@@ -23,7 +23,7 @@
 
 /* M2M additions (tiny, scoped) */
 .vpill.m2m { border-color:var(--alias-3c2f6e); background:var(--neutral-100); color:var(--alias-cbd7ff) }
-.vspinner { display:inline-block; width:16px; height:16px; border-radius:50%;
+.vspinner { display:inline-block; width:var(--s-4); height:var(--s-4); border-radius:50%;
   border:2px solid rgba(255,255,255,.25); border-top-color:var(--text-primary); animation:vspin .7s linear infinite; }
 @keyframes vspin { to { transform: rotate(360deg); } }
 
@@ -40,7 +40,7 @@
 /* === Grid wrapper (keeps your existing class names working) === */
 .cards, .card-grid, .vgrid { 
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns:repeat(auto-fill, minmax(var(--container-xs), 1fr));
   gap: var(--s-6);                                           /* var(--s-6) rhythm */
   align-items:stretch;
 }
