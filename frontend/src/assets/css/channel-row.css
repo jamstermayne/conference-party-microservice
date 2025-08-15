@@ -15,6 +15,12 @@
 .v-row:focus-visible{ outline: 2px solid var(--brand-500); outline-offset: 2px; }
 .v-row:hover{ background: var(--surface-3); }
 .v-row:active{ transform: translateY(1px); }
-.v-row__icon{ width: 20px; height: 20px; border-radius: var(--r-full); background: var(--brand-400); }
+.v-row__icon{ width: var(--s-5); height: var(--s-5); border-radius: var(--r-full); background: var(--brand-400); display: grid; place-items: center; font-size: var(--text-sm); }
 .v-row__label{ font: var(--text-md); color: var(--text-primary); }
 .v-row__chev{ color: var(--text-tertiary); font: var(--text-lg); }
+.v-row__status{ color: var(--text-secondary); font: var(--text-sm); }
+
+.v-rows { display: flex; flex-direction: column; gap: var(--s-2); }
+.v-section { padding: var(--s-4); }
+.v-section h2 { font: var(--text-lg); color: var(--text-primary); margin-bottom: var(--s-3); }
+.v-section h3 { font: var(--text-md); color: var(--text-secondary); margin-bottom: var(--s-2); }
