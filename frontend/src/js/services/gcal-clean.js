@@ -10,12 +10,28 @@ export async function status() {
 
 // --- Popup OAuth and wait until session cookie present ---
 async function startOAuthInPopup() {
-  const w = window.open(
-    '/api/googleCalendar/google/start',
-    'gcal_oauth',
-    'width=550,height=680,menubar=no,toolbar=no,status=no,noopener'
-  );
-  if (!w) throw new Error('Popup blocked');
+  // Open popup synchronously on user gesture
+  const width = 560, height = 700;
+  const left = window.screenX + Math.max(0, (window.outerWidth - width) / 2);
+  const top = window.screenY + Math.max(0, (window.outerHeight - height) / 2);
+  const features = `popup=yes,noopener=yes,resizable=yes,scrollbars=yes,width=${width},height=${height},left=${left},top=${top}`;
+  
+  // Open immediately - critical for popup blockers
+  const w = window.open('about:blank', 'gcal_oauth', features);
+  
+  // If blocked, fallback to full-page redirect
+  if (!w) {
+    window.location.assign('/api/googleCalendar/google/start');
+    return { connected: false, fallback: true };
+  }
+  
+  // Now set the URL after popup exists
+  try {
+    w.location.href = '/api/googleCalendar/google/start';
+  } catch (err) {
+    w.close();
+    throw new Error('Failed to navigate popup');
+  }
 
   // Poll status until connected or window closed (max ~90s)
   const deadline = Date.now() + 90_000;
@@ -105,8 +121,16 @@ export async function disconnect() {
 
 // --- Convenience exports for compatibility ---
 export const isConnected = async () => (await status()).connected;
-export const startOAuth = async ({ usePopup = true } = {}) => {
-  if (!usePopup) {
+export const startOAuth = async (eventOrOptions = {}) => {
+  // Handle both event objects and options objects
+  const isEvent = eventOrOptions?.preventDefault || eventOrOptions?.stopPropagation;
+  const options = isEvent ? { usePopup: true } : eventOrOptions;
+  
+  if (isEvent) {
+    eventOrOptions.preventDefault?.();
+  }
+  
+  if (!options.usePopup) {
     window.location.href = '/api/googleCalendar/google/start';
     return;
   }
