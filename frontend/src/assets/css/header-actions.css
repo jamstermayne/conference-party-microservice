@@ -5,14 +5,14 @@
 }
 
 .section-title-text {
-  font-size: 18px;
+  font-size: 1var(--s-2);
   font-weight: 700;
   margin: 0;
 }
 
 .section-chip {
   background: rgba(107,123,255,.12);
-  border: 1px solid rgba(107,123,255,.35);
+  border: var(--bw-1) solid rgba(107,123,255,.35);
   color: var(--text-primary);
   padding: var(--s-1) var(--s-2-5);
   border-radius: var(--r-pill);

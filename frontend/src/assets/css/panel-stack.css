@@ -14,7 +14,7 @@
   grid-template-rows: auto 1fr;
   opacity: 0; 
   pointer-events: none;
-  transform: translateX(24px);
+  transform: translateX(2var(--s-1));
   transition: transform .24s ease, opacity .2s ease;
   will-change: transform, opacity;
 }
@@ -44,15 +44,15 @@
 
 .v-topbar{
   position: sticky; top: 0; z-index: 2;
-  display: grid; grid-template-columns: 44px 1fr 44px;
+  display: grid; grid-template-columns: 4var(--s-1) 1fr 4var(--s-1);
   align-items: center;
-  height: 56px; padding-inline: var(--s-3);
+  height: 5var(--s-1-5); padding-inline: var(--s-3);
   background: var(--surface-1);
   box-shadow: var(--shadow-xs);
 }
-.v-topbar__back{ all: unset; width: 36px; height: 36px; border-radius: var(--r-full); display:grid; place-items:center; cursor: pointer; }
+.v-topbar__back{ all: unset; width: 3var(--s-1-5); height: 3var(--s-1-5); border-radius: var(--r-full); display:grid; place-items:center; cursor: pointer; }
 .v-topbar__back:hover{ background: var(--surface-2); }
-.v-topbar__back:focus-visible{ outline: 2px solid var(--brand-500); outline-offset: 2px; }
+.v-topbar__back:focus-visible{ outline: var(--s-0-5) solid var(--brand-500); outline-offset: var(--s-0-5); }
 .v-topbar__title{ font: var(--text-lg); color: var(--text-primary); }
 
 .v-panel__body{

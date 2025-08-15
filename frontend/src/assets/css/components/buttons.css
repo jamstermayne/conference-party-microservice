@@ -6,7 +6,7 @@
   justify-content: center;
   padding: var(--s-3) var(--s-5);
   border-radius: var(--r-lg);
-  border: 1px solid var(--btn-border);
+  border: var(--bw-1) solid var(--btn-border);
   font-weight: 600;
   cursor: pointer;
   transition: transform .06s ease, background-color .15s ease, border-color .15s ease;
@@ -59,7 +59,7 @@
 }
 
 .btn--ghost {
-  border: 1px solid var(--btn-border);
+  border: var(--bw-1) solid var(--btn-border);
   color: var(--btn-ghost-fg);
   background: var(--btn-ghost-bg);
 }

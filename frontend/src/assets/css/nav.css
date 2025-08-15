@@ -1,13 +1,13 @@
 /* Navigation Enhancements */
 .sidenav {
   background: var(--surface-primary);
-  border-right: 1px solid var(--border-primary);
+  border-right: var(--bw-1) solid var(--border-primary);
   transition: all var(--transition-medium);
 }
 
 .side-head {
   padding: var(--space-lg);
-  border-bottom: 1px solid var(--border-primary);
+  border-bottom: var(--bw-1) solid var(--border-primary);
 }
 
 .brand {
@@ -54,7 +54,7 @@
 
 .side-nav .nav-item .label { 
   font-weight: 500; 
-  letter-spacing: .2px; 
+  letter-spacing: .var(--s-0-5); 
   flex: 1;
 }
 
@@ -79,20 +79,20 @@
   margin-left: auto; 
   padding: var(--s-0-5) var(--s-1-5);
   border-radius: var(--r-pill);
-  font-size: 11px;
+  font-size: 1var(--bw-1);
   font-weight: 600;
   line-height: 1;
 }
 
 .badge-glass {
   background: rgba(255, 255, 255, .1);
-  border: 1px solid rgba(255, 255, 255, .2);
+  border: var(--bw-1) solid rgba(255, 255, 255, .2);
   color: var(--text-primary);
 }
 
 .badge-primary {
   background: rgba(107, 123, 255, .2);
-  border: 1px solid rgba(107, 123, 255, .4);
+  border: var(--bw-1) solid rgba(107, 123, 255, .4);
   color: var(--alias-9fb3ff);
 }
 
@@ -113,7 +113,7 @@
 
 .side-footer {
   padding: var(--space-md);
-  border-top: 1px solid var(--border-primary);
+  border-top: var(--bw-1) solid var(--border-primary);
   margin-top: auto;
 }
 
@@ -152,19 +152,19 @@
 }
 
 /* Mobile Navigation */
-@media (max-width: 768px) {
+@media (max-width: 76var(--s-2)) {
   .sidenav {
     position: fixed;
     top: 0;
-    left: -280px;
-    width: 280px;
+    left: -280;
+    width: 280;
     height: 100vh;
     z-index: 1000;
     transition: transform var(--transition-medium);
   }
 
   .sidenav.open {
-    transform: translateX(280px);
+    transform: translateX(280);
   }
 
   .overlay {

@@ -1,7 +1,7 @@
 /* cards.css - Token-based card styles */
 .vcard {
   background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  border: var(--bw-1) solid var(--card-border);
   border-radius: var(--r-xl);
   color: var(--text-primary);
   overflow: hidden;
@@ -9,7 +9,7 @@
 
 .vcard__header {
   padding: var(--s-4);
-  border-bottom: 1px solid var(--border-primary);
+  border-bottom: var(--bw-1) solid var(--border-primary);
 }
 
 .vcard__body {
@@ -18,7 +18,7 @@
 
 .vcard__footer {
   padding: var(--s-3) var(--s-4);
-  border-top: 1px solid var(--border-primary);
+  border-top: var(--bw-1) solid var(--border-primary);
   background: rgba(0,0,0,0.2);
 }
 
@@ -56,13 +56,13 @@
 
 .v-row--active {
   background: var(--row-hover);
-  border-left: 3px solid var(--brand-500);
+  border-left: var(--bw-3) solid var(--brand-500);
 }
 
 /* Legacy hero card support */
 .hero-card {
   background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  border: var(--bw-1) solid var(--card-border);
   border-radius: var(--r-xl);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -96,7 +96,7 @@
 
 .hero-card__footer {
   padding: var(--s-3) var(--s-4);
-  border-top: 1px solid var(--border-primary);
+  border-top: var(--bw-1) solid var(--border-primary);
   background: rgba(0,0,0,0.2);
 }
 
@@ -109,5 +109,5 @@
 .vcard-grid {
   display: grid;
   gap: var(--s-4);
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280, 1fr));
 }

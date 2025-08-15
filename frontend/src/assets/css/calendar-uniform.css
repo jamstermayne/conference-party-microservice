@@ -1,6 +1,6 @@
 /* ---- Calendar Layout (collision-proof, sidebar-agnostic) ---- */
 :root{
-  --hour-height: 240px;                 /* 60m vertical height */
+  --hour-height: 240;                 /* 60m vertical height */
   --cal-baseline-hour: 8;               /* 08:00 start */
   --cal-end-hour: 22;                   /* 22:00 end */
   --cal-gutter: var(--s-13);                   /* left time gutter width */
@@ -28,13 +28,13 @@
   position: relative;
   margin: var(--s-2) 0 var(--s-6);
   min-height: calc((var(--cal-end-hour) - var(--cal-baseline-hour)) * var(--hour-height));
-  border-left: 1px solid var(--cal-grid-line);
+  border-left: var(--bw-1) solid var(--cal-grid-line);
 }
 
 /* Hour rows + labels */
 .cal-grid .hour-row{
   height: var(--hour-height);
-  border-bottom: 1px dashed var(--cal-grid-line);
+  border-bottom: var(--bw-1) dashed var(--cal-grid-line);
   position: relative;
 }
 .cal-grid .hour-row .label{
@@ -72,8 +72,8 @@
 }
 .cal-now .tick{
   position: absolute; left: 0; transform: translate(-120%, -50%);
-  font-size: 11px; color: var(--alias-cfe0ff); background: rgba(17,25,40,.7);
-  border: 1px solid rgba(108,91,255,.4); border-radius: var(--r-pill); padding: var(--s-0-5) var(--s-1-5);
+  font-size: 1var(--bw-1); color: var(--alias-cfe0ff); background: rgba(17,25,40,.7);
+  border: var(--bw-1) solid rgba(108,91,255,.4); border-radius: var(--r-pill); padding: var(--s-0-5) var(--s-1-5);
 }
 
 /* Buttons (re-use vbtn palette) */
@@ -82,35 +82,35 @@
 /* provider-grid */
 .provider-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280,1fr));
   gap: var(--s-4);
   margin-top: var(--s-4);
 }
 .provider-card {
   background: var(--panel, rgba(255,255,255,.02));
-  border: 1px solid var(--panel-border, rgba(255,255,255,.06));
+  border: var(--bw-1) solid var(--panel-border, rgba(255,255,255,.06));
   border-radius: var(--s-4);
   padding: var(--s-4);
 }
-.provider-card .title { display:flex; align-items:center; gap:12px; font-weight:600; }
-.provider-card .subtitle { opacity:.7; margin:6px 0 var(--s-3); }
-.provider-card .actions { display:flex; flex-wrap:wrap; gap:8px; }
-.provider-card.connected { outline:1px solid var(--accent, var(--alias-7c6cff)); }
+.provider-card .title { display:flex; align-items:center; gap:1var(--s-0-5); font-weight:600; }
+.provider-card .subtitle { opacity:.7; margin:var(--s-1-5) 0 var(--s-3); }
+.provider-card .actions { display:flex; flex-wrap:wrap; gap:var(--s-2); }
+.provider-card.connected { outline:var(--bw-1) solid var(--accent, var(--alias-7c6cff)); }
 
 /* provider-grid */
 .provider-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280,1fr));
   gap: var(--s-4);
   margin-top: var(--s-4);
 }
 .provider-card {
   background: var(--panel, rgba(255,255,255,.02));
-  border: 1px solid var(--panel-border, rgba(255,255,255,.06));
+  border: var(--bw-1) solid var(--panel-border, rgba(255,255,255,.06));
   border-radius: var(--s-4);
   padding: var(--s-4);
 }
-.provider-card .title { display:flex; align-items:center; gap:12px; font-weight:600; }
-.provider-card .subtitle { opacity:.7; margin:6px 0 var(--s-3); }
-.provider-card .actions { display:flex; flex-wrap:wrap; gap:8px; }
-.provider-card.connected { outline:1px solid var(--accent, var(--alias-7c6cff)); }
+.provider-card .title { display:flex; align-items:center; gap:1var(--s-0-5); font-weight:600; }
+.provider-card .subtitle { opacity:.7; margin:var(--s-1-5) 0 var(--s-3); }
+.provider-card .actions { display:flex; flex-wrap:wrap; gap:var(--s-2); }
+.provider-card.connected { outline:var(--bw-1) solid var(--accent, var(--alias-7c6cff)); }

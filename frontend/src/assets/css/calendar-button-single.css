@@ -45,7 +45,7 @@
 /* Compact version for list views */
 .compact .btn.add-to-calendar {
   padding: var(--s-1-5) var(--s-3);
-  font-size: 13px;
+  font-size: 1var(--bw-3);
 }
 
 /* Remove any legacy btn-group styling */
