@@ -27,13 +27,33 @@
       console.warn("[Auth] Firebase SDK missing");
       return;
     }
-    firebase.initializeApp(cfg());
-    firebase.auth().onAuthStateChanged(u=>{
-      _user = u || null;
-      document.documentElement.classList.toggle('authed', !!_user);
-      _subs.forEach(fn=>{ try{ fn(_user); }catch(e){} });
-    });
-    _inited = true;
+    
+    try {
+      // Check if Firebase is already initialized
+      if (!firebase.apps || firebase.apps.length === 0) {
+        firebase.initializeApp(cfg());
+      }
+      
+      firebase.auth().onAuthStateChanged(u=>{
+        _user = u || null;
+        document.documentElement.classList.toggle('authed', !!_user);
+        _subs.forEach(fn=>{ try{ fn(_user); }catch(e){} });
+      });
+      _inited = true;
+    } catch (error) {
+      // Handle initialization errors gracefully
+      if (error.code === 'app/duplicate-app') {
+        // App already exists, just set up auth listener
+        firebase.auth().onAuthStateChanged(u=>{
+          _user = u || null;
+          document.documentElement.classList.toggle('authed', !!_user);
+          _subs.forEach(fn=>{ try{ fn(_user); }catch(e){} });
+        });
+        _inited = true;
+      } else {
+        console.error("[Auth] Firebase initialization error:", error);
+      }
+    }
   }
 
   async function signInGoogle(){

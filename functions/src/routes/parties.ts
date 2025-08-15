@@ -122,7 +122,7 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
       }
     ];
     
-    console.log("[parties] Using demo data fallback");
+    console.log("[parties] Using demo data fallback - v2");
     return res.json({
       source: "demo",
       count: demoParties.length,
