@@ -38,10 +38,10 @@
   <link rel="stylesheet" href="/assets/css/theme-unified.css?v=b803">
   <link rel="stylesheet" href="/assets/css/calendar-uniform.css?v=b803">
   <link rel="stylesheet" href="/assets/css/calendar-buttons.css?v=b803">
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="/js/auth.js?v=b803"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script type="module" defer src="/js/auth.js?v=b803"></script>
   <!-- Consolidated layout styles -->
   <link rel="stylesheet" href="/assets/css/calendar-button-single.css?v=b803">
   <link rel="stylesheet" href="/assets/css/button-secondary.css?v=b803">
@@ -140,11 +140,11 @@ if ('serviceWorker' in navigator) {
   caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
 }
   </script>
-<script src="/js/kill-sw.js?v=b803"></script>
+<script type="module" defer src="/js/kill-sw.js?v=b803"></script>
 <script type="module" src="/js/router.js?v=b803"></script>
 <script type="module" src="/js/gcal-hooks.js?v=b803"></script>
 <script type="module" src="/js/map-hooks.js?v=b803"></script>
-<script src="/js/day-subnav.js?v=b803"></script>
-  <script src="/js/theme-patch.js?v=001"></script>
+<script type="module" defer src="/js/day-subnav.js?v=b803"></script>
+  <script type="module" defer src="/js/theme-patch.js?v=001"></script>
 </body>
 </html>
