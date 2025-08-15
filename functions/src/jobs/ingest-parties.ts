@@ -1,8 +1,10 @@
 import * as admin from "firebase-admin";
 import { fetchLive, isValidParty } from "../services/parties-live";
 
-// Initialize Firestore
-const db = admin.firestore();
+// Initialize Firestore lazily
+function getDb() {
+  return admin.firestore();
+}
 
 /**
  * Ingests party data from live source into Firestore
@@ -35,7 +37,7 @@ export async function runIngest(): Promise<{
     }
     
     // Batch write for better performance
-    const batch = db.batch();
+    const batch = getDb().batch();
     const batchSize = 500; // Firestore batch limit
     let batchCount = 0;
     
@@ -50,7 +52,7 @@ export async function runIngest(): Promise<{
         
         // Create document ID from conference and external ID
         const docId = `${party.conference}:${party.externalId}`;
-        const docRef = db.collection('parties').doc(docId);
+        const docRef = getDb().collection('parties').doc(docId);
         
         // Upsert party data
         batch.set(docRef, {
@@ -82,7 +84,7 @@ export async function runIngest(): Promise<{
     }
     
     // Update ingestion metadata
-    await db.collection('metadata').doc('parties_ingestion').set({
+    await getDb().collection('metadata').doc('parties_ingestion').set({
       lastRun: new Date().toISOString(),
       lastRunDuration: Date.now() - startTime,
       partiesIngested: ingested,
@@ -107,7 +109,7 @@ export async function runIngest(): Promise<{
     
     // Log failure to metadata
     try {
-      await db.collection('metadata').doc('parties_ingestion').set({
+      await getDb().collection('metadata').doc('parties_ingestion').set({
         lastRun: new Date().toISOString(),
         lastRunDuration: Date.now() - startTime,
         partiesIngested: ingested,

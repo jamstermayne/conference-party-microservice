@@ -3,8 +3,10 @@ import * as admin from "firebase-admin";
 // Source URL for live party data
 const SOURCE_URL = "https://sheets.googleapis.com/v4/spreadsheets/1Cq-UcdgtSz2FaROahsj7Db2nmStBFCN97EZzBEHCrKg/values/Sheet1!A2:ZZ1000?key=AIzaSyBDpwrbzrpB2xi8owv9IIBzXYvtwfKLhzQ";
 
-// Initialize Firestore
-const db = admin.firestore();
+// Initialize Firestore lazily
+function getDb() {
+  return admin.firestore();
+}
 
 /**
  * Normalized party structure for consistent data handling
@@ -154,7 +156,7 @@ export async function fetchLive(): Promise<NormalizedParty[]> {
  */
 export async function getPartiesFromFirestore(conference: string = "gamescom2025"): Promise<NormalizedParty[]> {
   try {
-    const snapshot = await db.collection('parties')
+    const snapshot = await getDb().collection('parties')
       .where('conference', '==', conference)
       .orderBy('date', 'asc')
       .orderBy('time', 'asc')
