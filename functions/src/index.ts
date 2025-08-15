@@ -1,5 +1,5 @@
 import {onRequest} from "firebase-functions/v2/https";
-import {onSchedule} from "firebase-functions/v2/scheduler";
+// import {onSchedule} from "firebase-functions/v2/scheduler"; // Temporarily disabled - Cloud Scheduler API not enabled
 import * as admin from "firebase-admin";
 import express, {Request, Response} from "express";
 import cors from "cors";
@@ -15,7 +15,7 @@ import {
 import { m2mVerify, m2mSubscribe, m2mEvents } from "./m2m";
 import m2mRouter from "./routes/m2m";
 import partiesRouter from "./routes/parties";
-import { runIngest } from "./jobs/ingest-parties";
+// import { runIngest } from "./jobs/ingest-parties"; // Temporarily disabled with scheduled function
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const invitesRouter = require("../../routes/invites");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -164,15 +164,16 @@ export const apiFn = onRequest({
 export const api = app;
 
 // Scheduled function to ingest parties every 15 minutes
-export const ingestParties = onSchedule("every 15 minutes", async (_context): Promise<void> => {
-  console.log("[ingestParties] Scheduled ingestion started");
-  
-  try {
-    const result = await runIngest();
-    console.log("[ingestParties] Scheduled ingestion completed:", result);
-    // Don't return value, just log
-  } catch (error) {
-    console.error("[ingestParties] Scheduled ingestion failed:", error);
-    throw error; // Re-throw to trigger retry
-  }
-});
+// TEMPORARILY DISABLED: Cloud Scheduler API not enabled in project
+// export const ingestParties = onSchedule("every 15 minutes", async (_context): Promise<void> => {
+//   console.log("[ingestParties] Scheduled ingestion started");
+//   
+//   try {
+//     const result = await runIngest();
+//     console.log("[ingestParties] Scheduled ingestion completed:", result);
+//     // Don't return value, just log
+//   } catch (error) {
+//     console.error("[ingestParties] Scheduled ingestion failed:", error);
+//     throw error; // Re-throw to trigger retry
+//   }
+// });
