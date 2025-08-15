@@ -23,13 +23,11 @@ function readPartyPayload(el) {
 
 async function handleAddToCalendar(btn) {
   const party = readPartyPayload(btn);
-  // Check status; if connected call create; else open provider chooser
-  const res = await fetch('/api/googleCalendar/status', { credentials: 'include' });
-  const { connected } = await res.json().catch(() => ({ connected:false }));
-  if (connected) {
+  try {
+    await ensureGoogleConnected();
     await addToGoogleCalendar(party);
-  } else {
-    document.querySelector('#calendar-provider-modal')?.classList.add('open');
+  } catch (err) {
+    console.error('Calendar add failed:', err);
   }
 }
 
