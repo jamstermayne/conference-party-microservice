@@ -1,151 +1,188 @@
-// gcal-hooks.js — single-button click orchestration
-import { create } from './services/gcal.js?v=b037';
-import { openProviderModalIfNeeded } from './services/calendar-providers.js?v=b037';
-import { toast } from './components/calendar-providers.js?v=b037';
+// gcal-hooks.js — Smart "Add to Calendar" click handler with auth polling
+import { status as getStatus, startOAuth as startOAuthPopup, create as createEvent } from './services/gcal.js?v=b037';
 
 /**
- * Extract event data from button/card
+ * Ensure user is authenticated with Google Calendar
+ * Uses status polling to handle COOP restrictions
  */
-function extractEventData(element) {
-  const card = element.closest('.vcard, .card, .party-card, .section-card');
+async function ensureAuth() {
+  const st = await getStatus();         // { connected: boolean }
+  if (st.connected) return true;
+
+  // Start OAuth in popup
+  let popup;
+  try {
+    popup = await startOAuthPopup({ usePopup: true });
+  } catch (e) {
+    // Popup blocked or failed, fall back to redirect
+    await startOAuthPopup({ usePopup: false });
+    return false; // Will redirect, won't reach here
+  }
+
+  // Poll status until connected (popup may be blocked from closing by COOP)
+  const deadline = Date.now() + 120000; // 2 minutes
+  while (Date.now() < deadline) {
+    await new Promise(r => setTimeout(r, 1200));
+    try {
+      const s = await getStatus();
+      if (s.connected) { 
+        try { popup?.close?.(); } catch {} // Try to close popup
+        return true; 
+      }
+    } catch (_) {}
+    
+    // Check if popup was closed by user
+    try {
+      if (popup && popup.closed) break;
+    } catch {
+      // COOP may prevent checking closed state
+    }
+  }
+  return false;
+}
+
+/**
+ * Extract event data from button/card with ISO date handling
+ */
+function extractEventData(btn) {
+  const card = btn.closest('.vcard');
+  if (!card) return null;
   
-  // Try to get data from button attributes first
-  const event = {
-    title: element.dataset.title || 
-           card?.querySelector('.vcard__title, .card-title, .vtitle')?.textContent?.trim() || 
-           'Event',
-    venue: element.dataset.venue || 
-           element.dataset.location ||
-           card?.querySelector('.venue, .location, [data-venue]')?.textContent?.replace('📍', '').trim() || 
-           '',
-    location: element.dataset.venue || element.dataset.location || '',
-    start: element.dataset.start || element.dataset.startIso,
-    end: element.dataset.end || element.dataset.endIso,
-    description: element.dataset.description || 
-                 card?.querySelector('.description')?.textContent?.trim() || 
-                 'Added from Conference Party',
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-  };
+  const id = btn.dataset.id || card?.dataset.partyId;
   
-  // Parse when field if start/end not available
-  if (!event.start && element.dataset.when) {
-    const when = element.dataset.when;
-    const timeMatch = when.match(/(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})/);
-    if (timeMatch) {
-      const [, startHour, startMin, endHour, endMin] = timeMatch;
-      const dateMatch = when.match(/(\w+)\s+(\d+)/);
-      if (dateMatch) {
-        const [, month, day] = dateMatch;
-        const year = new Date().getFullYear();
-        const monthNum = new Date(Date.parse(month + " 1, 2025")).getMonth();
+  // Get title from card
+  const title = card.querySelector('.vcard__title')?.textContent?.trim() || 'Event';
+  
+  // Get location from pin button or venue
+  const locationEl = card.querySelector('.pin, [data-venue]');
+  const location = locationEl?.textContent?.replace(/📍|🏢/g, '').trim() || '';
+  
+  // Get description
+  const description = card.querySelector('.vcard__desc')?.textContent?.trim() || 
+                     `${title} at ${location}`;
+  
+  // Get dates - check for ISO format in dataset
+  let startIso = card.dataset.startIso || btn.dataset.startIso;
+  let endIso = card.dataset.endIso || btn.dataset.endIso;
+  
+  // If no ISO dates, try to parse from time display
+  if (!startIso) {
+    const timeEl = card.querySelector('.meta .i-clock')?.parentElement;
+    const timeText = timeEl?.textContent?.trim();
+    
+    if (timeText) {
+      // Parse time range like "09:00 – 18:00"
+      const timeMatch = timeText.match(/(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})/);
+      if (timeMatch) {
+        const [, startTime, endTime] = timeMatch;
+        // Default to next occurrence of the event (you might want to enhance this)
+        const today = new Date();
+        const [startHour, startMin] = startTime.split(':');
+        const [endHour, endMin] = endTime.split(':');
         
-        const startDate = new Date(year, monthNum, parseInt(day), parseInt(startHour), parseInt(startMin));
-        const endDate = new Date(year, monthNum, parseInt(day), parseInt(endHour), parseInt(endMin));
+        const startDate = new Date(today);
+        startDate.setHours(parseInt(startHour), parseInt(startMin), 0, 0);
         
-        event.start = startDate.toISOString();
-        event.end = endDate.toISOString();
-        event.startISO = event.start;
-        event.endISO = event.end;
+        const endDate = new Date(today);
+        endDate.setHours(parseInt(endHour), parseInt(endMin), 0, 0);
+        
+        // If start time has passed, move to tomorrow
+        if (startDate < new Date()) {
+          startDate.setDate(startDate.getDate() + 1);
+          endDate.setDate(endDate.getDate() + 1);
+        }
+        
+        startIso = startDate.toISOString();
+        endIso = endDate.toISOString();
       }
     }
   }
   
-  // If still no start/end times, use defaults
-  if (!event.start) {
-    event.start = new Date().toISOString();
-    event.end = new Date(Date.now() + 3600000).toISOString(); // +1 hour
+  // Default to 1 hour event starting now if no times found
+  if (!startIso) {
+    const now = new Date();
+    startIso = now.toISOString();
+    endIso = new Date(now.getTime() + 3600000).toISOString(); // +1 hour
   }
   
-  return event;
+  return {
+    id,
+    summary: title,
+    start: startIso,
+    end: endIso,
+    location,
+    description
+  };
 }
 
 
-export function wireAddToCalendarButtons() {
-  document.addEventListener('click', async (e) => {
-    // Handle new standardized button selector
-    const btn = e.target.closest('.add-to-calendar');
+/**
+ * Wire up all "Add to Calendar" buttons with smart auth handling
+ */
+export function wireAddToCalendar(container = document) {
+  container.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-action="add-to-calendar"]');
     if (!btn) return;
     
     e.preventDefault();
     e.stopPropagation();
-    
-    // Get party ID from button or parent card
-    const card = btn.closest('[data-party]');
-    const partyId = btn.dataset.partyId || card?.dataset.partyId;
-    
-    // Get event data
-    const eventData = extractEventData(btn);
-    eventData.id = partyId;
-    
-    // Store original button state
-    const originalText = btn.textContent;
-    const originalDisabled = btn.disabled;
-    
+
     try {
-      // 1) Check if user is connected or needs provider selection
-      const okToCreate = await openProviderModalIfNeeded(eventData);
-      if (!okToCreate) return; // User cancelled or will redirect
-      
-      // 2) Create the event (Google flow for now; extend inside createEvent if needed)
+      // Ensure authenticated first
+      const ok = await ensureAuth();
+      if (!ok) {
+        alert('Please complete Google sign-in to continue.');
+        return;
+      }
+
+      // Extract event data from the card
+      const eventData = extractEventData(btn);
+      if (!eventData) {
+        console.error('[gcal] Could not extract event data');
+        alert('Could not get event details.');
+        return;
+      }
+
+      // Update button state
+      const originalText = btn.textContent;
       btn.disabled = true;
       btn.textContent = 'Adding...';
-      
+
+      // Create the calendar event
       try {
-        await create({
-          summary: eventData.title,
-          location: eventData.venue || eventData.location,
+        await createEvent({
+          summary: eventData.summary,
+          location: eventData.location,
           description: eventData.description,
           start: eventData.start,
           end: eventData.end,
-          timeZone: eventData.timeZone
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
         });
-        toast('✅ Added to your calendar');
-        btn.textContent = '✓ Added';
+        
+        btn.textContent = 'Added ✓';
+        btn.classList.add('btn-success');
+        
+        // Reset after 3 seconds
         setTimeout(() => {
           btn.textContent = originalText;
-          btn.disabled = originalDisabled;
-        }, 2000);
+          btn.disabled = false;
+          btn.classList.remove('btn-success');
+        }, 3000);
       } catch (err) {
-        console.error('[add-to-calendar] Failed to create event:', err);
-        toast('Could not add. Try again.', 'error');
+        console.error('[gcal] Failed to create event:', err);
+        alert('Failed to add to calendar. Please try again.');
         btn.textContent = originalText;
-        btn.disabled = originalDisabled;
+        btn.disabled = false;
       }
     } catch (err) {
-      console.error('[add-to-calendar] Error:', err);
-      toast('Something went wrong. Please try again.', 'error');
+      console.error('[gcal] Add error:', err);
+      alert('Could not add this to Calendar.');
     }
-  });
-  
-  // Legacy handler for old data-action="addCalendar" buttons
-  document.addEventListener('click', async (e) => {
-    const oldBtn = e.target.closest('[data-action="addCalendar"]:not(.add-to-calendar)');
-    if (!oldBtn) return;
-    
-    e.preventDefault();
-    
-    // Convert to new format and trigger
-    oldBtn.classList.add('add-to-calendar');
-    if (!oldBtn.dataset.partyId && oldBtn.dataset.id) {
-      oldBtn.dataset.partyId = oldBtn.dataset.id;
-    }
-    oldBtn.click();
   });
 }
 
 // Auto-initialize when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', wireAddToCalendarButtons);
-} else {
-  wireAddToCalendarButtons();
-}
+document.addEventListener('DOMContentLoaded', () => wireAddToCalendar());
 
-// Listen for OAuth success messages from popup
-window.addEventListener('message', (e) => {
-  if (e.origin !== location.origin) return;
-  
-  if (e.data === 'gcal:connected' || e.data?.type === 'gcal:connected') {
-    // OAuth successful
-    toast('✅ Successfully connected to Google Calendar');
-  }
-});
+// Also wire up any dynamically added content
+export default { wireAddToCalendar };

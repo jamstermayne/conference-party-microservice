@@ -34,7 +34,9 @@ export async function renderParties(mount){
     const timeRange = startTime + (endTime ? ` – ${endTime}` : "");
     
     return `
-    <article class="vcard" data-party-id="${ev.id||""}">
+    <article class="vcard" data-party-id="${ev.id||""}" 
+             data-start-iso="${ev.start||''}" 
+             data-end-iso="${ev.end||''}">
       <header class="vcard__head">
         <h3 class="vcard__title">${ev.title||"Event"}</h3>
         <div class="vcard__badges">
@@ -59,7 +61,9 @@ export async function renderParties(mount){
       <footer class="vcard__foot">
         <button class="btn btn-primary" 
                 data-action="add-to-calendar" 
-                data-id="${ev.id||''}">
+                data-id="${ev.id||''}"
+                data-start-iso="${ev.start||''}"
+                data-end-iso="${ev.end||''}">
           Add to Calendar
         </button>
         <button class="btn" data-action="details" data-id="${ev.id||''}">

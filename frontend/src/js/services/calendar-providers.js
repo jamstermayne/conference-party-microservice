@@ -33,7 +33,7 @@ export async function openProviderModalIfNeeded(eventData) {
         }
         
         // Redirect to Google OAuth
-        window.location.href = '/api/gcal/connect';
+        window.location.href = '/api/googleCalendar/google/start';
         
         // Won't reach here due to redirect, but resolve false for clarity
         resolve(false);
