@@ -114,10 +114,11 @@ function createInfoContent(party) {
  * Initialize map with markers
  */
 async function initializeMap(container, parties) {
-  // Create map
+  // Create map with mapId for AdvancedMarkerElement
   mapInstance = new google.maps.Map(container, {
     center: COLOGNE_CENTER,
     zoom: 13,
+    mapId: 'conference_party_map', // Required for AdvancedMarkerElement
     styles: [
       {
         featureType: 'all',
@@ -153,25 +154,42 @@ async function initializeMap(container, parties) {
   parties.forEach(party => {
     const position = geocodeVenue(party.venue);
     
-    // Create marker
-    const marker = new google.maps.Marker({
+    // Create custom marker content
+    const markerContent = document.createElement('div');
+    markerContent.style.cssText = `
+      width: 24px;
+      height: 24px;
+      background: #8a6bff;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+    `;
+    markerContent.title = party.title;
+    
+    // Add hover effect
+    markerContent.addEventListener('mouseenter', () => {
+      markerContent.style.transform = 'scale(1.2)';
+    });
+    markerContent.addEventListener('mouseleave', () => {
+      markerContent.style.transform = 'scale(1)';
+    });
+    
+    // Create AdvancedMarkerElement
+    const marker = new google.maps.marker.AdvancedMarkerElement({
       position,
       map: mapInstance,
-      title: party.title,
-      icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 8,
-        fillColor: '#8a6bff',
-        fillOpacity: 0.8,
-        strokeColor: '#ffffff',
-        strokeWeight: 2
-      }
+      content: markerContent,
+      title: party.title
     });
     
     // Add click listener for info window
     marker.addListener('click', () => {
       infoWindow.setContent(createInfoContent(party));
-      infoWindow.open(mapInstance, marker);
+      infoWindow.open({
+        anchor: marker,
+        map: mapInstance
+      });
     });
     
     markers.push(marker);
@@ -184,7 +202,8 @@ async function initializeMap(container, parties) {
 function toggleMarkers(visible) {
   markersVisible = visible;
   markers.forEach(marker => {
-    marker.setMap(visible ? mapInstance : null);
+    // AdvancedMarkerElement uses map property instead of setMap
+    marker.map = visible ? mapInstance : null;
   });
 }
 
