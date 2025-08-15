@@ -1,7 +1,7 @@
 {
   "hosting": {
     "public": "frontend/src",
-    "rewrites": [{ "source": "/api/**", "function": "apiFn" }],
+    "rewrites": [{ "source": "/api/**", "function": "api" }],
     "headers": [
       {
         "source": "**",

@@ -7,8 +7,7 @@ export async function openParties(dayISO, activator) {
   // Endless scroll
   let cursor = '';
   async function load() {
-    const API_BASE = 'https://us-central1-conference-party-app.cloudfunctions.net/api';
-    const url = new URL(`${API_BASE}/parties`);
+    const url = new URL('/api/parties', window.location.origin);
     url.searchParams.set('conference', 'gamescom2025');
     if (dayISO) url.searchParams.set('day', dayISO);
     if (cursor) url.searchParams.set('after', cursor);
@@ -38,8 +37,7 @@ export async function openParties(dayISO, activator) {
   }
 
   async function addToCalendar(p) {
-    const API_BASE = 'https://us-central1-conference-party-app.cloudfunctions.net/api';
-    const res = await fetch(`${API_BASE}/googleCalendar/create`, {
+    const res = await fetch('/api/googleCalendar/create', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ event: p })
     });

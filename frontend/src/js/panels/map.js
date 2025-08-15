@@ -14,8 +14,7 @@ export async function openMapPanel(dayISO, activator) {
   });
 
   // Fetch parties for selected day
-  const API_BASE = 'https://us-central1-conference-party-app.cloudfunctions.net/api';
-  const url = new URL(`${API_BASE}/parties`);
+  const url = new URL('/api/parties', window.location.origin);
   url.searchParams.set('conference','gamescom2025');
   if (dayISO) url.searchParams.set('day', dayISO);
   const res = await fetch(url); const json = await res.json();

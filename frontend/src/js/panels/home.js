@@ -49,13 +49,12 @@ export async function openHome(activator) {
 }
 
 async function getDays() {
-  const API_BASE = 'https://us-central1-conference-party-app.cloudfunctions.net/api';
   try {
-    const res = await fetch(`${API_BASE}/party-days?conference=gamescom2025`);
+    const res = await fetch(`/api/party-days?conference=gamescom2025`);
     if (res.ok) return res.json();
   } catch {}
   // fallback: derive from parties
-  const res = await fetch(`${API_BASE}/parties?conference=gamescom2025`);
+  const res = await fetch(`/api/parties?conference=gamescom2025`);
   const json = await res.json();
   const uniq = Array.from(new Set((json.data||json.parties||[]).map(p => p.start?.slice(0,10))));
   return uniq
