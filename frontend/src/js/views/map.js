@@ -17,26 +17,51 @@ let markersVisible = true;
  */
 async function loadGoogleMaps() {
   // Check if already loaded
-  if (window.google?.maps) {
+  if (window.google?.maps?.marker?.AdvancedMarkerElement) {
     return true;
   }
 
-  // Wait for Maps to load (script should be in index.html)
+  // Wait for script load event or check if it's already loading
   return new Promise((resolve, reject) => {
-    let attempts = 0;
-    const maxAttempts = 50; // 5 seconds timeout
+    // Find the Maps script tag
+    const mapScript = document.querySelector('script[src*="maps.googleapis.com"]');
     
-    const checkInterval = setInterval(() => {
-      attempts++;
-      
-      if (window.google?.maps) {
-        clearInterval(checkInterval);
+    if (!mapScript) {
+      reject(new Error('Google Maps script not found. Please check index.html'));
+      return;
+    }
+    
+    // Set up load handler
+    const checkLoaded = () => {
+      if (window.google?.maps?.marker?.AdvancedMarkerElement) {
         resolve(true);
-      } else if (attempts >= maxAttempts) {
-        clearInterval(checkInterval);
-        reject(new Error('Google Maps failed to load. Please check your internet connection.'));
+      } else {
+        // Wait a bit more for the library to fully initialize
+        setTimeout(() => {
+          if (window.google?.maps?.marker?.AdvancedMarkerElement) {
+            resolve(true);
+          } else {
+            reject(new Error('Google Maps loaded but marker library not available'));
+          }
+        }, 500);
       }
-    }, 100);
+    };
+    
+    // If script is already loaded, check immediately
+    if (mapScript.loaded || window.google?.maps) {
+      checkLoaded();
+    } else {
+      // Wait for script to load
+      mapScript.addEventListener('load', checkLoaded);
+      mapScript.addEventListener('error', () => {
+        reject(new Error('Failed to load Google Maps script'));
+      });
+      
+      // Timeout after 10 seconds
+      setTimeout(() => {
+        reject(new Error('Google Maps loading timeout'));
+      }, 10000);
+    }
   });
 }
 
@@ -256,9 +281,7 @@ export async function renderMap(mount) {
   // Reset previous instance
   mapInstance = null;
   markers = [];
-  heatmapLayer = null;
   markersVisible = true;
-  heatmapVisible = true;
   
   // Create container structure
   mount.innerHTML = `
