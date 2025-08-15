@@ -2,6 +2,10 @@ import { openHome } from './panels/home.js';
 import { openPartiesDay } from './panels/openers.js';
 import { openCalendar } from './panels/openers.js';
 import { openMapToday } from './panels/openers.js';
+import { wireGlobalButtons } from './wire-buttons.js';
+
+// Wire buttons once on DOM ready
+document.addEventListener('DOMContentLoaded', () => wireGlobalButtons(document));
 
 // Mount to #main (Stack handles the actual mounting via getElementById('main'))
 const main = () => document.getElementById('main');

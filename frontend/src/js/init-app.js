@@ -2,6 +2,9 @@
 import { renderHome } from './panels/home-wired.js';
 import { wireGlobalButtons } from './wire-buttons.js';
 
+// Wire buttons once on DOM ready
+document.addEventListener('DOMContentLoaded', () => wireGlobalButtons(document));
+
 // Initialize on DOM ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
@@ -10,9 +13,6 @@ if (document.readyState === 'loading') {
 }
 
 function init() {
-  // Wire all button handlers with event delegation
-  wireGlobalButtons();
-  
   // Render home panel
   renderHome();
   
