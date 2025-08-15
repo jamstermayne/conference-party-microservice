@@ -1,6 +1,13 @@
 // mount-parties.js - Mount parties for a specific day
 import { jsonGET } from '../utils/json-fetch.js';
 
+// Escape HTML for data attributes
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
 export async function mountPartiesDay(container, date) {
   container.innerHTML = '<div class="loading">Loading parties...</div>';
   
@@ -14,11 +21,17 @@ export async function mountPartiesDay(container, date) {
       return;
     }
     
-    // Create hero card grid
+    // Create hero card grid with proper data attributes
     const grid = document.createElement('div');
     grid.className = 'hero-card-grid';
     grid.innerHTML = parties.map(party => `
-      <article class="hero-card">
+      <article class="hero-card" 
+               data-party-id="${party.id}"
+               data-title="${escapeHtml(party.name || party.title || 'Untitled')}"
+               data-start="${party.start || party.startTime || party.date || ''}"
+               data-end="${party.end || party.endTime || ''}"
+               data-venue="${escapeHtml(party.venue || party.location || '')}"
+               data-description="${escapeHtml(party.description || '')}">
         <div class="hero-card__body">
           <h3 class="hero-card__title">${party.name || party.title || 'Untitled'}</h3>
           <p class="hero-card__venue">${party.venue || party.location || 'TBA'}</p>
@@ -26,7 +39,10 @@ export async function mountPartiesDay(container, date) {
           ${party.description ? `<p class="hero-card__desc">${party.description}</p>` : ''}
         </div>
         <footer class="hero-card__footer">
-          <button class="btn btn--primary" data-party-id="${party.id}">
+          <button class="v-btn v-btn--primary"
+                  data-action="add-to-calendar"
+                  data-id="${party.id}"
+                  data-provider="google">
             Add to Calendar
           </button>
         </footer>
@@ -36,10 +52,9 @@ export async function mountPartiesDay(container, date) {
     container.innerHTML = '';
     container.appendChild(grid);
     
-    // Wire up calendar buttons
-    grid.querySelectorAll('[data-party-id]').forEach(btn => {
-      btn.onclick = () => openSmartCalendar(parties.find(p => p.id === btn.dataset.partyId));
-    });
+    // Store parties data for calendar delegation
+    if (!window.partiesCache) window.partiesCache = {};
+    parties.forEach(p => window.partiesCache[p.id] = p);
     
   } catch (err) {
     console.error('Failed to load parties:', err);

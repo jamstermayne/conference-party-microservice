@@ -4,18 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>velocity.ai</title>
+  <!-- 1. Base reset -->
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <!-- 2. Tokens -->
   <link rel="stylesheet" href="/assets/css/spacing-tokens.css">
   <link rel="stylesheet" href="/assets/css/tokens/color-tokens.css">
-  <link rel="stylesheet" href="/assets/css/tokens/accent-tokens.css">
-  <link rel="stylesheet" href="/assets/css/tokens/color-compat.css">
-  <link rel="stylesheet" href="/assets/css/hero-cards.css">
+  <!-- 3. Components -->
+  <link rel="stylesheet" href="/assets/css/components/buttons.css">
+  <link rel="stylesheet" href="/assets/css/components/cards.css">
   <link rel="stylesheet" href="/assets/css/panel-stack.css">
   <link rel="stylesheet" href="/assets/css/channel-row.css">
   <link rel="stylesheet" href="/assets/css/components.css">
 </head>
 <body>
   <div id="app">
-    <main id="stack" class="v-stack">
+    <main id="main" class="v-stack">
       <!-- Panels are injected here -->
       <div class="sr-only" aria-live="polite"></div>
     </main>
@@ -24,7 +27,9 @@
     // Provide keys via server-side templating or global config script
     window.MAPS_BROWSER_KEY = window.MAPS_BROWSER_KEY || 'AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc';
   </script>
+  <script src="/js/stack.js"></script>
   <script src="/js/router-stack.js"></script>
+  <script type="module" src="/js/router.js?v=b023"></script>
   <script type="module" src="/js/init-app.js"></script>
 </body>
 </html>

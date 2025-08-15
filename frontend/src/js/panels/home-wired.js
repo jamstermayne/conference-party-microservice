@@ -1,7 +1,8 @@
 // home-wired.js - Properly wired Home panel with v-row components
-import { pushPanel } from '../router-stack.js';
 import { createChannelRow } from '../components/channel-row.js';
 import { jsonGET } from '../utils/json-fetch.js';
+
+// pushPanel is available on window object
 
 // Mount functions for each panel
 import { mountPartiesDay } from './mount-parties.js';
@@ -13,12 +14,20 @@ import { mountMe } from './mount-me.js';
 import { mountSettings } from './mount-settings.js';
 
 export async function renderHome() {
-  const stack = document.getElementById('stack') || document.getElementById('panel-stack');
+  const stack = document.getElementById('main') || document.getElementById('stack') || document.getElementById('panel-stack');
   if (!stack) return;
+  
+  // Clear any existing panels first
+  stack.innerHTML = '';
+  
+  // Clear the panel tracking array if it exists
+  if (window.clearPanelStack) {
+    window.clearPanelStack();
+  }
   
   // Create root panel (no back button)
   const panel = document.createElement('section');
-  panel.className = 'v-panel is-active';
+  panel.className = 'v-panel';
   panel.id = 'panel-home';
   panel.innerHTML = `
     <header class="v-topbar">
@@ -38,9 +47,13 @@ export async function renderHome() {
     </main>
   `;
   
-  // Clear stack and add home
-  stack.innerHTML = '';
+  // Add to stack
   stack.appendChild(panel);
+  
+  // Activate after adding to DOM
+  requestAnimationFrame(() => {
+    panel.classList.add('is-active');
+  });
   
   // Load party days
   try {
@@ -58,7 +71,7 @@ export async function renderHome() {
       // Override click to use pushPanel
       row.onclick = (e) => {
         e.preventDefault();
-        pushPanel(`#/parties/${day.date}`, day.label, (container) => {
+        window.pushPanel(`#/parties/${day.date}`, day.label, (container) => {
           mountPartiesDay(container, day.date);
         }, row);
       };
@@ -88,7 +101,7 @@ export async function renderHome() {
       
       row.onclick = (e) => {
         e.preventDefault();
-        pushPanel(`#/parties/${day.date}`, day.label, (container) => {
+        window.pushPanel(`#/parties/${day.date}`, day.label, (container) => {
           mountPartiesDay(container, day.date);
         }, row);
       };
@@ -118,7 +131,7 @@ export async function renderHome() {
     
     row.onclick = (e) => {
       e.preventDefault();
-      pushPanel(channel.route, channel.label, channel.mount, row);
+      window.pushPanel(channel.route, channel.label, channel.mount, row);
     };
     
     channelsContainer.appendChild(row);

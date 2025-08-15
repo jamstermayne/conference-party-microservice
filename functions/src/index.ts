@@ -5,6 +5,7 @@ import express, {Request, Response} from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import {canonicalHost} from "./middleware/canonicalHost";
+import {performanceMonitor, cacheMiddleware, corsCache} from "./middleware/performance";
 import {getHotspots} from "./hotspots";
 import googleCalendarRouter from "./googleCalendar/router";
 import m2mRouter from "./routes/m2m-enhanced";
@@ -32,8 +33,13 @@ try {admin.initializeApp();} catch (error) {
 // const db = admin.firestore?.(); // Not used after refactoring to use routes
 const app = express();
 app.use(cors({origin: true, credentials: true}));
+app.use(corsCache); // Cache CORS preflight requests
 app.use(cookieParser());
 app.use(express.json());
+
+// Apply performance monitoring and caching
+app.use(performanceMonitor);
+app.use('/api', cacheMiddleware);
 
 // Apply canonical host redirect to all /api routes
 app.use('/api', canonicalHost);

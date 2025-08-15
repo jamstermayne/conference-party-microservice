@@ -1,16 +1,46 @@
 /* panel-stack.css */
-.v-stack{ position: relative; height: 100dvh; overflow: hidden; }
-.v-panel{
-  position: absolute; inset: 0;
+.v-stack{ 
+  position: relative; 
+  height: 100dvh; 
+  overflow: hidden; 
   background: var(--bg-app);
-  display: grid; grid-template-rows: auto 1fr;
-  transform: translateX(100%);
-  transition: transform 260ms cubic-bezier(.2,.8,.2,1);
-  will-change: transform;
 }
-.v-panel.is-active{ transform: translateX(0); }
-.v-panel-leave{ transform: translateX(0); }
-.v-panel-leave.is-exiting{ transform: translateX(100%); }
+
+.v-panel{
+  position: absolute; 
+  inset: 0;
+  background: var(--bg-app);
+  display: grid; 
+  grid-template-rows: auto 1fr;
+  opacity: 0; 
+  pointer-events: none;
+  transform: translateX(24px);
+  transition: transform .24s ease, opacity .2s ease;
+  will-change: transform, opacity;
+}
+
+.v-panel.is-active{ 
+  opacity: 1; 
+  pointer-events: auto; 
+  transform: translateX(0);
+  z-index: 10;
+}
+
+/* Hide inactive panels completely */
+.v-panel:not(.is-active) {
+  visibility: hidden;
+}
+
+.v-panel-leave{ 
+  opacity: 1;
+  transform: translateX(0); 
+  pointer-events: none;
+}
+
+.v-panel-leave.is-exiting{ 
+  opacity: 0;
+  transform: translateX(100%); 
+}
 
 .v-topbar{
   position: sticky; top: 0; z-index: 2;

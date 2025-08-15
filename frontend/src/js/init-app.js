@@ -1,5 +1,6 @@
 // init-app.js - Initialize the app with wired home panel
 import { renderHome } from './panels/home-wired.js';
+import { initCalendarDelegation } from './calendar-delegation.js';
 
 // Initialize on DOM ready
 if (document.readyState === 'loading') {
@@ -9,6 +10,9 @@ if (document.readyState === 'loading') {
 }
 
 function init() {
+  // Initialize calendar event delegation
+  initCalendarDelegation();
+  
   // Render home panel
   renderHome();
   

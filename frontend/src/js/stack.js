@@ -5,12 +5,17 @@ const Stack = (() => {
   
   // Initialize after DOM ready
   function init() {
-    host = document.querySelector('#stack');
-    live = document.querySelector('#stack .sr-only[aria-live]');
+    host = document.getElementById('main') || document.querySelector('#stack');
+    live = document.querySelector('#main .sr-only[aria-live]') || document.querySelector('#stack .sr-only[aria-live]');
     return host && live;
   }
 
   function createPanel(id, { title, content, onBack }) {
+    // Deactivate any currently active panels
+    host.querySelectorAll('.v-panel.is-active').forEach(p => {
+      p.classList.remove('is-active');
+    });
+    
     const panel = document.createElement('section');
     panel.className = 'v-panel';
     panel.id = `panel-${id}`;
