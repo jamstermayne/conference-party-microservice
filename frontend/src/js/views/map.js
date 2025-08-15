@@ -9,12 +9,14 @@ const COLOGNE_CENTER = { lat: 50.9375, lng: 6.9603 }; // Cologne city center
 // Store map instance and layers
 let mapInstance = null;
 let markers = [];
-let heatmapLayer = null;
+// Heatmap disabled - visualization library not loaded
+// let heatmapLayer = null;
 let markersVisible = true;
-let heatmapVisible = true;
+// let heatmapVisible = true;
 
 /**
- * Load Google Maps script dynamically
+ * Wait for Google Maps to be loaded
+ * Maps script is loaded in index.html with libraries=marker
  */
 async function loadGoogleMaps() {
   // Check if already loaded
@@ -22,37 +24,22 @@ async function loadGoogleMaps() {
     return true;
   }
 
-  // Check if script is already loading
-  if (document.querySelector('script[src*="maps.googleapis.com"]')) {
-    return new Promise((resolve) => {
-      const checkInterval = setInterval(() => {
-        if (window.google?.maps) {
-          clearInterval(checkInterval);
-          resolve(true);
-        }
-      }, 100);
-    });
-  }
-
-  // Load the script
+  // Wait for Maps to load (script should be in index.html)
   return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    const apiKey = window.GOOGLE_MAPS_API_KEY || 'AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc';
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=visualization&callback=initMapCallback&loading=async`;
-    script.async = true;
-    script.defer = true;
+    let attempts = 0;
+    const maxAttempts = 50; // 5 seconds timeout
     
-    window.initMapCallback = () => {
-      delete window.initMapCallback;
-      resolve(true);
-    };
-    
-    script.onerror = () => {
-      delete window.initMapCallback;
-      reject(new Error('Failed to load Google Maps'));
-    };
-    
-    document.head.appendChild(script);
+    const checkInterval = setInterval(() => {
+      attempts++;
+      
+      if (window.google?.maps) {
+        clearInterval(checkInterval);
+        resolve(true);
+      } else if (attempts >= maxAttempts) {
+        clearInterval(checkInterval);
+        reject(new Error('Google Maps failed to load. Please check your internet connection.'));
+      }
+    }, 100);
   });
 }
 
@@ -163,8 +150,8 @@ async function initializeMap(container, parties) {
     ]
   });
   
-  // Prepare data for markers and heatmap
-  const heatmapData = [];
+  // Prepare data for markers
+  // const heatmapData = []; // Heatmap disabled - visualization library not loaded
   const infoWindow = new google.maps.InfoWindow();
   
   parties.forEach(party => {
@@ -193,37 +180,20 @@ async function initializeMap(container, parties) {
     
     markers.push(marker);
     
-    // Add to heatmap data with weight based on party type
-    const weight = party.price?.toLowerCase().includes('free') ? 2 : 1;
-    heatmapData.push({
-      location: new google.maps.LatLng(position.lat, position.lng),
-      weight
-    });
+    // Heatmap disabled - visualization library not loaded
+    // const weight = party.price?.toLowerCase().includes('free') ? 2 : 1;
+    // heatmapData.push({
+    //   location: new google.maps.LatLng(position.lat, position.lng),
+    //   weight
+    // });
   });
   
-  // Create heatmap layer
-  heatmapLayer = new google.maps.visualization.HeatmapLayer({
-    data: heatmapData,
-    map: mapInstance,
-    radius: 30,
-    opacity: 0.6,
-    gradient: [
-      'rgba(0, 255, 255, 0)',
-      'rgba(0, 255, 255, 1)',
-      'rgba(0, 191, 255, 1)',
-      'rgba(0, 127, 255, 1)',
-      'rgba(0, 63, 255, 1)',
-      'rgba(0, 0, 255, 1)',
-      'rgba(0, 0, 223, 1)',
-      'rgba(0, 0, 191, 1)',
-      'rgba(0, 0, 159, 1)',
-      'rgba(0, 0, 127, 1)',
-      'rgba(63, 0, 91, 1)',
-      'rgba(127, 0, 63, 1)',
-      'rgba(191, 0, 31, 1)',
-      'rgba(255, 0, 0, 1)'
-    ]
-  });
+  // Heatmap disabled - visualization library not loaded
+  // heatmapLayer = new google.maps.visualization.HeatmapLayer({
+  //   data: heatmapData,
+  //   map: mapInstance,
+  //   ...
+  // });
 }
 
 /**
@@ -237,14 +207,14 @@ function toggleMarkers(visible) {
 }
 
 /**
- * Toggle heatmap visibility
+ * Toggle heatmap visibility - DISABLED (visualization library not loaded)
  */
-function toggleHeatmap(visible) {
-  heatmapVisible = visible;
-  if (heatmapLayer) {
-    heatmapLayer.setMap(visible ? mapInstance : null);
-  }
-}
+// function toggleHeatmap(visible) {
+//   heatmapVisible = visible;
+//   if (heatmapLayer) {
+//     heatmapLayer.setMap(visible ? mapInstance : null);
+//   }
+// }
 
 /**
  * Create map controls
@@ -257,10 +227,11 @@ function createControls() {
       <input type="checkbox" id="toggle-markers" checked>
       <span>Markers</span>
     </label>
-    <label class="map-control">
+    <!-- Heatmap disabled - visualization library not loaded -->
+    <!-- <label class="map-control">
       <input type="checkbox" id="toggle-heatmap" checked>
       <span>Heatmap</span>
-    </label>
+    </label> -->
   `;
   
   // Add event listeners
@@ -268,9 +239,10 @@ function createControls() {
     toggleMarkers(e.target.checked);
   });
   
-  controls.querySelector('#toggle-heatmap').addEventListener('change', (e) => {
-    toggleHeatmap(e.target.checked);
-  });
+  // Heatmap toggle disabled - visualization library not loaded
+  // controls.querySelector('#toggle-heatmap')?.addEventListener('change', (e) => {
+  //   toggleHeatmap(e.target.checked);
+  // });
   
   return controls;
 }
