@@ -46,7 +46,9 @@ jobs:
           # Exclude token files and archived directories
           if grep -r --include="*.css" --include="*.scss" \
                --exclude="*tokens*.css" --exclude="*token*.css" \
+               --exclude="*alias*.css" \
                --exclude-dir="_graveyard" --exclude-dir="public" \
+               --exclude-dir="tokens" \
                '#[0-9A-Fa-f]\{3,6\}\b' frontend/src/assets/css/ | \
                grep -v "var(--" | \
                grep -v "^/\*" | \
