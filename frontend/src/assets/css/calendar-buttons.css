@@ -6,7 +6,7 @@
 /* Legacy btn-group support - can be removed once all templates updated */
 .btn-group {
   display: inline-flex;
-  gap: 8px;
+  gap: var(--s-2);
 }
 
 /* Removed btn-menu styles - no longer needed */

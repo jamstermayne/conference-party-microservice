@@ -16,12 +16,12 @@
   left: 50%; 
   top: 50%;
   transform: translate(-50%, -44%) scale(.98);
-  width: min(560px, calc(100vw - 24px));
+  width: min(560px, calc(100vw - var(--s-6)));
   max-height: min(78vh, 720px);
   background: #1a1d21; 
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--s-3); 
-  box-shadow: 0 20px 60px rgba(0,0,0,.55);
+  box-shadow: 0 var(--s-5) 60px rgba(0,0,0,.55);
   display: grid; 
   grid-template-rows: auto 1fr auto;
   opacity: 0; 
@@ -51,16 +51,16 @@
 }
 .cp-lead { 
   color: #b3b1ad; 
-  margin: 0 0 12px; 
+  margin: 0 0 var(--s-3); 
 }
 .cp-benefits { 
   list-style: none; 
   padding: 0; 
-  margin: 0 0 16px; 
+  margin: 0 0 var(--s-4); 
   color: #b3b1ad; 
 }
 .cp-benefits li {
-  margin-bottom: 8px;
+  margin-bottom: var(--s-2);
 }
 .cp-scope { 
   padding: var(--s-3); 
@@ -72,7 +72,7 @@
 .cp-scope-head { 
   color: #e8e6e3; 
   font-weight: 600; 
-  margin-bottom: 8px; 
+  margin-bottom: var(--s-2); 
 }
 .cp-scope-list { 
   list-style: none; 
@@ -80,10 +80,10 @@
   margin: 0; 
   color: #b3b1ad; 
   display: grid; 
-  gap: 6px; 
+  gap: var(--s-1-5); 
 }
 .cp-disclosure { 
-  margin-top: 14px; 
+  margin-top: var(--s-3-5); 
   font-size: var(--s-3); 
   color: #8c8a85;
 }
@@ -93,7 +93,7 @@
 
 .cp-foot { 
   display: flex; 
-  gap: 10px; 
+  gap: var(--s-2-5); 
   justify-content: flex-end; 
   padding: var(--s-3) 18px; 
   border-top: 1px solid rgba(255, 255, 255, 0.1); 
@@ -101,9 +101,9 @@
 
 /* Button styles */
 .cp-sheet .btn {
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--s-1-5);
+  font-size: var(--s-3-5);
   font-weight: 500;
   border: none;
   cursor: pointer;
@@ -131,8 +131,8 @@
 }
 
 .cp-sheet .btn-icon {
-  width: 32px;
-  height: 32px;
+  width: var(--s-8);
+  height: var(--s-8);
   padding: 0;
   display: flex;
   align-items: center;
@@ -143,8 +143,8 @@
 /* Badge styles */
 .cp-sheet .badge {
   display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: var(--s-0-5) var(--s-2);
+  border-radius: var(--s-1);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -166,7 +166,7 @@
 /* Mobile adjustments */
 @media (max-width: 480px) {
   .cp-sheet {
-    width: calc(100vw - 16px);
+    width: calc(100vw - var(--s-4));
     max-height: 85vh;
   }
   .cp-head, .cp-body, .cp-foot {

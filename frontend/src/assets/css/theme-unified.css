@@ -1,7 +1,7 @@
 /* ---- velocity unified theme ---- */
 :root{
   --bg:#0c111b; --panel:#0f1625; --border:#1e2740; --muted:#9aa7bf; --text:#eaf0ff;
-  --accent1:#8c7aff; --accent2:#5b47ff; --good:#16c784; --shadow:0 10px 40px rgba(18,20,40,.35);
+  --accent1:#8c7aff; --accent2:#5b47ff; --good:#16c784; --shadow:0 var(--s-2-5) var(--s-10) rgba(18,20,40,.35);
   --radius:16px; --pad:14px;
 }
 body{background:var(--bg); color:var(--text)}
@@ -23,13 +23,13 @@ body{background:var(--bg); color:var(--text)}
 .vcard__head{display:flex; gap:12px; justify-content:space-between; align-items:center; margin-bottom:8px}
 .vcard__title{font-weight:800; font-size:18px; line-height:1.15}
 .vcard__badges{display:flex; gap:6px; flex-wrap:wrap}
-.vpill{padding:6px 8px; font-size:12px; border-radius:999px; border:1px solid #29344f; background:#121a2a; color:#cfe0ff}
+.vpill{padding:6px var(--s-2); font-size:12px; border-radius: var(--r-pill); border:1px solid #29344f; background:#121a2a; color:#cfe0ff}
 .vpill.live{border-color:#184d31; background:#102616; color:#baf5d3}
 .vpill.free{border-color:#2a3f6e; background:#101c35; color:#cfe0ff}
-.vmeta{display:flex; gap:12px; flex-wrap:wrap; color:var(--muted); margin:6px 0 10px}
+.vmeta{display:flex; gap:12px; flex-wrap:wrap; color:var(--muted); margin:6px 0 var(--s-2-5)}
 .vactions{display:flex; gap:8px; flex-wrap:wrap}
 /* Buttons */
-.vbtn{padding:10px 14px; font-weight:800; border-radius: var(--r-lg); border:1px solid #2b2f45; background:#202a44; color:#dee9ff}
+.vbtn{padding:10px var(--s-3-5); font-weight:800; border-radius: var(--r-lg); border:1px solid #2b2f45; background:#202a44; color:#dee9ff}
 .vbtn.primary{background:linear-gradient(180deg,var(--accent1) 0%,var(--accent2) 100%); border:0; color:#fff}
 .vbtn.ghost{background:transparent; border:1px solid #2b2f45; color:#cfe0ff}
 /* Calendar rows (tall enough for hero cards) */
@@ -41,7 +41,7 @@ body{background:var(--bg); color:var(--text)}
 /* ---- profile cards (uses .vcard foundation) ---- */
 .vcard.vprofile{display:flex;gap:16px;align-items:flex-start}
 .vpf-avatar{
-  width:52px;height:52px;border-radius:999px;
+  width:52px;height:52px;border-radius: var(--r-pill);
   background:linear-gradient(180deg,var(--accent1),var(--accent2));
   display:flex;align-items:center;justify-content:center;
   color:#fff;font-weight:800;font-size:16px;letter-spacing:.5px;

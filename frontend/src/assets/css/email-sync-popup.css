@@ -2,26 +2,26 @@
 
 .email-sync-popup {
     position: fixed;
-    bottom: var(--spacing-lg, 24px);
-    right: var(--spacing-lg, 24px);
+    bottom: var(--spacing-lg, var(--s-6));
+    right: var(--spacing-lg, var(--s-6));
     background: var(--surface, #1a1a1f);
     color: var(--text-primary, #fff);
-    border-radius: var(--radius-lg, 12px);
+    border-radius: var(--radius-lg, var(--s-3));
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 var(--s-2) var(--s-8) rgba(0, 0, 0, 0.4),
         0 0 0 1px var(--border, rgba(255, 255, 255, 0.1));
-    padding: var(--spacing-md, 16px) var(--spacing-lg, 24px);
+    padding: var(--spacing-md, var(--s-4)) var(--spacing-lg, var(--s-6));
     z-index: 9999;
     max-width: 320px;
     min-width: 280px;
-    transform: translateY(20px) scale(0.95);
+    transform: translateY(var(--s-5)) scale(0.95);
     opacity: 0;
     transition: 
         opacity 0.25s var(--ease-smooth, cubic-bezier(.22, .61, .36, 1)),
         transform 0.25s var(--ease-smooth, cubic-bezier(.22, .61, .36, 1));
     font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(var(--s-5));
+    -webkit-backdrop-filter: blur(var(--s-5));
     border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
 }
 
@@ -32,19 +32,19 @@
 
 .email-sync-popup.hidden {
     opacity: 0;
-    transform: translateY(20px) scale(0.95);
+    transform: translateY(var(--s-5)) scale(0.95);
     pointer-events: none;
 }
 
 .popup-content {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md, 16px);
+    gap: var(--spacing-md, var(--s-4));
     position: relative;
 }
 
 .popup-text {
-    font-size: var(--font-size-sm, 14px);
+    font-size: var(--font-size-sm, var(--s-3-5));
     line-height: 1.5;
     color: var(--text-primary, #fff);
     margin: 0;
@@ -61,8 +61,8 @@
     color: var(--text-secondary, #a5a7ad);
     font-size: var(--s-5);
     cursor: pointer;
-    padding: 4px 8px;
-    border-radius: var(--radius-sm, 6px);
+    padding: var(--s-1) var(--s-2);
+    border-radius: var(--radius-sm, var(--s-1-5));
     transition: 
         color 0.15s ease,
         background-color 0.15s ease;
@@ -81,8 +81,8 @@
 }
 
 .popup-close:focus {
-    outline: 2px solid var(--accent, #6b7bff);
-    outline-offset: 2px;
+    outline: var(--s-0-5) solid var(--accent, #6b7bff);
+    outline-offset: var(--s-0-5);
 }
 
 .btn-sync {
@@ -90,9 +90,9 @@
     background: var(--accent, #6b7bff);
     color: white;
     border: none;
-    padding: var(--spacing-sm, 12px) var(--spacing-md, 16px);
-    border-radius: var(--radius-md, 8px);
-    font-size: var(--font-size-sm, 14px);
+    padding: var(--spacing-sm, var(--s-3)) var(--spacing-md, var(--s-4));
+    border-radius: var(--radius-md, var(--s-2));
+    font-size: var(--font-size-sm, var(--s-3-5));
     font-weight: 600;
     cursor: pointer;
     transition: 
@@ -107,17 +107,17 @@
 .btn-sync:hover {
     background: var(--accent-hover, #5a6aef);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(107, 123, 255, 0.3);
+    box-shadow: 0 var(--s-1) var(--s-3) rgba(107, 123, 255, 0.3);
 }
 
 .btn-sync:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(107, 123, 255, 0.2);
+    box-shadow: 0 var(--s-0-5) var(--s-2) rgba(107, 123, 255, 0.2);
 }
 
 .btn-sync:focus {
-    outline: 2px solid rgba(107, 123, 255, 0.4);
-    outline-offset: 2px;
+    outline: var(--s-0-5) solid rgba(107, 123, 255, 0.4);
+    outline-offset: var(--s-0-5);
 }
 
 /* Micro-pulse animation integration */
@@ -129,20 +129,20 @@
 /* Mobile responsive adjustments */
 @media (max-width: 640px) {
     .email-sync-popup {
-        bottom: var(--spacing-md, 16px);
-        right: var(--spacing-md, 16px);
-        left: var(--spacing-md, 16px);
+        bottom: var(--spacing-md, var(--s-4));
+        right: var(--spacing-md, var(--s-4));
+        left: var(--spacing-md, var(--s-4));
         max-width: none;
         min-width: auto;
     }
     
     .popup-text {
         font-size: 13px;
-        padding-right: 32px;
+        padding-right: var(--s-8);
     }
     
     .btn-sync {
-        padding: var(--spacing-sm, 12px) var(--spacing-md, 16px);
+        padding: var(--spacing-sm, var(--s-3)) var(--spacing-md, var(--s-4));
         font-size: 13px;
     }
 }
@@ -150,8 +150,8 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .email-sync-popup {
-        border: 2px solid var(--text-primary, #fff);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+        border: var(--s-0-5) solid var(--text-primary, #fff);
+        box-shadow: 0 var(--s-2) var(--s-8) rgba(0, 0, 0, 0.8);
     }
     
     .btn-sync {
@@ -193,7 +193,7 @@
         background: var(--bg-primary, #ffffff);
         color: var(--text-primary, #1a1a1f);
         box-shadow: 
-            0 8px 32px rgba(0, 0, 0, 0.1),
+            0 var(--s-2) var(--s-8) rgba(0, 0, 0, 0.1),
             0 0 0 1px rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(0, 0, 0, 0.1);
     }

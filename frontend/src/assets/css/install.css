@@ -28,8 +28,8 @@
 }
 
 .install-icon {
-  width: 64px;
-  height: 64px;
+  width: var(--s-14);
+  height: var(--s-14);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
 }

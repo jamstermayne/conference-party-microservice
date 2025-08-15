@@ -6,7 +6,7 @@
   --nav-text-dim: #9FB0D9;
   --nav-accent: #6e5ef6;               /* your primary */
   --nav-accent-2: #9d84ff;             /* lighter blend */
-  --nav-glow: 0 10px 28px rgba(110, 94, 246, .20);
+  --nav-glow: 0 var(--s-2-5) var(--s-7) rgba(110, 94, 246, .20);
 }
 
 .v-sidebar {
@@ -45,7 +45,7 @@
   --pad-y: var(--s-3);
   position: relative;
   display: grid;
-  grid-template-columns: 36px 1fr;
+  grid-template-columns: var(--s-9) 1fr;
   align-items: center;
   gap: var(--s-3);
   padding: var(--pad-y) var(--pad-x);
@@ -65,7 +65,7 @@
 /* Active "neon pill" + 3px inner accent ring */
 .v-nav__link.is-active {
   background: linear-gradient(180deg, rgba(110,94,246,.14), rgba(110,94,246,.10));
-  box-shadow: inset 0 0 0 2px rgba(110,94,246,.45), var(--nav-glow);
+  box-shadow: inset 0 0 0 var(--s-0-5) rgba(110,94,246,.45), var(--nav-glow);
   color: #F3F6FF;
 }
 .v-nav__link.is-active::after {
@@ -81,12 +81,12 @@
 
 /* Icon capsule (serious, not playful) */
 .v-nav__icon {
-  inline-size: 36px; block-size: 36px;
+  inline-size: var(--s-9); block-size: var(--s-9);
   display: grid; place-items: center;
   color: #ECEBFF;
   border-radius: var(--r-lg);
   background: linear-gradient(180deg, #8A79FF 0%, #5560FF 100%);
-  box-shadow: 0 10px 24px rgba(110,94,246,.35), inset 0 0 0 1px rgba(255,255,255,.12);
+  box-shadow: 0 var(--s-2-5) var(--s-6) rgba(110,94,246,.35), inset 0 0 0 1px rgba(255,255,255,.12);
 }
 .v-nav__link:not(.is-active) .v-nav__icon { opacity: .92; }
 .v-nav__link:is(:hover,.is-active) .v-nav__icon { transform: translateY(-1px); }
@@ -101,8 +101,8 @@
 
 /* Accessibility & reduced motion */
 .v-nav__link:focus-visible {
-  outline: 2px solid #A99BFF;
-  outline-offset: 2px;
+  outline: var(--s-0-5) solid #A99BFF;
+  outline-offset: var(--s-0-5);
 }
 @media (prefers-reduced-motion: reduce) {
   .v-nav__link { transition: none; }

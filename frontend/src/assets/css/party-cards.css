@@ -14,14 +14,14 @@
   background:linear-gradient(140deg, rgba(133,144,255,.06), rgba(124,58,237,.04) 35%, rgba(0,0,0,.2) 70%);
   border:1px solid rgba(255,255,255,.07);
   padding:18px;
-  box-shadow: 0 6px 20px rgba(0,0,0,.35);
+  box-shadow: 0 var(--s-1-5) var(--s-5) rgba(0,0,0,.35);
 }
 .event-card .eyebrow{
   display:flex; gap:14px; align-items:center; color:var(--text-secondary,#bfc6d1);
   font-size:.9rem;
 }
 .event-card h3{
-  margin:2px 0 10px; font-size:1.15rem; letter-spacing:.1px;
+  margin:2px 0 var(--s-2-5); font-size:1.15rem; letter-spacing:.1px;
 }
 .event-card .cta-row{
   display:flex; gap:8px; align-items:center; margin-top:12px;
@@ -29,7 +29,7 @@
 .event-card .btn{
   border:1px solid rgba(255,255,255,.12);
   background:rgba(255,255,255,.05);
-  padding:8px 12px; border-radius:10px; font-weight:600;
+  padding:8px var(--s-3); border-radius:10px; font-weight:600;
 }
 .event-card .btn.primary{
   background:linear-gradient(180deg, #6b7bff, #5a67ff);
@@ -37,7 +37,7 @@
 }
 .event-card .price-badge{
   position:absolute; right:14px; top:14px;
-  font-size:.8rem; padding:6px 10px; border-radius:999px;
+  font-size:.8rem; padding:6px var(--s-2-5); border-radius: var(--r-pill);
   background:rgba(107,123,255,.18); border:1px solid rgba(107,123,255,.35);
 }
 .event-card .free{ background:rgba(88,255,185,.14); border-color:rgba(88,255,185,.35); }

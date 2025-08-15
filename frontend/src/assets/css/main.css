@@ -46,10 +46,10 @@ body {
   color:#fff; 
   transition:transform .1s ease; 
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--s-3-5);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s-1-5);
 }
 
 .btn:hover { 
@@ -75,11 +75,11 @@ body {
   position:fixed; 
   bottom:20px; 
   left:50%; 
-  transform:translateX(-50%) translateY(16px); 
+  transform:translateX(-50%) translateY(var(--s-4)); 
   background:#1a1a1f; 
   color:#fff; 
   border:1px solid var(--border); 
-  padding:10px 14px; 
+  padding:10px var(--s-3-5); 
   border-radius: var(--r-md); 
   opacity:0; 
   transition: opacity .2s var(--ease-out), transform .2s var(--ease-out); 
@@ -130,7 +130,7 @@ body {
 }
 
 .party-title { 
-  margin:0 0 6px 0; 
+  margin:0 0 var(--s-1-5) 0; 
   font-weight:600; 
 }
 
@@ -154,7 +154,7 @@ body {
   border:1px solid #333; 
   padding:16px; 
   border-radius: var(--r-md); 
-  box-shadow:0 2px 12px rgba(0,0,0,.4); 
+  box-shadow:0 var(--s-0-5) var(--s-3) rgba(0,0,0,.4); 
   display:none; 
   width:90%; 
   max-width:320px; 
@@ -179,7 +179,7 @@ body {
   background:#1a1a1f; 
   border:1px solid var(--border); 
   color:var(--text-secondary); 
-  padding:8px 10px; 
+  padding:8px var(--s-2-5); 
   border-radius: var(--r-md); 
   display:none; 
   z-index:9999; 
@@ -213,7 +213,7 @@ body {
 
 @keyframes pulse { 
   0%{box-shadow:0 0 0 0 rgba(107,123,255,.7)} 
-  100%{box-shadow:0 0 0 12px rgba(107,123,255,0)} 
+  100%{box-shadow:0 0 0 var(--s-3) rgba(107,123,255,0)} 
 }
 
 /* Badge styles */
@@ -221,9 +221,9 @@ body {
   background: var(--accent);
   color: white;
   font-size: 11px;
-  padding: 2px 6px;
-  border-radius: 10px;
-  margin-left: 6px;
+  padding: var(--s-0-5) var(--s-1-5);
+  border-radius: var(--s-2-5);
+  margin-left: var(--s-1-5);
   display: inline-block;
   min-width: 18px;
   text-align: center;
@@ -233,10 +233,10 @@ body {
 .nav-item {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
+  padding: var(--s-2) var(--s-3);
   color: var(--text-secondary);
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: var(--s-1-5);
   transition: background-color 0.2s;
 }
 
@@ -253,40 +253,40 @@ body {
 /* Empty states */
 .empty-state {
   text-align: center;
-  padding: 40px 20px;
+  padding: var(--s-10) var(--s-5);
 }
 
 .empty-state-icon {
-  font-size: 48px;
+  font-size: var(--s-12);
   margin-bottom: var(--s-4);
   opacity: 0.6;
 }
 
 .empty-state-title {
-  margin: 0 0 8px 0;
+  margin: 0 0 var(--s-2) 0;
   font-size: 18px;
   font-weight: 600;
 }
 
 .empty-state-message {
   color: var(--text-secondary);
-  margin: 0 0 20px 0;
+  margin: 0 0 var(--s-5) 0;
 }
 
 /* Loading states */
 .loading-state {
   text-align: center;
-  padding: 40px;
+  padding: var(--s-10);
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
+  width: var(--s-10);
+  height: var(--s-10);
   border: 3px solid rgba(255,255,255,0.1);
   border-top-color: var(--accent);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin: 0 auto 16px;
+  margin: 0 auto var(--s-4);
 }
 
 @keyframes spin {
@@ -337,11 +337,11 @@ body {
   font-size: var(--s-6);
   cursor: pointer;
   color: var(--text-secondary);
-  padding: 4px;
+  padding: var(--s-1);
 }
 
 .modal-title {
-  margin: 0 0 16px 0;
+  margin: 0 0 var(--s-4) 0;
   font-size: var(--s-5);
   font-weight: 600;
 }
@@ -359,7 +359,7 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
   .panel {
-    margin: 8px;
+    margin: var(--s-2);
     padding: var(--s-3);
   }
   
@@ -394,7 +394,7 @@ body {
 @keyframes panelIn {
   from { 
     opacity: 0; 
-    transform: translateY(6px); 
+    transform: translateY(var(--s-1-5)); 
   }
   to { 
     opacity: 1; 
@@ -410,7 +410,7 @@ body {
 @keyframes fadeRise {
   from { 
     opacity: 0; 
-    transform: translateY(4px); 
+    transform: translateY(var(--s-1)); 
   }
   to { 
     opacity: 1; 
@@ -427,7 +427,7 @@ body {
 
 .party-card:hover { 
   transform: translateY(-2px); 
-  box-shadow: 0 6px 24px rgba(0,0,0,.25); 
+  box-shadow: 0 var(--s-1-5) var(--s-6) rgba(0,0,0,.25); 
 }
 
 .party-card.tap { 
@@ -461,7 +461,7 @@ body {
 .avatar-group { 
   display: flex; 
   align-items: center; 
-  margin: 8px 0;
+  margin: var(--s-2) 0;
 }
 
 .avatar { 
@@ -469,7 +469,7 @@ body {
   height: var(--s-6); 
   border-radius: 50%; 
   overflow: hidden; 
-  border: 2px solid var(--surface); 
+  border: var(--s-0-5) solid var(--surface); 
   display: inline-flex; 
   margin-left: -8px;
   transition: transform var(--motion-duration-fast) var(--ease-smooth);
@@ -508,9 +508,9 @@ body {
 .badge { 
   display: inline-flex; 
   align-items: center; 
-  gap: 4px; 
-  padding: 4px 8px; 
-  border-radius: 999px; 
+  gap: var(--s-1); 
+  padding: var(--s-1) var(--s-2); 
+  border-radius: var(--r-pill); 
   font-size: var(--s-3); 
   font-weight: 500;
   border: 1px solid var(--border); 
@@ -530,7 +530,7 @@ body {
     box-shadow: 0 0 0 0 rgba(253, 224, 71, 0.4); 
   }
   50% { 
-    box-shadow: 0 0 0 4px rgba(253, 224, 71, 0); 
+    box-shadow: 0 0 0 var(--s-1) rgba(253, 224, 71, 0); 
   }
 }
 
@@ -539,8 +539,8 @@ body {
   display: flex; 
   align-items: center; 
   justify-content: space-between; 
-  gap: 8px; 
-  margin-bottom: 8px;
+  gap: var(--s-2); 
+  margin-bottom: var(--s-2);
 }
 
 .party-title {
@@ -555,11 +555,11 @@ body {
   position: sticky; 
   top: 0; 
   z-index: 50; 
-  padding: 8px 12px; 
-  margin: -12px -12px 12px; 
+  padding: var(--s-2) var(--s-3); 
+  margin: -12px -12px var(--s-3); 
   border-bottom: 1px solid var(--border); 
   background: linear-gradient(180deg, rgba(26,26,31,.95), rgba(26,26,31,.85)); 
-  backdrop-filter: blur(8px); 
+  backdrop-filter: blur(var(--s-2)); 
   opacity: 0;
   transform: translateY(-100%);
   transition: all 300ms var(--ease-smooth);
@@ -573,7 +573,7 @@ body {
 .reward-inner { 
   display: flex; 
   align-items: center; 
-  gap: 10px; 
+  gap: var(--s-2-5); 
   justify-content: space-between;
 }
 
@@ -584,14 +584,14 @@ body {
 
 .reward-strip .ri-msg { 
   color: #e9e9ec; 
-  font-size: 14px; 
+  font-size: var(--s-3-5); 
   flex: 1;
 }
 
 .reward-strip .ri-cta { 
-  padding: 6px 10px; 
+  padding: var(--s-1-5) var(--s-2-5); 
   font-size: 13px; 
-  border-radius: 6px; 
+  border-radius: var(--s-1-5); 
   margin-left: auto;
 }
 
@@ -601,9 +601,9 @@ body {
   color: var(--text-secondary);
   font-size: 18px;
   cursor: pointer;
-  padding: 4px;
-  margin-left: 8px;
-  border-radius: 4px;
+  padding: var(--s-1);
+  margin-left: var(--s-2);
+  border-radius: var(--s-1);
   transition: background-color 200ms var(--ease-smooth);
 }
 
@@ -627,7 +627,7 @@ body {
 
 /* Party avatars spacing */
 .party-avatars {
-  margin: 8px 0;
+  margin: var(--s-2) 0;
   min-height: var(--s-6);
   display: flex;
   align-items: center;

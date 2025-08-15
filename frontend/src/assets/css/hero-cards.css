@@ -41,7 +41,7 @@
 .cards, .card-grid, .vgrid { 
   display:grid;
   grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--s-6);                                           /* 24px rhythm */
+  gap: var(--s-6);                                           /* var(--s-6) rhythm */
   align-items:stretch;
 }
 
@@ -50,8 +50,8 @@
   flex-direction:column;
   min-height:0;
   height:var(--card-h, auto);
-  padding: var(--s-5);                                       /* 20px */
-  border-radius: var(--r-xl);                                /* 16px */
+  padding: var(--s-5);                                       /* var(--s-5) */
+  border-radius: var(--r-xl);                                /* var(--s-4) */
   box-shadow: var(--shadow-card, var(--shadow-3));
   background: var(--bg-card, #151821);
   transition: transform .12s ease, box-shadow .12s ease;
@@ -64,7 +64,7 @@
   min-height:0;
 }
 
-.vcard__title{ margin-bottom: var(--s-3); }                  /* 12px */
+.vcard__title{ margin-bottom: var(--s-3); }                  /* var(--s-3) */
 .vcard__meta{ gap: var(--s-3); }
 .vcard__footer{ gap: var(--s-3); margin-top: var(--s-5); }
 

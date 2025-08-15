@@ -2,7 +2,7 @@
   --hour-height: 260px;     /* increase calendar, don't shrink cards */
   --half-hour: calc(var(--hour-height)/2);
 }
-.calendar-grid{position:relative;padding:0 8px}
+.calendar-grid{position:relative;padding:0 var(--s-2)}
 .calendar-grid .hour-row{height:var(--hour-height);border-bottom:1px solid rgba(255,255,255,.04);position:relative}
 .cal-event{position:absolute;left:0;right:0}
 .cal-event .vcard{margin:0} /* use full card inside */

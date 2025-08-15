@@ -31,9 +31,9 @@ aside.sidebar, [data-role="sidebar"], #sidebar{
 .sidebar [data-route]{
   display: flex;
   align-items: center;
-  gap: var(--s-3);           /* Use token instead of 10px */
-  padding: var(--s-3) var(--s-4);  /* Use tokens instead of 10px 14px */
-  border-radius: var(--r-lg);       /* Use token instead of 12px */
+  gap: var(--s-3);           /* Use token instead of var(--s-2-5) */
+  padding: var(--s-3) var(--s-4);  /* Use tokens instead of var(--s-2-5) var(--s-3-5) */
+  border-radius: var(--r-lg);       /* Use token instead of var(--s-3) */
   color: #cfe0ff;
   text-decoration: none;
   white-space: nowrap;
@@ -45,7 +45,7 @@ aside.sidebar, [data-role="sidebar"], #sidebar{
   background:
     radial-gradient(120% 120% at -20% -40%, rgba(139,129,255,.25) 0%, rgba(22,26,45,0) 65%),
     linear-gradient(180deg, rgba(139,129,255,.15), rgba(84,74,255,.12));
-  box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 8px 24px rgba(0,0,0,.35);
+  box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 var(--s-2) var(--s-6) rgba(0,0,0,.35);
   color: #eef2ff !important;
-  border-radius: var(--r-xl);  /* Use token instead of 16px */
+  border-radius: var(--r-xl);  /* Use token instead of var(--s-4) */
 }

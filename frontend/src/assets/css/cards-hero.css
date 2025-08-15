@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: var(--s-4);
-  padding: var(--s-4) 0 32px;
+  padding: var(--s-4) 0 var(--s-8);
 }
 
 /* Responsive grid adjustments */
@@ -11,7 +11,7 @@
   .hero-wrap {
     grid-template-columns: 1fr;
     gap: var(--s-3);
-    padding: var(--s-3) 0 24px;
+    padding: var(--s-3) 0 var(--s-6);
   }
 }
 
@@ -29,7 +29,7 @@
 
 .section-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 40px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.05) inset;
+  box-shadow: 0 var(--s-2) var(--s-10) rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.05) inset;
 }
 
 /* Button interactions */
@@ -45,7 +45,7 @@
 
 .btn.primary:hover {
   background: linear-gradient(90deg, #8b7cf6, #5ab3ff);
-  box-shadow: 0 4px 12px rgba(123,108,246,.3);
+  box-shadow: 0 var(--s-1) var(--s-3) rgba(123,108,246,.3);
 }
 
 .btn.ghost:hover {
@@ -73,7 +73,7 @@
 
 /* Profile avatars */
 .avatar {
-  font-size: 14px;
+  font-size: var(--s-3-5);
   text-shadow: 0 1px 3px rgba(0,0,0,.3);
   flex-shrink: 0;
 }
@@ -81,9 +81,9 @@
 /* Card actions alignment */
 .actions {
   display: flex;
-  gap: 8px;
+  gap: var(--s-2);
   margin-top: auto;
-  padding-top: 4px;
+  padding-top: var(--s-1);
 }
 
 .actions a.btn {
@@ -123,7 +123,7 @@
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: var(--s-3);
-  min-height: 160px;
+  min-height: var(--s-28);
 }
 
 @keyframes shimmer {
@@ -133,7 +133,7 @@
 
 /* Section headers */
 .section-head {
-  font-size: 14px;
+  font-size: var(--s-3-5);
 }
 
 .section-head > div:first-child {
@@ -151,7 +151,7 @@
 .card-sub {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s-1-5);
   color: var(--text-2);
   font-size: 0.9rem;
   line-height: 1.4;
@@ -163,6 +163,6 @@
   display: block;
   text-align: center;
   color: var(--text-2);
-  padding: 48px 24px;
-  font-size: 14px;
+  padding: var(--s-12) var(--s-6);
+  font-size: var(--s-3-5);
 }

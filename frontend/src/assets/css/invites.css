@@ -30,7 +30,7 @@
 .inv-left.bump { transform: scale(1.06); }
 .inv-bonus {
   color:var(--accent-success); font-weight:700; font-size:12px;
-  border:1px solid rgba(34,197,94,.35); border-radius:999px; padding:4px 8px;
+  border:1px solid rgba(34,197,94,.35); border-radius: var(--r-pill); padding:4px var(--s-2);
   background: rgba(34,197,94,.08);
 }
 
@@ -41,7 +41,7 @@
   background: var(--bg-secondary);
   border:1px dashed var(--border);
   border-radius: var(--r-lg);
-  padding:12px 14px;
+  padding:12px var(--s-3-5);
   color:var(--text-secondary);
   font-size:12px;
 }
@@ -55,7 +55,7 @@
 }
 .inv-activity .head {
   display:flex; align-items:center; justify-content:space-between;
-  padding:12px 14px; border-bottom:1px solid var(--border);
+  padding:12px var(--s-3-5); border-bottom:1px solid var(--border);
 }
 .inv-activity .head .title { color:var(--text-primary); font-weight:700; font-size:14px; }
 .inv-activity .head .sub { color:var(--text-secondary); font-size:12px; }
@@ -64,21 +64,21 @@
   position: relative; max-height: 60vh; overflow:auto;
   will-change: scroll-position;
 }
-.vlist-phantom { height: 0px; }
+.vlist-phantom { height: 0; }
 .vitem {
   position:absolute; left:0; right:0;
-  padding:12px 14px; border-bottom:1px solid var(--border);
+  padding:12px var(--s-3-5); border-bottom:1px solid var(--border);
   display:flex; align-items:center; gap:10px;
 }
 .vitem .avatar {
-  width:28px; height:28px; border-radius:50%; background:#222; flex:0 0 28px; overflow:hidden;
+  width:28px; height:28px; border-radius:50%; background:#222; flex:0 0 var(--s-7); overflow:hidden;
 }
 .vitem .info { flex:1; min-width:0; }
 .vitem .line1 { color:var(--text-primary); font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .vitem .line2 { color:var(--text-secondary); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .vitem .pill {
   border:1px solid var(--border); color:var(--text-secondary);
-  padding:4px 8px; border-radius:999px; font-size:11px; font-weight:700;
+  padding:4px var(--s-2); border-radius: var(--r-pill); font-size:11px; font-weight:700;
 }
 
 /* Empty state */

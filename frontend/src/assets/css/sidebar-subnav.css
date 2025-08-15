@@ -21,11 +21,11 @@
 .sidebar .subnav a {
   display: flex;
   align-items: center;
-  padding: 8px 14px;
+  padding: var(--s-2) var(--s-3-5);
   font-size: 13px;
   color: var(--text-secondary, #8b92a5);
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: var(--s-1-5);
   transition: all 0.15s ease;
   white-space: nowrap;
   overflow: hidden;

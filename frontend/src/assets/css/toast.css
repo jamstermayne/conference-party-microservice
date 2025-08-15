@@ -26,19 +26,19 @@
 }
 
 .toast.success {
-  border-left: 4px solid var(--success);
+  border-left: var(--s-1) solid var(--success);
 }
 
 .toast.warning {
-  border-left: 4px solid var(--warning);
+  border-left: var(--s-1) solid var(--warning);
 }
 
 .toast.error {
-  border-left: 4px solid var(--error);
+  border-left: var(--s-1) solid var(--error);
 }
 
 .toast.info {
-  border-left: 4px solid var(--accent-primary);
+  border-left: var(--s-1) solid var(--accent-primary);
 }
 
 .toast__icon {
@@ -144,7 +144,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 2px;
+  height: var(--s-0-5);
   background: var(--accent-primary);
   border-radius: 0 0 var(--radius-md) var(--radius-md);
   animation: progress linear;

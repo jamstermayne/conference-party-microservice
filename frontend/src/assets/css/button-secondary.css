@@ -9,12 +9,12 @@ a.btn--secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
+  padding: var(--s-2-5) var(--s-5);
   background: transparent;
   color: #9aa7bf;
   border: 1px solid rgba(154, 167, 191, 0.3);
   border-radius: var(--r-md);
-  font-size: 14px;
+  font-size: var(--s-3-5);
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
@@ -35,15 +35,15 @@ a.btn--secondary {
 }
 
 .btn--secondary:focus {
-  outline: 2px solid rgba(154, 167, 191, 0.5);
-  outline-offset: 2px;
+  outline: var(--s-0-5) solid rgba(154, 167, 191, 0.5);
+  outline-offset: var(--s-0-5);
 }
 
 /* External link indicator */
 .btn--secondary[target="_blank"]::after {
   content: ' ↗';
   font-size: var(--s-3);
-  margin-left: 4px;
+  margin-left: var(--s-1);
   opacity: 0.7;
 }
 

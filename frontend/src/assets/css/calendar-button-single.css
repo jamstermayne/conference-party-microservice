@@ -6,13 +6,13 @@
 .btn.add-to-calendar {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
+  gap: var(--s-2);
+  padding: var(--s-2-5) var(--s-5);
   background: linear-gradient(135deg, #6b8cff, #8a6bff);
   color: white;
   border: none;
   border-radius: var(--r-md);
-  font-size: 14px;
+  font-size: var(--s-3-5);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -22,12 +22,12 @@
 .btn.add-to-calendar:hover {
   background: linear-gradient(135deg, #7d9fff, #9c7dff);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(139, 129, 255, 0.3);
+  box-shadow: 0 var(--s-1) var(--s-3) rgba(139, 129, 255, 0.3);
 }
 
 .btn.add-to-calendar:active {
   transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(139, 129, 255, 0.2);
+  box-shadow: 0 var(--s-0-5) var(--s-1-5) rgba(139, 129, 255, 0.2);
 }
 
 .btn.add-to-calendar:disabled {
@@ -44,7 +44,7 @@
 
 /* Compact version for list views */
 .compact .btn.add-to-calendar {
-  padding: 6px 12px;
+  padding: var(--s-1-5) var(--s-3);
   font-size: 13px;
 }
 

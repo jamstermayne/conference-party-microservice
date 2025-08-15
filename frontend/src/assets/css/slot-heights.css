@@ -1,6 +1,6 @@
-/* shared baseline: 30min = 40px */
+/* shared baseline: 30min = var(--s-10) */
 :root {
-  --slot-height: 40px;
+  --slot-height: var(--s-10);
 }
 
 .calendar-time-slot {
