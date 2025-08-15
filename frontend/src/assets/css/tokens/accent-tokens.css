@@ -1,0 +1,18 @@
+/**
+ * Accent Color Tokens
+ * Special accent colors for UI elements
+ */
+
+:root {
+  /* Accent colors for gradient effects */
+  --accent-cyan: #00E5FF;
+  --accent-magenta: #FF6BFF;
+  
+  /* Rail gradient tokens */
+  --rail-gradient-start: var(--accent-cyan);
+  --rail-gradient-end: var(--accent-magenta);
+  
+  /* Glow effects */
+  --glow-magenta: rgba(255, 107, 255, 0.25);
+  --glow-cyan: rgba(0, 229, 255, 0.25);
+}

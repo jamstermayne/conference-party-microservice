@@ -1,17 +1,12 @@
 /**
  * auth.js — Firebase Auth (compat) + helpers
- * - Reads config from window.__ENV.firebase (if present) or inline fallback
+ * - Reads config from window.__ENV.firebase (if present) or centralized config
  * - Exposes window.Auth: init(), signInGoogle(), signOut(), getIdToken(), onChange(cb), current()
  */
+import { FIREBASE_CONFIG } from './config/env.js';
+
 (function(){
-  const FALLBACK = {
-    apiKey: "AIzaSyBBHTTPMmtMSwHZZVkia-jxR1WINg_mFMw",
-    authDomain: "conference-party-app.firebaseapp.com",
-    projectId: "conference-party-app",
-    storageBucket: "conference-party-app.firebasestorage.app",
-    messagingSenderId: "740658808222",
-    appId: "1:740658808222:web:c20a2656860d3a771f828f"
-  };
+  const FALLBACK = FIREBASE_CONFIG;
 
   function cfg(){
     try { return (window.__ENV && window.__ENV.firebase) || FALLBACK; }

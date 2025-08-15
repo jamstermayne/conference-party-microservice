@@ -47,6 +47,11 @@ jobs:
           echo "🎨 Running design token checks..."
           npm run lint || echo "Lint checks failed - continuing with deployment"
 
+      - name: Run design audit suite (must pass)
+        run: |
+          chmod +x tools/design-audit/*.sh
+          ./tools/design-audit/run-all.sh
+
       - name: Guard: no hex colors anywhere
         run: |
           # Install ripgrep if not available

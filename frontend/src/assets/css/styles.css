@@ -11,9 +11,9 @@
   /* accent rail */
   --rail-w: var(--s-1-5);
   --rail-radius: var(--s-2-5);
-  --rail-start: #00E5FF; /* cyan */
-  --rail-end: #FF6BFF; /* magenta */
-  --rail-glow: 0 0 18px rgba(255,107,255,.25), 0 0 var(--s-3) rgba(0,229,255,.25);
+  --rail-start: var(--accent-cyan);
+  --rail-end: var(--accent-magenta);
+  --rail-glow: 0 0 18px var(--glow-magenta), 0 0 var(--s-3) var(--glow-cyan);
 }
 
 *{box-sizing:border-box}

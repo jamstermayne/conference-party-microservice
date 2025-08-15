@@ -100,13 +100,13 @@ class GamescomMapsApp {
             const coords = this.getEventCoordinates(event);
             if (!coords) return;
             
-            // Create marker
-            const marker = new google.maps.Marker({
+            // Create advanced marker
+            const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+            const marker = new AdvancedMarkerElement({
                 position: coords,
                 map: this.map,
                 title: event.name || event['Event Name'],
-                icon: this.getMarkerIcon(event),
-                animation: google.maps.Animation.DROP
+                content: this.buildMarkerContent(event)
             });
             
             // Add click listener
@@ -161,6 +161,40 @@ class GamescomMapsApp {
         };
     }
 
+    buildMarkerContent(event) {
+        const isUGC = event.isUGC || event.collection === 'ugc-events';
+        const category = event.category || event.Category || 'networking';
+        
+        const colors = {
+            networking: '#4A154B',
+            afterparty: '#FF6B35',
+            mixer: '#0084FF',
+            launch: '#00C851'
+        };
+        
+        // Create custom marker content
+        const markerDiv = document.createElement('div');
+        markerDiv.className = 'custom-marker';
+        markerDiv.style.cssText = `
+            background-color: ${colors[category.toLowerCase()] || '#333'};
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        `;
+        
+        const icon = document.createElement('div');
+        icon.style.cssText = 'color: white; font-size: 16px;';
+        icon.textContent = isUGC ? '👤' : '🎮';
+        markerDiv.appendChild(icon);
+        
+        return markerDiv;
+    }
+    
     getMarkerIcon(event) {
         const isUGC = event.isUGC || event.collection === 'ugc-events';
         const category = event.category || event.Category || 'networking';
