@@ -115,40 +115,72 @@ export const startOAuth = async (e, buildAuthUrl) => {
   }
 };
 
-// Helper to poll for OAuth completion
+// Helper to wait for OAuth completion via message or polling
 async function pollForCompletion(popup) {
-  const deadline = Date.now() + 90_000;
-  
-  while (Date.now() < deadline) {
-    // Check if window is closed
-    try {
-      if (popup.closed) {
-        break;
-      }
-    } catch {
-      // COOP prevents access
-    }
+  return new Promise((resolve) => {
+    const deadline = Date.now() + 90_000;
+    let completed = false;
     
-    // Check if connected
-    const s = await status();
-    if (s.connected) {
-      try { 
-        popup.close(); 
+    // Listen for postMessage from popup
+    const messageHandler = (ev) => {
+      if (ev.origin !== window.location.origin) return;
+      if (ev.data?.source === 'gcal' && !completed) {
+        completed = true;
+        window.removeEventListener('message', messageHandler);
+        clearInterval(pollInterval);
+        
+        // Try to close popup if still open
+        try { popup.close(); } catch {}
+        
+        resolve({ connected: ev.data.ok === true });
+      }
+    };
+    window.addEventListener('message', messageHandler);
+    
+    // Also poll as fallback (in case messages fail)
+    const pollInterval = setInterval(async () => {
+      // Check timeout
+      if (Date.now() > deadline) {
+        clearInterval(pollInterval);
+        window.removeEventListener('message', messageHandler);
+        if (!completed) {
+          completed = true;
+          resolve({ connected: false, timeout: true });
+        }
+        return;
+      }
+      
+      // Check if window is closed (with COOP, this might work)
+      try {
+        if (popup.closed) {
+          clearInterval(pollInterval);
+          window.removeEventListener('message', messageHandler);
+          if (!completed) {
+            completed = true;
+            // Check final status
+            const s = await status();
+            resolve({ connected: s.connected });
+          }
+          return;
+        }
       } catch {
-        // Send message to close
-        try {
-          popup.postMessage({ action: 'close' }, '*');
-        } catch {}
+        // COOP might prevent access - continue polling
       }
-      return { connected: true };
-    }
-    
-    await new Promise(r => setTimeout(r, 500));
-  }
-  
-  // Check final status
-  const finalStatus = await status();
-  return { connected: finalStatus.connected };
+      
+      // Check connection status as additional fallback
+      const s = await status();
+      if (s.connected && !completed) {
+        completed = true;
+        clearInterval(pollInterval);
+        window.removeEventListener('message', messageHandler);
+        
+        // Try to close popup
+        try { popup.close(); } catch {}
+        
+        resolve({ connected: true });
+      }
+    }, 500);
+  });
 }
 
 // --- List events ---
