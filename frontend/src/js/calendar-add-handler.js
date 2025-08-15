@@ -1,4 +1,4 @@
-import { handleAddToCalendar } from './ui/add-to-calendar.js';
+import { handleAddToCalendar } from './ui/add-to-calendar.js?v=b030';
 
 // Simple toast (optional - remove if you have your own)
 function toast(msg) {

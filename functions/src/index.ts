@@ -15,11 +15,9 @@ import {
 import { m2mVerify, m2mSubscribe, m2mEvents } from "./m2m";
 import m2mRouter from "./routes/m2m";
 import partiesRouter from "./routes/parties";
+import invitesRouter from "./routes/invites";
+import adminRouter from "./routes/admin";
 // import { runIngest } from "./jobs/ingest-parties"; // Temporarily disabled with scheduled function
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const invitesRouter = require("../../routes/invites");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const adminRouter = require("../../routes/admin");
 
 // EventData interface - kept for reference
 // interface EventData {

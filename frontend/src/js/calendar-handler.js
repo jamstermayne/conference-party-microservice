@@ -2,7 +2,7 @@
  * Global Calendar Handler
  * Handles all "Add to Calendar" actions throughout the app
  */
-import SmartCalendar from './services/calendar-smart.js';
+import SmartCalendar from './services/calendar-smart.js?v=b030';
 
 // Initialize calendar handler
 function initCalendarHandler() {

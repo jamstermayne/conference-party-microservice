@@ -1,7 +1,7 @@
 // Clean Add to Calendar orchestrator
-import { ensureConnected, createFromParty } from '../services/gcal-clean.js';
-import { buildICS, downloadICS } from '../services/ics.js';
-import { showProviderChooser } from './provider-chooser.js';
+import { ensureConnected, createFromParty } from '../services/gcal-clean.js?v=b030';
+import { buildICS, downloadICS } from '../services/ics.js?v=b030';
+import { showProviderChooser } from './provider-chooser.js?v=b030';
 
 export async function handleAddToCalendar(party, { onSuccess, onError } = {}) {
   try {

@@ -1,7 +1,7 @@
 // Smart Add to Calendar orchestrator
-import { GCal } from '../services/gcal.js';
-import { buildICS, downloadICS } from '../services/ics.js';
-import { showProviderChooser } from './provider-chooser.js';
+import { GCal } from '../services/gcal.js?v=b030';
+import { buildICS, downloadICS } from '../services/ics.js?v=b030';
+import { showProviderChooser } from './provider-chooser.js?v=b030';
 
 export async function handleAddToCalendar(party, { onSuccess, onError } = {}) {
   try {

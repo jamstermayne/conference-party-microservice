@@ -1,4 +1,4 @@
-import { handleAddToCalendar } from './ui/add-to-calendar.js';
+import { handleAddToCalendar } from './ui/add-to-calendar.js?v=b030';
 
 document.addEventListener('click', async (e) => {
   const btn = e.target.closest('[data-action="add-to-calendar"]');
