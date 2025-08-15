@@ -1,0 +1,68 @@
+/**
+ * Calendar Button Group Styles
+ * Split button for calendar provider options
+ */
+
+.btn-group {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.btn-group .btn {
+  border-radius: 0;
+  margin: 0;
+}
+
+.btn-group .btn:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  flex: 1;
+}
+
+.btn-group .btn-menu {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 0 12px;
+  min-width: auto;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+}
+
+.btn-group .btn-menu:hover {
+  background: linear-gradient(135deg, #7d9fff, #9c7dff);
+}
+
+/* Calendar menu dropdown */
+.calendar-menu {
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button states */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn.success {
+  background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+  color: white;
+}
+
+.btn.error {
+  background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+  color: white;
+}

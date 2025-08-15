@@ -15,9 +15,6 @@ export async function renderParties(mount){
   const items = await fetchParties();
   mount.innerHTML = `
     <section class="vwrap">
-      <div style="display:flex;gap:8px;margin-bottom:12px">
-        <button class="vbtn primary" data-gcal-start>Connect Google Calendar</button>
-      </div>
       <h2 class="vh1">Recommended events</h2>
       <div class="vgrid" id="party-list"></div>
     </section>`;
@@ -38,12 +35,17 @@ export async function renderParties(mount){
       </div>
       <div class="vmeta">📍 ${ev.venue||"TBA"} • 🕒 ${startTime}${endTime?` – ${endTime}`:""}</div>
       <div class="vactions">
-        <button class="vbtn primary"
-                data-gcal-add
-                data-title="${ev.title}"
-                data-venue="${ev.venue}"
-                data-start="${ev.start}"
-                data-end="${ev.end}">Add to Calendar</button>
+        <div class="btn-group">
+          <button class="vbtn primary"
+                  data-action="addCalendar"
+                  data-title="${ev.title}"
+                  data-venue="${ev.venue}"
+                  data-start="${ev.start}"
+                  data-end="${ev.end}">Add to Calendar</button>
+          <button class="vbtn primary btn-menu" 
+                  data-action="calendarMenu" 
+                  title="More calendar options">▼</button>
+        </div>
         <button class="vbtn" data-act="details">Details</button>
       </div>
     </article>`;

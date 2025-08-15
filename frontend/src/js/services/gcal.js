@@ -124,4 +124,8 @@ export const GCal = {
 // Re-export individual functions for tree-shaking
 export const { isConnected, startOAuth, listEvents, createFromParty, disconnect, getUser } = GCal;
 
+// Additional named exports for compatibility
+export const status = GCal.isConnected;
+export const create = GCal.createFromParty;
+
 export default GCal;
