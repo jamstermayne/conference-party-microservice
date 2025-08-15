@@ -13,10 +13,16 @@ echo ""
 # Run individual audits
 AUDITS=(
     "00_env_probe.sh:Environment Probe"
+    "10_layout_nav_audit.sh:Layout & Navigation"
+    "30_css_tokens_audit.sh:Design Tokens"
+    "40_maps_audit.sh:Maps Integration"
+    "50_calendar_audit.sh:Calendar Integration"
+    "60_api_parties_audit.sh:API & Data"
+    "70_accessibility_audit.sh:Accessibility"
+    "80_perf_bundle_audit.sh:Performance"
     "token-check.sh:Token Compliance"
     "css-audit.sh:CSS Analysis"
     "component-audit.sh:Component Review"
-    "10_layout_nav_audit.sh:Layout & Navigation"
 )
 
 TOTAL_ISSUES=0
