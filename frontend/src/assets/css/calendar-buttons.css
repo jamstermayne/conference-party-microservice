@@ -1,44 +1,71 @@
-/**
- * Calendar Button Styles
- * Single button for calendar with provider modal
- */
+/* CALENDAR MENU + BUTTONS — token-only, no new colors */
 
-/* Legacy btn-group support - can be removed once all templates updated */
-.btn-group {
-  display: inline-flex;
-  gap: var(--s-2);
+/* menu is hidden by default; JS toggles .is-open */
+.cal-menu {
+  display: none;
+  grid-template-columns: 1fr;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  background: var(--bg-elev-1);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+}
+.cal-menu.is-open { display: grid; }
+
+/* primary CTA */
+.btn-add-to-calendar{
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:var(--s-3);
+  padding:var(--s-3) var(--s-5);
+  border-radius:var(--r-xl);
+  background:var(--color-accent);
+  color:var(--text-on-accent);
+  font-weight:600; border:1px solid color-mix(in oklab,var(--color-accent) 85%, black);
+  cursor:pointer;
+}
+.btn-add-to-calendar:hover,
+.btn-add-to-calendar:focus-visible{
+  background: color-mix(in oklab, var(--color-accent) 92%, white);
+  outline:none;
 }
 
-/* Removed btn-menu styles - no longer needed */
-
-/* Calendar menu dropdown */
-.calendar-menu {
-  animation: fadeIn 0.2s ease;
+/* split options */
+.btn-cal-google,
+.btn-cal-outlook,
+.btn-cal-m2m{
+  display:inline-flex; align-items:center; gap:var(--s-2);
+  padding:var(--s-2) var(--s-4);
+  border-radius:var(--r-md);
+  background:var(--bg-elev-1);
+  color:var(--text-primary);
+  border:1px solid var(--border-primary);
+  cursor:pointer;
+}
+.btn-cal-google:hover,
+.btn-cal-outlook:hover,
+.btn-cal-m2m:hover{
+  background:var(--bg-elev-2);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* day pills (already buttons; keep tokens) */
+.v-day-subnav{
+  display:none;        /* gated by route */
+  grid-auto-rows:min-content;
+  gap:var(--s-2);
+  padding:var(--s-3);
 }
+.v-day-subnav.is-visible{ display:grid; }
 
-/* Button states */
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.day-pill{
+  display:inline-flex; align-items:center; width:100%;
+  padding:var(--s-2) var(--s-3);
+  border-radius:var(--r-md);
+  border:1px solid var(--border-primary);
+  background:transparent; color:var(--text-primary);
+  cursor:pointer;
 }
-
-.btn.success {
-  background: linear-gradient(135deg, var(--neutral-200), var(--neutral-200)) !important;
-  color: white;
-}
-
-.btn.error {
-  background: linear-gradient(135deg, var(--alias-e74c3c), var(--alias-c0392b)) !important;
-  color: white;
+.day-pill[aria-pressed="true"]{
+  background:var(--bg-accent-weak);
+  border-color:var(--color-accent);
 }

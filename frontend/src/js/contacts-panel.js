@@ -7,9 +7,10 @@ export async function renderContacts(mount){
   if(!mount) return;
   mount.innerHTML = `<section class="vwrap">
     <h2 class="vh1">Contacts</h2>
-    <div class="vgrid" id="contacts"></div>
+    <div class="vgrid" id="contacts-grid"></div>
   </section>`;
-  const c = document.getElementById("contacts");
+  const c = mount.querySelector("#contacts-grid");
+  if (!c) return;
   c.innerHTML = sample.map(p => `
     <article class="vcard">
       <div class="vhead"><div class="vtitle">${p.name}</div><div class="vbadges"><span class="vpill">${p.role}</span></div></div>

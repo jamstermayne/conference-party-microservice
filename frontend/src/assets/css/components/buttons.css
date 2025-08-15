@@ -1,0 +1,73 @@
+/* buttons.css - Token-based button styles */
+.v-btn { 
+  all: unset;
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center;
+  padding: var(--s-3) var(--s-5);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--btn-border);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .06s ease, background-color .15s ease, border-color .15s ease;
+}
+
+.v-btn--primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  border-color: transparent;
+}
+
+.v-btn--primary:hover { 
+  transform: translateY(-1px); 
+  background: var(--brand-600);
+}
+
+.v-btn--ghost {
+  background: var(--btn-ghost-bg);
+  color: var(--btn-ghost-fg);
+}
+
+.v-btn--ghost:hover { 
+  background: rgba(255,255,255,.1); 
+}
+
+.v-btn--full {
+  width: 100%;
+}
+
+/* Legacy button class support */
+.btn {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
+  font: var(--text-md);
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.btn--primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+}
+
+.btn--primary:hover {
+  background: var(--brand-600);
+}
+
+.btn--ghost {
+  border: 1px solid var(--btn-border);
+  color: var(--btn-ghost-fg);
+  background: var(--btn-ghost-bg);
+}
+
+.btn--ghost:hover {
+  background: rgba(255,255,255,.1);
+}
+
+.btn--full {
+  width: 100%;
+}

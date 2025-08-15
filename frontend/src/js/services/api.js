@@ -51,7 +51,7 @@ class APIService {
   constructor() {
     this.baseURL = window.location.hostname === 'localhost' 
       ? 'http://localhost:5001/conference-party-app/us-central1/api'
-      : 'https://us-central1-conference-party-app.cloudfunctions.net/api';
+      : '/api';
     
     this.cache = new Map();
     this.cacheTTL = 5 * 60 * 1000; // 5 minutes

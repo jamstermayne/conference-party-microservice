@@ -1,156 +1,114 @@
-// Dead simple Google Calendar integration - server-side OAuth only
-const BASE = '/api/googleCalendar';
-
-const ORIGIN =
-  location.origin.includes('web.app')
-    ? 'https://conference-party-app.web.app'
-    : location.origin;
-
-export const GCal = {
-  // Check if connected
-  isConnected: async () => {
-    try {
-      const r = await fetch(`${BASE}/status`, { 
-        credentials: 'include' 
-      });
-      const data = await r.json();
-      return data.connected || false;
-    } catch {
-      return false;
-    }
-  },
-
-  // Start OAuth flow - popup or redirect
-  startOAuth: async ({ usePopup = false } = {}) => {
-    const url = `${BASE}/google/start`;
-    if (!usePopup) {
-      location.href = url;
-      return;
-    }
-
-    const popup = window.open(url, 'gcal_oauth', 'width=600,height=700');
-    if (!popup) throw new Error('Popup blocked');
-
-    return new Promise((resolve, reject) => {
-      const checkClosed = setInterval(() => {
-        if (popup.closed) {
-          cleanup();
-          reject(new Error('Popup closed'));
-        }
-      }, 500);
-
-      function onMsg(ev) {
-        if (ev.origin !== ORIGIN) return;
-        const d = ev.data || {};
-        if (d.type === 'gcal:connected') {
-          cleanup();
-          resolve(true);
-        } else if (d.type === 'gcal:error') {
-          cleanup();
-          reject(new Error(d.reason || 'OAuth failed'));
-        }
-      }
-
-      function cleanup() {
-        clearInterval(checkClosed);
-        window.removeEventListener('message', onMsg);
-        try { popup.close(); } catch {}
-      }
-
-      window.addEventListener('message', onMsg);
-    });
-  },
-
-  // List calendar events
-  listEvents: async (range = 'week') => {
-    try {
-      const r = await fetch(`${BASE}/events?range=${range}`, { 
-        credentials: 'include' 
-      });
-      if (!r.ok) return [];
-      const data = await r.json();
-      return data.events || [];
-    } catch {
-      return [];
-    }
-  },
-
-  // Create event from party
-  createFromParty: async (party) => {
-    const r = await fetch(`${BASE}/create`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({
-        summary: party.title,
-        location: party.venue || party.location,
-        description: party.description || '',
-        start: party.startISO || party.start,
-        end: party.endISO || party.end,
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-      })
-    });
-    
-    if (!r.ok) {
-      throw new Error('Failed to create event');
-    }
-    
-    return r.json();
-  },
-
-  // Disconnect calendar
-  disconnect: async () => {
-    const r = await fetch(`${BASE}/disconnect`, {
-      method: 'POST',
-      credentials: 'include'
-    });
-    return r.ok;
-  },
-
-  // Get user info
-  getUser: async () => {
-    try {
-      const r = await fetch(`${BASE}/user`, {
-        credentials: 'include'
-      });
-      if (!r.ok) return null;
-      return r.json();
-    } catch {
-      return null;
-    }
-  }
-};
-
-// Re-export individual functions for tree-shaking
-export const { isConnected, startOAuth, listEvents, createFromParty, disconnect, getUser } = GCal;
-
-// Additional named exports for compatibility
-export const status = async () => {
-  const r = await fetch(`${BASE}/status`, { credentials: 'include' });
-  if (!r.ok) return { connected: false };
-  return r.json(); // { connected: boolean }
-};
-
-export const create = async (event) => {
-  const r = await fetch(`${BASE}/create`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(event)
-  });
-  if (!r.ok) throw new Error('create_failed');
-  return r.json();
-};
-
-// Safe window.close (avoid COOP spam)
-export function safeClose(win) {
-  try { 
-    if (win && !win.closed) {
-      win.close();
-    }
-  } catch {
-    // Ignore COOP errors
-  }
+// Must use relative endpoints so hosting rewrites → Functions (no CSP wildcards)
+export async function ensureGoogleSession({ popupWindow } = {}) {
+  // Start backend OAuth (opens in provided window)
+  if (popupWindow) popupWindow.location = '/api/googleCalendar/google/start';
+  // Poll session status
+  const ok = await waitFor(() => fetch('/api/googleCalendar/status').then(r => r.json()).then(j => j.connected), 12000);
+  if (!ok) throw new Error('OAuth not completed');
 }
 
-export default GCal;
+export async function addToCalendar(party, { popupWindow } = {}) {
+  const res = await fetch('/api/googleCalendar/create', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ event: party })
+  });
+  if (!res.ok) throw new Error('Create failed');
+  if (popupWindow && !popupWindow.closed) popupWindow.close();
+}
+
+async function waitFor(fn, timeout = 10000, interval = 400) {
+  const t0 = Date.now();
+  while (Date.now() - t0 < timeout) {
+    try { if (await fn()) return true; } catch {}
+    await new Promise(r => setTimeout(r, interval));
+  }
+  return false;
+}
+
+// Additional compatibility exports for existing wire-calendar.js
+export const isConnected = async () => {
+  try {
+    const r = await fetch('/api/googleCalendar/status', { credentials: 'include' });
+    const data = await r.json();
+    return data.connected || false;
+  } catch {
+    return false;
+  }
+};
+
+export const startOAuth = async ({ usePopup = true } = {}) => {
+  const url = '/api/googleCalendar/google/start';
+  if (!usePopup) {
+    location.href = url;
+    return;
+  }
+
+  const popup = window.open(url, 'gcal_oauth', 'width=600,height=700');
+  if (!popup) throw new Error('Popup blocked');
+
+  return new Promise((resolve, reject) => {
+    const checkClosed = setInterval(() => {
+      if (popup.closed) {
+        cleanup();
+        reject(new Error('Popup closed'));
+      }
+    }, 500);
+
+    function cleanup() {
+      clearInterval(checkClosed);
+      try { popup.close(); } catch {}
+    }
+
+    // Simple polling approach - check status every 2 seconds
+    const checkStatus = setInterval(async () => {
+      try {
+        const connected = await isConnected();
+        if (connected) {
+          cleanup();
+          clearInterval(checkStatus);
+          resolve(true);
+        }
+      } catch {}
+    }, 2000);
+
+    // Cleanup after timeout
+    setTimeout(() => {
+      cleanup();
+      clearInterval(checkStatus);
+      reject(new Error('OAuth timeout'));
+    }, 60000);
+  });
+};
+
+export const createFromParty = async (party) => {
+  const res = await fetch('/api/googleCalendar/create', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({
+      summary: party.title,
+      location: party.venue || party.location,
+      description: party.description || '',
+      start: party.startISO || party.start,
+      end: party.endISO || party.end,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    })
+  });
+  
+  if (!res.ok) {
+    throw new Error('Failed to create event');
+  }
+  
+  return res.json();
+};
+
+// Legacy exports for backward compatibility
+export const disconnect = async () => {
+  const r = await fetch('/api/googleCalendar/disconnect', {
+    method: 'POST',
+    credentials: 'include'
+  });
+  return r.ok;
+};

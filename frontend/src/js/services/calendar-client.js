@@ -10,7 +10,7 @@ async function authed(url, opts={}) {
 
 class CalendarClient {
   constructor() {
-    this.baseUrl = 'https://us-central1-conference-party-app.cloudfunctions.net/api/calendar';
+    this.baseUrl = '/api/calendar';
   }
 
   async getAuthUrl() {
@@ -43,7 +43,7 @@ class CalendarClient {
 
 async function connectGoogle(){
   try {
-    const { url } = await authed('https://us-central1-conference-party-app.cloudfunctions.net/api/calendar/google/start');
+    const { url } = await authed('/api/calendar/google/start');
     const w = window.open(url + '&state=' + encodeURIComponent(await firebase.auth().currentUser.getIdToken()),
                           '_blank','width=520,height=640');
     if (!w) { alert('Please allow popups to connect Google Calendar.'); return; }
@@ -60,14 +60,14 @@ function dayBounds(d=new Date()) {
 async function loadUserEvents(){
   try {
     const { from, to } = dayBounds();
-    const { connected, events } = await authed(`https://us-central1-conference-party-app.cloudfunctions.net/api/calendar/events?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`);
+    const { connected, events } = await authed(`/api/calendar/events?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`);
     return { connected, events };
   } catch(e){ if (e.status===401) return { connected:false, events:[] }; return { connected:false, events:[] }; }
 }
 
 async function addAndSync(p){
   try {
-    await authed('https://us-central1-conference-party-app.cloudfunctions.net/api/calendar/create', {
+    await authed('/api/calendar/create', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
         partyId: p.id, title: p.title, start: p.startISO, end: p.endISO,

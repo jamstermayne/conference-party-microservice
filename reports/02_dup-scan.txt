@@ -1,0 +1,141 @@
+=== Basename collisions (JS) ===
+— account-controller.js
+   · /workspaces/conference-party-microservice/frontend/src/js/account-controller.js
+   · /workspaces/conference-party-microservice/frontend/src/js/controllers/account-controller.js
+— api.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/api.js
+   · /workspaces/conference-party-microservice/frontend/src/js/api.js
+   · /workspaces/conference-party-microservice/frontend/src/js/services/api.js
+— app-bootstrap.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/app-bootstrap.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/foundation/app-bootstrap.js
+— app-wireup.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/app-wireup.js
+   · /workspaces/conference-party-microservice/frontend/src/js/app-wireup.js
+— app.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/app.js
+   · /workspaces/conference-party-microservice/frontend/src/js/app.js
+   · /workspaces/conference-party-microservice/frontend/src/app.js
+— auth.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/auth.js
+   · /workspaces/conference-party-microservice/frontend/src/js/auth.js
+— calendar-providers.js
+   · /workspaces/conference-party-microservice/frontend/src/js/components/calendar-providers.js
+   · /workspaces/conference-party-microservice/frontend/src/js/services/calendar-providers.js
+   · /workspaces/conference-party-microservice/frontend/src/js/calendar-providers.js
+   · /workspaces/conference-party-microservice/frontend/src/js/views/calendar-providers.js
+— calendar-view.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/calendar-view.js
+   · /workspaces/conference-party-microservice/frontend/src/js/calendar-view.js
+— calendar.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/calendar.js
+   · /workspaces/conference-party-microservice/frontend/src/js/calendar.js
+   · /workspaces/conference-party-microservice/frontend/src/js/services/calendar.js
+   · /workspaces/conference-party-microservice/frontend/src/js/controllers/calendar.js
+   · /workspaces/conference-party-microservice/frontend/src/js/api/calendar.js
+— contacts.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/contacts.js
+   · /workspaces/conference-party-microservice/frontend/src/js/panels/contacts.js
+   · /workspaces/conference-party-microservice/frontend/src/js/views/contacts.js
+— deep-links.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/deep-links.js
+   · /workspaces/conference-party-microservice/frontend/src/js/deep-links.js
+— env.js
+   · /workspaces/conference-party-microservice/frontend/src/js/config/env.js
+   · /workspaces/conference-party-microservice/frontend/src/js/env.js
+— events-controller.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/events-controller.js
+   · /workspaces/conference-party-microservice/frontend/src/js/events-controller.js
+— events.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/events.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/foundation/events.js
+   · /workspaces/conference-party-microservice/frontend/src/js/events.js
+   · /workspaces/conference-party-microservice/frontend/src/js/controllers/events.js
+   · /workspaces/conference-party-microservice/frontend/src/js/api/events.js
+— featureFlags.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/foundation/featureFlags.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/featureFlags.js
+— ftue-progress.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/ftue-progress.js
+   · /workspaces/conference-party-microservice/frontend/src/js/ftue-progress.js
+— google-calendar.js
+   · /workspaces/conference-party-microservice/frontend/src/js/services/google-calendar.js
+   · /workspaces/conference-party-microservice/frontend/src/js/calendar/google-calendar.js
+— home.js
+   · /workspaces/conference-party-microservice/frontend/src/js/panels/home.js
+   · /workspaces/conference-party-microservice/frontend/src/js/controllers/home.js
+— http.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/http.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/foundation/http.js
+   · /workspaces/conference-party-microservice/frontend/src/js/http.js
+— ics.js
+   · /workspaces/conference-party-microservice/frontend/src/js/services/ics.js
+   · /workspaces/conference-party-microservice/frontend/src/js/calendar/ics.js
+— invite-badge.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/invite-badge.js
+   · /workspaces/conference-party-microservice/frontend/src/js/invite-badge.js
+— invite.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/invite.js
+   · /workspaces/conference-party-microservice/frontend/src/js/invite.js
+— invites.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/invites.js
+   · /workspaces/conference-party-microservice/frontend/src/js/services/invites.js
+   · /workspaces/conference-party-microservice/frontend/src/js/panels/invites.js
+   · /workspaces/conference-party-microservice/frontend/src/js/views/invites.js
+   · /workspaces/conference-party-microservice/frontend/src/js/api/invites.js
+— kill-sw.js
+   · /workspaces/conference-party-microservice/frontend/src/kill-sw.js
+   · /workspaces/conference-party-microservice/frontend/src/js/kill-sw.js
+— map.js
+   · /workspaces/conference-party-microservice/frontend/src/js/map.js
+   · /workspaces/conference-party-microservice/frontend/src/js/panels/map.js
+   · /workspaces/conference-party-microservice/frontend/src/js/views/map.js
+— me.js
+   · /workspaces/conference-party-microservice/frontend/src/js/panels/me.js
+   · /workspaces/conference-party-microservice/frontend/src/js/controllers/me.js
+— metrics-shim.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/foundation/metrics-shim.js
+   · /workspaces/conference-party-microservice/frontend/src/js/metrics-shim.js
+— metrics.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/foundation/metrics.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/metrics.js
+— motion.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/motion.js
+   · /workspaces/conference-party-microservice/frontend/src/js/ui/motion.js
+— nav.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/nav.js
+   · /workspaces/conference-party-microservice/frontend/src/js/nav.js
+   · /workspaces/conference-party-microservice/frontend/src/js/services/nav.js
+— opportunities.js
+   · /workspaces/conference-party-microservice/frontend/src/js/services/opportunities.js
+   · /workspaces/conference-party-microservice/frontend/src/js/controllers/opportunities.js
+— parties.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/parties.js
+   · /workspaces/conference-party-microservice/frontend/src/js/views/parties.js
+— router.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/foundation/router.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/router.js
+   · /workspaces/conference-party-microservice/frontend/src/js/router.js
+— settings.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/settings.js
+   · /workspaces/conference-party-microservice/frontend/src/js/settings.js
+   · /workspaces/conference-party-microservice/frontend/src/js/panels/settings.js
+— store.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/foundation/store.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/store.js
+   · /workspaces/conference-party-microservice/frontend/src/js/store.js
+— sw-register.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/foundation/sw-register.js
+   · /workspaces/conference-party-microservice/frontend/src/js/sw-register.js
+— toast.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/toast.js
+   · /workspaces/conference-party-microservice/frontend/src/js/ui/toast.js
+   · /workspaces/conference-party-microservice/frontend/src/js/toast.js
+— ui-feedback.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/ui-feedback.js
+   · /workspaces/conference-party-microservice/frontend/src/js/ui-feedback.js
+— ui.js
+   · /workspaces/conference-party-microservice/frontend/src/assets/js/ui.js
+   · /workspaces/conference-party-microservice/frontend/src/js/ui.js
+
+=== Normalized content duplicates (JS+CSS) ===
