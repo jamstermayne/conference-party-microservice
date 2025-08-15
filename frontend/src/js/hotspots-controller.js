@@ -47,8 +47,8 @@ function svgHeat(dots) {
   <svg viewBox="0 0 ${w} ${h}" class="hs-svg" role="img" aria-label="Hotspots">
     <defs>
       <radialGradient id="grad" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#6b7bff" stop-opacity="1"/>
-        <stop offset="100%" stop-color="#2c2f7a" stop-opacity="0"/>
+        <stop offset="0%" stop-color="var(--brand-500)" stop-opacity="1"/>
+        <stop offset="100%" stop-color="var(--neutral-200)" stop-opacity="0"/>
       </radialGradient>
     </defs>
     <rect width="${w}" height="${h}" rx="16" ry="16" fill="rgba(255,255,255,.02)" stroke="rgba(255,255,255,.06)"/>
@@ -75,7 +75,7 @@ export async function renderHotspots() {
     <div class="hotspots-wrap">
       <div class="hotspots-grid">
         <section class="hotspots-map"></section>
-        <section class="hotspots-list"><h3 style="margin:6px 8px 10px;color:var(--text-secondary,#a5a7ad)">Top Venues</h3></section>
+        <section class="hotspots-list"><h3 style="margin:6px 8px 10px;color:var(--text-secondary,var(--text-secondary))">Top Venues</h3></section>
       </div>
     </div>
   `;

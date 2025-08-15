@@ -20,7 +20,7 @@
 }
 
 .btn.add-to-calendar:hover {
-  background: linear-gradient(135deg, #7d9fff, #9c7dff);
+  background: linear-gradient(135deg, var(--alias-7d9fff), var(--alias-9c7dff));
   transform: translateY(-1px);
   box-shadow: 0 var(--s-1) var(--s-3) rgba(139, 129, 255, 0.3);
 }

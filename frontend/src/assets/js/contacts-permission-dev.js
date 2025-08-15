@@ -23,7 +23,7 @@
       right: 20px;
       z-index: 10000;
       padding: 12px 20px;
-      background: #10b981;
+      background: var(--success);
       color: white;
       border: none;
       border-radius: 8px;

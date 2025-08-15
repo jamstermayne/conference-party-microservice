@@ -225,7 +225,7 @@ class OnboardingManager {
                     `).join('')}
                 </div>
                 
-                <div style="margin-top: 20px; text-align: center; color: #666; font-size: 14px;">
+                <div style="margin-top: 20px; text-align: center; color: var(--neutral-500); font-size: 14px;">
                     Click on a role above to continue
                 </div>
             </div>

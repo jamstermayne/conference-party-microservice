@@ -1,16 +1,16 @@
 /* Main styles for Velocity app */
 
 :root {
-  --bg-primary:#1A1D21; 
-  --bg-secondary:#15151a; 
+  --bg-primary:var(--neutral-100); 
+  --bg-secondary:var(--neutral-50); 
   --surface:var(--bg-surface);
   --border:var(--border-primary); 
-  --text-primary:#fff; 
+  --text-primary:var(--white); 
   --text-secondary:var(--text-secondary);
   --accent:var(--color-primary-dark); 
-  --success:#22c55e; 
-  --warning:#fde047; 
-  --error:#ef4444;
+  --success:var(--success); 
+  --warning:var(--warning-weak); 
+  --error:var(--error);
   --ease-out:cubic-bezier(0,0,0.2,1);
 }
 
@@ -41,7 +41,7 @@ body {
   cursor:pointer; 
   border-radius:var(--r-md); 
   padding:var(--s-3) var(--s-3); 
-  border:1px solid #3a3a45; 
+  border:1px solid var(--neutral-400); 
   background:var(--border-primary); 
   color:var(--text-primary); 
   transition:transform .1s ease; 
@@ -151,7 +151,7 @@ body {
   left:50%; 
   transform:translateX(-50%); 
   background:var(--bg-primary); 
-  border:1px solid #333; 
+  border:1px solid var(--neutral-300); 
   padding:16px; 
   border-radius: var(--r-md); 
   box-shadow:0 var(--s-0-5) var(--s-3) rgba(0,0,0,.4); 
@@ -583,7 +583,7 @@ body {
 }
 
 .reward-strip .ri-msg { 
-  color: #e9e9ec; 
+  color: var(--alias-e9e9ec); 
   font-size: var(--s-3-5); 
   flex: 1;
 }
@@ -639,12 +639,12 @@ body {
 }
 
 .btn-primary:hover {
-  background: #5b82f6;
+  background: var(--alias-5b82f6);
   transform: translateY(-1px);
 }
 
 .btn-secondary:hover {
-  background: #3a3a45;
+  background: var(--alias-3a3a45);
   transform: translateY(-1px);
 }
 
@@ -692,6 +692,6 @@ body {
 #mtm-card .stack { display:grid; gap: .75rem; }
 #mtm-card .grow { flex:1 1 auto; min-width: 220px; }
 #mtm-card .badge { padding:.15rem .5rem; border-radius:.5rem; font-size:.85rem; }
-#mtm-card .badge.good { background: #143a22; color:#aef2c6; }
-#mtm-card .badge.warn { background: #3a2e14; color:#f2d7ae; }
-#mtm-card .badge.error{ background: #3a1414; color:#f2aeae; }
+#mtm-card .badge.good { background: var(--success-dark); color:var(--success-weak); }
+#mtm-card .badge.warn { background: var(--warning-dark); color:var(--warning-weak); }
+#mtm-card .badge.error{ background: var(--error-dark); color:var(--error-weak); }

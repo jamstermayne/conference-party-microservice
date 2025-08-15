@@ -126,10 +126,10 @@
   background: rgba(255,255,255,0.03);
 }
 
-.badge-pill.dev { border-color: #355aff33; color: #9fb3ff; }
-.badge-pill.pub { border-color: #ffb84d33; color: #ffd596; }
-.badge-pill.inv { border-color: #4dff9a33; color: #a6ffc9; }
-.badge-pill.sp  { border-color: #ff6b6b33; color: #ffb1b1; }
+.badge-pill.dev { border-color: rgba(53, 90, 255, 0.2); color: var(--alias-9fb3ff); }
+.badge-pill.pub { border-color: rgba(255, 184, 77, 0.2); color: var(--alias-ffd596); }
+.badge-pill.inv { border-color: rgba(77, 255, 154, 0.2); color: var(--alias-a6ffc9); }
+.badge-pill.sp  { border-color: rgba(255, 107, 107, 0.2); color: var(--alias-ffb1b1); }
 
 .hotspot-empty {
   padding: var(--s-4);

@@ -17,7 +17,7 @@
   box-shadow: 0 var(--s-1-5) var(--s-5) rgba(0,0,0,.35);
 }
 .event-card .eyebrow{
-  display:flex; gap:14px; align-items:center; color:var(--text-secondary,#bfc6d1);
+  display:flex; gap:14px; align-items:center; color:var(--text-secondary,var(--alias-bfc6d1));
   font-size:.9rem;
 }
 .event-card h3{
@@ -32,7 +32,7 @@
   padding:8px var(--s-3); border-radius:10px; font-weight:600;
 }
 .event-card .btn.primary{
-  background:linear-gradient(180deg, var(--color-primary-dark), #5a67ff);
+  background:linear-gradient(180deg, var(--color-primary-dark), var(--alias-5a67ff));
   border-color:transparent; color:var(--text-primary);
 }
 .event-card .price-badge{

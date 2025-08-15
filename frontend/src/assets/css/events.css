@@ -22,12 +22,12 @@
 .ftue-title { color: var(--text-1); font-weight: 700; letter-spacing: .2px; }
 .ftue-sub { color: var(--text-2); font-size: 13px; margin-top: var(--s-1); }
 .ftue-progress {
-  height: var(--s-2); border-radius: var(--r-pill); background: #111318; border: 1px solid var(--card-bd);
+  height: var(--s-2); border-radius: var(--r-pill); background: var(--neutral-100); border: 1px solid var(--card-bd);
   margin-top: var(--s-2-5); overflow: hidden;
 }
 .ftue-progress > span {
   display: block; height: 100%; width: 0%;
-  background: linear-gradient(90deg, var(--accent), #8a92ff);
+  background: linear-gradient(90deg, var(--accent), var(--alias-8a92ff));
   transition: width var(--t-normal) var(--ease-out);
 }
 
@@ -51,20 +51,20 @@
 .event-venue { color: var(--text-2); font-size: var(--s-3-5); margin: var(--s-1-5) 0 var(--s-2); }
 .event-badges { display:flex; gap:6px; flex-wrap:wrap; margin-bottom: var(--s-2-5); }
 .badge { border-radius: var(--r-pill); padding: var(--s-1) var(--s-2); font-size: var(--s-3); border:1px solid var(--card-bd); color: var(--text-2); }
-.badge.dev { background: rgba(125,211,252, .12); color:#c6e9ff; border-color: rgba(125,211,252,.25); }
-.badge.pub { background: rgba(252,165,165,.12); color:#ffd3d3; border-color: rgba(252,165,165,.25); }
+.badge.dev { background: rgba(125,211,252, .12); color:var(--alias-c6e9ff); border-color: rgba(125,211,252,.25); }
+.badge.pub { background: rgba(252,165,165,.12); color:var(--alias-ffd3d3); border-color: rgba(252,165,165,.25); }
 .badge.inv { background: rgba(253,224,71,.12); color:var(--text-primary)2b3; border-color: rgba(253,224,71,.25); }
-.badge.sp  { background: rgba(134,239,172,.12); color:#dbffe8; border-color: rgba(134,239,172,.25); }
+.badge.sp  { background: rgba(134,239,172,.12); color:var(--alias-dbffe8); border-color: rgba(134,239,172,.25); }
 
 .event-actions { display:flex; gap: var(--s-2); }
-.btn { cursor:pointer; border-radius: var(--r-md); padding: var(--s-2-5) var(--s-3); border:1px solid var(--card-bd); background: #141418; color: var(--text-1); }
+.btn { cursor:pointer; border-radius: var(--r-md); padding: var(--s-2-5) var(--s-3); border:1px solid var(--card-bd); background: var(--neutral-100); color: var(--text-1); }
 .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--text-primary); }
-.btn-secondary { background: #1b1b22; color: var(--text-2); }
+.btn-secondary { background: var(--neutral-100); color: var(--text-2); }
 .btn:focus-visible { outline: var(--s-0-5) solid var(--accent); outline-offset: var(--s-0-5); }
 
 /* Skeletons */
 .skeleton {
-  position: relative; overflow: hidden; background: #141418; border:1px solid var(--card-bd);
+  position: relative; overflow: hidden; background: var(--neutral-100); border:1px solid var(--card-bd);
   border-radius: var(--card-br); min-height: 120px;
 }
 .shimmer::after {

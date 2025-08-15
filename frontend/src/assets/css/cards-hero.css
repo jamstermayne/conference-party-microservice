@@ -44,12 +44,12 @@
 }
 
 .btn.primary:hover {
-  background: linear-gradient(90deg, #8b7cf6, #5ab3ff);
+  background: linear-gradient(90deg, var(--alias-8b7cf6), var(--alias-5ab3ff));
   box-shadow: 0 var(--s-1) var(--s-3) rgba(123,108,246,.3);
 }
 
 .btn.ghost:hover {
-  background: #222836;
+  background: var(--neutral-200)836;
   border-color: rgba(255,255,255,.12);
 }
 

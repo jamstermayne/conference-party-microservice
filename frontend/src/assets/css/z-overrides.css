@@ -58,7 +58,7 @@ aside.sidebar ul {
     radial-gradient(120% 120% at -20% -40%, rgba(139,129,255,.25) 0, rgba(22,26,45,0) 65%),
     linear-gradient(180deg, rgba(139,129,255,.18), rgba(84,74,255,.12));
   box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 var(--s-2) var(--s-6) rgba(0,0,0,.35);
-  color: #eef2ff !important;
+  color: var(--alias-eef2ff) !important;
   border-radius: var(--s-4);
   padding: var(--s-2) var(--s-3) var(--s-2) var(--s-4);
 }
@@ -100,6 +100,6 @@ aside .subnav a {
   border-left: 3px solid transparent; /* accent only when active */
 }
 aside .subnav a.active {
-  border-left-color: var(--accent, #6e5ef6);
-  background: linear-gradient(90deg, color-mix(in oklab, var(--accent, #6e5ef6) 16%, transparent), transparent);
+  border-left-color: var(--accent, var(--alias-6e5ef6));
+  background: linear-gradient(90deg, color-mix(in oklab, var(--accent, var(--alias-6e5ef6)) 16%, transparent), transparent);
 }

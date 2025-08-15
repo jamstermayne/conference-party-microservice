@@ -21,7 +21,7 @@
 .ph-left { display: flex; align-items: center; gap: 8px; }
 .hash-tag {
   width: var(--s-6); height: var(--s-6); border-radius: 6px;
-  background: linear-gradient(180deg, var(--color-primary-dark), #3a3f99);
+  background: linear-gradient(180deg, var(--color-primary-dark), var(--alias-3a3f99));
   display: grid; place-items: center; color: var(--text-primary); font-weight: 700;
 }
 .ph-title {
@@ -31,7 +31,7 @@
   text-transform: lowercase;
   letter-spacing: 0.3px;
 }
-.ph-right { color: var(--text-muted, #6b6b75); font-size: 0.85rem; }
+.ph-right { color: var(--text-muted, var(--alias-6b6b75)); font-size: 0.85rem; }
 
 /* Grid */
 .parties-grid {

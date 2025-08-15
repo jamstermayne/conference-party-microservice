@@ -1,6 +1,6 @@
 :root{
-  --v-bg:#0c111b; --v-panel:#0f1625; --v-border:#20263a;
-  --v-sheen2:#14213d; --v-text:#eaf0ff; --v-muted:var(--text-muted);
+  --v-bg:var(--alias-0c111b); --v-panel:var(--alias-0f1625); --v-border:var(--neutral-200);
+  --v-sheen2:var(--neutral-100); --v-text:var(--alias-eaf0ff); --v-muted:var(--text-muted);
   /* Use tokens from spacing-tokens.css for radius, padding, shadow */
 }
 .vcard{
@@ -13,27 +13,27 @@
 .vcard__head{ display:flex; gap:var(--s-3); justify-content:space-between; align-items:center; margin-bottom:var(--s-2) }
 .vcard__title{ font-weight:800; font-size:18px; line-height:1.15 }
 .vcard__badges{ display:flex; gap:var(--s-2); flex-wrap:wrap }
-.vpill{ padding:var(--s-2) var(--s-2); font-size:12px; border-radius:var(--r-full); border:1px solid #29344f; background:#121a2a; color:#cfe0ff }
-.vpill.live{ border-color:#184d31; background:#102616; color:#baf5d3 }
-.vpill.free{ border-color:#2a3f6e; background:#101c35; color:#cfe0ff }
+.vpill{ padding:var(--s-2) var(--s-2); font-size:12px; border-radius:var(--r-full); border:1px solid var(--neutral-200); background:var(--neutral-100); color:var(--alias-cfe0ff) }
+.vpill.live{ border-color:var(--neutral-100); background:var(--neutral-100); color:var(--alias-baf5d3) }
+.vpill.free{ border-color:var(--neutral-200); background:var(--neutral-100); color:var(--alias-cfe0ff) }
 .vmeta{ display:flex; gap:var(--s-3); flex-wrap:wrap; color:var(--v-muted); margin:var(--s-2) 0 var(--s-3) }
 .vactions{ display:flex; gap:var(--s-2) }
-.vbtn{ padding:var(--s-2) var(--s-3); font-weight:700; border-radius:var(--r-lg); border:1px solid #2b2f45; background:#202a44; color:#dee9ff }
-.vbtn.primary{ background:linear-gradient(180deg,#8c7aff 0%,#5b47ff 100%); border:0; color:var(--text-primary) }
+.vbtn{ padding:var(--s-2) var(--s-3); font-weight:700; border-radius:var(--r-lg); border:1px solid var(--neutral-300); background:var(--neutral-200); color:var(--alias-dee9ff) }
+.vbtn.primary{ background:linear-gradient(180deg,var(--alias-8c7aff) 0%,var(--alias-5b47ff) 100%); border:0; color:var(--text-primary) }
 
 /* M2M additions (tiny, scoped) */
-.vpill.m2m { border-color:#3c2f6e; background:#151235; color:#cbd7ff }
+.vpill.m2m { border-color:var(--alias-3c2f6e); background:var(--neutral-100); color:var(--alias-cbd7ff) }
 .vspinner { display:inline-block; width:16px; height:16px; border-radius:50%;
   border:2px solid rgba(255,255,255,.25); border-top-color:var(--text-primary); animation:vspin .7s linear infinite; }
 @keyframes vspin { to { transform: rotate(360deg); } }
 
 /* Modal — lightweight, isolated */
 .vmodal{ position:fixed; inset:0; display:grid; place-items:center; background:rgba(6,10,20,.55); z-index: 9999; }
-.vmodal__panel{ width:min(520px, 92vw); background:#0f1625; border:1px solid #20263a; border-radius:var(--r-xl); padding:var(--s-4); }
-.vmodal__title{ margin:0 0 var(--s-2) 0; color:#eaf0ff; font-weight:800; }
+.vmodal__panel{ width:min(520px, 92vw); background:var(--alias-0f1625); border:1px solid var(--neutral-200); border-radius:var(--r-xl); padding:var(--s-4); }
+.vmodal__title{ margin:0 0 var(--s-2) 0; color:var(--alias-eaf0ff); font-weight:800; }
 .vmodal__desc{ margin:0 0 var(--s-3) 0; color:var(--text-muted); }
 .vmodal__row{ margin:var(--s-3) 0; }
-.vmodal__panel input[type="url"]{ width:100%; padding:var(--s-3); border-radius:var(--r-md); border:1px solid #2b2f45; background:#0b1220; color:#eaf0ff; }
+.vmodal__panel input[type="url"]{ width:100%; padding:var(--s-3); border-radius:var(--r-md); border:1px solid var(--neutral-300); background:var(--alias-0b1220); color:var(--alias-eaf0ff); }
 .vmodal__msg{ margin-top:var(--s-2); min-height:18px; font-size:13px; }
 .vmodal__close{ position:absolute; right:var(--s-4); top:var(--s-3); background:transparent; border:0; color:var(--text-muted); font-size:22px; cursor:pointer }
 
@@ -53,7 +53,7 @@
   padding: var(--s-5);                                       /* var(--s-5) */
   border-radius: var(--r-xl);                                /* var(--s-4) */
   box-shadow: var(--shadow-card, var(--shadow-3));
-  background: var(--bg-card, #151821);
+  background: var(--bg-card, var(--neutral-100));
   transition: transform .12s ease, box-shadow .12s ease;
 }
 .vcard:hover{ transform: translateY(-1px); box-shadow: var(--shadow-4); }

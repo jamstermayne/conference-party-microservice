@@ -55,13 +55,13 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--s-6) 24px 16px;
-  border-bottom: 1px solid var(--slack-color-border, #e5e5e5);
+  border-bottom: 1px solid var(--slack-color-border, var(--alias-e5e5e5));
 }
 
 .social-modal-title {
   font-size: var(--s-5);
   font-weight: 700;
-  color: var(--slack-color-text, #1d1c1d);
+  color: var(--slack-color-text, var(--neutral-100));
   margin: 0;
 }
 
@@ -69,7 +69,7 @@
   background: none;
   border: none;
   font-size: 28px;
-  color: var(--slack-color-text-secondary, #616061);
+  color: var(--slack-color-text-secondary, var(--alias-616061));
   cursor: pointer;
   padding: 4px;
   border-radius: var(--r-md);
@@ -78,17 +78,17 @@
 }
 
 .social-modal-close:hover {
-  background: var(--slack-color-hover, #f8f8f8);
-  color: var(--slack-color-text, #1d1c1d);
+  background: var(--slack-color-hover, var(--alias-f8f8f8));
+  color: var(--slack-color-text, var(--neutral-100));
 }
 
 /* Event Preview */
 .event-card-preview {
   margin: var(--s-5) 24px;
-  background: var(--slack-color-hover, #f8f8f8);
+  background: var(--slack-color-hover, var(--alias-f8f8f8));
   border-radius: var(--s-3);
   padding: var(--s-5);
-  border: 1px solid var(--slack-color-border, #e5e5e5);
+  border: 1px solid var(--slack-color-border, var(--alias-e5e5e5));
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -102,7 +102,7 @@
 .event-name {
   font-size: 18px;
   font-weight: 600;
-  color: var(--slack-color-text, #1d1c1d);
+  color: var(--slack-color-text, var(--neutral-100));
   margin: 0 0 12px 0;
   line-height: 1.4;
 }
@@ -115,7 +115,7 @@
 
 .meta-item {
   font-size: 14px;
-  color: var(--slack-color-text-secondary, #616061);
+  color: var(--slack-color-text-secondary, var(--alias-616061));
   display: flex;
   align-items: center;
   gap: 8px;
@@ -135,13 +135,13 @@
 }
 
 .ugc-badge {
-  background: #e3f2fd;
-  color: #1565c0;
+  background: var(--alias-e3f2fd);
+  color: var(--neutral-100);
 }
 
 .official-badge {
-  background: #e8f5e8;
-  color: #2e7d32;
+  background: var(--alias-e8f5e8);
+  color: var(--neutral-200);
 }
 
 /* Sharing Options */
@@ -156,7 +156,7 @@
 .sharing-section h4 {
   font-size: var(--s-4);
   font-weight: 600;
-  color: var(--slack-color-text, #1d1c1d);
+  color: var(--slack-color-text, var(--neutral-100));
   margin: 0 0 16px 0;
 }
 
@@ -178,7 +178,7 @@
   gap: var(--s-3);
   padding: var(--s-4);
   background: var(--slack-color-background, var(--text-primary));
-  border: 2px solid var(--slack-color-border, #e5e5e5);
+  border: 2px solid var(--slack-color-border, var(--alias-e5e5e5));
   border-radius: var(--s-3);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -186,8 +186,8 @@
 }
 
 .social-btn:hover {
-  border-color: var(--slack-color-primary, #4a154b);
-  background: var(--slack-color-hover, #f8f8f8);
+  border-color: var(--slack-color-primary, var(--alias-4a154b));
+  background: var(--slack-color-hover, var(--alias-f8f8f8));
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
@@ -206,32 +206,32 @@
 .social-name {
   font-size: 14px;
   font-weight: 600;
-  color: var(--slack-color-text, #1d1c1d);
+  color: var(--slack-color-text, var(--neutral-100));
 }
 
 .social-desc {
   font-size: var(--s-3);
-  color: var(--slack-color-text-secondary, #616061);
+  color: var(--slack-color-text-secondary, var(--alias-616061));
 }
 
 /* Platform-specific colors */
 .whatsapp-btn:hover {
-  border-color: #25d366;
+  border-color: var(--neutral-200);
   background: rgba(37, 211, 102, 0.05);
 }
 
 .linkedin-btn:hover {
-  border-color: #0077b5;
+  border-color: var(--alias-0077b5);
   background: rgba(0, 119, 181, 0.05);
 }
 
 .twitter-btn:hover {
-  border-color: #1da1f2;
+  border-color: var(--neutral-100);
   background: rgba(29, 161, 242, 0.05);
 }
 
 .telegram-btn:hover {
-  border-color: #0088cc;
+  border-color: var(--alias-0088cc);
   background: rgba(0, 136, 204, 0.05);
 }
 
@@ -247,7 +247,7 @@
   align-items: center;
   gap: 8px;
   padding: var(--s-3) 16px;
-  background: var(--slack-color-primary, #4a154b);
+  background: var(--slack-color-primary, var(--alias-4a154b));
   color: white;
   border: none;
   border-radius: var(--r-md);
@@ -261,7 +261,7 @@
 }
 
 .action-btn:hover {
-  background: var(--slack-color-primary-hover, #3d0e3e);
+  background: var(--slack-color-primary-hover, var(--alias-3d0e3e));
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(74, 21, 75, 0.3);
 }
@@ -272,7 +272,7 @@
 
 /* Viral Info */
 .viral-info {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--alias-667eea) 0%, var(--alias-764ba2) 100%);
   margin: 0 24px 24px;
   border-radius: var(--s-3);
   padding: var(--s-4);
@@ -323,14 +323,14 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--s-6) 24px 16px;
-  border-bottom: 1px solid var(--slack-color-border, #e5e5e5);
+  border-bottom: 1px solid var(--slack-color-border, var(--alias-e5e5e5));
 }
 
 .qr-header h3 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
-  color: var(--slack-color-text, #1d1c1d);
+  color: var(--slack-color-text, var(--neutral-100));
 }
 
 .qr-close {
@@ -338,14 +338,14 @@
   border: none;
   font-size: var(--s-6);
   cursor: pointer;
-  color: var(--slack-color-text-secondary, #616061);
+  color: var(--slack-color-text-secondary, var(--alias-616061));
   padding: 4px;
   border-radius: 6px;
   transition: all 0.2s ease;
 }
 
 .qr-close:hover {
-  background: var(--slack-color-hover, #f8f8f8);
+  background: var(--slack-color-hover, var(--alias-f8f8f8));
 }
 
 .qr-body {
@@ -362,7 +362,7 @@
 }
 
 .qr-text {
-  color: var(--slack-color-text-secondary, #616061);
+  color: var(--slack-color-text-secondary, var(--alias-616061));
   font-size: 14px;
   margin: 0;
 }
@@ -372,7 +372,7 @@
   position: fixed;
   top: var(--s-5);
   right: var(--s-5);
-  background: var(--slack-color-text, #1d1c1d);
+  background: var(--slack-color-text, var(--neutral-100));
   color: white;
   padding: var(--s-3) 20px;
   border-radius: var(--r-md);
@@ -384,7 +384,7 @@
 }
 
 .share-notification.success {
-  background: #4caf50;
+  background: var(--alias-4caf50);
 }
 
 .share-notification.error {
@@ -409,22 +409,22 @@
 }
 
 [data-theme="dark"] .social-modal-header {
-  border-color: #2e2e2e;
+  border-color: var(--neutral-200);
 }
 
 [data-theme="dark"] .event-card-preview {
-  background: #252525;
-  border-color: #2e2e2e;
+  background: var(--neutral-200);
+  border-color: var(--neutral-200);
 }
 
 [data-theme="dark"] .social-btn {
   background: var(--bg-primary);
-  border-color: #2e2e2e;
+  border-color: var(--neutral-200);
   color: var(--text-primary);
 }
 
 [data-theme="dark"] .social-btn:hover {
-  background: #252525;
+  background: var(--neutral-200);
 }
 
 [data-theme="dark"] .qr-modal-content {
@@ -432,7 +432,7 @@
 }
 
 [data-theme="dark"] .qr-header {
-  border-color: #2e2e2e;
+  border-color: var(--neutral-200);
 }
 
 /* Mobile Optimizations */

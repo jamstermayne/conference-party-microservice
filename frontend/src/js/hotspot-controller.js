@@ -60,7 +60,7 @@ function renderHeatMap(venues) {
   ctx.scale(dpr, dpr);
   
   // Clear canvas
-  ctx.fillStyle = '#1a1d21';
+  ctx.fillStyle = 'var(--neutral-100)';
   ctx.fillRect(0, 0, 800, 600);
   
   // Draw heat points for each venue

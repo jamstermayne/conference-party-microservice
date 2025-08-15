@@ -40,21 +40,21 @@ export class CalendarPage {
             <div class="sync-providers">
               <button class="btn btn-glass provider-btn">
                 <svg class="provider-icon" viewBox="0 0 24 24">
-                  <rect width="24" height="24" fill="#4285f4"/>
+                  <rect width="24" height="24" fill="var(--alias-4285f4)"/>
                 </svg>
                 Google Calendar
               </button>
               
               <button class="btn btn-glass provider-btn">
                 <svg class="provider-icon" viewBox="0 0 24 24">
-                  <rect width="24" height="24" fill="#0078d4"/>
+                  <rect width="24" height="24" fill="var(--alias-0078d4)"/>
                 </svg>
                 Outlook
               </button>
               
               <button class="btn btn-glass provider-btn">
                 <svg class="provider-icon" viewBox="0 0 24 24">
-                  <rect width="24" height="24" fill="#007aff"/>
+                  <rect width="24" height="24" fill="var(--alias-007aff)"/>
                 </svg>
                 Apple Calendar
               </button>

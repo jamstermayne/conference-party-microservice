@@ -497,7 +497,7 @@ class StorageManager {
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed; top: 20px; right: 20px; z-index: 10000;
-                background: #ff6b6b; color: white; padding: 12px 16px;
+                background: var(--alias-ff6b6b); color: white; padding: 12px 16px;
                 border-radius: 6px; font-size: 14px; max-width: 300px;
                 box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             `;

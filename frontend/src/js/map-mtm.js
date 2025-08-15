@@ -134,8 +134,8 @@ export class MtmMapSource {
       markerContent.style.cssText = `
         width: 28px;
         height: 28px;
-        background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-        border: 3px solid #ffffff;
+        background: linear-gradient(135deg, var(--alias-ff6b6b), var(--alias-ff8e53));
+        border: 3px solid var(--white);
         border-radius: 50%;
         cursor: pointer;
         transition: transform 0.2s;
@@ -152,8 +152,8 @@ export class MtmMapSource {
         right: -4px;
         width: 12px;
         height: 12px;
-        background: #ff6b6b;
-        border: 1px solid #fff;
+        background: var(--alias-ff6b6b);
+        border: 1px solid var(--white);
         border-radius: 50%;
         font-size: 8px;
         color: white;
@@ -197,20 +197,20 @@ export class MtmMapSource {
         infoWindow.setContent(`
           <div style="font-family: system-ui; max-width: 280px;">
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-              <span style="background: linear-gradient(135deg, #ff6b6b, #ff8e53); 
+              <span style="background: linear-gradient(135deg, var(--alias-ff6b6b), var(--alias-ff8e53)); 
                            color: white; padding: 2px 6px; border-radius: 4px; 
                            font-size: 11px; font-weight: 600;">MTM</span>
-              <h3 style="margin: 0; color: #1a1a1a; font-size: 16px;">${event.title || 'Meeting'}</h3>
+              <h3 style="margin: 0; color: var(--neutral-100); font-size: 16px;">${event.title || 'Meeting'}</h3>
             </div>
-            <p style="margin: 4px 0; color: #666; font-size: 14px;">
+            <p style="margin: 4px 0; color: var(--neutral-500); font-size: 14px;">
               📍 ${event.location || 'Location TBA'}<br>
               🕐 ${timeStr}<br>
               ${event.description ? `📝 ${event.description}` : ''}
             </p>
-            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee;">
+            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--alias-eee);">
               <a href="https://www.google.com/maps/dir/?api=1&destination=${event.lat},${event.lon}" 
                  target="_blank" rel="noopener"
-                 style="color: #4285f4; text-decoration: none; font-size: 13px;">
+                 style="color: var(--alias-4285f4); text-decoration: none; font-size: 13px;">
                 Get directions →
               </a>
             </div>
@@ -258,7 +258,7 @@ export function createMtmMapToggle() {
   toggle.className = 'map-control';
   toggle.innerHTML = `
     <input type="checkbox" id="mtm-map-toggle" ${localStorage.getItem('mtm-map-enabled') !== 'false' ? 'checked' : ''}>
-    <span style="color: #ff6b6b;">MTM Events</span>
+    <span style="color: var(--alias-ff6b6b);">MTM Events</span>
   `;
   
   return toggle;

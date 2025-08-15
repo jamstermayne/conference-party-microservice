@@ -1,0 +1,25 @@
+/* Auto-generated aliases from color sweeper */
+/* These are suggested mappings for the most frequently used unmapped hex colors */
+/* Edit these to point to semantic tokens (e.g., var(--error-weak) instead of the hex) */
+:root {
+  --alias-3988ee: #3988ee; /* TODO: consider var(--neutral-xxx) */
+  --alias-3a3d41: #3a3d41; /* TODO: consider var(--neutral-xxx) */
+  --alias-4ade80: #4ade80; /* TODO: consider var(--neutral-xxx) */
+  --alias-00e5ff: #00e5ff; /* TODO: consider var(--neutral-xxx) */
+  --alias-ff6bff: #ff6bff; /* TODO: consider var(--neutral-xxx) or var(--text-xxx) */
+  --alias-0f0f12: #0f0f12; /* TODO: consider var(--neutral-xxx) */
+  --alias-f3ff3a: #f3ff3a; /* TODO: consider var(--neutral-xxx) or var(--text-xxx) */
+  --alias-7b7dff: #7b7dff; /* 0 uses */
+  --alias-4d67ff: #4d67ff; /* TODO: consider var(--neutral-xxx) */
+  --alias-e1e1e3: #e1e1e3; /* TODO: consider var(--neutral-xxx) or var(--text-xxx) */
+  --alias-8b8d90: #8b8d90; /* 0 uses */
+  --alias-ff6b35: #ff6b35; /* TODO: consider var(--neutral-xxx) or var(--text-xxx) */
+  --alias-0084ff: #0084ff; /* TODO: consider var(--neutral-xxx) */
+  --alias-00c851: #00c851; /* TODO: consider var(--neutral-xxx) */
+  --alias-36b37e: #36b37e; /* TODO: consider var(--neutral-xxx) */
+  --alias-40444b: #40444b; /* TODO: consider var(--neutral-xxx) */
+  --alias-00aff4: #00aff4; /* TODO: consider var(--neutral-xxx) */
+  --alias-36393f: #36393f; /* TODO: consider var(--neutral-xxx) */
+  --alias-5865f2: #5865f2; /* TODO: consider var(--neutral-xxx) */
+  --alias-ed4245: #ed4245; /* TODO: consider var(--neutral-xxx) or var(--text-xxx) */
+}

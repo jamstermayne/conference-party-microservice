@@ -31,7 +31,7 @@
 }
 
 .modal {
-  background: #1a2134;
+  background: var(--neutral-100);
   border-radius: var(--s-3);
   border: 1px solid rgba(139, 129, 255, 0.3);
   box-shadow: 0 var(--s-2-5) var(--s-10) rgba(0, 0, 0, 0.5);
@@ -57,13 +57,13 @@
   margin: 0;
   font-size: 18px;
   font-weight: 600;
-  color: #e8ecff;
+  color: var(--alias-e8ecff);
 }
 
 .modal__close {
   background: none;
   border: none;
-  color: #8a91a8;
+  color: var(--alias-8a91a8);
   font-size: var(--s-6);
   line-height: 1;
   cursor: pointer;
@@ -79,7 +79,7 @@
 
 .modal__close:hover {
   background: rgba(139, 129, 255, 0.1);
-  color: #e8ecff;
+  color: var(--alias-e8ecff);
 }
 
 .modal__body {
@@ -107,20 +107,20 @@
 }
 
 .modal__actions .btn-primary {
-  background: linear-gradient(135deg, #8b81ff, #a78bfa);
+  background: linear-gradient(135deg, var(--alias-8b81ff), var(--alias-a78bfa));
   color: white;
   border: none;
 }
 
 .modal__actions .btn-primary:hover {
-  background: linear-gradient(135deg, #9c94ff, #b59efa);
+  background: linear-gradient(135deg, var(--alias-9c94ff), var(--alias-b59efa));
   transform: translateY(-1px);
   box-shadow: 0 var(--s-1) var(--s-3) rgba(139, 129, 255, 0.3);
 }
 
 .modal__actions .btn-secondary {
   background: rgba(139, 129, 255, 0.1);
-  color: #e8ecff;
+  color: var(--alias-e8ecff);
   border: 1px solid rgba(139, 129, 255, 0.3);
 }
 
@@ -135,8 +135,8 @@
   bottom: var(--s-6);
   left: 50%;
   transform: translateX(-50%) translateY(100px);
-  background: #1a2134;
-  color: #e8ecff;
+  background: var(--neutral-100);
+  color: var(--alias-e8ecff);
   padding: var(--s-3) var(--s-5);
   border-radius: var(--r-md);
   border: 1px solid rgba(139, 129, 255, 0.3);
@@ -156,22 +156,22 @@
 }
 
 .toast-notification.toast-success {
-  background: linear-gradient(135deg, var(--success), #059669);
+  background: linear-gradient(135deg, var(--success), var(--alias-059669));
   border-color: var(--success);
 }
 
 .toast-notification.toast-error {
-  background: linear-gradient(135deg, var(--error), #dc2626);
+  background: linear-gradient(135deg, var(--error), var(--error));
   border-color: var(--error);
 }
 
 .toast-notification.toast-warning {
-  background: linear-gradient(135deg, var(--accent-warning), #d97706);
+  background: linear-gradient(135deg, var(--accent-warning), var(--alias-d97706));
   border-color: var(--accent-warning);
 }
 
 .toast-notification.toast-info {
-  background: linear-gradient(135deg, var(--info), #2563eb);
+  background: linear-gradient(135deg, var(--info), var(--neutral-200));
   border-color: var(--info);
 }
 
@@ -204,14 +204,14 @@
 .btn {
   padding: var(--s-2-5) var(--s-3-5);
   border-radius: var(--s-3);
-  border: 1px solid #2b2f3c;
-  background: #1c2030;
-  color: #e6ebff;
+  border: 1px solid var(--neutral-200);
+  background: var(--neutral-100);
+  color: var(--alias-e6ebff);
 }
 
 .btn-primary {
-  background: #6e5ef6;
-  border-color: #6e5ef6;
+  background: var(--alias-6e5ef6);
+  border-color: var(--alias-6e5ef6);
 }
 
 .btn-ghost {

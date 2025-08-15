@@ -75,7 +75,7 @@ class VirtualizedEventList {
                     display: none;
                     text-align: center;
                     padding: 20px;
-                    color: #999;
+                    color: var(--neutral-600);
                 ">Loading more events...</div>
             </div>
         `;
@@ -217,8 +217,8 @@ class VirtualizedEventList {
         return `
             <div class="event-card" style="
                 height: 100%;
-                background: #1a1a1a;
-                border: 1px solid #333;
+                background: var(--neutral-100);
+                border: 1px solid var(--neutral-300);
                 border-radius: 8px;
                 padding: 15px;
                 display: flex;
@@ -226,10 +226,10 @@ class VirtualizedEventList {
                 transition: transform 0.2s ease, box-shadow 0.2s ease;
             ">
                 <div class="event-info" style="flex: 1;">
-                    <h3 style="color: #00ff88; margin: 0 0 5px 0; font-size: 16px;">
+                    <h3 style="color: var(--success); margin: 0 0 5px 0; font-size: 16px;">
                         ${item['Event Name'] || item.name || 'Unnamed Event'}
                     </h3>
-                    <p style="color: #ccc; margin: 0; font-size: 14px;">
+                    <p style="color: var(--neutral-700); margin: 0; font-size: 14px;">
                         📅 ${item.Date || item.date || 'TBD'} • 
                         ⏰ ${item['Start Time'] || item.startTime || 'TBD'} • 
                         📍 ${item.Address || item.venue || 'Location TBD'}
@@ -242,8 +242,8 @@ class VirtualizedEventList {
                     transition: opacity 0.3s ease;
                 ">
                     <button class="btn-swipe-like" style="
-                        background: #00ff88;
-                        color: #000;
+                        background: var(--success);
+                        color: var(--black);
                         border: none;
                         padding: 8px 16px;
                         border-radius: 20px;
@@ -251,8 +251,8 @@ class VirtualizedEventList {
                         font-weight: 600;
                     ">👍 Like</button>
                     <button class="btn-swipe-pass" style="
-                        background: #666;
-                        color: #fff;
+                        background: var(--neutral-500);
+                        color: var(--white);
                         border: none;
                         padding: 8px 16px;
                         border-radius: 20px;

@@ -47,7 +47,7 @@ export function initMtmIntegration() {
       // Add Google Calendar mirror toggle if connected
       if (state.hasGoogleAuth) {
         actionsHtml += `
-          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #2a2e36;">
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--neutral-300);">
             <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
               <input type="checkbox" id="mtm-mirror-toggle" ${state.mirrorToGoogle ? 'checked' : ''}>
               <span>Mirror to Google Calendar</span>
@@ -56,24 +56,24 @@ export function initMtmIntegration() {
               <input type="text" id="mtm-cal-id" 
                      placeholder="primary" 
                      value="${state.googleCalendarId || 'primary'}"
-                     style="padding: 4px 8px; background: #0f1114; border: 1px solid #2a2e36; 
-                            border-radius: 4px; color: #fff; font-size: 13px; width: 150px;">
+                     style="padding: 4px 8px; background: var(--alias-0f1114); border: 1px solid var(--neutral-300); 
+                            border-radius: 4px; color: var(--white); font-size: 13px; width: 150px;">
               <button id="mtm-save-mirror" 
-                      style="margin-left: 8px; padding: 4px 12px; background: #6b8cff; 
+                      style="margin-left: 8px; padding: 4px 12px; background: var(--brand-500); 
                              border: none; border-radius: 4px; color: white; font-size: 13px; 
                              cursor: pointer;">
                 Save
               </button>
             </div>
-            <small style="display: block; margin-top: 4px; color: #8b92a6;">
+            <small style="display: block; margin-top: 4px; color: var(--neutral-700);">
               Calendar ID (use 'primary' for main calendar)
             </small>
           </div>
         `;
       } else {
         actionsHtml += `
-          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #2a2e36;">
-            <small style="color: #8b92a6;">
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--neutral-300);">
+            <small style="color: var(--neutral-700);">
               Sign in with Google to enable calendar mirroring
             </small>
           </div>

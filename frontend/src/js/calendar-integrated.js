@@ -22,8 +22,8 @@ const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
 function renderConnect(mount) {
   mount.innerHTML = `
     <section style="margin:24px">
-      <h2 style="color:#eaf0ff;margin:0 0 12px">Your calendar</h2>
-      <p style="color:#9aa7bf;margin:8px 0 16px">
+      <h2 style="color:var(--alias-eaf0ff);margin:0 0 12px">Your calendar</h2>
+      <p style="color:var(--text-muted);margin:8px 0 16px">
         Connect Google Calendar to see your schedule here and one-click add parties.
       </p>
       <button class="vbtn primary" id="gcal-connect">Connect Google Calendar</button>
@@ -47,7 +47,7 @@ async function renderGcalAgenda(mount) {
         <button class="vbtn" data-range="week">This week</button>
       </div>
       <div id="agenda">
-        <div style="color:#9aa7bf;padding:24px;text-align:center">Loading events...</div>
+        <div style="color:var(--text-muted);padding:24px;text-align:center">Loading events...</div>
       </div>
     </section>`;
   
@@ -59,7 +59,7 @@ async function renderGcalAgenda(mount) {
     
     if (!events.length) {
       agenda.innerHTML = `
-        <div style="color:#9aa7bf;padding:24px;text-align:center">
+        <div style="color:var(--text-muted);padding:24px;text-align:center">
           No events scheduled for today
         </div>`;
       return;
@@ -79,7 +79,7 @@ async function renderGcalAgenda(mount) {
     
     // Add demo party cards to show "Add to Calendar" functionality
     agenda.innerHTML += `
-      <h3 style="color:#9aa7bf;margin:24px 0 12px">Suggested parties</h3>
+      <h3 style="color:var(--text-muted);margin:24px 0 12px">Suggested parties</h3>
       <article class="vcard" style="margin-bottom:12px;border:1px solid rgba(139,129,255,.2)">
         <div class="vcard__head">
           <div class="vcard__title">Gamescom Opening Party</div>
@@ -98,7 +98,7 @@ async function renderGcalAgenda(mount) {
   } catch (error) {
     console.error('Failed to fetch calendar events:', error);
     document.getElementById('agenda').innerHTML = `
-      <div style="color:#f44336;padding:24px;text-align:center">
+      <div style="color:var(--error);padding:24px;text-align:center">
         Failed to load calendar events. Please reconnect.
       </div>`;
   }
@@ -125,7 +125,7 @@ async function renderGcalAgenda(mount) {
             </div>
             <div class="vmeta">📍 ${ev.location || 'No location'} • 🕒 ${ev.start} – ${ev.end}</div>
           </article>`).join('') :
-        `<div style="color:#9aa7bf;padding:24px;text-align:center">No events for ${range}</div>`;
+        `<div style="color:var(--text-muted);padding:24px;text-align:center">No events for ${range}</div>`;
     }
     
     // Handle add to calendar

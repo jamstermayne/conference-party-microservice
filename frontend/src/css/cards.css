@@ -8,7 +8,7 @@
 
 /* Card Container */
 .event-card {
-  background: linear-gradient(180deg, #141414, #0f0f0f);
+  background: linear-gradient(180deg, var(--neutral-100), var(--alias-0f0f0f));
   border-radius: 14px;
   padding: 1.25rem;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
@@ -40,7 +40,7 @@
 }
 .event-tag {
   background: rgba(255, 255, 255, 0.07);
-  color: #ccc;
+  color: var(--neutral-700);
   font-size: 0.75rem;
   padding: 0.3rem 0.65rem;
   border-radius: 6px;

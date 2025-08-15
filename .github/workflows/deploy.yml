@@ -47,6 +47,20 @@ jobs:
           echo "🎨 Running design token checks..."
           npm run lint || echo "Lint checks failed - continuing with deployment"
 
+      - name: Guard: no hex colors anywhere
+        run: |
+          # Install ripgrep if not available
+          if ! command -v rg &> /dev/null; then
+            curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
+            sudo dpkg -i ripgrep_13.0.0_amd64.deb
+          fi
+          
+          # Check for hex colors
+          rg -n --hidden --glob '!**/tokens/**' --glob '!**/backup/**' \
+            -e '#[0-9a-fA-F]{3,8}\b' frontend/src && \
+            echo "❌ Hex colors found. Run: node tools/colors/sweep-colors.mjs --write" && exit 1 || \
+            echo "✅ No hex colors found."
+
       - name: Build functions
         run: |
           if [ -d functions ] && [ -f functions/package.json ]; then

@@ -58,7 +58,7 @@
   justify-content: center;
 }
 .invite-btn:hover { 
-  background: var(--accent-primary-hover, #5a6aee); 
+  background: var(--accent-primary-hover, var(--alias-5a6aee)); 
 }
 
 .invite-btn.secondary {

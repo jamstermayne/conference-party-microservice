@@ -105,7 +105,7 @@
 }
 
 .btn-sync:hover {
-    background: var(--accent-hover, #5a6aef);
+    background: var(--accent-hover, var(--alias-5a6aef));
     transform: translateY(-1px);
     box-shadow: 0 var(--s-1) var(--s-3) rgba(107, 123, 255, 0.3);
 }
@@ -203,7 +203,7 @@
     }
     
     .popup-close {
-        color: var(--text-secondary, #666);
+        color: var(--text-secondary, var(--neutral-500));
     }
     
     .popup-close:hover {

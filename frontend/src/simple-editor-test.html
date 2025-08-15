@@ -7,14 +7,14 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0f0f12;
-            color: #fff;
+            background: var(--neutral-0);
+            color: var(--white);
             padding: 2rem;
         }
         
         .big-button {
-            background: #ff0066;
-            color: #fff;
+            background: var(--brand-500);
+            color: var(--white);
             border: none;
             padding: 2rem 4rem;
             font-size: 24px;
@@ -26,22 +26,22 @@
         }
         
         .big-button:hover {
-            background: #ff3388;
+            background: var(--brand-400);
         }
         
         .test-element {
-            background: #1a1a1f;
+            background: var(--neutral-100);
             padding: 2rem;
             margin: 2rem 0;
             border-radius: 8px;
-            border: 2px solid #333;
+            border: 2px solid var(--neutral-300);
         }
         
         .status {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #333;
+            background: var(--neutral-300);
             padding: 1rem;
             border-radius: 8px;
             font-family: monospace;
@@ -64,7 +64,7 @@
         <p>Click this element after activating the editor to edit its styles.</p>
     </div>
     
-    <div class="test-element" style="background: #2a2a3f;">
+    <div class="test-element" style="background: var(--neutral-200);">
         <h2>Test Element 2</h2>
         <p>Another element to test editing with.</p>
     </div>
@@ -113,13 +113,13 @@
             const statusText = document.getElementById('statusText');
             if (!window.standaloneLiveEditor) {
                 statusText.textContent = 'Not Loaded';
-                statusText.style.color = '#ff6666';
+                statusText.style.color = 'var(--error-weak)';
             } else if (window.standaloneLiveEditor.isActive) {
                 statusText.textContent = '✅ ACTIVE';
-                statusText.style.color = '#00ff88';
+                statusText.style.color = 'var(--success-strong)';
             } else {
                 statusText.textContent = 'Ready (Inactive)';
-                statusText.style.color = '#ffaa00';
+                statusText.style.color = 'var(--warning)';
             }
         }
         

@@ -301,9 +301,9 @@ class GoogleCalendarLite {
     toast.textContent = message;
     
     const styles = {
-      success: 'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);',
-      error: 'background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);',
-      info: 'background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);'
+      success: 'background: linear-gradient(135deg, var(--alias-667eea) 0%, var(--alias-764ba2) 100%);',
+      error: 'background: linear-gradient(135deg, var(--alias-f093fb) 0%, var(--alias-f5576c) 100%);',
+      info: 'background: linear-gradient(135deg, var(--alias-4facfe) 0%, var(--alias-00f2fe) 100%);'
     };
     
     toast.style.cssText = `

@@ -53,10 +53,10 @@ function mountSheet() {
         </button>
         <button class="btn btn-secondary cs-provider" id="cs-outlook" data-provider="outlook">
           <svg class="provider-icon" viewBox="0 0 24 24" width="20" height="20">
-            <path fill="#0078d4" d="M24 12v9.38c0 .62-.38 1.12-1 1.12H1c-.62 0-1-.5-1-1.12V12h24z"/>
-            <path fill="#28a8ea" d="M24 12V2.62C24 2 23.62 1.5 23 1.5H1C.38 1.5 0 2 0 2.62V12h24z"/>
-            <circle fill="#fff" cx="12" cy="12" r="7"/>
-            <path fill="#0078d4" d="M12 7a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm2.5 5.5h-5a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1z"/>
+            <path fill="var(--alias-0078d4)" d="M24 12v9.38c0 .62-.38 1.12-1 1.12H1c-.62 0-1-.5-1-1.12V12h24z"/>
+            <path fill="var(--neutral-200)" d="M24 12V2.62C24 2 23.62 1.5 23 1.5H1C.38 1.5 0 2 0 2.62V12h24z"/>
+            <circle fill="var(--white)" cx="12" cy="12" r="7"/>
+            <path fill="var(--alias-0078d4)" d="M12 7a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm2.5 5.5h-5a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1z"/>
           </svg>
           Outlook Contacts
         </button>

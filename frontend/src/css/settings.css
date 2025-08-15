@@ -3,16 +3,16 @@
  */
 
 :root {
-  --bg-primary: #0f1114;
-  --bg-secondary: #1a1d24;
-  --bg-card: #1a1d24;
+  --bg-primary: var(--alias-0f1114);
+  --bg-secondary: var(--neutral-100);
+  --bg-card: var(--neutral-100);
   --border-color: var(--border-secondary);
   --text-primary: var(--text-primary);
   --text-secondary: var(--text-tertiary);
   --accent: var(--color-primary);
   --accent-hover: var(--accent-secondary);
   --danger: var(--error);
-  --success: #4caf50;
+  --success: var(--alias-4caf50);
 }
 
 body {
@@ -326,8 +326,8 @@ button.secondary:hover:not(:disabled) {
 }
 
 .badge.warning {
-  color: #ff9800;
-  border-color: #ff9800;
+  color: var(--alias-ff9800);
+  border-color: var(--alias-ff9800);
   background: rgba(255, 152, 0, 0.1);
 }
 
@@ -368,7 +368,7 @@ button.primary:hover:not(:disabled) {
 }
 
 .muted.warning {
-  color: #ff9800;
+  color: var(--alias-ff9800);
 }
 
 hr {

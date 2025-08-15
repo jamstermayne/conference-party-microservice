@@ -11,7 +11,7 @@
   background: var(--surface); border:1px solid var(--border);
   border-radius: var(--r-md); padding:12px var(--s-3-5); text-align:left;
 }
-.row:hover { background:#202028; border-color:#343447; }
+.row:hover { background:var(--neutral-200); border-color:var(--alias-343447); }
 .row-label { color:var(--text-secondary); font-size:13px; }
 .row-value { color:var(--text-primary); font-weight:500; }
 .row-caret { color:var(--text-muted); margin-left:8px; }

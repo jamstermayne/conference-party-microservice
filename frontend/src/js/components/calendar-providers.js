@@ -8,7 +8,7 @@ export function showProviderModal({ onGoogle, onOutlook, onM2M }) {
           <button class="modal__close" data-close aria-label="Close">&times;</button>
         </div>
         <div class="modal__body">
-          <p style="margin-bottom: 1rem; color: #666;">Choose your calendar provider:</p>
+          <p style="margin-bottom: 1rem; color: var(--neutral-500);">Choose your calendar provider:</p>
           <div class="modal__actions">
             <button class="btn btn-primary" data-google>
               <span style="margin-right: 8px;">📅</span>

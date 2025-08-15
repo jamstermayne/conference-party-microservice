@@ -358,7 +358,7 @@ class DeepLinkHandler {
       }
       
       .invite-modal {
-        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        background: linear-gradient(135deg, var(--neutral-100) 0%, var(--alias-334155) 100%);
         border-radius: 20px;
         padding: 2rem;
         max-width: 420px;
@@ -377,12 +377,12 @@ class DeepLinkHandler {
       .invite-title {
         font-size: 2rem;
         font-weight: 700;
-        color: #ffffff;
+        color: var(--white);
         margin: 0 0 1rem 0;
       }
       
       .invite-message {
-        color: #cbd5e1;
+        color: var(--alias-cbd5e1);
         font-size: 1.1rem;
         line-height: 1.6;
         margin: 0 0 2rem 0;
@@ -398,7 +398,7 @@ class DeepLinkHandler {
         align-items: center;
         gap: 1rem;
         padding: 0.75rem 0;
-        color: #e2e8f0;
+        color: var(--alias-e2e8f0);
         font-size: 0.95rem;
       }
       
@@ -422,7 +422,7 @@ class DeepLinkHandler {
       }
       
       .invite-footer {
-        color: #64748b;
+        color: var(--alias-64748b);
         font-size: 0.875rem;
         margin: 1rem 0 0 0;
       }

@@ -1,9 +1,9 @@
 /* Jobs/Ive + Slack Design System */
 :root{
-  --bg: var(--bg-primary); --bg-2:#21252b; --surface:#2b2f36; --b:#383d45;
-  --text:var(--text-primary); --muted:#9ea2aa;
+  --bg: var(--bg-primary); --bg-2:var(--neutral-200); --surface:var(--neutral-200); --b:var(--alias-383d45);
+  --text:var(--text-primary); --muted:var(--alias-9ea2aa);
   --accent:var(--color-primary-dark); --ok:var(--success); --warn:var(--warning); --err:var(--error);
-  --dev:#7dd3fc; --pub:#fca5a5; --inv:var(--warning); --sp:#86efac;
+  --dev:var(--alias-7dd3fc); --pub:var(--alias-fca5a5); --inv:var(--warning); --sp:var(--alias-86efac);
   --shadow: 0 var(--s-2) var(--s-6) rgba(0,0,0,.35);
   --r:16px; --r-sm:12px; --r-xs:8px; --gap:12px;
   --fast:150ms; --norm:220ms; --ease: cubic-bezier(0,0,0.2,1);
@@ -32,7 +32,7 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 Inter,system-
 .nav-item{
   position:relative;
   width:100%;padding:10px var(--s-3);padding-left:calc(var(--s-4) + var(--rail-w) + var(--s-2-5));
-  border-radius:var(--r-lg,10px);background:transparent;color:var(--text-secondary,#a1a1a1);
+  border-radius:var(--r-lg,10px);background:transparent;color:var(--text-secondary,var(--alias-a1a1a1));
   border:1px solid transparent;text-align:left;transition:background var(--fast) var(--ease), border-color var(--fast) var(--ease), color var(--fast) var(--ease)
 }
 .nav-item:hover{background:rgba(255,255,255,.04);color:var(--text-primary,var(--text-primary));border-color:var(--b)}
@@ -98,8 +98,8 @@ section[data-route]{padding:16px;display:grid;gap:12px}
 .gap-6{gap:6px;}
 .gap-8{gap:8px;}
 .stack-2>*+*{margin-top:16px;}
-.text-secondary{color:var(--text-secondary,#a1a1a1);}
-.card-outlined{border:1px solid var(--border,#2a2d35);padding:16px;border-radius:var(--r-md,8px);}
+.text-secondary{color:var(--text-secondary,var(--alias-a1a1a1));}
+.card-outlined{border:1px solid var(--border,var(--neutral-200));padding:16px;border-radius:var(--r-md,8px);}
 
 /* Sidebar must never collapse */
 #sidenav-list .nav-item,
@@ -151,13 +151,13 @@ section[data-route]{padding:16px;display:grid;gap:12px}
 .btn:hover{background:rgba(255,255,255,.1)}
 .btn:active{transform:translateY(0)}
 .btn:focus{outline:3px solid rgba(107,123,255,.6);outline-offset:2px}
-.btn-primary{background:#0073b1;color:var(--text-primary)}
-.btn-primary:hover{background:#005885}
-.btn-primary:focus{outline:3px solid #00a0dc;outline-offset:2px}
-.btn-secondary{background:transparent;color:#ccc;border:1px solid #666}
+.btn-primary{background:var(--alias-0073b1);color:var(--text-primary)}
+.btn-primary:hover{background:var(--alias-005885)}
+.btn-primary:focus{outline:3px solid var(--alias-00a0dc);outline-offset:2px}
+.btn-secondary{background:transparent;color:var(--neutral-700);border:1px solid var(--neutral-500)}
 .btn-secondary:hover{background:rgba(204,204,204,.1)}
-.btn-secondary:focus{outline:3px solid #888;outline-offset:2px}
-.btn-accent{background:var(--ok);color:#0b1a0f}
+.btn-secondary:focus{outline:3px solid var(--alias-888);outline-offset:2px}
+.btn-accent{background:var(--ok);color:var(--alias-0b1a0f)}
 .btn-ghost{background:transparent;border:1px solid var(--b)}
 .btn-danger{background:var(--err)}
 .btn-small{padding:6px var(--s-2);border-radius: var(--r-md);font-size:12px}
@@ -362,11 +362,11 @@ section[data-route]{padding:16px;display:grid;gap:12px}
 .btn-success {
   background: var(--ok, var(--success));
   border-color: var(--ok, var(--success));
-  color: #0b1a0f;
+  color: var(--alias-0b1a0f);
 }
 .btn-success:hover {
-  background: #16a34a;
-  border-color: #16a34a;
+  background: var(--neutral-100);
+  border-color: var(--neutral-100);
 }
 
 /* Enhanced empty/loading/error states */
@@ -374,8 +374,8 @@ section[data-route]{padding:16px;display:grid;gap:12px}
   text-align: center;
   padding: var(--s-12) var(--s-6);
   border-radius: var(--s-3);
-  background: var(--surface, #2b2f36);
-  border: 1px solid var(--b, #383d45);
+  background: var(--surface, var(--neutral-200));
+  border: 1px solid var(--b, var(--alias-383d45));
   margin: var(--s-5) 0;
 }
 .empty-state-icon, .error-state-icon {
@@ -393,7 +393,7 @@ section[data-route]{padding:16px;display:grid;gap:12px}
 .empty-state-message, .error-state-message, .loading-message {
   font-size: var(--s-3-5);
   line-height: 1.4;
-  color: var(--muted, #9ea2aa);
+  color: var(--muted, var(--alias-9ea2aa));
   margin: 0 0 var(--s-5) 0;
 }
 

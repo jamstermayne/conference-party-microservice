@@ -6,11 +6,11 @@
 /* ===== ENHANCED COLOR SYSTEM ===== */
 :root {
   /* Gradient Backgrounds */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-success: linear-gradient(135deg, var(--success) 0%, #16a34a 100%);
-  --gradient-accent: linear-gradient(135deg, var(--color-primary-dark) 0%, #8b5cf6 100%);
+  --gradient-primary: linear-gradient(135deg, var(--alias-667eea) 0%, var(--alias-764ba2) 100%);
+  --gradient-success: linear-gradient(135deg, var(--success) 0%, var(--neutral-100) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--alias-8b5cf6) 100%);
   --gradient-warm: linear-gradient(135deg, var(--accent-warning) 0%, var(--error) 100%);
-  --gradient-cool: linear-gradient(135deg, #06b6d4 0%, var(--info) 100%);
+  --gradient-cool: linear-gradient(135deg, var(--alias-06b6d4) 0%, var(--info) 100%);
   --gradient-dark: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-tertiary) 100%);
   
   /* Glass Morphism */
@@ -110,7 +110,7 @@
 
 /* ===== ANIMATED BACKGROUNDS ===== */
 .animated-gradient {
-  background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+  background: linear-gradient(-45deg, var(--alias-667eea), var(--alias-764ba2), var(--alias-f093fb), var(--alias-f5576c));
   background-size: 400% 400%;
   animation: gradientShift 15s ease infinite;
 }

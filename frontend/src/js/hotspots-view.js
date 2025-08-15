@@ -52,7 +52,7 @@ function drawHeat(ctx, w, h, points) {
   ctx.clearRect(0,0,w,h);
 
   // subtle background grid (Jobs/Ive vibe)
-  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--surface') || '#1a1a1f';
+  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--surface') || 'var(--neutral-100)';
   ctx.fillRect(0,0,w,h);
 
   // Heat draw: concentric radial gradients with additive alpha

@@ -3,7 +3,7 @@
  */
 
 .integration-card {
-  background: var(--card-bg, #1a1d24);
+  background: var(--card-bg, var(--neutral-100));
   border: 1px solid var(--border-color, var(--border-secondary));
   border-radius: var(--s-3);
   padding: var(--s-5);
@@ -51,7 +51,7 @@
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background: var(--bg-secondary, #0f1114);
+  background: var(--bg-secondary, var(--alias-0f1114));
   border-radius: var(--r-md);
   margin-bottom: var(--s-4);
 }
@@ -60,7 +60,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #4caf50;
+  background: var(--alias-4caf50);
   animation: pulse 2s infinite;
 }
 
@@ -139,7 +139,7 @@
 .integration-connect input {
   width: 100%;
   padding: 10px 12px;
-  background: var(--input-bg, #0f1114);
+  background: var(--input-bg, var(--alias-0f1114));
   border: 1px solid var(--border-color, var(--border-secondary));
   border-radius: var(--r-md);
   color: var(--text-primary, var(--text-primary));
@@ -200,13 +200,13 @@
 }
 
 .btn-secondary {
-  background: var(--bg-secondary, #1a1d24);
+  background: var(--bg-secondary, var(--neutral-100));
   color: var(--text-primary, var(--text-primary));
   border: 1px solid var(--border-color, var(--border-secondary));
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: var(--bg-hover, #22252d);
+  background: var(--bg-hover, var(--neutral-200)52d);
 }
 
 .btn-danger {
@@ -235,15 +235,15 @@
 }
 
 .notification-success {
-  background: linear-gradient(135deg, #4caf50, #66bb6a);
+  background: linear-gradient(135deg, var(--alias-4caf50), var(--alias-66bb6a));
 }
 
 .notification-error {
-  background: linear-gradient(135deg, var(--error), #ef5350);
+  background: linear-gradient(135deg, var(--error), var(--alias-ef5350));
 }
 
 .notification-info {
-  background: linear-gradient(135deg, #2196f3, #42a5f5);
+  background: linear-gradient(135deg, var(--neutral-200), var(--alias-42a5f5));
 }
 
 .mtm-notification.fade-out {

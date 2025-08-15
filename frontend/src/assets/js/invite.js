@@ -470,7 +470,7 @@ const inviteStyles = `
 
 .invite-modal-content {
   position: relative;
-  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  background: linear-gradient(135deg, var(--neutral-100) 0%, var(--alias-334155) 100%);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   padding: 2.5rem;
@@ -507,7 +507,7 @@ const inviteStyles = `
   right: 1rem;
   background: rgba(255, 255, 255, 0.1);
   border: none;
-  color: #fff;
+  color: var(--white);
   font-size: 1.5rem;
   width: 36px;
   height: 36px;
@@ -532,11 +532,11 @@ const inviteStyles = `
   font-size: 2rem;
   font-weight: 700;
   margin: 0 0 1rem 0;
-  color: #fff;
+  color: var(--white);
 }
 
 .invite-message {
-  color: #cbd5e1;
+  color: var(--alias-cbd5e1);
   font-size: 1.1rem;
   line-height: 1.6;
   margin: 0 0 1.5rem 0;
@@ -548,7 +548,7 @@ const inviteStyles = `
   padding: 1rem;
   margin: 1.5rem 0;
   font-style: italic;
-  color: #e2e8f0;
+  color: var(--alias-e2e8f0);
   border-radius: 8px;
 }
 
@@ -562,7 +562,7 @@ const inviteStyles = `
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 0;
-  color: #e2e8f0;
+  color: var(--alias-e2e8f0);
 }
 
 .benefit-emoji {
@@ -585,13 +585,13 @@ const inviteStyles = `
 }
 
 .invite-footer {
-  color: #64748b;
+  color: var(--alias-64748b);
   font-size: 0.875rem;
   margin: 1rem 0 0 0;
 }
 
 .invite-invalid .invite-icon {
-  color: #ef4444;
+  color: var(--error);
 }
 
 .invite-error-details {
@@ -601,7 +601,7 @@ const inviteStyles = `
   padding: 1rem;
   margin: 1.5rem 0;
   text-align: left;
-  color: #fca5a5;
+  color: var(--alias-fca5a5);
 }
 
 .invite-error-details ul {

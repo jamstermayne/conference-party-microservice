@@ -2,15 +2,15 @@
 :root {
   /* Colors */
   --accent-primary: var(--color-primary-dark);
-  --accent-secondary: #4f63d2;
+  --accent-secondary: var(--alias-4f63d2);
   --surface-primary: var(--bg-primary);
-  --surface-secondary: #2d3142;
-  --surface-tertiary: #3c4043;
+  --surface-secondary: var(--neutral-200);
+  --surface-tertiary: var(--alias-3c4043);
   --text-primary: var(--text-primary);
-  --text-secondary: #b3b3b3;
-  --text-muted: #8a8a8a;
-  --border-primary: #3c4043;
-  --border-secondary: #4f4f4f;
+  --text-secondary: var(--alias-b3b3b3);
+  --text-muted: var(--alias-8a8a8a);
+  --border-primary: var(--alias-3c4043);
+  --border-secondary: var(--alias-4f4f4f);
   --success: var(--success);
   --warning: var(--accent-warning);
   --error: var(--error);

@@ -15,7 +15,7 @@ export async function renderSettings(mount){
         </div>
         <div class="vmeta">Signed in as: ${email || 'Guest'}</div>
         <div class="vactions" id="adminActions"></div>
-        <div id="adminMsg" style="margin-top:8px;color:#9aa7bf;"></div>
+        <div id="adminMsg" style="margin-top:8px;color:var(--text-muted);"></div>
       </article>
       
       <!-- MeetToMatch Integration -->

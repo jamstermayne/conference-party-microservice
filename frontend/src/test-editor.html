@@ -7,15 +7,15 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0f0f12;
-            color: #fff;
+            background: var(--neutral-0);
+            color: var(--white);
             padding: 2rem;
             line-height: 1.6;
         }
 
         .test-card {
-            background: #1a1a1f;
-            border: 1px solid #333;
+            background: var(--neutral-100);
+            border: 1px solid var(--neutral-300);
             border-radius: 12px;
             padding: 2rem;
             margin: 2rem 0;
@@ -23,8 +23,8 @@
         }
 
         .test-button {
-            background: #00ff88;
-            color: #000;
+            background: var(--success);
+            color: var(--black);
             border: none;
             padding: 1rem 2rem;
             border-radius: 8px;
@@ -35,13 +35,13 @@
         }
 
         .test-button:hover {
-            background: #00cc70;
+            background: var(--alias-00cc70);
             transform: translateY(-1px);
         }
 
         .debug-info {
-            background: #333;
-            border: 1px solid #555;
+            background: var(--neutral-300);
+            border: 1px solid var(--alias-555);
             border-radius: 8px;
             padding: 1rem;
             margin: 2rem 0;
@@ -50,8 +50,8 @@
         }
 
         .activation-button {
-            background: #ff6b6b;
-            color: #fff;
+            background: var(--alias-ff6b6b);
+            color: var(--white);
             border: none;
             padding: 1rem 2rem;
             border-radius: 8px;
@@ -62,7 +62,7 @@
         }
 
         .activation-button:hover {
-            background: #ff5252;
+            background: var(--alias-ff5252);
         }
 
         .status-indicator {
@@ -70,12 +70,12 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: #666;
+            background: var(--neutral-500);
             margin-right: 8px;
         }
 
         .status-indicator.active {
-            background: #00ff88;
+            background: var(--success);
         }
     </style>
 </head>
@@ -89,8 +89,8 @@
         <p><span class="status-indicator" id="editorActive"></span> Editor Active: <span id="activeStatus">Inactive</span></p>
     </div>
 
-    <div style="background: rgba(0,255,136,0.1); border: 1px solid #00ff88; border-radius: 8px; padding: 1.5rem; margin: 2rem 0;">
-        <h3 style="color: #00ff88; margin: 0 0 1rem 0;">🚀 Quick Start</h3>
+    <div style="background: rgba(0,255,136,0.1); border: 1px solid var(--success); border-radius: 8px; padding: 1.5rem; margin: 2rem 0;">
+        <h3 style="color: var(--success); margin: 0 0 1rem 0;">🚀 Quick Start</h3>
         <p style="margin: 0 0 1rem 0;">Try these methods to activate the live editor:</p>
         <ol style="margin: 0; padding-left: 1.5rem;">
             <li><strong>Press Ctrl+E</strong> (or Cmd+E on Mac)</li>
@@ -104,21 +104,21 @@
     </button>
 
     <div class="test-card design-editable">
-        <h2 style="color: #00ff88; margin: 0 0 1rem 0;">Test Card #1</h2>
+        <h2 style="color: var(--success); margin: 0 0 1rem 0;">Test Card #1</h2>
         <p>This is a test card. When the live editor is active, you should be able to click on this card to edit its properties like padding, background color, border radius, etc.</p>
         <button class="test-button design-editable">Test Button 1</button>
-        <button class="test-button design-editable" style="background: #3b82f6;">Test Button 2</button>
+        <button class="test-button design-editable" style="background: var(--info);">Test Button 2</button>
     </div>
 
     <div class="test-card design-editable">
-        <h2 style="color: #f59e0b; margin: 0 0 1rem 0;">Test Card #2</h2>
+        <h2 style="color: var(--warning); margin: 0 0 1rem 0;">Test Card #2</h2>
         <p>Another test card with different styling. Try editing the heading color, card padding, or button styles.</p>
-        <button class="test-button design-editable" style="background: #ef4444; color: #fff;">Red Button</button>
-        <button class="test-button design-editable" style="background: #8b5cf6;">Purple Button</button>
+        <button class="test-button design-editable" style="background: var(--error); color: var(--white);">Red Button</button>
+        <button class="test-button design-editable" style="background: var(--alias-8b5cf6);">Purple Button</button>
     </div>
 
-    <div id="instructions" style="background: #333; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; display: none;">
-        <h3 style="color: #00ff88; margin: 0 0 1rem 0;">✅ Live Editor Active!</h3>
+    <div id="instructions" style="background: var(--neutral-300); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; display: none;">
+        <h3 style="color: var(--success); margin: 0 0 1rem 0;">✅ Live Editor Active!</h3>
         <p>Great! The live editor is now active. You should see:</p>
         <ul>
             <li>✏️ Highlighted elements with dashed outlines</li>
@@ -154,26 +154,26 @@
             if (debugInfo.jsLoaded) {
                 jsIndicator.classList.add('active');
                 jsStatus.textContent = '✅ Loaded';
-                jsStatus.style.color = '#00ff88';
+                jsStatus.style.color = 'var(--success)';
             }
 
             // Editor ready
             if (debugInfo.editorReady) {
                 editorIndicator.classList.add('active');
                 editorStatus.textContent = '✅ Ready';
-                editorStatus.style.color = '#00ff88';
+                editorStatus.style.color = 'var(--success)';
             }
 
             // Editor active
             if (debugInfo.editorActive) {
                 activeIndicator.classList.add('active');
                 activeStatus.textContent = '✅ Active';
-                activeStatus.style.color = '#00ff88';
+                activeStatus.style.color = 'var(--success)';
                 document.getElementById('instructions').style.display = 'block';
             } else {
                 activeIndicator.classList.remove('active');
                 activeStatus.textContent = '⏸️ Inactive';
-                activeStatus.style.color = '#999';
+                activeStatus.style.color = 'var(--neutral-600)';
                 document.getElementById('instructions').style.display = 'none';
             }
         }
@@ -273,11 +273,11 @@
         
         // Show helpful info
         setTimeout(() => {
-            console.log('%c🎨 LIVE EDITOR TEST', 'color: #00ff88; font-size: 20px; font-weight: bold;');
-            console.log('%c• Press Ctrl+E to activate', 'color: #fff; font-size: 14px;');
-            console.log('%c• Or click the red button', 'color: #fff; font-size: 14px;');
-            console.log('%c• Or just press E key', 'color: #fff; font-size: 14px;');
-            console.log('%c• Check status indicators above', 'color: #fff; font-size: 14px;');
+            console.log('%c🎨 LIVE EDITOR TEST', 'color: var(--success); font-size: 20px; font-weight: bold;');
+            console.log('%c• Press Ctrl+E to activate', 'color: var(--white); font-size: 14px;');
+            console.log('%c• Or click the red button', 'color: var(--white); font-size: 14px;');
+            console.log('%c• Or just press E key', 'color: var(--white); font-size: 14px;');
+            console.log('%c• Check status indicators above', 'color: var(--white); font-size: 14px;');
         }, 1000);
 
         // Make debug function globally available

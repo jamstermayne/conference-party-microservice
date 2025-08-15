@@ -1,8 +1,8 @@
 /* ===== Account Hub (velocity.ai) ===== */
 :root {
-  --ink-0:#0b0b0d; --ink-1:#111217; --ink-2:#151720; --ink-3:#1c1f2b;
-  --fg-0:var(--text-primary);     --fg-1:#d8dbe6; --fg-2:#9aa3b2; --fg-3:#6b7380;
-  --a-1:#7c8aff;   --a-2:var(--accent-secondary); --a-3:#b56dff; --ok:#3ddc97;
+  --ink-0:var(--alias-0b0b0d); --ink-1:var(--neutral-100); --ink-2:var(--neutral-100); --ink-3:var(--neutral-100);
+  --fg-0:var(--text-primary);     --fg-1:var(--alias-d8dbe6); --fg-2:var(--alias-9aa3b2); --fg-3:var(--alias-6b7380);
+  --a-1:var(--alias-7c8aff);   --a-2:var(--accent-secondary); --a-3:var(--alias-b56dff); --ok:var(--alias-3ddc97);
   --divider: rgba(255,255,255,0.06);
 }
 .account-wrap {
@@ -39,7 +39,7 @@
 /* Stat chips */
 .acc-stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: var(--s-3); margin-top: 10px; }
 .acc-chip {
-  background: linear-gradient(180deg, #141521, #0f1018);
+  background: linear-gradient(180deg, var(--neutral-100), var(--alias-0f1018));
   box-shadow: inset 0 0 0 1px var(--divider);
   border-radius: var(--s-3); padding: var(--s-3) 14px;
 }
@@ -58,16 +58,16 @@
 /* Buttons */
 .btn {
   appearance: none; border: 1px solid var(--divider); color: var(--fg-1);
-  background: #13131a; padding: 8px 12px; border-radius: 10px;
+  background: var(--neutral-100); padding: 8px 12px; border-radius: 10px;
   font-size: .9rem; cursor: pointer;
   transition: background .15s ease, border-color .15s ease, transform .08s ease;
 }
-.btn:hover { background: #191a22; border-color: rgba(255,255,255,0.16); }
+.btn:hover { background: var(--neutral-100); border-color: rgba(255,255,255,0.16); }
 .btn:active { transform: translateY(1px); }
 
 .btn-primary {
   border-color: rgba(124,138,255,.35);
-  background: linear-gradient(180deg, #606bff 0%, #5a52ff 100%);
+  background: linear-gradient(180deg, var(--alias-606bff) 0%, var(--alias-5a52ff) 100%);
   color: var(--text-primary);
 }
 .btn-primary:hover { filter: brightness(1.05); }
@@ -97,7 +97,7 @@
 }
 .account-header .hash-tag{
   width:24px;height:24px;border-radius:6px;
-  background: linear-gradient(180deg, var(--color-primary-dark), #3a3f99);
+  background: linear-gradient(180deg, var(--color-primary-dark), var(--alias-3a3f99));
   color:var(--text-primary); display:grid; place-items:center; font-weight:700;
 }
 .account-header .ph-title{ margin:0; text-transform:lowercase; color:var(--text-primary,var(--text-primary)); }

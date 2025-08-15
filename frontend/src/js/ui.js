@@ -127,7 +127,7 @@ function createCustomToast(message, type) {
     maxWidth: '400px',
     padding: '12px 16px',
     borderRadius: '8px',
-    color: '#ffffff',
+    color: 'var(--white)',
     fontSize: '14px',
     fontWeight: '500',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
@@ -155,19 +155,19 @@ function applyToastTypeStyles(toast, type) {
   const typeStyles = {
     success: {
       backgroundColor: 'rgba(34, 197, 94, 0.95)',
-      borderLeft: '4px solid #22c55e'
+      borderLeft: '4px solid var(--success)'
     },
     error: {
       backgroundColor: 'rgba(239, 68, 68, 0.95)',
-      borderLeft: '4px solid #ef4444'
+      borderLeft: '4px solid var(--error)'
     },
     warning: {
       backgroundColor: 'rgba(245, 158, 11, 0.95)',
-      borderLeft: '4px solid #f59e0b'
+      borderLeft: '4px solid var(--warning)'
     },
     info: {
       backgroundColor: 'rgba(59, 130, 246, 0.95)',
-      borderLeft: '4px solid #3b82f6'
+      borderLeft: '4px solid var(--info)'
     }
   };
   
@@ -258,8 +258,8 @@ function createConfirmModal(message, confirmText, cancelText, resolve) {
   const content = modal.querySelector('.confirm-content');
   Object.assign(content.style, {
     position: 'relative',
-    backgroundColor: 'var(--surface, #1a1a1f)',
-    color: 'var(--text-primary, #ffffff)',
+    backgroundColor: 'var(--surface, var(--neutral-100))',
+    color: 'var(--text-primary, var(--white))',
     padding: '24px',
     borderRadius: '12px',
     maxWidth: '400px',

@@ -1,7 +1,7 @@
 :root{
   --bg-primary:var(--bg-tertiary); --bg-secondary:var(--bg-secondary); --surface:var(--bg-surface); --border:var(--border-primary);
-  --text-primary:var(--text-primary); --text-secondary:var(--text-secondary); --text-muted:#6b6b75;
-  --accent:var(--color-primary-dark); --accent-2:#5b9bff; --ok:var(--success);
+  --text-primary:var(--text-primary); --text-secondary:var(--text-secondary); --text-muted:var(--alias-6b6b75);
+  --accent:var(--color-primary-dark); --accent-2:var(--alias-5b9bff); --ok:var(--success);
   --r-md:12px; --r-lg:16px; --t:200ms; --ease:cubic-bezier(0,0,0.2,1);
   --shadow:0 6px 24px rgba(0,0,0,.35);
 }
@@ -48,7 +48,7 @@ body.app-dark{margin:0;background:var(--bg-primary);color:var(--text-primary);fo
 .card-title{font-weight:600}
 .badges{display:flex;gap:6px}
 .badge{padding:2px 8px;border-radius:999px;font-size:12px;border:1px solid var(--border);color:var(--text-secondary)}
-.badge.ok{border-color:rgba(34,197,94,.35);color:#8ef59f}
+.badge.ok{border-color:rgba(34,197,94,.35);color:var(--alias-8ef59f)}
 .card-body{padding:14px}
 .card-row{display:flex;align-items:center;gap:10px;color:var(--text-secondary);font-size:13px;margin:2px 0}
 .card-actions{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:8px}

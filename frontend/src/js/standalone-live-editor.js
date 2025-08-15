@@ -154,10 +154,10 @@ class StandaloneLiveEditor {
             right: 1rem;
             background: rgba(15, 15, 18, 0.95);
             backdrop-filter: blur(12px);
-            border: 2px solid #00ff88;
+            border: 2px solid var(--success);
             border-radius: 12px;
             padding: 1rem;
-            color: #fff;
+            color: var(--white);
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
             pointer-events: auto;
@@ -177,10 +177,10 @@ class StandaloneLiveEditor {
             overflow-y: auto;
             background: rgba(15, 15, 18, 0.95);
             backdrop-filter: blur(12px);
-            border: 1px solid #333;
+            border: 1px solid var(--neutral-300);
             border-radius: 12px;
             padding: 1rem;
-            color: #fff;
+            color: var(--white);
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             pointer-events: auto;
@@ -226,8 +226,8 @@ class StandaloneLiveEditor {
             }
 
             .toolbar-status {
-                background: #00ff88;
-                color: #000;
+                background: var(--success);
+                color: var(--black);
                 padding: 0.125rem 0.5rem;
                 border-radius: 8px;
                 font-size: 11px;
@@ -242,8 +242,8 @@ class StandaloneLiveEditor {
 
             .toolbar-btn {
                 background: transparent;
-                border: 1px solid #444;
-                color: #fff;
+                border: 1px solid var(--alias-444);
+                color: var(--white);
                 width: 32px;
                 height: 32px;
                 border-radius: 6px;
@@ -256,9 +256,9 @@ class StandaloneLiveEditor {
             }
 
             .toolbar-btn:hover {
-                background: #00ff88;
-                color: #000;
-                border-color: #00ff88;
+                background: var(--success);
+                color: var(--black);
+                border-color: var(--success);
                 transform: scale(1.05);
             }
 
@@ -273,8 +273,8 @@ class StandaloneLiveEditor {
                 position: absolute;
                 top: -8px;
                 right: -8px;
-                background: #00ff88;
-                color: #000;
+                background: var(--success);
+                color: var(--black);
                 font-size: 11px;
                 padding: 2px 6px;
                 border-radius: 4px;
@@ -284,7 +284,7 @@ class StandaloneLiveEditor {
             }
 
             .design-selected {
-                outline: 3px solid #00ff88 !important;
+                outline: 3px solid var(--success) !important;
                 outline-offset: 2px !important;
                 position: relative;
             }
@@ -294,8 +294,8 @@ class StandaloneLiveEditor {
                 position: absolute;
                 top: -8px;
                 right: -8px;
-                background: #00ff88;
-                color: #000;
+                background: var(--success);
+                color: var(--black);
                 font-size: 11px;
                 padding: 2px 6px;
                 border-radius: 4px;
@@ -315,7 +315,7 @@ class StandaloneLiveEditor {
 
             .property-label {
                 display: block;
-                color: #00ff88;
+                color: var(--success);
                 font-size: 12px;
                 font-weight: 600;
                 margin-bottom: 0.5rem;
@@ -325,9 +325,9 @@ class StandaloneLiveEditor {
 
             .property-input {
                 width: 100%;
-                background: #333;
-                border: 1px solid #555;
-                color: #fff;
+                background: var(--neutral-300);
+                border: 1px solid var(--alias-555);
+                color: var(--white);
                 padding: 0.5rem;
                 border-radius: 6px;
                 font-size: 14px;
@@ -335,14 +335,14 @@ class StandaloneLiveEditor {
 
             .property-input:focus {
                 outline: none;
-                border-color: #00ff88;
+                border-color: var(--success);
                 box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
             }
 
             .property-slider {
                 width: 100%;
                 height: 6px;
-                background: #333;
+                background: var(--neutral-300);
                 border-radius: 3px;
                 outline: none;
                 -webkit-appearance: none;
@@ -352,7 +352,7 @@ class StandaloneLiveEditor {
                 -webkit-appearance: none;
                 width: 18px;
                 height: 18px;
-                background: #00ff88;
+                background: var(--success);
                 border-radius: 50%;
                 cursor: pointer;
             }
@@ -360,19 +360,19 @@ class StandaloneLiveEditor {
             .property-slider::-moz-range-thumb {
                 width: 18px;
                 height: 18px;
-                background: #00ff88;
+                background: var(--success);
                 border-radius: 50%;
                 cursor: pointer;
                 border: none;
             }
 
             .property-section-title {
-                color: #00ff88;
+                color: var(--success);
                 font-size: 14px;
                 font-weight: 600;
                 margin: 1rem 0 0.5rem 0;
                 padding-bottom: 0.5rem;
-                border-bottom: 1px solid #333;
+                border-bottom: 1px solid var(--neutral-300);
             }
 
             .color-input-group {
@@ -384,7 +384,7 @@ class StandaloneLiveEditor {
             .color-picker {
                 width: 40px;
                 height: 40px;
-                border: 1px solid #555;
+                border: 1px solid var(--alias-555);
                 border-radius: 6px;
                 background: none;
                 cursor: pointer;
@@ -453,7 +453,7 @@ class StandaloneLiveEditor {
         const status = this.toolbar.querySelector('.toolbar-status');
         if (status) {
             status.textContent = 'Active';
-            status.style.background = '#00ff88';
+            status.style.background = 'var(--success)';
         }
         
         // Make elements selectable
@@ -551,7 +551,7 @@ class StandaloneLiveEditor {
         const status = this.toolbar.querySelector('.toolbar-status');
         if (status) {
             status.textContent = 'Editing';
-            status.style.background = '#ff6b6b';
+            status.style.background = 'var(--alias-ff6b6b)';
         }
         
         console.log('🎯 Element selected:', element.tagName, element.className);
@@ -571,7 +571,7 @@ class StandaloneLiveEditor {
         const status = this.toolbar.querySelector('.toolbar-status');
         if (status) {
             status.textContent = 'Active';
-            status.style.background = '#00ff88';
+            status.style.background = 'var(--success)';
         }
     }
 
@@ -580,10 +580,10 @@ class StandaloneLiveEditor {
         
         this.propertyPanel.innerHTML = `
             <div class="property-header">
-                <h3 style="color: #00ff88; margin: 0 0 1rem 0; font-size: 16px;">
+                <h3 style="color: var(--success); margin: 0 0 1rem 0; font-size: 16px;">
                     🎨 Element Properties
                 </h3>
-                <div style="color: #999; font-size: 12px; font-family: monospace; margin-bottom: 1rem;">
+                <div style="color: var(--neutral-600); font-size: 12px; font-family: monospace; margin-bottom: 1rem;">
                     ${element.tagName.toLowerCase()}${element.className ? '.' + element.className.split(' ')[0] : ''}
                 </div>
             </div>
@@ -663,7 +663,7 @@ class StandaloneLiveEditor {
                            max="${config.max || 100}"
                            step="${config.step || 1}"
                            value="${numericValue}">
-                    <span style="color: #999; font-size: 12px; min-width: 60px;">
+                    <span style="color: var(--neutral-600); font-size: 12px; min-width: 60px;">
                         ${numericValue}${config.unit || ''}
                     </span>
                 </div>
@@ -672,7 +672,7 @@ class StandaloneLiveEditor {
     }
 
     generateColorControl(property, currentValue, config) {
-        const hexValue = this.rgbToHex(currentValue) || '#000000';
+        const hexValue = this.rgbToHex(currentValue) || 'var(--black)';
         
         return `
             <div class="property-control">
@@ -687,7 +687,7 @@ class StandaloneLiveEditor {
                            data-property="${property}"
                            data-input-type="text"
                            value="${hexValue}"
-                           placeholder="#000000"
+                           placeholder="var(--black)"
                            style="font-family: monospace; font-size: 12px;">
                 </div>
             </div>
@@ -860,18 +860,18 @@ class StandaloneLiveEditor {
     showHelp() {
         const helpHTML = `
             <div style="max-width: 500px; line-height: 1.6;">
-                <h2 style="color: #00ff88; margin-bottom: 1rem;">✏️ Live Editor Guide</h2>
+                <h2 style="color: var(--success); margin-bottom: 1rem;">✏️ Live Editor Guide</h2>
                 
-                <h3 style="color: #fff; margin: 1rem 0 0.5rem;">🚀 Getting Started</h3>
-                <ul style="color: #ccc; margin: 0 0 1rem; padding-left: 1rem;">
+                <h3 style="color: var(--white); margin: 1rem 0 0.5rem;">🚀 Getting Started</h3>
+                <ul style="color: var(--neutral-700); margin: 0 0 1rem; padding-left: 1rem;">
                     <li>Press <strong>Ctrl+E</strong> to toggle the editor</li>
                     <li>Click any highlighted element to edit it</li>
                     <li>Use the property panel to make changes</li>
                     <li>Press <strong>Ctrl+S</strong> to export your styles</li>
                 </ul>
                 
-                <h3 style="color: #fff; margin: 1rem 0 0.5rem;">⌨️ Keyboard Shortcuts</h3>
-                <ul style="color: #ccc; margin: 0 0 1rem; padding-left: 1rem;">
+                <h3 style="color: var(--white); margin: 1rem 0 0.5rem;">⌨️ Keyboard Shortcuts</h3>
+                <ul style="color: var(--neutral-700); margin: 0 0 1rem; padding-left: 1rem;">
                     <li><strong>Ctrl+E</strong> - Toggle editor on/off</li>
                     <li><strong>Escape</strong> - Deselect element</li>
                     <li><strong>Ctrl+Z</strong> - Undo changes</li>
@@ -879,17 +879,17 @@ class StandaloneLiveEditor {
                     <li><strong>H</strong> - Show this help</li>
                 </ul>
                 
-                <h3 style="color: #fff; margin: 1rem 0 0.5rem;">🎨 What You Can Edit</h3>
-                <ul style="color: #ccc; margin: 0; padding-left: 1rem;">
+                <h3 style="color: var(--white); margin: 1rem 0 0.5rem;">🎨 What You Can Edit</h3>
+                <ul style="color: var(--neutral-700); margin: 0; padding-left: 1rem;">
                     <li><strong>Layout:</strong> Padding, margin, width, height</li>
                     <li><strong>Colors:</strong> Text, background, borders</li>
                     <li><strong>Typography:</strong> Size, weight, line height</li>
                     <li><strong>Effects:</strong> Border radius, opacity</li>
                 </ul>
                 
-                <div style="background: rgba(0, 255, 136, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid #00ff88;">
-                    <strong style="color: #00ff88;">💡 Pro Tip:</strong>
-                    <p style="margin: 0.5rem 0 0; color: #ccc;">
+                <div style="background: rgba(0, 255, 136, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid var(--success);">
+                    <strong style="color: var(--success);">💡 Pro Tip:</strong>
+                    <p style="margin: 0.5rem 0 0; color: var(--neutral-700);">
                         All changes are applied instantly! Export your styles when you're happy with the results.
                     </p>
                 </div>
@@ -918,11 +918,11 @@ class StandaloneLiveEditor {
         
         modal.innerHTML = `
             <div style="
-                background: #1a1a1a;
-                border: 2px solid #00ff88;
+                background: var(--neutral-100);
+                border: 2px solid var(--success);
                 border-radius: 12px;
                 padding: 2rem;
-                color: #fff;
+                color: var(--white);
                 font-family: -apple-system, BlinkMacSystemFont, sans-serif;
                 max-width: 600px;
                 width: 100%;
@@ -937,7 +937,7 @@ class StandaloneLiveEditor {
                     right: 1rem;
                     background: none;
                     border: none;
-                    color: #999;
+                    color: var(--neutral-600);
                     font-size: 24px;
                     cursor: pointer;
                     padding: 0;
@@ -948,7 +948,7 @@ class StandaloneLiveEditor {
                     justify-content: center;
                     border-radius: 50%;
                     transition: all 0.15s ease;
-                " onmouseover="this.style.background='#333'; this.style.color='#fff';" onmouseout="this.style.background='none'; this.style.color='#999';">×</button>
+                " onmouseover="this.style.background='var(--neutral-300)'; this.style.color='var(--white)';" onmouseout="this.style.background='none'; this.style.color='var(--neutral-600)';">×</button>
                 ${content}
             </div>
         `;
@@ -966,10 +966,10 @@ class StandaloneLiveEditor {
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
         const colors = {
-            success: '#00ff88',
-            info: '#3b82f6',
-            warning: '#f59e0b',
-            error: '#ef4444'
+            success: 'var(--success)',
+            info: 'var(--info)',
+            warning: 'var(--warning)',
+            error: 'var(--error)'
         };
         
         notification.style.cssText = `
@@ -978,7 +978,7 @@ class StandaloneLiveEditor {
             left: 50%;
             transform: translateX(-50%);
             background: ${colors[type] || colors.info};
-            color: ${type === 'success' ? '#000' : '#fff'};
+            color: ${type === 'success' ? 'var(--black)' : 'var(--white)'};
             padding: 1rem 1.5rem;
             border-radius: 8px;
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -1008,11 +1008,11 @@ class StandaloneLiveEditor {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-            border: 2px solid #00ff88;
+            background: linear-gradient(135deg, var(--neutral-100), var(--neutral-200));
+            border: 2px solid var(--success);
             border-radius: 12px;
             padding: 2rem;
-            color: #fff;
+            color: var(--white);
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             box-shadow: 0 20px 50px rgba(0, 255, 136, 0.4);
             z-index: 15000;
@@ -1022,14 +1022,14 @@ class StandaloneLiveEditor {
         `;
         
         welcome.innerHTML = `
-            <h2 style="color: #00ff88; margin: 0 0 1rem;">✏️ Live Visual Editor</h2>
-            <p style="margin: 0 0 1.5rem; color: #ccc; line-height: 1.5;">
+            <h2 style="color: var(--success); margin: 0 0 1rem;">✏️ Live Visual Editor</h2>
+            <p style="margin: 0 0 1.5rem; color: var(--neutral-700); line-height: 1.5;">
                 Welcome to the Live Visual Editor! You can now edit any element by clicking on it.
             </p>
             <div style="display: flex; gap: 1rem; justify-content: center;">
                 <button onclick="this.closest('[style*=fixed]').remove(); standaloneLiveEditor.activateEditor();" style="
-                    background: #00ff88;
-                    color: #000;
+                    background: var(--success);
+                    color: var(--black);
                     border: none;
                     padding: 0.75rem 1.5rem;
                     border-radius: 6px;
@@ -1038,14 +1038,14 @@ class StandaloneLiveEditor {
                 ">🚀 Start Editing</button>
                 <button onclick="this.closest('[style*=fixed]').remove();" style="
                     background: transparent;
-                    color: #999;
-                    border: 1px solid #555;
+                    color: var(--neutral-600);
+                    border: 1px solid var(--alias-555);
                     padding: 0.75rem 1.5rem;
                     border-radius: 6px;
                     cursor: pointer;
                 ">Later</button>
             </div>
-            <p style="font-size: 12px; color: #666; margin: 1rem 0 0; line-height: 1.4;">
+            <p style="font-size: 12px; color: var(--neutral-500); margin: 1rem 0 0; line-height: 1.4;">
                 💡 Tip: Press <strong>Ctrl+E</strong> anytime to toggle the editor
             </p>
         `;
@@ -1065,12 +1065,12 @@ class StandaloneLiveEditor {
     }
 
     rgbToHex(rgb) {
-        if (!rgb || rgb === 'transparent' || rgb === 'inherit') return '#000000';
+        if (!rgb || rgb === 'transparent' || rgb === 'inherit') return 'var(--black)';
         
         if (rgb.startsWith('#')) return rgb;
         
         const match = rgb.match(/rgba?\(([^)]+)\)/);
-        if (!match) return '#000000';
+        if (!match) return 'var(--black)';
         
         const values = match[1].split(',').map(v => parseInt(v.trim()));
         

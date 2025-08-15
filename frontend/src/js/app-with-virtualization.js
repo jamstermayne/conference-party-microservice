@@ -566,24 +566,24 @@ class ProfessionalIntelligencePlatform {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: #1a1a1a;
-      border: 1px solid #ff6b6b;
+      background: var(--neutral-100);
+      border: 1px solid var(--alias-ff6b6b);
       border-radius: 8px;
       padding: 20px;
-      color: #fff;
+      color: var(--white);
       text-align: center;
       z-index: 9999;
       max-width: 400px;
     `;
     
     errorDiv.innerHTML = `
-      <h3 style="color: #ff6b6b; margin: 0 0 12px 0;">⚠️ Initialization Failed</h3>
-      <p style="margin: 0 0 16px 0; color: #ccc;">
+      <h3 style="color: var(--alias-ff6b6b); margin: 0 0 12px 0;">⚠️ Initialization Failed</h3>
+      <p style="margin: 0 0 16px 0; color: var(--neutral-700);">
         The platform failed to initialize. Please refresh the page to try again.
       </p>
       <button onclick="location.reload()" style="
-        background: #00ff88;
-        color: #000;
+        background: var(--success);
+        color: var(--black);
         border: none;
         padding: 8px 16px;
         border-radius: 4px;

@@ -221,10 +221,10 @@ class LiveVisualEditor {
             right: 1rem;
             background: rgba(26, 26, 26, 0.95);
             backdrop-filter: blur(12px);
-            border: 1px solid #333;
+            border: 1px solid var(--neutral-300);
             border-radius: 0.75rem;
             padding: 0.75rem;
-            color: #fff;
+            color: var(--white);
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 0.875rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -246,10 +246,10 @@ class LiveVisualEditor {
             overflow-y: auto;
             background: rgba(26, 26, 26, 0.95);
             backdrop-filter: blur(12px);
-            border: 1px solid #333;
+            border: 1px solid var(--neutral-300);
             border-radius: 0.75rem;
             padding: 1rem;
-            color: #fff;
+            color: var(--white);
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 0.875rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -289,8 +289,8 @@ class LiveVisualEditor {
         buttons.forEach(btn => {
             btn.style.cssText = `
                 background: transparent;
-                border: 1px solid #444;
-                color: #fff;
+                border: 1px solid var(--alias-444);
+                color: var(--white);
                 padding: 0.5rem 0.75rem;
                 border-radius: 0.375rem;
                 cursor: pointer;
@@ -299,15 +299,15 @@ class LiveVisualEditor {
             `;
             
             btn.addEventListener('mouseenter', () => {
-                btn.style.background = '#00ff88';
-                btn.style.color = '#000';
-                btn.style.borderColor = '#00ff88';
+                btn.style.background = 'var(--success)';
+                btn.style.color = 'var(--black)';
+                btn.style.borderColor = 'var(--success)';
             });
             
             btn.addEventListener('mouseleave', () => {
                 btn.style.background = 'transparent';
-                btn.style.color = '#fff';
-                btn.style.borderColor = '#444';
+                btn.style.color = 'var(--white)';
+                btn.style.borderColor = 'var(--alias-444)';
             });
             
             btn.addEventListener('click', (e) => {
@@ -356,9 +356,9 @@ class LiveVisualEditor {
         const toggleBtn = this.toolbar.querySelector('[data-action="toggle"]');
         if (toggleBtn) {
             toggleBtn.textContent = '🔒 Lock';
-            toggleBtn.style.background = '#00ff88';
-            toggleBtn.style.color = '#000';
-            toggleBtn.style.borderColor = '#00ff88';
+            toggleBtn.style.background = 'var(--success)';
+            toggleBtn.style.color = 'var(--black)';
+            toggleBtn.style.borderColor = 'var(--success)';
         }
         
         // Make elements selectable
@@ -382,8 +382,8 @@ class LiveVisualEditor {
         if (toggleBtn) {
             toggleBtn.textContent = '✏️ Edit';
             toggleBtn.style.background = 'transparent';
-            toggleBtn.style.color = '#fff';
-            toggleBtn.style.borderColor = '#444';
+            toggleBtn.style.color = 'var(--white)';
+            toggleBtn.style.borderColor = 'var(--alias-444)';
         }
         
         // Deselect current element
@@ -470,7 +470,7 @@ class LiveVisualEditor {
         this.selectedElement = element;
         
         // Visual selection indicator
-        element.style.outline = '2px solid #00ff88';
+        element.style.outline = '2px solid var(--success)';
         element.style.outlineOffset = '2px';
         element.setAttribute('data-editor-selected', 'true');
         
@@ -497,18 +497,18 @@ class LiveVisualEditor {
         
         this.propertyPanel.innerHTML = `
             <div class="property-header" style="
-                border-bottom: 1px solid #333;
+                border-bottom: 1px solid var(--neutral-300);
                 padding-bottom: 0.75rem;
                 margin-bottom: 0.75rem;
             ">
                 <h3 style="
-                    color: #00ff88;
+                    color: var(--success);
                     font-size: 1rem;
                     margin: 0 0 0.25rem 0;
                     font-weight: 600;
                 ">Element Properties</h3>
                 <div style="
-                    color: #999;
+                    color: var(--neutral-600);
                     font-size: 0.75rem;
                     font-family: monospace;
                 ">${element.tagName.toLowerCase()}${element.className ? '.' + element.className.split(' ').join('.') : ''}</div>
@@ -556,7 +556,7 @@ class LiveVisualEditor {
         return sections.map(section => `
             <div class="property-section" style="margin-bottom: 1.5rem;">
                 <h4 style="
-                    color: #ccc;
+                    color: var(--neutral-700);
                     font-size: 0.8125rem;
                     margin: 0 0 0.75rem 0;
                     font-weight: 500;
@@ -605,7 +605,7 @@ class LiveVisualEditor {
             <div class="property-control" style="margin-bottom: 0.75rem;">
                 <label style="
                     display: block;
-                    color: #ccc;
+                    color: var(--neutral-700);
                     font-size: 0.75rem;
                     margin-bottom: 0.25rem;
                     text-transform: capitalize;
@@ -617,7 +617,7 @@ class LiveVisualEditor {
                            max="${config.max || 100}"
                            step="${config.step || 1}"
                            value="${numericValue}"
-                           style="flex: 1; accent-color: #00ff88;">
+                           style="flex: 1; accent-color: var(--success);">
                     <input type="number"
                            data-property="${property}"
                            data-input-type="number"
@@ -627,14 +627,14 @@ class LiveVisualEditor {
                            value="${numericValue}"
                            style="
                                width: 4rem;
-                               background: #333;
-                               border: 1px solid #555;
-                               color: #fff;
+                               background: var(--neutral-300);
+                               border: 1px solid var(--alias-555);
+                               color: var(--white);
                                padding: 0.25rem;
                                border-radius: 0.25rem;
                                font-size: 0.75rem;
                            ">
-                    <span style="color: #999; font-size: 0.75rem;">${config.unit || ''}</span>
+                    <span style="color: var(--neutral-600); font-size: 0.75rem;">${config.unit || ''}</span>
                 </div>
             </div>
         `;
@@ -647,7 +647,7 @@ class LiveVisualEditor {
             <div class="property-control" style="margin-bottom: 0.75rem;">
                 <label style="
                     display: block;
-                    color: #ccc;
+                    color: var(--neutral-700);
                     font-size: 0.75rem;
                     margin-bottom: 0.25rem;
                     text-transform: capitalize;
@@ -658,21 +658,21 @@ class LiveVisualEditor {
                        max="${config.max || 10}"
                        step="${config.step || 0.1}"
                        value="${numericValue}"
-                       style="width: 100%; accent-color: #00ff88;">
-                <div style="color: #999; font-size: 0.75rem; text-align: center;">${numericValue}</div>
+                       style="width: 100%; accent-color: var(--success);">
+                <div style="color: var(--neutral-600); font-size: 0.75rem; text-align: center;">${numericValue}</div>
             </div>
         `;
     }
 
     generateColorControl(property, currentValue, config) {
         // Convert RGB to hex if needed
-        const hexValue = this.rgbToHex(currentValue) || '#000000';
+        const hexValue = this.rgbToHex(currentValue) || 'var(--black)';
         
         return `
             <div class="property-control" style="margin-bottom: 0.75rem;">
                 <label style="
                     display: block;
-                    color: #ccc;
+                    color: var(--neutral-700);
                     font-size: 0.75rem;
                     margin-bottom: 0.25rem;
                     text-transform: capitalize;
@@ -684,7 +684,7 @@ class LiveVisualEditor {
                            style="
                                width: 2rem;
                                height: 2rem;
-                               border: 1px solid #555;
+                               border: 1px solid var(--alias-555);
                                border-radius: 0.25rem;
                                background: none;
                            ">
@@ -692,12 +692,12 @@ class LiveVisualEditor {
                            data-property="${property}"
                            data-input-type="text"
                            value="${hexValue}"
-                           placeholder="#000000"
+                           placeholder="var(--black)"
                            style="
                                flex: 1;
-                               background: #333;
-                               border: 1px solid #555;
-                               color: #fff;
+                               background: var(--neutral-300);
+                               border: 1px solid var(--alias-555);
+                               color: var(--white);
                                padding: 0.25rem;
                                border-radius: 0.25rem;
                                font-size: 0.75rem;
@@ -713,7 +713,7 @@ class LiveVisualEditor {
             <div class="property-control" style="margin-bottom: 0.75rem;">
                 <label style="
                     display: block;
-                    color: #ccc;
+                    color: var(--neutral-700);
                     font-size: 0.75rem;
                     margin-bottom: 0.25rem;
                     text-transform: capitalize;
@@ -721,9 +721,9 @@ class LiveVisualEditor {
                 <select data-property="${property}"
                         style="
                             width: 100%;
-                            background: #333;
-                            border: 1px solid #555;
-                            color: #fff;
+                            background: var(--neutral-300);
+                            border: 1px solid var(--alias-555);
+                            color: var(--white);
                             padding: 0.5rem;
                             border-radius: 0.25rem;
                             font-size: 0.75rem;
@@ -743,7 +743,7 @@ class LiveVisualEditor {
             <div class="property-control" style="margin-bottom: 0.75rem;">
                 <label style="
                     display: block;
-                    color: #ccc;
+                    color: var(--neutral-700);
                     font-size: 0.75rem;
                     margin-bottom: 0.25rem;
                     text-transform: capitalize;
@@ -753,9 +753,9 @@ class LiveVisualEditor {
                        value="${currentValue}"
                        style="
                            width: 100%;
-                           background: #333;
-                           border: 1px solid #555;
-                           color: #fff;
+                           background: var(--neutral-300);
+                           border: 1px solid var(--alias-555);
+                           color: var(--white);
                            padding: 0.5rem;
                            border-radius: 0.25rem;
                            font-size: 0.75rem;
@@ -968,10 +968,10 @@ class LiveVisualEditor {
     showHelp() {
         const helpContent = `
             <div style="max-width: 500px;">
-                <h3 style="color: #00ff88; margin-bottom: 1rem;">Live Visual Editor Help</h3>
+                <h3 style="color: var(--success); margin-bottom: 1rem;">Live Visual Editor Help</h3>
                 
-                <h4 style="color: #ccc; margin: 1rem 0 0.5rem 0;">Keyboard Shortcuts:</h4>
-                <ul style="margin: 0; padding-left: 1rem; color: #999; font-size: 0.875rem;">
+                <h4 style="color: var(--neutral-700); margin: 1rem 0 0.5rem 0;">Keyboard Shortcuts:</h4>
+                <ul style="margin: 0; padding-left: 1rem; color: var(--neutral-600); font-size: 0.875rem;">
                     <li><strong>Ctrl+E</strong> - Toggle editor on/off</li>
                     <li><strong>Escape</strong> - Deselect element</li>
                     <li><strong>Ctrl+Z</strong> - Undo changes</li>
@@ -982,8 +982,8 @@ class LiveVisualEditor {
                     <li><strong>Ctrl+Shift+R</strong> - Reset element styles</li>
                 </ul>
                 
-                <h4 style="color: #ccc; margin: 1rem 0 0.5rem 0;">How to Use:</h4>
-                <ol style="margin: 0; padding-left: 1rem; color: #999; font-size: 0.875rem;">
+                <h4 style="color: var(--neutral-700); margin: 1rem 0 0.5rem 0;">How to Use:</h4>
+                <ol style="margin: 0; padding-left: 1rem; color: var(--neutral-600); font-size: 0.875rem;">
                     <li>Click the ✏️ Edit button to activate</li>
                     <li>Click any element to select it</li>
                     <li>Use the property panel to make changes</li>
@@ -1014,11 +1014,11 @@ class LiveVisualEditor {
         
         modal.innerHTML = `
             <div style="
-                background: #1a1a1a;
-                border: 1px solid #333;
+                background: var(--neutral-100);
+                border: 1px solid var(--neutral-300);
                 border-radius: 0.75rem;
                 padding: 2rem;
-                color: #fff;
+                color: var(--white);
                 font-family: -apple-system, BlinkMacSystemFont, sans-serif;
                 max-width: 600px;
                 width: 100%;
@@ -1032,11 +1032,11 @@ class LiveVisualEditor {
                     align-items: flex-start;
                     margin-bottom: 1.5rem;
                 ">
-                    <h2 style="margin: 0; color: #00ff88;">${title}</h2>
+                    <h2 style="margin: 0; color: var(--success);">${title}</h2>
                     <button onclick="this.closest('[style*=fixed]').remove()" style="
                         background: none;
                         border: none;
-                        color: #999;
+                        color: var(--neutral-600);
                         font-size: 1.5rem;
                         cursor: pointer;
                         padding: 0;
@@ -1064,8 +1064,8 @@ class LiveVisualEditor {
             bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
-            background: ${type === 'success' ? '#059669' : type === 'error' ? '#dc2626' : '#374151'};
-            color: #fff;
+            background: ${type === 'success' ? 'var(--alias-059669)' : type === 'error' ? 'var(--error)' : 'var(--alias-374151)'};
+            color: var(--white);
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -1108,7 +1108,7 @@ class LiveVisualEditor {
                 }
                 
                 [data-editor-selected] {
-                    outline: 2px solid #00ff88 !important;
+                    outline: 2px solid var(--success) !important;
                     outline-offset: 2px !important;
                 }
             `;
@@ -1124,14 +1124,14 @@ class LiveVisualEditor {
     }
 
     rgbToHex(rgb) {
-        if (!rgb || rgb === 'transparent' || rgb === 'inherit') return '#000000';
+        if (!rgb || rgb === 'transparent' || rgb === 'inherit') return 'var(--black)';
         
         // Handle hex colors
         if (rgb.startsWith('#')) return rgb;
         
         // Handle rgb/rgba colors
         const match = rgb.match(/rgba?\(([^)]+)\)/);
-        if (!match) return '#000000';
+        if (!match) return 'var(--black)';
         
         const values = match[1].split(',').map(v => parseInt(v.trim()));
         

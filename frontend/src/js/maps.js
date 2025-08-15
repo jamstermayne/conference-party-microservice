@@ -636,15 +636,15 @@ class GamescomMapsApp {
         if (isDark) {
             // Dark mode map styles
             return [
-                { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
-                { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
-                { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
-                { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#38414e' }] },
-                { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#212a37' }] },
-                { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#9ca5b3' }] },
-                { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#17263c' }] },
-                { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#515c6d' }] },
-                { featureType: 'water', elementType: 'labels.text.stroke', stylers: [{ color: '#17263c' }] }
+                { elementType: 'geometry', stylers: [{ color: 'var(--neutral-200)' }] },
+                { elementType: 'labels.text.stroke', stylers: [{ color: 'var(--neutral-200)' }] },
+                { elementType: 'labels.text.fill', stylers: [{ color: 'var(--alias-746855)' }] },
+                { featureType: 'road', elementType: 'geometry', stylers: [{ color: 'var(--alias-38414e)' }] },
+                { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: 'var(--neutral-200)' }] },
+                { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: 'var(--alias-9ca5b3)' }] },
+                { featureType: 'water', elementType: 'geometry', stylers: [{ color: 'var(--neutral-100)' }] },
+                { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: 'var(--alias-515c6d)' }] },
+                { featureType: 'water', elementType: 'labels.text.stroke', stylers: [{ color: 'var(--neutral-100)' }] }
             ];
         }
         

@@ -1,7 +1,7 @@
 :root{
-  --v-bg:#0b0f1a; --v-panel:#0f1523; --v-border:#232a41;
-  --v-text:#e9eeff; --v-muted:var(--text-muted);
-  --v-p1:#8c7aff; --v-p2:#5b47ff; --v-hover:rgba(111,128,255,.08);
+  --v-bg:var(--alias-0b0f1a); --v-panel:var(--alias-0f1523); --v-border:var(--neutral-200);
+  --v-text:var(--alias-e9eeff); --v-muted:var(--text-muted);
+  --v-p1:var(--alias-8c7aff); --v-p2:var(--alias-5b47ff); --v-hover:rgba(111,128,255,.08);
   /* Use --r-xl from spacing-tokens.css instead of --v-radius */
 }
 html,body{background:var(--v-bg);color:var(--v-text)}
@@ -10,29 +10,29 @@ html,body{background:var(--v-bg);color:var(--v-text)}
  /* Sidebar active highlight */
 [data-route].active,
 .nav-item.active{
-  background:linear-gradient(135deg,#1a2340 0%,#14213d 100%);
-  border:1px solid #2b3558; color:#e9eeff !important;
+  background:linear-gradient(135deg,var(--neutral-100) 0%,var(--neutral-100) 100%);
+  border:1px solid var(--neutral-200); color:var(--alias-e9eeff) !important;
   border-radius:14px;
 }
 
  /* Unified buttons: affects .vbtn, .btn, and plain <button> */
 .vbtn,.btn,button{
   display:inline-flex;align-items:center;gap:8px;
-  padding:8px var(--s-3);border-radius: var(--r-lg);border:1px solid #2b2f45;
-  background:#202a44;color:#dee9ff;font-weight:700;cursor:pointer;
+  padding:8px var(--s-3);border-radius: var(--r-lg);border:1px solid var(--neutral-300);
+  background:var(--neutral-200);color:var(--alias-dee9ff);font-weight:700;cursor:pointer;
 }
 .vbtn.primary,.btn.primary,button.primary{
   background:linear-gradient(180deg,var(--v-p1) 0%,var(--v-p2) 100%);
   border:0;color:var(--text-primary);
 }
-.vbtn:hover,.btn:hover,button:hover{background:#1a2238;border-color:#394267}
+.vbtn:hover,.btn:hover,button:hover{background:var(--neutral-100);border-color:var(--alias-394267)}
 .vbtn.primary:hover,.btn.primary:hover,button.primary:hover{
   filter:brightness(1.05);
 }
 
 /* Kill white/grey legacy button skins that slipped in */
 button:where(.secondary,.ghost), .btn:where(.secondary,.ghost){
-  background:transparent;border:1px solid #2b2f45;color:#cfe0ff;
+  background:transparent;border:1px solid var(--neutral-300);color:var(--alias-cfe0ff);
 }
 
 /* Calendar rows tall enough to fit hero cards */

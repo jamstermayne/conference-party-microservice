@@ -163,13 +163,13 @@ function geocodeVenue(venue) {
 function createInfoContent(party) {
   return `
     <div style="font-family: system-ui; max-width: 250px;">
-      <h3 style="margin: 0 0 8px; color: #1a1a1a;">${party.title || 'Event'}</h3>
-      <p style="margin: 4px 0; color: #666;">
+      <h3 style="margin: 0 0 8px; color: var(--neutral-100);">${party.title || 'Event'}</h3>
+      <p style="margin: 4px 0; color: var(--neutral-500);">
         📍 ${party.venue || 'TBA'}<br>
         📅 ${party.date || ''} ${party.time || ''}<br>
         ${party.price ? `💰 ${party.price}` : ''}
       </p>
-      ${party.description ? `<p style="margin: 8px 0 0; color: #666; font-size: 13px;">${party.description}</p>` : ''}
+      ${party.description ? `<p style="margin: 8px 0 0; color: var(--neutral-500); font-size: 13px;">${party.description}</p>` : ''}
     </div>
   `;
 }
@@ -204,8 +204,8 @@ async function initializeMap(container, parties) {
     markerContent.style.cssText = `
       width: 24px;
       height: 24px;
-      background: #8a6bff;
-      border: 2px solid #ffffff;
+      background: var(--brand-400);
+      border: 2px solid var(--white);
       border-radius: 50%;
       cursor: pointer;
       transition: transform 0.2s;
@@ -270,10 +270,10 @@ function handleMapFocus(map, markers, infoWindow) {
         
         // Highlight the marker
         if (targetMarker.content) {
-          targetMarker.content.style.background = '#ef4444'; // Red for focused
+          targetMarker.content.style.background = 'var(--error)'; // Red for focused
           targetMarker.content.style.width = '32px';
           targetMarker.content.style.height = '32px';
-          targetMarker.content.style.border = '3px solid #ffffff';
+          targetMarker.content.style.border = '3px solid var(--white)';
           targetMarker.content.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.6)';
         }
         
@@ -299,8 +299,8 @@ function handleMapFocus(map, markers, infoWindow) {
       markerContent.style.cssText = `
         width: 24px;
         height: 24px;
-        background: #ef4444;
-        border: 2px solid #ffffff;
+        background: var(--error);
+        border: 2px solid var(--white);
         border-radius: 50%;
         box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       `;
@@ -325,7 +325,7 @@ function handleMapFocus(map, markers, infoWindow) {
         
         // Highlight the marker
         if (targetMarker.content) {
-          targetMarker.content.style.background = '#ef4444';
+          targetMarker.content.style.background = 'var(--error)';
           targetMarker.content.style.width = '32px';
           targetMarker.content.style.height = '32px';
         }
@@ -468,7 +468,7 @@ export async function renderMap(mount) {
         position: relative;
         width: 100%;
         height: 100vh;
-        background: #0b0f17;
+        background: var(--alias-0b0f17);
       }
       
       .map-loading {
@@ -476,7 +476,7 @@ export async function renderMap(mount) {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        color: #9aa7bf;
+        color: var(--text-muted);
         font-size: 16px;
       }
       
@@ -486,7 +486,7 @@ export async function renderMap(mount) {
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
-        color: #e8ecff;
+        color: var(--alias-e8ecff);
       }
       
       .map-error .error-icon {
@@ -496,17 +496,17 @@ export async function renderMap(mount) {
       
       .map-error h3 {
         margin: 0 0 8px;
-        color: #e8ecff;
+        color: var(--alias-e8ecff);
       }
       
       .map-error p {
         margin: 0 0 16px;
-        color: #9aa7bf;
+        color: var(--text-muted);
       }
       
       .btn-retry {
         padding: 8px 24px;
-        background: linear-gradient(135deg, #6b8cff, #8a6bff);
+        background: linear-gradient(135deg, var(--brand-500), var(--brand-400));
         border: none;
         border-radius: 8px;
         color: white;
@@ -537,7 +537,7 @@ export async function renderMap(mount) {
         display: flex;
         align-items: center;
         gap: 8px;
-        color: #e8ecff;
+        color: var(--alias-e8ecff);
         font-size: 14px;
         cursor: pointer;
       }

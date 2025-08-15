@@ -92,12 +92,12 @@ class AnalyticsPrivacy {
             left: 0; 
             right: 0; 
             z-index: 10000;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            background: linear-gradient(135deg, var(--neutral-100) 0%, var(--neutral-200) 100%);
             color: white; 
             padding: 20px;
             box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
             backdrop-filter: blur(10px);
-            border-top: 1px solid #333;
+            border-top: 1px solid var(--neutral-300);
             animation: slideUp 0.3s ease-out;
         `;
         
@@ -129,27 +129,27 @@ class AnalyticsPrivacy {
                 <div style="flex: 1; min-width: 300px;">
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
                         <span style="font-size: 24px;">🍪</span>
-                        <strong style="font-size: 18px; color: #ff6b6b;">Privacy & Analytics</strong>
+                        <strong style="font-size: 18px; color: var(--alias-ff6b6b);">Privacy & Analytics</strong>
                     </div>
-                    <p style="margin: 0; line-height: 1.5; color: #ccc;">
+                    <p style="margin: 0; line-height: 1.5; color: var(--neutral-700);">
                         We use privacy-friendly analytics to improve your experience at Gamescom 2025. 
                         No personal data is stored or shared.
                         <br>
                         <a href="#privacy-details" onclick="window.analyticsPrivacy.showPrivacyDetails()" 
-                           style="color: #ff6b6b; text-decoration: underline; font-size: 14px;">
+                           style="color: var(--alias-ff6b6b); text-decoration: underline; font-size: 14px;">
                             Learn more about our privacy practices
                         </a>
                     </p>
                 </div>
                 <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                     <button id="consent-accept" class="consent-btn" style="
-                        background: #ff6b6b; 
+                        background: var(--alias-ff6b6b); 
                         color: white;
                     ">✅ Accept Analytics</button>
                     <button id="consent-decline" class="consent-btn" style="
                         background: transparent; 
                         color: white; 
-                        border: 2px solid #666;
+                        border: 2px solid var(--neutral-500);
                     ">❌ Decline</button>
                 </div>
             </div>
@@ -326,7 +326,7 @@ class AnalyticsPrivacy {
                 max-width: 600px; max-height: 80vh; overflow-y: auto;
                 box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             ">
-                <h2 style="color: #333; margin-top: 0;">🔒 Privacy & Analytics</h2>
+                <h2 style="color: var(--neutral-300); margin-top: 0;">🔒 Privacy & Analytics</h2>
                 
                 <h3>What We Track:</h3>
                 <ul>
@@ -355,7 +355,7 @@ class AnalyticsPrivacy {
                 
                 <div style="text-align: center; margin-top: 30px;">
                     <button onclick="this.closest('[role=modal]').remove()" style="
-                        background: #ff6b6b; color: white; border: none; padding: 12px 24px;
+                        background: var(--alias-ff6b6b); color: white; border: none; padding: 12px 24px;
                         border-radius: 6px; cursor: pointer; font-weight: 600;
                     ">Got it!</button>
                 </div>

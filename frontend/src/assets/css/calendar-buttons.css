@@ -34,11 +34,11 @@
 }
 
 .btn.success {
-  background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+  background: linear-gradient(135deg, var(--neutral-200), var(--neutral-200)) !important;
   color: white;
 }
 
 .btn.error {
-  background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+  background: linear-gradient(135deg, var(--alias-e74c3c), var(--alias-c0392b)) !important;
   color: white;
 }

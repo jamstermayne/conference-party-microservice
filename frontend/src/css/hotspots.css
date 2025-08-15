@@ -20,5 +20,5 @@
 .hs-item:not(:last-child){ border-bottom:1px dashed var(--border,var(--border-primary)); }
 .hs-rank { width:24px; height:24px; border-radius:6px; background:rgba(255,255,255,.06); display:grid; place-items:center; font-weight:700; }
 .hs-bar { flex:1; height:8px; border-radius:6px; background:rgba(255,255,255,.06); overflow:hidden; }
-.hs-fill { height:100%; background: linear-gradient(90deg,var(--color-primary-dark),#2c2f7a); width:0%; }
+.hs-fill { height:100%; background: linear-gradient(90deg,var(--color-primary-dark),var(--neutral-200)); width:0%; }
 .hs-name { color: var(--text-primary,var(--text-primary)); min-width:180px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }

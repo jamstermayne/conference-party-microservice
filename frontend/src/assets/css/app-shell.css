@@ -40,8 +40,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--s-4);
-  background: var(--bg-secondary, #21252b);
-  border-bottom: 1px solid var(--border, #383d45);
+  background: var(--bg-secondary, var(--neutral-200));
+  border-bottom: 1px solid var(--border, var(--alias-383d45));
 }
 
 /* Hide menu button on desktop, show on mobile */

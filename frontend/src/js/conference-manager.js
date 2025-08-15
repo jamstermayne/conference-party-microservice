@@ -21,7 +21,7 @@ class ConferenceManager {
                 focus: ['gaming', 'consumer', 'publishing'],
                 estimatedAttendees: 370000,
                 badge: '🎮',
-                color: '#7c3aed'
+                color: 'var(--alias-7c3aed)'
             },
             'gdc-2026': {
                 id: 'gdc-2026',
@@ -36,7 +36,7 @@ class ConferenceManager {
                 focus: ['development', 'technical', 'business'],
                 estimatedAttendees: 28000,
                 badge: '🛠️',
-                color: '#10b981'
+                color: 'var(--success)'
             },
             'e3-2026': {
                 id: 'e3-2026',
@@ -51,7 +51,7 @@ class ConferenceManager {
                 focus: ['publishing', 'media', 'consumer'],
                 estimatedAttendees: 65000,
                 badge: '🎯',
-                color: '#f59e0b'
+                color: 'var(--warning)'
             },
             'pax-west-2025': {
                 id: 'pax-west-2025',
@@ -66,7 +66,7 @@ class ConferenceManager {
                 focus: ['indie', 'community', 'consumer'],
                 estimatedAttendees: 90000,
                 badge: '🎪',
-                color: '#ef4444'
+                color: 'var(--error)'
             }
         };
         

@@ -48,7 +48,7 @@
   
   /* Accent colors for UI elements */
   --accent-primary: var(--color-primary);
-  --accent-200: #8ba4ff;
+  --accent-200: var(--alias-8ba4ff);
 }
 
 /* Utility classes for quick application */

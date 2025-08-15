@@ -42,7 +42,7 @@ for (const [m, key, label] of checks) {
     console.error('[BOOT] Missing export:', e?.message || e);
     const live = document.getElementById('main') || document.body;
     const warn = document.createElement('div');
-    warn.style.cssText='position:fixed;bottom:16px;left:16px;background:#2a2438;color:#fff;padding:12px 16px;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.4);z-index:9999';
+    warn.style.cssText='position:fixed;bottom:16px;left:16px;background:var(--neutral-200);color:var(--white);padding:12px 16px;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.4);z-index:9999';
     warn.textContent = `Unable to start: ${label} not found. Check module exports.`;
     live.appendChild(warn);
     throw e;

@@ -40,7 +40,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
 }
 .cp-title { 
-  color: #e8e6e3; 
+  color: var(--alias-e8e6e3); 
   font-size: 18px; 
   font-weight: 700; 
   margin: 0;
@@ -50,14 +50,14 @@
   overflow: auto; 
 }
 .cp-lead { 
-  color: #b3b1ad; 
+  color: var(--alias-b3b1ad); 
   margin: 0 0 var(--s-3); 
 }
 .cp-benefits { 
   list-style: none; 
   padding: 0; 
   margin: 0 0 var(--s-4); 
-  color: #b3b1ad; 
+  color: var(--alias-b3b1ad); 
 }
 .cp-benefits li {
   margin-bottom: var(--s-2);
@@ -70,7 +70,7 @@
   margin-bottom: var(--s-3);
 }
 .cp-scope-head { 
-  color: #e8e6e3; 
+  color: var(--alias-e8e6e3); 
   font-weight: 600; 
   margin-bottom: var(--s-2); 
 }
@@ -78,17 +78,17 @@
   list-style: none; 
   padding: 0; 
   margin: 0; 
-  color: #b3b1ad; 
+  color: var(--alias-b3b1ad); 
   display: grid; 
   gap: var(--s-1-5); 
 }
 .cp-disclosure { 
   margin-top: var(--s-3-5); 
   font-size: var(--s-3); 
-  color: #8c8a85;
+  color: var(--alias-8c8a85);
 }
 .cp-disclosure strong {
-  color: #b3b1ad;
+  color: var(--alias-b3b1ad);
 }
 
 .cp-foot { 
@@ -112,18 +112,18 @@
 
 .cp-sheet .btn-ghost {
   background: transparent;
-  color: #b3b1ad;
+  color: var(--alias-b3b1ad);
 }
 .cp-sheet .btn-ghost:hover {
   background: rgba(255, 255, 255, 0.05);
 }
 
 .cp-sheet .btn-primary {
-  background: #007a5a;
+  background: var(--alias-007a5a);
   color: white;
 }
 .cp-sheet .btn-primary:hover:not(:disabled) {
-  background: #00664a;
+  background: var(--alias-00664a);
 }
 .cp-sheet .btn-primary:disabled {
   opacity: 0.6;
@@ -153,7 +153,7 @@
 
 .cp-sheet .badge-secondary {
   background: rgba(255, 255, 255, 0.1);
-  color: #b3b1ad;
+  color: var(--alias-b3b1ad);
 }
 
 /* Motion respect */
