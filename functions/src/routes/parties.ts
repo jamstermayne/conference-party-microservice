@@ -44,23 +44,28 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
     
     // Fallback: Try to fetch live data directly
     console.log("[parties] No Firestore data, fetching live");
-    const liveParties = await fetchLive();
     
-    if (liveParties.length > 0) {
-      // Update cache
-      cachedParties = liveParties;
-      cacheTimestamp = Date.now();
+    try {
+      const liveParties = await fetchLive();
       
-      // Trigger background ingestion for next time
-      runIngest().catch(err => 
-        console.error("[parties] Background ingest failed:", err)
-      );
-      
-      return res.json({
-        source: "live",
-        count: liveParties.length,
-        data: liveParties
-      });
+      if (liveParties.length > 0) {
+        // Update cache
+        cachedParties = liveParties;
+        cacheTimestamp = Date.now();
+        
+        // Trigger background ingestion for next time
+        runIngest().catch(err => 
+          console.error("[parties] Background ingest failed:", err)
+        );
+        
+        return res.json({
+          source: "live",
+          count: liveParties.length,
+          data: liveParties
+        });
+      }
+    } catch (fetchError) {
+      console.log("[parties] Live fetch failed, falling back to demo data:", fetchError);
     }
     
     // Fallback to demo data
