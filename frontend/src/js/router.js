@@ -18,6 +18,13 @@ async function go(){
   const main = document.getElementById('main');
   if (main) main.innerHTML = '';
 
+  // Update sidebar data-subnav attribute for route-scoped subnav
+  const sidebar = document.getElementById('sidebar') || document.querySelector('.v-sidenav');
+  if (sidebar) {
+    // Only show subnav on map route
+    sidebar.setAttribute('data-subnav', r === 'map' ? 'map' : '');
+  }
+
   switch(r){
     case 'parties':   await (await import('./events-controller.js?v=b031')).renderParties(main); break;
     case 'calendar':  await (await import('./views/calendar-providers.js?v=b031')).renderCalendar(main); break;
