@@ -25,9 +25,9 @@ body {
 .panel { 
   background:var(--surface); 
   border:1px solid var(--border); 
-  border-radius:12px; 
-  margin:16px; 
-  padding:12px; 
+  border-radius:var(--r-lg); 
+  margin:var(--s-4); 
+  padding:var(--s-3); 
 }
 
 .panel-header { 
@@ -39,8 +39,8 @@ body {
 /* Buttons */
 .btn { 
   cursor:pointer; 
-  border-radius:8px; 
-  padding:10px 12px; 
+  border-radius:var(--r-md); 
+  padding:var(--s-3) var(--s-3); 
   border:1px solid #3a3a45; 
   background:#2a2a35; 
   color:#fff; 

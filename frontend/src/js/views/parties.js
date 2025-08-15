@@ -1,3 +1,5 @@
+import { equalizeCards, observeEqualize } from '../equalize-cards.js';
+
 const EVENTS = [
   { id:'m2m',  title:'MeetToMatch The Cologne Edition 2025', where:'Kölnmesse Confex', when:'Fri Aug 22 — 09:00 – 18:00', badges:['live'], price:'From £127.04' },
   { id:'mix',  title:'Marriott Rooftop Mixer', where:'Marriott Hotel', when:'Fri Aug 22 — 20:00 – 23:30', badges:['free','live'], price:'Free' },
@@ -20,5 +22,11 @@ function card(e){
 }
 export async function renderParties(m){
   m.innerHTML = `<h2 style="margin:0 0 14px">Recommended events</h2><div class="vstack">${EVENTS.map(card).join('')}</div>`;
+  
+  // Equalize card heights after render
+  equalizeCards('.vcard, .card');
+  
+  // Set up observer for dynamic changes (only once per view)
+  observeEqualize('.vcard, .card');
 }
 export default { renderParties };

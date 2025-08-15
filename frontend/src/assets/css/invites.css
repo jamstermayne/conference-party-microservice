@@ -3,7 +3,8 @@
 :root {
   --bg-primary:#0f0f12; --bg-secondary:#15151a; --surface:#1a1a1f; --border:#2a2a35;
   --text-primary:#fff; --text-secondary:#a5a7ad; --accent-primary:#6b7bff; --accent-success:#22c55e;
-  --r-lg:16px; --t-fast:150ms; --ease-out:cubic-bezier(0,0,0.2,1);
+  /* Use --r-lg from spacing-tokens.css instead of local definition */
+  --t-fast:150ms; --ease-out:cubic-bezier(0,0,0.2,1);
 }
 
 .inv-wrap { display:grid; gap:16px; }

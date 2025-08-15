@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Conference Party App</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/settings.css">
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  
+  <!-- Auth helper -->
+  <script src="/js/auth.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Settings</h1>
+    </header>
+
+    <main>
+      <!-- Profile Section -->
+      <section id="profile">
+        <h3>Profile</h3>
+        <div class="card">
+          <div class="row">
+            <label>Name</label>
+            <input type="text" id="profile-name" placeholder="Your name" />
+          </div>
+          <div class="row">
+            <label>Email</label>
+            <input type="email" id="profile-email" placeholder="your@email.com" />
+          </div>
+          <button id="save-profile">Save Profile</button>
+        </div>
+      </section>
+
+      <!-- Integrations Section -->
+      <section id="integrations">
+        <h3>Integrations</h3>
+
+        <!-- MeetToMatch Integration -->
+        <section class="card" id="mtm-card" data-role="mtm">
+          <header class="row between">
+            <h3>MeetToMatch</h3>
+            <span id="mtm-status-badge" class="badge">Checking…</span>
+          </header>
+
+          <div class="stack">
+            <!-- Connect -->
+            <label>Private ICS URL (from your MeetToMatch account)</label>
+            <div class="row">
+              <input id="mtm-ics" type="password" placeholder="https://app.meettomatch.com/.../private.ics" class="grow">
+              <button id="mtm-connect" class="primary">Connect</button>
+            </div>
+            <small class="muted">
+              Only the server sees this URL. It's stored encrypted and never exposed in the browser.
+            </small>
+
+            <!-- Manual sync -->
+            <div class="row">
+              <button id="mtm-sync-now">Sync now</button>
+              <span id="mtm-last-sync" class="muted"></span>
+            </div>
+
+            <hr />
+
+            <!-- Google mirror -->
+            <div class="row">
+              <label class="row">
+                <input type="checkbox" id="mtm-mirror-toggle">
+                <span>Mirror MeetToMatch events to Google Calendar</span>
+              </label>
+            </div>
+            <div class="row">
+              <label style="min-width:160px">Google Calendar ID</label>
+              <input id="mtm-cal-id" placeholder="primary" value="primary">
+            </div>
+            <div class="row">
+              <button id="mtm-save-mirror">Save mirroring</button>
+            </div>
+
+            <small class="muted" id="mtm-hint">
+              When enabled, new/updated MTM events will be created/updated in your Google Calendar.
+            </small>
+          </div>
+        </section>
+
+        <!-- Google Calendar Integration -->
+        <div class="card">
+          <div class="row">
+            <div>
+              <strong>Google Calendar</strong><br/>
+              <small>Export events to your Google Calendar</small>
+            </div>
+            <div id="gcal-actions">
+              <!-- filled by JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Notifications Section -->
+      <section id="notifications">
+        <h3>Notifications</h3>
+        <div class="card">
+          <div class="row">
+            <label>
+              <input type="checkbox" id="notify-events" />
+              Event reminders
+            </label>
+          </div>
+          <div class="row">
+            <label>
+              <input type="checkbox" id="notify-updates" />
+              App updates
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Privacy Section -->
+      <section id="privacy">
+        <h3>Privacy</h3>
+        <div class="card">
+          <div class="row">
+            <div>
+              <strong>Data Usage</strong><br/>
+              <small>Your calendar data is encrypted and never shared</small>
+            </div>
+          </div>
+          <div class="row">
+            <button id="export-data">Export My Data</button>
+            <button id="delete-account" class="danger">Delete Account</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { initMtmSettings } from '/js/integrations/mtm.js';
+    
+    // Provide getIdToken helper for the MTM module
+    window.getIdToken = {
+      sync: () => {
+        if (window.Auth && window.Auth.getIdToken) {
+          return window.Auth.getIdToken();
+        }
+        return Promise.resolve('');
+      }
+    };
+    
+    // Optional toast helper (falls back to alert if not defined)
+    window.toast = (msg) => {
+      // Create toast element if it doesn't exist
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      
+      // Auto-remove after 3 seconds
+      setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    };
+    
+    // Initialize MTM settings when DOM and Auth are ready
+    window.addEventListener('DOMContentLoaded', async () => {
+      // Wait for Auth to initialize
+      if (window.Auth?.init) {
+        await window.Auth.init();
+      }
+      
+      // Initialize MTM card
+      await initMtmSettings();
+      
+      // Initialize other settings if needed
+      // (You can keep other settings.js functionality or migrate it here)
+    });
+  </script>
+</body>
+</html>

@@ -1,24 +1,24 @@
 :root{
   --v-bg:#0c111b; --v-panel:#0f1625; --v-border:#20263a;
   --v-sheen2:#14213d; --v-text:#eaf0ff; --v-muted:#9aa7bf;
-  --v-radius:16px; --v-pad:14px; --v-shadow:0 10px 40px rgba(18,20,40,.35);
+  /* Use tokens from spacing-tokens.css for radius, padding, shadow */
 }
 .vcard{
-  position:relative; border:1px solid var(--v-border); border-radius:var(--v-radius);
-  padding:var(--v-pad); color:var(--v-text);
+  position:relative; border:1px solid var(--v-border); border-radius:var(--r-xl);
+  padding:var(--s-5); color:var(--v-text);
   background: radial-gradient(1200px 320px at -200px -140px,var(--v-sheen2) 0%,var(--v-panel) 60%);
-  box-shadow: var(--v-shadow);
+  box-shadow: var(--shadow-card);
 }
 .vcard + .vcard{ margin-top:14px }
-.vcard__head{ display:flex; gap:12px; justify-content:space-between; align-items:center; margin-bottom:8px }
+.vcard__head{ display:flex; gap:var(--s-3); justify-content:space-between; align-items:center; margin-bottom:var(--s-2) }
 .vcard__title{ font-weight:800; font-size:18px; line-height:1.15 }
-.vcard__badges{ display:flex; gap:6px; flex-wrap:wrap }
-.vpill{ padding:6px 8px; font-size:12px; border-radius:999px; border:1px solid #29344f; background:#121a2a; color:#cfe0ff }
+.vcard__badges{ display:flex; gap:var(--s-2); flex-wrap:wrap }
+.vpill{ padding:var(--s-2) var(--s-2); font-size:12px; border-radius:var(--r-full); border:1px solid #29344f; background:#121a2a; color:#cfe0ff }
 .vpill.live{ border-color:#184d31; background:#102616; color:#baf5d3 }
 .vpill.free{ border-color:#2a3f6e; background:#101c35; color:#cfe0ff }
-.vmeta{ display:flex; gap:12px; flex-wrap:wrap; color:var(--v-muted); margin:6px 0 10px }
-.vactions{ display:flex; gap:8px }
-.vbtn{ padding:8px 12px; font-weight:700; border-radius:12px; border:1px solid #2b2f45; background:#202a44; color:#dee9ff }
+.vmeta{ display:flex; gap:var(--s-3); flex-wrap:wrap; color:var(--v-muted); margin:var(--s-2) 0 var(--s-3) }
+.vactions{ display:flex; gap:var(--s-2) }
+.vbtn{ padding:var(--s-2) var(--s-3); font-weight:700; border-radius:var(--r-lg); border:1px solid #2b2f45; background:#202a44; color:#dee9ff }
 .vbtn.primary{ background:linear-gradient(180deg,#8c7aff 0%,#5b47ff 100%); border:0; color:#fff }
 
 /* M2M additions (tiny, scoped) */
@@ -29,10 +29,58 @@
 
 /* Modal — lightweight, isolated */
 .vmodal{ position:fixed; inset:0; display:grid; place-items:center; background:rgba(6,10,20,.55); z-index: 9999; }
-.vmodal__panel{ width:min(520px, 92vw); background:#0f1625; border:1px solid #20263a; border-radius:16px; padding:16px; }
-.vmodal__title{ margin:0 0 6px 0; color:#eaf0ff; font-weight:800; }
-.vmodal__desc{ margin:0 0 10px 0; color:#9aa7bf; }
-.vmodal__row{ margin:10px 0; }
-.vmodal__panel input[type="url"]{ width:100%; padding:10px; border-radius:10px; border:1px solid #2b2f45; background:#0b1220; color:#eaf0ff; }
-.vmodal__msg{ margin-top:8px; min-height:18px; font-size:13px; }
-.vmodal__close{ position:absolute; right:18px; top:10px; background:transparent; border:0; color:#9aa7bf; font-size:22px; cursor:pointer }
+.vmodal__panel{ width:min(520px, 92vw); background:#0f1625; border:1px solid #20263a; border-radius:var(--r-xl); padding:var(--s-4); }
+.vmodal__title{ margin:0 0 var(--s-2) 0; color:#eaf0ff; font-weight:800; }
+.vmodal__desc{ margin:0 0 var(--s-3) 0; color:#9aa7bf; }
+.vmodal__row{ margin:var(--s-3) 0; }
+.vmodal__panel input[type="url"]{ width:100%; padding:var(--s-3); border-radius:var(--r-md); border:1px solid #2b2f45; background:#0b1220; color:#eaf0ff; }
+.vmodal__msg{ margin-top:var(--s-2); min-height:18px; font-size:13px; }
+.vmodal__close{ position:absolute; right:var(--s-4); top:var(--s-3); background:transparent; border:0; color:#9aa7bf; font-size:22px; cursor:pointer }
+
+/* === Grid wrapper (keeps your existing class names working) === */
+.cards, .card-grid, .vgrid { 
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--s-6);                                           /* 24px rhythm */
+  align-items:stretch;
+}
+
+.vcard, .card{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  height:var(--card-h, auto);
+  padding: var(--s-5);                                       /* 20px */
+  border-radius: var(--r-xl);                                /* 16px */
+  box-shadow: var(--shadow-card, var(--shadow-3));
+  background: var(--bg-card, #151821);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.vcard:hover{ transform: translateY(-1px); box-shadow: var(--shadow-4); }
+
+/* stretch middle content so all cards equalize naturally */
+.vcard__body, .card__body{
+  flex:1;
+  min-height:0;
+}
+
+.vcard__title{ margin-bottom: var(--s-3); }                  /* 12px */
+.vcard__meta{ gap: var(--s-3); }
+.vcard__footer{ gap: var(--s-3); margin-top: var(--s-5); }
+
+/* optional: tidy long titles/desc without jumping */
+.vcard__title, .card__title{
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.vcard__desc, .card__desc{
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+.btn--primary{ padding: .5rem var(--s-4); border-radius: var(--r-md); }
+.btn--ghost  { padding: .5rem var(--s-4); border-radius: var(--r-md); }

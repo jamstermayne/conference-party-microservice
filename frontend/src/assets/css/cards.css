@@ -1,20 +1,20 @@
 :root{
   --card-min-h: 140px;
-  --card-pad: 14px;
-  --card-radius: 16px;
+  /* Use tokens from spacing-tokens.css */
   --card-border: #262b3f;
   --card-bg: radial-gradient(1200px 320px at -180px -140px,#14213d 0%,#0e131c 60%);
   --card-title: #eaf0ff;
   --card-muted: #9dadcf;
 }
-.vcard{min-height:var(--card-min-h);padding:var(--card-pad);border-radius:var(--card-radius);border:1px solid var(--card-border);background:var(--card-bg);color:#dfe4ff;box-shadow:0 0 0 1px rgba(83,90,139,0.1),0 20px 60px rgba(0,0,0,.25);}
-.vcard + .vcard{margin-top:12px}
-.vcard__head{display:flex;justify-content:space-between;gap:12px;margin-bottom:6px}
-.vcard__title{font-size:18px;line-height:1.15;font-weight:800;color:var(--card-title)}
-.vcard__badges{display:flex;gap:6px;flex-wrap:wrap}
-.vcard__pill{font-size:12px;padding:5px 8px;border-radius:999px;border:1px solid #2b2f45;background:#141825;color:#cbd7ff}
+.vcard{display:flex;flex-direction:column;min-height:var(--card-min-h);height:var(--card-h,auto);padding:var(--s-5);border-radius:var(--r-xl);border:1px solid var(--card-border);background:var(--card-bg);color:#dfe4ff;box-shadow:var(--shadow-card);}
+.vcard + .vcard{margin-top:var(--s-3)}
+.vcard__head{display:flex;justify-content:space-between;gap:var(--s-3);margin-bottom:var(--s-2)}
+.vcard__title{font-size:18px;line-height:1.15;font-weight:800;color:var(--card-title);margin-bottom:var(--s-3)}
+.vcard__badges{display:flex;gap:var(--s-2);flex-wrap:wrap}
+.vcard__body{flex:1;min-height:0}
+.vcard__pill{font-size:12px;padding:5px var(--s-2);border-radius:var(--r-full);border:1px solid #2b2f45;background:#141825;color:#cbd7ff}
 .vcard__pill.is-live{border-color:#2b5742;background:#11261a;color:#b6f3c8}
 .vcard__pill.is-free{border-color:#2e4a65;background:#0f2034;color:#a9cffc}
 .vcard__subtitle{color:#d6def7;margin-bottom:4px}
-.vcard__meta{list-style:none;margin:6px 0 12px;padding:0;color:var(--card-muted);display:flex;gap:12px;flex-wrap:wrap}
-.vcard__actions{display:flex;gap:8px}
+.vcard__meta{list-style:none;margin:var(--s-2) 0 var(--s-3);padding:0;color:var(--card-muted);display:flex;gap:var(--s-3);flex-wrap:wrap}
+.vcard__actions{display:flex;gap:var(--s-2)}

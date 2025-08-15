@@ -14,11 +14,19 @@ class GamescomMapsApp {
         this.mapConfig = {
             center: { lat: 50.9429, lng: 6.9581 }, // Cologne, Germany
             zoom: 13,
-            styles: this.getMapStyles(),
             mapTypeControl: true,
             streetViewControl: true,
             fullscreenControl: true
         };
+        
+        // Add mapId if available (cloud styling takes precedence)
+        const MAP_ID = 'conference_party_map';
+        if (MAP_ID) {
+            this.mapConfig.mapId = MAP_ID; // Cloud styling source of truth
+        } else {
+            // Only use inline styles if no mapId
+            this.mapConfig.styles = this.getMapStyles();
+        }
     }
 
     async init() {
@@ -591,7 +599,10 @@ class GamescomMapsApp {
         
         // Update map styles if map exists
         if (this.map) {
-            this.map.setOptions({ styles: this.getMapStyles() });
+            // Don't set styles when using mapId (cloud styling)
+            if (!this.mapConfig.mapId) {
+                this.map.setOptions({ styles: this.getMapStyles() });
+            }
         }
     }
 
@@ -612,7 +623,10 @@ class GamescomMapsApp {
         
         // Update map styles
         if (this.map) {
-            this.map.setOptions({ styles: this.getMapStyles() });
+            // Don't set styles when using mapId (cloud styling)
+            if (!this.mapConfig.mapId) {
+                this.map.setOptions({ styles: this.getMapStyles() });
+            }
         }
     }
 

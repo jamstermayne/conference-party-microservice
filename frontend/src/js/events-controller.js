@@ -1,3 +1,6 @@
+import { groupPartiesByDay } from './services/parties-utils.js?v=b037';
+import { equalizeCards, observeEqualize } from './equalize-cards.js';
+
 const demo = [
   { id:"meet", title:"MeetToMatch • Cologne Edition 2025", venue:"Kölnmesse Confex", start:"2025-08-21T09:00:00", end:"2025-08-21T18:00:00", price:"From £127.04", live:true },
   { id:"mixer", title:"Marriott Rooftop Mixer", venue:"Marriott Hotel", start:"2025-08-21T20:00:00", end:"2025-08-21T23:30:00", price:"Free", live:true }
@@ -13,6 +16,10 @@ async function fetchParties(){
 export async function renderParties(mount){
   if(!mount) return;
   const items = await fetchParties();
+  
+  // Broadcast days for sidebar update
+  const { days } = groupPartiesByDay(items);
+  window.dispatchEvent(new CustomEvent('parties:loaded', { detail: { days } }));
   mount.innerHTML = `
     <section class="vwrap">
       <h2 class="vh1">Recommended events</h2>
@@ -33,23 +40,38 @@ export async function renderParties(mount){
           ${ev.live ? `<span class="vpill live">live</span>` : ""}
         </div>
       </div>
-      <div class="vmeta">📍 ${ev.venue||"TBA"} • 🕒 ${startTime}${endTime?` – ${endTime}`:""}</div>
+      <div class="vmeta">
+        <button class="pin-to-map"
+                aria-label="Open on map"
+                data-id="${ev.id||''}"
+                data-day="${ev.start ? ev.start.slice(0,10) : ''}"
+                data-lat="${ev.lat||''}"
+                data-lon="${ev.lon||ev.lng||''}">📍</button>
+        ${ev.venue||"TBA"} • 🕒 ${startTime}${endTime?` – ${endTime}`:""}
+      </div>
       <div class="vactions">
-        <div class="btn-group">
-          <button class="vbtn primary"
-                  data-action="addCalendar"
-                  data-title="${ev.title}"
-                  data-venue="${ev.venue}"
-                  data-start="${ev.start}"
-                  data-end="${ev.end}">Add to Calendar</button>
-          <button class="vbtn primary btn-menu" 
-                  data-action="calendarMenu" 
-                  title="More calendar options">▼</button>
-        </div>
-        <button class="vbtn" data-act="details">Details</button>
+        <button class="btn add-to-calendar"
+                data-party-id="${ev.id||''}"
+                data-action="addCalendar"
+                data-title="${ev.title}"
+                data-venue="${ev.venue}"
+                data-start="${ev.start}"
+                data-end="${ev.end}">Add to Calendar</button>
+        <a class="btn btn--secondary"
+           href="${ev.eventUrl || ev.sourceUrl || ev.url || `#/party/${ev.id||''}`}"
+           ${ev.eventUrl || ev.sourceUrl || ev.url ? 'target="_blank"' : ''}
+           ${ev.eventUrl || ev.sourceUrl || ev.url ? 'rel="noopener"' : ''}>
+           Details
+        </a>
       </div>
     </article>`;
   }).join("");
+  
+  // Equalize card heights after render
+  equalizeCards('.vcard, .card');
+  
+  // Set up observer for dynamic changes (only once per view)
+  observeEqualize('.vcard, .card');
 }
 export default { renderParties };
 function normalizeSource(ev){

@@ -58,6 +58,8 @@ function renderCards(container, items=[]){
   qa('[data-action="share"]', container).forEach(b=>b.addEventListener('click',()=>navigator.share?.({title:'Velocity'}).catch(()=>{})));
 }
 
+import { groupPartiesByDay } from './services/parties-utils.js?v=b037';
+
 function toast(msg){ try { document.dispatchEvent(new CustomEvent('ui:toast',{detail:{message:msg}})); } catch {} }
 
 async function fetchParties(){
@@ -85,6 +87,10 @@ async function hydrate(){
     emptyState(target, 'No parties yet. Try refreshing shortly.');
   } else {
     renderCards(target, list.slice(0, 20));
+    
+    // Broadcast days for sidebar update
+    const { days } = groupPartiesByDay(list);
+    window.dispatchEvent(new CustomEvent('parties:loaded', { detail: { days } }));
   }
 }
 

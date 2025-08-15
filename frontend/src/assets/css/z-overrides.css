@@ -90,3 +90,16 @@ aside .brand::before {
   height: calc(100vh - 2px) !important;
   overflow: hidden !important;
 }
+
+/* Remove indentation for subnav under #map */
+aside .subnav { list-style: none; margin: 4px 0 8px; padding-left: 0; border-left: none; }
+aside .subnav li { margin: 2px 0; }
+aside .subnav a {
+  display: block; padding: 4px 8px;
+  white-space: nowrap;
+  border-left: 3px solid transparent; /* accent only when active */
+}
+aside .subnav a.active {
+  border-left-color: var(--accent, #6e5ef6);
+  background: linear-gradient(90deg, color-mix(in oklab, var(--accent, #6e5ef6) 16%, transparent), transparent);
+}

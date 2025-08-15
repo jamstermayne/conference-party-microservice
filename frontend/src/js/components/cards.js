@@ -25,16 +25,31 @@ export function partyCard(evt){
         ${evt.price ? `<span class="badge price">From ${escapeHTML(evt.price)}</span>`:''}
         ${evt.live ? `<span class="badge live">live</span>`:''}
       </div>
-      <div class="card-sub">📍 ${escapeHTML(evt.venue || '')}</div>
+      <div class="card-sub">
+        <button class="pin-to-map"
+                aria-label="Open on map"
+                data-id="${evt.id}"
+                data-day="${evt.start ? evt.start.slice(0,10) : ''}"
+                data-lat="${evt.lat || ''}"
+                data-lon="${evt.lon || evt.lng || ''}">📍</button>
+        ${escapeHTML(evt.venue || '')}
+      </div>
       <div class="card-sub">📅 ${escapeHTML(evt.when || '')}</div>
       <div class="actions">
-        <button class="btn primary" data-action="addCalendar" data-id="${evt.id}" 
+        <button class="btn add-to-calendar" 
+                data-party-id="${evt.id}"
+                data-action="addCalendar"
                 data-title="${escapeHTML(evt.title)}"
                 data-venue="${escapeHTML(evt.venue || '')}"
                 data-when="${escapeHTML(evt.when || '')}"
                 data-start="${evt.start || ''}"
                 data-end="${evt.end || ''}">Add to Calendar</button>
-        <button class="btn ghost" data-action="details" data-id="${evt.id}">Details</button>
+        <a class="btn btn--secondary"
+           href="${evt.eventUrl || evt.sourceUrl || `#/party/${evt.id}`}"
+           ${evt.eventUrl || evt.sourceUrl ? 'target="_blank"' : ''}
+           ${evt.eventUrl || evt.sourceUrl ? 'rel="noopener"' : ''}>
+           Details
+        </a>
       </div>
     </div>
   `;

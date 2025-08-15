@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "generated": "2025-08-15T03:39:08.483Z",
+  "tool": "PWA Orchestrator",
+  "summary": {
+    "totalEvents": 58,
+    "searchIndexSize": 37,
+    "modulesGenerated": 4
+  },
+  "modules": {
+    "serviceWorker": "✅ Generated with 3 cache strategies",
+    "manifest": "✅ Generated with icons and shortcuts",
+    "offlineSearch": "✅ Generated with full-text search",
+    "cacheUtils": "✅ Generated with connection monitoring"
+  },
+  "offlineCapabilities": {
+    "searchFunctionality": true,
+    "eventDetails": true,
+    "connectionMonitoring": true,
+    "backgroundSync": true,
+    "cacheManagement": true
+  },
+  "files": {
+    "serviceWorker": "/public/sw.js",
+    "manifest": "/public/manifest.json",
+    "offlineSearch": "/public/js/offline-search.js",
+    "cacheUtils": "/public/js/cache-utils.js",
+    "pwaInit": "/public/js/pwa-init.js"
+  }
+}

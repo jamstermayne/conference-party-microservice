@@ -3,6 +3,10 @@
  * Shows party markers on Google Maps
  */
 
+import { groupPartiesByDay } from '../services/parties-utils.js?v=b037';
+import { renderSidebarDays, buildMonSatFallback, syncActiveDay } from '../ui/sidebar-days.js?v=b037';
+import { MtmMapSource, createMtmMapToggle } from '../map-mtm.js';
+
 const API_BASE = window.__ENV?.API_BASE || '/api';
 const COLOGNE_CENTER = { lat: 50.9375, lng: 6.9603 }; // Cologne city center
 
@@ -10,6 +14,7 @@ const COLOGNE_CENTER = { lat: 50.9375, lng: 6.9603 }; // Cologne city center
 let mapInstance = null;
 let markers = [];
 let markersVisible = true;
+let mtmSource = null;
 
 /**
  * Wait for Google Maps to be loaded
@@ -139,39 +144,20 @@ function createInfoContent(party) {
  * Initialize map with markers
  */
 async function initializeMap(container, parties) {
-  // Create map with mapId for AdvancedMarkerElement
-  mapInstance = new google.maps.Map(container, {
+  // Build map options (focus will be handled after markers are created)
+  const mapOptions = {
     center: COLOGNE_CENTER,
-    zoom: 13,
-    mapId: 'conference_party_map', // Required for AdvancedMarkerElement
-    styles: [
-      {
-        featureType: 'all',
-        elementType: 'geometry',
-        stylers: [{ color: '#242f3e' }]
-      },
-      {
-        featureType: 'all',
-        elementType: 'labels.text.stroke',
-        stylers: [{ color: '#242f3e' }]
-      },
-      {
-        featureType: 'all',
-        elementType: 'labels.text.fill',
-        stylers: [{ color: '#746855' }]
-      },
-      {
-        featureType: 'water',
-        elementType: 'geometry',
-        stylers: [{ color: '#17263c' }]
-      },
-      {
-        featureType: 'road',
-        elementType: 'geometry',
-        stylers: [{ color: '#38414e' }]
-      }
-    ]
-  });
+    zoom: 13
+  };
+  
+  // Use mapId for cloud-styled map (no inline styles when mapId is present)
+  const MAP_ID = 'conference_party_map';
+  if (MAP_ID) {
+    mapOptions.mapId = MAP_ID; // Cloud styling source of truth
+  }
+  
+  // Create map with mapId for AdvancedMarkerElement
+  mapInstance = new google.maps.Map(container, mapOptions);
   
   // Prepare data for markers
   const infoWindow = new google.maps.InfoWindow();
@@ -208,6 +194,10 @@ async function initializeMap(container, parties) {
       title: party.title
     });
     
+    // Store party ID with marker for lookup
+    marker.partyId = party.id;
+    marker.partyData = party;
+    
     // Add click listener for info window
     marker.addListener('click', () => {
       infoWindow.setContent(createInfoContent(party));
@@ -219,6 +209,74 @@ async function initializeMap(container, parties) {
     
     markers.push(marker);
   });
+  
+  // After all markers are created, handle focus from URL params
+  handleMapFocus(mapInstance, markers, infoWindow);
+}
+
+/**
+ * Handle map focus from URL parameters
+ */
+function handleMapFocus(map, markers, infoWindow) {
+  // Parse URL parameters
+  const params = new URLSearchParams((location.hash.split('?')[1] || ''));
+  const focusId = params.get('focus');
+  const lat = parseFloat(params.get('lat'));
+  const lon = parseFloat(params.get('lon'));
+  
+  if (focusId) {
+    // Find marker by party ID
+    const targetMarker = markers.find(m => m.partyId === focusId);
+    if (targetMarker) {
+      // Pan to marker position
+      setTimeout(() => {
+        map.panTo(targetMarker.position);
+        map.setZoom(16); // Zoom in for focused view
+        
+        // Highlight the marker
+        if (targetMarker.content) {
+          targetMarker.content.style.background = '#ef4444'; // Red for focused
+          targetMarker.content.style.width = '32px';
+          targetMarker.content.style.height = '32px';
+          targetMarker.content.style.border = '3px solid #ffffff';
+          targetMarker.content.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.6)';
+        }
+        
+        // Open info window
+        infoWindow.setContent(createInfoContent(targetMarker.partyData));
+        infoWindow.open({
+          anchor: targetMarker,
+          map: map
+        });
+        
+        // Add bounce animation to highlight
+        addBounceAnimation(targetMarker);
+      }, 500); // Small delay to ensure map is ready
+    }
+  } else if (!isNaN(lat) && !isNaN(lon)) {
+    // Pan to coordinates if no specific party ID
+    setTimeout(() => {
+      map.panTo({ lat, lng: lon });
+      map.setZoom(16);
+    }, 500);
+  }
+}
+
+/**
+ * Add bounce animation to marker
+ */
+function addBounceAnimation(marker) {
+  if (!marker.content) return;
+  
+  // Add CSS animation
+  marker.content.style.animation = 'markerBounce 0.5s ease-out 3';
+  
+  // Remove animation after it completes
+  setTimeout(() => {
+    if (marker.content) {
+      marker.content.style.animation = '';
+    }
+  }, 1500);
 }
 
 /**
@@ -235,7 +293,7 @@ function toggleMarkers(visible) {
 /**
  * Create map controls
  */
-function createControls() {
+function createControls(selectedDate) {
   const controls = document.createElement('div');
   controls.className = 'map-controls';
   controls.innerHTML = `
@@ -244,6 +302,25 @@ function createControls() {
       <span>Markers</span>
     </label>
   `;
+  
+  // Add MTM toggle if user is authenticated
+  if (window.Auth?.current?.()) {
+    controls.appendChild(createMtmMapToggle());
+    
+    // Initialize MTM toggle listener
+    controls.querySelector('#mtm-map-toggle')?.addEventListener('change', (e) => {
+      if (mtmSource) {
+        mtmSource.toggle(e.target.checked);
+        if (e.target.checked) {
+          // Re-add markers when enabled
+          mtmSource.addMarkersToMap(mapInstance, selectedDate);
+        } else {
+          // Clear markers when disabled
+          mtmSource.clearMarkers();
+        }
+      }
+    });
+  }
   
   // Add event listeners
   controls.querySelector('#toggle-markers').addEventListener('change', (e) => {
@@ -278,10 +355,20 @@ function showError(container, message, retryFn) {
 export async function renderMap(mount) {
   if (!mount) return;
   
+  // Parse day param from hash: #/map/:day
+  const hashParts = (location.hash || '').split('/');
+  const dayParam = hashParts[2] || null; // 'YYYY-MM-DD' or null
+  
   // Reset previous instance
   mapInstance = null;
   markers = [];
   markersVisible = true;
+  
+  // Clean up previous MTM source
+  if (mtmSource) {
+    mtmSource.destroy();
+    mtmSource = null;
+  }
   
   // Create container structure
   mount.innerHTML = `
@@ -382,6 +469,13 @@ export async function renderMap(mount) {
       .map-control span {
         user-select: none;
       }
+      
+      @keyframes markerBounce {
+        0%, 100% { transform: translateY(0); }
+        25% { transform: translateY(-10px); }
+        50% { transform: translateY(0); }
+        75% { transform: translateY(-5px); }
+      }
     `;
     document.head.appendChild(style);
   }
@@ -393,13 +487,23 @@ export async function renderMap(mount) {
       // Load Google Maps
       await loadGoogleMaps();
       
-      // Fetch party data
-      const parties = await fetchParties();
+      // 1) Fetch all parties
+      const allParties = await fetchParties();
       
-      if (!parties.length) {
+      if (!allParties.length) {
         showError(container, 'No event data available', loadMap);
         return;
       }
+      
+      // 2) Group parties by day
+      const { days, byDay } = groupPartiesByDay(allParties);
+      
+      // 3) Render nested days under Map in sidebar
+      const fallbackWeek = buildMonSatFallback(days[0]); // stable Mon..Sat if no data yet
+      renderSidebarDays(days, { fallbackWeek });
+      
+      // 4) Pick the set to show based on day param
+      const partiesToShow = (dayParam && byDay.get(dayParam)) ? byDay.get(dayParam) : allParties;
       
       // Clear loading state
       container.innerHTML = '';
@@ -410,11 +514,49 @@ export async function renderMap(mount) {
       mapDiv.style.height = '100%';
       container.appendChild(mapDiv);
       
-      // Initialize map with data
-      await initializeMap(mapDiv, parties);
+      // Initialize map with filtered data
+      await initializeMap(mapDiv, partiesToShow);
       
-      // Add controls
-      container.appendChild(createControls());
+      // Parse selected date from dayParam
+      const selectedDate = dayParam ? new Date(dayParam + 'T12:00:00') : null;
+      
+      // Add controls with selected date for MTM filtering
+      container.appendChild(createControls(selectedDate));
+      
+      // Initialize MTM markers if user is authenticated
+      if (window.Auth?.current?.()) {
+        try {
+          // Wait for Auth to be ready
+          await window.Auth.init();
+          const user = window.Auth.current();
+          
+          if (user) {
+            // Initialize MTM source
+            mtmSource = new MtmMapSource();
+            await mtmSource.init(user.uid);
+            
+            // Add MTM markers to the map
+            if (mtmSource.enabled) {
+              mtmSource.addMarkersToMap(mapInstance, selectedDate);
+            }
+            
+            // Set up listener for MTM events changes
+            mtmSource.onEventsChange = (events) => {
+              // Clear and re-add markers when events change
+              mtmSource.clearMarkers();
+              if (events.length > 0 && mtmSource.enabled) {
+                mtmSource.addMarkersToMap(mapInstance, selectedDate);
+              }
+            };
+          }
+        } catch (error) {
+          console.warn('MTM map integration not available:', error);
+        }
+      }
+      
+      // 5) Keep left rail selection in sync on navigation
+      syncActiveDay();
+      window.addEventListener('hashchange', syncActiveDay, { once: true });
       
     } catch (error) {
       console.error('Map initialization failed:', error);

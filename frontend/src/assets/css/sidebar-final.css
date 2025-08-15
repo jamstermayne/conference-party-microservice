@@ -26,14 +26,14 @@ aside.sidebar, [data-role="sidebar"], #sidebar{
   grid-column: 2 !important;
 }
 
-/* Base nav item */
+/* Base nav item - now uses tokens from sidebar-tokens.css */
 .sidebar .nav a,
 .sidebar [data-route]{
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: 12px;
+  gap: var(--s-3);           /* Use token instead of 10px */
+  padding: var(--s-3) var(--s-4);  /* Use tokens instead of 10px 14px */
+  border-radius: var(--r-lg);       /* Use token instead of 12px */
   color: #cfe0ff;
   text-decoration: none;
   white-space: nowrap;
@@ -47,5 +47,5 @@ aside.sidebar, [data-role="sidebar"], #sidebar{
     linear-gradient(180deg, rgba(139,129,255,.15), rgba(84,74,255,.12));
   box-shadow: 0 0 0 1px rgba(110,130,255,.28), 0 8px 24px rgba(0,0,0,.35);
   color: #eef2ff !important;
-  border-radius: 16px;
+  border-radius: var(--r-xl);  /* Use token instead of 16px */
 }

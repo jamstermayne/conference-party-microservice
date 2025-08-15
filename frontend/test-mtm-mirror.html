@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTM Google Calendar Mirror Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #0f1114;
+      color: #fff;
+    }
+    
+    .card {
+      background: #1a1d24;
+      border: 1px solid #2a2e36;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .status {
+      padding: 12px;
+      background: #2a2e36;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    
+    .status.success {
+      background: #1a3d1a;
+      border: 1px solid #2d5a2d;
+    }
+    
+    .status.error {
+      background: #3d1a1a;
+      border: 1px solid #5a2d2d;
+    }
+    
+    button {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #6b8cff, #8a6bff);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    
+    button:hover {
+      opacity: 0.9;
+    }
+    
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    input[type="url"] {
+      width: 100%;
+      padding: 10px;
+      background: #0f1114;
+      border: 1px solid #2a2e36;
+      border-radius: 6px;
+      color: #fff;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    
+    h2 {
+      margin-top: 0;
+      color: #e8ecff;
+    }
+    
+    .mirror-settings {
+      background: #2a2e36;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+    
+    .events-list {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 15px;
+    }
+    
+    .event-item {
+      padding: 10px;
+      background: #2a2e36;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    
+    .event-item.mirrored {
+      border-left: 3px solid #6bff8c;
+    }
+  </style>
+</head>
+<body>
+  <h1>MTM → Google Calendar Mirror Test</h1>
+  
+  <div class="card">
+    <h2>1. Authentication</h2>
+    <button id="signIn">Sign In with Google</button>
+    <button id="signOut" disabled>Sign Out</button>
+    <div class="status" id="authStatus">Not signed in</div>
+  </div>
+  
+  <div class="card">
+    <h2>2. MeetToMatch Connection</h2>
+    <input type="url" id="mtmUrl" placeholder="https://app.meettomatch.com/.../calendar.ics" />
+    <button id="connectMtm" disabled>Connect MeetToMatch</button>
+    <button id="syncMtm" disabled>Sync Now</button>
+    <button id="disconnectMtm" disabled>Disconnect</button>
+    <div class="status" id="mtmStatus">Not connected</div>
+  </div>
+  
+  <div class="card">
+    <h2>3. Google Calendar Mirror</h2>
+    <div class="mirror-settings">
+      <label>
+        <input type="checkbox" id="mirrorToggle" disabled />
+        <span>Enable Google Calendar Mirroring</span>
+      </label>
+      <div style="margin-top: 10px;">
+        <label for="calendarId" style="display: block; margin-bottom: 5px;">
+          Calendar ID (leave empty for primary):
+        </label>
+        <input type="text" id="calendarId" placeholder="primary" style="width: 300px; padding: 8px;" />
+      </div>
+    </div>
+    <div class="status" id="mirrorStatus">Mirror disabled</div>
+  </div>
+  
+  <div class="card">
+    <h2>4. Synced Events</h2>
+    <button id="refreshEvents" disabled>Refresh Events</button>
+    <div class="events-list" id="eventsList">
+      <div style="color: #8b92a6;">No events synced yet</div>
+    </div>
+  </div>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Auth -->
+  <script src="/js/auth.js"></script>
+  
+  <!-- Test Script -->
+  <script>
+    let currentUser = null;
+    let mtmConnected = false;
+    let mirrorEnabled = false;
+    
+    // API helper
+    const api = async (path, body) => {
+      let token = '';
+      try {
+        token = await window.Auth.getIdToken();
+      } catch (e) {
+        console.warn('Not authenticated');
+        return { ok: false, error: 'Not authenticated' };
+      }
+      
+      const method = path === '/status' ? 'GET' : 'POST';
+      const options = {
+        method,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      };
+      
+      if (method === 'POST' && body) {
+        options.headers['Content-Type'] = 'application/json';
+        options.body = JSON.stringify(body);
+      }
+      
+      try {
+        const res = await fetch(`/api/integrations/mtm${path}`, options);
+        return await res.json();
+      } catch (e) {
+        return { ok: false, error: e.message };
+      }
+    };
+    
+    // Initialize Auth
+    window.addEventListener('DOMContentLoaded', async () => {
+      await window.Auth.init();
+      
+      // Auth state listener
+      window.Auth.onChange((user) => {
+        currentUser = user;
+        updateAuthUI();
+        if (user) {
+          checkMtmStatus();
+          loadEvents();
+        }
+      });
+    });
+    
+    // Update Auth UI
+    function updateAuthUI() {
+      const signInBtn = document.getElementById('signIn');
+      const signOutBtn = document.getElementById('signOut');
+      const authStatus = document.getElementById('authStatus');
+      
+      if (currentUser) {
+        signInBtn.disabled = true;
+        signOutBtn.disabled = false;
+        authStatus.textContent = `Signed in as ${currentUser.email}`;
+        authStatus.className = 'status success';
+        
+        // Enable MTM controls
+        document.getElementById('connectMtm').disabled = false;
+      } else {
+        signInBtn.disabled = false;
+        signOutBtn.disabled = true;
+        authStatus.textContent = 'Not signed in';
+        authStatus.className = 'status';
+        
+        // Disable all controls
+        document.getElementById('connectMtm').disabled = true;
+        document.getElementById('syncMtm').disabled = true;
+        document.getElementById('disconnectMtm').disabled = true;
+        document.getElementById('mirrorToggle').disabled = true;
+        document.getElementById('refreshEvents').disabled = true;
+      }
+    }
+    
+    // Check MTM status
+    async function checkMtmStatus() {
+      const res = await api('/status');
+      
+      if (res.ok) {
+        mtmConnected = res.connected;
+        mirrorEnabled = res.mirrorToGoogle || false;
+        
+        const mtmStatus = document.getElementById('mtmStatus');
+        const mirrorToggle = document.getElementById('mirrorToggle');
+        const mirrorStatus = document.getElementById('mirrorStatus');
+        
+        if (mtmConnected) {
+          mtmStatus.textContent = `Connected (Last sync: ${res.lastSyncAt ? new Date(res.lastSyncAt).toLocaleString() : 'Never'})`;
+          mtmStatus.className = 'status success';
+          
+          document.getElementById('syncMtm').disabled = false;
+          document.getElementById('disconnectMtm').disabled = false;
+          document.getElementById('refreshEvents').disabled = false;
+          
+          // Enable mirror controls if Google auth exists
+          if (res.hasGoogleAuth) {
+            mirrorToggle.disabled = false;
+            mirrorToggle.checked = mirrorEnabled;
+            document.getElementById('calendarId').value = res.googleCalendarId || 'primary';
+            
+            if (mirrorEnabled) {
+              mirrorStatus.textContent = `Mirroring to ${res.googleCalendarId || 'primary'} calendar`;
+              mirrorStatus.className = 'status success';
+            } else {
+              mirrorStatus.textContent = 'Mirror disabled';
+              mirrorStatus.className = 'status';
+            }
+          } else {
+            mirrorStatus.textContent = 'Google authentication required for mirroring';
+            mirrorStatus.className = 'status error';
+          }
+        } else {
+          mtmStatus.textContent = 'Not connected';
+          mtmStatus.className = 'status';
+          document.getElementById('syncMtm').disabled = true;
+          document.getElementById('disconnectMtm').disabled = true;
+          document.getElementById('mirrorToggle').disabled = true;
+          document.getElementById('refreshEvents').disabled = true;
+        }
+      }
+    }
+    
+    // Load synced events
+    async function loadEvents() {
+      if (!currentUser || !mtmConnected) return;
+      
+      const db = firebase.firestore();
+      const eventsRef = db.collection(`users/${currentUser.uid}/mtmEvents`);
+      
+      eventsRef.onSnapshot((snapshot) => {
+        const eventsList = document.getElementById('eventsList');
+        
+        if (snapshot.empty) {
+          eventsList.innerHTML = '<div style="color: #8b92a6;">No events synced yet</div>';
+          return;
+        }
+        
+        const events = [];
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          events.push({
+            id: doc.id,
+            ...data,
+            start: data.start?.toDate ? data.start.toDate() : new Date(data.start),
+          });
+        });
+        
+        // Sort by start time
+        events.sort((a, b) => a.start - b.start);
+        
+        // Render events
+        eventsList.innerHTML = events.map(event => `
+          <div class="event-item ${mirrorEnabled ? 'mirrored' : ''}">
+            <strong>${event.title}</strong><br>
+            ${event.start.toLocaleString()}<br>
+            ${event.location || 'No location'}<br>
+            <small style="color: #8b92a6;">ID: ${event.id}</small>
+          </div>
+        `).join('');
+      });
+    }
+    
+    // Event handlers
+    document.getElementById('signIn').addEventListener('click', async () => {
+      await window.Auth.signInGoogle();
+    });
+    
+    document.getElementById('signOut').addEventListener('click', async () => {
+      await window.Auth.signOut();
+    });
+    
+    document.getElementById('connectMtm').addEventListener('click', async () => {
+      const url = document.getElementById('mtmUrl').value.trim();
+      if (!url) {
+        alert('Please enter a MeetToMatch ICS URL');
+        return;
+      }
+      
+      const res = await api('/connect', { icsUrl: url });
+      if (res.ok) {
+        alert('Connected successfully!');
+        checkMtmStatus();
+        loadEvents();
+      } else {
+        alert(`Failed to connect: ${res.error}`);
+      }
+    });
+    
+    document.getElementById('syncMtm').addEventListener('click', async () => {
+      const res = await api('/syncNow');
+      if (res.ok) {
+        alert(`Synced ${res.count} events`);
+        checkMtmStatus();
+      } else {
+        alert(`Sync failed: ${res.error}`);
+      }
+    });
+    
+    document.getElementById('disconnectMtm').addEventListener('click', async () => {
+      if (!confirm('Are you sure you want to disconnect MeetToMatch?')) return;
+      
+      const res = await api('/disconnect');
+      if (res.ok) {
+        alert('Disconnected');
+        document.getElementById('mtmUrl').value = '';
+        checkMtmStatus();
+      } else {
+        alert(`Failed to disconnect: ${res.error}`);
+      }
+    });
+    
+    document.getElementById('mirrorToggle').addEventListener('change', async (e) => {
+      const enabled = e.target.checked;
+      const calendarId = document.getElementById('calendarId').value || 'primary';
+      
+      const res = await api('/mirror', {
+        enabled,
+        calendarId
+      });
+      
+      if (res.ok) {
+        mirrorEnabled = enabled;
+        const mirrorStatus = document.getElementById('mirrorStatus');
+        
+        if (enabled) {
+          mirrorStatus.textContent = `Mirroring to ${calendarId} calendar`;
+          mirrorStatus.className = 'status success';
+          alert('Google Calendar mirroring enabled! Events will sync on next update.');
+        } else {
+          mirrorStatus.textContent = 'Mirror disabled';
+          mirrorStatus.className = 'status';
+          alert('Google Calendar mirroring disabled.');
+        }
+        
+        loadEvents(); // Refresh to show mirrored status
+      } else {
+        e.target.checked = !enabled; // Revert on error
+        alert(`Failed to toggle mirror: ${res.error}`);
+      }
+    });
+    
+    document.getElementById('refreshEvents').addEventListener('click', () => {
+      loadEvents();
+    });
+  </script>
+</body>
+</html>
