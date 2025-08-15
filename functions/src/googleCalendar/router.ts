@@ -175,22 +175,51 @@ router.get('/googleCalendar/google/callback', async (req: any, res: any) => {
   <meta charset="utf-8">
   <meta name="color-scheme" content="dark light">
   <title>Connected</title>
+  <style>
+    body {
+      font: 14px system-ui;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    .success {
+      text-align: center;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
-<body style="font:14px system-ui;padding:16px">
-  Connected to Google Calendar. You can close this window.
+<body>
+  <div class="success">
+    <h2>✅ Connected!</h2>
+    <p>Google Calendar connected successfully.</p>
+    <p><small>This window will close automatically...</small></p>
+  </div>
   <script>
-    (function () {
-      var ORIGIN = ${JSON.stringify(HOSTING_ORIGIN)};
-      try {
-        (window.opener || window.parent)?.postMessage({ 
-          type: 'gcal:connected',
-          email: ${JSON.stringify(userInfo.email || null)}
-        }, ORIGIN);
-      } catch (e) {}
-      // close quickly; hard fallback to calendar if popup blockers interfere
-      setTimeout(function(){ window.close(); }, 50);
-      setTimeout(function(){ location.href = ORIGIN + '/#calendar'; }, 200);
-    })();
+    // Notify opener and close
+    try { 
+      window.opener?.postMessage({ 
+        source: 'gcal', 
+        ok: true,
+        email: ${JSON.stringify(userInfo.email || null)}
+      }, window.location.origin); 
+    } catch {}
+    
+    // Close window after brief delay for user feedback
+    setTimeout(function() { window.close(); }, 1500);
+    
+    // Fallback redirect if close fails
+    setTimeout(function() { 
+      window.location.href = ${JSON.stringify(HOSTING_ORIGIN)} + '/#calendar'; 
+    }, 2000);
   </script>
 </body>
 </html>`);
