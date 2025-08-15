@@ -16,6 +16,8 @@
   --s-16: 4rem;     /* 64px */
   
   /* Radius scale */
+  --r-1: 0.125rem;   /* 2px - alias for xs */
+  --r-2: 0.25rem;    /* 4px - alias for sm */
   --r-xs: 0.125rem;  /* 2px - tiny */
   --r-sm: 0.25rem;   /* 4px - small */
   --r-md: 0.5rem;    /* 8px - medium */
