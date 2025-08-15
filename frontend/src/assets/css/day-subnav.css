@@ -1,0 +1,40 @@
+/* Day Subnav - Minimal inline day filter
+   Appears only on matching route as a vertical list.
+   No sidebar width changes, no indentation. */
+
+.v-day-subnav {
+  display: none;
+  margin-top: var(--s-2);
+  gap: var(--s-2);
+}
+
+.v-day-subnav a {
+  display: block;
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--r-pill, 9999px);
+  font-size: 13px;
+  line-height: 1.1;
+  color: var(--nav-text-dim, #9BA7BD);
+  text-decoration: none;
+  transition: background .12s ease, color .12s ease, box-shadow .2s ease;
+}
+
+.v-day-subnav a:hover {
+  background: rgba(255,255,255,.045);
+  color: #ECF1FF;
+}
+
+.v-day-subnav a.is-active {
+  background: rgba(110,94,246,.14);
+  color: #F6F8FF;
+  box-shadow: inset 0 0 0 1px rgba(110,94,246,.45);
+}
+
+/* Show day subnav when on the corresponding route */
+.v-nav__link[data-route="map"].is-active ~ .v-day-subnav[data-for="map"] {
+  display: grid;
+}
+
+.v-nav__link[data-route="parties"].is-active ~ .v-day-subnav[data-for="parties"] {
+  display: grid;
+}
