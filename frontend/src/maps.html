@@ -123,7 +123,7 @@
     <script>
         window.CONFIG = { 
             apiBase: 'https://us-central1-conference-party-app.cloudfunctions.net',
-            googleMapsApiKey: 'AIzaSyBvOkBu-916DfTLjJ6c2UDQy8rE9nQQ8g8',
+            googleMapsApiKey: 'AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc',
             version: '2.0.0',
             mapCenter: { lat: 50.9429, lng: 6.9581 }, // Cologne, Germany
             mapZoom: 13
@@ -131,9 +131,8 @@
     </script>
     <script src="/js/api.js"></script>
     <script src="/js/maps.js"></script>
-    <script async defer 
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvOkBu-916DfTLjJ6c2UDQy8rE9nQQ8g8&callback=initMap&libraries=geometry,places">
-    </script>
+    <!-- Google Maps JS (prod) -->
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc&v=weekly&libraries=marker"></script>
     <script src="/js/pwa-init.js"></script>
 </body>
 </html>
