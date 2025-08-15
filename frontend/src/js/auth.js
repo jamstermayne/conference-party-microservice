@@ -5,9 +5,11 @@
  */
 (function(){
   const FALLBACK = {
-    apiKey: "AIzaSyD-fallback",
+    apiKey: "AIzaSyBBHTTPMmtMSwHZZVkia-jxR1WINg_mFMw",
     authDomain: "conference-party-app.firebaseapp.com",
     projectId: "conference-party-app",
+    storageBucket: "conference-party-app.firebasestorage.app",
+    messagingSenderId: "740658808222",
     appId: "1:740658808222:web:c20a2656860d3a771f828f"
   };
 

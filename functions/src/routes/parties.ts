@@ -21,7 +21,7 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
       return res.json({
         source: "cache",
         count: cachedParties.length,
-        parties: cachedParties
+        data: cachedParties
       });
     }
     
@@ -38,7 +38,7 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
       return res.json({
         source: "firestore",
         count: firestoreParties.length,
-        parties: firestoreParties
+        data: firestoreParties
       });
     }
     
@@ -59,7 +59,7 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
       return res.json({
         source: "live",
         count: liveParties.length,
-        parties: liveParties
+        data: liveParties
       });
     }
     
@@ -67,7 +67,7 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
     return res.json({
       source: "none",
       count: 0,
-      parties: [],
+      data: [],
       message: "No party data available"
     });
     
@@ -79,7 +79,7 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
       return res.json({
         source: "cache-fallback",
         count: cachedParties.length,
-        parties: cachedParties,
+        data: cachedParties,
         warning: "Using cached data due to error"
       });
     }

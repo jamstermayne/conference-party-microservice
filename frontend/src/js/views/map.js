@@ -38,7 +38,7 @@ async function loadGoogleMaps() {
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');
     const apiKey = window.GOOGLE_MAPS_API_KEY || 'AIzaSyBvOkBu-916DfTLjJ6c2UDQy8rE9nQQ8g8';
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=visualization&callback=initMapCallback`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=visualization&callback=initMapCallback&loading=async`;
     script.async = true;
     script.defer = true;
     
