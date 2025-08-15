@@ -20,5 +20,20 @@
   background: var(--surface-1);
   box-shadow: var(--shadow-xs);
 }
-.v-topbar__back{ all: unset; width: 36px; height: 36px; border-radius: var(--r-full); display:grid; place-items:center; }
+.v-topbar__back{ all: unset; width: 36px; height: 36px; border-radius: var(--r-full); display:grid; place-items:center; cursor: pointer; }
+.v-topbar__back:hover{ background: var(--surface-2); }
+.v-topbar__back:focus-visible{ outline: 2px solid var(--brand-500); outline-offset: 2px; }
 .v-topbar__title{ font: var(--text-lg); color: var(--text-primary); }
+
+.v-panel__body{
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--s-4);
+}
+
+.v-scroll{
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
