@@ -13,9 +13,7 @@
     .brand{display:flex;align-items:center;margin:4px 0 18px}
     .brand h1{font-size:15px;margin:0}
   </style>
-  <link rel="stylesheet" href="/assets/css/calendar-uniform.css?v=b031">
-  <link rel="stylesheet" href="/assets/css/calendar-buttons.css?v=b031">
-  <script>window.BUILD="b031";</script>
+  <script>window.BUILD="b803";</script>
   <script>
     // kill any stale SW right now
     if('serviceWorker' in navigator){
@@ -23,25 +21,33 @@
       caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
     }
   </script>
-  <!-- Design tokens: Single source of truth (load first) -->
-  <link rel="stylesheet" href="/assets/css/color-tokens.css">
-  <link rel="stylesheet" href="/assets/css/spacing-tokens.css">
-  <link rel="stylesheet" href="/assets/css/sidebar-tokens.css">
-  <link rel="stylesheet" href="/assets/css/theme.css?v=b031">
-  <link rel="stylesheet" href="/assets/css/theme-unified.css?v=b031">
+  
+  <!-- TOKENS FIRST -->
+  <link rel="stylesheet" href="/assets/css/spacing-tokens.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/color-tokens.css?v=b803">
+  
+  <!-- BASE / COMPONENTS -->
+  <link rel="stylesheet" href="/assets/css/hero-cards.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/main.css?v=b803">
+  
+  <!-- Additional tokens and themes -->
+  <link rel="stylesheet" href="/assets/css/sidebar-tokens.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/theme.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/theme-unified.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/calendar-uniform.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/calendar-buttons.css?v=b803">
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="/js/auth.js?v=b029"></script>
+  <script src="/js/auth.js?v=b803"></script>
   <!-- Consolidated layout styles -->
-  <link rel="stylesheet" href="/assets/css/hero-cards.css?v=b031">
-  <link rel="stylesheet" href="/assets/css/sidebar-final.css?v=b031">
-  <link rel="stylesheet" href="/assets/css/sidebar-subnav.css?v=b037">
-  <link rel="stylesheet" href="/assets/css/calendar-button-single.css?v=b038">
-  <link rel="stylesheet" href="/assets/css/button-secondary.css?v=b038">
-  <link rel="stylesheet" href="/assets/css/pin-button.css?v=b038">
-  <link rel="stylesheet" href="/assets/css/calendar-modal.css?v=b037">
-  <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b031"><!-- last: layout lock -->
+  <link rel="stylesheet" href="/assets/css/sidebar-final.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/sidebar-subnav.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/calendar-button-single.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/button-secondary.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/pin-button.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/calendar-modal.css?v=b803">
+  <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b803"><!-- last: layout lock -->
   <script async defer src="https://apis.google.com/js/api.js"></script>
   <!-- Google Maps JS (prod) -->
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc&v=weekly&libraries=marker&loading=async"></script>
@@ -70,10 +76,10 @@ if ('serviceWorker' in navigator) {
   caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
 }
   </script>
-<script src="/js/kill-sw.js?v=b027"></script>
-<script type="module" src="/js/router.js?v=b031"></script>
-<script type="module" src="/js/gcal-hooks.js?v=b037"></script>
-<script type="module" src="/js/map-hooks.js?v=b038"></script>
+<script src="/js/kill-sw.js?v=b803"></script>
+<script type="module" src="/js/router.js?v=b803"></script>
+<script type="module" src="/js/gcal-hooks.js?v=b803"></script>
+<script type="module" src="/js/map-hooks.js?v=b803"></script>
   <script src="/js/theme-patch.js?v=001"></script>
 </body>
 </html>

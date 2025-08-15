@@ -31,39 +31,41 @@ export async function renderParties(mount){
     const endDate = ev.end?.includes('T') ? new Date(ev.end) : null;
     const startTime = startDate ? startDate.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}) : ev.start || "";
     const endTime = endDate ? endDate.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}) : ev.end || "";
+    const timeRange = startTime + (endTime ? ` – ${endTime}` : "");
+    
     return `
-    <article class="vcard" data-id="${ev.id||""}">
-      <div class="vhead">
-        <div class="vtitle">${ev.title||"Event"}</div>
-        <div class="vbadges">
-          ${ev.price ? `<span class="vpill ${/free/i.test(ev.price)?"free":""}">${ev.price}</span>` : ""}
-          ${ev.live ? `<span class="vpill live">live</span>` : ""}
+    <article class="vcard" data-party-id="${ev.id||""}">
+      <header class="vcard__head">
+        <h3 class="vcard__title">${ev.title||"Event"}</h3>
+        <div class="vcard__badges">
+          ${ev.price ? `<span class="badge ${/free/i.test(ev.price)?"badge-free":""}">${ev.price}</span>` : ""}
+          ${ev.live ? `<span class="badge badge-live">live</span>` : ""}
         </div>
+      </header>
+      
+      <div class="vcard__meta">
+        <span class="meta"><i class="i-clock"></i>${timeRange}</span>
+        <button class="link pin" data-action="open-map" 
+                data-lat="${ev.lat||''}" 
+                data-lng="${ev.lon||ev.lng||''}">
+          <i class="i-pin"></i> ${ev.venue||"TBA"}
+        </button>
       </div>
-      <div class="vmeta">
-        <button class="pin-to-map"
-                aria-label="Open on map"
-                data-id="${ev.id||''}"
-                data-day="${ev.start ? ev.start.slice(0,10) : ''}"
-                data-lat="${ev.lat||''}"
-                data-lon="${ev.lon||ev.lng||''}">📍</button>
-        ${ev.venue||"TBA"} • 🕒 ${startTime}${endTime?` – ${endTime}`:""}
+      
+      <div class="vcard__body">
+        <p class="vcard__desc">${ev.description || ''}</p>
       </div>
-      <div class="vactions">
-        <button class="btn add-to-calendar"
-                data-party-id="${ev.id||''}"
-                data-action="addCalendar"
-                data-title="${ev.title}"
-                data-venue="${ev.venue}"
-                data-start="${ev.start}"
-                data-end="${ev.end}">Add to Calendar</button>
-        <a class="btn btn--secondary"
-           href="${ev.eventUrl || ev.sourceUrl || ev.url || `#/party/${ev.id||''}`}"
-           ${ev.eventUrl || ev.sourceUrl || ev.url ? 'target="_blank"' : ''}
-           ${ev.eventUrl || ev.sourceUrl || ev.url ? 'rel="noopener"' : ''}>
-           Details
-        </a>
-      </div>
+      
+      <footer class="vcard__foot">
+        <button class="btn btn-primary" 
+                data-action="add-to-calendar" 
+                data-id="${ev.id||''}">
+          Add to Calendar
+        </button>
+        <button class="btn" data-action="details" data-id="${ev.id||''}">
+          Details
+        </button>
+      </footer>
     </article>`;
   }).join("");
   

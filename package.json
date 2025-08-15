@@ -46,7 +46,8 @@
     "lint:css": "npm run lint:tokens",
     "validate:tokens": "bash tools/validate-tokens.sh",
     "migrate:tokens": "bash tools/migrate-to-tokens.sh preview",
-    "migrate:tokens:apply": "bash tools/migrate-to-tokens.sh apply"
+    "migrate:tokens:apply": "bash tools/migrate-to-tokens.sh apply",
+    "build:update": "node tools/update-build.js"
   },
   "dependencies": {
     "firebase-admin": "^12.7.0",
