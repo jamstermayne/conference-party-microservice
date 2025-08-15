@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
-    <div id="app">
+    <div class="js-app">
         <!-- Navigation -->
         <nav class="main-nav">
             <div class="nav-container">
@@ -21,7 +21,7 @@
                     <span class="nav-subtitle">Interactive Event Map</span>
                 </div>
                 <div class="nav-actions">
-                    <button id="themeToggle" class="nav-button">
+                    <button class="nav-button js-themeToggle">
                         🌙 Dark Mode
                     </button>
                     <div class="nav-links">
@@ -93,7 +93,7 @@
         <aside id="eventSidebar" class="event-sidebar hidden">
             <div class="sidebar-header">
                 <h3 id="sidebarTitle">Event Details</h3>
-                <button id="closeSidebar" class="close-btn">&times;</button>
+                <button class="close-btn js-closeSidebar">&times;</button>
             </div>
             <div id="sidebarContent" class="sidebar-content">
                 <!-- Event details will be populated here -->

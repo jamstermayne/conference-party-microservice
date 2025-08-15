@@ -87,7 +87,7 @@
 
   <div class="card">
     <h2>Connection Status</h2>
-    <div id="status" class="status disconnected">Checking...</div>
+    <div class="status disconnected js-status">Checking...</div>
     <div id="user-info"></div>
     <div id="actions" style="margin-top: 15px;">
       <button id="connect-btn" onclick="connectCalendar()">Connect Google Calendar</button>
@@ -102,7 +102,7 @@
       <button onclick="loadEvents('tomorrow')">Tomorrow</button>
       <button onclick="loadEvents('week')">This Week</button>
     </div>
-    <div id="events">Loading...</div>
+    <div class="js-events">Loading...</div>
   </div>
 
   <div id="create-section" class="card" style="display:none">

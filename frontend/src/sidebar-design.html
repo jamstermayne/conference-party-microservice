@@ -106,12 +106,12 @@
   <aside class="sidebar">
     <div class="sidebar-header">
       <h2>🎉 Parties</h2>
-      <button id="closeSidebar" class="close-btn">×</button>
+      <button class="close-btn js-closeSidebar">×</button>
     </div>
     <nav>
       <ul>
         <li data-section="partyPicker" class="active">Parties</li>
-        <li data-section="invites">Invites <span id="inviteCount">10</span></li>
+        <li data-section="invites">Invites <span class="js-inviteCount">10</span></li>
         <li data-section="calendar">Calendar</li>
         <li data-section="profile">Profile</li>
         <li data-section="settings">Settings</li>
@@ -134,13 +134,13 @@
     </section>
 
     <!-- Invites -->
-    <section id="invites" class="section">
+    <section class="section js-invites">
       <header><h1>Your Invites</h1></header>
       <div id="inviteList" class="card-list scrollable"></div>
     </section>
 
     <!-- Calendar -->
-    <section id="calendar" class="section">
+    <section class="section js-calendar">
       <header><h1>Calendar Sync</h1></header>
       <button id="syncGoogle" class="secondary-btn">Connect Google Calendar</button>
       <button id="syncApple" class="secondary-btn">Connect Apple Calendar</button>
@@ -149,14 +149,14 @@
     </section>
 
     <!-- Profile -->
-    <section id="profile" class="section">
+    <section class="section js-profile">
       <header><h1>Your Profile</h1></header>
       <p>Name: <span id="profileName"></span></p>
       <p>Role: <span id="profileRole"></span></p>
     </section>
 
     <!-- Settings -->
-    <section id="settings" class="section">
+    <section class="section js-settings">
       <header><h1>Settings</h1></header>
       <button id="installPWA" class="primary-btn">Install App</button>
       <button id="logout" class="danger-btn">Log Out</button>
