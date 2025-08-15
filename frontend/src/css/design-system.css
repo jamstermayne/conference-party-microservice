@@ -15,20 +15,20 @@
   --secondary-hover: #1e293b;
   --secondary-light: rgba(15, 23, 42, 0.1);
   
-  --success: #10b981;
+  --success: var(--success);
   --success-hover: #059669;
   --success-light: rgba(16, 185, 129, 0.1);
   
-  --warning: #f59e0b;
+  --warning: var(--accent-warning);
   --warning-hover: #d97706;
   --warning-light: rgba(245, 158, 11, 0.1);
   
-  --danger: #ef4444;
+  --danger: var(--error);
   --danger-hover: #dc2626;
   --danger-light: rgba(239, 68, 68, 0.1);
   
   /* Neutral Colors */
-  --bg-primary: #ffffff;
+  --bg-primary: var(--text-primary);
   --surface: #f8fafc;
   --surface-hover: #f1f5f9;
   

@@ -3,11 +3,11 @@
 :root {
   --bg-primary:#1A1D21; 
   --bg-secondary:#15151a; 
-  --surface:#1a1a1f;
-  --border:#2a2a35; 
+  --surface:var(--bg-surface);
+  --border:var(--border-primary); 
   --text-primary:#fff; 
-  --text-secondary:#a5a7ad;
-  --accent:#6b7bff; 
+  --text-secondary:var(--text-secondary);
+  --accent:var(--color-primary-dark); 
   --success:#22c55e; 
   --warning:#fde047; 
   --error:#ef4444;
@@ -42,8 +42,8 @@ body {
   border-radius:var(--r-md); 
   padding:var(--s-3) var(--s-3); 
   border:1px solid #3a3a45; 
-  background:#2a2a35; 
-  color:#fff; 
+  background:var(--border-primary); 
+  color:var(--text-primary); 
   transition:transform .1s ease; 
   font-family: inherit;
   font-size: var(--s-3-5);
@@ -66,7 +66,7 @@ body {
 }
 
 .btn-secondary { 
-  background:#2a2a35; 
+  background:var(--border-primary); 
   color:var(--text-secondary); 
 }
 
@@ -76,8 +76,8 @@ body {
   bottom:20px; 
   left:50%; 
   transform:translateX(-50%) translateY(var(--s-4)); 
-  background:#1a1a1f; 
-  color:#fff; 
+  background:var(--bg-surface); 
+  color:var(--text-primary); 
   border:1px solid var(--border); 
   padding:10px var(--s-3-5); 
   border-radius: var(--r-md); 
@@ -122,7 +122,7 @@ body {
 
 /* Parties */
 .party-card { 
-  background:#15151a; 
+  background:var(--bg-secondary); 
   border:1px solid var(--border); 
   border-radius: var(--r-xl); 
   padding:16px; 
@@ -150,7 +150,7 @@ body {
   bottom:20px; 
   left:50%; 
   transform:translateX(-50%); 
-  background:#1A1D21; 
+  background:var(--bg-primary); 
   border:1px solid #333; 
   padding:16px; 
   border-radius: var(--r-md); 
@@ -176,7 +176,7 @@ body {
   position:fixed; 
   bottom:20px; 
   right:20px; 
-  background:#1a1a1f; 
+  background:var(--bg-surface); 
   border:1px solid var(--border); 
   color:var(--text-secondary); 
   padding:8px var(--s-2-5); 
@@ -494,8 +494,8 @@ body {
 }
 
 .avatar.more { 
-  background: #2a2a35; 
-  color: #a5a7ad; 
+  background: var(--border-primary); 
+  color: var(--text-secondary); 
   font-size: 11px; 
   font-weight: 500;
   display: flex; 
@@ -519,7 +519,7 @@ body {
 }
 
 .badge-live { 
-  color: #000; 
+  color: var(--text-on-accent); 
   background: var(--warning); 
   border-color: var(--warning); 
   animation: badgePulse 2s ease-in-out infinite;

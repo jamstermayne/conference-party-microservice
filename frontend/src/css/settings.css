@@ -6,12 +6,12 @@
   --bg-primary: #0f1114;
   --bg-secondary: #1a1d24;
   --bg-card: #1a1d24;
-  --border-color: #2a2e36;
-  --text-primary: #ffffff;
-  --text-secondary: #8b92a6;
-  --accent: #6b8cff;
-  --accent-hover: #8a6bff;
-  --danger: #f44336;
+  --border-color: var(--border-secondary);
+  --text-primary: var(--text-primary);
+  --text-secondary: var(--text-tertiary);
+  --accent: var(--color-primary);
+  --accent-hover: var(--accent-secondary);
+  --danger: var(--error);
   --success: #4caf50;
 }
 

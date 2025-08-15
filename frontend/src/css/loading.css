@@ -14,7 +14,7 @@
   height: var(--s-6);
   margin-left: var(--s-3);
   border: 2px solid var(--border, #383d45);
-  border-top-color: var(--accent, #6b7bff);
+  border-top-color: var(--accent, var(--color-primary-dark));
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }

@@ -28,7 +28,7 @@
 }
 
 .social-modal-content {
-  background: var(--slack-color-background, #ffffff);
+  background: var(--slack-color-background, var(--text-primary));
   border-radius: var(--s-5);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   max-width: 480px;
@@ -177,7 +177,7 @@
   align-items: center;
   gap: var(--s-3);
   padding: var(--s-4);
-  background: var(--slack-color-background, #ffffff);
+  background: var(--slack-color-background, var(--text-primary));
   border: 2px solid var(--slack-color-border, #e5e5e5);
   border-radius: var(--s-3);
   cursor: pointer;
@@ -309,7 +309,7 @@
 }
 
 .qr-modal-content {
-  background: var(--slack-color-background, #ffffff);
+  background: var(--slack-color-background, var(--text-primary));
   border-radius: var(--s-4);
   padding: 0;
   max-width: 400px;
@@ -388,7 +388,7 @@
 }
 
 .share-notification.error {
-  background: #f44336;
+  background: var(--error);
 }
 
 @keyframes slideInRight {
@@ -404,8 +404,8 @@
 
 /* Dark Mode Support */
 [data-theme="dark"] .social-modal-content {
-  background: #1a1d21;
-  color: #ffffff;
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 [data-theme="dark"] .social-modal-header {
@@ -418,9 +418,9 @@
 }
 
 [data-theme="dark"] .social-btn {
-  background: #1a1d21;
+  background: var(--bg-primary);
   border-color: #2e2e2e;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 [data-theme="dark"] .social-btn:hover {
@@ -428,7 +428,7 @@
 }
 
 [data-theme="dark"] .qr-modal-content {
-  background: #1a1d21;
+  background: var(--bg-primary);
 }
 
 [data-theme="dark"] .qr-header {

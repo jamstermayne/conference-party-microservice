@@ -156,23 +156,23 @@
 }
 
 .toast-notification.toast-success {
-  background: linear-gradient(135deg, #10b981, #059669);
-  border-color: #10b981;
+  background: linear-gradient(135deg, var(--success), #059669);
+  border-color: var(--success);
 }
 
 .toast-notification.toast-error {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  border-color: #ef4444;
+  background: linear-gradient(135deg, var(--error), #dc2626);
+  border-color: var(--error);
 }
 
 .toast-notification.toast-warning {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  border-color: #f59e0b;
+  background: linear-gradient(135deg, var(--accent-warning), #d97706);
+  border-color: var(--accent-warning);
 }
 
 .toast-notification.toast-info {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  border-color: #3b82f6;
+  background: linear-gradient(135deg, var(--info), #2563eb);
+  border-color: var(--info);
 }
 
 /* Backwards compatibility with old modal styles */

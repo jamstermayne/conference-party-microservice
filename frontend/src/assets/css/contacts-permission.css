@@ -18,7 +18,7 @@
   transform: translate(-50%, -44%) scale(.98);
   width: min(560px, calc(100vw - var(--s-6)));
   max-height: min(78vh, 720px);
-  background: #1a1d21; 
+  background: var(--bg-primary); 
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--s-3); 
   box-shadow: 0 var(--s-5) 60px rgba(0,0,0,.55);

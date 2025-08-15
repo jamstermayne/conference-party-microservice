@@ -1,8 +1,8 @@
 /* === Invites panel polish (production) === */
 
 :root {
-  --bg-primary:#0f0f12; --bg-secondary:#15151a; --surface:#1a1a1f; --border:#2a2a35;
-  --text-primary:#fff; --text-secondary:#a5a7ad; --accent-primary:#6b7bff; --accent-success:#22c55e;
+  --bg-primary:var(--bg-tertiary); --bg-secondary:var(--bg-secondary); --surface:var(--bg-surface); --border:var(--border-primary);
+  --text-primary:var(--text-primary); --text-secondary:var(--text-secondary); --accent-primary:var(--color-primary-dark); --accent-success:var(--success);
   /* Use --r-lg from spacing-tokens.css instead of local definition */
   --t-fast:150ms; --ease-out:cubic-bezier(0,0,0.2,1);
 }

@@ -13,21 +13,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--bg-primary, #0f0f12);
+  background: var(--bg-primary, var(--bg-tertiary));
   padding: var(--s-3) 4px 8px;
-  border-bottom: 1px solid var(--border, #2a2a35);
+  border-bottom: 1px solid var(--border, var(--border-primary));
 }
 
 .ph-left { display: flex; align-items: center; gap: 8px; }
 .hash-tag {
   width: var(--s-6); height: var(--s-6); border-radius: 6px;
-  background: linear-gradient(180deg, #6b7bff, #3a3f99);
-  display: grid; place-items: center; color: #fff; font-weight: 700;
+  background: linear-gradient(180deg, var(--color-primary-dark), #3a3f99);
+  display: grid; place-items: center; color: var(--text-primary); font-weight: 700;
 }
 .ph-title {
   margin: 0;
   font-size: 1rem;
-  color: var(--text-primary, #fff);
+  color: var(--text-primary, var(--text-primary));
   text-transform: lowercase;
   letter-spacing: 0.3px;
 }
@@ -49,8 +49,8 @@
 
 /* Card */
 .party-card {
-  background: var(--surface, #1a1a1f);
-  border: 1px solid var(--border, #2a2a35);
+  background: var(--surface, var(--bg-surface));
+  border: 1px solid var(--border, var(--border-primary));
   border-radius: var(--r-lg, 16px);
   padding: var(--s-3) 12px 10px;
   display: flex; flex-direction: column; gap: 10px;
@@ -60,17 +60,17 @@
 
 .pc-top { display: flex; flex-direction: column; gap: 6px; }
 .pc-title {
-  color: var(--text-primary, #fff);
+  color: var(--text-primary, var(--text-primary));
   font-weight: 700;
   text-decoration: none;
   line-height: 1.2;
 }
 .pc-title:hover { text-decoration: underline; }
 
-.pc-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--text-secondary, #a5a7ad); }
+.pc-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--text-secondary, var(--text-secondary)); }
 .pc-chip {
   padding: 2px 8px;
-  border: 1px solid var(--border, #2a2a35);
+  border: 1px solid var(--border, var(--border-primary));
   border-radius: 999px;
   background: rgba(255,255,255,0.02);
   font-size: 0.8rem;
@@ -79,7 +79,7 @@
 .pc-price {
   margin-left: auto;
   font-weight: 600;
-  color: var(--accent-primary, #6b7bff);
+  color: var(--accent-primary, var(--color-primary-dark));
 }
 .pc-bottom { display: flex; gap: 8px; }
 

@@ -1,6 +1,6 @@
 /* ---- velocity unified theme ---- */
 :root{
-  --bg:#0c111b; --panel:#0f1625; --border:#1e2740; --muted:#9aa7bf; --text:#eaf0ff;
+  --bg:#0c111b; --panel:#0f1625; --border:#1e2740; --muted:var(--text-muted); --text:#eaf0ff;
   --accent1:#8c7aff; --accent2:#5b47ff; --good:#16c784; --shadow:0 var(--s-2-5) var(--s-10) rgba(18,20,40,.35);
   --radius:16px; --pad:14px;
 }
@@ -30,7 +30,7 @@ body{background:var(--bg); color:var(--text)}
 .vactions{display:flex; gap:8px; flex-wrap:wrap}
 /* Buttons */
 .vbtn{padding:10px var(--s-3-5); font-weight:800; border-radius: var(--r-lg); border:1px solid #2b2f45; background:#202a44; color:#dee9ff}
-.vbtn.primary{background:linear-gradient(180deg,var(--accent1) 0%,var(--accent2) 100%); border:0; color:#fff}
+.vbtn.primary{background:linear-gradient(180deg,var(--accent1) 0%,var(--accent2) 100%); border:0; color:var(--text-primary)}
 .vbtn.ghost{background:transparent; border:1px solid #2b2f45; color:#cfe0ff}
 /* Calendar rows (tall enough for hero cards) */
 :root{ --hour-height: 240px }
@@ -44,7 +44,7 @@ body{background:var(--bg); color:var(--text)}
   width:52px;height:52px;border-radius: var(--r-pill);
   background:linear-gradient(180deg,var(--accent1),var(--accent2));
   display:flex;align-items:center;justify-content:center;
-  color:#fff;font-weight:800;font-size:16px;letter-spacing:.5px;
+  color:var(--text-primary);font-weight:800;font-size:16px;letter-spacing:.5px;
   box-shadow:var(--shadow);
 }
 .vpf-body{flex:1}

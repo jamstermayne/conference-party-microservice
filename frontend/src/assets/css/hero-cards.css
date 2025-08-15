@@ -1,6 +1,6 @@
 :root{
   --v-bg:#0c111b; --v-panel:#0f1625; --v-border:#20263a;
-  --v-sheen2:#14213d; --v-text:#eaf0ff; --v-muted:#9aa7bf;
+  --v-sheen2:#14213d; --v-text:#eaf0ff; --v-muted:var(--text-muted);
   /* Use tokens from spacing-tokens.css for radius, padding, shadow */
 }
 .vcard{
@@ -19,23 +19,23 @@
 .vmeta{ display:flex; gap:var(--s-3); flex-wrap:wrap; color:var(--v-muted); margin:var(--s-2) 0 var(--s-3) }
 .vactions{ display:flex; gap:var(--s-2) }
 .vbtn{ padding:var(--s-2) var(--s-3); font-weight:700; border-radius:var(--r-lg); border:1px solid #2b2f45; background:#202a44; color:#dee9ff }
-.vbtn.primary{ background:linear-gradient(180deg,#8c7aff 0%,#5b47ff 100%); border:0; color:#fff }
+.vbtn.primary{ background:linear-gradient(180deg,#8c7aff 0%,#5b47ff 100%); border:0; color:var(--text-primary) }
 
 /* M2M additions (tiny, scoped) */
 .vpill.m2m { border-color:#3c2f6e; background:#151235; color:#cbd7ff }
 .vspinner { display:inline-block; width:16px; height:16px; border-radius:50%;
-  border:2px solid rgba(255,255,255,.25); border-top-color:#fff; animation:vspin .7s linear infinite; }
+  border:2px solid rgba(255,255,255,.25); border-top-color:var(--text-primary); animation:vspin .7s linear infinite; }
 @keyframes vspin { to { transform: rotate(360deg); } }
 
 /* Modal — lightweight, isolated */
 .vmodal{ position:fixed; inset:0; display:grid; place-items:center; background:rgba(6,10,20,.55); z-index: 9999; }
 .vmodal__panel{ width:min(520px, 92vw); background:#0f1625; border:1px solid #20263a; border-radius:var(--r-xl); padding:var(--s-4); }
 .vmodal__title{ margin:0 0 var(--s-2) 0; color:#eaf0ff; font-weight:800; }
-.vmodal__desc{ margin:0 0 var(--s-3) 0; color:#9aa7bf; }
+.vmodal__desc{ margin:0 0 var(--s-3) 0; color:var(--text-muted); }
 .vmodal__row{ margin:var(--s-3) 0; }
 .vmodal__panel input[type="url"]{ width:100%; padding:var(--s-3); border-radius:var(--r-md); border:1px solid #2b2f45; background:#0b1220; color:#eaf0ff; }
 .vmodal__msg{ margin-top:var(--s-2); min-height:18px; font-size:13px; }
-.vmodal__close{ position:absolute; right:var(--s-4); top:var(--s-3); background:transparent; border:0; color:#9aa7bf; font-size:22px; cursor:pointer }
+.vmodal__close{ position:absolute; right:var(--s-4); top:var(--s-3); background:transparent; border:0; color:var(--text-muted); font-size:22px; cursor:pointer }
 
 /* === Grid wrapper (keeps your existing class names working) === */
 .cards, .card-grid, .vgrid { 

@@ -1,19 +1,19 @@
 /* Design Tokens - Enterprise Grade */
 :root {
   /* Colors */
-  --accent-primary: #6b7bff;
+  --accent-primary: var(--color-primary-dark);
   --accent-secondary: #4f63d2;
-  --surface-primary: #1a1d21;
+  --surface-primary: var(--bg-primary);
   --surface-secondary: #2d3142;
   --surface-tertiary: #3c4043;
-  --text-primary: #ffffff;
+  --text-primary: var(--text-primary);
   --text-secondary: #b3b3b3;
   --text-muted: #8a8a8a;
   --border-primary: #3c4043;
   --border-secondary: #4f4f4f;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
+  --success: var(--success);
+  --warning: var(--accent-warning);
+  --error: var(--error);
   
   /* Spacing */
   --space-xs: 4px;

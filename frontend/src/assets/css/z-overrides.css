@@ -74,7 +74,7 @@ aside.sidebar ul {
   top: 0;
   bottom: 0;
   width: 3px;
-  background: linear-gradient(180deg, #6b8cff, #8a6bff);
+  background: linear-gradient(180deg, var(--color-primary), var(--accent-secondary));
   border-radius: 0 3px 3px 0;
 }
 /* kill-brand-dot */

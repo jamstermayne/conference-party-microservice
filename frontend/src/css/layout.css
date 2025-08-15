@@ -13,7 +13,7 @@ body { background:#0b0c12; }
 }
 .sidebar{ position:sticky; top:0; align-self:start; height:100vh; overflow:auto; background:#111217; border-right:1px solid var(--divider); }
 .content{ padding:24px; min-width:0; overflow:auto; }
-.content h1.page-title{ margin:0 0 16px; font-size:1.5rem; color:#fff; }
+.content h1.page-title{ margin:0 0 16px; font-size:1.5rem; color:var(--text-primary); }
 .route-chip{ margin-left:8px; font-size:.85rem; opacity:.8; color:#9aa3b2; }
 
 /* Brand area */
@@ -26,7 +26,7 @@ body { background:#0b0c12; }
   align-items: center;
   gap: var(--s-3);
   text-decoration: none;
-  color: #fff;
+  color: var(--text-primary);
 }
 .brand-meta {
   display: flex;
@@ -58,7 +58,7 @@ body { background:#0b0c12; }
 }
 .nav a:hover {
   background: rgba(255,255,255,0.05);
-  color: #fff;
+  color: var(--text-primary);
 }
 .nav a.active {
   background: rgba(124,138,255,0.15);
@@ -85,7 +85,7 @@ body { background:#0b0c12; }
 }
  .legacy-card h3 {
   margin: 0 0 12px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 1.1rem;
 }
 .pill {

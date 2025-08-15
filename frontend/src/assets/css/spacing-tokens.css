@@ -47,7 +47,7 @@
   --shadow-card-hover: 0 0 0 1px rgba(107,140,255,0.2), 0 24px 70px rgba(0,0,0,0.35);
   
   /* Accent colors for UI elements */
-  --accent-primary: #6b8cff;
+  --accent-primary: var(--color-primary);
   --accent-200: #8ba4ff;
 }
 

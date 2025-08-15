@@ -17,7 +17,7 @@
 .party-card__actions          { display:flex; gap:10px; margin-top:14px; }
 .btn--primary                 { padding:8px var(--s-3-5); border-radius:10px; border:1px solid rgba(93, 76, 255, .6);
   background: linear-gradient(180deg,#6d6aff,#5a43ff);
-  color:#fff; font-weight:700; box-shadow: 0 var(--s-3) 25px rgba(106,72,255,.35);
+  color:var(--text-primary); font-weight:700; box-shadow: 0 var(--s-3) 25px rgba(106,72,255,.35);
 }
 .btn--ghost                   { padding:8px var(--s-3-5); border-radius:10px; border:1px solid rgba(255,255,255,.10);
   background: rgba(255,255,255,.04); color:#e7e9ff;

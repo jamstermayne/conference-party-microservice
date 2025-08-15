@@ -93,7 +93,7 @@
   
   --button-primary-bg: var(--accent-primary);
   --button-primary-hover: #5b82f6;
-  --button-secondary-bg: #2a2a35;
+  --button-secondary-bg: var(--border-primary);
   --button-secondary-hover: #3a3a45;
   
   /* State Colors */
@@ -109,7 +109,7 @@
   --ink-3: #1c1f2b;
   
   /* Foreground Scale */
-  --fg-0: #ffffff;
+  --fg-0: var(--text-primary);
   --fg-1: #d8dbe6;
   --fg-2: #9aa3b2;
   --fg-3: #6b7380;
@@ -125,7 +125,7 @@
 /* Light theme (future) */
 @media (prefers-color-scheme: light) {
   :root.theme-light {
-    --bg-primary: #ffffff;
+    --bg-primary: var(--text-primary);
     --bg-secondary: #f9fafb;
     --text-primary: #111827;
     --text-secondary: #6b7280;

@@ -41,7 +41,7 @@
 .card-sub .pin-to-map,
 .vmeta .pin-to-map {
   margin-right: var(--s-2);
-  color: #ef4444;
+  color: var(--error);
 }
 
 /* Accessibility focus */

@@ -8,11 +8,11 @@
   /* ===== BRAND COLORS ===== */
   --color-brand-primary: #6366f1;
   --color-brand-secondary: #8b5cf6;
-  --color-brand-accent: #f59e0b;
+  --color-brand-accent: var(--accent-warning);
   
   /* Professional Personas */
-  --color-persona-developer: #10b981;
-  --color-persona-publisher: #f59e0b;
+  --color-persona-developer: var(--success);
+  --color-persona-publisher: var(--accent-warning);
   --color-persona-investor: #6366f1;
   --color-persona-service: #8b5cf6;
   
@@ -20,32 +20,32 @@
   --color-level-starter: #94a3b8;
   --color-level-connected: #6366f1;
   --color-level-influencer: #a855f7;
-  --color-level-leader: #f59e0b;
-  --color-level-legend: #ef4444;
+  --color-level-leader: var(--accent-warning);
+  --color-level-legend: var(--error);
   
   /* Status Colors */
-  --color-status-available: #10b981;
-  --color-status-busy: #f59e0b;
+  --color-status-available: var(--success);
+  --color-status-busy: var(--accent-warning);
   --color-status-offline: #94a3b8;
-  --color-status-private: #ef4444;
+  --color-status-private: var(--error);
   
   /* Semantic Colors */
-  --color-success: #10b981;
+  --color-success: var(--success);
   --color-success-light: #34d399;
   --color-success-dark: #059669;
   --color-success-bg: rgba(16, 185, 129, 0.1);
   
-  --color-warning: #f59e0b;
+  --color-warning: var(--accent-warning);
   --color-warning-light: #fbbf24;
   --color-warning-dark: #d97706;
   --color-warning-bg: rgba(245, 158, 11, 0.1);
   
-  --color-danger: #ef4444;
+  --color-danger: var(--error);
   --color-danger-light: #f87171;
   --color-danger-dark: #dc2626;
   --color-danger-bg: rgba(239, 68, 68, 0.1);
   
-  --color-info: #3b82f6;
+  --color-info: var(--info);
   --color-info-light: #60a5fa;
   --color-info-dark: #2563eb;
   --color-info-bg: rgba(59, 130, 246, 0.1);
@@ -375,12 +375,12 @@
 /* Compact, production-ready token system */
 :root {
   /* === Color === */
-  --bg-primary:#0f0f12; --bg-secondary:#15151a; --surface:#1a1a1f; --border:#2a2a35;
-  --text-primary:#ffffff; --text-secondary:#a5a7ad; --text-muted:#6b6b75;
-  --accent-primary:#6b7bff; --accent-success:#22c55e; --accent-warning:#fde047; --accent-error:#ef4444;
+  --bg-primary:var(--bg-tertiary); --bg-secondary:var(--bg-secondary); --surface:var(--bg-surface); --border:var(--border-primary);
+  --text-primary:var(--text-primary); --text-secondary:var(--text-secondary); --text-muted:#6b6b75;
+  --accent-primary:var(--color-primary-dark); --accent-success:var(--success); --accent-warning:var(--warning); --accent-error:var(--error);
 
   /* Personas */
-  --dev-color:#7dd3fc; --pub-color:#fca5a5; --inv-color:#fde047; --sp-color:#86efac;
+  --dev-color:#7dd3fc; --pub-color:#fca5a5; --inv-color:var(--warning); --sp-color:#86efac;
 
   /* === Spacing === */
   --sp-0:0; --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px;
@@ -415,7 +415,7 @@
   /* Gold invite system for prestige + scarcity */
   --invited-gold-bg: rgba(255,215,0,.18);
   --invited-gold-br: rgba(255,215,0,.45);
-  --invited-gold-fg: #ffd700;
+  --invited-gold-fg: var(--accent-warning);
 
   /* Motion timing for Jobs/Ive feel */
   --ease-out: cubic-bezier(0, 0, 0.2, 1);

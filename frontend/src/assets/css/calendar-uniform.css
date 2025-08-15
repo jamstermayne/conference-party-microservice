@@ -6,7 +6,7 @@
   --cal-gutter: var(--s-13);                   /* left time gutter width */
   --cal-pad: var(--s-4);                      /* right padding */
   --cal-grid-line: rgba(255,255,255,.06);
-  --cal-muted: #9aa7bf;
+  --cal-muted: var(--text-muted);
 }
 
 /* Page container inside #main */

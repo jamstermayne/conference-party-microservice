@@ -11,7 +11,7 @@ a.btn--secondary {
   justify-content: center;
   padding: var(--s-2-5) var(--s-5);
   background: transparent;
-  color: #9aa7bf;
+  color: var(--text-muted);
   border: 1px solid rgba(154, 167, 191, 0.3);
   border-radius: var(--r-md);
   font-size: var(--s-3-5);

@@ -8,7 +8,7 @@
   align-items: center;
   gap: var(--s-2);
   padding: var(--s-2-5) var(--s-5);
-  background: linear-gradient(135deg, #6b8cff, #8a6bff);
+  background: linear-gradient(135deg, var(--color-primary), var(--accent-secondary));
   color: white;
   border: none;
   border-radius: var(--r-md);

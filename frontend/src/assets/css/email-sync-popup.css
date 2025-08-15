@@ -4,8 +4,8 @@
     position: fixed;
     bottom: var(--spacing-lg, var(--s-6));
     right: var(--spacing-lg, var(--s-6));
-    background: var(--surface, #1a1a1f);
-    color: var(--text-primary, #fff);
+    background: var(--surface, var(--bg-surface));
+    color: var(--text-primary, var(--text-primary));
     border-radius: var(--radius-lg, var(--s-3));
     box-shadow: 
         0 var(--s-2) var(--s-8) rgba(0, 0, 0, 0.4),
@@ -46,7 +46,7 @@
 .popup-text {
     font-size: var(--font-size-sm, var(--s-3-5));
     line-height: 1.5;
-    color: var(--text-primary, #fff);
+    color: var(--text-primary, var(--text-primary));
     margin: 0;
     padding-right: var(--s-6); /* Space for close button */
     font-weight: 500;
@@ -58,7 +58,7 @@
     right: -8px;
     background: none;
     border: none;
-    color: var(--text-secondary, #a5a7ad);
+    color: var(--text-secondary, var(--text-secondary));
     font-size: var(--s-5);
     cursor: pointer;
     padding: var(--s-1) var(--s-2);
@@ -76,18 +76,18 @@
 }
 
 .popup-close:hover {
-    color: var(--text-primary, #fff);
+    color: var(--text-primary, var(--text-primary));
     background-color: rgba(255, 255, 255, 0.05);
 }
 
 .popup-close:focus {
-    outline: var(--s-0-5) solid var(--accent, #6b7bff);
+    outline: var(--s-0-5) solid var(--accent, var(--color-primary-dark));
     outline-offset: var(--s-0-5);
 }
 
 .btn-sync {
     align-self: flex-start;
-    background: var(--accent, #6b7bff);
+    background: var(--accent, var(--color-primary-dark));
     color: white;
     border: none;
     padding: var(--spacing-sm, var(--s-3)) var(--spacing-md, var(--s-4));
@@ -150,7 +150,7 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .email-sync-popup {
-        border: var(--s-0-5) solid var(--text-primary, #fff);
+        border: var(--s-0-5) solid var(--text-primary, var(--text-primary));
         box-shadow: 0 var(--s-2) var(--s-8) rgba(0, 0, 0, 0.8);
     }
     
@@ -190,8 +190,8 @@
 /* Dark mode compatibility (already designed for dark theme) */
 @media (prefers-color-scheme: light) {
     .email-sync-popup {
-        background: var(--bg-primary, #ffffff);
-        color: var(--text-primary, #1a1a1f);
+        background: var(--bg-primary, var(--text-primary));
+        color: var(--text-primary, var(--bg-surface));
         box-shadow: 
             0 var(--s-2) var(--s-8) rgba(0, 0, 0, 0.1),
             0 0 0 1px rgba(0, 0, 0, 0.1);
@@ -199,7 +199,7 @@
     }
     
     .popup-text {
-        color: var(--text-primary, #1a1a1f);
+        color: var(--text-primary, var(--bg-surface));
     }
     
     .popup-close {
@@ -207,7 +207,7 @@
     }
     
     .popup-close:hover {
-        color: var(--text-primary, #1a1a1f);
+        color: var(--text-primary, var(--bg-surface));
         background-color: rgba(0, 0, 0, 0.05);
     }
 }

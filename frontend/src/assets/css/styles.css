@@ -1,9 +1,9 @@
 /* Jobs/Ive + Slack Design System */
 :root{
-  --bg: #1a1d21; --bg-2:#21252b; --surface:#2b2f36; --b:#383d45;
-  --text:#ffffff; --muted:#9ea2aa;
-  --accent:#6b7bff; --ok:#22c55e; --warn:#fde047; --err:#ef4444;
-  --dev:#7dd3fc; --pub:#fca5a5; --inv:#fde047; --sp:#86efac;
+  --bg: var(--bg-primary); --bg-2:#21252b; --surface:#2b2f36; --b:#383d45;
+  --text:var(--text-primary); --muted:#9ea2aa;
+  --accent:var(--color-primary-dark); --ok:var(--success); --warn:var(--warning); --err:var(--error);
+  --dev:#7dd3fc; --pub:#fca5a5; --inv:var(--warning); --sp:#86efac;
   --shadow: 0 var(--s-2) var(--s-6) rgba(0,0,0,.35);
   --r:16px; --r-sm:12px; --r-xs:8px; --gap:12px;
   --fast:150ms; --norm:220ms; --ease: cubic-bezier(0,0,0.2,1);
@@ -35,8 +35,8 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 Inter,system-
   border-radius:var(--r-lg,10px);background:transparent;color:var(--text-secondary,#a1a1a1);
   border:1px solid transparent;text-align:left;transition:background var(--fast) var(--ease), border-color var(--fast) var(--ease), color var(--fast) var(--ease)
 }
-.nav-item:hover{background:rgba(255,255,255,.04);color:var(--text-primary,#fff);border-color:var(--b)}
-.nav-item.active{background:rgba(255,255,255,.04);color:#fff}
+.nav-item:hover{background:rgba(255,255,255,.04);color:var(--text-primary,var(--text-primary));border-color:var(--b)}
+.nav-item.active{background:rgba(255,255,255,.04);color:var(--text-primary)}
 .nav-item.active::before{
   content:"";
   position:absolute;
@@ -49,7 +49,7 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 Inter,system-
   box-shadow:var(--rail-glow);
 }
 .pill{padding:2px var(--s-2);border-radius: var(--r-pill);font-size:12px;margin-left:8px}
-.pill-gold{background:rgba(255,215,0,.18);border:1px solid rgba(255,215,0,.45);color:#ffd700}
+.pill-gold{background:rgba(255,215,0,.18);border:1px solid rgba(255,215,0,.45);color:var(--accent-warning)}
 .side-footer{margin-top:auto;padding:8px;color:var(--muted);font-size:12px}
 
 /* Authentication UI styling */
@@ -72,8 +72,8 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 Inter,system-
 .icon-btn{background:transparent;border:none;color:var(--text);font-size:18px}
 
 section[data-route]{padding:16px;display:grid;gap:12px}
-.text-heading{font-size:20px;font-weight:700;color:var(--text-primary,#fff);margin:0 0 var(--s-4) 0;letter-spacing:-0.3px}
-.main-pane{flex:1;overflow:auto;background:var(--bg-primary,#1a1d21)}
+.text-heading{font-size:20px;font-weight:700;color:var(--text-primary,var(--text-primary));margin:0 0 var(--s-4) 0;letter-spacing:-0.3px}
+.main-pane{flex:1;overflow:auto;background:var(--bg-primary,var(--bg-primary))}
 
 /* Slack-style channel hash */
 .channel-hash{
@@ -143,7 +143,7 @@ section[data-route]{padding:16px;display:grid;gap:12px}
 .list-title{font-weight:700}
 .list-sub{color:var(--muted);font-size:13px;margin-top:2px}
 .badges{display:flex;gap:6px;flex-wrap:wrap}
-.badge{padding:3px var(--s-2);border-radius: var(--r-md);font-size:12px;color:#0f0f12}
+.badge{padding:3px var(--s-2);border-radius: var(--r-md);font-size:12px;color:var(--bg-tertiary)}
 .badge.dev{background:var(--dev)} .badge.pub{background:var(--pub)} .badge.inv{background:var(--inv)} .badge.sp{background:var(--sp)}
 .cta{display:flex;gap:8px;align-items:center}
 
@@ -151,7 +151,7 @@ section[data-route]{padding:16px;display:grid;gap:12px}
 .btn:hover{background:rgba(255,255,255,.1)}
 .btn:active{transform:translateY(0)}
 .btn:focus{outline:3px solid rgba(107,123,255,.6);outline-offset:2px}
-.btn-primary{background:#0073b1;color:#fff}
+.btn-primary{background:#0073b1;color:var(--text-primary)}
 .btn-primary:hover{background:#005885}
 .btn-primary:focus{outline:3px solid #00a0dc;outline-offset:2px}
 .btn-secondary{background:transparent;color:#ccc;border:1px solid #666}
@@ -164,7 +164,7 @@ section[data-route]{padding:16px;display:grid;gap:12px}
 
 /* Skip link for accessibility */
 .skip-link{
-  position:absolute;top:-40px;left:0;background:#000;color:#fff;padding:8px var(--s-4);
+  position:absolute;top:-40px;left:0;background:var(--text-on-accent);color:var(--text-primary);padding:8px var(--s-4);
   z-index:100;border-radius:0 0 var(--s-2) 0;text-decoration:none;font-weight:600;
   transition:top var(--fast) var(--ease)
 }
@@ -289,8 +289,8 @@ section[data-route]{padding:16px;display:grid;gap:12px}
 .events-header h2 { margin: 0 0 var(--s-1) 0; font-size: var(--s-5); font-weight: 700; }
 .events-grid { display: grid; gap: var(--s-3); }
 .party-card {
-  background: var(--surface, #15151a);
-  border: 1px solid var(--b, #2a2a35);
+  background: var(--surface, var(--bg-secondary));
+  border: 1px solid var(--b, var(--border-primary));
   border-radius: var(--s-4);
   padding: var(--s-4);
   transition: border-color var(--fast) var(--ease), transform var(--fast) var(--ease);
@@ -309,7 +309,7 @@ section[data-route]{padding:16px;display:grid;gap:12px}
   margin-bottom: var(--s-3);
 }
 .party-title {
-  color: var(--text, #fff);
+  color: var(--text, var(--text-primary));
   margin: 0;
   font-weight: 600;
   font-size: var(--s-4);
@@ -331,20 +331,20 @@ section[data-route]{padding:16px;display:grid;gap:12px}
   margin-bottom: var(--s-2);
 }
 .party-venue, .party-time {
-  color: var(--muted, #a5a7ad);
+  color: var(--muted, var(--text-secondary));
   font-size: 13px;
   display: flex;
   align-items: center;
   gap: var(--s-1-5);
 }
 .party-description {
-  color: var(--muted, #a5a7ad);
+  color: var(--muted, var(--text-secondary));
   font-size: var(--s-3-5);
   line-height: 1.4;
   margin: var(--s-2) 0 0 0;
 }
 .party-stats {
-  color: var(--muted, #a5a7ad);
+  color: var(--muted, var(--text-secondary));
   font-size: var(--s-3);
   margin-top: var(--s-2);
 }
@@ -360,8 +360,8 @@ section[data-route]{padding:16px;display:grid;gap:12px}
   padding: var(--s-2) var(--s-3);
 }
 .btn-success {
-  background: var(--ok, #22c55e);
-  border-color: var(--ok, #22c55e);
+  background: var(--ok, var(--success));
+  border-color: var(--ok, var(--success));
   color: #0b1a0f;
 }
 .btn-success:hover {
@@ -388,8 +388,8 @@ section[data-route]{padding:16px;display:grid;gap:12px}
   font-weight: 600;
   margin: 0 0 var(--s-2) 0;
 }
-.empty-state-title { color: var(--text, #ffffff); }
-.error-state-title { color: var(--err, #ef4444); }
+.empty-state-title { color: var(--text, var(--text-primary)); }
+.error-state-title { color: var(--err, var(--error)); }
 .empty-state-message, .error-state-message, .loading-message {
   font-size: var(--s-3-5);
   line-height: 1.4;
@@ -403,7 +403,7 @@ section[data-route]{padding:16px;display:grid;gap:12px}
   top: var(--s-5);
   left: 50%;
   transform: translateX(-50%);
-  background: var(--accent, #6b7bff);
+  background: var(--accent, var(--color-primary-dark));
   color: white;
   padding: var(--s-2) var(--s-4);
   border-radius: var(--s-5);
@@ -426,7 +426,7 @@ section[data-route]{padding:16px;display:grid;gap:12px}
 .sync-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--b);border-radius:var(--r-sm);padding:12px}
 .sync-item .grow{flex:1}
 .sync-actions{display:flex;gap:8px}
-.sync-success{display:flex;align-items:center;gap:8px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:#22c55e;border-radius: var(--r-lg);padding:8px var(--s-3)}
+.sync-success{display:flex;align-items:center;gap:8px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:var(--success);border-radius: var(--r-lg);padding:8px var(--s-3)}
 
 .sheet{position:fixed;left:0;right:0;bottom:0;background:var(--bg-2);border-top:1px solid var(--b);border-radius: var(--r-xl) var(--s-4) 0 0;padding:12px var(--s-4);transform:translateY(var(--s-4));opacity:0;pointer-events:none}
 .sheet.show{transform:translateY(0);opacity:1;pointer-events:auto;transition:transform var(--norm) var(--ease),opacity var(--norm) var(--ease)}
@@ -439,7 +439,7 @@ section[data-route]{padding:16px;display:grid;gap:12px}
 .trophy-list{list-style:none;margin:0;padding:0;max-height:58vh;overflow:auto;display:grid;gap:8px}
 .trophy-row{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--b);border-radius: var(--r-lg);padding:10px var(--s-3)}
 .trophy-row .avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.08)}
-.badge-ok{color:#22c55e;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);border-radius: var(--r-pill);padding:4px var(--s-2);font-size:12px;margin-left:auto}
+.badge-ok{color:var(--success);background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);border-radius: var(--r-pill);padding:4px var(--s-2);font-size:12px;margin-left:auto}
 .badge-wait{color:var(--muted);background:rgba(165,167,173,.1);border:1px solid rgba(165,167,173,.35);border-radius: var(--r-pill);padding:4px var(--s-2);font-size:12px;margin-left:auto;animation:softPulse 2.2s ease-in-out infinite}
 .bonus{display:flex;align-items:center;gap:8px;background:linear-gradient(180deg, rgba(255,215,0,.15), rgba(255,215,0,.08));border:1px solid rgba(255,215,0,.35);border-radius: var(--r-lg);padding:10px var(--s-3)}
 

@@ -4,7 +4,7 @@
 
 .integration-card {
   background: var(--card-bg, #1a1d24);
-  border: 1px solid var(--border-color, #2a2e36);
+  border: 1px solid var(--border-color, var(--border-secondary));
   border-radius: var(--s-3);
   padding: var(--s-5);
   margin-bottom: var(--s-5);
@@ -20,7 +20,7 @@
 .integration-icon {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, #6b8cff, #8a6bff);
+  background: linear-gradient(135deg, var(--color-primary), var(--accent-secondary));
   border-radius: var(--s-3);
   display: flex;
   align-items: center;
@@ -36,13 +36,13 @@
   margin: 0 0 4px 0;
   font-size: 18px;
   font-weight: 600;
-  color: var(--text-primary, #fff);
+  color: var(--text-primary, var(--text-primary));
 }
 
 .integration-description {
   margin: 0;
   font-size: 14px;
-  color: var(--text-secondary, #8b92a6);
+  color: var(--text-secondary, var(--text-tertiary));
 }
 
 /* Status */
@@ -65,20 +65,20 @@
 }
 
 .status-error .status-indicator {
-  background: #f44336;
+  background: var(--error);
   animation: none;
 }
 
 .status-text {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-primary, #fff);
+  color: var(--text-primary, var(--text-primary));
 }
 
 .status-error-message {
   margin-left: auto;
   font-size: var(--s-3);
-  color: #f44336;
+  color: var(--error);
 }
 
 @keyframes pulse {
@@ -102,7 +102,7 @@
 
 .stat-label {
   font-size: var(--s-3);
-  color: var(--text-secondary, #8b92a6);
+  color: var(--text-secondary, var(--text-tertiary));
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -110,7 +110,7 @@
 .stat-value {
   font-size: var(--s-4);
   font-weight: 600;
-  color: var(--text-primary, #fff);
+  color: var(--text-primary, var(--text-primary));
 }
 
 /* Actions */
@@ -133,23 +133,23 @@
   margin-bottom: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-primary, #fff);
+  color: var(--text-primary, var(--text-primary));
 }
 
 .integration-connect input {
   width: 100%;
   padding: 10px 12px;
   background: var(--input-bg, #0f1114);
-  border: 1px solid var(--border-color, #2a2e36);
+  border: 1px solid var(--border-color, var(--border-secondary));
   border-radius: var(--r-md);
-  color: var(--text-primary, #fff);
+  color: var(--text-primary, var(--text-primary));
   font-size: 14px;
   font-family: 'Monaco', 'Courier New', monospace;
 }
 
 .integration-connect input:focus {
   outline: none;
-  border-color: #6b8cff;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(107, 140, 255, 0.1);
 }
 
@@ -157,11 +157,11 @@
   display: block;
   margin-top: 8px;
   font-size: 13px;
-  color: var(--text-secondary, #8b92a6);
+  color: var(--text-secondary, var(--text-tertiary));
 }
 
 .integration-connect .form-text a {
-  color: #6b8cff;
+  color: var(--color-primary);
   text-decoration: none;
 }
 
@@ -190,7 +190,7 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #6b8cff, #8a6bff);
+  background: linear-gradient(135deg, var(--color-primary), var(--accent-secondary));
   color: white;
 }
 
@@ -201,8 +201,8 @@
 
 .btn-secondary {
   background: var(--bg-secondary, #1a1d24);
-  color: var(--text-primary, #fff);
-  border: 1px solid var(--border-color, #2a2e36);
+  color: var(--text-primary, var(--text-primary));
+  border: 1px solid var(--border-color, var(--border-secondary));
 }
 
 .btn-secondary:hover:not(:disabled) {
@@ -211,8 +211,8 @@
 
 .btn-danger {
   background: transparent;
-  color: #f44336;
-  border: 1px solid #f44336;
+  color: var(--error);
+  border: 1px solid var(--error);
 }
 
 .btn-danger:hover:not(:disabled) {
@@ -239,7 +239,7 @@
 }
 
 .notification-error {
-  background: linear-gradient(135deg, #f44336, #ef5350);
+  background: linear-gradient(135deg, var(--error), #ef5350);
 }
 
 .notification-info {

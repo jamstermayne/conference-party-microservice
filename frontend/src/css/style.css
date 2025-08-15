@@ -488,7 +488,7 @@
   z-index: 2000;
 }
 .modal-content {
-  background: #fff;
+  background: var(--text-primary);
   padding: var(--s-6);
   border-radius: var(--s-3);
   max-width: 480px;

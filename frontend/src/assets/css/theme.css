@@ -1,6 +1,6 @@
 :root{
   --v-bg:#0b0f1a; --v-panel:#0f1523; --v-border:#232a41;
-  --v-text:#e9eeff; --v-muted:#9aa7bf;
+  --v-text:#e9eeff; --v-muted:var(--text-muted);
   --v-p1:#8c7aff; --v-p2:#5b47ff; --v-hover:rgba(111,128,255,.08);
   /* Use --r-xl from spacing-tokens.css instead of --v-radius */
 }
@@ -23,7 +23,7 @@ html,body{background:var(--v-bg);color:var(--v-text)}
 }
 .vbtn.primary,.btn.primary,button.primary{
   background:linear-gradient(180deg,var(--v-p1) 0%,var(--v-p2) 100%);
-  border:0;color:#fff;
+  border:0;color:var(--text-primary);
 }
 .vbtn:hover,.btn:hover,button:hover{background:#1a2238;border-color:#394267}
 .vbtn.primary:hover,.btn.primary:hover,button.primary:hover{

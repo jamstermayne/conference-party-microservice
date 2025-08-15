@@ -6,26 +6,26 @@
 /* ===== DESIGN TOKENS ===== */
 :root {
   /* Base */
-  --bg-primary: #0f0f12;
-  --bg-secondary: #15151a;
-  --surface: #1a1a1f;
-  --border: #2a2a35;
+  --bg-primary: var(--bg-tertiary);
+  --bg-secondary: var(--bg-secondary);
+  --surface: var(--bg-surface);
+  --border: var(--border-primary);
 
   /* Text */
-  --text-primary: #ffffff;
-  --text-secondary: #a5a7ad;
+  --text-primary: var(--text-primary);
+  --text-secondary: var(--text-secondary);
   --text-muted: #6b6b75;
 
   /* Accent */
-  --accent-primary: #6b7bff;
-  --accent-success: #22c55e;
-  --accent-warning: #fde047;
-  --accent-error: #ef4444;
+  --accent-primary: var(--color-primary-dark);
+  --accent-success: var(--success);
+  --accent-warning: var(--warning);
+  --accent-error: var(--error);
 
   /* Personas */
   --dev-color: #7dd3fc;
   --pub-color: #fca5a5;
-  --inv-color: #fde047;
+  --inv-color: var(--warning);
   --sp-color: #86efac;
 
   /* Radii */
@@ -314,7 +314,7 @@
 .nav-item{width:100%;text-align:left;padding:10px 12px;border-radius: var(--r-md);background:transparent;border:1px solid transparent;color:var(--text-primary);transition:background 150ms var(--ease-out),border-color 150ms var(--ease-out)}
 .nav-item:hover{background:rgba(255,255,255,.06);border-color:var(--border)}
 .nav-item.active{background:rgba(107,123,255,.12);border-color:rgba(107,123,255,.35)}
-.invite-badge{float:right;padding:2px 8px;border-radius:999px;font-size:12px;background:rgba(255,215,0,.18);border:1px solid rgba(255,215,0,.45);color:#ffd700;backdrop-filter:blur(6px)}
+.invite-badge{float:right;padding:2px 8px;border-radius:999px;font-size:12px;background:rgba(255,215,0,.18);border:1px solid rgba(255,215,0,.45);color:var(--accent-warning);backdrop-filter:blur(6px)}
 .side-footer{margin-top:auto;padding:8px;display:flex;gap:8px}.pill{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-secondary)}
 #main{flex:1;min-width:0}.topbar{height:56px;display:flex;align-items:center;gap:12px;padding:0 12px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.08);position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
 .icon-btn{background:transparent;border:none;color:var(--text-primary);font-size:18px}
@@ -333,7 +333,7 @@
 .title{font-weight:700}.time{color:var(--accent-primary);font-weight:600}
 .row{display:flex;justify-content:space-between;align-items:center;margin:6px 0}
 .venue{color:var(--text-secondary)}
-.persona-pills .pill{border-radius: var(--r-md);padding:4px 8px;font-size:12px;color:#0f0f12}
+.persona-pills .pill{border-radius: var(--r-md);padding:4px 8px;font-size:12px;color:var(--bg-tertiary)}
 .pill-dev{background:var(--dev-color)}.pill-pub{background:var(--pub-color)}.pill-inv{background:var(--inv-color)}.pill-sp{background:var(--sp-color)}
 .cta-row{display:flex;gap:8px;margin-top:10px}
 
@@ -343,7 +343,7 @@
   bottom: var(--s-5);
   left: 50%;
   transform: translateX(-50%);
-  background: #1A1D21;
+  background: var(--bg-primary);
   border: 1px solid #333;
   padding: var(--s-4);
   border-radius: var(--r-md);
@@ -385,7 +385,7 @@
 
 .install-close:hover {
   background: rgba(255, 255, 255, 0.2);
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .install-icon {
@@ -396,7 +396,7 @@
 }
 
 .install-card h3 {
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 4px;
   font-size: var(--s-4);
   font-weight: 600;
@@ -557,16 +557,16 @@
 .sheet.show{transform:translateY(0);opacity:1;pointer-events:auto;transition:transform .22s var(--ease-out),opacity .22s var(--ease-out)}
 .sheet-head .drag{width:40px;height:4px;background:rgba(255,255,255,.18);border-radius:2px;margin:6px auto 10px}
 .sheet-actions{display:grid;gap:8px;margin:8px 0}
-.btn-google{background:#1a73e8;color:#fff}.btn-linkedin{background:#0a66c2;color:#fff}
+.btn-google{background:#1a73e8;color:var(--text-primary)}.btn-linkedin{background:#0a66c2;color:var(--text-primary)}
 
 /* Calendar */
 .cal-card{background:var(--surface);border:1px solid var(--border);border-radius: var(--r-xl);padding:14px;margin:16px}
-.banner.success{display:flex;align-items:center;gap:8px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:#22c55e;border-radius: var(--r-lg);padding:8px 12px;margin:10px 16px 0}
-.banner .dot{width:8px;height:8px;border-radius:4px;background:#22c55e}
+.banner.success{display:flex;align-items:center;gap:8px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:var(--success);border-radius: var(--r-lg);padding:8px 12px;margin:10px 16px 0}
+.banner .dot{width:8px;height:8px;border-radius:4px;background:var(--success)}
 
 /* Invites Trophy Case */
 .inv-head{display:flex;justify-content:space-between;align-items:end;margin:16px}
-.pill-gold{padding:6px 10px;border-radius:999px;background:linear-gradient(180deg, rgba(255,215,0,.18), rgba(255,215,0,.10));border:1px solid rgba(255,215,0,.45);color:#ffd700;font-weight:700}
+.pill-gold{padding:6px 10px;border-radius:999px;background:linear-gradient(180deg, rgba(255,215,0,.18), rgba(255,215,0,.10));border:1px solid rgba(255,215,0,.45);color:var(--accent-warning);font-weight:700}
 .inv-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 16px}
 .stat{background:var(--surface);border:1px solid var(--border);border-radius: var(--r-lg);padding:10px;text-align:center}
 .val{font-weight:800;font-size:18px}.lab{display:block;font-size:12px;color:var(--text-secondary);margin-top:2px}
@@ -574,8 +574,8 @@
 .trophy-list{list-style:none;margin:0 16px 16px;padding:0;max-height:56vh;overflow:auto}
 .trophy-row{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius: var(--r-lg);padding:10px 12px}
 .trophy-row .avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.08)}
-.badge.ok{color:#22c55e;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);border-radius:999px;padding:4px 8px;font-size:12px;margin-left:auto}
-.badge.wait{color:#a5a7ad;background:rgba(165,167,173,.1);border:1px solid rgba(165,167,173,.35);border-radius:999px;padding:4px 8px;font-size:12px;margin-left:auto;animation:softPulse 2.2s ease-in-out infinite}
+.badge.ok{color:var(--success);background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);border-radius:999px;padding:4px 8px;font-size:12px;margin-left:auto}
+.badge.wait{color:var(--text-secondary);background:rgba(165,167,173,.1);border:1px solid rgba(165,167,173,.35);border-radius:999px;padding:4px 8px;font-size:12px;margin-left:auto;animation:softPulse 2.2s ease-in-out infinite}
 
 /* Utilities */
 .toast{position:fixed;left:50%;bottom:72px;transform:translateX(-50%);background:rgba(21,21,26,.96);border:1px solid var(--border);color:var(--text-primary);padding:8px 12px;border-radius: var(--r-lg);z-index:9999}
@@ -1512,8 +1512,8 @@ section {
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-contrast: high) {
   :root {
-    --border: #ffffff;
-    --text-secondary: #ffffff;
+    --border: var(--text-primary);
+    --text-secondary: var(--text-primary);
   }
 }
 
@@ -1610,8 +1610,8 @@ section {
 .btn:hover{ transform:translateY(-1px); color:var(--text-primary); border-color:#3a3a45 }
 .btn:active{ transform:translateY(0); box-shadow:var(--sh-press) }
 .btn:focus-visible{ outline:none; box-shadow:var(--focus-ring) }
-.btn-primary{ background:var(--accent-primary); color:#fff; border-color:transparent }
-.btn-danger{ background:var(--accent-error); color:#fff; border-color:transparent }
+.btn-primary{ background:var(--accent-primary); color:var(--text-primary); border-color:transparent }
+.btn-danger{ background:var(--accent-error); color:var(--text-primary); border-color:transparent }
 .btn-ghost{ background:transparent; border-color:var(--border); color:var(--text-secondary) }
 
 /* === Badges === */
@@ -1670,14 +1670,14 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
    .legacy-card,
   .pi-card {
     box-shadow: none;
-    border: 1px solid #000;
+    border: 1px solid var(--text-on-accent);
   }
 }
 
 /* === Parties-first FOMO === */
 .pff-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px}
 .pff-logo{font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--text-secondary)}
-.badge.live{background:var(--accent-error);color:#fff;border:none}
+.badge.live{background:var(--accent-error);color:var(--text-primary);border:none}
 
 .pff-hero{padding:6px 16px 12px}
 .pff-hero h1{font-size:22px;font-weight:800;letter-spacing:-.01em}
@@ -1699,7 +1699,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 .pff-card .badge.source{color:var(--accent-primary);border-color:rgba(107,123,255,.25)}
 .pff-card .actions{margin-top:10px}
 .btn.pill{border-radius:999px;padding:8px 12px}
-.btn.pill.saved{background:var(--accent-success);color:#000;border-color:transparent}
+.btn.pill.saved{background:var(--accent-success);color:var(--text-on-accent);border-color:transparent}
 
 .pff-footer{position:fixed;left:0;right:0;bottom:0;background:rgba(15,15,18,.95);backdrop-filter:blur(8px);
   border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:10px 12px}
@@ -1707,7 +1707,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 #pff-continue{min-width:140px}
 
 .pff-skeleton{background:var(--surface);border:1px solid var(--border);border-radius: var(--r-xl);overflow:hidden}
-.pff-skeleton .sk-img{height:156px;background:linear-gradient(90deg,#16161b 25%,#1a1a1f 50%,#16161b 75%);background-size:200% 100%;animation:sk 1.1s linear infinite}
+.pff-skeleton .sk-img{height:156px;background:linear-gradient(90deg,#16161b 25%,var(--bg-surface) 50%,#16161b 75%);background-size:200% 100%;animation:sk 1.1s linear infinite}
 .pff-skeleton .sk-line{height:12px;margin:10px 12px;border-radius:6px;background:linear-gradient(90deg,#21212a 25%,#242430 50%,#21212a 75%);background-size:200% 100%;animation:sk 1.1s linear infinite}
 .pff-skeleton .sk-line.short{width:60%}
 @keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
@@ -1732,11 +1732,11 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 
 .nav-tab:hover {
   background: rgba(255, 255, 255, 0.08);
-  color: var(--text-primary, #ffffff);
+  color: var(--text-primary, var(--text-primary));
 }
 
 .nav-tab.active {
-  color: var(--accent-primary, #6b7bff);
+  color: var(--accent-primary, var(--color-primary-dark));
   background: rgba(107, 123, 255, 0.1);
 }
 
@@ -1747,7 +1747,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
   right: 8px;
   background: rgba(255, 215, 0, 0.15); /* Glass gold */
   border: 1px solid rgba(255, 215, 0, 0.4);
-  color: #ffd700;
+  color: var(--accent-warning);
   font-size: 13px;
   font-weight: 600;
   padding: 2px 8px;
@@ -1804,7 +1804,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 .sidebar-label {
   flex: 1;
   font-size: 15px;
-  color: var(--text-primary, #fff);
+  color: var(--text-primary, var(--text-primary));
   font-weight: 500;
 }
 
@@ -1819,7 +1819,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   background: var(--app-bg, rgba(15, 15, 18, 0.85));
-  color: var(--text-primary, #ffffff);
+  color: var(--text-primary, var(--text-primary));
   opacity: 0;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: scale(0.95);
@@ -1877,7 +1877,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 .invite-title {
   font-size: 28px;
   font-weight: 800;
-  background: linear-gradient(135deg, #ffffff, #b3b3b3);
+  background: linear-gradient(135deg, var(--text-primary), #b3b3b3);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1885,7 +1885,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 }
 
 .invite-header-count {
-  background: var(--accent, #6b7bff);
+  background: var(--accent, var(--color-primary-dark));
   color: white;
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
@@ -1898,7 +1898,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
   background: var(--surface-hover, rgba(255, 255, 255, 0.08));
   border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
   border-radius: var(--s-3);
-  color: var(--text-primary, #ffffff);
+  color: var(--text-primary, var(--text-primary));
   width: 44px;
   height: 44px;
   display: flex;
@@ -1934,7 +1934,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
   font-size: 72px;
   font-weight: 900;
   line-height: 1;
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  background: linear-gradient(135deg, var(--accent-warning), #ffed4e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -2084,7 +2084,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 
 .invite-progress-fill {
   height: 100%;
-  background: var(--accent, linear-gradient(90deg, #6b7bff, #9b8bff));
+  background: var(--accent, linear-gradient(90deg, var(--color-primary-dark), #9b8bff));
   border-radius: 4px;
   transition: width 0.3s ease;
 }
@@ -2120,7 +2120,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 }
 
 .invite-action-btn.primary {
-  background: linear-gradient(135deg, #6b7bff, #8b5cf6);
+  background: linear-gradient(135deg, var(--color-primary-dark), #8b5cf6);
   color: white;
   border-color: rgba(107, 123, 255, 0.3);
   box-shadow: 0 4px 20px rgba(107, 123, 255, 0.25);
@@ -2292,7 +2292,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 .inv-left-pill{
   padding:6px 10px;border-radius:999px;
   background:linear-gradient(180deg, rgba(255,215,0,.18), rgba(255,215,0,.10));
-  border:1px solid rgba(255,215,0,.45); color:#ffd700; font-weight:600;
+  border:1px solid rgba(255,215,0,.45); color:var(--accent-warning); font-weight:600;
   backdrop-filter:blur(6px)
 }
 .inv-sub{color:var(--text-secondary);padding:0 16px 8px}
@@ -2315,8 +2315,8 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 .inv-row .who .name{font-weight:700}
 .inv-row .who .meta{font-size:12px;color:var(--text-secondary)}
 .badge.status{margin-left:auto;border-radius:999px;padding:4px 8px;font-size:12px;border:1px solid var(--border)}
-.badge.status.redeemed{color:#22c55e;border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.12)}
-.badge.status.pending{color:#a5a7ad;border-color:rgba(165,167,173,.35);background:rgba(165,167,173,.10);animation:pendingPulse 2.2s ease-in-out infinite}
+.badge.status.redeemed{color:var(--success);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.12)}
+.badge.status.pending{color:var(--text-secondary);border-color:rgba(165,167,173,.35);background:rgba(165,167,173,.10);animation:pendingPulse 2.2s ease-in-out infinite}
 @keyframes pendingPulse{0%{opacity:.8}50%{opacity:1}100%{opacity:.8}}
 
 .inv-empty{text-align:center;padding:40px 16px}
@@ -2437,7 +2437,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 
 .btn-primary { 
   background: var(--accent-primary); 
-  color: #fff; 
+  color: var(--text-primary); 
   border: none; 
   border-radius: 10px; 
   padding: 8px 14px; 
@@ -2588,11 +2588,11 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #22c55e;
+  background: var(--success);
 }
 
 .status-dot.online {
-  background: #22c55e;
+  background: var(--success);
   box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
 }
 
@@ -2622,7 +2622,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 
 .sidebar-item.active {
   background: var(--accent-primary);
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .sidebar-icon {
@@ -2788,7 +2788,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
   border-radius: var(--r-md);
   padding: 4px 8px;
   font-size: var(--s-3);
-  color: #0f0f12;
+  color: var(--bg-tertiary);
   font-weight: 600;
 }
 
@@ -2823,7 +2823,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 
 .btn {
   background: var(--accent-primary);
-  color: #ffffff;
+  color: var(--text-primary);
   border: none;
   border-radius: var(--r-md);
   padding: 8px 16px;
@@ -2850,8 +2850,8 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 }
 
 .btn-accent {
-  background: #22c55e;
-  color: #ffffff;
+  background: var(--success);
+  color: var(--text-primary);
 }
 
 .btn-accent:hover {
@@ -2871,7 +2871,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 
 .btn-primary {
   background: var(--accent-primary);
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Install FTUE */
@@ -2976,12 +2976,12 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 
 .btn-google {
   background: #1a73e8;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .btn-linkedin {
   background: #0a66c2;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .fine {
@@ -3020,14 +3020,14 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 .banner.success {
   background: rgba(34, 197, 94, 0.12);
   border: 1px solid rgba(34, 197, 94, 0.35);
-  color: #22c55e;
+  color: var(--success);
 }
 
 .banner .dot {
   width: 8px;
   height: 8px;
   border-radius: 4px;
-  background: #22c55e;
+  background: var(--success);
 }
 
 .status {
@@ -3048,7 +3048,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
   border-radius: 999px;
   background: linear-gradient(180deg, var(--invited-gold-bg, rgba(255, 215, 0, 0.18)), rgba(255, 215, 0, 0.10));
   border: 1px solid var(--invited-gold-br, rgba(255, 215, 0, 0.45));
-  color: var(--invited-gold-fg, #ffd700);
+  color: var(--invited-gold-fg, var(--accent-warning));
   font-weight: 700;
   font-size: 13px;
   animation: pillPulse 0.3s var(--ease-out);
@@ -3155,13 +3155,13 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 }
 
 .badge.ok {
-  color: #22c55e;
+  color: var(--success);
   background: rgba(34, 197, 94, 0.12);
   border: 1px solid rgba(34, 197, 94, 0.35);
 }
 
 .badge.wait {
-  color: #a5a7ad;
+  color: var(--text-secondary);
   background: rgba(165, 167, 173, 0.1);
   border: 1px solid rgba(165, 167, 173, 0.35);
   animation: softPulse 2.2s ease-in-out infinite;
@@ -3177,7 +3177,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
   border-radius: var(--s-3);
   padding: 10px 12px;
   margin-top: var(--s-3);
-  color: var(--invited-gold-fg, #ffd700);
+  color: var(--invited-gold-fg, var(--accent-warning));
   animation: bonusSlideUp 0.5s var(--ease-out);
 }
 
@@ -3188,7 +3188,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible{ box-shadow:va
 .confetti {
   width: var(--s-5);
   height: var(--s-5);
-  background: radial-gradient(circle, #ffd700 2px, transparent 3px);
+  background: radial-gradient(circle, var(--accent-warning) 2px, transparent 3px);
   background-size: 6px 6px;
   animation: confettiSpin 1s ease-out;
 }
