@@ -63,12 +63,71 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
       });
     }
     
-    // No data available
+    // Fallback to demo data
+    const demoParties = [
+      {
+        id: "gamescom-opening-2025",
+        title: "Gamescom Opening Night Live",
+        venue: "Koelnmesse",
+        date: "2025-08-19",
+        time: "20:00",
+        start: "2025-08-19T20:00:00",
+        end: "2025-08-19T22:00:00",
+        price: "Free with ticket",
+        description: "The official opening ceremony"
+      },
+      {
+        id: "devcom-2025",
+        title: "Devcom Developer Conference",
+        venue: "Koelnmesse",
+        date: "2025-08-17",
+        time: "09:00",
+        start: "2025-08-17T09:00:00",
+        end: "2025-08-17T18:00:00",
+        price: "From €399",
+        description: "Professional game developers conference"
+      },
+      {
+        id: "xbox-party-2025",
+        title: "Xbox @ Gamescom Party",
+        venue: "Bootshaus",
+        date: "2025-08-20",
+        time: "20:00",
+        start: "2025-08-20T20:00:00",
+        end: "2025-08-21T02:00:00",
+        price: "Invite only",
+        description: "Exclusive Xbox celebration"
+      },
+      {
+        id: "unity-meetup-2025",
+        title: "Unity Developer Meetup",
+        venue: "Friesenplatz",
+        date: "2025-08-18",
+        time: "18:00",
+        start: "2025-08-18T18:00:00",
+        end: "2025-08-18T21:00:00",
+        price: "Free",
+        description: "Connect with Unity developers"
+      },
+      {
+        id: "indie-showcase-2025",
+        title: "Indie Games Showcase",
+        venue: "Gamescom City Hub",
+        date: "2025-08-21",
+        time: "14:00",
+        start: "2025-08-21T14:00:00",
+        end: "2025-08-21T18:00:00",
+        price: "Free",
+        description: "Discover amazing indie games"
+      }
+    ];
+    
+    console.log("[parties] Using demo data fallback");
     return res.json({
-      source: "none",
-      count: 0,
-      data: [],
-      message: "No party data available"
+      source: "demo",
+      count: demoParties.length,
+      data: demoParties,
+      message: "Using demo data (API temporarily unavailable)"
     });
     
   } catch (error) {

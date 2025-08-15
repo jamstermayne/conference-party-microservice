@@ -3,7 +3,7 @@
  * Unified interface for Google Calendar, Outlook (.ics), and Meet to Match
  */
 
-import { status, create, startOAuth, disconnect } from './services/gcal.js?v=b030';
+import { status, create, startOAuth, disconnect } from './services/gcal.js?v=b031';
 
 /**
  * Add event to Google Calendar

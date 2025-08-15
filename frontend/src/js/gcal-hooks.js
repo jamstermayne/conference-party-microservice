@@ -3,7 +3,7 @@
  * Handles calendar button clicks and OAuth flow
  */
 
-import { addToGoogle, addToOutlook, addToM2M } from './calendar-providers.js?v=b030';
+import { addToGoogle, addToOutlook, addToM2M } from './calendar-providers.js?v=b031';
 
 /**
  * Handle button state during async operations
