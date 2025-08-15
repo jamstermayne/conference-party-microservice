@@ -1,6 +1,6 @@
 const express = require('express');
 const admin = require('firebase-admin');
-const checkAuth = require('../lib/checkAuth');
+const checkAuth = require('../middleware/checkAuth');
 const db = admin.firestore();
 const ALLOWED_EMAILS = new Set([
   'jamy@nigriconsulting.com',
