@@ -1,5 +1,6 @@
 import { openPartiesDay, openCalendar, openMapToday, openInvites, openContacts, openMe, openSettings } from './openers.js';
 import { jsonGET } from '../utils/json-fetch.js';
+import { createChannelRow } from '../components/channel-row.js';
 
 export async function openHome(activator) {
   const el = document.createElement('div');
