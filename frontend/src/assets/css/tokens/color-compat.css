@@ -1,0 +1,61 @@
+/* color-compat.css — Backward compatibility aliases */
+:root {
+  /* Legacy aliases mapped to new token system */
+  
+  /* Primary colors (legacy) → Brand colors (new) */
+  --color-primary: var(--brand-500);
+  --color-primary-light: var(--brand-400);
+  --color-primary-dark: var(--brand-600);
+  --color-primary-alpha: rgba(107, 123, 255, 0.1);
+  
+  /* Accent colors (legacy) → Brand/Semantic (new) */
+  --accent-primary: var(--brand-500);
+  --accent-secondary: var(--brand-400);
+  --accent-tertiary: var(--brand-300);
+  --accent-success: var(--success);
+  --accent-warning: var(--warning);
+  --accent-error: var(--error);
+  --accent-info: var(--info);
+  
+  /* Background colors (legacy) → Neutral surfaces (new) */
+  --bg-primary: var(--neutral-100);
+  --bg-secondary: var(--neutral-75);
+  --bg-tertiary: var(--neutral-0);
+  --bg-surface: var(--bg-card);
+  --bg-elevated: var(--bg-elevated);
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+  
+  /* Border colors (legacy) → Border tokens (new) */
+  --border-secondary: var(--neutral-200);
+  --border-tertiary: var(--border-muted);
+  --border-active: rgba(107, 140, 255, 0.3);
+  --border-focus: rgba(107, 140, 255, 0.5);
+  
+  /* Surface colors (legacy) → Neutral surfaces (new) */
+  --surface-primary: var(--bg-card);
+  --surface-secondary: var(--neutral-50);
+  --surface-elevated: var(--bg-elevated);
+  --surface-overlay: rgba(26, 26, 31, 0.95);
+  
+  /* Semantic backgrounds (legacy) */
+  --success-bg: var(--success-weak);
+  --success-border: rgba(34, 197, 94, 0.3);
+  --warning-bg: var(--warning-weak);
+  --warning-border: rgba(245, 158, 11, 0.3);
+  --error-bg: var(--error-weak);
+  --error-border: rgba(239, 68, 68, 0.3);
+  --info-bg: var(--info-weak);
+  --info-border: rgba(56, 189, 248, 0.3);
+  
+  /* Text aliases (legacy) */
+  --text-tertiary: var(--neutral-700);
+  --text-disabled: rgba(255, 255, 255, 0.3);
+  
+  /* Alpha colors (legacy) */
+  --alpha-white-5: rgba(255, 255, 255, 0.05);
+  --alpha-white-10: rgba(255, 255, 255, 0.1);
+  --alpha-white-20: rgba(255, 255, 255, 0.2);
+  --alpha-black-10: rgba(0, 0, 0, 0.1);
+  --alpha-black-25: rgba(0, 0, 0, 0.25);
+  --alpha-black-50: rgba(0, 0, 0, 0.5);
+}
