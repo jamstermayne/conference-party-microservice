@@ -686,3 +686,12 @@ body {
 /* Import additional stylesheets */
 @import url('./event-cards.css');
 @import url('./email-sync-popup.css');
+
+/* MTM Card Styles */
+#mtm-card .row { display:flex; gap:.75rem; align-items:center; }
+#mtm-card .stack { display:grid; gap: .75rem; }
+#mtm-card .grow { flex:1 1 auto; min-width: 220px; }
+#mtm-card .badge { padding:.15rem .5rem; border-radius:.5rem; font-size:.85rem; }
+#mtm-card .badge.good { background: #143a22; color:#aef2c6; }
+#mtm-card .badge.warn { background: #3a2e14; color:#f2d7ae; }
+#mtm-card .badge.error{ background: #3a1414; color:#f2aeae; }

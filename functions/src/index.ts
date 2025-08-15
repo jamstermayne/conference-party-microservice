@@ -7,7 +7,8 @@ import cookieParser from "cookie-parser";
 import {canonicalHost} from "./middleware/canonicalHost";
 import {getHotspots} from "./hotspots";
 import googleCalendarRouter from "./googleCalendar/router";
-import m2mRouter from "./routes/m2m";
+import m2mRouter from "./routes/m2m-enhanced";
+import mtmRoutes from "./integrations/mtm/routes";
 import partiesRouter from "./routes/parties";
 import invitesRouter from "./routes/invites";
 import adminRouter from "./routes/admin";
@@ -37,6 +38,19 @@ app.use(express.json());
 // Apply canonical host redirect to all /api routes
 app.use('/api', canonicalHost);
 
+// Apply authentication middleware to parse auth tokens
+app.use(async (req: any, _res, next) => {
+  const auth = req.headers.authorization;
+  if (auth?.startsWith('Bearer ')) {
+    try {
+      const token = auth.slice(7);
+      const decoded = await admin.auth().verifyIdToken(token);
+      req.user = { uid: decoded.uid };
+    } catch {}
+  }
+  next();
+});
+
 app.use("/api/invites", invitesRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api", googleCalendarRouter);
@@ -47,6 +61,9 @@ app.use("/api/parties", partiesRouter);
 
 // MeetToMatch (ICS) - Router handles all /api/m2m/* endpoints
 app.use("/api/m2m", m2mRouter);
+
+// MeetToMatch Integrations - New enhanced router at /api/integrations/mtm/*
+app.use("/api/integrations/mtm", mtmRoutes);
 
 // M2M endpoints are handled by m2mRouter - removed duplicates
 
@@ -134,12 +151,20 @@ app.post("/api/metrics", (req, res) => {
   res.status(204).send(); // No Content
 });
 
+import { MEETTOMATCH_CRYPTO_KEY } from './integrations/mtm/function-config';
+import { defineSecret } from 'firebase-functions/params';
+
+// Define Google OAuth secrets for MTM mirroring
+const GOOGLE_CLIENT_ID = defineSecret('GOOGLE_CLIENT_ID');
+const GOOGLE_CLIENT_SECRET = defineSecret('GOOGLE_CLIENT_SECRET');
+
 // Use v2 functions with public invoker for unauthenticated access
 export const apiFn = onRequest({
+  region: 'us-central1',
   cors: true,
   invoker: "public",
   maxInstances: 10,
-  // secrets: ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"], // Temporarily disabled - secrets not configured
+  secrets: [MEETTOMATCH_CRYPTO_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET],
 }, app);
 
 // Export the Express app for testing
@@ -159,3 +184,6 @@ export const api = app;
 //     throw error; // Re-throw to trigger retry
 //   }
 // });
+
+// Export MTM scheduler (if Cloud Scheduler is enabled)
+export { ingestMeetToMatch } from './schedulers/mtm';
