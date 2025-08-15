@@ -157,7 +157,7 @@ export const apiFn = onRequest({
   cors: true,
   invoker: "public",
   maxInstances: 10,
-  secrets: ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"],
+  // secrets: ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"], // Temporarily disabled - secrets not configured
 }, app);
 
 // Export the Express app for testing
