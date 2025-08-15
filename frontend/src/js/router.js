@@ -29,3 +29,26 @@ async function go(){
 }
 window.addEventListener('hashchange', go);
 window.addEventListener('DOMContentLoaded', go);
+
+// Sync sidebar active state with current route
+(function syncSidebarActive(){
+  const links = [...document.querySelectorAll('.v-nav__link[data-route]')];
+  if (!links.length) return;
+
+  const apply = () => {
+    const h = location.hash || '#/parties';
+    // Match routes - handle both #/route and #route formats
+    const currentPath = h.replace(/^#\/?/, '').split('?')[0];
+    links.forEach(a => {
+      const linkRoute = a.dataset.route;
+      const isActive = currentPath === linkRoute || 
+                      (currentPath === '' && linkRoute === 'parties'); // Default route
+      a.classList.toggle('is-active', isActive);
+      a.classList.toggle('active', isActive); // Legacy support
+    });
+  };
+
+  window.addEventListener('hashchange', apply);
+  document.addEventListener('DOMContentLoaded', apply);
+  apply();
+})();
