@@ -1,7 +1,15 @@
 {
   "hosting": {
     "public": "frontend/src",
-    "rewrites": [{ "source": "/api/**", "function": "apiFn" }]
+    "rewrites": [{ "source": "/api/**", "function": "apiFn" }],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          { "key": "Cross-Origin-Opener-Policy", "value": "same-origin-allow-popups" }
+        ]
+      }
+    ]
   },
   "functions": {
     "source": "functions"
