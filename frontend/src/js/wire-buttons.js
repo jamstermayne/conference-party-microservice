@@ -1,6 +1,7 @@
 // Minimal, surgical wiring. No style changes.
 import { addToCalendar, ensureGoogleSession } from './services/gcal.js';
-import { downloadIcs } from './services/ics.js';
+// import { downloadIcs } from './services/ics.js'; // Moved to graveyard
+const downloadIcs = () => console.warn('ICS download not implemented after refactor');
 
 // Helper: read party payload from the card
 function readPartyPayload(el) {
