@@ -22,7 +22,10 @@ function card(e){
 
     <div class="vcard__meta">
       <span class="meta"><i class="i-clock"></i>${timeRange}</span>
-      <button class="link pin" data-action="open-map" data-venue="${e.where}">
+      <button class="link pin" data-action="open-map" 
+              data-venue="${e.where}"
+              data-lat="${e.lat||''}"
+              data-lng="${e.lng||''}">
         <i class="i-pin"></i> ${e.where}
       </button>
     </div>

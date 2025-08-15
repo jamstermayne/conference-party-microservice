@@ -222,7 +222,8 @@ function handleMapFocus(map, markers, infoWindow) {
   const params = new URLSearchParams((location.hash.split('?')[1] || ''));
   const focusId = params.get('focus');
   const lat = parseFloat(params.get('lat'));
-  const lon = parseFloat(params.get('lon'));
+  const lng = parseFloat(params.get('lng')) || parseFloat(params.get('lon')); // Support both lng and lon
+  const venue = params.get('venue');
   
   if (focusId) {
     // Find marker by party ID
@@ -253,11 +254,55 @@ function handleMapFocus(map, markers, infoWindow) {
         addBounceAnimation(targetMarker);
       }, 500); // Small delay to ensure map is ready
     }
-  } else if (!isNaN(lat) && !isNaN(lon)) {
+  } else if (!isNaN(lat) && !isNaN(lng)) {
     // Pan to coordinates if no specific party ID
     setTimeout(() => {
-      map.panTo({ lat, lng: lon });
+      map.panTo({ lat, lng });
       map.setZoom(16);
+      
+      // Create a temporary marker at the location
+      const markerContent = document.createElement('div');
+      markerContent.style.cssText = `
+        width: 24px;
+        height: 24px;
+        background: #ef4444;
+        border: 2px solid #ffffff;
+        border-radius: 50%;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      `;
+      
+      new google.maps.marker.AdvancedMarkerElement({
+        position: { lat, lng },
+        map: map,
+        content: markerContent,
+        title: 'Selected Location'
+      });
+    }, 500);
+  } else if (venue) {
+    // Search for marker by venue name
+    setTimeout(() => {
+      const targetMarker = markers.find(m => 
+        m.partyData?.venue?.toLowerCase().includes(venue.toLowerCase())
+      );
+      
+      if (targetMarker) {
+        map.panTo(targetMarker.position);
+        map.setZoom(16);
+        
+        // Highlight the marker
+        if (targetMarker.content) {
+          targetMarker.content.style.background = '#ef4444';
+          targetMarker.content.style.width = '32px';
+          targetMarker.content.style.height = '32px';
+        }
+        
+        // Open info window
+        infoWindow.setContent(createInfoContent(targetMarker.partyData));
+        infoWindow.open({
+          anchor: targetMarker,
+          map: map
+        });
+      }
     }, 500);
   }
 }

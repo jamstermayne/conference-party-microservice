@@ -1,5 +1,6 @@
 import { ensureShell, setActive } from './shell.js?v=b031';
 import "./gcal-hooks.js?v=b031";
+import "./map-hooks.js?v=b031";
 import { scheduleEqualize } from './ui/equalize-cards.js';
 
 export const ROUTES = ['parties','calendar','map','invites','contacts','me','settings'];
