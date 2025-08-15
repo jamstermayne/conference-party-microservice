@@ -30,8 +30,12 @@ export async function mountPartiesDay(container, date) {
                data-title="${escapeHtml(party.name || party.title || 'Untitled')}"
                data-start="${party.start || party.startTime || party.date || ''}"
                data-end="${party.end || party.endTime || ''}"
-               data-venue="${escapeHtml(party.venue || party.location || '')}"
-               data-description="${escapeHtml(party.description || '')}">
+               data-location="${escapeHtml(party.venue || party.location || '')}"
+               data-desc="${escapeHtml(party.description || '')}"
+               data-lat="${party.lat || ''}"
+               data-lng="${party.lng || ''}"
+               data-tz="${party.timezone || 'Europe/Berlin'}"
+               data-conference="gamescom2025">
         <div class="hero-card__body">
           <h3 class="hero-card__title">${party.name || party.title || 'Untitled'}</h3>
           <p class="hero-card__venue">${party.venue || party.location || 'TBA'}</p>
@@ -39,12 +43,14 @@ export async function mountPartiesDay(container, date) {
           ${party.description ? `<p class="hero-card__desc">${party.description}</p>` : ''}
         </div>
         <footer class="hero-card__footer">
-          <button class="v-btn v-btn--primary"
-                  data-action="add-to-calendar"
-                  data-id="${party.id}"
-                  data-provider="google">
+          <button class="v-btn v-btn--primary btn-add-to-calendar">
             Add to Calendar
           </button>
+          ${party.lat && party.lng ? `
+            <button class="v-btn v-btn--ghost btn-pin" title="Show on map">
+              📍
+            </button>
+          ` : ''}
         </footer>
       </article>
     `).join('');
