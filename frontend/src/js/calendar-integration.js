@@ -13,7 +13,7 @@ import { Events } from './events.js?v=b023';
  */
 const API_BASE = window.location.origin.includes('localhost') 
   ? 'http://localhost:5001/conference-party-app/us-central1'
-  : 'https://us-central1-conference-party-app.cloudfunctions.net';
+  : '';
 
 /** =========================
  *  GOOGLE CALENDAR CONNECT
