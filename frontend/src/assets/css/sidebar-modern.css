@@ -108,3 +108,36 @@
   .v-nav__link { transition: none; }
   .v-nav__icon { transform: none !important; }
 }
+
+/* Subnav (no indent, smaller "pills") */
+.v-subnav { 
+  display: none; 
+  gap: var(--s-2); 
+  margin-top: calc(var(--s-2) * -1); 
+}
+.v-sidebar.v-show-subnav .v-subnav[data-subnav="map"] { 
+  display: grid; 
+}
+.v-sidebar.v-show-subnav .v-subnav[data-subnav="parties"] { 
+  display: grid; 
+}
+
+.v-subnav__link {
+  display: block;
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--r-xl);
+  color: var(--nav-text-dim);
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.1;
+  transition: background .12s ease, color .12s ease, box-shadow .2s ease;
+}
+.v-subnav__link:hover {
+  background: rgba(255,255,255,.045);
+  color: #ECF1FF;
+}
+.v-subnav__link.is-active {
+  background: rgba(110,94,246,.14);
+  color: #F6F8FF;
+  box-shadow: inset 0 0 0 1px rgba(110,94,246,.45);
+}
