@@ -1,7 +1,17 @@
 {
   "hosting": {
     "public": "frontend/src",
-    "rewrites": [{ "source": "/api/**", "function": "api" }],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "function": {
+          "functionId": "apiFn",
+          "region": "us-central1"
+        }
+      },
+      { "source": "**", "destination": "/index.html" }
+    ],
     "headers": [
       {
         "source": "**",

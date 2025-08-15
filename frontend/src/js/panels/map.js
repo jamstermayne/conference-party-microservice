@@ -1,3 +1,5 @@
+import { jsonGET } from '../utils/json-fetch.js';
+
 export async function openMapPanel(dayISO, activator) {
   const wrap = document.createElement('div');
   const mapId = `map-${Date.now()}`;
@@ -14,10 +16,9 @@ export async function openMapPanel(dayISO, activator) {
   });
 
   // Fetch parties for selected day
-  const url = new URL('/api/parties', window.location.origin);
-  url.searchParams.set('conference','gamescom2025');
-  if (dayISO) url.searchParams.set('day', dayISO);
-  const res = await fetch(url); const json = await res.json();
+  const params = new URLSearchParams({ conference: 'gamescom2025' });
+  if (dayISO) params.set('day', dayISO);
+  const json = await jsonGET(`/api/parties?${params}`);
   (json.data || json.parties || []).forEach(p => {
     if (!p.lat || !p.lon) return;
     new AdvancedMarkerElement({

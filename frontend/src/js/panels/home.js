@@ -1,4 +1,5 @@
 import { openPartiesDay, openCalendar, openMapToday, openInvites, openContacts, openMe, openSettings } from './openers.js';
+import { jsonGET } from '../utils/json-fetch.js';
 
 export async function openHome(activator) {
   const el = document.createElement('div');
@@ -50,12 +51,11 @@ export async function openHome(activator) {
 
 async function getDays() {
   try {
-    const res = await fetch(`/api/party-days?conference=gamescom2025`);
-    if (res.ok) return res.json();
+    const json = await jsonGET(`/api/party-days?conference=gamescom2025`);
+    return json;
   } catch {}
   // fallback: derive from parties
-  const res = await fetch(`/api/parties?conference=gamescom2025`);
-  const json = await res.json();
+  const json = await jsonGET(`/api/parties?conference=gamescom2025`);
   const uniq = Array.from(new Set((json.data||json.parties||[]).map(p => p.start?.slice(0,10))));
   return uniq
     .filter(Boolean)

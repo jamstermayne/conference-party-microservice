@@ -1,3 +1,5 @@
+import { jsonGET } from '../utils/json-fetch.js';
+
 export async function openParties(dayISO, activator) {
   const wrap = document.createElement('div');
   const grid = document.createElement('div');
@@ -7,12 +9,10 @@ export async function openParties(dayISO, activator) {
   // Endless scroll
   let cursor = '';
   async function load() {
-    const url = new URL('/api/parties', window.location.origin);
-    url.searchParams.set('conference', 'gamescom2025');
-    if (dayISO) url.searchParams.set('day', dayISO);
-    if (cursor) url.searchParams.set('after', cursor);
-    const res = await fetch(url);
-    const json = await res.json();
+    const params = new URLSearchParams({ conference: 'gamescom2025' });
+    if (dayISO) params.set('day', dayISO);
+    if (cursor) params.set('after', cursor);
+    const json = await jsonGET(`/api/parties?${params}`);
     (json.data || json.parties || []).forEach(p => grid.appendChild(renderParty(p)));
     cursor = json.page?.nextCursor || '';
     observer.observe(sentinel);
