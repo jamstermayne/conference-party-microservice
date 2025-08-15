@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
-C_RESET=$'\033[0m'; C_OK=$'\033[1;32m'; C_WARN=$'\033[1;33m'; C_ERR=$'\033[1;31m'
-ok(){   printf "%s✔ %s%s\n" "$C_OK" "$*" "$C_RESET"; }
-warn(){ printf "%s⚠ %s%s\n" "$C_WARN" "$*" "$C_RESET"; }
-err(){  printf "%s✘ %s%s\n" "$C_ERR"  "$*" "$C_RESET"; }
-
-ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-JS_DIR="$ROOT/frontend/src/js"
-CSS_DIR="$ROOT/frontend/src/assets/css"
+source "$(dirname "$0")/_lib.sh"
 
 echo "Reviewing component structure..."
 echo ""

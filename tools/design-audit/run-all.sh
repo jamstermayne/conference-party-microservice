@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
-# Color definitions
-C_RESET=$'\033[0m'; C_OK=$'\033[1;32m'; C_WARN=$'\033[1;33m'; C_ERR=$'\033[1;31m'; C_H1=$'\033[1;36m'
-ok(){   printf "%s✔ %s%s\n" "$C_OK" "$*" "$C_RESET"; }
-warn(){ printf "%s⚠ %s%s\n" "$C_WARN" "$*" "$C_RESET"; }
-err(){  printf "%s✘ %s%s\n" "$C_ERR"  "$*" "$C_RESET"; }
-h1(){   printf "\n%s=== %s ===%s\n" "$C_H1" "$*" "$C_RESET"; }
-
-ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+source "$(dirname "$0")/_lib.sh"
 AUDIT_DIR="$(dirname "$0")"
 TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
 REPORT_FILE="$ROOT/design-audit-$TIMESTAMP.txt"
