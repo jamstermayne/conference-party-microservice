@@ -56,6 +56,13 @@ app.use("/api/admin", adminRouter);
 app.use("/api", googleCalendarRouter);
 app.use("/api/parties", partiesRouter);
 
+// Safety alias: redirect /parties to /api/parties
+app.use("/parties", (req, res) => {
+  const queryString = req.originalUrl.split('?')[1];
+  const redirectUrl = queryString ? `/api/parties?${queryString}` : '/api/parties';
+  res.redirect(301, redirectUrl);
+});
+
 // Google API endpoints are handled by googleCalendarRouter at /api/googleCalendar/*
 // Removed duplicate endpoints to avoid conflicts
 

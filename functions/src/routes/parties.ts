@@ -10,17 +10,27 @@ let cacheTimestamp = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 /**
- * GET /api/parties - Get all parties
+ * GET /api/parties?conference=gamescom2025 - Get parties for a conference
  * First tries Firestore, falls back to legacy source if needed
  */
-router.get("/", async (_req: Request, res: Response): Promise<Response> => {
+router.get("/", async (req: Request, res: Response): Promise<Response> => {
   try {
+    // Extract and validate conference parameter
+    const { conference } = req.query as { conference?: string };
+    if (!conference) {
+      return res.status(400).json({ 
+        error: "conference required",
+        message: "Please provide a conference parameter, e.g., ?conference=gamescom2025"
+      });
+    }
+    
+    // Log the conference being requested
+    console.log(`[parties] Fetching parties for conference: ${conference}`);
+    
     // Check cache first
     if (cachedParties && Date.now() - cacheTimestamp < CACHE_TTL) {
       console.log("[parties] Serving from cache");
       return res.json({
-        source: "cache",
-        count: cachedParties.length,
         data: cachedParties
       });
     }
@@ -36,8 +46,6 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
       cacheTimestamp = Date.now();
       
       return res.json({
-        source: "firestore",
-        count: firestoreParties.length,
         data: firestoreParties
       });
     }
@@ -59,8 +67,6 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
         );
         
         return res.json({
-          source: "live",
-          count: liveParties.length,
           data: liveParties
         });
       }
@@ -129,10 +135,7 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
     
     console.log("[parties] Using demo data fallback - v2");
     return res.json({
-      source: "demo",
-      count: demoParties.length,
-      data: demoParties,
-      message: "Using demo data (API temporarily unavailable)"
+      data: demoParties
     });
     
   } catch (error) {
@@ -141,16 +144,13 @@ router.get("/", async (_req: Request, res: Response): Promise<Response> => {
     // Try to return cached data on error
     if (cachedParties) {
       return res.json({
-        source: "cache-fallback",
-        count: cachedParties.length,
-        data: cachedParties,
-        warning: "Using cached data due to error"
+        data: cachedParties
       });
     }
     
     return res.status(500).json({
-      error: "Failed to fetch parties",
-      details: error instanceof Error ? error.message : String(error)
+      error: "internal",
+      message: "Failed to fetch parties"
     });
   }
 });
