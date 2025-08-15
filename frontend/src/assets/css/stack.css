@@ -1,0 +1,210 @@
+/* Panel Stack Shell — tokens only */
+:root {
+  /* fallbacks if missing */
+  --panel-bg: var(--bg-raised, #0f1218);
+  --panel-fg: var(--text-primary, #e7e9ee);
+  --panel-shadow: var(--shadow-lg, 0 10px 30px rgba(0,0,0,.35));
+}
+
+#app { /* single mount */
+  block-size: 100dvh;
+  inline-size: 100%;
+  overflow: hidden;
+  background: var(--bg-root, #0b0e14);
+  color: var(--panel-fg);
+}
+
+/* Stack container */
+.v-stack {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* A panel takes the whole viewport */
+.v-panel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background: var(--panel-bg);
+  box-shadow: var(--panel-shadow);
+  transform: translateX(100%);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.v-panel[data-state="enter"],
+.v-panel[data-state="active"] {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.v-panel[data-state="exit"] {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .v-panel { transition: transform 260ms cubic-bezier(.2,.9,.2,1), opacity 200ms ease; }
+}
+
+/* Header */
+.v-panel__header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--s-3, 12px);
+  padding: var(--s-4, 16px);
+  border-bottom: 1px solid var(--border-primary, rgba(255,255,255,.06));
+}
+
+.v-back {
+  inline-size: 2.25rem; block-size: 2.25rem;
+  display: inline-grid; place-items: center;
+  border-radius: var(--r-full, 9999px);
+  background: transparent;
+  color: var(--text-secondary, #a9afbd);
+  border: 1px solid var(--border-primary, rgba(255,255,255,.08));
+}
+
+.v-title {
+  font: var(--font-title, 600 1.125rem/1.2 ui-sans-serif, system-ui);
+}
+
+/* Home list */
+.v-list { padding: var(--s-2, 8px) var(--s-2, 8px) var(--s-8, 32px); }
+.v-section { padding: var(--s-3, 12px) var(--s-3, 12px); }
+.v-section h2 {
+  opacity: .86; letter-spacing: .02em;
+  font: 700 .85rem/1.3 ui-sans-serif, system-ui;
+  margin: var(--s-3, 12px) 0 var(--s-2, 8px);
+}
+
+/* Channel item button (Home) */
+.v-item {
+  display: grid; grid-template-columns: 1fr auto; align-items: center;
+  padding: var(--s-4, 16px); margin-block: var(--s-2, 8px);
+  background: var(--card-bg, rgba(255,255,255,.03));
+  border: 1px solid var(--border-primary, rgba(255,255,255,.06));
+  border-radius: var(--r-lg, 12px);
+  gap: var(--s-2, 8px);
+}
+.v-item:focus-visible { outline: 2px solid var(--brand, #6b7bff); outline-offset: 2px; }
+.v-item button + button { margin-inline-start: var(--s-2, 8px); }
+
+/* Day channels row */
+.v-days {
+  display: grid; gap: var(--s-2, 8px);
+}
+.v-pill {
+  display:inline-grid; place-items:center;
+  padding: 0 var(--s-4,16px); block-size: 2.25rem;
+  border-radius: var(--r-full, 9999px);
+  border:1px solid var(--border-primary, rgba(255,255,255,.08));
+  background: var(--card-bg, rgba(255,255,255,.03));
+}
+.v-pill[aria-pressed="true"] {
+  background: var(--accent-600, #6b7bff);
+  border-color: transparent; color: var(--text-on-accent, #0a0b10);
+}
+
+/* Content area scroll */
+.v-scroll {
+  overflow:auto; overscroll-behavior: contain;
+  padding: var(--s-4,16px);
+}
+
+/* Card grid reuse */
+.card-grid {
+  display:grid; gap: var(--s-4,16px);
+}
+@media (min-width: 720px) {
+  .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1140px) {
+  .card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* VCard component */
+.vcard {
+  display: flex; flex-direction: column;
+  background: var(--card-bg, rgba(255,255,255,.03));
+  border: 1px solid var(--border-primary, rgba(255,255,255,.06));
+  border-radius: var(--r-lg, 12px);
+  overflow: hidden;
+}
+.vcard__body {
+  padding: var(--s-4, 16px);
+  flex: 1;
+}
+.vcard__title {
+  font: var(--font-title, 600 1.125rem/1.2 ui-sans-serif, system-ui);
+  margin: 0 0 var(--s-2, 8px);
+}
+.vcard__desc {
+  color: var(--text-secondary, #a9afbd);
+  margin: var(--s-2, 8px) 0;
+}
+.vcard__footer {
+  display: flex; gap: var(--s-2, 8px);
+  padding: var(--s-3, 12px) var(--s-4, 16px);
+  border-top: 1px solid var(--border-primary, rgba(255,255,255,.06));
+}
+.vcard__footer button {
+  flex: 1;
+  padding: var(--s-2, 8px) var(--s-3, 12px);
+  border-radius: var(--r-md, 8px);
+  font: inherit;
+}
+.vcard__footer .primary {
+  background: var(--accent-600, #6b7bff);
+  color: var(--text-on-accent, #0a0b10);
+  border: none;
+}
+.vcard__footer .ghost {
+  background: transparent;
+  color: var(--text-primary, #e7e9ee);
+  border: 1px solid var(--border-primary, rgba(255,255,255,.08));
+}
+.muted {
+  color: var(--text-secondary, #a9afbd);
+  font-size: 0.875rem;
+}
+
+/* Button variants */
+button.primary {
+  background: var(--accent-600, #6b7bff);
+  color: var(--text-on-accent, #0a0b10);
+  border: none;
+  padding: var(--s-2, 8px) var(--s-3, 12px);
+  border-radius: var(--r-md, 8px);
+  font: inherit;
+  cursor: pointer;
+}
+button.ghost {
+  background: transparent;
+  color: var(--text-primary, #e7e9ee);
+  border: 1px solid var(--border-primary, rgba(255,255,255,.08));
+  padding: var(--s-2, 8px) var(--s-3, 12px);
+  border-radius: var(--r-md, 8px);
+  font: inherit;
+  cursor: pointer;
+}
+button.primary:hover { opacity: 0.9; }
+button.ghost:hover { background: rgba(255,255,255,.05); }
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

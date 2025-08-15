@@ -1,0 +1,69 @@
+/* panel-stack.css */
+.v-stack{ 
+  position: relative; 
+  height: 100dvh; 
+  overflow: hidden; 
+  background: var(--bg-app);
+}
+
+.v-panel{
+  position: absolute; 
+  inset: 0;
+  background: var(--bg-app);
+  display: grid; 
+  grid-template-rows: auto 1fr;
+  opacity: 0; 
+  pointer-events: none;
+  transform: translateX(24px);
+  transition: transform .24s ease, opacity .2s ease;
+  will-change: transform, opacity;
+}
+
+.v-panel.is-active{ 
+  opacity: 1; 
+  pointer-events: auto; 
+  transform: translateX(0);
+  z-index: 10;
+}
+
+/* Hide inactive panels completely */
+.v-panel:not(.is-active) {
+  visibility: hidden;
+}
+
+.v-panel-leave{ 
+  opacity: 1;
+  transform: translateX(0); 
+  pointer-events: none;
+}
+
+.v-panel-leave.is-exiting{ 
+  opacity: 0;
+  transform: translateX(100%); 
+}
+
+.v-topbar{
+  position: sticky; top: 0; z-index: 2;
+  display: grid; grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  height: 56px; padding-inline: var(--s-3);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-xs);
+}
+.v-topbar__back{ all: unset; width: 36px; height: 36px; border-radius: var(--r-full); display:grid; place-items:center; cursor: pointer; }
+.v-topbar__back:hover{ background: var(--surface-2); }
+.v-topbar__back:focus-visible{ outline: 2px solid var(--brand-500); outline-offset: 2px; }
+.v-topbar__title{ font: var(--text-lg); color: var(--text-primary); }
+
+.v-panel__body{
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--s-4);
+}
+
+.v-scroll{
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}

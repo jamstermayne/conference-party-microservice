@@ -6,7 +6,7 @@
 class ReferralSystem {
     constructor() {
         this.baseUrl = window.location.origin;
-        this.apiBase = window.CONFIG?.apiBase || 'https://us-central1-conference-party-app.cloudfunctions.net';
+        this.apiBase = window.CONFIG?.apiBase || '';
         this.currentUser = null;
         this.referralStats = {
             totalShares: 0,
