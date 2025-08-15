@@ -8,8 +8,13 @@ export async function ensureShell() {
 }
 
 export function setActive(route) {
-  document.querySelectorAll('.sidebar [data-route]')
-    .forEach(a => a.classList.toggle('active', a.dataset.route === route));
+  // Update active state for new v-nav__link structure
+  document.querySelectorAll('.v-nav__link[data-route]')
+    .forEach(a => {
+      const isActive = a.dataset.route === route;
+      a.classList.toggle('active', isActive);
+      a.classList.toggle('v-nav__link--active', isActive);
+    });
 }
 
 export default { ensureShell, setActive };

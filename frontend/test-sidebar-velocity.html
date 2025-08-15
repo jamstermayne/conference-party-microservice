@@ -1,57 +1,55 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>velocity.ai — #</title>
-  <meta name="theme-color" content="#0b0f17"/>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="shortcut icon" href="/favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velocity Sidebar Test</title>
+  <link rel="stylesheet" href="/assets/css/spacing-tokens.css">
+  <link rel="stylesheet" href="/assets/css/color-tokens.css">
+  <link rel="stylesheet" href="/assets/css/sidebar-velocity.css">
   <style>
-    html,body{margin:0;height:100%;background:#0b0f17;color:#e8ecff;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    .sidebar{background:#0e1320;border-right:1px solid #1a2134;padding:18px 16px;position:sticky;top:0;height:100vh;box-sizing:border-box}
-    .brand{display:flex;align-items:center;margin:4px 0 18px}
-    .brand h1{font-size:15px;margin:0}
-  </style>
-  <script>window.BUILD="b803";</script>
-  <script>
-    // kill any stale SW right now
-    if('serviceWorker' in navigator){
-      navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));
-      caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-primary, #1a1d21);
+      color: var(--text-primary, #ffffff);
+      font-family: system-ui, -apple-system, sans-serif;
     }
-  </script>
-  
-  <!-- TOKENS FIRST -->
-  <link rel="stylesheet" href="/assets/css/spacing-tokens.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/color-tokens.css?v=b803">
-  
-  <!-- BASE / COMPONENTS -->
-  <link rel="stylesheet" href="/assets/css/hero-cards.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/main.css?v=b803">
-  
-  <!-- Additional tokens and themes -->
-  <link rel="stylesheet" href="/assets/css/sidebar-tokens.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/theme.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/theme-unified.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/calendar-uniform.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/calendar-buttons.css?v=b803">
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="/js/auth.js?v=b803"></script>
-  <!-- Consolidated layout styles -->
-  <link rel="stylesheet" href="/assets/css/sidebar-velocity.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/sidebar-final.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/sidebar-subnav.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/calendar-button-single.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/button-secondary.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/pin-button.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/calendar-modal.css?v=b803">
-  <link rel="stylesheet" href="/assets/css/z-overrides.css?v=b803"><!-- last: layout lock -->
-  <script async defer src="https://apis.google.com/js/api.js"></script>
-  <!-- Google Maps JS (prod) -->
-  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc&v=weekly&libraries=marker&loading=async"></script>
+    
+    #main {
+      padding: var(--s-4);
+    }
+    
+    .test-content {
+      max-width: 800px;
+    }
+    
+    .test-content h1 {
+      color: var(--color-primary);
+      margin-bottom: var(--s-3);
+    }
+    
+    .test-card {
+      background: var(--bg-secondary, #242830);
+      border: 1px solid var(--border-color, #2a2d31);
+      border-radius: var(--r-2);
+      padding: var(--s-3);
+      margin-bottom: var(--s-3);
+    }
+    
+    .test-card h3 {
+      margin-top: 0;
+      color: var(--text-primary);
+    }
+    
+    pre {
+      background: var(--bg-tertiary, #1a1d21);
+      padding: var(--s-2);
+      border-radius: var(--r-1);
+      overflow-x: auto;
+      font-size: 0.875rem;
+    }
+  </style>
 </head>
 <body>
   <div id="app" class="app">
@@ -59,7 +57,7 @@
       <a class="v-brand" href="#/parties">velocity.ai</a>
 
       <nav class="v-nav" aria-label="Primary">
-        <a class="v-nav__link" data-route="parties" href="#/parties">
+        <a class="v-nav__link active" data-route="parties" href="#/parties">
           <span class="v-nav__icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M3 7h18"/><path d="M3 12h18"/><path d="M3 17h18"/>
@@ -124,20 +122,71 @@
         </a>
       </nav>
     </aside>
-    <main id="main"><!-- routed content --></main>
+
+    <main id="main">
+      <div class="test-content">
+        <h1>Velocity Sidebar Test</h1>
+        
+        <div class="test-card">
+          <h3>✅ Semantic HTML Structure</h3>
+          <p>The sidebar now uses semantic HTML with proper ARIA labels and BEM-style classes:</p>
+          <ul>
+            <li><code>.v-sidebar</code> - Main sidebar container</li>
+            <li><code>.v-brand</code> - Brand/logo link</li>
+            <li><code>.v-nav</code> - Navigation container with aria-label</li>
+            <li><code>.v-nav__link</code> - Navigation links</li>
+            <li><code>.v-nav__icon</code> - Icon containers</li>
+            <li><code>.v-nav__label</code> - Text labels</li>
+          </ul>
+        </div>
+
+        <div class="test-card">
+          <h3>🎨 SVG Icons</h3>
+          <p>Each navigation item now has a proper SVG icon with consistent sizing (18x18) and stroke styling.</p>
+        </div>
+
+        <div class="test-card">
+          <h3>📱 Responsive Design</h3>
+          <p>On mobile (< 768px), the sidebar collapses to show only icons, hiding the labels for a cleaner look.</p>
+        </div>
+
+        <div class="test-card">
+          <h3>🎯 Active State</h3>
+          <p>The "parties" link is currently active, showing the blue accent bar and highlighted background.</p>
+        </div>
+
+        <div class="test-card">
+          <h3>Test Navigation</h3>
+          <p>Click the links below to test navigation:</p>
+          <pre id="hash-display">Current hash: #/parties</pre>
+        </div>
+      </div>
+    </main>
   </div>
-  
-  
+
   <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));
-  caches && caches.keys && caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
-}
+    // Test active state switching
+    document.querySelectorAll('.v-nav__link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        // Remove active from all
+        document.querySelectorAll('.v-nav__link').forEach(l => {
+          l.classList.remove('active', 'v-nav__link--active');
+        });
+        
+        // Add active to clicked
+        e.currentTarget.classList.add('active', 'v-nav__link--active');
+        
+        // Update hash display
+        document.getElementById('hash-display').textContent = 
+          'Current hash: ' + e.currentTarget.getAttribute('href');
+      });
+    });
+    
+    // Monitor hash changes
+    window.addEventListener('hashchange', () => {
+      const hash = location.hash || '#/parties';
+      document.getElementById('hash-display').textContent = 'Current hash: ' + hash;
+    });
   </script>
-<script src="/js/kill-sw.js?v=b803"></script>
-<script type="module" src="/js/router.js?v=b803"></script>
-<script type="module" src="/js/gcal-hooks.js?v=b803"></script>
-<script type="module" src="/js/map-hooks.js?v=b803"></script>
-  <script src="/js/theme-patch.js?v=001"></script>
 </body>
 </html>

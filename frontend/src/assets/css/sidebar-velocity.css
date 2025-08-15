@@ -1,0 +1,145 @@
+/* Velocity Sidebar Styles - Semantic Structure */
+
+.v-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 200px;
+  background: var(--bg-sidebar, #1a1d21);
+  border-right: 1px solid var(--border-color, #2a2d31);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+/* Brand */
+.v-brand {
+  display: block;
+  padding: var(--s-4) var(--s-3);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary, #6b8cff);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-color, #2a2d31);
+  transition: color 0.2s ease;
+}
+
+.v-brand:hover {
+  color: var(--color-primary-hover, #8ba3ff);
+}
+
+/* Navigation */
+.v-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--s-2) 0;
+}
+
+/* Navigation Links */
+.v-nav__link {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  color: var(--text-secondary, #9ca3af);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.v-nav__link:hover {
+  color: var(--text-primary, #ffffff);
+  background: var(--bg-hover, rgba(255, 255, 255, 0.05));
+}
+
+/* Active state */
+.v-nav__link--active,
+.v-nav__link.active {
+  color: var(--text-primary, #ffffff);
+  background: var(--bg-active, rgba(107, 140, 255, 0.1));
+}
+
+.v-nav__link--active::before,
+.v-nav__link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-primary, #6b8cff);
+}
+
+/* Icon */
+.v-nav__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.v-nav__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Label */
+.v-nav__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .v-sidebar {
+    width: 60px;
+  }
+  
+  .v-brand {
+    padding: var(--s-3) var(--s-2);
+    font-size: 1rem;
+    text-align: center;
+    /* Show only first letter on mobile */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  .v-nav__link {
+    justify-content: center;
+    padding: var(--s-3) var(--s-2);
+  }
+  
+  .v-nav__label {
+    display: none;
+  }
+  
+  .v-nav__icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .v-sidebar {
+    background: var(--bg-sidebar-dark, #0f1114);
+    border-right-color: var(--border-color-dark, #1a1d21);
+  }
+}
+
+/* Ensure main content has proper offset */
+#main {
+  margin-left: 200px;
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  #main {
+    margin-left: 60px;
+  }
+}
