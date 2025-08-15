@@ -3,12 +3,13 @@ import { openPartiesDay } from './panels/openers.js';
 import { openCalendar } from './panels/openers.js';
 import { openMapToday } from './panels/openers.js';
 import { wireGlobalButtons } from './wire-buttons.js';
-import { wireCalendarButtons } from './wiring/wire-calendar.js';
+import { wireCalendarButtons as wireCalendarButtonsOld } from './wiring/wire-calendar.js';
+import { wireCalendarButtons } from './wire/calendar-buttons.js';
 
 // Wire buttons once on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   wireGlobalButtons(document);
-  wireCalendarButtons(document);
+  wireCalendarButtons(); // New production-ready handler
 });
 
 // Mount to #main (Stack handles the actual mounting via getElementById('main'))
