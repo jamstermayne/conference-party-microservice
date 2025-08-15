@@ -39,7 +39,7 @@
 }
 .cal-grid .hour-row .label{
   position: absolute;
-  left: 0; top: -8px; width: var(--cal-gutter);
+  left: 0; top: calc(-1 * var(--s-2)); width: var(--cal-gutter);
   text-align: right; padding-right: var(--s-2-5);
   font-size: var(--s-3); color: var(--cal-muted);
 }

@@ -19,7 +19,7 @@
 }
 
 .v-btn--primary:hover { 
-  transform: translateY(-1px); 
+  transform: translateY(calc(-1 * var(--bw-1))); 
   background: var(--brand-600);
 }
 

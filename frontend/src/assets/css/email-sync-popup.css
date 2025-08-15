@@ -54,8 +54,8 @@
 
 .popup-close {
     position: absolute;
-    top: -4px;
-    right: -8px;
+    top: calc(-1 * var(--s-1));
+    right: calc(-1 * var(--s-2));
     background: none;
     border: none;
     color: var(--text-secondary, var(--text-secondary));
@@ -106,7 +106,7 @@
 
 .btn-sync:hover {
     background: var(--accent-hover, var(--alias-5a6aef));
-    transform: translateY(-1px);
+    transform: translateY(calc(-1 * var(--bw-1)));
     box-shadow: 0 var(--s-1) var(--s-3) rgba(107, 123, 255, 0.3);
 }
 

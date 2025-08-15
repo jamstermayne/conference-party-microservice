@@ -37,7 +37,7 @@
   transition:transform .12s var(--ease-out), box-shadow .12s var(--ease-out), background .12s var(--ease-out);
   cursor: pointer;
 }
-.btn-soft:hover{ background:rgba(255,255,255,.06); box-shadow:0 var(--s-1-5) var(--s-4) rgba(0,0,0,.25); transform:translateY(-1px); }
+.btn-soft:hover{ background:rgba(255,255,255,.06); box-shadow:0 var(--s-1-5) var(--s-4) rgba(0,0,0,.25); transform:translateY(calc(-1 * var(--bw-1))); }
 .card-row{ display:flex; align-items:flex-start; gap:var(--s-4); }
 .card-left{ flex:1 1 auto; }
 .card-right{ flex:0 0 auto; display:flex; align-items:center; gap:var(--s-2-5); }
