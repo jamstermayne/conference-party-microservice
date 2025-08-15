@@ -125,7 +125,32 @@ export const GCal = {
 export const { isConnected, startOAuth, listEvents, createFromParty, disconnect, getUser } = GCal;
 
 // Additional named exports for compatibility
-export const status = GCal.isConnected;
-export const create = GCal.createFromParty;
+export const status = async () => {
+  const r = await fetch(`${BASE}/status`, { credentials: 'include' });
+  if (!r.ok) return { connected: false };
+  return r.json(); // { connected: boolean }
+};
+
+export const create = async (event) => {
+  const r = await fetch(`${BASE}/create`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(event)
+  });
+  if (!r.ok) throw new Error('create_failed');
+  return r.json();
+};
+
+// Safe window.close (avoid COOP spam)
+export function safeClose(win) {
+  try { 
+    if (win && !win.closed) {
+      win.close();
+    }
+  } catch {
+    // Ignore COOP errors
+  }
+}
 
 export default GCal;

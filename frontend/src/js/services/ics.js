@@ -72,3 +72,10 @@ export async function createIcsFileForNextEvent() {
   const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
   return URL.createObjectURL(blob);
 }
+
+// Build and download ICS file for an event
+export async function buildIcsAndDownload(event) {
+  const icsContent = buildICS(event);
+  const filename = `${(event.title || event.summary || 'event').replace(/[^a-z0-9]/gi, '_').toLowerCase()}.ics`;
+  downloadICS(icsContent, filename);
+}

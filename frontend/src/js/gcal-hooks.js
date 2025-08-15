@@ -1,40 +1,7 @@
-/**
- * Google Calendar Hooks
- * Handles calendar button clicks and OAuth flow
- */
-
-import { addToGoogle, addToOutlook, addToM2M } from './calendar-providers.js?v=b031';
-
-/**
- * Handle button state during async operations
- */
-function withBusy(btn, fn) {
-  const prev = { text: btn.textContent, disabled: btn.disabled };
-  btn.disabled = true;
-  btn.textContent = 'Working…';
-  
-  return fn().then((result) => {
-    if (result?.success) {
-      btn.textContent = '✓ Added';
-      setTimeout(() => {
-        btn.textContent = prev.text;
-        btn.disabled = prev.disabled;
-      }, 2000);
-    } else {
-      btn.textContent = 'Retry';
-      btn.disabled = false;
-    }
-    return result;
-  }).catch((error) => {
-    btn.textContent = 'Failed';
-    btn.disabled = false;
-    setTimeout(() => {
-      btn.textContent = prev.text;
-      btn.disabled = prev.disabled;
-    }, 2000);
-    throw error;
-  });
-}
+// gcal-hooks.js — single-button click orchestration
+import { status, create, safeClose } from './services/gcal.js?v=b037';
+import { showProviderModal, toast } from './components/calendar-providers.js?v=b037';
+import { buildIcsAndDownload } from './services/ics.js?v=b037';
 
 /**
  * Extract event data from button/card
@@ -49,7 +16,7 @@ function extractEventData(element) {
            'Event',
     venue: element.dataset.venue || 
            element.dataset.location ||
-           card?.querySelector('.venue, .location')?.textContent?.replace('📍', '').trim() || 
+           card?.querySelector('.venue, .location, [data-venue]')?.textContent?.replace('📍', '').trim() || 
            '',
     location: element.dataset.venue || element.dataset.location || '',
     start: element.dataset.start || element.dataset.startIso,
@@ -83,153 +50,177 @@ function extractEventData(element) {
     }
   }
   
+  // If still no start/end times, use defaults
+  if (!event.start) {
+    event.start = new Date().toISOString();
+    event.end = new Date(Date.now() + 3600000).toISOString(); // +1 hour
+  }
+  
   return event;
 }
 
-/**
- * Show calendar provider menu
- */
-function showProviderMenu(button, event) {
-  // Remove any existing menu
-  const existingMenu = document.querySelector('.calendar-menu');
-  if (existingMenu) existingMenu.remove();
-  
-  const menu = document.createElement('div');
-  menu.className = 'calendar-menu';
-  menu.style.cssText = `
-    position: absolute;
-    top: 100%;
-    left: 0;
-    margin-top: 4px;
-    background: #1a2134;
-    border: 1px solid rgba(139,129,255,0.3);
-    border-radius: 8px;
-    padding: 4px;
-    min-width: 180px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    z-index: 1000;
-  `;
-  
-  menu.innerHTML = `
-    <button class="menu-item" data-provider="google">
-      <span>📅</span> Google Calendar
-    </button>
-    <button class="menu-item" data-provider="outlook">
-      <span>📧</span> Outlook (.ics)
-    </button>
-    <button class="menu-item" data-provider="m2m">
-      <span>🤝</span> Meet to Match
-    </button>
-  `;
-  
-  // Style menu items
-  menu.querySelectorAll('.menu-item').forEach(item => {
-    item.style.cssText = `
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 100%;
-      padding: 8px 12px;
-      background: transparent;
-      border: none;
-      color: #e8ecff;
-      font-size: 14px;
-      cursor: pointer;
-      text-align: left;
-      border-radius: 4px;
-      transition: background 0.2s;
-    `;
+export function wireAddToCalendarButtons() {
+  document.addEventListener('click', async (e) => {
+    // Handle both old and new button selectors
+    const btn = e.target.closest('[data-add-to-calendar], [data-action="addCalendar"]');
+    if (!btn) return;
     
-    item.addEventListener('mouseenter', () => {
-      item.style.background = 'rgba(139,129,255,0.2)';
-    });
-    
-    item.addEventListener('mouseleave', () => {
-      item.style.background = 'transparent';
-    });
-  });
-  
-  // Position relative to button
-  button.style.position = 'relative';
-  button.appendChild(menu);
-  
-  // Handle menu item clicks
-  menu.addEventListener('click', async (e) => {
+    e.preventDefault();
     e.stopPropagation();
-    const provider = e.target.closest('[data-provider]')?.dataset.provider;
-    if (!provider) return;
     
-    menu.remove();
+    // Get event data
+    const eventData = extractEventData(btn);
     
-    switch (provider) {
-      case 'google':
-        await withBusy(button, () => addToGoogle(event));
-        break;
-      case 'outlook':
-        addToOutlook(event);
-        break;
-      case 'm2m':
-        addToM2M(event);
-        break;
+    // If there's an __eventData property on a parent element, use that
+    const cardElement = btn.closest('[data-event]');
+    if (cardElement && cardElement.__eventData) {
+      Object.assign(eventData, cardElement.__eventData);
+    }
+    
+    try {
+      // Check if already connected to Google
+      const s = await status();
+      if (s.connected) {
+        // Already connected - create event immediately
+        const originalText = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Adding...';
+        
+        try {
+          await create({
+            summary: eventData.title,
+            location: eventData.venue || eventData.location,
+            description: eventData.description,
+            start: eventData.start,
+            end: eventData.end,
+            timeZone: eventData.timeZone
+          });
+          toast('✅ Added to Google Calendar');
+          btn.textContent = '✓ Added';
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to create event:', err);
+          toast('Failed to add event. Please try again.', 'error');
+          btn.textContent = originalText;
+          btn.disabled = false;
+        }
+        return;
+      }
+      
+      // Not connected → show provider choices
+      showProviderModal({
+        onGoogle: async () => {
+          const popup = window.open(
+            '/api/googleCalendar/google/start',
+            'gcal',
+            'width=550,height=680,noopener'
+          );
+          
+          if (!popup) {
+            toast('Please allow popups to connect Google Calendar', 'warning');
+            return;
+          }
+          
+          // Show loading state
+          toast('Connecting to Google Calendar...', 'info');
+          
+          // Poll backend status
+          const deadline = Date.now() + 90_000;
+          let connected = false;
+          
+          while (Date.now() < deadline && !connected) {
+            await new Promise(r => setTimeout(r, 1500));
+            
+            // Check if popup is still open (wrapped for COOP)
+            try {
+              if (popup.closed) break;
+            } catch {
+              // Can't check due to COOP, continue polling
+            }
+            
+            const checkStatus = await status();
+            connected = checkStatus.connected;
+          }
+          
+          safeClose(popup);
+          
+          if (!connected) {
+            toast('Google sign-in cancelled', 'info');
+            return;
+          }
+          
+          // Now create the event
+          try {
+            await create({
+              summary: eventData.title,
+              location: eventData.venue || eventData.location,
+              description: eventData.description,
+              start: eventData.start,
+              end: eventData.end,
+              timeZone: eventData.timeZone
+            });
+            toast('✅ Connected & added to Google Calendar');
+          } catch (err) {
+            console.error('Failed to create event after OAuth:', err);
+            toast('Connected but failed to add event. Please try again.', 'error');
+          }
+        },
+        
+        onOutlook: async () => {
+          try {
+            await buildIcsAndDownload(eventData);
+            toast('📥 Downloaded .ics for Outlook');
+          } catch (err) {
+            console.error('Failed to generate .ics:', err);
+            toast('Failed to generate calendar file', 'error');
+          }
+        },
+        
+        onM2M: () => {
+          // Deep-link to the M2M event landing or generic page if unknown
+          const url = eventData.m2mUrl || 'https://www.meettomatch.com/';
+          window.open(url, '_blank', 'noopener');
+          toast('📋 Opening MeetToMatch - ensure your calendar is connected there');
+        }
+      });
+      
+    } catch (err) {
+      console.error('Calendar button error:', err);
+      toast('Something went wrong. Please try again.', 'error');
     }
   });
   
-  // Close menu on outside click
-  setTimeout(() => {
-    document.addEventListener('click', function closeMenu(e) {
-      if (!menu.contains(e.target)) {
-        menu.remove();
-        document.removeEventListener('click', closeMenu);
+  // Also handle the old calendar menu buttons (remove them if they exist)
+  document.addEventListener('click', (e) => {
+    const menuBtn = e.target.closest('[data-action="calendarMenu"], .btn-menu');
+    if (menuBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      // Trigger the main button instead
+      const mainBtn = menuBtn.parentElement?.querySelector('[data-action="addCalendar"]');
+      if (mainBtn) {
+        mainBtn.click();
       }
-    });
-  }, 0);
+    }
+  });
 }
 
-/**
- * Global click handler for calendar buttons
- */
-document.addEventListener('click', async (e) => {
-  // Handle direct calendar add buttons
-  const calendarBtn = e.target.closest('[data-action="addCalendar"], [data-gcal-add]');
-  if (calendarBtn) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const event = extractEventData(calendarBtn);
-    
-    // Check for modifier keys or menu button
-    if (e.shiftKey || e.ctrlKey || calendarBtn.dataset.showMenu) {
-      showProviderMenu(calendarBtn, event);
-    } else {
-      // Default to Google Calendar
-      await withBusy(calendarBtn, () => addToGoogle(event));
-    }
-    return;
-  }
-  
-  // Handle calendar menu toggle buttons
-  const menuBtn = e.target.closest('[data-action="calendarMenu"]');
-  if (menuBtn) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const mainBtn = menuBtn.parentElement?.querySelector('[data-action="addCalendar"]') || menuBtn;
-    const event = extractEventData(mainBtn);
-    showProviderMenu(menuBtn, event);
-    return;
-  }
-});
+// Auto-initialize when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', wireAddToCalendarButtons);
+} else {
+  wireAddToCalendarButtons();
+}
 
 // Listen for OAuth success messages from popup
 window.addEventListener('message', (e) => {
   if (e.origin !== location.origin) return;
   
   if (e.data === 'gcal:connected' || e.data?.type === 'gcal:connected') {
-    // OAuth successful, trigger any pending calendar adds
-    const pendingButton = document.querySelector('[data-pending-calendar]');
-    if (pendingButton) {
-      pendingButton.removeAttribute('data-pending-calendar');
-      pendingButton.click();
-    }
+    // OAuth successful
+    toast('✅ Successfully connected to Google Calendar');
   }
 });

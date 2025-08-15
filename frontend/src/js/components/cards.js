@@ -28,16 +28,12 @@ export function partyCard(evt){
       <div class="card-sub">📍 ${escapeHTML(evt.venue || '')}</div>
       <div class="card-sub">📅 ${escapeHTML(evt.when || '')}</div>
       <div class="actions">
-        <div class="btn-group">
-          <button class="btn primary" data-action="addCalendar" data-id="${evt.id}" 
-                  data-title="${escapeHTML(evt.title)}"
-                  data-venue="${escapeHTML(evt.venue || '')}"
-                  data-when="${escapeHTML(evt.when || '')}"
-                  data-start="${evt.start || ''}"
-                  data-end="${evt.end || ''}">Add to Calendar</button>
-          <button class="btn primary btn-menu" data-action="calendarMenu" 
-                  title="More calendar options">▼</button>
-        </div>
+        <button class="btn primary" data-action="addCalendar" data-id="${evt.id}" 
+                data-title="${escapeHTML(evt.title)}"
+                data-venue="${escapeHTML(evt.venue || '')}"
+                data-when="${escapeHTML(evt.when || '')}"
+                data-start="${evt.start || ''}"
+                data-end="${evt.end || ''}">Add to Calendar</button>
         <button class="btn ghost" data-action="details" data-id="${evt.id}">Details</button>
       </div>
     </div>
