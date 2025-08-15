@@ -6,46 +6,112 @@
 /* Main sidebar container */
 .v-sidenav {
   width: max-content;
-  min-width: 140px;
+  min-width: 200px;
   padding: var(--s-4) var(--s-3);
+  background: var(--neutral-50);
+  border-right: 1px solid var(--neutral-200);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+}
+
+/* Brand link */
+.v-brand {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+  margin-bottom: var(--s-4);
+  padding: 0 var(--s-2);
+}
+
+/* Navigation container */
+.v-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
 }
 
 /* Navigation items */
-.v-sidenav .nav-item {
-  display: grid;
-  grid-template-columns: var(--s-2) 1fr;
-  gap: var(--s-3);
+.v-nav__link {
+  display: flex;
   align-items: center;
+  gap: var(--s-2);
   padding: var(--s-2) var(--s-2);
   border-radius: var(--r-md);
-  white-space: nowrap;
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: all 150ms ease;
+  position: relative;
+}
+
+/* Icon styling */
+.v-nav__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* Label styling */
+.v-nav__label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Hover state */
+.v-nav__link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--white);
+}
+
+.v-nav__link:hover .v-nav__icon {
+  opacity: 1;
+}
+
+/* Active state - using both patterns for compatibility */
+.v-nav__link.active,
+.v-nav__link.is-active,
+.v-nav__link[aria-current="page"] {
+  background: rgba(139, 122, 255, 0.15);
+  color: var(--white);
+}
+
+.v-nav__link.active .v-nav__icon,
+.v-nav__link.is-active .v-nav__icon,
+.v-nav__link[aria-current="page"] .v-nav__icon {
+  opacity: 1;
 }
 
 /* Active indicator bar */
-.v-sidenav .nav-item::before {
+.v-nav__link.active::before,
+.v-nav__link.is-active::before,
+.v-nav__link[aria-current="page"]::before {
   content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   width: 3px;
-  height: 100%;
-  border-radius: var(--r-sm);
-  background: transparent;
-}
-
-/* Active state gradient */
-.v-sidenav .nav-item[aria-current="page"]::before {
+  height: 70%;
   background: linear-gradient(180deg, var(--brand-500), var(--brand-300));
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
 }
 
 /* Day subnav - hidden by default */
 .v-day-subnav {
   display: none;
+  flex-direction: column;
   gap: var(--s-1);
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 var(--s-6);
 }
 
 /* Show day subnav only on map route */
 .v-sidenav[data-subnav="map"] .v-day-subnav {
-  display: grid;
+  display: flex;
 }
 
 /* Day pill buttons */
@@ -53,9 +119,19 @@
   appearance: none;
   border: 0;
   background: transparent;
-  padding: var(--s-2) var(--s-3);
+  padding: var(--s-1-5) var(--s-3);
   border-radius: var(--r-md);
   white-space: nowrap;
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  text-align: left;
+}
+
+.v-day-subnav .day-pill:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--white);
 }
 
 /* Active day pill */

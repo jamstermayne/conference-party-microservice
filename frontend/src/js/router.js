@@ -55,8 +55,13 @@ window.addEventListener('DOMContentLoaded', go);
       const linkRoute = a.dataset.route;
       const isActive = currentPath === linkRoute || 
                       (currentPath === '' && linkRoute === 'parties'); // Default route
-      a.classList.toggle('is-active', isActive);
-      a.classList.toggle('active', isActive); // Legacy support
+      a.classList.toggle('active', isActive);
+      // Set aria-current for accessibility
+      if (isActive) {
+        a.setAttribute('aria-current', 'page');
+      } else {
+        a.removeAttribute('aria-current');
+      }
     });
   };
 

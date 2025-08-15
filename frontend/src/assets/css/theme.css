@@ -7,13 +7,7 @@
 html,body{background:var(--v-bg);color:var(--v-text)}
 .muted{color:var(--v-muted)}
 
- /* Sidebar active highlight */
-[data-route].active,
-.nav-item.active{
-  background:linear-gradient(135deg,var(--neutral-100) 0%,var(--neutral-100) 100%);
-  border:1px solid var(--neutral-200); color:var(--alias-e9eeff) !important;
-  border-radius:14px;
-}
+/* Active highlight moved to sidebar.css for better organization */
 
  /* Unified buttons: affects .vbtn, .btn, and plain <button> */
 .vbtn,.btn,button{
