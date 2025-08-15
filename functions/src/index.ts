@@ -7,12 +7,6 @@ import cookieParser from "cookie-parser";
 import {canonicalHost} from "./middleware/canonicalHost";
 import {getHotspots} from "./hotspots";
 import googleCalendarRouter from "./googleCalendar/router";
-import {
-  googleStatus, googleStart, googleCallback,
-  googleCalendarEvents, googleCalendarCreate,
-  googlePeopleSearch, googleGmailDraft, googleGmailDraftIcs
-} from "./google";
-import { m2mVerify, m2mSubscribe, m2mEvents } from "./m2m";
 import m2mRouter from "./routes/m2m";
 import partiesRouter from "./routes/parties";
 import invitesRouter from "./routes/invites";
@@ -48,23 +42,13 @@ app.use("/api/admin", adminRouter);
 app.use("/api", googleCalendarRouter);
 app.use("/api/parties", partiesRouter);
 
-// Additional Google API endpoints
-app.get("/api/google/status", (req, res) => googleStatus(req as any, res as any));
-app.get("/api/google/start", (req, res) => googleStart(req as any, res as any));
-app.get("/api/google/callback", (req, res) => googleCallback(req as any, res as any));
-app.get("/api/google/calendar/events", (req, res) => googleCalendarEvents(req as any, res as any));
-app.post("/api/google/calendar/create", (req, res) => googleCalendarCreate(req as any, res as any));
-app.get("/api/google/people/search", (req, res) => googlePeopleSearch(req as any, res as any));
-app.post("/api/google/gmail/draft", (req, res) => googleGmailDraft(req as any, res as any));
-app.post("/api/google/gmail/draft-ics", (req, res) => googleGmailDraftIcs(req as any, res as any));
+// Google API endpoints are handled by googleCalendarRouter at /api/googleCalendar/*
+// Removed duplicate endpoints to avoid conflicts
 
-// MeetToMatch (ICS) - Router version
+// MeetToMatch (ICS) - Router handles all /api/m2m/* endpoints
 app.use("/api/m2m", m2mRouter);
 
-// Legacy M2M endpoints (kept for compatibility)
-app.post("/api/m2m/verify", (req, res) => m2mVerify(req as any, res as any));
-app.post("/api/m2m/subscribe", (req, res) => m2mSubscribe(req as any, res as any));
-app.get("/api/m2m/events", (req, res) => m2mEvents(req as any, res as any));
+// M2M endpoints are handled by m2mRouter - removed duplicates
 
 /* const FALLBACK_EVENTS: EventData[] = [ // Not used after refactoring to use routes
   {
