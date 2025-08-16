@@ -1,6 +1,12 @@
 // init-app.js - Initialize the app with wired home panel
 import { renderHome } from './panels/home-wired.js';
 import { wireGlobalButtons } from './wire-buttons.js';
+import { renderHomeSections } from './panels/home-sections.js';
+
+export async function bootHome() {
+  const host = document.getElementById('app') || document.body;
+  await renderHomeSections(host);
+}
 
 // Wire buttons once on DOM ready
 document.addEventListener('DOMContentLoaded', () => wireGlobalButtons(document));
