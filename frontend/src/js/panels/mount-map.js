@@ -1,6 +1,6 @@
 // mount-map.js - Mount map panel with today's events
 import { jsonGET } from '../utils/json-fetch.js';
-import { ensureMapsReady } from '../services/maps-loader.js';
+import { mountMapInto } from '../components/map-integration.js';
 
 export async function mountMap(container) {
   const today = new Date().toISOString().slice(0, 10);
@@ -24,8 +24,12 @@ export async function mountMap(container) {
   `;
   
   try {
-    // Initialize map with error handling
-    await initializeMap(container.querySelector('#map-view'), today);
+    // Use hardened map mounting
+    const map = await mountMapInto('#map-view');
+    window.mapInstance = map;
+    
+    // Load and add party markers
+    await addPartyMarkers(map, today);
     
     // Show controls after successful load
     const controls = container.querySelector('.map-controls');
@@ -48,42 +52,7 @@ export async function mountMap(container) {
   }
 }
 
-async function initializeMap(mapContainer, date) {
-  // Guard: Check if container is valid
-  if (!mapContainer) {
-    throw new Error('Map container not found');
-  }
-  
-  // Load Google Maps with robust loader
-  try {
-    await ensureMapsReady();
-  } catch (error) {
-    console.error('[mount-map] Google Maps load failed:', error);
-    throw new Error(`Failed to load Google Maps: ${error.message}`);
-  }
-  
-  // Import required libraries
-  const { Map } = await google.maps.importLibrary('maps');
-  const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
-  
-  // Clear loading state
-  mapContainer.innerHTML = '';
-  
-  // Create map centered on Cologne
-  const map = new Map(mapContainer, {
-    center: { lat: 50.938, lng: 6.96 },
-    zoom: 12,
-    mapId: 'conference-party-map',
-    gestureHandling: 'cooperative',
-    disableDefaultUI: false,
-    zoomControl: true,
-    mapTypeControl: false,
-    streetViewControl: false,
-    fullscreenControl: true
-  });
-  
-  window.mapInstance = map;
-  
+async function addPartyMarkers(map, date) {
   // Load and display parties for today
   try {
     const params = new URLSearchParams({ conference: 'gamescom2025', day: date });
@@ -94,9 +63,14 @@ async function initializeMap(mapContainer, date) {
     parties.forEach(party => {
       if (party.lat && party.lon) {
         try {
-          new AdvancedMarkerElement({
+          const pin = document.createElement('div');
+          pin.textContent = '📍';
+          pin.style.fontSize = '24px';
+          
+          new google.maps.marker.AdvancedMarkerElement({
             map,
             position: { lat: parseFloat(party.lat), lng: parseFloat(party.lon) },
+            content: pin,
             title: party.name || party.title
           });
           validMarkers++;
