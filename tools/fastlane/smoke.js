@@ -13,25 +13,20 @@ const HOME = `${URL}/#/home`;
   // 1) Home route
   await page.goto(HOME, { waitUntil:'networkidle2' });
   
-  // Wait for home content to render (up to 8 seconds)
+  // Wait longer for dynamic content to render (up to 10 seconds)
   await page.waitForFunction(() => {
-    return document.querySelector('.home-section, .day-pill, .channel-btn') !== null;
-  }, { timeout: 8000 }).catch(async () => {
-    console.log('⚠️  Home content did not render, checking console...');
-    const logs = await page.evaluate(() => {
-      // Try to trigger home rendering manually
-      if (window.location.hash !== '#/home') {
-        window.location.hash = '#/home';
-      }
-      // Check what's in the DOM
-      return {
-        hash: location.hash,
-        hasApp: !!document.querySelector('#app'),
-        hasPanel: !!document.querySelector('.home-panel'),
-        bodyHTML: document.body.innerHTML.slice(0, 500)
-      };
-    });
-    console.log('DOM check:', logs);
+    const pills = document.querySelectorAll('.day-pill').length;
+    const channels = document.querySelectorAll('.channel-btn').length;
+    return pills > 0 || channels > 0;
+  }, { timeout: 10000 }).catch(async () => {
+    console.log('⚠️  Home content did not fully render after 10s');
+    const state = await page.evaluate(() => ({
+      pills: document.querySelectorAll('.day-pill').length,
+      channels: document.querySelectorAll('.channel-btn').length,
+      sections: document.querySelectorAll('.home-section').length,
+      panel: !!document.querySelector('.home-panel')
+    }));
+    console.log('Current state:', state);
   });
 
   const home = await page.evaluate(() => {
