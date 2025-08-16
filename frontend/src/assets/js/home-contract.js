@@ -95,18 +95,53 @@ const HOME_CONTRACT = (() => {
     });
   };
 
-  const toggleMapSubnav = () => {
+  const ensureMapSubnav = async () => {
     const vis = /^#\/map(\/|$)/.test(location.hash);
-    const sn = qs('.v-day-subnav');
-    if (sn) sn.classList.toggle('is-visible', vis);
+    
+    if (!vis) {
+      // Hide subnav if not on map
+      const sn = qs('.v-day-subnav');
+      if (sn) sn.style.display = 'none';
+      return;
+    }
+    
+    // On map route - ensure subnav exists with Mon-Sat pills
+    let sn = qs('.v-day-subnav');
+    if (!sn) {
+      sn = document.createElement('nav');
+      sn.className = 'v-day-subnav';
+      const app = ensureApp();
+      app.prepend(sn);
+    }
+    
+    // Populate with Mon-Sat pills if empty
+    if (sn.children.length === 0) {
+      const days = await weekFromData();
+      days.forEach(d => {
+        const b = document.createElement('button');
+        b.className = 'day-pill';
+        b.type = 'button';
+        b.textContent = d.label.replace(/\s+0/, ' ');
+        b.dataset.route = `#/map/${d.iso}`;
+        b.setAttribute('aria-pressed', location.hash.includes(d.iso) ? 'true' : 'false');
+        on(b, 'click', () => { location.hash = `#/map/${d.iso}`; }, { passive: true });
+        sn.appendChild(b);
+      });
+    }
+    
+    sn.style.display = '';
   };
 
   const mount = async () => {
     const app = ensureApp();
 
-    // Remove any legacy/duplicate home sections so our contract wins
-    qsa('.home-section[data-section="parties"], .home-section[data-section="map"]')
-      .forEach((n, i, arr) => { /* keep first, clear pills */ if (i > 1) n.remove(); });
+    // Remove ALL existing home sections to start fresh
+    qsa('.home-section').forEach(n => n.remove());
+    
+    // Also remove any loose pill containers
+    qsa('.pill-row, .day-pills').forEach(n => {
+      if (!n.closest('.home-section')) n.remove();
+    });
 
     // Build or reuse sections
     const partiesSec = section('parties');
@@ -122,8 +157,8 @@ const HOME_CONTRACT = (() => {
     if (!partiesSec.isConnected) app.insertBefore(partiesSec, first || null);
     if (!mapSec.isConnected) app.insertBefore(mapSec, partiesSec.nextSibling);
 
-    // Subnav visibility guard
-    toggleMapSubnav();
+    // Ensure map subnav if needed
+    await ensureMapSubnav();
   };
 
   const init = () => {
@@ -134,7 +169,7 @@ const HOME_CONTRACT = (() => {
         // Add a delay to ensure we run after other scripts
         setTimeout(() => mount(), 250);
       }
-      toggleMapSubnav();
+      ensureMapSubnav();
     };
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', ensure, { once: true });
