@@ -53,10 +53,8 @@
         btn.type = 'button';
         btn.className = 'day-pill';
         btn.textContent = day.label.replace(/\s+0/, ' ');
-        btn.dataset.iso = day.iso;
-        btn.addEventListener('click', () => {
-          location.hash = `#/parties/${day.iso}`;
-        });
+        btn.dataset.date = day.iso;
+        // No onclick - router handles clicks
         container.appendChild(btn);
       });
     } catch (err) {

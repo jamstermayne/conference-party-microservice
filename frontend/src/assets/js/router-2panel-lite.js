@@ -1,201 +1,141 @@
-/* @sentinel router-2panel-lite v1 */
 /* globals google */
 (() => {
-  const HOST_ID = 'panel-host';
-  const ensureHost = () => {
-    let h = document.getElementById(HOST_ID);
-    if (!h) { h = Object.assign(document.createElement('div'), { id: HOST_ID, className: 'panel-host' }); document.body.appendChild(h); }
-    return h;
-  };
-  const clearActive = () => {
-    const h = ensureHost();
-    const prev = h.querySelector('.panel.is-active');
-    if (prev) { prev.classList.remove('is-active'); prev.classList.add('is-exit'); setTimeout(()=>prev.remove(), 300); }
-  };
-  const headerHTML = (title) => `
-    <header class="panel__header">
-      <button class="panel__back" data-action="back" aria-label="Back">← Back</button>
-      <h2 class="panel__title">${title}</h2>
-    </header>`;
+  const qs = s => document.querySelector(s);
+  const qa = s => [...document.querySelectorAll(s)];
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const APP = () => (qs('#app') || document.body);
 
-  // Week helpers
-  const fmt = (d) => d.toLocaleDateString('en-US',{weekday:'short', day:'2-digit'}).replace(',', '');
-  const iso = (d) => d.toISOString().slice(0,10);
-  const mondayOf = (d) => { const x=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())); const wd=(x.getUTCDay()+6)%7; x.setUTCDate(x.getUTCDate()-wd); return x; };
-
-  async function weekFromAPI() {
-    let base = new Date();
-    try {
-      const r = await fetch('/api/parties?conference=gamescom2025', { headers:{ accept:'application/json' }});
-      const j = await r.json().catch(()=>null);
-      const arr = Array.isArray(j?.data) ? j.data : Array.isArray(j?.parties) ? j.parties : Array.isArray(j) ? j : [];
-      const dates = arr.map(e => String(e.date || e.start || e.startsAt || '').slice(0,10)).filter(Boolean);
-      if (dates.length) base = new Date(dates.sort()[0]+'T00:00:00Z');
-    } catch {}
-    const mon = mondayOf(base);
-    return Array.from({length:6},(_,i)=>{ const d=new Date(mon); d.setUTCDate(mon.getUTCDate()+i); return d; }); // Mon..Sat
+  // --- Panel helpers ---------------------------------------------------------
+  function closeActivePanel() {
+    const p = qs('.panel.panel--active');
+    if (!p) return;
+    p.classList.remove('panel--active');
+    p.addEventListener('transitionend', () => p.remove(), { once: true });
+    setTimeout(() => p.remove(), 500); // fallback
   }
 
-  // Panels
-  async function mountHome() {
-    clearActive();
-    const h = ensureHost();
-    const p = document.createElement('section');
-    p.className = 'panel is-active panel--home';
-    p.innerHTML = `${headerHTML('Home')}
-      <div class="panel__body">
-        <div class="home-panel">
-          <section class="home-section" data-section="parties">
-            <h2>Parties</h2>
-            <div class="day-pills" data-role="parties"></div>
-          </section>
-          <section class="home-section" data-section="map">
-            <h2>Map</h2>
-            <div class="day-pills" data-role="map"></div>
-          </section>
-          <section class="home-section" data-section="channels">
-            <div class="channels-grid"></div>
-          </section>
-        </div>
+  function mountSlidePanel(kind, dateISO) {
+    closeActivePanel();
+
+    // container
+    const panel = document.createElement('section');
+    panel.className = 'panel';
+    panel.dataset.panel = kind;
+
+    // header
+    const header = document.createElement('header');
+    header.className = 'panel__header';
+    header.innerHTML = `
+      <button class="back-btn" data-action="back" aria-label="Back">← Back</button>
+      <h1>${kind === 'parties' ? 'Parties' : 'Map'} — ${dateISO}</h1>
+    `;
+    panel.appendChild(header);
+
+    // body
+    const body = document.createElement('div');
+    body.className = 'panel__body';
+    if (kind === 'parties') {
+      body.innerHTML = `<div class="cards cards--list" data-date="${dateISO}">
+        <div class="empty-state">Loading parties…</div>
       </div>`;
-    h.appendChild(p);
-
-    // Back button (to no-op on home — keeps handler consistent)
-    p.addEventListener('click', (ev) => {
-      const a = ev.target.closest('[data-action="back"]'); if (!a) return;
-      ev.preventDefault(); history.back();
-    }, { passive: false });
-
-    const days = await weekFromAPI();
-    const renderPills = (node, kind) => {
-      node.textContent = '';
-      for (const d of days) {
-        const b = document.createElement('button');
-        b.className = 'day-pill';
-        b.type = 'button';
-        b.dataset.date = iso(d);
-        b.textContent = fmt(d);
-        b.addEventListener('click', () => {
-          location.hash = kind === 'map' ? `#/map/${b.dataset.date}` : `#/parties/${b.dataset.date}`;
-        }, { passive: true });
-        node.appendChild(b);
-      }
-      node.querySelector('.day-pill')?.setAttribute('aria-pressed','true');
-    };
-    renderPills(p.querySelector('[data-role="parties"]'), 'parties');
-    renderPills(p.querySelector('[data-role="map"]'), 'map');
-
-    const channels = [
-      ['Map',       '#/map'],
-      ['My calendar', '#/calendar'],
-      ['Invites',   '#/invites'],
-      ['Contacts',  '#/contacts'],
-      ['Me',        '#/me'],
-      ['Settings',  '#/settings'],
-    ];
-    const grid = p.querySelector('.channels-grid');
-    grid.textContent = '';
-    for (const [label, route] of channels) {
-      const btn = document.createElement('button');
-      btn.className = 'channel-btn';
-      btn.type = 'button';
-      btn.textContent = label;
-      btn.addEventListener('click', () => { location.hash = route; }, { passive: true });
-      grid.appendChild(btn);
+      panel.appendChild(body);
+      fetchParties(dateISO).then(list => renderPartiesList(body, list));
+    } else {
+      body.innerHTML = `<div id="_map_panel" style="height:60vh;border-radius:var(--r-3);overflow:hidden"></div>`;
+      panel.appendChild(body);
+      ensureMaps().then(() => mountMap('#_map_panel', dateISO));
     }
+
+    APP().appendChild(panel);
+    requestAnimationFrame(() => panel.classList.add('panel--active'));
   }
 
-  async function mountParties(dateStr) {
-    clearActive();
-    const h = ensureHost();
-    const p = document.createElement('section');
-    p.className = 'panel is-active panel--parties';
-    p.innerHTML = `${headerHTML(`Parties — ${dateStr||''}`)}
-      <div class="panel__body">
-        <div class="cards-grid" id="parties-list" style="display:grid; gap:var(--s-3)"></div>
-      </div>`;
-    h.appendChild(p);
-
-    p.addEventListener('click', (ev) => {
-      if (ev.target.closest('[data-action="back"]')) { ev.preventDefault(); location.hash = '#/home'; }
-    }, { passive: false });
-
-    // Fetch + render simple cards
-    let list = [];
+  // --- Data + rendering ------------------------------------------------------
+  async function fetchParties(dateISO) {
     try {
-      const r = await fetch('/api/parties?conference=gamescom2025', { headers:{accept:'application/json'}});
-      const j = await r.json().catch(()=>null);
-      const arr = Array.isArray(j?.data) ? j.data : Array.isArray(j?.parties) ? j.parties : Array.isArray(j) ? j : [];
-      list = arr.filter(e => String(e.date || e.start || e.startsAt || '').slice(0,10) === dateStr);
-    } catch {}
-    const host = p.querySelector('#parties-list');
-    if (!list.length) { host.innerHTML = `<p>No parties found for ${dateStr}.</p>`; return; }
-    host.innerHTML = list.map(e => `
+      const res = await fetch('/api/parties?conference=gamescom2025', { headers:{'accept':'application/json'} });
+      const raw = await res.json();
+      const rows = Array.isArray(raw?.data) ? raw.data : Array.isArray(raw) ? raw : [];
+      return rows.filter(x => (x.date || x.start || '').slice(0,10) === dateISO);
+    } catch (e) { return []; }
+  }
+  function renderPartiesList(el, rows) {
+    if (!rows.length) { el.innerHTML = `<div class="empty-state">No parties for this day.</div>`; return; }
+    el.innerHTML = rows.map(r => `
       <article class="vcard">
-        <header><h3>${(e.title||e.name||'Party')}</h3></header>
-        <div class="event-meta">${(e.venue||'')} ${(e.time||'')}</div>
-        <div class="event-actions"><button class="btn-add-to-calendar" data-id="${e.id||''}">Add to Calendar</button></div>
-      </article>`).join('');
+        <h3 class="vcard__title">${(r.title||r.name||'Untitled')}</h3>
+        <div class="vcard__meta">${(r.venue||'')}</div>
+      </article>
+    `).join('');
   }
 
-  async function mountMap(dateStr) {
-    clearActive();
-    const h = ensureHost();
-    const p = document.createElement('section');
-    p.className = 'panel is-active panel--map';
-    p.innerHTML = `${headerHTML(`Map — ${dateStr||''}`)}
-      <div class="panel__body">
-        <div id="map-container" style="height:60vh; border-radius:var(--r-3); overflow:hidden"></div>
-      </div>`;
-    h.appendChild(p);
-
-    p.addEventListener('click', (ev) => {
-      if (ev.target.closest('[data-action="back"]')) { ev.preventDefault(); location.hash = '#/home'; }
-    }, { passive: false });
-
-    // Simple map init (works with single loader on page)
-    const el = p.querySelector('#map-container');
-    if (!(window.google?.maps)) { el.innerHTML = '<p>Loading map…</p>'; return; }
-    const center = { lat: 50.9375, lng: 6.9603 };
-    const map = new google.maps.Map(el, { center, zoom: 12, mapId: window.__MAP_ID || 'DEMO_MAP_ID' });
-
-    // Markers from API (filter by date)
-    try {
-      const r = await fetch('/api/parties?conference=gamescom2025', { headers:{accept:'application/json'}});
-      const j = await r.json().catch(()=>null);
-      const arr = Array.isArray(j?.data) ? j.data : Array.isArray(j?.parties) ? j.parties : Array.isArray(j) ? j : [];
-      const list = arr.filter(e => String(e.date || e.start || e.startsAt || '').slice(0,10) === dateStr);
-      const b = new google.maps.LatLngBounds();
-      for (const e of list) {
-        const lat = Number(e.lat ?? e.latitude ?? e.location?.lat ?? e.coords?.lat);
-        const lng = Number(e.lng ?? e.longitude ?? e.location?.lng ?? e.coords?.lng);
-        if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
-        const pin = document.createElement('div'); pin.textContent='●'; pin.style.fontSize='18px';
-        new google.maps.marker.AdvancedMarkerElement({ map, position: {lat,lng}, content: pin, title: e.title||e.name||'Party' });
-        b.extend({lat,lng});
-      }
-      if (!b.isEmpty?.() && list.length) map.fitBounds(b, 48);
-    } catch {}
+  // --- Maps ------------------------------------------------------------------
+  function ensureMaps() {
+    if (window.google?.maps?.marker?.AdvancedMarkerElement) return Promise.resolve();
+    return new Promise((resolve) => {
+      const s = document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]');
+      if (s && window.google?.maps) { resolve(); return; }
+      const u = new URL('https://maps.googleapis.com/maps/api/js');
+      u.searchParams.set('key', window.__MAP_BROWSER_KEY || '');
+      u.searchParams.set('v', 'weekly');
+      u.searchParams.set('libraries', 'marker');
+      u.searchParams.set('loading', 'async');
+      const n = Object.assign(document.createElement('script'), { src: u.toString(), defer: true });
+      n.onload = resolve; document.head.appendChild(n);
+    });
+  }
+  async function mountMap(sel, dateISO) {
+    const host = qs(sel); if (!host) return;
+    const rows = await fetchParties(dateISO);
+    const center = { lat: 50.9375, lng: 6.9603 }; // Cologne
+    const map = new google.maps.Map(host, { zoom: 12, center, mapId: window.__MAP_ID || 'DEMO_MAP_ID' });
+    const b = new google.maps.LatLngBounds();
+    let placed = 0;
+    rows.forEach(r => {
+      const lat = Number(r.lat ?? r.latitude ?? r.location?.lat);
+      const lng = Number(r.lng ?? r.longitude ?? r.location?.lng);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+      const pin = document.createElement('div'); pin.textContent = '●'; pin.style.fontSize = '18px';
+      new google.maps.marker.AdvancedMarkerElement({ map, position: {lat,lng}, content: pin, title: r.title||r.name||'Party' });
+      b.extend({lat,lng}); placed++;
+    });
+    if (placed) map.fitBounds(b, 48);
   }
 
-  // Router
+  // --- Router ----------------------------------------------------------------
   function route() {
-    const h = location.hash.replace(/^#\/?/, '');
-    if (!h) { location.hash = '#/home'; return; }
-    const [name, arg] = h.split('/');
-    if (name === 'home') return mountHome();
-    if (name === 'parties' && /^\d{4}-\d{2}-\d{2}$/.test(arg||'')) return mountParties(arg);
-    if (name === 'map' && (!arg || /^\d{4}-\d{2}-\d{2}$/.test(arg))) return mountMap(arg || new Date().toISOString().slice(0,10));
-    // simple placeholders
-    clearActive();
-    const host = ensureHost();
-    const p = document.createElement('section');
-    p.className = 'panel is-active';
-    p.innerHTML = `${headerHTML(name.charAt(0).toUpperCase()+name.slice(1))}<div class="panel__body"><p>Coming soon.</p></div>`;
-    p.addEventListener('click', (ev) => { if (ev.target.closest('[data-action="back"]')) { ev.preventDefault(); location.hash = '#/home'; } }, {passive:false});
-    host.appendChild(p);
+    const m = /^#\/([^/]+)\/?([^/]+)?/.exec(location.hash || '');
+    const page = m?.[1] || 'home';
+    const date = m?.[2] || null;
+
+    if (page === 'home') {
+      closeActivePanel();
+      return;
+    }
+    if ((page === 'parties' || page === 'map') && date) {
+      mountSlidePanel(page, date);
+      return;
+    }
+    // fallback
+    location.hash = '#/home';
   }
 
-  window.addEventListener('hashchange', route, { passive:true });
-  document.addEventListener('DOMContentLoaded', route, { passive:true });
+  window.addEventListener('hashchange', route, { passive: true });
+  document.addEventListener('click', (ev) => {
+    const back = ev.target.closest('[data-action="back"]');
+    if (back) { ev.preventDefault(); history.back(); return; }
+
+    const pill = ev.target.closest('.day-pill');
+    if (pill && pill.closest('.home-section')) {
+      ev.preventDefault();
+      const sec = pill.closest('.home-section').dataset.section;
+      const date = pill.dataset.date;
+      if (sec === 'parties') location.hash = `#/parties/${date}`;
+      if (sec === 'map')     location.hash = `#/map/${date}`;
+    }
+  }, { passive: false });
+
+  // kick
+  if (!location.hash || location.hash === '#/') location.hash = '#/home';
+  route();
 })();
