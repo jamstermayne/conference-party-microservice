@@ -20,7 +20,7 @@ export function loadGoogleMaps({ key = getMapsKey(), version = 'weekly', librari
   if (window.google?.maps?.marker?.AdvancedMarkerElement) return Promise.resolve('ready');
   if (pending) return pending;
 
-  if (!key || /REPLACE_WITH_PROD_KEY/.test(key)) {
+  if (!key || /REPLACE_WITH_PROD_KEY|__INJECT_AT_BUILD__/.test(key)) {
     throw new Error('Maps key missing. Provide via <meta name="google-maps-key" content="..."> or VITE_MAPS_KEY.');
   }
   const u = new URL(BASE);
