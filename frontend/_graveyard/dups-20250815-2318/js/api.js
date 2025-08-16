@@ -1,7 +1,7 @@
 // Enhanced API Client with Request Deduplication
 class API {
     constructor() {
-        this.baseURL = window.CONFIG?.apiBase || 'https://us-central1-conference-party-app.cloudfunctions.net';
+        this.baseURL = window.CONFIG?.apiBase || '';
         this.cache = new Map();
         this.pendingRequests = new Map(); // Prevent duplicate requests
         this.retryAttempts = 3;

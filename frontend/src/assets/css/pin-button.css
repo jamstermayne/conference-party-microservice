@@ -8,7 +8,7 @@
   justify-content: center;
   background: transparent;
   border: none;
-  font-size: 18px;
+  font-size:var(--text-lg);
   cursor: pointer;
   padding: var(--s-0-5) var(--s-1-5);
   margin-right: var(--s-1);

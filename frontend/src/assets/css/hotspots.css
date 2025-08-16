@@ -2,7 +2,7 @@
 
 .hotspots-wrap {
   display: grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: 1fr 22.5rem;
   gap: var(--s-4);
   height: calc(100vh - var(--s-15));
   padding: var(--s-4);
@@ -37,7 +37,7 @@
 .hotspots-canvas-card h2 {
   font-size: var(--s-3-5);
   color: var(--text-secondary);
-  letter-spacing: 0.4px;
+  letter-spacing:0.025rem;
   text-transform: uppercase;
   margin: 0;
 }
@@ -88,7 +88,7 @@
 }
 
 .hotspot-item:hover {
-  transform: translateY(-1px);
+  transform: translateY(calc(-1 * var(--bw-1)));
   background: rgba(107,123,255,0.08);
 }
 
@@ -117,7 +117,7 @@
 }
 
 .badge-pill {
-  font-size: 11px;
+  font-size:var(--text-xs);
   line-height: 1;
   padding: var(--s-1-5) var(--s-2);
   border-radius: var(--r-pill);
@@ -151,7 +151,7 @@
 /* New heatmap styles for Drop H */
 .hotspots-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
+  grid-template-columns: repeat(auto-fill,minmax(7.5rem,1fr));
   gap: var(--s-2);
 }
 
@@ -165,7 +165,7 @@
 }
 .hotspot-card .hotspot-title {
   font-weight: 600;
-  font-size: 13px;
+  font-size:0.813rem;
   margin-bottom: var(--s-1);
 }
 .hotspot-card .hotspot-metric {

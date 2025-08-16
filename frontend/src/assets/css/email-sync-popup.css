@@ -5,15 +5,15 @@
     bottom: var(--spacing-lg, var(--s-6));
     right: var(--spacing-lg, var(--s-6));
     background: var(--surface, var(--bg-surface));
-    color: var(--text-primary, var(--text-primary));
+    color: var(--text-primary);
     border-radius: var(--radius-lg, var(--s-3));
     box-shadow: 
         0 var(--s-2) var(--s-8) rgba(0, 0, 0, 0.4),
-        0 0 0 1px var(--border, rgba(255, 255, 255, 0.1));
+        0 0 0 var(--bw-1) var(--border, rgba(255, 255, 255, 0.1));
     padding: var(--spacing-md, var(--s-4)) var(--spacing-lg, var(--s-6));
     z-index: 9999;
-    max-width: 320px;
-    min-width: 280px;
+    max-width: 320;
+    min-width: 280;
     transform: translateY(var(--s-5)) scale(0.95);
     opacity: 0;
     transition: 
@@ -22,7 +22,7 @@
     font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif);
     backdrop-filter: blur(var(--s-5));
     -webkit-backdrop-filter: blur(var(--s-5));
-    border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+    border: var(--bw-1) solid var(--border, rgba(255, 255, 255, 0.1));
 }
 
 .email-sync-popup.visible {
@@ -46,7 +46,7 @@
 .popup-text {
     font-size: var(--font-size-sm, var(--s-3-5));
     line-height: 1.5;
-    color: var(--text-primary, var(--text-primary));
+    color: var(--text-primary);
     margin: 0;
     padding-right: var(--s-6); /* Space for close button */
     font-weight: 500;
@@ -54,11 +54,11 @@
 
 .popup-close {
     position: absolute;
-    top: -4px;
-    right: -8px;
+    top: calc(-1 * var(--s-1));
+    right: calc(-1 * var(--s-2));
     background: none;
     border: none;
-    color: var(--text-secondary, var(--text-secondary));
+    color: var(--text-secondary);
     font-size: var(--s-5);
     cursor: pointer;
     padding: var(--s-1) var(--s-2);
@@ -76,7 +76,7 @@
 }
 
 .popup-close:hover {
-    color: var(--text-primary, var(--text-primary));
+    color: var(--text-primary);
     background-color: rgba(255, 255, 255, 0.05);
 }
 
@@ -106,7 +106,7 @@
 
 .btn-sync:hover {
     background: var(--accent-hover, var(--alias-5a6aef));
-    transform: translateY(-1px);
+    transform: translateY(calc(-1 * var(--bw-1)));
     box-shadow: 0 var(--s-1) var(--s-3) rgba(107, 123, 255, 0.3);
 }
 
@@ -127,7 +127,7 @@
 }
 
 /* Mobile responsive adjustments */
-@media (max-width: 640px) {
+@media (max-width: 640) {
     .email-sync-popup {
         bottom: var(--spacing-md, var(--s-4));
         right: var(--spacing-md, var(--s-4));
@@ -137,25 +137,25 @@
     }
     
     .popup-text {
-        font-size: 13px;
+        font-size: 1var(--bw-3);
         padding-right: var(--s-8);
     }
     
     .btn-sync {
         padding: var(--spacing-sm, var(--s-3)) var(--spacing-md, var(--s-4));
-        font-size: 13px;
+        font-size: 1var(--bw-3);
     }
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .email-sync-popup {
-        border: var(--s-0-5) solid var(--text-primary, var(--text-primary));
+        border: var(--s-0-5) solid var(--text-primary);
         box-shadow: 0 var(--s-2) var(--s-8) rgba(0, 0, 0, 0.8);
     }
     
     .btn-sync {
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: var(--bw-1) solid rgba(255, 255, 255, 0.2);
     }
 }
 
@@ -194,8 +194,8 @@
         color: var(--text-primary, var(--bg-surface));
         box-shadow: 
             0 var(--s-2) var(--s-8) rgba(0, 0, 0, 0.1),
-            0 0 0 1px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(0, 0, 0, 0.1);
+            0 0 0 var(--bw-1) rgba(0, 0, 0, 0.1);
+        border: var(--bw-1) solid rgba(0, 0, 0, 0.1);
     }
     
     .popup-text {

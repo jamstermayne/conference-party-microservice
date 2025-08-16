@@ -145,7 +145,7 @@ async function apiRequest(endpoint, method = 'GET', body = null) {
   try {
     const apiBase = window.location.origin.includes('localhost') 
       ? 'http://localhost:5001/conference-party-app/us-central1'
-      : 'https://us-central1-conference-party-app.cloudfunctions.net';
+      : '';
       
     const res = await fetch(`${apiBase}${endpoint}`, {
       method,

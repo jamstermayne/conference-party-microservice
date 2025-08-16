@@ -1,0 +1,825 @@
+
+[1;36m=== DESIGN SYSTEM AUDIT ===[0m
+Timestamp: Sat Aug 16 06:07:28 UTC 2025
+Repository: /workspaces/conference-party-microservice
+
+
+[1;36m=== Environment Probe ===[0m
+
+[1;36m=== Environment Probe ===[0m
+ROOT: /workspaces/conference-party-microservice
+FE src: /workspaces/conference-party-microservice/frontend/src
+Prod base: https://conference-party-app.web.app
+[1;32m✔ frontend/dist exists[0m
+[1;32m✔ public/ directory exists (main serving directory)[0m
+  Main files:
+    /workspaces/conference-party-microservice/public/test-calendar-buttons.html (3.8K)
+    /workspaces/conference-party-microservice/public/test-gcal-clean.html (6.8K)
+    /workspaces/conference-party-microservice/public/test-gcal-oauth.html (9.5K)
+    /workspaces/conference-party-microservice/public/test-simple-calendar.html (6.2K)
+    /workspaces/conference-party-microservice/public/test-smart-calendar.html (8.2K)
+  JS files:
+    calendar-view.js (4.0K)
+    add-to-calendar-wrapper.js (4.0K)
+    events-controller.js (4.0K)
+    kill-sw.js (4.0K)
+    offline-search.js (48K)
+
+Commit: 16caadb 2025-08-16  fix: eliminate all remaining hardcoded hex colors - complete token migration
+Branch: fix/home-style-polish
+
+Testing production endpoints...
+[1;32m✔ Fetched https://conference-party-app.web.app[0m
+  Index size: 4.0K
+  Assets found:
+    href="/assets/css/base.css"
+    href="/assets/css/spacing-tokens.css"
+    href="/assets/css/tokens/color-tokens.css"
+    href="/assets/css/components/buttons.css"
+    href="/assets/css/components/cards.css"
+[1;32m✔ API health check passed[0m
+  Response: 
+<html><head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>404 Page not
+
+Design Token Files:
+[1;32m✔ spacing-tokens.css exists (78 lines)[0m
+[1;31m✘ color-tokens.css missing[0m
+
+
+[1;36m=== Environment Summary ===[0m
+📁 Project Structure:
+  - Frontend source: /workspaces/conference-party-microservice/frontend/src
+  - Public assets: /workspaces/conference-party-microservice/public
+  - CSS files: 56
+  - JS files: 199
+
+🌐 Production Status:
+  - Site: ✅ Online
+  - API: ✅ Healthy
+[1;32m✔ Completed Environment Probe[0m
+
+[1;36m=== Layout & Navigation ===[0m
+
+[1;36m=== Layout & Sidebar Audit ===[0m
+📐 Grid Layout Analysis:
+[1;32m✔ Found grid-template-columns in 48 files:[0m
+  • frontend/src/apm-dashboard.html
+    Line 25:            grid-template-columns: 250px 1fr;
+  • frontend/src/assets/css/calendar-buttons.css
+    Line 1:.cal-menu{display:none;grid-template-columns:1fr;gap:var(--s-2);padding:var(--s-3)}
+  • frontend/src/assets/css/styles.css
+    Line 142:.list-item{display:grid;grid-template-columns: 1fr auto;gap:var(--s-2);align-items:center;background:var(--surface);border:1px solid var(--b);border-radius:var(--r-sm);padding:var(--s-3)}
+  • frontend/src/assets/css/stack.css
+    Line 57:  grid-template-columns: auto 1fr auto;
+  • frontend/src/assets/css/channel-row.css
+    Line 5:  grid-template-columns:1.75rem 1fr 1.25rem;
+  • frontend/src/assets/css/components/cards.css
+    Line 112:  grid-template-columns: repeat(auto-fill, minmax(280, 1fr));
+  • frontend/src/assets/css/z-overrides.css
+    Line 13:  grid-template-columns: max-content minmax(0, 1fr) !important;
+  • frontend/src/assets/css/hero-cards.css
+    Line 43:  grid-template-columns:repeat(auto-fill, minmax(var(--container-xs), 1fr));
+  • frontend/src/assets/css/events-cards.css
+    Line 54:  grid-template-columns: 1fr;
+  • frontend/src/assets/css/account.css
+    Line 19:.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:8px 0 var(--s-3); }
+[1;33m⚠ Issues found in Layout & Navigation[0m
+
+[1;36m=== Cards System ===[0m
+
+[1;36m=== Cards System Audit ===[0m
+🃏 Card Component Analysis:
+[1;32m✔ Found 9 card-related CSS files:[0m
+  • frontend/src/assets/css/components/cards.css (4.0K)
+  • frontend/src/assets/css/hero-cards.css (8.0K)
+  • frontend/src/assets/css/events-cards.css (8.0K)
+  • frontend/src/assets/css/cards-parties.css (4.0K)
+  • frontend/src/assets/css/cards.css (4.0K)
+  • frontend/src/assets/css/cards-final.css (4.0K)
+  • frontend/src/assets/css/cards-hero.css (4.0K)
+  • frontend/src/assets/css/event-cards.css (4.0K)
+  • frontend/src/assets/css/party-cards.css (4.0K)
+
+📋 Card Class Usage:
+[1;32m✔ vcard class usage: 153 instances[0m
+[1;32m✔ General card classes: 329 instances[0m
+
+🏗️ Card Structure Patterns:
+[1;32m✔ Flex-based card layouts: 23 definitions[0m
+[1;32m✔ No fixed heights on cards (good - allows flexible content)[0m
+
+📐 Card Body Flexibility:
+[1;33m⚠ Card bodies don't use flex-grow (may cause layout issues)[0m
+
+🎯 Card Grid Layouts:
+[1;32m✔ Card grid/list containers found: 11[0m
+[1;32m✔ Responsive card layouts: 6 media queries[0m
+
+✨ Card Interactions:
+  • Hover effects: 10 definitions
+
+🔘 Card Actions:
+[1;32m✔ Card action areas: 45 references[0m
+  Action types found:
+    • Save/Bookmark: 280
+    • Sync/Calendar: 1077
+
+⏳ Loading States:
+[1;32m✔ Skeleton/loading states: 26 definitions[0m
+
+♿ Card Accessibility:
+[1;32m✔ Semantic roles on cards: 1[0m
+[1;32m✔ Proper heading hierarchy in cards: 9[0m
+
+📊 Card System Summary:
+  ✅ Good practices:
+    • Flexible card layouts with flexbox
+    • No fixed heights (content-flexible)
+    • Responsive card designs
+    • Interactive hover states
+
+  ⚠️  Improvements needed:
+[1;33m⚠ Issues found in Cards System[0m
+
+[1;36m=== Design Tokens ===[0m
+
+[1;36m=== Design Tokens Audit (spacing/radius/shadow) ===[0m
+📏 Token Usage Analysis:
+[1;32m✔ Design tokens used in 896 CSS files[0m
+  Token usage breakdown:
+    • Spacing tokens: 770 instances
+    • Radius tokens: 124 instances
+    • Shadow tokens: 20 instances
+
+🚫 Raw Pixel Values (common spacing):
+[1;32m✔ No raw spacing px values found[0m
+
+🔲 Border Radius Values:
+[1;32m✔ All border-radius values use tokens[0m
+
+🎨 Color Values:
+[1;32m✔ No hardcoded hex colors found[0m
+
+📊 Token Compliance Summary:
+  ✅ Tokens properly defined in:
+    • spacing-tokens.css
+
+  ⚠️  Areas needing attention:
+
+📐 Line-height Analysis:
+[1;33m⚠ 0
+0 line-heights with px units (prefer unitless)[0m
+[1;32m✔ Completed Design Tokens[0m
+
+[1;36m=== Maps Integration ===[0m
+
+[1;36m=== Maps Integration Audit ===[0m
+🗺️  Google Maps API Analysis:
+[1;33m⚠ No Maps script tag found in production index[0m
+
+🔑 API Key Security:
+[1;31m✘ Exposed API keys found in source:[0m
+  • frontend/src/index.html:31
+    Key: AIzaSyD5Zj...otgc (masked)
+  • frontend/src/maps.html:135
+    Key: AIzaSyD5Zj...otgc (masked)
+  • frontend/src/js/panels/mount-map.js:89
+    Key: AIzaSyD5Zj...otgc (masked)
+
+📍 Map Implementation:
+[1;32m✔ Found 2 map initialization(s)[0m
+[1;33m⚠ Both mapId and styles used (cloud styles override local)[0m
+  MapId usage:
+    • /workspaces/conference-party-microservice/frontend/src/js/panels/mount-map.js:49:    mapId: 'conference-party-map'
+  Styles usage:
+    • /workspaces/conference-party-microservice/frontend/src/js/services/maps-loader.js:106:    styles: getMapStyles()
+    • /workspaces/conference-party-microservice/frontend/src/js/dom-optimizer.js:338:                styles: {
+
+🎯 Marker Implementation:
+[1;32m✔ Using AdvancedMarkerElement (2 instances) - modern approach[0m
+[1;33m⚠ Still using legacy Marker (1 instances) - consider migrating[0m
+  • frontend/src/js/map-init.js:24
+
+📊 Maps Summary:
+  Configuration:
+    ✅ Using modern AdvancedMarkerElement
+
+  Potential Issues:
+    ⚠️  No Maps script in production
+    ❌ Exposed API keys in source
+    ⚠️  Legacy markers still in use
+[1;32m✔ Completed Maps Integration[0m
+
+[1;36m=== Calendar Integration ===[0m
+
+[1;36m=== Calendar Integration Audit ===[0m
+📅 Backend Calendar Endpoints:
+[1;32m✔ Found 4 calendar endpoint references in backend:[0m
+  • functions/src/calendar/google.ts:16
+    Endpoint: /api/calendar/google/callback
+  • functions/src/index.ts:127
+    Endpoint: /api/googleCalendar/*
+  • functions/src/googleCalendar/router.ts:64
+    Endpoint: /api/googleCalendar/google/callback`;
+  • functions/src/googleCalendar/router.ts:151
+    Endpoint: /api/googleCalendar/google/callback`;
+
+📱 Frontend Calendar Integration:
+[1;32m✔ Calendar-related files found:[0m
+  • frontend/src/js/add-to-calendar-wrapper.js (4.0K)
+  • frontend/src/js/calendar.js (32K)
+  • frontend/src/js/components/calendar-button.js (4.0K)
+  • frontend/src/js/calendar-click-handler.js (4.0K)
+  • frontend/src/js/calendar-integrated.js (8.0K)
+  • frontend/src/js/calendar-mtm.js (4.0K)
+  • frontend/src/js/calendar-delegation.js (8.0K)
+  • frontend/src/js/services/calendar-client.js (8.0K)
+  • frontend/src/js/services/gcal-lite.js (12K)
+  • frontend/src/js/services/gcal-backend.js (12K)
+  • frontend/src/js/services/calendarSync.js (4.0K)
+  • frontend/src/js/services/gcal.js (4.0K)
+  • frontend/src/js/services/gcal-clean.js (8.0K)
+  • frontend/src/js/services/gcal-minimal.js (4.0K)
+  • frontend/src/js/services/calendar-smart.js (8.0K)
+  • frontend/src/js/wiring/wire-calendar.js (4.0K)
+  • frontend/src/js/calendar (16K)
+  • frontend/src/js/calendar-handler.js (4.0K)
+  • frontend/src/js/calendar-add-simple.js (4.0K)
+  • frontend/src/js/calendar-clean.js (8.0K)
+  • frontend/src/js/gcal-hooks.js.bak (4.0K)
+  • frontend/src/js/calendar-add-handler.js (4.0K)
+  • frontend/src/js/panels/mount-calendar.js (4.0K)
+  • frontend/src/js/panels/providers-calendar.js (4.0K)
+  • frontend/src/js/wire/calendar-buttons.js (8.0K)
+  • frontend/src/js/calendar-simple.js (12K)
+  • frontend/src/js/calendar-polish.js (8.0K)
+  • frontend/src/js/gcal-hooks.js (8.0K)
+  • frontend/src/js/calendar-strip.js (4.0K)
+  • frontend/src/js/wire-calendar-buttons.js (4.0K)
+  • frontend/src/js/ui/add-to-calendar-clean.js (4.0K)
+  • frontend/src/js/ui/add-to-calendar.js (4.0K)
+  • frontend/src/js/calendar-sync.js (4.0K)
+  • frontend/src/js/global-calendar-handler.js (4.0K)
+  • frontend/src/js/calendar-integration.js (16K)
+  • frontend/src/js/smart-calendar.js (12K)
+
+🔗 Calendar Provider Services:
+  Provider references:
+    • Google Calendar: 116 references
+    • iCal/ICS export: 555 references
+    • Outlook: 39 references
+
+🔐 OAuth Configuration:
+[1;32m✔ OAuth flow implementation found (96 references)[0m
+
+🌐 Production Endpoint Testing:
+Testing calendar endpoints:
+  https://us-central1-conference-party-app.cloudfunctions.net/api/api/gcal/connect
+    Response: HTTP/2 404 
+  https://us-central1-conference-party-app.cloudfunctions.net/api/api/googleCalendar/status
+    Response: HTTP/2 404 
+  https://us-central1-conference-party-app.cloudfunctions.net/api/api/calendar/status
+    Response: HTTP/2 404 
+
+🎯 Calendar Button Implementation:
+[1;32m✔ Calendar button implementation found (51 references)[0m
+  Event data attributes found:
+    • /workspaces/conference-party-microservice/frontend/src/js/components/cards.js:42:                data-title="${escapeHTML(evt.title)}"
+    • /workspaces/conference-party-microservice/frontend/src/js/components/cards.js:45:                data-start="${evt.start || ''}"
+    • /workspaces/conference-party-microservice/frontend/src/js/components/cards.js:46:                data-end="${evt.end || ''}">Add to Calendar</button>
+
+📊 Calendar Integration Summary:
+  ✅ Implemented:
+    • Backend calendar endpoints
+    • Frontend calendar services
+    • Google Calendar integration
+    • Calendar button components
+
+  ⚠️  Missing/Issues:
+[1;33m⚠ Issues found in Calendar Integration[0m
+
+[1;36m=== API & Data ===[0m
+
+[1;36m=== Parties API Audit ===[0m
+🎉 Testing Parties API Endpoint:
+  GET https://us-central1-conference-party-app.cloudfunctions.net/api/parties?conference=gamescom2025
+
+[1;32m✔ Successfully fetched parties data (272 bytes)[0m
+[1;31m✘ Invalid JSON response[0m
+  First 500 chars:
+    
+    <html><head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>404 Page not found</title>
+    </head>
+    <body text=#000000 bgcolor=#ffffff>
+    <h1>Error: Page not found</h1>
+    <h2>The requested URL was not found on this server.</h2>
+    <h2></h2>
+    </body></html>
+
+🔄 Testing Other API Endpoints:
+  GET https://us-central1-conference-party-app.cloudfunctions.net/api/health
+[1;33m⚠ Health endpoint returns 404[0m
+  GET https://us-central1-conference-party-app.cloudfunctions.net/api/sync
+[1;32m✔ Sync endpoint responded (272 bytes)[0m
+
+📊 API Summary:
+  Endpoints tested:
+    • /parties - Main data endpoint
+    • /health - Service health check
+    • /sync - Data synchronization
+
+🔐 Security Check:
+[1;32m✔ No obvious sensitive data exposed[0m
+[1;32m✔ Completed API & Data[0m
+
+[1;36m=== Accessibility ===[0m
+
+[1;36m=== Accessibility Audit ===[0m
+🎯 Interactive Elements:
+  Elements found:
+    • <button> elements: 630
+    • <a> links: 37
+[1;33m⚠ Buttons styled as links (consider using <a> for navigation):[0m
+  • frontend/src/referral.html:142
+  • frontend/src/sharing-test.html:238
+  • frontend/src/index-production.html:209
+
+♿ ARIA Attributes:
+  ARIA usage:
+[1;32m✔ aria-label: 43 instances[0m
+    • aria-labelledby: 4 instances
+    • aria-describedby: 3 instances
+
+  State indicators:
+    ✓ aria-pressed: 10 (toggle buttons)
+
+📝 Semantic HTML:
+  Heading hierarchy:
+    • <h1>: 60
+    • <h2>: 101
+    • <h3>: 192
+[1;32m✔ Semantic <nav> elements: 8[0m
+[1;32m✔ Semantic <main> element present[0m
+
+🖼️ Image Accessibility:
+[1;33m⚠ 2 of 13 images missing alt attributes[0m
+
+⌨️ Keyboard Navigation:
+[1;32m✔ tabindex usage appears correct (0 or -1 only)[0m
+[1;32m✔ Focus styles defined (22 instances)[0m
+
+🎨 Color Contrast:
+  Color usage:
+    • Text colors defined: 345
+    • Background colors defined: 87
+    • Note: Manual contrast testing recommended
+
+📱 Mobile/Touch Accessibility:
+[1;33m⚠ Check touch target sizes (minimum 44px recommended)[0m
+
+📊 Accessibility Summary:
+  ✅ Good practices:
+    • ARIA labels in use
+    • Semantic navigation elements
+    • Focus styles defined
+
+  ⚠️  Areas for improvement:
+[1;33m⚠ Issues found in Accessibility[0m
+
+[1;36m=== Performance ===[0m
+
+[1;36m=== Performance & Bundle Audit ===[0m
+📦 Bundle Analysis:
+  Distribution bundles:
+    • init-app.js: 20K
+    • settings-panel-UNYSQV2R.js: 8.0K
+    • stack.js: 4.0K
+    • router-stack.js: 4.0K
+    • me-panel-DDMWH2UI.js: 4.0K
+    • main.js: 4.0K
+    • contacts-panel-COOBU7OX.js: 4.0K
+[1;32m✔ No JavaScript bundles exceed 300KB[0m
+
+🌐 Production Performance:
+[1;32m✔ Production index fetched: 4.0K[0m
+  Resources loaded:
+    • CSS files: 10
+    • JS files: 5
+
+🔍 Duplicate Resource Check:
+[1;33m⚠ Issues found in Performance[0m
+
+[1;36m=== Code Duplication ===[0m
+
+[1;36m=== Duplication & Conflicts Audit ===[0m
+🔄 Checking for Duplicate Code Patterns:
+
+📝 CSS Selector Duplication:
+[1;33m⚠ Found 22 duplicate CSS selectors:[0m
+    .badge { 
+    .btn {
+    .btn { 
+    .btn-primary {
+    .card-grid {
+    .empty-state {
+    .event-actions {
+    .event-card {
+    .event-meta {
+    .ftue-progress {
+
+🔧 JavaScript Function Duplication:
+[1;33m⚠ Found 11 duplicate function names:[0m
+    • downloadICS
+    • el
+    • emptyState
+    • escapeHtml
+    • hash
+    • renderAccount
+    • renderConnect
+    • showToast
+    • toICSDate
+    • toast
+
+🌐 API Endpoint Duplication:
+[1;32m✔ No duplicate API endpoints (verb + path)[0m
+  Total unique endpoints: 40
+
+📦 Exported Function Collisions:
+[1;32m✔ No duplicate exported function names[0m
+
+🧩 Component File Duplication:
+[1;32m✔ No duplicate component filenames[0m
+
+🎨 Color Definition Duplication:
+[1;32m✔ No duplicate color variable definitions[0m
+
+🏷️ HTML ID Duplication:
+[1;31m✘ Found 1 duplicate HTML IDs (must be unique):[0m
+    • #app
+
+📂 CSS File Organization:
+[1;33m⚠ Multiple calendar CSS files (6) - review for duplication[0m
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar-button-single.css
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar-buttons.css
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar-fit.css
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar-modal.css
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar-uniform.css
+    • /workspaces/conference-party-microservice/frontend/src/assets/css/calendar.css
+
+📥 Import Statement Analysis:
+
+📊 Duplication Summary:
+  Code Quality Metrics:
+    ✅ No duplicate API endpoints
+
+  Potential Issues:
+    ⚠️  Duplicate CSS selectors found
+    ⚠️  Duplicate function names
+    ❌ Duplicate HTML IDs (critical)
+[1;32m✔ Completed Code Duplication[0m
+
+[1;36m=== Token Compliance ===[0m
+Checking token compliance...
+
+📏 Spacing Tokens:
+[1;33m⚠ --s-1 not used[0m
+[1;33m⚠ --s-2 not used[0m
+[1;33m⚠ --s-3 not used[0m
+[1;33m⚠ --s-4 not used[0m
+[1;33m⚠ --s-5 not used[0m
+[1;33m⚠ --s-6 not used[0m
+[1;33m⚠ --s-7 not used[0m
+[1;33m⚠ --s-8 not used[0m
+
+🎨 Color Tokens:
+[1;33m⚠ --color-primary not used[0m
+[1;33m⚠ --bg-primary not used[0m
+[1;33m⚠ --text-primary not used[0m
+[1;33m⚠ --nav-bg not used[0m
+[1;33m⚠ --nav-text not used[0m
+
+⚠️  Hardcoded Values:
+[1;33m⚠ Issues found in Token Compliance[0m
+
+[1;36m=== CSS Analysis ===[0m
+Analyzing CSS architecture...
+
+📁 CSS Files:
+[1;32m✔ Found 56 CSS files[0m
+
+Main stylesheets:
+  - account.css (44 lines, 1825 bytes)
+  - animations.css (172 lines, 3686 bytes)
+  - app-shell.css (86 lines, 1912 bytes)
+  - base.css (62 lines, 946 bytes)
+  - button-secondary.css (61 lines, 1329 bytes)
+  - calendar-button-single.css (54 lines, 1318 bytes)
+  - calendar-buttons.css (6 lines, 973 bytes)
+  - calendar-fit.css (10 lines, 488 bytes)
+  - calendar-modal.css (234 lines, 4923 bytes)
+  - calendar-uniform.css (116 lines, 3928 bytes)
+  - calendar.css (7 lines, 396 bytes)
+  - cards-final.css (3 lines, 264 bytes)
+  - cards-hero.css (167 lines, 3163 bytes)
+  - cards-parties.css (23 lines, 1761 bytes)
+  - cards.css (19 lines, 1534 bytes)
+  - channel-row.css (25 lines, 1195 bytes)
+  - color-tokens.old.css (133 lines, 4290 bytes)
+  - components.css (130 lines, 2196 bytes)
+  - contacts-permission.css (174 lines, 3638 bytes)
+  - email-sync-popup.css (214 lines, 5677 bytes)
+  - emailSyncPrompt.css (337 lines, 6702 bytes)
+  - event-cards.css (97 lines, 1992 bytes)
+  - events-cards.css (224 lines, 7513 bytes)
+  - events-ftue.css (188 lines, 3376 bytes)
+  - events.css (134 lines, 5595 bytes)
+  - header-actions.css (20 lines, 411 bytes)
+  - hero-cards.css (86 lines, 4583 bytes)
+  - hotspots.css (210 lines, 5136 bytes)
+  - install.css (120 lines, 2419 bytes)
+  - invites.css (97 lines, 3509 bytes)
+  - layout.css (35 lines, 881 bytes)
+  - main.css (696 lines, 13766 bytes)
+  - nav.css (186 lines, 3760 bytes)
+  - panel-stack.css (68 lines, 1615 bytes)
+  - party-cards.css (42 lines, 1528 bytes)
+  - pin-button.css (62 lines, 1155 bytes)
+  - sidebar.css (142 lines, 2914 bytes)
+  - slot-heights.css (47 lines, 1218 bytes)
+  - spacing-tokens.css (78 lines, 2910 bytes)
+  - stack.css (209 lines, 5339 bytes)
+  - styles.css (465 lines, 18151 bytes)
+  - theme-unified.css (53 lines, 3260 bytes)
+  - theme.css (34 lines, 1518 bytes)
+  - toast.css (165 lines, 3187 bytes)
+  - tokens.css (105 lines, 4017 bytes)
+  - z-overrides.css (105 lines, 2848 bytes)
+
+🏗️  BEM Methodology:
+[1;32m✔ BEM naming found:[0m
+  - Elements (__): 0
+0
+  - Modifiers (--): 2106
+
+🎨 CSS Variables:
+[1;32m✔ Variable definitions: 350[0m
+[1;32m✔ Variable usage: 1865[0m
+
+📱 Responsive Design:
+[1;32m✔ Media queries found: 41[0m
+
+🔍 Code Quality:
+[1;33m⚠ Duplicate selectors found:[0m
+  -     .btn-sync 
+  -     .email-sync-popup 
+  -     .popup-text 
+  -   .card-grid 
+  -   .contact-sheet 
+[1;33m⚠ High !important usage: 31[0m
+
+📋 Organization:
+[1;33m⚠ Token files not properly organized[0m
+[1;32m✔ Component-specific CSS files: 16[0m
+[1;32m✔ Completed CSS Analysis[0m
+
+[1;36m=== Component Review ===[0m
+Reviewing component structure...
+
+📦 JavaScript Structure:
+[1;32m✔ Components directory exists (6 files)[0m
+  Components:
+    - cards.js
+    - calendar-button.js
+    - channel-row.js
+    - map-integration.js
+    - VirtualizedEventList.js
+[1;32m✔ Views directory exists (0 files)[0m
+  Views:
+[1;32m✔ Services directory exists (18 files)[0m
+
+🎨 UI Utilities:
+[1;32m✔ UI utilities directory exists (16 files)[0m
+  - homeViews.js
+  - provenance.js
+  - skeleton.js
+  - connectionCard.js
+  - equalize-cards.js
+
+🏗️  Component Patterns:
+[1;32m✔ Card pattern implemented (JS: 6, CSS: 9)[0m
+[1;32m✔ Sidebar components (JS: 3, CSS: 1)[0m
+[1;32m✔ Modal/Dialog components: 1[0m
+
+📦 Module Patterns:
+[1;32m✔ ES6 modules in use (imports: 170, exports: 351)[0m
+
+✅ Consistency Checks:
+  File naming:
+    - Kebab-case files: 138
+    - CamelCase files: 27
+[1;32m✔ Test files found: 62[0m
+
+📊 Component Summary:
+  - Total JS files: 199
+  - Total CSS files: 56
+  - Avg lines per JS: 502
+[1;32m✔ Completed Component Review[0m
+
+[1;36m=== SUMMARY ===[0m
+
+Design System Audit Report
+==========================
+Date: Sat Aug 16 06:07:33 UTC 2025
+Repository: conference-party-microservice
+
+📊 Statistics:
+  - CSS Files: 93
+  - JS Files: 232
+  - HTML Files: 22
+
+🎨 Design Tokens:
+[1;32m✔ Spacing tokens defined[0m
+[1;31m✘ Missing color tokens[0m
+
+🔍 Key Findings:
+[1;33m⚠ 224 hardcoded px values found (should use tokens)[0m
+[1;32m✔ BEM methodology in use (2199 instances)[0m
+
+📁 Component Structure:
+[1;32m✔ 6 components found[0m
+[1;32m✔ 0 views found[0m
+
+✅ Recommendations:
+  1. Continue using design tokens for all spacing and colors
+  2. Replace remaining hardcoded values with tokens
+  3. Maintain BEM naming convention for new components
+  4. Keep component/view separation clear
+  5. Document token usage in component files
+
+Report saved to: /workspaces/conference-party-microservice/design-audit-20250816-060728.txt
+
+
+[1;36m=== AUDIT COMPLETE ===[0m
+
+[1;36m=== 1) Files in scope ===[0m
+✅ JS at /workspaces/conference-party-microservice/frontend/src/js
+• Router:
+• Calendar modules:
+/workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:34:    googleCalendarId: 'primary'
+/workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:58:                     value="${state.googleCalendarId || 'primary'}"
+/workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:69:              Calendar ID (use 'primary' for main calendar)
+/workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:77:              Sign in with Google to enable calendar mirroring
+/workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:108:      const calendarId = (cal.value || 'primary').trim();
+/workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:109:      const res = await post('/mirror', { enabled, calendarId });
+/workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:112:        state.googleCalendarId = calendarId;
+/workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:150:        state.googleCalendarId = res.googleCalendarId || 'primary';
+/workspaces/conference-party-microservice/frontend/src/js/oauth-message-handler.js:13:    if (ev.data?.source === 'gcal') {
+/workspaces/conference-party-microservice/frontend/src/js/oauth-message-handler.js:17:        // Success - refresh calendar UI
+/workspaces/conference-party-microservice/frontend/src/js/oauth-message-handler.js:34:    // Update any calendar buttons to show connected state
+/workspaces/conference-party-microservice/frontend/src/js/oauth-message-handler.js:35:    document.querySelectorAll('[data-action="add-to-calendar"]').forEach(btn => {
+• Map modules:
+/workspaces/conference-party-microservice/frontend/src/js/hotspots-view.js:171:        // open native maps — stays simple & cross-platform
+/workspaces/conference-party-microservice/frontend/src/js/hotspots-view.js:172:        const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+/workspaces/conference-party-microservice/frontend/src/js/utils/lazy-load.js:161:lazyLoader.register('maps', () => import('../maps.js?v=b023'));
+/workspaces/conference-party-microservice/frontend/src/js/utils/performance-optimized.js:113:    // Load maps when map container visible
+/workspaces/conference-party-microservice/frontend/src/js/utils/performance-optimized.js:114:    loadOnVisible('#map-container', 'maps');
+/workspaces/conference-party-microservice/frontend/src/js/components/map-integration.js:6:import { ensureMapsReady, initializeMap, createMarker } from '../services/maps-loader.js';
+/workspaces/conference-party-microservice/frontend/src/js/components/map-integration.js:48:    const bounds = new google.maps.LatLngBounds();
+/workspaces/conference-party-microservice/frontend/src/js/components/map-integration.js:104: * @param {google.maps.Map} map - Map instance
+/workspaces/conference-party-microservice/frontend/src/js/components/map-integration.js:105: * @param {google.maps.marker.AdvancedMarkerElement} marker - Marker instance
+/workspaces/conference-party-microservice/frontend/src/js/components/map-integration.js:113:  const infoWindow = new google.maps.InfoWindow({
+/workspaces/conference-party-microservice/frontend/src/js/components/map-integration.js:141: * @param {google.maps.Map} map - Map instance
+/workspaces/conference-party-microservice/frontend/src/js/components/map-integration.js:192:  const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+
+[1;36m=== 2) Selector ↔ Handler mapping (static scan) ===[0m
+
+▶ .btn-add-to-calendar
+⚠️  No occurrences found in source
+✅ Delegated handler context:
+    - /workspaces/conference-party-microservice/frontend/src/js/live-editor.js:1036:                    <button onclick="this.closest('[style*=fixed]').remove()" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/analytics-privacy.js:357:                    <button onclick="this.closest('[role=modal]').remove()" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/standalone-live-editor.js:934:                <button onclick="this.closest('[style*=fixed]').remove()" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/standalone-live-editor.js:1030:                <button onclick="this.closest('[style*=fixed]').remove(); standaloneLiveEditor.activateEditor();" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/standalone-live-editor.js:1039:                <button onclick="this.closest('[style*=fixed]').remove();" style="
+• Related functions nearby (sample):
+    - /workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:43:        <button id="mtm-disconnect">Disconnect</button>
+    - /workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:96:    document.getElementById('mtm-disconnect')?.addEventListener('click', async () => {
+    - /workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:97:      const res = await post('/disconnect');
+    - /workspaces/conference-party-microservice/frontend/src/js/oauth-message-handler.js:104:    // This event can be dispatched by startOAuth to use message-based
+    - /workspaces/conference-party-microservice/frontend/src/js/add-to-calendar-wrapper.js:5:export async function addToCalendar(ev) {
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:191:                this.renderCalendarView();
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:226:                        ${events.map(event => this.renderCalendarEventCard(event)).join('')}
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:235:    renderCalendarView() {
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:252:                ${weekDays.map(day => this.renderCalendarDay(day)).join('')}
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:290:    renderCalendarEventCard(event) {
+
+▶ .btn-cal-google
+⚠️  No occurrences found in source
+✅ Delegated handler context:
+    - /workspaces/conference-party-microservice/frontend/src/js/live-editor.js:1036:                    <button onclick="this.closest('[style*=fixed]').remove()" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/analytics-privacy.js:357:                    <button onclick="this.closest('[role=modal]').remove()" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/standalone-live-editor.js:934:                <button onclick="this.closest('[style*=fixed]').remove()" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/standalone-live-editor.js:1030:                <button onclick="this.closest('[style*=fixed]').remove(); standaloneLiveEditor.activateEditor();" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/standalone-live-editor.js:1039:                <button onclick="this.closest('[style*=fixed]').remove();" style="
+• Related functions nearby (sample):
+    - /workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:43:        <button id="mtm-disconnect">Disconnect</button>
+    - /workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:96:    document.getElementById('mtm-disconnect')?.addEventListener('click', async () => {
+    - /workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:97:      const res = await post('/disconnect');
+    - /workspaces/conference-party-microservice/frontend/src/js/oauth-message-handler.js:104:    // This event can be dispatched by startOAuth to use message-based
+    - /workspaces/conference-party-microservice/frontend/src/js/add-to-calendar-wrapper.js:5:export async function addToCalendar(ev) {
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:191:                this.renderCalendarView();
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:226:                        ${events.map(event => this.renderCalendarEventCard(event)).join('')}
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:235:    renderCalendarView() {
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:252:                ${weekDays.map(day => this.renderCalendarDay(day)).join('')}
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:290:    renderCalendarEventCard(event) {
+
+▶ .btn-cal-outlook
+⚠️  No occurrences found in source
+✅ Delegated handler context:
+    - /workspaces/conference-party-microservice/frontend/src/js/live-editor.js:1036:                    <button onclick="this.closest('[style*=fixed]').remove()" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/analytics-privacy.js:357:                    <button onclick="this.closest('[role=modal]').remove()" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/standalone-live-editor.js:934:                <button onclick="this.closest('[style*=fixed]').remove()" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/standalone-live-editor.js:1030:                <button onclick="this.closest('[style*=fixed]').remove(); standaloneLiveEditor.activateEditor();" style="
+    - /workspaces/conference-party-microservice/frontend/src/js/standalone-live-editor.js:1039:                <button onclick="this.closest('[style*=fixed]').remove();" style="
+• Related functions nearby (sample):
+    - /workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:43:        <button id="mtm-disconnect">Disconnect</button>
+    - /workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:96:    document.getElementById('mtm-disconnect')?.addEventListener('click', async () => {
+    - /workspaces/conference-party-microservice/frontend/src/js/settings-mtm.js:97:      const res = await post('/disconnect');
+    - /workspaces/conference-party-microservice/frontend/src/js/oauth-message-handler.js:104:    // This event can be dispatched by startOAuth to use message-based
+    - /workspaces/conference-party-microservice/frontend/src/js/add-to-calendar-wrapper.js:5:export async function addToCalendar(ev) {
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:191:                this.renderCalendarView();
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:226:                        ${events.map(event => this.renderCalendarEventCard(event)).join('')}
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:235:    renderCalendarView() {
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:252:                ${weekDays.map(day => this.renderCalendarDay(day)).join('')}
+    - /workspaces/conference-party-microservice/frontend/src/js/calendar.js:290:    renderCalendarEventCard(event) {
+frontend/src/index-production.html:156:    <span class="hint-text">Tap Share → Add to Home Screen</span>
+frontend/src/assets/js/invite-enhanced.js:308:          <button class="btn btn-primary" id="btn-home">Go Home</button>
+frontend/src/assets/css/stack.css:77:/* Home list */
+frontend/src/assets/css/stack.css:86:/* Channel item button (Home) */
+frontend/src/virtualized-events-demo.html:434:                        case 'Home':
+frontend/src/js/install.js:22:        <p>Add to Home Screen for offline access and 2× faster launches.</p>
+frontend/src/js/install.js:51:      alert('To install: Share → "Add to Home Screen".');
+frontend/src/js/offline-search.js:42:            this.searchData = {"generated":"2025-08-06T19:39:27.657Z","version":"1.0.0","totalEvents":58,"events":[{"id":"beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany","name":"Beam & Avalanche go Gamescom","date":"2025-08-20","startTime":"18:00","endTime":"23:00","category":"Mixer","hosts":"Beam, Avalanche","address":"Rheinloft Cologne, Frankenwerft 35, 50667, Germany","coordinates":{"lat":50.939281,"lng":6.962183},"keywords":["mixer","beam","avalanche","gamescom","rheinloft","cologne","frankenwerft","50667","germany","wed"],"venues":["Rheinloft Cologne"]},{"id":"cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany","name":"Cigar Lovers","date":"2025-08-20","startTime":"21:00","endTime":"23:59","category":"Exec Social","hosts":"Bring Your Own","address":"Turiner Strabe 9, cologne, germany","coordinates":{"lat":50.946421,"lng":6.957213},"keywords":["exec social","bring your own","cigar","lovers","turiner","strabe","cologne","germany","wed","aug"],"venues":["Turiner Strabe 9"]},{"id":"courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-","name":"Courage Cologne @ devcom Developer Night 2025","date":"2025-08-19","startTime":"20:00","endTime":"23:30","category":"Party","hosts":"devcom","address":"HERBRAND's, Herbrandstraoe 21, 50825, Germany","coordinates":{"lat":50.951405,"lng":6.910447},"keywords":["party","devcom","courage","cologne","developer","night","2025","herbrands","herbrandstraoe","50825"],"venues":["HERBRAND's"]},{"id":"devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50","name":"devcom Developer Conference Leadership Dinner","date":"2025-08-18","startTime":"19:30","endTime":"23:30","category":"Mixer","hosts":"devcom","address":"Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany","coordinates":{"lat":50.942986,"lng":6.975316},"keywords":["mixer","devcom","developer","conference","leadership","dinner","kolnmesse","confex","50679","koln"],"venues":["Kolnmesse Confex"]},{"id":"devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany","name":"devcom Developer Conference","date":"2025-08-18","startTime":"09:00","endTime":"23:30","category":"Meetings","hosts":"devcom","address":"Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany","coordinates":{"lat":50.942986,"lng":6.975316},"keywords":["meetings","devcom","developer","conference","koelnmesse","confex","kolnmesse","50679","koln","germany"],"venues":["Koelnmesse Confex"]},{"id":"devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067","name":"devcom Developer Conference pitch it! Mixer","date":"2025-08-19","startTime":"14:30","endTime":"17:00","category":"Meetings","hosts":"devcom","address":"Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany","coordinates":{"lat":50.942986,"lng":6.975316},"keywords":["meetings","devcom","developer","conference","pitch","mixer","kolnmesse","confex","50679","koln"],"venues":["Kolnmesse Confex"]},{"id":"devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany","name":"devcom Developer Conference","date":"2025-08-17","startTime":"13:00","endTime":"16:00","category":"Meetings","hosts":"devcom","address":"Koelnmesse Confex, Kolnmesse Confex 50679 Koln Germany","coordinates":{"lat":50.942986,"lng":6.975316},"keywords":["meetings","devcom","developer","conference","koelnmesse","confex","kolnmesse","50679","koln","germany"],"venues":["Koelnmesse Confex"]},{"id":"devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k","name":"devcom Developer Conference Sunset Mixer","date":"2025-08-18","startTime":"19:30","endTime":"23:30","category":"Mixer","hosts":"devcom","address":"Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany","coordinates":{"lat":50.942986,"lng":6.975316},"keywords":["mixer","devcom","developer","conference","sunset","kolnmesse","confex","50679","koln","germany"],"venues":["Kolnmesse Confex"]},{"id":"devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany","name":"devcom Developer Conference","date":"2025-08-19","startTime":"09:00","endTime":"20:00","category":"Meetings","hosts":"devcom","address":"Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany","coordinates":{"lat":50.942986,"lng":6.975316},"keywords":["meetings","devcom","developer","conference","kolnmesse","confex","50679","koln","germany","tue"],"venues":["Kolnmesse Confex"]},{"id":"devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln","name":"devcom Developer Conference VIP Mixer","date":"2025-08-18","startTime":"17:00","endTime":"19:00","category":"Mixer","hosts":"devcom","address":"Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany","coordinates":{"lat":50.942986,"lng":6.975316},"keywords":["mixer","devcom","developer","conference","vip","kolnmesse","confex","50679","koln","germany"],"venues":["Kolnmesse Confex"]},{"id":"devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln","name":"devcom Developer Conference VIP Mixer","date":"2025-08-19","startTime":"17:00","endTime":"19:00","category":"Mixer","hosts":"devcom","address":"Kolnmesse Confex, Kolnmesse Confex 50679 Koln Germany","coordinates":{"lat":50.942986,"lng":6.975316},"keywords":["mixer","devcom","developer","conference","vip","kolnmesse","confex","50679","koln","germany"],"venues":["Kolnmesse Confex"]},{"id":"diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger","name":"Diversion Meetup DDC Happy Hour","date":"2025-08-19","startTime":"18:00","endTime":"21:00","category":"Mixer","hosts":"Diversion","address":"Craftbeer Corner Coeln, Martinstraoe 32, 50667, Germany","coordinates":{"lat":50.937259,"lng":6.958867},"keywords":["mixer","diversion","meetup","ddc","happy","hour","craftbeer","corner","coeln","martinstraoe"],"venues":["Craftbeer Corner Coeln"]},{"id":"diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-","name":"Diversity Meetup x Home of Indies @ Gamescom 2025","date":"2025-08-23","startTime":"14:00","endTime":"16:00","category":"Mixer","hosts":"Content Affairs","address":"Home of Indies, Hall 10.2, E010g-D011g, Messeplatz 1, 50679 Cologne, Germany","coordinates":{"lat":50.94678,"lng":6.983207},"keywords":["mixer","content affairs","diversity","meetup","home","indies","gamescom","2025","hall","102"],"venues":["Home of Indies"]},{"id":"drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne","name":"Drinks@ Games From Portugal Pavilion","date":"2025-08-21","startTime":"16:00","endTime":"18:00","category":"Mixer","hosts":"DevGAMM, eGames","address":"Hall 2.1 C028-D027, Koelnmesse, Cologne","coordinates":{"lat":50.946605,"lng":6.980405},"keywords":["mixer","devgamm","egames","drinks","games","from","portugal","pavilion","hall","c028d027"],"venues":["Hall 2.1 C028-D027"]},{"id":"enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067","name":"Enchant Gamescom Pitch Party + Networking After Party","date":"2025-08-21","startTime":"18:45","endTime":"22:30","category":"Party","hosts":"Enchant","address":"STARTPLATZ, Mediapark 5, 50670, Germany","coordinates":{"lat":50.948635,"lng":6.944796},"keywords":["party","enchant","gamescom","pitch","networking","after","startplatz","mediapark","50670","germany"],"venues":["STARTPLATZ"]},{"id":"game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany","name":"Game Audio Get Together @Gamescom 2025","date":"2025-08-22","startTime":"19:30","endTime":"21:00","category":"Mixer","hosts":"Flutu Music","address":"Salzgasse 2, 50667, Germany","coordinates":{"lat":50.937507,"lng":6.961264},"keywords":["mixer","flutu music","game","audio","get","together","gamescom","2025","salzgasse","50667"],"venues":["Salzgasse 2"]},{"id":"games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--","name":"Games Industry Runners Gamescom edition","date":"2025-08-20","startTime":"07:30","endTime":"09:00","category":"Wellness","hosts":"Kohort, Newzoo","address":"Paolozzibrunnen, Weltjugendtagsweg, 50667, Germany","coordinates":{"lat":50.940482,"lng":6.962301},"keywords":["wellness","kohort","newzoo","games","industry","runners","gamescom","edition","paolozzibrunnen","weltjugendtagsweg"],"venues":["Paolozzibrunnen"]},{"id":"gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany","name":"Gamescom 2025 Happy Hour â€“ By Overwolf","date":"2025-08-21","startTime":"16:30","endTime":"18:00","category":"Mixer","hosts":"Overwolf","address":"Cologne Fair, Messeplatz 1, 50679, Germany","coordinates":{"lat":50.946605,"lng":6.980405},"keywords":["mixer","overwolf","gamescom","2025","happy","hour","cologne","fair","messeplatz","50679"],"venues":["Cologne Fair"]},{"id":"gamescom-2025-happy-hour---by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany","name":"Gamescom 2025 Happy Hour - By Overwolf","date":"2025-08-21","startTime":"16:30","endTime":"18:00","category":"Mixer","hosts":"Overwolf","address":"Cologne Fair, Messeplatz 1, 50679, Germany","coordinates":{"lat":50.946605,"lng":6.980405},"keywords":["mixer","overwolf","gamescom","2025","happy","hour","cologne","fair","messeplatz","50679"],"venues":["Cologne Fair"]},{"id":"gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta","name":"Gamescom 2025 Networking Mixer: Metric Minds","date":"2025-08-20","startTime":"18:00","endTime":"21:00","category":"Mixer","hosts":"Society for Game Cinematics","address":"Joe Champs American Sports Bar, Constantinstrasse 96 50679 Koln Germany","coordinates":{"lat":50.938805,"lng":6.977965},"keywords":["mixer","society for game cinematics","gamescom","2025","networking","metric","minds","joe","champs","american"],"venues":["Joe Champs American Sports Bar"]},{"id":"gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst","name":"Gamescom Inside: Brand Positioning Group Tour","date":"2025-08-22","startTime":"13:30","endTime":"15:00","category":"Tour","hosts":"Walbert-Schmitz","address":"The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany","coordinates":{"lat":50.941449,"lng":6.978014},"keywords":["tour","walbert-schmitz","gamescom","inside","brand","positioning","group","the","ash","messecity"],"venues":["The ASH MesseCity"]},{"id":"gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst","name":"Gamescom Inside: Brand Positioning Group Tour","date":"2025-08-21","startTime":"13:30","endTime":"15:00","category":"Tour","hosts":"Walbert-Schmitz","address":"The ASH MesseCity, Luise-Straus-Ernst-Straoe 4, 50679, Germany","coordinates":{"lat":50.941449,"lng":6.978014},"keywords":["tour","walbert-schmitz","gamescom","inside","brand","positioning","group","the","ash","messecity"],"venues":["The ASH MesseCity"]},{"id":"gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany","name":"Gamescom Launch Party","date":"2025-08-19","startTime":"20:00","endTime":"00:00","category":"Party","hosts":"Singular, Google, Stash","address":"rooftop58, Hohenzollernring 58, 50672, Germany","coordinates":{"lat":50.939928,"lng":6.940236},"keywords":["party","singular","google","stash","gamescom","launch","rooftop58","hohenzollernring","50672","germany"],"venues":["rooftop58"]},{"id":"global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany","name":"Global XRAI Hack at Cologne, Gamescom","date":"2025-08-18","startTime":"09:00","endTime":"19:00","category":"Hackathon","hosts":"XR Bootcamp, Meta","address":"STARTPLATZ, Im Mediapark 5, 50670, Germany","coordinates":{"lat":50.948635,"lng":6.944796},"keywords":["hackathon","xr bootcamp","meta","global","xrai","hack","cologne","gamescom","startplatz","mediapark"],"venues":["STARTPLATZ"]},{"id":"global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany","name":"Global XRAI Hack at Cologne, Gamescom","date":"2025-08-17","startTime":"09:00","endTime":"19:00","category":"Hackathon","hosts":"XR Bootcamp, Meta","address":"STARTPLATZ, Im Mediapark 5, 50670, Germany","coordinates":{"lat":50.948635,"lng":6.944796},"keywords":["hackathon","xr bootcamp","meta","global","xrai","hack","cologne","gamescom","startplatz","mediapark"],"venues":["STARTPLATZ"]},{"id":"global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany","name":"Global XRAI Hack at Cologne, Gamescom","date":"2025-08-19","startTime":"09:00","endTime":"19:00","category":"Hackathon","hosts":"XR Bootcamp, Meta","address":"STARTPLATZ, Im Mediapark 5, 50670, Germany","coordinates":{"lat":50.948635,"lng":6.944796},"keywords":["hackathon","xr bootcamp","meta","global","xrai","hack","cologne","gamescom","startplatz","mediapark"],"venues":["STARTPLATZ"]},{"id":"indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-","name":"Indie Developer Stammtisch","date":"2025-08-17","startTime":"17:00","endTime":"19:00","category":"Mixer","hosts":"INDIE Hub","address":"Hostel | the shared apartment, Richard-Wagner-Straoe 39, 50674, Germany","coordinates":{"lat":50.935296,"lng":6.934854},"keywords":["mixer","indie hub","indie","developer","stammtisch","hostel","the","shared","apartment","richardwagnerstraoe"],"venues":["Hostel | the shared apartment"]},{"id":"indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln","name":"INDIE Reveal during Gamescom 2025","date":"2025-08-20","startTime":"19:30","endTime":"22:00","category":"Game Pitches","hosts":"INDIE Hub UG","address":"Filmforum NRW, Bischofsgartenstrasse 1 50667 Koln Germany","coordinates":{"lat":50.940628,"lng":6.959619},"keywords":["game pitches","indie hub ug","indie","reveal","during","gamescom","2025","filmforum","nrw","bischofsgartenstrasse"],"venues":["Filmforum NRW"]},{"id":"karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667","name":"Karaoke | The Copper Pot","date":"2025-08-20","startTime":"21:00","endTime":"23:59","category":"Social","hosts":"You + 50 Friends","address":"Bolzengasse 7, Cologne, Germany 50667","coordinates":{"lat":50.936707,"lng":6.959759},"keywords":["social","you + 50 friends","karaoke","the","copper","pot","bolzengasse","cologne","germany","50667"],"venues":["Bolzengasse 7"]},{"id":"karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne","name":"Karaoke | The Jameson Irish Pub","date":"2025-08-22","startTime":"20:00","endTime":"23:59","category":"Social","hosts":"You + 50 Friends","address":"Friesenstraue 30-40, 50670 Koln, Cologne","coordinates":{"lat":50.949735,"lng":6.943474},"keywords":["social","you + 50 friends","karaoke","the","jameson","irish","pub","friesenstraue","3040","50670"],"venues":["Friesenstraue 30-40"]},{"id":"liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany","name":"LiveOps Networking Meetup","date":"2025-08-18","startTime":"16:30","endTime":"18:00","category":"Mixer","hosts":"Oscar Clark","address":"Koelnmesse Confex, Koelnmesse Halle 1, 50679, Germany","coordinates":{"lat":50.942986,"lng":6.975316},"keywords":["mixer","oscar clark","liveops","networking","meetup","koelnmesse","confex","halle","50679","germany"],"venues":["Koelnmesse Confex"]},{"id":"maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany","name":"Maraoke LIVE! @ Gamescom 2025","date":"2025-08-20","startTime":"19:00","endTime":"23:59","category":"Party","hosts":"Maraoke LIVE","address":"TURISTARAMA, Mauritiussteinweg 102, 50676, Germany","coordinates":{"lat":50.934525,"lng":6.945256},"keywords":["party","maraoke live","maraoke","live","gamescom","2025","turistarama","mauritiussteinweg","102","50676"],"venues":["TURISTARAMA"]},{"id":"marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge","name":"Marketers In Gaming  Meetup @Gamescom 2025","date":"2025-08-20","startTime":"18:00","endTime":"21:00","category":"Mixer","hosts":"1minus1","address":"The Copper Pot, Bolzengasse 7, 50667, Germany","coordinates":{"lat":50.936718,"lng":6.959742},"keywords":["mixer","1minus1","marketers","gaming","meetup","gamescom","2025","the","copper","pot"],"venues":["The Copper Pot"]},{"id":"marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany","name":"Marriott Madness","date":"2025-08-18","startTime":"19:30","endTime":"23:59","category":"Exec Social","hosts":"Marriott Bar","address":"Johannisstraue 76-80, 50668 Koln, Germany","coordinates":{"lat":50.945308,"lng":6.961333},"keywords":["exec social","marriott bar","marriott","madness","johannisstraue","7680","50668","koln","germany","mon"],"venues":["Johannisstraue 76-80"]},{"id":"marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany","name":"Marriott Madness","date":"2025-08-21","startTime":"19:30","endTime":"23:59","category":"Exec Social","hosts":"Marriott Bar","address":"Johannisstraue 76-80, 50668 Koln, Germany","coordinates":{"lat":50.945308,"lng":6.961333},"keywords":["exec social","marriott bar","marriott","madness","johannisstraue","7680","50668","koln","germany","thu"],"venues":["Johannisstraue 76-80"]},{"id":"marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany","name":"Marriott Madness","date":"2025-08-19","startTime":"19:30","endTime":"23:59","category":"Exec Social","hosts":"Marriott Bar","address":"Johannisstraue 76-80, 50668 Koln, Germany","coordinates":{"lat":50.945308,"lng":6.961333},"keywords":["exec social","marriott bar","marriott","madness","johannisstraue","7680","50668","koln","germany","tue"],"venues":["Johannisstraue 76-80"]},{"id":"marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany","name":"Marriott Madness","date":"2025-08-20","startTime":"19:30","endTime":"23:59","category":"Exec Social","hosts":"Marriott Bar","address":"Johannisstraue 76-80, 50668 Koln, Germany","coordinates":{"lat":50.945308,"lng":6.961333},"keywords":["exec social","marriott bar","marriott","madness","johannisstraue","7680","50668","koln","germany","wed"],"venues":["Johannisstraue 76-80"]},{"id":"meettomatch-the-cologne-edition-2025-fri-aug-22-09-00-koelnmesse--messeplatz-1--50679--germany","name":"MeetToMatch The Cologne Edition 2025","date":"2025-08-22","startTime":"09:00","endTime":"18:00","category":"Mixer","hosts":"Xsolla","address":"Koelnmesse, Messeplatz 1, 50679, Germany","coordinates":{"lat":50.946605,"lng":6.980405},"keywords":["mixer","xsolla","meettomatch","the","cologne","edition","2025","koelnmesse","messeplatz","50679"],"venues":["Koelnmesse"]},{"id":"meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany","name":"MeetToMatch The Cologne Edition 2025","date":"2025-08-18","startTime":"10:00","endTime":"15:00","category":"Meetings","hosts":"Xsolla","address":"Koelnmesse, Messeplatz 1 50679 Koln Germany","coordinates":{"lat":50.946605,"lng":6.980405},"keywords":["meetings","xsolla","meettomatch","the","cologne","edition","2025","koelnmesse","messeplatz","50679"],"venues":["Koelnmesse"]},{"id":"meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany","name":"MeetToMatch The Cologne Edition 2025","date":"2025-08-21","startTime":"09:00","endTime":"18:00","category":"Mixer","hosts":"Xsolla","address":"Koelnmesse, Messeplatz 1, 50679, Germany","coordinates":{"lat":50.946605,"lng":6.980405},"keywords":["mixer","xsolla","meettomatch","the","cologne","edition","2025","koelnmesse","messeplatz","50679"],"venues":["Koelnmesse"]},{"id":"meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany","name":"MeetToMatch The Cologne Edition 2025","date":"2025-08-19","startTime":"10:00","endTime":"15:00","category":"Meetings","hosts":"Xsolla","address":"Koelnmesse, Messeplatz 1 50679 Koln Germany","coordinates":{"lat":50.946605,"lng":6.980405},"keywords":["meetings","xsolla","meettomatch","the","cologne","edition","2025","koelnmesse","messeplatz","50679"],"venues":["Koelnmesse"]},{"id":"meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany","name":"MeetToMatch The Cologne Edition 2025","date":"2025-08-20","startTime":"09:00","endTime":"18:00","category":"Mixer","hosts":"Xsolla","address":"Koelnmesse, Messeplatz 1, 50679, Germany","coordinates":{"lat":50.946605,"lng":6.980405},"keywords":["mixer","xsolla","meettomatch","the","cologne","edition","2025","koelnmesse","messeplatz","50679"],"venues":["Koelnmesse"]},{"id":"mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne","name":"Mixpanel Happy Hour At Gamescom","date":"2025-08-21","startTime":"16:00","endTime":"18:00","category":"Mixer","hosts":"Mixpanel","address":"Hall 2, Booth A034, Koelnmesse, Cologne","coordinates":{"lat":50.946605,"lng":6.980405},"keywords":["mixer","mixpanel","happy","hour","gamescom","hall","booth","a034","koelnmesse","cologne"],"venues":["Hall 2"]},{"id":"monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany","name":"Monday Multiplayer Mixer","date":"2025-08-18","startTime":"18:00","endTime":"22:00","category":"Mixer","hosts":"Modulate, Hathora, Keyword Studios","address":"Gilden im ZIims \"Heimat Kolscher Helden\" Cologne, Germany","coordinates":{"lat":50.937191,"lng":6.960045},"keywords":["mixer","modulate","hathora","keyword studios","monday","multiplayer","gilden","ziims","heimat","kolscher"],"venues":["Gilden im ZIims \"Heimat Kolscher Helden\" Cologne"]},{"id":"pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany","name":"Pete's Koln Kick-Off","date":"2025-08-18","startTime":"16:30","endTime":"19:59","category":"Social","hosts":"Pete Lovell","address":"Lowenbrau, Cologne, Frankenwerft 21, 50667 Koln, Germany","coordinates":{"lat":50.937748,"lng":6.962428},"keywords":["social","pete lovell","petes","koln","kickoff","lowenbrau","cologne","frankenwerft","50667","germany"],"venues":["Lowenbrau"]},{"id":"pete-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany","name":"Pete's Koln Kick-Off","date":"2025-08-18","startTime":"20:00","endTime":"23:00","category":"Social","hosts":"Pete Lovell","address":"Papa Joe's Biersalon, Alter Markt 50-52, 50667 Koln, Germany","coordinates":{"lat":50.938817,"lng":6.960397},"keywords":["social","pete lovell","petes","koln","kickoff","papa","joes","biersalon","alter","markt"],"venues":["Papa Joe's Biersalon"]},{"id":"pete-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany","name":"Pete's Koln Kick-Off","date":"2025-08-18","startTime":"23:00","endTime":"23:59","category":"Social","hosts":"Pete Lovell","address":"Corkonian Irish Pub, Alter Markt 51, 50667 Koln, Germany","coordinates":{"lat":50.938924,"lng":6.959761},"keywords":["social","pete lovell","petes","koln","kickoff","corkonian","irish","pub","alter","markt"],"venues":["Corkonian Irish Pub"]},{"id":"pocket-gamer-mobile-game-awards-tue-aug-19-18-30-gorzenich-koln--martinstrasse-29-37-50667-koln-germ","name":"Pocket Gamer Mobile Game Awards","date":"2025-08-19","startTime":"18:30","endTime":"23:30","category":"Awards Party","hosts":"Steel Media","address":"Gorzenich Koln, Martinstrasse 29-37 50667 Koln Germany","coordinates":{"lat":50.936539,"lng":6.958605},"keywords":["awards party","steel media","pocket","gamer","mobile","game","awards","gorzenich","koln","martinstrasse"],"venues":["Gorzenich Koln"]},{"id":"pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-straoe-14--50667--germany","name":"Pocket Gamer Party Cologne 2025","date":"2025-08-20","startTime":"19:30","endTime":"23:30","category":"Party","hosts":"Steel Media","address":"Tivoli, Hohe Straoe 14, 50667, Germany","coordinates":{"lat":50.934501,"lng":6.956643},"keywords":["party","steel media","pocket","gamer","cologne","2025","tivoli","hohe","straoe","50667"],"venues":["Tivoli"]},{"id":"pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstraoe-6-20--gebaude-3-12--","name":"PUBG: HOT DROP Cologne 2025","date":"2025-08-23","startTime":"17:00","endTime":"23:00","category":"Mixer","hosts":"PUBG Studios, Krafton","address":"Carlswerk Victoria, Schanzenstraoe 6-20, Gebaude 3.12, 51063, Germany","coordinates":{"lat":50.965072,"lng":7.01212},"keywords":["mixer","pubg studios","krafton","pubg","hot","drop","cologne","2025","carlswerk","victoria"],"venues":["Carlswerk Victoria"]},{"id":"representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstraoe-1--50667--ger","name":"Representing Games | Pitch Sessions Cologne","date":"2025-08-19","startTime":"12:45","endTime":"17:00","category":"Game Pitches","hosts":"MeetToMatch","address":"Dorint Hotel, Pipinstraoe 1, 50667, Germany","coordinates":{"lat":50.935492,"lng":6.957729},"keywords":["game pitches","meettomatch","representing","games","pitch","sessions","cologne","dorint","hotel","pipinstraoe"],"venues":["Dorint Hotel"]},{"id":"run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany","name":"Run Time: Gamescom 5km Social Run","date":"2025-08-20","startTime":"07:00","endTime":"08:00","category":"Wellness","hosts":"Stephen Hey","address":"Cologne Cathedral, Domkloster 4, 50667, Germany","coordinates":{"lat":50.941278,"lng":6.958281},"keywords":["wellness","stephen hey","run","time","gamescom","5km","social","cologne","cathedral","domkloster"],"venues":["Cologne Cathedral"]},{"id":"safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679--ger","name":"Safe In Our World Reception at Gamescom 2025","date":"2025-08-21","startTime":"16:00","endTime":"19:00","category":"Mixer","hosts":"Safe In Our World","address":"Cologne Fair, Messeplatz 1, 50679, Germany","coordinates":{"lat":50.946605,"lng":6.980405},"keywords":["mixer","safe in our world","safe","our","world","reception","gamescom","2025","cologne","fair"],"venues":["Cologne Fair"]},{"id":"saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679--germany","name":"Saga AI Agent Pop-Up Store at Gamescom","date":"2025-08-20","startTime":"17:00","endTime":"22:00","category":"Mixer","hosts":"Saga xyz","address":"Willy-Brandt-Platz 3, 50679, Germany","coordinates":{"lat":50.938649,"lng":6.984653},"keywords":["mixer","saga xyz","saga","agent","popup","store","gamescom","willybrandtplatz","50679","germany"],"venues":["Willy-Brandt-Platz 3"]},{"id":"serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679--germany","name":"Serbian Gaming Industry Meet & Drinks","date":"2025-08-20","startTime":"16:00","endTime":"17:00","category":"Mixer","hosts":"Serbian Games Association","address":"Cologne Fair, Messeplatz 1, 50679, Germany","coordinates":{"lat":50.946605,"lng":6.980405},"keywords":["mixer","serbian games association","serbian","gaming","industry","meet","drinks","cologne","fair","messeplatz"],"venues":["Cologne Fair"]},{"id":"the-xsolla-mixer-with-sensor-tower-mon-aug-18-14-30-hyatt-regency-cologne","name":"The Xsolla Mixer with Sensor Tower","date":"2025-08-18","startTime":"14:30","endTime":"20:30","category":"Mixer","hosts":"Moiblegamer.biz","address":"Hyatt Regency Cologne","coordinates":{"lat":50.94043,"lng":6.969529},"keywords":["mixer","moiblegamer.biz","the","xsolla","with","sensor","tower","hyatt","regency","cologne"],"venues":["Hyatt Regency Cologne"]},{"id":"xrai-hack-pre-gamescom-party-tue-aug-19-19-00-startplatz--im-mediapark-5--50670--germany","name":"XRAI Hack Pre-Gamescom Party","date":"2025-08-19","startTime":"19:00","endTime":"23:30","category":"Bootcamp","hosts":"XR Bootcamp","address":"STARTPLATZ, Im Mediapark 5, 50670, Germany","coordinates":{"lat":50.948635,"lng":6.944796},"keywords":["bootcamp","xr bootcamp","xrai","hack","pregamescom","party","startplatz","mediapark","50670","germany"],"venues":["STARTPLATZ"]},{"id":"you-had-me-at-in-game-data-by-grid---getgud-wed-aug-20-16-00-marzellenstrabe-43a--50668--cologne--ge","name":"You Had Me at In-Game Data by GRID & GetGud","date":"2025-08-20","startTime":"16:00","endTime":"18:30","category":"Party","hosts":"GRID, GetGud","address":"MarzellenstraBe 43a, 50668, Cologne, Germany","coordinates":{"lat":50.944448,"lng":6.955436},"keywords":["party","grid","getgud","you","had","ingame","data","marzellenstrabe","43a","50668"],"venues":["MarzellenstraBe 43a"]}],"filters":{"categories":["Awards Party","Bootcamp","Exec Social","Game Pitches","Hackathon","Meetings","Mixer","Party","Social","Tour","Wellness"],"hosts":["1minus1","Avalanche","Beam","Bring Your Own","Content Affairs","DevGAMM","Diversion","Enchant","Flutu Music","GRID","GetGud","Google","Hathora","INDIE Hub","INDIE Hub UG","Keyword Studios","Kohort","Krafton","Maraoke LIVE","Marriott Bar","MeetToMatch","Meta","Mixpanel","Modulate","Moiblegamer.biz","Newzoo","Oscar Clark","Overwolf","PUBG Studios","Pete Lovell","Safe In Our World","Saga xyz","Serbian Games Association","Singular","Society for Game Cinematics","Stash","Steel Media","Stephen Hey","Walbert-Schmitz","XR Bootcamp","Xsolla","You + 50 Friends","devcom","eGames"],"dates":["2025-08-17","2025-08-18","2025-08-19","2025-08-20","2025-08-21","2025-08-22","2025-08-23"],"venues":["Bolzengasse 7","Carlswerk Victoria","Cologne Cathedral","Cologne Fair","Corkonian Irish Pub","Craftbeer Corner Coeln","Dorint Hotel","Filmforum NRW","Friesenstraue 30-40","Gilden im ZIims \"Heimat Kolscher Helden\" Cologne","Gorzenich Koln","HERBRAND's","Hall 2","Hall 2.1 C028-D027","Home of Indies","Hostel | the shared apartment","Hyatt Regency Cologne","Joe Champs American Sports Bar","Johannisstraue 76-80","Koelnmesse","Koelnmesse Confex","Kolnmesse Confex","Lowenbrau","MarzellenstraBe 43a","Paolozzibrunnen","Papa Joe's Biersalon","Rheinloft Cologne","STARTPLATZ","Salzgasse 2","TURISTARAMA"]},"locationClusters":[{"center":{"lat":50.9392807,"lng":6.9621832},"events":["beam---avalanche-go-gamescom-wed-aug-20-18-00-rheinloft-cologne--frankenwerft-35--50667--germany","diversion-meetup-ddc-happy-hour-tue-aug-19-18-00-craftbeer-corner-coeln--martinstraoe-32--50667--ger","game-audio-get-together--gamescom-2025-fri-aug-22-19-30-salzgasse-2--50667--germany","games-industry-runners-gamescom-edition-wed-aug-20-07-30-paolozzibrunnen--weltjugendtagsweg--50667--","indie-reveal-during-gamescom-2025-wed-aug-20-19-30-filmforum-nrw--bischofsgartenstrasse-1-50667-koln","karaoke---the-copper-pot-wed-aug-20-21-00-bolzengasse-7--cologne--germany-50667","marketers-in-gaming--meetup--gamescom-2025-wed-aug-20-18-00-the-copper-pot--bolzengasse-7--50667--ge","monday-multiplayer-mixer-mon-aug-18-18-00-gilden-im-ziims--heimat-kolscher-helden--cologne--germany","pete-s-koln-kick-off-mon-aug-18-16-30-lowenbrau--cologne--frankenwerft-21--50667-koln--germany","pete-s-koln-kick-off-mon-aug-18-20-00-papa-joe-s-biersalon--alter-markt-50-52--50667-koln--germany","pete-s-koln-kick-off-mon-aug-18-23-00-corkonian-irish-pub--alter-markt-51--50667-koln--germany","pocket-gamer-mobile-game-awards-tue-aug-19-18-30-gorzenich-koln--martinstrasse-29-37-50667-koln-germ","run-time--gamescom-5km-social-run-wed-aug-20-07-00-cologne-cathedral--domkloster-4--50667--germany"],"venue":"Rheinloft Cologne","address":"Rheinloft Cologne - Rooftop Eventlocation für Firmenfeier, Networking, Business Events & Private Feiern, Frankenwerft 35, 50667 Köln, Germany"},{"center":{"lat":50.9464205,"lng":6.957213299999999},"events":["cigar-lovers-wed-aug-20-21-00-turiner-strabe-9--cologne--germany","marriott-madness-mon-aug-18-19-30-johannisstraue-76-80--50668-koln--germany","marriott-madness-thu-aug-21-19-30-johannisstraue-76-80--50668-koln--germany","marriott-madness-tue-aug-19-19-30-johannisstraue-76-80--50668-koln--germany","marriott-madness-wed-aug-20-19-30-johannisstraue-76-80--50668-koln--germany","you-had-me-at-in-game-data-by-grid---getgud-wed-aug-20-16-00-marzellenstrabe-43a--50668--cologne--ge"],"venue":"Turiner Strabe 9","address":"Turiner Str. 9, 50668 Köln, Germany"},{"center":{"lat":50.9514054,"lng":6.9104472},"events":["courage-cologne---devcom-developer-night-2025-tue-aug-19-20-00-herbrand-s--herbrandstraoe-21--50825-"],"venue":"HERBRAND's","address":"Herbrandstraße 21, 50825 Köln, Germany"},{"center":{"lat":50.94298569999999,"lng":6.9753161},"events":["devcom-developer-conference-leadership-dinner-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50","devcom-developer-conference-mon-aug-18-09-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany","devcom-developer-conference-pitch-it--mixer-tue-aug-19-14-30-kolnmesse-confex--kolnmesse-confex-5067","devcom-developer-conference-sun-aug-17-13-00-koelnmesse-confex--kolnmesse-confex-50679-koln-germany","devcom-developer-conference-sunset-mixer-mon-aug-18-19-30-kolnmesse-confex--kolnmesse-confex-50679-k","devcom-developer-conference-tue-aug-19-09-00-kolnmesse-confex--kolnmesse-confex-50679-koln-germany","devcom-developer-conference-vip-mixer-mon-aug-18-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln","devcom-developer-conference-vip-mixer-tue-aug-19-17-00-kolnmesse-confex--kolnmesse-confex-50679-koln","gamescom-inside--brand-positioning-group-tour-fri-aug-22-13-30-the-ash-messecity--luise-straus-ernst","gamescom-inside--brand-positioning-group-tour-thu-aug-21-13-30-the-ash-messecity--luise-straus-ernst","liveops-networking-meetup-mon-aug-18-16-30-koelnmesse-confex--koelnmesse-halle-1--50679--germany","the-xsolla-mixer-with-sensor-tower-mon-aug-18-14-30-hyatt-regency-cologne"],"venue":"Kolnmesse Confex","address":"Koelnmesse Halle 1, 50679 Köln, Germany"},{"center":{"lat":50.94678,"lng":6.9832069},"events":["diversity-meetup-x-home-of-indies---gamescom-2025-sat-aug-23-14-00-home-of-indies--hall-10-2--e010g-","drinks--games-from-portugal-pavilion-thu-aug-21-16-00-hall-2-1-c028-d027--koelnmesse--cologne","gamescom-2025-happy-hour-----by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany","gamescom-2025-happy-hour---by-overwolf-thu-aug-21-16-30-cologne-fair--messeplatz-1--50679--germany","meettomatch-the-cologne-edition-2025-fri-aug-22-09-00-koelnmesse--messeplatz-1--50679--germany","meettomatch-the-cologne-edition-2025-mon-aug-18-10-00-koelnmesse--messeplatz-1-50679-koln-germany","meettomatch-the-cologne-edition-2025-thu-aug-21-09-00-koelnmesse--messeplatz-1--50679--germany","meettomatch-the-cologne-edition-2025-tue-aug-19-10-00-koelnmesse--messeplatz-1-50679-koln-germany","meettomatch-the-cologne-edition-2025-wed-aug-20-09-00-koelnmesse--messeplatz-1--50679--germany","mixpanel-happy-hour-at-gamescom-thu-aug-21-16-00-hall-2--booth-a034--koelnmesse--cologne","safe-in-our-world-reception-at-gamescom-2025-thu-aug-21-16-00-cologne-fair--messeplatz-1--50679--ger","serbian-gaming-industry-meet---drinks-wed-aug-20-16-00-cologne-fair--messeplatz-1--50679--germany"],"venue":"Home of Indies","address":"Messepl. 1, 50679 Köln, Germany"},{"center":{"lat":50.9486351,"lng":6.9447956},"events":["enchant-gamescom-pitch-party---networking-after-party-thu-aug-21-18-45-startplatz--mediapark-5--5067","global-xrai-hack-at-cologne--gamescom-mon-aug-18-09-00-startplatz--im-mediapark-5--50670--germany","global-xrai-hack-at-cologne--gamescom-sun-aug-17-09-00-startplatz--im-mediapark-5--50670--germany","global-xrai-hack-at-cologne--gamescom-tue-aug-19-09-00-startplatz--im-mediapark-5--50670--germany","karaoke---the-jameson-irish-pub-fri-aug-22-20-00-friesenstraue-30-40--50670-koln--cologne","xrai-hack-pre-gamescom-party-tue-aug-19-19-00-startplatz--im-mediapark-5--50670--germany"],"venue":"STARTPLATZ","address":"Im Mediapark 5, 50670 Köln, Germany"},{"center":{"lat":50.9388051,"lng":6.9779651},"events":["gamescom-2025-networking-mixer--metric-minds-wed-aug-20-18-00-joe-champs-american-sports-bar--consta","saga-ai-agent-pop-up-store-at-gamescom-wed-aug-20-17-00-willy-brandt-platz-3--50679--germany"],"venue":"Joe Champs American Sports Bar","address":"Constantinstraße 96, 50679 Köln, Germany"},{"center":{"lat":50.9399277,"lng":6.9402364},"events":["gamescom-launch-party-tue-aug-19-20-00-rooftop58--hohenzollernring-58--50672--germany"],"venue":"rooftop58","address":"Hohenzollernring 58, 50672 Köln, Germany"},{"center":{"lat":50.9352955,"lng":6.934854499999999},"events":["indie-developer-stammtisch-sun-aug-17-17-00-hostel---the-shared-apartment--richard-wagner-straoe-39-"],"venue":"Hostel | the shared apartment","address":"Richard-Wagner-Str. 39, 50674 Köln, Germany"},{"center":{"lat":50.93452500000001,"lng":6.945256},"events":["maraoke-live----gamescom-2025-wed-aug-20-19-00-turistarama--mauritiussteinweg-102--50676--germany"],"venue":"TURISTARAMA","address":"Mauritiussteinweg 102, 50676 Köln, Germany"},{"center":{"lat":50.9345009,"lng":6.9566433},"events":["pocket-gamer-party-cologne-2025-wed-aug-20-19-30-tivoli--hohe-straoe-14--50667--germany","representing-games---pitch-sessions-cologne-tue-aug-19-12-45-dorint-hotel--pipinstraoe-1--50667--ger"],"venue":"Tivoli","address":"Hohe Str. 14, 50667 Köln, Germany"},{"center":{"lat":50.9650717,"lng":7.0121199},"events":["pubg--hot-drop-cologne-2025-sat-aug-23-17-00-carlswerk-victoria--schanzenstraoe-6-20--gebaude-3-12--"],"venue":"Carlswerk Victoria","address":"Schanzenstraße 6-20 Gebäude 3.12, 51063 Köln, Germany"}],"defaultLocation":{"lat":50.9466,"lng":6.9804},"config":{"maxDistanceKm":50,"clusterRadiusKm":0.5}};
+frontend/src/js/init-app.js:2:import { renderHome } from './panels/home-wired.js';
+frontend/src/js/init-app.js:17:  renderHome();
+frontend/src/js/init-app.js:32:    renderHome();
+frontend/src/js/event-list-integration.js:678:                case 'Home':
+frontend/src/js/example-router-usage.js:58:export function openHome() {
+frontend/src/js/example-router-usage.js:61:    'Home',
+frontend/src/js/example-router-usage.js:106:      title: 'Home',
+frontend/src/js/example-router-usage.js:108:        // Same render logic as openHome
+frontend/src/js/example-router-usage.js:109:        openHome();
+frontend/src/js/home-controller.js:1:// Home Controller - Initialize and open home panel
+frontend/src/js/home-controller.js:2:import { openHome } from './panels/home.js';
+frontend/src/js/home-controller.js:4:export function initHome() {
+frontend/src/js/home-controller.js:6:  openHome(null);
+frontend/src/js/panels/home-wired.js:1:// home-wired.js - Properly wired Home panel with v-row components
+frontend/src/js/panels/home-wired.js:16:export async function renderHome() {
+frontend/src/js/panels/home-wired.js:35:      <h1 class="v-topbar__title">Home</h1>
+frontend/src/js/app-with-virtualization.js:18:  home: () => import('./controllers/HomeController.js?v=b023').then(m => m.HomeController),
+frontend/src/js/navigation.js:842:                        <button class="btn btn-outline" onclick="window.navigationManager.navigateToPage('events')">🏠 Go Home</button>
+frontend/src/js/controllers/EventController.js:634:          <h3>Add to Home Screen</h3>
+frontend/src/js/controllers/EventController.js:637:            Open <span class="ios-chip">Share ▁↑</span> → <b>Add to Home Screen</b>
+frontend/src/js/controllers/AppController.js:93:    this.registerLazyController('home', () => import('./HomeController.js?v=b023'));
+frontend/src/js/controllers/AppController.js:550:      '/home': 'Home',
+frontend/src/js/controllers/CalendarSyncController.js:62:    // send them to Home or Events
+frontend/src/js/controllers/HomeController.js:10:export class HomeController extends BaseController {
+frontend/src/js/controllers/HomeController.js:563:export default HomeController;
+frontend/src/js/controllers/index.js:11:export { HomeController } from './HomeController.js?v=b023';
+frontend/src/js/pwa-install-manager.js:233:                        <span>Select <b>Add to Home Screen</b></span>
+frontend/src/js/pwa-install-manager.js:423:                    <li>Scroll down and tap <b>Add to Home Screen</b></li>
+frontend/src/js/app.js:22:  home: () => import('./controllers/HomeController.js?v=b023').then(m => m.HomeController),
+frontend/src/js/app.js:466:        this.loadHome();
+frontend/src/js/app.js:555:  loadHome() {
+frontend/src/js/ui/viewTX.js:568:      home: 'Home',
+
+[1;36m=== Design Tokens Audit (spacing/radius/shadow) ===[0m
+📏 Token Usage Analysis:
+[1;32m✔ Design tokens used in 933 CSS files[0m
+  Token usage breakdown:
+    • Spacing tokens: 794 instances
+    • Radius tokens: 127 instances
+    • Shadow tokens: 29 instances
+
+🚫 Raw Pixel Values (common spacing):
+[1;32m✔ No raw spacing px values found[0m
+
+🔲 Border Radius Values:
+[1;32m✔ All border-radius values use tokens[0m
+
+🎨 Color Values:
+[1;32m✔ No hardcoded hex colors found[0m
+
+📊 Token Compliance Summary:
+  ✅ Tokens properly defined in:
+    • spacing-tokens.css
+
+  ⚠️  Areas needing attention:
+
+📐 Line-height Analysis:
+[1;33m⚠ 0
+0 line-heights with px units (prefer unitless)[0m

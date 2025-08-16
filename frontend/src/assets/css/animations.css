@@ -32,10 +32,10 @@
 /* Subtle glow pulse for important actions */
 @keyframes glowPulse {
   0%, 100% {
-    box-shadow: 0 0 5px rgba(107, 123, 255, 0.3);
+    box-shadow: 0 0 var(--s-1-25) rgba(107, 123, 255, 0.3);
   }
   50% {
-    box-shadow: 0 0 15px rgba(107, 123, 255, 0.6);
+    box-shadow: 0 0 var(--s-3-75) rgba(107, 123, 255, 0.6);
   }
 }
 
@@ -82,11 +82,11 @@
 /* Gentle bounce for new content */
 @keyframes gentleBounce {
   0% {
-    transform: translateY(-2px) scale(0.98);
+    transform: translateY(calc(-1 * var(--bw-2))) scale(0.98);
     opacity: 0.8;
   }
   50% {
-    transform: translateY(1px) scale(1.01);
+    transform: translateY(var(--bw-1)) scale(1.01);
     opacity: 0.9;
   }
   100% {
@@ -133,7 +133,7 @@
   /* Use transform3d to trigger hardware acceleration */
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
-  perspective: 1000px;
+  perspective:62.5rem;
 }
 
 /* Utility classes for manual triggers */

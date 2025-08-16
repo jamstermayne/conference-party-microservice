@@ -1,0 +1,7 @@
+:root {
+  /* Border widths */
+  --bw-0: 0;
+  --bw-1: 1px;   /* hairline */
+  --bw-2: 2px;   /* thin */
+  --bw-3: 3px;   /* medium */
+}

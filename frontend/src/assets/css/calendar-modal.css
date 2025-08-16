@@ -33,9 +33,9 @@
 .modal {
   background: var(--neutral-100);
   border-radius: var(--s-3);
-  border: 1px solid rgba(139, 129, 255, 0.3);
+  border:var(--bw-1) solid rgba(139, 129, 255, 0.3);
   box-shadow: 0 var(--s-2-5) var(--s-10) rgba(0, 0, 0, 0.5);
-  max-width: 420px;
+  max-width:var(--container-sm);
   width: 100%;
   transform: translateY(var(--s-5));
   transition: transform 0.3s ease;
@@ -50,12 +50,12 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--s-5) var(--s-6);
-  border-bottom: 1px solid rgba(139, 129, 255, 0.1);
+  border-bottom:var(--bw-1) solid rgba(139, 129, 255, 0.1);
 }
 
 .modal__header h3 {
   margin: 0;
-  font-size: 18px;
+  font-size:var(--text-lg);
   font-weight: 600;
   color: var(--alias-e8ecff);
 }
@@ -96,13 +96,13 @@
   width: 100%;
   padding: var(--s-3) var(--s-4);
   border-radius: var(--r-md);
-  font-size: 15px;
+  font-size:0.938rem;
   font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  border: 1px solid transparent;
+  border:var(--bw-1) solid transparent;
   cursor: pointer;
 }
 
@@ -114,14 +114,14 @@
 
 .modal__actions .btn-primary:hover {
   background: linear-gradient(135deg, var(--alias-9c94ff), var(--alias-b59efa));
-  transform: translateY(-1px);
+  transform: translateY(calc(-1 * var(--bw-1)));
   box-shadow: 0 var(--s-1) var(--s-3) rgba(139, 129, 255, 0.3);
 }
 
 .modal__actions .btn-secondary {
   background: rgba(139, 129, 255, 0.1);
   color: var(--alias-e8ecff);
-  border: 1px solid rgba(139, 129, 255, 0.3);
+  border:var(--bw-1) solid rgba(139, 129, 255, 0.3);
 }
 
 .modal__actions .btn-secondary:hover {
@@ -134,19 +134,19 @@
   position: fixed;
   bottom: var(--s-6);
   left: 50%;
-  transform: translateX(-50%) translateY(100px);
+  transform: translateX(-50%) translateY(6.25rem);
   background: var(--neutral-100);
   color: var(--alias-e8ecff);
   padding: var(--s-3) var(--s-5);
   border-radius: var(--r-md);
-  border: 1px solid rgba(139, 129, 255, 0.3);
+  border:var(--bw-1) solid rgba(139, 129, 255, 0.3);
   box-shadow: 0 var(--s-1) var(--s-3) rgba(0, 0, 0, 0.3);
   font-size: var(--s-3-5);
   font-weight: 500;
   z-index: 10000;
   opacity: 0;
   transition: all 0.3s ease;
-  min-width: 250px;
+  min-width:15.625rem;
   text-align: center;
 }
 
@@ -204,7 +204,7 @@
 .btn {
   padding: var(--s-2-5) var(--s-3-5);
   border-radius: var(--s-3);
-  border: 1px solid var(--neutral-200);
+  border:var(--bw-1) solid var(--neutral-200);
   background: var(--neutral-100);
   color: var(--alias-e6ebff);
 }

@@ -1,5 +1,5 @@
 :root{
-  --hour-height: 260px;     /* increase calendar, don't shrink cards */
+  --hour-height:16.25rem;     /* increase calendar, don't shrink cards */
   --half-hour: calc(var(--hour-height)/2);
 }
 .calendar-grid{position:relative;padding:0 var(--s-2)}

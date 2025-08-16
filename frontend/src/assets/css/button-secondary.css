@@ -12,7 +12,7 @@ a.btn--secondary {
   padding: var(--s-2-5) var(--s-5);
   background: transparent;
   color: var(--text-muted);
-  border: 1px solid rgba(154, 167, 191, 0.3);
+  border: var(--bw-1) solid rgba(154, 167, 191, 0.3);
   border-radius: var(--r-md);
   font-size: var(--s-3-5);
   font-weight: 500;
@@ -26,7 +26,7 @@ a.btn--secondary {
   background: rgba(154, 167, 191, 0.1);
   border-color: rgba(154, 167, 191, 0.5);
   color: var(--alias-e8ecff);
-  transform: translateY(-1px);
+  transform: translateY(calc(-1 * var(--bw-1)));
 }
 
 .btn--secondary:active {
