@@ -81,17 +81,15 @@ const HOME = `${URL}/#/home`;
     // More flexible selectors to handle multiple rendering approaches
     const allPills = document.querySelectorAll('.day-pill').length;
     
-    // Try multiple selectors for parties pills
-    const partiesPills = document.querySelectorAll('.home-section[data-section="parties"] .day-pill').length || 
+    // Count pills in properly structured sections (with data-section)
+    const partiesPills = document.querySelectorAll('[data-section="parties"] .day-pills .day-pill').length || 
                          document.querySelectorAll('[data-section="parties"] .day-pill').length ||
-                         document.querySelectorAll('[data-kind="parties"] .day-pill').length ||
-                         document.querySelectorAll('.home-section:nth-child(1) .day-pill').length;
+                         document.querySelectorAll('[data-kind="parties"] .day-pill').length;
     
-    // Try multiple selectors for map pills                     
-    const mapPills = document.querySelectorAll('.home-section[data-section="map"] .day-pill').length ||
+    // Count pills in map section                    
+    const mapPills = document.querySelectorAll('[data-section="map"] .day-pills .day-pill').length ||
                     document.querySelectorAll('[data-section="map"] .day-pill').length ||
-                    document.querySelectorAll('[data-kind="map"] .day-pill').length ||
-                    document.querySelectorAll('.home-section:nth-child(2) .day-pill').length;
+                    document.querySelectorAll('[data-kind="map"] .day-pill').length;
                     
     // Look for both button and anchor channel elements
     const channels = document.querySelectorAll('.channel-btn, a.channel-btn').length;
