@@ -1,6 +1,6 @@
 // mount-map.js - Mount map panel with today's events
 import { jsonGET } from '../utils/json-fetch.js';
-import { loadGoogleMaps, getMapsStatus } from '../services/google-maps-loader.js';
+import { ensureMapsReady } from '../services/maps-loader.js';
 
 export async function mountMap(container) {
   const today = new Date().toISOString().slice(0, 10);
@@ -55,17 +55,11 @@ async function initializeMap(mapContainer, date) {
   }
   
   // Load Google Maps with robust loader
-  let mapsApi;
   try {
-    mapsApi = await loadGoogleMaps();
+    await ensureMapsReady();
   } catch (error) {
     console.error('[mount-map] Google Maps load failed:', error);
     throw new Error(`Failed to load Google Maps: ${error.message}`);
-  }
-  
-  // Guard: Verify Maps API is loaded
-  if (!mapsApi) {
-    throw new Error('Google Maps API not available');
   }
   
   // Import required libraries
@@ -120,8 +114,6 @@ async function initializeMap(mapContainer, date) {
 }
 
 function showMapError(container, error) {
-  const status = getMapsStatus();
-  
   container.innerHTML = `
     <div class="map-error" style="padding: var(--s-4); text-align: center;">
       <div style="font-size: 3em; margin-bottom: 0.5em;">⚠️</div>
@@ -129,10 +121,6 @@ function showMapError(container, error) {
       <p style="color: var(--color-text-secondary); margin: var(--s-2) 0;">
         ${error.message || 'An error occurred while loading the map'}
       </p>
-      <details style="margin-top: var(--s-3); text-align: left;">
-        <summary style="cursor: pointer;">Technical details</summary>
-        <pre style="font-size: 0.85em; margin-top: var(--s-2);">${JSON.stringify(status, null, 2)}</pre>
-      </details>
       <button onclick="location.reload()" style="margin-top: var(--s-3); padding: var(--s-2) var(--s-4); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-md); cursor: pointer;">
         Reload Page
       </button>
