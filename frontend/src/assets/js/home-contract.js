@@ -208,8 +208,10 @@ const HOME_CONTRACT = (() => {
     const ensure = () => {
       const atHome = /^#\/home$|^#$|^$/.test(location.hash);
       if (atHome) {
-        // Add a delay to ensure we run after other scripts
-        setTimeout(() => mount(), 250);
+        // Add a longer delay to ensure we run after ALL other scripts
+        setTimeout(() => mount(), 500);
+        // Run again after a bit more time to override any late scripts
+        setTimeout(() => mount(), 1000);
       }
       ensureMapSubnav();
     };
