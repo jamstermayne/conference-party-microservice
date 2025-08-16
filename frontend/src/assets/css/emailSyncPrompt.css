@@ -4,15 +4,15 @@
 .sync-toast {
   background: var(--surface);
   color: var(--text-primary);
-  border: 1px solid var(--border);
+  border:var(--bw-1) solid var(--border);
   border-radius: var(--r-md);
   padding: var(--s-2-5) var(--s-3);
   box-shadow: 0 var(--s-1-5) var(--s-6) rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.05);
   opacity: 0;
-  transform: translateY(-8px);
+  transform: translateY(calc(-1 * var(--s-2)));
   transition: opacity 180ms var(--ease-smooth), transform 180ms var(--ease-smooth);
   z-index: 2000;
-  max-width: min(520px, calc(100vw - var(--s-4)));
+  max-width:min(32.5rem, calc(100vw - var(--s-4)));
   font-family: inherit;
   backdrop-filter: blur(var(--s-2));
   position: fixed;
@@ -34,7 +34,7 @@
   font-size: var(--s-3-5); 
   color: var(--text-primary);
   flex: 1;
-  min-width: 200px;
+  min-width:12.5rem;
 }
 
 .sync-text strong {
@@ -50,7 +50,7 @@
 }
 
 .sync-btn {
-  font-size: 13px;
+  font-size:0.813rem;
   padding: var(--s-1-5) var(--s-3);
   white-space: nowrap;
 }
@@ -59,7 +59,7 @@
   background: transparent; 
   border: 0; 
   color: var(--text-secondary); 
-  font-size: 18px; 
+  font-size:var(--text-lg); 
   line-height: 1; 
   cursor: pointer;
   padding: var(--s-1);
@@ -97,9 +97,9 @@
 
 .contact-sheet-content {
   width: 100%; 
-  max-width: 520px;
+  max-width:32.5rem;
   background: var(--surface); 
-  border: 1px solid var(--border);
+  border:var(--bw-1) solid var(--border);
   border-radius: var(--s-4) var(--s-4) var(--s-1) var(--s-1); 
   padding: var(--s-5);
   transform: translateY(var(--s-6)); 
@@ -151,10 +151,10 @@
 
 .cs-bonus {
   background: linear-gradient(135deg, rgba(107,123,255,.12), rgba(34,197,94,.08));
-  border: 1px solid rgba(107,123,255,.2);
+  border:var(--bw-1) solid rgba(107,123,255,.2);
   border-radius: var(--r-md);
   padding: var(--s-2) var(--s-3);
-  font-size: 13px;
+  font-size:0.813rem;
   color: var(--text-primary);
   margin-bottom: var(--s-2);
 }
@@ -184,7 +184,7 @@
 }
 
 .cs-provider:hover {
-  transform: translateY(-1px);
+  transform: translateY(calc(-1 * var(--bw-1)));
   box-shadow: 0 var(--s-1) var(--s-4) rgba(0,0,0,.2);
 }
 
@@ -229,9 +229,9 @@
 .cs-cancel {
   color: var(--text-secondary);
   background: none;
-  border: 1px solid var(--border);
+  border:var(--bw-1) solid var(--border);
   padding: var(--s-2) var(--s-5);
-  font-size: 13px;
+  font-size:0.813rem;
 }
 
 .cs-cancel:hover {

@@ -100,7 +100,7 @@
   background: linear-gradient(180deg, var(--color-primary-dark), var(--alias-3a3f99));
   color:var(--text-primary); display:grid; place-items:center; font-weight:700;
 }
-.account-header .ph-title{ margin:0; text-transform:lowercase; color:var(--text-primary,var(--text-primary)); }
+.account-header .ph-title{ margin:0; text-transform:lowercase; color:var(--text-primary); }
 
 .acc-card{ padding:14px; border-radius: var(--r-lg,16px); border:1px solid var(--border,var(--border-primary)); background:var(--surface,var(--bg-surface)); }
 .acc-card-header{ display:flex; align-items:center; gap:8px; margin-bottom:10px; }
@@ -110,8 +110,8 @@
 @media (max-width: 640px){ .acc-grid{ grid-template-columns: 1fr; } }
 
 .acc-field{ display:flex; flex-direction:column; gap:6px; }
-.acc-field label{ color:var(--text-secondary,var(--text-secondary)); font-size:0.85rem; }
+.acc-field label{ color:var(--text-secondary); font-size:0.85rem; }
 .acc-field input{
-  background:var(--bg-secondary,var(--bg-secondary)); color:var(--text-primary,var(--text-primary));
+  background:var(--bg-secondary); color:var(--text-primary);
   border:1px solid var(--border,var(--border-primary)); border-radius:10px; padding:10px 12px;
 }

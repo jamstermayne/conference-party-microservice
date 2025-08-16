@@ -11,7 +11,7 @@ html,body{background:var(--v-bg);color:var(--v-text)}
 
  /* Unified buttons: affects .vbtn, .btn, and plain <button> */
 .vbtn,.btn,button{
-  display:inline-flex;align-items:center;gap:8px;
+  display:inline-flex;align-items:center;gap:var(--s-2);
   padding:8px var(--s-3);border-radius: var(--r-lg);border:1px solid var(--neutral-300);
   background:var(--neutral-200);color:var(--alias-dee9ff);font-weight:700;cursor:pointer;
 }
@@ -30,5 +30,5 @@ button:where(.secondary,.ghost), .btn:where(.secondary,.ghost){
 }
 
 /* Calendar rows tall enough to fit hero cards */
-:root{ --hour-height: 240px; }
+:root{ --hour-height:15rem; }
 .hour-row{ height: var(--hour-height); border-bottom:1px dashed rgba(255,255,255,.06); }

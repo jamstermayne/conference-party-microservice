@@ -16,9 +16,8 @@
 
   const fmtDay = (iso) => {
     const D = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     const d = new Date(iso + 'T00:00:00');
-    return `${D[d.getDay()]}, ${String(d.getDate()).padStart(2,'0')} ${M[d.getMonth()]}`;
+    return D[d.getDay()];
   };
 
   async function getConferenceDays() {
@@ -60,11 +59,14 @@
   }
 
   function setActive(host, base) {
-    const links = host.querySelectorAll('a');
+    const pills = host.querySelectorAll('.day-pill');
     const h = location.hash;
-    links.forEach((a) => a.classList.toggle('is-active', h.startsWith(a.getAttribute('href'))));
-    // show/hide only on matching base
-    host.style.display = h.startsWith(base) ? 'grid' : 'none';
+    pills.forEach((pill) => {
+      const href = pill.dataset.href;
+      pill.setAttribute('aria-pressed', h === href || h.startsWith(href) ? 'true' : 'false');
+    });
+    // show/hide only on matching base using is-visible class
+    host.classList.toggle('is-visible', h.startsWith(base));
   }
 
   async function render(forName, baseRoute) {
@@ -74,14 +76,14 @@
 
     // Only show on this route
     if (!location.hash.startsWith(baseRoute)) {
-      host.style.display = 'none';
+      host.classList.remove('is-visible');
       return;
     }
 
     if (!daysCache) daysCache = await getConferenceDays();
     // If no data, keep it hidden (don't spam UI)
     if (!daysCache.length) {
-      host.style.display = 'none';
+      host.classList.remove('is-visible');
       return;
     }
 
@@ -90,10 +92,12 @@
     if (host.dataset.sig !== wanted) {
       host.innerHTML = '';
       for (const iso of daysCache) {
-        const a = document.createElement('a');
-        a.href = `${baseRoute}/${iso}`;
-        a.textContent = fmtDay(iso);
-        host.appendChild(a);
+        const button = document.createElement('button');
+        button.className = 'day-pill';
+        button.dataset.href = `${baseRoute}/${iso}`;
+        button.setAttribute('aria-pressed', 'false');
+        button.textContent = fmtDay(iso);
+        host.appendChild(button);
       }
       host.dataset.sig = wanted;
     }

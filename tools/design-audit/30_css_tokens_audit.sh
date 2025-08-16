@@ -5,7 +5,7 @@ source "$(dirname "$0")/_lib.sh"
 h1 "Design Tokens Audit (spacing/radius/shadow)"
 
 echo "📏 Token Usage Analysis:"
-TOKEN_FILES=$(grep -Rl --include="*.css" -E "(--s-|--r-|--shadow-)" "$CSS_DIR" 2>/dev/null || true)
+TOKEN_FILES=$(grep -R --exclude-dir=_graveyard --exclude-dir=public --exclude-dir=tools --exclude-dir=vendorl --include="*.css" -E "(--s-|--r-|--shadow-)" "$CSS_DIR" 2>/dev/null || true)
 if [ -n "$TOKEN_FILES" ]; then
   TOKEN_COUNT=$(echo "$TOKEN_FILES" | wc -l)
   ok "Design tokens used in $TOKEN_COUNT CSS files"
@@ -26,7 +26,7 @@ fi
 echo ""
 echo "🚫 Raw Pixel Values (common spacing):"
 # Check for common spacing values that should use tokens
-RAW_PX=$(grep -RnE ":\s*(4|8|12|16|20|24|32|40|48|56|64|80|96)px(?![^;]*var\()" "$CSS_DIR" --include="*.css" 2>/dev/null | grep -v -E "(tokens|README)" || true)
+RAW_PX=$(grep -R --exclude-dir=_graveyard --exclude-dir=public --exclude-dir=tools --exclude-dir=vendornE ":\s*(4|8|12|16|20|24|32|40|48|56|64|80|96)px(?![^;]*var\()" "$CSS_DIR" --include="*.css" 2>/dev/null | grep -v -E "(tokens|README)" || true)
 if [ -z "$RAW_PX" ]; then
   ok "No raw spacing px values found"
 else
@@ -43,7 +43,7 @@ fi
 
 echo ""
 echo "🔲 Border Radius Values:"
-RADIUS_RAW=$(grep -RnE "border-radius\s*:\s*(2|3|4|6|8|12|16|24)px" "$CSS_DIR" 2>/dev/null | grep -v -E "(tokens|README)" || true)
+RADIUS_RAW=$(grep -R --exclude-dir=_graveyard --exclude-dir=public --exclude-dir=tools --exclude-dir=vendornE "border-radius\s*:\s*(2|3|4|6|8|12|16|24)px" "$CSS_DIR" 2>/dev/null | grep -v -E "(tokens|README)" || true)
 if [ -z "$RADIUS_RAW" ]; then
   ok "All border-radius values use tokens"
 else
@@ -58,7 +58,7 @@ fi
 
 echo ""
 echo "🎨 Color Values:"
-HEX_COLORS=$(grep -RnE "#[0-9a-fA-F]{3,6}\b" "$CSS_DIR" 2>/dev/null | grep -v -E "(tokens|color-tokens|README)" || true)
+HEX_COLORS=$(grep -R --exclude-dir=_graveyard --exclude-dir=public --exclude-dir=tools --exclude-dir=vendornE "#[0-9a-fA-F]{3,6}\b" "$CSS_DIR" 2>/dev/null | grep -v -E "(tokens|color-tokens|README)" || true)
 if [ -n "$HEX_COLORS" ]; then
   HEX_COUNT=$(echo "$HEX_COLORS" | wc -l)
   warn "Found $HEX_COUNT hardcoded hex colors (consider using color tokens):"

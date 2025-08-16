@@ -1,0 +1,75 @@
+/* Calendar Buttons - Missing styles for new button components */
+
+.btn-add-to-calendar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: var(--s-2) var(--s-3);
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--r-md);
+  font-size: 1var(--s-1);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-add-to-calendar:hover {
+  background: var(--color-primary-dark);
+}
+
+.btn-add-to-calendar:active {
+  transform: translateY(var(--bw-1));
+}
+
+.cal-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  min-width: 140;
+  background: var(--surface, white);
+  border: var(--bw-1) solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: 0 var(--s-1) 1var(--s-0-5) rgba(0, 0, 0, 0.15);
+  padding: var(--s-1);
+  margin-top: var(--s-1);
+}
+
+.cal-menu[hidden] {
+  display: none;
+}
+
+.cal-menu.is-open {
+  display: block;
+}
+
+.cal-menu button {
+  display: block;
+  width: 100%;
+  padding: var(--s-2) var(--s-3);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--r-sm);
+  font-size: 1var(--s-1);
+  transition: background-color 0.2s ease;
+}
+
+.cal-menu button:hover {
+  background: var(--surface-hover);
+}
+
+.cal-menu .btn-cal-google {
+  color: var(--accent);
+}
+
+.cal-menu .btn-cal-outlook {
+  color: var(--accent);
+}
+
+.cal-menu .btn-cal-m2m {
+  color: var(--color-accent);
+}

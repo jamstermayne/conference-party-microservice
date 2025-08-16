@@ -1,44 +1,6 @@
-/**
- * Calendar Button Styles
- * Single button for calendar with provider modal
- */
-
-/* Legacy btn-group support - can be removed once all templates updated */
-.btn-group {
-  display: inline-flex;
-  gap: var(--s-2);
-}
-
-/* Removed btn-menu styles - no longer needed */
-
-/* Calendar menu dropdown */
-.calendar-menu {
-  animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Button states */
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn.success {
-  background: linear-gradient(135deg, var(--neutral-200), var(--neutral-200)) !important;
-  color: white;
-}
-
-.btn.error {
-  background: linear-gradient(135deg, var(--alias-e74c3c), var(--alias-c0392b)) !important;
-  color: white;
-}
+.cal-menu{display:none;grid-template-columns:1fr;gap:var(--s-2);padding:var(--s-3)}
+.cal-menu.is-open{display:grid}
+.btn-add-to-calendar{display:inline-flex;align-items:center;gap:var(--s-2);padding:var(--s-3) var(--s-4);border-radius:var(--r-lg);font-weight:600;background:var(--accent-600);color:var(--text-on-accent);border:none;cursor:pointer}
+.btn-cal-google,.btn-cal-outlook,.btn-cal-m2m{display:inline-flex;align-items:center;gap:var(--s-2);padding:var(--s-2) var(--s-3);border-radius:var(--r-md);background:var(--surface-3);color:var(--text-primary);border:1px solid var(--border-primary);cursor:pointer}
+.day-pill{display:inline-flex;align-items:center;justify-content:center;padding:var(--s-2) var(--s-3);border-radius:var(--r-pill,9999px);border:1px solid var(--border-primary);background:transparent;color:var(--text-secondary);cursor:pointer}
+.day-pill[aria-pressed="true"]{background:var(--surface-3);color:var(--text-primary);border-color:var(--accent-600)}

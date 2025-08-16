@@ -5,7 +5,7 @@
   border-radius: 14px; padding: var(--s-3) 12px 10px; width: 280px;
   box-shadow: 0 8px 40px rgba(0,0,0,.4);
 }
-.ftue-nudge h4 { margin: 0 0 6px; color: var(--text-primary,var(--text-primary)); font-size: 1rem; }
-.ftue-nudge p  { margin: 0 0 10px; color: var(--text-secondary,var(--text-secondary)); font-size: .92rem; }
+.ftue-nudge h4 { margin: 0 0 6px; color: var(--text-primary); font-size: 1rem; }
+.ftue-nudge p  { margin: 0 0 10px; color: var(--text-secondary); font-size: .92rem; }
 .ftue-actions { display:flex; gap:8px; }
 .ftue-actions .btn { flex: 1; }

@@ -1,0 +1,131 @@
+/* components.css - Additional UI components with tokens only */
+
+/* Buttons */
+.btn {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
+  font: var(--text-md);
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.btn--primary {
+  background: var(--brand-500);
+  color: var(--text-on-brand);
+}
+
+.btn--primary:hover {
+  background: var(--brand-600);
+}
+
+.btn--ghost {
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+}
+
+.btn--ghost:hover {
+  background: var(--surface-2);
+}
+
+.btn--full {
+  width: 100%;
+}
+
+/* Hero Cards */
+.hero-card-grid {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.hero-card {
+  background: var(--surface-2);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-card__body {
+  padding: var(--s-4);
+}
+
+.hero-card__title {
+  font: var(--text-lg);
+  color: var(--text-primary);
+  margin-bottom: var(--s-2);
+}
+
+.hero-card__venue {
+  font: var(--text-md);
+  color: var(--text-secondary);
+}
+
+.hero-card__time {
+  font: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+.hero-card__desc {
+  font: var(--text-sm);
+  color: var(--text-secondary);
+  margin-top: var(--s-3);
+}
+
+.hero-card__footer {
+  padding: var(--s-3) var(--s-4);
+  border-top: 1px solid var(--border-primary);
+}
+
+/* Empty states */
+.empty-state {
+  text-align: center;
+  padding: var(--s-6);
+  color: var(--text-secondary);
+}
+
+.loading {
+  text-align: center;
+  padding: var(--s-6);
+  color: var(--text-tertiary);
+}
+
+.error {
+  text-align: center;
+  padding: var(--s-6);
+  color: var(--danger-500);
+}
+
+/* Text utilities */
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-tertiary {
+  color: var(--text-tertiary);
+}
+
+/* Segmented control for map */
+.segmented-control {
+  display: inline-flex;
+  background: var(--surface-1);
+  border-radius: var(--r-lg);
+  padding: var(--s-1);
+  gap: var(--s-1);
+}
+
+.segment {
+  all: unset;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  font: var(--text-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.segment.active {
+  background: var(--surface-3);
+  color: var(--text-primary);
+}

@@ -5,8 +5,8 @@
 
 :root {
   /* Accent colors for gradient effects */
-  --accent-cyan: #00E5FF;
-  --accent-magenta: #FF6BFF;
+  --accent-cyan: var(--accent-cyan-500);
+  --accent-magenta: var(--accent-pink-500);
   
   /* Rail gradient tokens */
   --rail-gradient-start: var(--accent-cyan);

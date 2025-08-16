@@ -1,7 +1,7 @@
 /* Hero Cards - Additional styling for  legacy-card grid layouts */
 .hero-wrap {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(var(--container-xs), 1fr));
   gap: var(--s-4);
   padding: var(--s-4) 0 var(--s-8);
 }
@@ -17,7 +17,7 @@
 
 @media (min-width: 1200px) {
   .hero-wrap {
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(22.5rem, 1fr));
     gap: var(--s-5);
   }
 }
@@ -28,7 +28,7 @@
 }
 
 .section-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(calc(-1 * var(--bw-2)));
   box-shadow: 0 var(--s-2) var(--s-10) rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.05) inset;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(calc(-1 * var(--bw-1)));
 }
 
 .btn.primary:hover {
@@ -74,7 +74,7 @@
 /* Profile avatars */
 .avatar {
   font-size: var(--s-3-5);
-  text-shadow: 0 1px 3px rgba(0,0,0,.3);
+  text-shadow: 0 var(--bw-1) var(--bw-3) rgba(0,0,0,.3);
   flex-shrink: 0;
 }
 
@@ -95,13 +95,13 @@
 
 /* Calendar slot cards */
 .card-slot  .legacy-card {
-  min-height: 140px;
+  min-height:8.75rem;
 }
 
 .card-slot .badge {
   font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing:0.031rem;
 }
 
 /* Invite status colors */

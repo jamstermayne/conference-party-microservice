@@ -27,7 +27,7 @@
 .ph-title {
   margin: 0;
   font-size: 1rem;
-  color: var(--text-primary, var(--text-primary));
+  color: var(--text-primary);
   text-transform: lowercase;
   letter-spacing: 0.3px;
 }
@@ -60,14 +60,14 @@
 
 .pc-top { display: flex; flex-direction: column; gap: 6px; }
 .pc-title {
-  color: var(--text-primary, var(--text-primary));
+  color: var(--text-primary);
   font-weight: 700;
   text-decoration: none;
   line-height: 1.2;
 }
 .pc-title:hover { text-decoration: underline; }
 
-.pc-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--text-secondary, var(--text-secondary)); }
+.pc-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--text-secondary); }
 .pc-chip {
   padding: 2px 8px;
   border: 1px solid var(--border, var(--border-primary));

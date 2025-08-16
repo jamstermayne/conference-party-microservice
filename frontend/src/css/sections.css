@@ -15,6 +15,6 @@
   bottom: 10px;
   width: 6px;
   border-radius: 6px;
-  background: linear-gradient(180deg, #7B7DFF, #4D67FF);
+  background: linear-gradient(180deg, var(--accent-600), var(--accent-500));
   filter: drop-shadow(0 0 10px rgba(77,103,255,0.45));
 }
