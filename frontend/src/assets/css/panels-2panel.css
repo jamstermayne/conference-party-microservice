@@ -28,3 +28,10 @@
 .day-pill{ padding:8px 12px; border-radius:12px; }
 .channels-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:var(--s-3); margin-top:var(--s-4); }
 .channel-btn{ padding:16px; border-radius:16px; text-align:left; }
+
+/* @sentinel left-align v1 */
+.panel-host{ z-index: 9999; }             /* ensure our panel sits on top */
+.home-panel{ text-align:left; }           /* force left baseline */
+.day-pills{ justify-content:flex-start; }
+.channels-grid{ justify-items:start; align-items:stretch; }
+.channel-btn{ text-align:left; justify-content:flex-start; }
