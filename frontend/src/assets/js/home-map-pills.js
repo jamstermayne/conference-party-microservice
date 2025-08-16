@@ -47,6 +47,7 @@ function mountMapPillsRow(){
   if (!mapSection) {
     mapSection = document.createElement('section');
     mapSection.className = 'home-section';
+    mapSection.dataset.section = 'map';
     const h = document.createElement('h2');
     h.textContent = 'Map';
     mapSection.appendChild(h);
@@ -71,9 +72,9 @@ function renderButtons(row, days){
     btn.className = 'day-pill';
     btn.type = 'button';
     btn.setAttribute('aria-pressed', String(iso===todayISO));
-    btn.dataset.href = `#/map/${iso}`;
+    btn.dataset.date = iso;
     btn.textContent = label(d);
-    btn.addEventListener('click', () => { location.hash = btn.dataset.href; });
+    // No onclick - router handles clicks
     row.appendChild(btn);
   });
 }
