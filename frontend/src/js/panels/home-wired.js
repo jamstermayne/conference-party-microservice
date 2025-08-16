@@ -1,5 +1,5 @@
-// home-wired.js - Properly wired Home panel with v-row components
-import { createChannelRow } from '../components/channel-row.js';
+// home-wired.js - Properly wired Home panel with clean rendering
+import { renderHome, getDefaultDays, getDefaultChannels } from '../home-render.js';
 import { jsonGET } from '../utils/json-fetch.js';
 
 // pushPanel is available on window object
@@ -7,7 +7,7 @@ import { jsonGET } from '../utils/json-fetch.js';
 // Mount functions for each panel
 import { mountPartiesDay } from './mount-parties.js';
 import { mountCalendar } from './mount-calendar.js';
-import { mountMap } from './mount-map.js';
+import { mountMap as mountMapPanel } from './mount-map.js';
 import { mountInvites } from './mount-invites.js';
 import { mountContacts } from './mount-contacts.js';
 import { mountMe } from './mount-me.js';
@@ -25,7 +25,7 @@ export async function renderHome() {
     window.clearPanelStack();
   }
   
-  // Create root panel (no back button)
+  // Create root panel with clean structure
   const panel = document.createElement('section');
   panel.className = 'v-panel';
   panel.id = 'panel-home';
@@ -36,14 +36,16 @@ export async function renderHome() {
       <span></span>
     </header>
     <main class="v-panel__body">
-      <section class="v-section">
-        <h2>Parties</h2>
-        <div id="party-days" class="v-rows"></div>
-      </section>
-      <section class="v-section">
-        <h2>Channels</h2>
-        <div id="channels" class="v-rows"></div>
-      </section>
+      <div class="v-home">
+        <section class="v-section">
+          <h2 class="v-section__title">Parties</h2>
+          <div id="home-days" class="v-list v-list--days"></div>
+        </section>
+        <section class="v-section">
+          <h2 class="v-section__title">Channels</h2>
+          <div id="home-channels" class="v-list v-list--channels"></div>
+        </section>
+      </div>
     </main>
   `;
   
@@ -55,87 +57,70 @@ export async function renderHome() {
     panel.classList.add('is-active');
   });
   
-  // Load party days
+  // Load party days and render
+  let days = getDefaultDays();
+  let channels = getDefaultChannels();
+  
   try {
-    const days = await jsonGET('/api/party-days?conference=gamescom2025');
-    const partyContainer = panel.querySelector('#party-days');
-    
-    days.forEach(day => {
-      const row = createChannelRow({
-        route: `#/parties/${day.date}`,
-        label: day.label,
-        ariaLabel: `View parties for ${day.label}`,
-        icon: '🎉'
-      });
-      
-      // Override click to use pushPanel
-      row.onclick = (e) => {
-        e.preventDefault();
-        window.pushPanel(`#/parties/${day.date}`, day.label, (container) => {
-          mountPartiesDay(container, day.date);
-        }, row);
-      };
-      
-      partyContainer.appendChild(row);
-    });
+    // Try to load party days from API
+    const apiDays = await jsonGET('/api/party-days?conference=gamescom2025');
+    if (apiDays && apiDays.length > 0) {
+      days = apiDays.map(d => ({
+        iso: d.date,
+        label: d.label || new Date(d.date).toLocaleDateString('en', { weekday: 'short' })
+      }));
+    }
   } catch (err) {
     console.error('Failed to load party days:', err);
-    // Fallback to static days
-    const fallbackDays = [
-      { date: '2025-08-18', label: 'Mon, 18 Aug' },
-      { date: '2025-08-19', label: 'Tue, 19 Aug' },
-      { date: '2025-08-20', label: 'Wed, 20 Aug' },
-      { date: '2025-08-21', label: 'Thu, 21 Aug' },
-      { date: '2025-08-22', label: 'Fri, 22 Aug' },
-      { date: '2025-08-23', label: 'Sat, 23 Aug' }
-    ];
-    
-    const partyContainer = panel.querySelector('#party-days');
-    fallbackDays.forEach(day => {
-      const row = createChannelRow({
-        route: `#/parties/${day.date}`,
-        label: day.label,
-        ariaLabel: `View parties for ${day.label}`,
-        icon: '🎉'
-      });
-      
-      row.onclick = (e) => {
-        e.preventDefault();
-        window.pushPanel(`#/parties/${day.date}`, day.label, (container) => {
-          mountPartiesDay(container, day.date);
-        }, row);
-      };
-      
-      partyContainer.appendChild(row);
-    });
+    // Use default days
   }
   
-  // Add channel rows
-  const channels = [
-    { route: '#/calendar', label: 'My calendar', icon: '📅', mount: mountCalendar },
-    { route: '#/map', label: 'Map', icon: '🗺️', mount: mountMap },
-    { route: '#/invites', label: 'Invites', icon: '✉️', mount: mountInvites },
-    { route: '#/contacts', label: 'Contacts', icon: '👥', mount: mountContacts },
-    { route: '#/me', label: 'Me', icon: '👤', mount: mountMe },
-    { route: '#/settings', label: 'Settings', icon: '⚙️', mount: mountSettings }
-  ];
+  // Render using the clean home-render module
+  renderHome({ days, channels });
   
-  const channelsContainer = panel.querySelector('#channels');
-  channels.forEach(channel => {
-    const row = createChannelRow({
-      route: channel.route,
-      label: channel.label,
-      icon: channel.icon,
-      ariaLabel: `Open ${channel.label}`
-    });
-    
-    row.onclick = (e) => {
-      e.preventDefault();
-      window.pushPanel(channel.route, channel.label, channel.mount, row);
+  // Set up panel navigation for channels (override default navigation)
+  const setupPanelNavigation = () => {
+    const channelButtons = panel.querySelectorAll('#home-channels .v-cta');
+    const mountMap = {
+      '#/calendar': mountCalendar,
+      '#/map': mountMapPanel,
+      '#/invites': mountInvites,
+      '#/contacts': mountContacts,
+      '#/me': mountMe,
+      '#/settings': mountSettings
     };
     
-    channelsContainer.appendChild(row);
-  });
+    channelButtons.forEach(btn => {
+      const href = btn.dataset.href;
+      const mount = mountMap[href];
+      if (mount) {
+        btn.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const label = btn.textContent.trim();
+          window.pushPanel(href, label, mount, btn);
+        };
+      }
+    });
+    
+    // Set up panel navigation for day pills
+    const dayPills = panel.querySelectorAll('#home-days .day-pill');
+    dayPills.forEach(pill => {
+      const href = pill.dataset.href;
+      const day = pill.dataset.day;
+      pill.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const label = pill.textContent.trim();
+        window.pushPanel(href, label, (container) => {
+          mountPartiesDay(container, day);
+        }, pill);
+      };
+    });
+  };
+  
+  // Set up navigation after render
+  requestAnimationFrame(setupPanelNavigation);
   
   // Focus on title for screen readers
   panel.querySelector('.v-topbar__title')?.focus();

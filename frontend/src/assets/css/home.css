@@ -1,0 +1,176 @@
+/* Home panel - token-only production styles */
+
+/* Main container */
+.v-home {
+  max-width: var(--container-xl, 70rem);
+  margin: 0 auto;
+  padding: var(--s-8) var(--s-6);
+}
+
+/* Section layout */
+.v-section {
+  margin-top: var(--s-8);
+}
+
+.v-section:first-child {
+  margin-top: 0;
+}
+
+.v-section__title {
+  font-size: var(--text-lg, 1.125rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--s-4);
+}
+
+/* List container */
+.v-list {
+  display: grid;
+  gap: var(--s-3);
+}
+
+/* Days pills grid */
+.v-list--days {
+  grid-template-columns: repeat(auto-fill, minmax(6.25rem, 1fr));
+  gap: var(--s-2);
+}
+
+/* Channels grid - responsive */
+.v-list--channels {
+  grid-auto-rows: minmax(2.75rem, auto);
+  grid-template-columns: repeat(auto-fill, minmax(13.75rem, 1fr));
+  gap: var(--s-3);
+}
+
+/* Chip button styles - day pills and channel buttons */
+.v-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0 var(--s-4);
+  border-radius: var(--r-pill);
+  border: var(--bw-1, 1px) solid var(--border-primary);
+  background: var(--surface-2);
+  color: var(--text-primary);
+  font-size: var(--text-md, 1rem);
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 80ms ease, box-shadow 120ms ease, background 120ms ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hover state */
+.v-chip:hover {
+  transform: translateY(-0.0625rem);
+  box-shadow: var(--shadow-md);
+  background: var(--surface-3);
+}
+
+/* Active/pressed state */
+.v-chip:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Focus state for accessibility */
+.v-chip:focus-visible {
+  outline: var(--bw-2, 2px) solid var(--accent-600);
+  outline-offset: var(--bw-2, 2px);
+}
+
+/* Selected state (aria-pressed) */
+.v-chip[aria-pressed="true"] {
+  background: var(--accent-600);
+  color: var(--text-on-accent);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.v-chip[aria-pressed="true"]:hover {
+  background: var(--accent-700, var(--accent-600));
+}
+
+/* Channel CTA style - larger buttons */
+.v-cta {
+  min-height: 2.75rem;
+  border-radius: var(--r-lg);
+  padding: 0 var(--s-5);
+  background: var(--accent-600);
+  color: var(--text-on-accent);
+  font-size: var(--text-md, 1rem);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  box-shadow: var(--shadow-md);
+  border: none;
+  cursor: pointer;
+  transition: box-shadow 120ms ease, transform 80ms ease;
+}
+
+.v-cta:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-0.0625rem);
+}
+
+.v-cta:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-md);
+}
+
+.v-cta:focus-visible {
+  outline: var(--bw-2, 2px) solid var(--accent-400);
+  outline-offset: var(--bw-2, 2px);
+}
+
+/* Icon support in chips */
+.v-chip__icon {
+  margin-right: var(--s-2);
+  font-size: 1.25rem;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 45rem) {
+  .v-home {
+    padding: var(--s-6) var(--s-4);
+  }
+  
+  .v-list--channels {
+    grid-template-columns: 1fr;
+  }
+  
+  .v-list--days {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 30rem) {
+  .v-home {
+    padding: var(--s-4) var(--s-3);
+  }
+  
+  .v-section {
+    margin-top: var(--s-6);
+  }
+  
+  .v-list--days {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Loading state */
+.v-list--loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Empty state */
+.v-empty {
+  text-align: center;
+  padding: var(--s-8) var(--s-4);
+  color: var(--text-secondary);
+}
