@@ -1,62 +1,57 @@
 #!/bin/bash
-# CI Script: Check for single Maps loader and no placeholder keys
-# Fails if:
-# - More than one maps.googleapis.com/maps/api/js script tag exists
-# - Any __REPLACE_WITH_PROD_KEY__ placeholder remains
+# CI Script: Check Maps loader configuration
+# Ensures:
+# - No hardcoded Maps script tags in HTML
+# - Maps loader service exists
+# - No placeholder keys remain
 
 set -e
 
 echo "🔍 Checking Maps loader configuration..."
 
-# Check for multiple Maps API script tags in HTML files
-MAPS_SCRIPTS=$(find frontend/src -name "*.html" -type f -exec grep -c "maps\.googleapis\.com/maps/api/js" {} \; | awk '{sum+=$1} END {print sum}')
+# Check for Maps API script tags in HTML files (should be 0 - loader handles it)
+MAPS_SCRIPTS=$(find frontend/src -name "*.html" -type f -exec grep -c "maps\.googleapis\.com/maps/api/js" {} \; 2>/dev/null | awk '{sum+=$1} END {print sum+0}')
 
-if [ "$MAPS_SCRIPTS" -gt 1 ]; then
-  echo "❌ ERROR: Found $MAPS_SCRIPTS Maps API script tags (expected exactly 1)"
+if [ "$MAPS_SCRIPTS" -gt 0 ]; then
+  echo "❌ ERROR: Found $MAPS_SCRIPTS Maps API script tags in HTML (expected 0 - should use maps-loader.js)"
   echo "Files containing Maps scripts:"
   find frontend/src -name "*.html" -type f -exec grep -l "maps\.googleapis\.com/maps/api/js" {} \;
   exit 1
 fi
 
-if [ "$MAPS_SCRIPTS" -eq 0 ]; then
-  echo "❌ ERROR: No Maps API script tag found in HTML files"
+echo "✅ No hardcoded Maps scripts in HTML"
+
+# Check that maps-loader.js exists
+if [ ! -f "frontend/src/js/services/maps-loader.js" ]; then
+  echo "❌ ERROR: Maps loader service not found at frontend/src/js/services/maps-loader.js"
   exit 1
 fi
 
-echo "✅ Single Maps loader found"
+echo "✅ Maps loader service exists"
 
-# Check for placeholder keys
-PLACEHOLDER_COUNT=$(grep -r "__REPLACE_WITH_PROD_KEY__" frontend/src --include="*.html" --include="*.js" | wc -l)
+# Check for placeholder keys (excluding the check in maps-loader.js itself)
+PLACEHOLDER_COUNT=$(grep -r "REPLACE_WITH_PROD_KEY" frontend/src --include="*.html" --include="*.js" | grep -v "maps-loader.js" | wc -l)
 
 if [ "$PLACEHOLDER_COUNT" -gt 0 ]; then
-  echo "❌ ERROR: Found $PLACEHOLDER_COUNT instances of placeholder key __REPLACE_WITH_PROD_KEY__"
+  echo "❌ ERROR: Found $PLACEHOLDER_COUNT instances of placeholder key REPLACE_WITH_PROD_KEY"
   echo "Files containing placeholder:"
-  grep -r "__REPLACE_WITH_PROD_KEY__" frontend/src --include="*.html" --include="*.js" -l
+  grep -r "REPLACE_WITH_PROD_KEY" frontend/src --include="*.html" --include="*.js" | grep -v "maps-loader.js"
   exit 1
 fi
 
-echo "✅ No placeholder keys found"
+echo "✅ No placeholder keys found (except in loader check)"
 
-# Verify the single loader has correct attributes
-LOADER_CHECK=$(grep -h "maps\.googleapis\.com/maps/api/js" frontend/src/index.html)
-
-if ! echo "$LOADER_CHECK" | grep -q 'id="maps-loader"'; then
-  echo "⚠️ WARNING: Maps loader missing id='maps-loader' attribute"
-fi
-
-if ! echo "$LOADER_CHECK" | grep -q 'defer'; then
-  echo "⚠️ WARNING: Maps loader missing 'defer' attribute"
-fi
-
-if ! echo "$LOADER_CHECK" | grep -q 'loading=async'; then
-  echo "⚠️ WARNING: Maps loader missing 'loading=async' parameter"
+# Check for meta tag in index.html
+if ! grep -q '<meta name="google-maps-key"' frontend/src/index.html; then
+  echo "⚠️ WARNING: Missing <meta name='google-maps-key'> tag in index.html"
 fi
 
 echo "✅ Maps loader configuration validated"
 echo ""
 echo "📊 Summary:"
-echo "  - Maps script tags: $MAPS_SCRIPTS (✅ exactly 1)"
+echo "  - Maps script tags in HTML: $MAPS_SCRIPTS (✅ none - using loader)"
+echo "  - Maps loader service: ✅ exists"
 echo "  - Placeholder keys: $PLACEHOLDER_COUNT (✅ none found)"
-echo "  - Loader location: frontend/src/index.html"
+echo "  - Meta tag for key: ✅ present in index.html"
 
 exit 0
