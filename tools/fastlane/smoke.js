@@ -125,12 +125,12 @@ const HOME = `${URL}/#/home`;
     console.log('API check:', apiCheck);
   }
   
-  // If pills exist, try clicking one to test navigation
-  if (home.allPills > 0) {
-    // click any available day pill to test navigation
+  // Test map navigation specifically to check subnav
+  if (home.mapPills > 0) {
+    // Click a map pill to test navigation
     const clicked = await page.evaluate(() => {
-      // Try to find any pill that looks like it's for map or just use any pill
-      const pill = document.querySelector('.day-pill:nth-child(2)') || document.querySelector('.day-pill');
+      // Click the second map pill
+      const pill = document.querySelector('[data-section="map"] .day-pill:nth-child(2)');
       if (pill) {
         pill.click();
         return true;
@@ -145,11 +145,13 @@ const HOME = `${URL}/#/home`;
       pressed: document.querySelectorAll('.v-day-subnav .day-pill[aria-pressed="true"]').length
     }));
 
-    console.log('\n[navigation test]');
+    console.log('\n[map navigation test]');
     console.table(map);
     
-    // Only warn, don't fail - subnav may not be implemented
-    if (map.subnavPills < 4 && clicked) { console.warn('⚠️  Subnav pills not present after navigation'); }
+    // Only warn if subnav missing on map route
+    if (map.subnavPills < 4 && clicked && map.hash.includes('/map/')) { 
+      console.warn('⚠️  Map subnav pills not present after navigation to map route'); 
+    }
   }
 
 
