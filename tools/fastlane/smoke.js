@@ -43,7 +43,7 @@ const HOME = `${URL}/#/home`;
     return pills > 0 || channels > 0;
   }, { timeout: 10000 }).then(async () => {
     // Give a bit more time for all elements to settle
-    await new Promise(r => setTimeout(r, 3000)); // Give more time for home-contract to run multiple times
+    await new Promise(r => setTimeout(r, 4000)); // Give enough time for home-contract to run at 500ms and 1000ms
   }).catch(async () => {
     console.log('⚠️  Home content did not fully render after 10s');
     const state = await page.evaluate(() => ({
@@ -154,6 +154,29 @@ const HOME = `${URL}/#/home`;
     }
   }
 
+
+  // Test search is disabled
+  console.log('\n[search disable test]');
+  const searchTest = await page.evaluate(() => {
+    // Try to navigate to search
+    location.hash = '#/search';
+    // Wait a bit for redirect
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve({
+          hash: location.hash,
+          redirectedToHome: location.hash === '#/home',
+          searchButtonExists: !!document.querySelector('[data-channel="search"]'),
+          searchUIExists: !!document.querySelector('[data-role="search"], .search, .search-bar')
+        });
+      }, 100);
+    });
+  });
+  console.table(searchTest);
+  
+  if (!searchTest.redirectedToHome) {
+    console.warn('⚠️  Search route not redirecting to home');
+  }
 
   await browser.close();
   console.log('\n✅ Smoke PASS');
