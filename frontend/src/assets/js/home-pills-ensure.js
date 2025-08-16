@@ -34,10 +34,16 @@
     }
 
     let panel = document.querySelector('.home-panel');
+    
+    // Check if channels already exist from another script
+    const existingChannels = document.querySelectorAll('.channel-btn, a.channel-btn').length;
+    
     if (!panel) {
       panel = document.createElement('section');
       panel.className = 'home-panel';
-      panel.innerHTML = `
+      
+      // Only add channels if they don't exist yet
+      const channelsHTML = existingChannels > 0 ? '' : `
         <div class="channels-grid">
           <button type="button" class="channel-btn" data-channel="parties">
             <span class="channel-icon">🎉</span>
@@ -55,7 +61,9 @@
             <span class="channel-icon">🔍</span>
             <span class="channel-label">Search</span>
           </button>
-        </div>
+        </div>`;
+        
+      panel.innerHTML = channelsHTML + `
         <section class="home-section" data-section="parties">
           <h2>Parties</h2>
           <div class="day-pills"></div>
@@ -67,16 +75,18 @@
       `;
       app.appendChild(panel);
       
-      // Wire channel buttons
-      panel.querySelectorAll('.channel-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const channel = btn.dataset.channel;
-          if (channel === 'parties') location.hash = '#/parties';
-          else if (channel === 'map') location.hash = '#/map';
-          else if (channel === 'calendar') location.hash = '#/calendar';
-          else if (channel === 'search') location.hash = '#/search';
+      // Wire channel buttons if we created them
+      if (existingChannels === 0) {
+        panel.querySelectorAll('.channel-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const channel = btn.dataset.channel;
+            if (channel === 'parties') location.hash = '#/parties';
+            else if (channel === 'map') location.hash = '#/map';
+            else if (channel === 'calendar') location.hash = '#/calendar';
+            else if (channel === 'search') location.hash = '#/search';
+          });
         });
-      });
+      }
     }
     
     return panel;

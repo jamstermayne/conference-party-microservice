@@ -33,7 +33,8 @@ const HOME = `${URL}/#/home`;
   // Wait for dynamic content to render
   await page.waitForFunction(() => {
     const pills = document.querySelectorAll('.day-pill').length;
-    const channels = document.querySelectorAll('.channel-btn').length;
+    // Look for both button and anchor channel elements
+    const channels = document.querySelectorAll('.channel-btn, a.channel-btn').length;
     return pills > 0 || channels > 0;
   }, { timeout: 10000 }).then(async () => {
     // Give a bit more time for all elements to settle
@@ -59,7 +60,8 @@ const HOME = `${URL}/#/home`;
         pills: s.querySelectorAll('.day-pill').length
       })),
       allPillsParents: [...document.querySelectorAll('.day-pill')].map(p => p.parentElement?.className),
-      channelBtns: [...document.querySelectorAll('.channel-btn')].map(b => b.textContent.trim())
+      channelBtns: [...document.querySelectorAll('.channel-btn, a.channel-btn')].map(b => b.textContent.trim()),
+      channelAnchors: [...document.querySelectorAll('a.channel-btn')].map(a => a.href)
     });
   });
   
@@ -85,7 +87,8 @@ const HOME = `${URL}/#/home`;
                     document.querySelectorAll('[data-kind="map"] .day-pill').length ||
                     document.querySelectorAll('.home-section:nth-child(2) .day-pill').length;
                     
-    const channels = document.querySelectorAll('.channel-btn').length;
+    // Look for both button and anchor channel elements
+    const channels = document.querySelectorAll('.channel-btn, a.channel-btn').length;
 
     const mapsScripts = [...document.scripts].filter(s=>s.src.includes('maps.googleapis.com/maps/api/js')).map(s=>s.src);
     const mapsOk = mapsScripts.length === 1 && !mapsScripts[0].includes('__REPLACE_WITH_PROD_KEY__');
