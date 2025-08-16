@@ -1,22 +1,29 @@
-// router-lite.js — mounts panels for hash routes. CSP-safe, no inline, token-friendly.
+// router-lite.js — CSP-safe router that mounts panels for hash routes.
+/* globals google */
 const APP = () => document.getElementById('app') || document.body;
 
 function clearApp() { APP().innerHTML = ''; }
+
+function headerHTML(title){
+  return `
+    <header class="panel-header">
+      <button class="back-btn" type="button" data-action="back" aria-label="Back">←</button>
+      <h1>${title}</h1>
+    </header>`;
+}
 function section(title, bodyHTML='') {
   const s = document.createElement('section');
   s.className = 'panel-section';
-  s.innerHTML = `<header class="panel-header"><button class="back-btn" aria-label="Back" onclick="history.back()">←</button><h1>${title}</h1></header>${bodyHTML}`;
+  s.innerHTML = `${headerHTML(title)}${bodyHTML}`;
   return s;
 }
 
-/* HOME (uses your existing home-bootstrap + pill injectors) */
+/* HOME */
 function mountHome() {
   clearApp();
-  // If your home-bootstrap already built the skeleton, do nothing else.
   const existing = document.querySelector('.home-panel');
   if (existing) { APP().appendChild(existing); return; }
 
-  // Fallback: minimal skeleton so page is never blank
   const wrap = document.createElement('div');
   wrap.className = 'home-panel';
   wrap.innerHTML = `
@@ -43,20 +50,22 @@ function mountMap(dateStr) {
   const s = section('Map', `<div id="map-container" style="height:50vh;"></div>`);
   APP().appendChild(s);
 
-  // Guard: single loader already on page; keep it simple
   if (!(window.google?.maps?.marker?.AdvancedMarkerElement)) {
     const msg = document.createElement('p');
     msg.textContent = 'Loading Maps…';
     s.appendChild(msg);
     return;
   }
-
   const center = { lat: 50.9375, lng: 6.9603 }; // Cologne fallback
-  const map = new google.maps.Map(s.querySelector('#map-container'), { center, zoom: 12, mapId: 'DEMO_MAP_ID' });
+  const MAP_ID = window.__MAP_ID || 'DEMO_MAP_ID';
+  const map = new google.maps.Map(s.querySelector('#map-container'), { center, zoom: 12, mapId: MAP_ID });
 
   fetch('/api/parties?conference=gamescom2025')
-    .then(r => r.json()).then(raw => {
-      const list = Array.isArray(raw?.data) ? raw.data : Array.isArray(raw?.parties) ? raw.parties : Array.isArray(raw) ? raw : [];
+    .then(r => r.json())
+    .then(raw => {
+      const list = Array.isArray(raw?.data) ? raw.data
+                : Array.isArray(raw?.parties) ? raw.parties
+                : Array.isArray(raw) ? raw : [];
       const pickDate = dateStr || null;
       const norm = e => {
         const lat = Number(e.lat ?? e.latitude ?? e.location?.lat ?? e.coords?.lat);
@@ -65,7 +74,6 @@ function mountMap(dateStr) {
         return { ok: Number.isFinite(lat) && Number.isFinite(lng), lat, lng, title: e.title || e.name || 'Party', date };
       };
       const items = list.map(norm).filter(x => x.ok && (!pickDate || x.date === pickDate));
-
       const bounds = new google.maps.LatLngBounds();
       items.forEach(it => {
         const pin = document.createElement('div');
@@ -80,7 +88,8 @@ function mountMap(dateStr) {
         bounds.extend({ lat: it.lat, lng: it.lng });
       });
       if (items.length) map.fitBounds(bounds, 48);
-    }).catch(()=>{});
+    })
+    .catch(()=>{});
 }
 
 /* PARTIES */
@@ -90,8 +99,11 @@ function mountParties(dateStr) {
   APP().appendChild(s);
 
   fetch('/api/parties?conference=gamescom2025')
-    .then(r => r.json()).then(raw => {
-      const list = Array.isArray(raw?.data) ? raw.data : Array.isArray(raw?.parties) ? raw.parties : Array.isArray(raw) ? raw : [];
+    .then(r => r.json())
+    .then(raw => {
+      const list = Array.isArray(raw?.data) ? raw.data
+                : Array.isArray(raw?.parties) ? raw.parties
+                : Array.isArray(raw) ? raw : [];
       const pickDate = dateStr || null;
       const within = e => {
         const d = (e.date || e.start || e.startsAt || '').slice(0,10);
@@ -113,10 +125,11 @@ function mountParties(dateStr) {
           </div>`;
         container.appendChild(card);
       });
-    }).catch(()=>{});
+    })
+    .catch(()=>{});
 }
 
-/* Safe placeholders for remaining routes (prevents black screens) */
+/* Placeholders */
 function mountPlaceholder(name) {
   clearApp();
   APP().appendChild(section(name, `<p style="padding:var(--s-3)">Coming soon.</p>`));
@@ -128,7 +141,6 @@ function parseRoute() {
   const m = /^#\/(map|parties)(?:\/(\d{4}-\d{2}-\d{2}))?/.exec(h);
   return { hash: h, base: m?.[1] || h.replace(/^#\//,'') || 'home', date: m?.[2] || null };
 }
-
 function route() {
   const { base, date } = parseRoute();
   if (base === 'home' || base === '') return mountHome();
@@ -142,8 +154,17 @@ function route() {
   return mountHome();
 }
 
+/* Events */
 addEventListener('hashchange', route);
 addEventListener('DOMContentLoaded', () => {
   if (!location.hash) location.hash = '#/home';
   route();
 });
+// CSP-safe back handler
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-action="back"]');
+  if (btn) {
+    e.preventDefault();
+    history.back();
+  }
+}, { passive: true });
