@@ -1,4 +1,5 @@
 import { getMonSatDates, renderHomePanel, wireHomePanel } from './home-panel.js';
+import { mountPartiesPanel } from './panels/parties-panel-lite.js';
 
 function byId(id){ return document.getElementById(id) || document.querySelector('#app') || document.body; }
 async function mountHome() {
@@ -19,33 +20,7 @@ async function onRoute() {
   const mParties = /^#\/parties\/(\d{4}-\d{2}-\d{2})$/.exec(h);
   if (mParties) {
     const date = mParties[1];
-    const root = byId('app');
-    try {
-      const r = await fetch('/api/parties?conference=gamescom2025', { headers:{accept:'application/json'} });
-      const raw = await r.json();
-      const list = Array.isArray(raw?.data) ? raw.data
-                 : Array.isArray(raw?.parties) ? raw.parties
-                 : Array.isArray(raw) ? raw : [];
-      const items = list.filter(e => (e.start || e.startsAt || e.date || '').slice(0,10) === date);
-      root.innerHTML = `
-        <section class="parties-panel">
-          <h2 class="home-h2">Parties • ${date}</h2>
-          <div class="card-grid">
-            ${items.map(e => `
-              <article class="vcard">
-                <header class="vcard__head"><h3>${(e.title||e.name||'Party')}</h3></header>
-                <div class="vcard__body">
-                  <p>${(e.venue||e.location?.name||'')}</p>
-                  <p>${(e.start||e.startsAt||'').replace('T',' ')}</p>
-                </div>
-              </article>
-            `).join('')}
-          </div>
-        </section>
-      `;
-    } catch {
-      await mountHome();
-    }
+    await mountPartiesPanel(date);
     return;
   }
   // If your existing router mounts the Map panel, let it handle #/map/DATE.
