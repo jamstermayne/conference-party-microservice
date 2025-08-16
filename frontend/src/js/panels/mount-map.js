@@ -1,8 +1,9 @@
 // mount-map.js - Mount map panel with today's events
 import { jsonGET } from '../utils/json-fetch.js';
+import { ensureMapsReady } from '../services/maps-loader.js';
 import { mountMapInto } from '../components/map-integration.js';
 
-export async function mountMap(container) {
+export async function mountMap(container, opts = {}) {
   const today = new Date().toISOString().slice(0, 10);
   
   // Initial UI with loading state
@@ -24,8 +25,11 @@ export async function mountMap(container) {
   `;
   
   try {
+    // Ensure Maps API is ready first
+    await ensureMapsReady(opts);
+    
     // Use hardened map mounting
-    const map = await mountMapInto('#map-view');
+    const map = await mountMapInto('#map-view', opts);
     window.mapInstance = map;
     
     // Load and add party markers

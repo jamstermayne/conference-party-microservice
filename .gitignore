@@ -141,3 +141,4 @@ vite.config.ts.timestamp-*
 # Tool backup directories
 tools/data-backups/
 tools/token-migration-backup-*/
+frontend/dist
