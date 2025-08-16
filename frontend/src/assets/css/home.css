@@ -19,3 +19,49 @@
 .home-header{position:sticky;top:0;padding:var(--s-4,16px) var(--s-6,24px);
   border-bottom:1px solid var(--border-primary,#2a2a35);backdrop-filter:saturate(1) blur(8px);
   background:color-mix(in oklab,var(--bg-primary,#0b0d12) 85%, transparent)}
+/* HOME-SPACING-POLISH:BEGIN */
+/* Token-only spacing + header tighten for Home panel */
+
+.home-panel{
+  /* keep your existing max-width etc.; only normalize top spacing */
+  margin-inline: auto;
+  padding-inline: var(--s-4);
+  padding-block-start: var(--s-2);
+  padding-block-end: var(--s-6);
+}
+
+.home-panel .home-section{
+  margin-block: var(--s-4);
+}
+
+.home-panel .home-section:first-child{
+  margin-block-start: 0;
+}
+
+/* Tighten headings; prevent default top margins pushing content down */
+.home-panel .home-section > :is(h1,h2,h3,[role="heading"]){
+  margin-block: 0 var(--s-2);
+}
+
+/* Pills row rhythm */
+.home-panel .day-pills{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+/* Channels grid rhythm */
+.home-panel .channels-grid{
+  display: grid;
+  gap: var(--s-3);
+}
+
+/* MOBILE → DESKTOP breakpoints via your tokens if present, fall back to rems */
+@media (min-width: 45rem){
+  .home-panel{ padding-inline: var(--s-6); }
+  .home-panel .channels-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (min-width: 70rem){
+  .home-panel{ padding-inline: var(--s-7); }
+}
+/* HOME-SPACING-POLISH:END */

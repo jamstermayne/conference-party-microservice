@@ -50,7 +50,8 @@
     "validate:tokens": "bash tools/validate-tokens.sh",
     "migrate:tokens": "bash tools/migrate-to-tokens.sh preview",
     "migrate:tokens:apply": "bash tools/migrate-to-tokens.sh apply",
-    "build:update": "node tools/update-build.js"
+    "build:update": "node tools/update-build.js",
+    "guard:day-pills": "tools/guards/guard-day-pills.sh"
   },
   "dependencies": {
     "firebase-admin": "^12.7.0",
