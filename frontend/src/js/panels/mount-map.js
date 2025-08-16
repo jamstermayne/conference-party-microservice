@@ -1,13 +1,20 @@
 // mount-map.js - Mount map panel with today's events
 import { jsonGET } from '../utils/json-fetch.js';
+import { mountMapInto } from '../components/map-integration.js';
 
 export async function mountMap(container) {
   const today = new Date().toISOString().slice(0, 10);
   
+  // Initial UI with loading state
   container.innerHTML = `
     <div class="map-container" style="position: relative; height: 100%;">
-      <div id="map-view" style="width: 100%; height: 100%;"></div>
-      <div class="map-controls" style="position: absolute; top: var(--s-3); right: var(--s-3); z-index: 10;">
+      <div id="map-view" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+        <div class="map-loading" style="text-align: center;">
+          <div style="font-size: 2em; margin-bottom: 0.5em;">🗺️</div>
+          <div>Loading map...</div>
+        </div>
+      </div>
+      <div class="map-controls" style="position: absolute; top: var(--s-3); right: var(--s-3); z-index: 10; display: none;">
         <div class="segmented-control">
           <button class="segment active" data-view="markers">Markers</button>
           <button class="segment" data-view="heatmap">Heatmap</button>
@@ -16,78 +23,81 @@ export async function mountMap(container) {
     </div>
   `;
   
-  // Initialize map
-  await initializeMap(container.querySelector('#map-view'), today);
-  
-  // Wire up controls
-  container.querySelectorAll('.segment').forEach(btn => {
-    btn.onclick = () => {
-      container.querySelectorAll('.segment').forEach(s => s.classList.remove('active'));
-      btn.classList.add('active');
-      // Toggle map view mode
-      if (btn.dataset.view === 'heatmap' && window.mapInstance) {
-        // Enable heatmap view if available
-        console.log('Heatmap view selected');
-      }
-    };
-  });
+  try {
+    // Use hardened map mounting
+    const map = await mountMapInto('#map-view');
+    window.mapInstance = map;
+    
+    // Load and add party markers
+    await addPartyMarkers(map, today);
+    
+    // Show controls after successful load
+    const controls = container.querySelector('.map-controls');
+    if (controls) controls.style.display = 'block';
+    
+    // Wire up controls
+    container.querySelectorAll('.segment').forEach(btn => {
+      btn.onclick = () => {
+        container.querySelectorAll('.segment').forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        // Toggle map view mode
+        if (btn.dataset.view === 'heatmap' && window.mapInstance) {
+          console.log('Heatmap view selected');
+        }
+      };
+    });
+  } catch (error) {
+    console.error('[mount-map] Failed to initialize map:', error);
+    showMapError(container, error);
+  }
 }
 
-async function initializeMap(mapContainer, date) {
-  // Lazy load Google Maps if needed
-  if (!window.google?.maps) {
-    await loadGoogleMaps();
-  }
-  
-  const { Map } = await google.maps.importLibrary('maps');
-  const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
-  
-  // Create map centered on Cologne
-  const map = new Map(mapContainer, {
-    center: { lat: 50.938, lng: 6.96 },
-    zoom: 12,
-    mapId: 'conference-party-map'
-  });
-  
-  window.mapInstance = map;
-  
+async function addPartyMarkers(map, date) {
   // Load and display parties for today
   try {
     const params = new URLSearchParams({ conference: 'gamescom2025', day: date });
     const data = await jsonGET(`/api/parties?${params}`);
     const parties = data.data || data.parties || [];
     
+    let validMarkers = 0;
     parties.forEach(party => {
       if (party.lat && party.lon) {
-        new AdvancedMarkerElement({
-          map,
-          position: { lat: parseFloat(party.lat), lng: parseFloat(party.lon) },
-          title: party.name || party.title
-        });
+        try {
+          const pin = document.createElement('div');
+          pin.textContent = '📍';
+          pin.style.fontSize = '24px';
+          
+          new google.maps.marker.AdvancedMarkerElement({
+            map,
+            position: { lat: parseFloat(party.lat), lng: parseFloat(party.lon) },
+            content: pin,
+            title: party.name || party.title
+          });
+          validMarkers++;
+        } catch (err) {
+          console.warn('[mount-map] Failed to create marker:', err);
+        }
       }
     });
+    
+    console.log(`[mount-map] Created ${validMarkers} markers from ${parties.length} events`);
   } catch (err) {
-    console.error('Failed to load map markers:', err);
+    console.error('[mount-map] Failed to load map markers:', err);
+    // Continue without markers - map is still usable
   }
 }
 
-async function loadGoogleMaps() {
-  if (document.querySelector('script[src*="maps.googleapis.com"]')) {
-    // Wait for existing script to load
-    await new Promise(resolve => {
-      const checkMaps = setInterval(() => {
-        if (window.google?.maps) {
-          clearInterval(checkMaps);
-          resolve();
-        }
-      }, 100);
-    });
-    return;
-  }
-  
-  const script = document.createElement('script');
-  script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc&v=weekly&loading=async&libraries=marker';
-  script.async = true;
-  document.head.appendChild(script);
-  await new Promise(resolve => script.onload = resolve);
+function showMapError(container, error) {
+  container.innerHTML = `
+    <div class="map-error" style="padding: var(--s-4); text-align: center;">
+      <div style="font-size: 3em; margin-bottom: 0.5em;">⚠️</div>
+      <h3>Unable to load map</h3>
+      <p style="color: var(--color-text-secondary); margin: var(--s-2) 0;">
+        ${error.message || 'An error occurred while loading the map'}
+      </p>
+      <button onclick="location.reload()" style="margin-top: var(--s-3); padding: var(--s-2) var(--s-4); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-md); cursor: pointer;">
+        Reload Page
+      </button>
+    </div>
+  `;
 }

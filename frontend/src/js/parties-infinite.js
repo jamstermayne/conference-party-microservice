@@ -17,8 +17,11 @@ export async function renderPartiesInfinite(container, events){
   }
   drawMore();
 
-  const io = new IntersectionObserver((entries)=>{
-    if(entries.some(e=>e.isIntersecting)) drawMore();
-  }, { rootMargin:'600px 0px' });
-  io.observe(container.querySelector('#sentinel'));
+  const sentinel = container.querySelector('#sentinel');
+  if (sentinel && sentinel instanceof Element) {
+    const io = new IntersectionObserver((entries)=>{
+      if(entries.some(e=>e.isIntersecting)) drawMore();
+    }, { rootMargin:'600px 0px' });
+    io.observe(sentinel);
+  }
 }

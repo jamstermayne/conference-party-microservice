@@ -63,6 +63,11 @@ export async function openParties(dayISO, activator) {
       if (cursor !== null) load();
     }
   });
+  
+  // Guard: only observe real Elements
+  if (sentinel && sentinel instanceof Element) {
+    observer.observe(sentinel);
+  }
 
   await load();
   Stack.push(`day-${dayISO}`, { title: new Date(dayISO).toLocaleDateString(undefined,{weekday:'long', day:'2-digit', month:'short'}), content: wrap }, activator);
