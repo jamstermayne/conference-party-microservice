@@ -17,42 +17,16 @@
   <link rel="stylesheet" href="/assets/css/channel-row.css">
   <link rel="stylesheet" href="/assets/css/components.css">
   <link rel="stylesheet" href="/assets/css/calendar-buttons.css">
-  <!-- Home panel styles must load before cards-final to allow cascade -->
-  <link rel="stylesheet" href="/assets/css/home.css" defer>
-  <link rel="stylesheet" href="/assets/css/cards-final.css" defer>
-  <link rel="stylesheet" href="/assets/css/home-pills.css?v=b042">
+  <!-- 2-panel system styles -->
+  <link rel="stylesheet" href="/assets/css/home.css">
+  <link rel="stylesheet" href="/assets/css/cards-final.css">
+  <link rel="stylesheet" href="/assets/css/panels-2panel.css">
 </head>
 <body>
-  <div id="app">
-    <main id="main" class="v-stack">
-      <!-- Panels are injected here -->
-      <div class="sr-only" aria-live="polite"></div>
-    </main>
-  </div>
-  <!-- Optimized bundles with tree-shaking and code-splitting -->
-  <script type="module" src="/dist/js/init-app.js"></script>
-  <script type="module" src="/dist/js/main.js"></script>
-  <script type="module" src="/dist/js/stack.js"></script>
-  <script type="module" src="/dist/js/router-stack.js"></script>
-  <script defer src="/assets/js/route-dedupe.js?v=b041"></script>
+  <div id="app"></div>
+  <!-- Maps API preload for map functionality -->
   <script defer src="/assets/js/maps-preload.js"></script>
-  <script defer src="/js/boot/map-boot.js"></script>
-  <script type="module" src="/assets/js/home-panel.js" defer></script>
-  <script type="module" src="/assets/js/home-router-hotfix.js" defer></script>
-  <!-- Disabled: home-contract handles channels now
-  <script defer src="/assets/js/home-channels-ensure.js?v=b043"></script>
-  -->
-  <script defer src="/assets/js/parties-lite.js"></script>
-  <script defer src="/assets/js/map-subnav-lite.js"></script>
-  <!-- Disabled: home-contract handles channels now
-  <script defer src="/assets/js/home-channels-fix.js"></script>
-  -->
-  <!-- Re-enable the pill scripts -->
-  <script type="module" src="/assets/js/home-map-pills.js" defer></script>
-  <script type="module" src="/assets/js/home-parties-pills.js" defer></script>
-  <!-- Home contract runs last to enforce the final structure -->
-  <script type="module" src="/assets/js/home-contract.js?v=b045" defer></script>
-  <!-- Disable search functionality -->
-  <script defer src="/assets/js/search-disable.js"></script>
+  <!-- Single 2-panel router system -->
+  <script type="module" src="/assets/js/router-2panel-lite.js" defer></script>
 </body>
 </html>
