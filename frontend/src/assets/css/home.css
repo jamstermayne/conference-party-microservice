@@ -1,176 +1,110 @@
-/* Home panel - token-only production styles */
+/* Home panel - token-only production styles (no colors) */
 
-/* Main container */
-.v-home {
-  max-width: var(--container-xl, 70rem);
-  margin: 0 auto;
-  padding: var(--s-8) var(--s-6);
+.home-panel {
+  max-width: min(72rem, 100%);
+  margin-inline: auto;
+  padding: var(--s-6) var(--s-5);
 }
 
-/* Section layout */
-.v-section {
-  margin-top: var(--s-8);
+.home-section + .home-section { 
+  margin-top: var(--s-8); 
 }
 
-.v-section:first-child {
-  margin-top: 0;
+.home-h2 { 
+  margin: 0 0 var(--s-4); 
+  font-weight: 600; 
 }
 
-.v-section__title {
-  font-size: var(--text-lg, 1.125rem);
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--s-4);
-}
-
-/* List container */
-.v-list {
+/* Days */
+.day-pills {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: var(--s-3);
 }
 
-/* Days pills grid */
-.v-list--days {
-  grid-template-columns: repeat(auto-fill, minmax(6.25rem, 1fr));
-  gap: var(--s-2);
-}
-
-/* Channels grid - responsive */
-.v-list--channels {
-  grid-auto-rows: minmax(2.75rem, auto);
-  grid-template-columns: repeat(auto-fill, minmax(13.75rem, 1fr));
-  gap: var(--s-3);
-}
-
-/* Chip button styles - day pills and channel buttons */
-.v-chip {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.5rem;
-  padding: 0 var(--s-4);
-  border-radius: var(--r-pill);
-  border: var(--bw-1, 1px) solid var(--border-primary);
+.day-pill {
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
+  border: var(--bw-1) solid var(--border-primary);
   background: var(--surface-2);
   color: var(--text-primary);
-  font-size: var(--text-md, 1rem);
-  font-weight: 500;
   cursor: pointer;
-  box-shadow: var(--shadow-sm);
-  transition: transform 80ms ease, box-shadow 120ms ease, background 120ms ease;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  transition: transform 80ms ease, box-shadow 120ms ease;
 }
 
-/* Hover state */
-.v-chip:hover {
+.day-pill:hover {
   transform: translateY(-0.0625rem);
   box-shadow: var(--shadow-md);
-  background: var(--surface-3);
 }
 
-/* Active/pressed state */
-.v-chip:active {
-  transform: translateY(0);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Focus state for accessibility */
-.v-chip:focus-visible {
-  outline: var(--bw-2, 2px) solid var(--accent-600);
-  outline-offset: var(--bw-2, 2px);
-}
-
-/* Selected state (aria-pressed) */
-.v-chip[aria-pressed="true"] {
+.day-pill[aria-pressed="true"] { 
+  font-weight: 600;
   background: var(--accent-600);
   color: var(--text-on-accent);
   border-color: transparent;
-  font-weight: 600;
 }
 
-.v-chip[aria-pressed="true"]:hover {
-  background: var(--accent-700, var(--accent-600));
+.day-pill:focus-visible {
+  outline: var(--bw-2) solid var(--accent-600);
+  outline-offset: var(--bw-2);
 }
 
-/* Channel CTA style - larger buttons */
-.v-cta {
-  min-height: 2.75rem;
+/* Channels */
+.home-channels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--s-3);
+}
+
+.channel-btn {
+  padding: var(--s-3) var(--s-4);
   border-radius: var(--r-lg);
-  padding: 0 var(--s-5);
-  background: var(--accent-600);
-  color: var(--text-on-accent);
-  font-size: var(--text-md, 1rem);
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--s-2);
-  box-shadow: var(--shadow-md);
-  border: none;
+  border: var(--bw-1) solid var(--border-primary);
+  background: var(--surface-3);
+  color: var(--text-primary);
+  text-align: left;
   cursor: pointer;
-  transition: box-shadow 120ms ease, transform 80ms ease;
+  transition: background 120ms ease, transform 80ms ease;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
 }
 
-.v-cta:hover {
-  box-shadow: var(--shadow-lg);
+.channel-btn:hover {
+  background: var(--surface-4);
   transform: translateY(-0.0625rem);
 }
 
-.v-cta:active {
-  transform: translateY(0);
-  box-shadow: var(--shadow-md);
+.channel-btn:focus-visible {
+  outline: var(--bw-2) solid var(--accent-600);
+  outline-offset: var(--bw-2);
 }
 
-.v-cta:focus-visible {
-  outline: var(--bw-2, 2px) solid var(--accent-400);
-  outline-offset: var(--bw-2, 2px);
-}
-
-/* Icon support in chips */
-.v-chip__icon {
-  margin-right: var(--s-2);
+.channel-icon {
   font-size: 1.25rem;
 }
 
-/* Responsive breakpoints */
-@media (max-width: 45rem) {
-  .v-home {
-    padding: var(--s-6) var(--s-4);
-  }
-  
-  .v-list--channels {
-    grid-template-columns: 1fr;
-  }
-  
-  .v-list--days {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 30rem) {
-  .v-home {
+/* Mobile responsive */
+@media (max-width: 48rem) {
+  .home-panel {
     padding: var(--s-4) var(--s-3);
   }
   
-  .v-section {
-    margin-top: var(--s-6);
-  }
-  
-  .v-list--days {
-    grid-template-columns: repeat(2, 1fr);
+  .day-pills,
+  .home-channels {
+    grid-template-columns: 1fr;
   }
 }
 
-/* Loading state */
-.v-list--loading {
+/* Loading states */
+.home-loading {
   opacity: 0.6;
   pointer-events: none;
 }
 
 /* Empty state */
-.v-empty {
+.home-empty {
   text-align: center;
-  padding: var(--s-8) var(--s-4);
+  padding: var(--s-6);
   color: var(--text-secondary);
 }

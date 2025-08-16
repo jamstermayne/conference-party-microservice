@@ -22,7 +22,7 @@ export function renderHome({ days, channels }) {
   // Render day pills
   if (days && days.length > 0) {
     daysRoot.innerHTML = days.map(d => 
-      `<button class="v-chip day-pill" 
+      `<button class="day-pill" 
                data-href="#/map/${d.iso}" 
                data-day="${d.iso}"
                aria-pressed="false"
@@ -31,22 +31,22 @@ export function renderHome({ days, channels }) {
        </button>`
     ).join('');
   } else {
-    daysRoot.innerHTML = '<div class="v-empty">No party days available</div>';
+    daysRoot.innerHTML = '<div class="home-empty">No party days available</div>';
   }
   
   // Render channel buttons
   if (channels && channels.length > 0) {
     chRoot.innerHTML = channels.map(ch => 
-      `<button class="v-chip v-cta" 
+      `<button class="channel-btn" 
                data-href="${ch.href}" 
                role="link"
                aria-label="Navigate to ${ch.label}">
-         ${ch.icon ? `<span class="v-chip__icon" aria-hidden="true">${ch.icon}</span>` : ''}
-         ${ch.label}
+         ${ch.icon ? `<span class="channel-icon" aria-hidden="true">${ch.icon}</span>` : ''}
+         <span>${ch.label}</span>
        </button>`
     ).join('');
   } else {
-    chRoot.innerHTML = '<div class="v-empty">No channels available</div>';
+    chRoot.innerHTML = '<div class="home-empty">No channels available</div>';
   }
   
   // Set up event delegation for navigation
@@ -135,11 +135,11 @@ export function getDefaultChannels() {
  * Initialize Home panel with loading state
  */
 export function initHomePanel() {
-  const container = document.querySelector('.v-panel__body') || document.querySelector('.v-home');
+  const container = document.querySelector('.v-panel__body') || document.querySelector('.home-panel');
   if (!container) return;
   
   // Add loading class
-  container.classList.add('v-list--loading');
+  container.classList.add('home-loading');
   
   // Render with defaults
   renderHome({
@@ -149,6 +149,6 @@ export function initHomePanel() {
   
   // Remove loading class after render
   requestAnimationFrame(() => {
-    container.classList.remove('v-list--loading');
+    container.classList.remove('home-loading');
   });
 }

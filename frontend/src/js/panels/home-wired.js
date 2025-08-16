@@ -36,14 +36,14 @@ export async function renderHome() {
       <span></span>
     </header>
     <main class="v-panel__body">
-      <div class="v-home">
-        <section class="v-section">
-          <h2 class="v-section__title">Parties</h2>
-          <div id="home-days" class="v-list v-list--days"></div>
+      <div class="home-panel">
+        <section class="home-section">
+          <h2 class="home-h2">Parties</h2>
+          <div id="home-days" class="day-pills"></div>
         </section>
-        <section class="v-section">
-          <h2 class="v-section__title">Channels</h2>
-          <div id="home-channels" class="v-list v-list--channels"></div>
+        <section class="home-section">
+          <h2 class="home-h2">Channels</h2>
+          <div id="home-channels" class="home-channels"></div>
         </section>
       </div>
     </main>
@@ -80,7 +80,7 @@ export async function renderHome() {
   
   // Set up panel navigation for channels (override default navigation)
   const setupPanelNavigation = () => {
-    const channelButtons = panel.querySelectorAll('#home-channels .v-cta');
+    const channelButtons = panel.querySelectorAll('.channel-btn');
     const mountMap = {
       '#/calendar': mountCalendar,
       '#/map': mountMapPanel,
@@ -104,7 +104,7 @@ export async function renderHome() {
     });
     
     // Set up panel navigation for day pills
-    const dayPills = panel.querySelectorAll('#home-days .day-pill');
+    const dayPills = panel.querySelectorAll('.day-pill');
     dayPills.forEach(pill => {
       const href = pill.dataset.href;
       const day = pill.dataset.day;
