@@ -1,7 +1,7 @@
 /* Calendar polish v2 */
 .calendar-wrap { padding: var(--s-3) 16px 20px; display:grid; gap:12px; }
 .calendar-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
-.cal-title { color: var(--text-primary,var(--text-primary)); font-weight:800; }
+.cal-title { color: var(--text-primary); font-weight:800; }
 .cal-controls { display:flex; gap:8px; }
 
 .cal-week {
@@ -11,9 +11,9 @@
 }
 .cal-day {
   padding:10px 8px; text-align:center; border-radius: var(--r-lg);
-  color: var(--text-secondary,var(--text-secondary)); cursor:pointer; user-select:none;
+  color: var(--text-secondary); cursor:pointer; user-select:none;
 }
-.cal-day .d { font-size:1.05rem; font-weight:800; color: var(--text-primary,var(--text-primary)); }
+.cal-day .d { font-size:1.05rem; font-weight:800; color: var(--text-primary); }
 .cal-day.active { outline:2px solid var(--color-primary-dark); background: rgba(107,123,255,.08); color: var(--text-primary); }
 .cal-day:hover { background: rgba(255,255,255,.04); }
 
@@ -26,8 +26,8 @@
   display:flex; align-items:center; justify-content:space-between; gap:10px;
 }
 .cal-item:last-child { border-bottom:none; }
-.cal-item .meta { color: var(--text-secondary,var(--text-secondary)); display:flex; gap:10px; flex-wrap:wrap; }
-.cal-item .title { color: var(--text-primary,var(--text-primary)); font-weight:700; }
+.cal-item .meta { color: var(--text-secondary); display:flex; gap:10px; flex-wrap:wrap; }
+.cal-item .title { color: var(--text-primary); font-weight:700; }
 
 @media (max-width: 920px){
   .cal-week { grid-template-columns: repeat(7, minmax(36px,1fr)); }

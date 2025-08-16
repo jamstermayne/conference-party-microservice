@@ -36,7 +36,7 @@
   margin: 0 0 4px 0;
   font-size: 18px;
   font-weight: 600;
-  color: var(--text-primary, var(--text-primary));
+  color: var(--text-primary);
 }
 
 .integration-description {
@@ -72,7 +72,7 @@
 .status-text {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-primary, var(--text-primary));
+  color: var(--text-primary);
 }
 
 .status-error-message {
@@ -110,7 +110,7 @@
 .stat-value {
   font-size: var(--s-4);
   font-weight: 600;
-  color: var(--text-primary, var(--text-primary));
+  color: var(--text-primary);
 }
 
 /* Actions */
@@ -133,7 +133,7 @@
   margin-bottom: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-primary, var(--text-primary));
+  color: var(--text-primary);
 }
 
 .integration-connect input {
@@ -142,7 +142,7 @@
   background: var(--input-bg, var(--alias-0f1114));
   border: 1px solid var(--border-color, var(--border-secondary));
   border-radius: var(--r-md);
-  color: var(--text-primary, var(--text-primary));
+  color: var(--text-primary);
   font-size: 14px;
   font-family: 'Monaco', 'Courier New', monospace;
 }
@@ -201,7 +201,7 @@
 
 .btn-secondary {
   background: var(--bg-secondary, var(--neutral-100));
-  color: var(--text-primary, var(--text-primary));
+  color: var(--text-primary);
   border: 1px solid var(--border-color, var(--border-secondary));
 }
 

@@ -5,7 +5,7 @@
   align-items: center;
   gap: var(--s-1);
   padding: var(--s-2) var(--s-3);
-  background: var(--color-primary, #4a9eff);
+  background: var(--color-primary);
   color: white;
   border: none;
   border-radius: var(--r-md);
@@ -16,7 +16,7 @@
 }
 
 .btn-add-to-calendar:hover {
-  background: var(--color-primary-dark, #3a8eef);
+  background: var(--color-primary-dark);
 }
 
 .btn-add-to-calendar:active {
@@ -30,7 +30,7 @@
   z-index: 100;
   min-width: 140;
   background: var(--surface, white);
-  border: var(--bw-1) solid var(--border, #e2e8f0);
+  border: var(--bw-1) solid var(--border);
   border-radius: var(--r-md);
   box-shadow: 0 var(--s-1) 1var(--s-0-5) rgba(0, 0, 0, 0.15);
   padding: var(--s-1);
@@ -59,7 +59,7 @@
 }
 
 .cal-menu button:hover {
-  background: var(--surface-hover, #f8fafc);
+  background: var(--surface-hover);
 }
 
 .cal-menu .btn-cal-google {
@@ -71,5 +71,5 @@
 }
 
 .cal-menu .btn-cal-m2m {
-  color: var(--color-accent, #8b5cf6);
+  color: var(--color-accent);
 }

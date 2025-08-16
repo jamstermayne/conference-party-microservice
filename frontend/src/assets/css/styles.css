@@ -35,7 +35,7 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 Inter,system-
   border-radius:var(--r-lg,10px);background:transparent;color:var(--text-secondary,var(--alias-a1a1a1));
   border:1px solid transparent;text-align:left;transition:background var(--fast) var(--ease), border-color var(--fast) var(--ease), color var(--fast) var(--ease)
 }
-.nav-item:hover{background:rgba(255,255,255,.04);color:var(--text-primary,var(--text-primary));border-color:var(--b)}
+.nav-item:hover{background:rgba(255,255,255,.04);color:var(--text-primary);border-color:var(--b)}
 .nav-item.active{background:rgba(255,255,255,.04);color:var(--text-primary)}
 .nav-item.active::before{
   content:"";
@@ -72,8 +72,8 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 Inter,system-
 .icon-btn{background:transparent;border:none;color:var(--text);font-size:var(--text-lg)}
 
 section[data-route]{padding:var(--s-4);display:grid;gap:var(--s-3)}
-.text-heading{font-size:20px;font-weight:700;color:var(--text-primary,var(--text-primary));margin:0 0 var(--s-4) 0;letter-spacing:-0.3px}
-.main-pane{flex:1;overflow:auto;background:var(--bg-primary,var(--bg-primary))}
+.text-heading{font-size:20px;font-weight:700;color:var(--text-primary);margin:0 0 var(--s-4) 0;letter-spacing:-0.3px}
+.main-pane{flex:1;overflow:auto;background:var(--bg-primary)}
 
 /* Slack-style channel hash */
 .channel-hash{

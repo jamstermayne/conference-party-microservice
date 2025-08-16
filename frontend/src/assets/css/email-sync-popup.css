@@ -5,7 +5,7 @@
     bottom: var(--spacing-lg, var(--s-6));
     right: var(--spacing-lg, var(--s-6));
     background: var(--surface, var(--bg-surface));
-    color: var(--text-primary, var(--text-primary));
+    color: var(--text-primary);
     border-radius: var(--radius-lg, var(--s-3));
     box-shadow: 
         0 var(--s-2) var(--s-8) rgba(0, 0, 0, 0.4),
@@ -46,7 +46,7 @@
 .popup-text {
     font-size: var(--font-size-sm, var(--s-3-5));
     line-height: 1.5;
-    color: var(--text-primary, var(--text-primary));
+    color: var(--text-primary);
     margin: 0;
     padding-right: var(--s-6); /* Space for close button */
     font-weight: 500;
@@ -58,7 +58,7 @@
     right: calc(-1 * var(--s-2));
     background: none;
     border: none;
-    color: var(--text-secondary, var(--text-secondary));
+    color: var(--text-secondary);
     font-size: var(--s-5);
     cursor: pointer;
     padding: var(--s-1) var(--s-2);
@@ -76,7 +76,7 @@
 }
 
 .popup-close:hover {
-    color: var(--text-primary, var(--text-primary));
+    color: var(--text-primary);
     background-color: rgba(255, 255, 255, 0.05);
 }
 
@@ -150,7 +150,7 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .email-sync-popup {
-        border: var(--s-0-5) solid var(--text-primary, var(--text-primary));
+        border: var(--s-0-5) solid var(--text-primary);
         box-shadow: 0 var(--s-2) var(--s-8) rgba(0, 0, 0, 0.8);
     }
     
