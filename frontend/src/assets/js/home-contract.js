@@ -170,8 +170,8 @@ const HOME_CONTRACT = (() => {
     // Ensure channels exist
     ensureChannels();
 
-    // Remove ALL existing home sections to start fresh
-    qsa('.home-section').forEach(n => n.remove());
+    // Remove any home-section without data-section attribute
+    qsa('.home-section:not([data-section])').forEach(n => n.remove());
     
     // Also remove any loose pill containers
     qsa('.pill-row, .day-pills').forEach(n => {
