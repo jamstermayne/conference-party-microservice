@@ -11,9 +11,14 @@ const HOME = `${URL}/#/home`;
   page.setDefaultTimeout(15000);
   
   // Capture console logs for debugging
+  // Also capture errors
+  page.on('pageerror', error => {
+    console.log('Page error:', error.message);
+  });
+  
   page.on('console', msg => {
     const text = msg.text();
-    if (text.includes('[home-pills-ensure]') || text.includes('DOM Debug:')) {
+    if (text.includes('[home-pills-ensure]') || text.includes('[home-channels-ensure]') || text.includes('[home-contract]') || text.includes('DOM Debug:')) {
       console.log('Browser log:', text);
       // Also log the full args for objects
       if (text.includes('DOM Debug:')) {
@@ -38,7 +43,7 @@ const HOME = `${URL}/#/home`;
     return pills > 0 || channels > 0;
   }, { timeout: 10000 }).then(async () => {
     // Give a bit more time for all elements to settle
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise(r => setTimeout(r, 2000)); // Give more time for all scripts including home-contract
   }).catch(async () => {
     console.log('⚠️  Home content did not fully render after 10s');
     const state = await page.evaluate(() => ({
@@ -56,8 +61,9 @@ const HOME = `${URL}/#/home`;
       panels: [...document.querySelectorAll('.home-panel')].map(p => p.className),
       sections: [...document.querySelectorAll('.home-section')].map(s => ({
         class: s.className,
-        dataSection: s.dataset.section,
-        pills: s.querySelectorAll('.day-pill').length
+        dataSection: s.dataset.section || s.getAttribute('data-section'),
+        pills: s.querySelectorAll('.day-pill').length,
+        pillsInDayPills: s.querySelectorAll('.day-pills .day-pill').length
       })),
       allPillsParents: [...document.querySelectorAll('.day-pill')].map(p => p.parentElement?.className),
       channelBtns: [...document.querySelectorAll('.channel-btn, a.channel-btn')].map(b => b.textContent.trim()),
