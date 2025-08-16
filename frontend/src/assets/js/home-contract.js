@@ -130,7 +130,10 @@ const HOME_CONTRACT = (() => {
     // Only enforce on /#/home re-entry too
     const ensure = () => {
       const atHome = /^#\/home$|^#$|^$/.test(location.hash);
-      if (atHome) mount();
+      if (atHome) {
+        // Add a delay to ensure we run after other scripts
+        setTimeout(() => mount(), 250);
+      }
       toggleMapSubnav();
     };
     if (document.readyState === 'loading') {
