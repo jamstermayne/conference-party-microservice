@@ -74,6 +74,22 @@ jobs:
             npm run build || true
           fi
 
+      - name: Build frontend assets
+        run: |
+          if [ -f package.json ]; then
+            npm run build || echo "Build failed - continuing"
+          fi
+
+      - name: Inject Google Maps browser key
+        env:
+          MAPS_BROWSER_KEY: ${{ secrets.MAPS_BROWSER_KEY }}
+        run: |
+          if [ -f tools/ci/inject-maps-key.sh ]; then
+            tools/ci/inject-maps-key.sh
+          else
+            echo "⚠️ Maps key injection script not found"
+          fi
+
       - name: Deploy Hosting + Functions
         env:
           # enables framework deploys when present; harmless otherwise
