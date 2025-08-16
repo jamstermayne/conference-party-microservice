@@ -143,8 +143,7 @@ const HOME_CONTRACT = (() => {
       const channels = [
         { icon: '🎉', label: 'Parties', route: '#/parties' },
         { icon: '📍', label: 'Map', route: '#/map' },
-        { icon: '📅', label: 'Calendar', route: '#/calendar' },
-        { icon: '🔍', label: 'Search', route: '#/search' }
+        { icon: '📅', label: 'Calendar', route: '#/calendar' }
       ];
       
       channels.forEach(ch => {

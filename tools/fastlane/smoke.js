@@ -105,8 +105,8 @@ const HOME = `${URL}/#/home`;
 
   if (!home.orderOk) { console.error('❌ CSS order wrong (home.css must precede cards-final.css)'); process.exit(2); }
   if (!home.mapsOk) { console.error('❌ Maps loader not OK (must be single loader with real key)'); process.exit(2); }
-  // Channels check is optional - they may not be rendered immediately
-  if (home.channels < 4) { console.warn('⚠️  Channel buttons missing on home (non-critical)'); }
+  // Channels check is optional - they may not be rendered immediately (3 expected: Parties, Map, Calendar)
+  if (home.channels < 3) { console.warn('⚠️  Channel buttons missing on home (non-critical)'); }
 
   // 2) Check parties and map day navigation (if pills are rendered)
   const hasPills = home.allPills > 0;  // Use total pills since section detection varies
