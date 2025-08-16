@@ -8,11 +8,6 @@ on:
       - "tools/**"
       - "vendor/**"
   pull_request:
-    paths-ignore:
-      - "_graveyard/**"
-      - "public/**"
-      - "tools/**"
-      - "vendor/**"
 
 jobs:
   check-tokens:
