@@ -1,98 +1,94 @@
-// router-stack.js - Fixed stack management
-(function(window) {
-  const getStack = () => document.getElementById('main') || document.getElementById('panel-stack') || document.getElementById('stack');
-  const panels = []; // Track active panels
+// router-stack.js - Minimal hash router with Map support
+import { mountMapPanel } from './panels/mount-map.js';
 
-  function pushPanel(route, title, render) {
-    const stack = getStack();
-    if (!stack) {
-      console.error('Stack container not found');
-      return;
-    }
-
-    // Deactivate previous panel
-    const prevPanel = panels[panels.length - 1];
-    if (prevPanel) {
-      prevPanel.el.classList.remove('is-active');
-    }
-
-    // Create new panel
-    const el = document.createElement('section');
-    el.className = 'v-panel';
-    el.innerHTML = `
-      <header class="v-topbar">
-        <button class="v-topbar__back" aria-label="Back">‹</button>
-        <div class="v-topbar__title">${title}</div>
-        <span></span>
-      </header>
-      <main class="v-panel__body"></main>
-    `;
-    
-    // Render content
-    const body = el.querySelector('.v-panel__body');
-    render(body);
-    
-    // Add to DOM
-    stack.appendChild(el);
-    
-    // Activate after adding to DOM
-    requestAnimationFrame(() => {
-      el.classList.add('is-active');
+(function() {
+  // Hide all panels
+  function hideAllPanels() {
+    document.querySelectorAll('section[data-panel]').forEach(panel => {
+      panel.style.display = 'none';
     });
-    
-    // Wire up back button
-    el.querySelector('.v-topbar__back').onclick = () => popPanel();
-    
-    // Track panel
-    panels.push({ el, route, scrollY: 0 });
-    
-    // Focus for accessibility
-    el.querySelector('.v-topbar__title')?.focus?.();
   }
-
-  function popPanel() {
-    if (panels.length <= 1) return; // Don't pop the home panel
+  
+  // Show specific panel
+  function showPanel(panelName) {
+    hideAllPanels();
+    const panel = document.querySelector(`section[data-panel="${panelName}"]`);
+    if (panel) {
+      panel.style.display = 'block';
+    }
+  }
+  
+  // Sync day-subnav visibility
+  function syncDaySubnav(visible) {
+    const subnav = document.querySelector('.day-subnav') || document.querySelector('[data-subnav="day"]');
+    if (subnav) {
+      subnav.style.display = visible ? 'flex' : 'none';
+    }
+  }
+  
+  // Route handler
+  async function handleRoute() {
+    const hash = window.location.hash || '#/home';
+    const [route, ...params] = hash.slice(2).split('/'); // Remove #/ prefix
     
-    const cur = panels.pop();
-    if (!cur) return;
+    console.log('[router] Handling route:', route, params);
     
-    // Deactivate and remove current panel
-    cur.el.classList.remove('is-active');
-    cur.el.classList.add('v-panel-leave', 'is-exiting');
+    // Hide day-subnav by default
+    syncDaySubnav(false);
     
-    // Remove after transition
-    cur.el.addEventListener('transitionend', () => {
-      cur.el.remove();
-    }, { once: true });
-    
-    // Reactivate previous panel
-    const prev = panels[panels.length - 1];
-    if (prev) {
-      requestAnimationFrame(() => {
-        prev.el.classList.add('is-active');
-        // Restore scroll position
-        const body = prev.el.querySelector('.v-panel__body');
-        if (body && prev.scrollY) {
-          body.scrollTop = prev.scrollY;
+    switch(route) {
+      case 'home':
+      case '':
+        showPanel('home');
+        break;
+        
+      case 'map':
+        // Show day-subnav for map routes
+        syncDaySubnav(true);
+        
+        // Get date parameter if provided (e.g., #/map/2025-08-22)
+        const dateISO = params[0] || null;
+        
+        try {
+          await mountMapPanel(dateISO);
+        } catch (error) {
+          console.error('[router] Failed to mount map:', error);
         }
-      });
+        break;
+        
+      default:
+        // Try to show panel by name
+        showPanel(route);
+        break;
     }
   }
-
-  function clearStack() {
-    // Remove all panels except home
-    while (panels.length > 1) {
-      const panel = panels.pop();
-      panel.el.remove();
-    }
-    // Ensure home is active
-    if (panels[0]) {
-      panels[0].el.classList.add('is-active');
+  
+  // Initialize router
+  function initRouter() {
+    // Handle initial route
+    handleRoute();
+    
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleRoute);
+    
+    // Set default route if none
+    if (!window.location.hash) {
+      window.location.hash = '#/home';
     }
   }
-
-  // Export to window
-  window.pushPanel = pushPanel;
-  window.popPanel = popPanel;
-  window.clearPanelStack = clearStack;
-})(window);
+  
+  // Wait for DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRouter);
+  } else {
+    initRouter();
+  }
+  
+  // Export for other modules
+  window.router = {
+    navigate: (path) => {
+      window.location.hash = path.startsWith('#') ? path : `#/${path}`;
+    },
+    refresh: handleRoute
+  };
+})();

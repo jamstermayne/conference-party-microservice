@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="maps-key" content="AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc" />
   <title>velocity.ai</title>
   <!-- 1. Base reset -->
   <link rel="stylesheet" href="/assets/css/base.css">
@@ -27,18 +28,10 @@
       <div class="sr-only" aria-live="polite"></div>
     </main>
   </div>
-  <script>
-    // Provide keys via server-side templating or global config script
-    window.MAPS_BROWSER_KEY = window.MAPS_BROWSER_KEY || 'AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc';
-    window.__MAPS_BROWSER_PROD__ = 'AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc';
-  </script>
   <!-- Optimized bundles with tree-shaking and code-splitting -->
+  <script type="module" src="/dist/js/init-app.js"></script>
+  <script type="module" src="/dist/js/main.js"></script>
   <script type="module" src="/dist/js/stack.js"></script>
   <script type="module" src="/dist/js/router-stack.js"></script>
-  <script type="module" src="/dist/js/main.js"></script>
-  <script type="module" src="/dist/js/init-app.js"></script>
-  <!-- Maps loader (production) -->
-  <!-- injected once; do not duplicate -->
-  <script id="maps-loader" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc&v=weekly&libraries=marker&loading=async" defer></script>
 </body>
 </html>
