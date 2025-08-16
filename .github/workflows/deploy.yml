@@ -80,6 +80,14 @@ jobs:
             npm run build || echo "Build failed - continuing"
           fi
 
+      - name: Verify single Maps loader pattern
+        run: |
+          if [ -f tools/ci/ensure-single-maps-loader.sh ]; then
+            tools/ci/ensure-single-maps-loader.sh
+          else
+            echo "⚠️ Maps loader verification script not found"
+          fi
+
       - name: Inject Google Maps browser key
         env:
           MAPS_BROWSER_KEY: ${{ secrets.MAPS_BROWSER_KEY }}
