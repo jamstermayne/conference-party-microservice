@@ -1,37 +1,43 @@
-/* @sentinel panels-2panel.css v1 */
+/* === 2-panel shell + Home polish (tokens-only) ============================ */
 :root{
-  --panel-bg: var(--bg-app, #0b0f14);
-  --panel-z: 50;
-  --panel-anim: 260ms cubic-bezier(.2,.8,.2,1);
+  --home-max: 1120px;
 }
-.panel-host{ position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:var(--panel-z); }
-.panel{ position:absolute; inset:0; transform:translateX(100%); opacity:0;
-  transition: transform var(--panel-anim), opacity var(--panel-anim);
-  background: var(--panel-bg); pointer-events:auto; display:grid; grid-template-rows:auto 1fr;
-}
-.panel.is-active{ transform:translateX(0); opacity:1; }
-.panel.is-exit{ transform:translateX(100%); opacity:0; }
-.panel__header{ display:flex; align-items:center; gap:var(--s-2); padding:var(--s-3);
-  border-bottom:1px solid color-mix(in oklab, white 6%, transparent);
-}
-.panel__title{ font: inherit; font-weight:600; }
-.panel__back{ appearance:none; border:0; background:transparent; padding:var(--s-1) var(--s-2);
-  border-radius:var(--r-2); cursor:pointer;
-}
-.panel__body{ padding:var(--s-4); overflow:auto; }
+.home-wrap{ margin-inline:auto; max-width:var(--home-max); padding:var(--s-2) var(--s-3); }
+.home-section{ margin-block:var(--s-4); }
+.home-section:first-child{ margin-block-start:var(--s-2); }
+.home-section h2{ margin:0 0 var(--s-2) 0; font:var(--font-h2, 600 1.25rem/1.2 system-ui); }
 
-/* Home layout polish (uses existing tokens/classes) */
-.home-panel{ max-width:min(1120px, 100%); margin:0 auto; padding:var(--s-3) var(--s-4); }
-.home-panel .home-section{ margin-top:var(--s-4); }
-.home-panel .home-section:first-child{ margin-top:0; }
-.day-pills{ display:flex; flex-wrap:wrap; gap:var(--s-2); margin-top:var(--s-2); }
-.day-pill{ padding:8px 12px; border-radius:12px; }
-.channels-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:var(--s-3); margin-top:var(--s-4); }
-.channel-btn{ padding:16px; border-radius:16px; text-align:left; }
+.day-pills{ display:flex; flex-wrap:wrap; gap:var(--s-2); }
+.day-pill{ appearance:none; border:0; padding:8px 12px; border-radius:12px;
+  background:color-mix(in oklab, var(--accent, #6b7bff) 18%, transparent);
+  color:var(--text, #fff); cursor:pointer; transition:transform .08s ease, background .15s ease; }
+.day-pill[aria-pressed="true"]{ background:var(--accent, #6b7bff); }
+.day-pill:focus-visible{ outline:2px solid var(--focus, #9aa6ff); outline-offset:2px; }
+.day-pill:hover{ transform:translateY(-1px); }
 
-/* @sentinel left-align v1 */
-.panel-host{ z-index: 9999; }             /* ensure our panel sits on top */
-.home-panel{ text-align:left; }           /* force left baseline */
-.day-pills{ justify-content:flex-start; }
-.channels-grid{ justify-items:start; align-items:stretch; }
-.channel-btn{ text-align:left; justify-content:flex-start; }
+.channels-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--s-3); max-width:640px; }
+.channel-btn{ display:flex; flex-direction:column; gap:var(--s-2); align-items:flex-start; justify-content:flex-start;
+  padding:var(--s-4); border-radius:16px; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.06);
+  text-decoration:none; color:inherit; }
+.channel-btn:hover{ background:rgba(255,255,255,.06); }
+
+/* Slide-in overlay panel */
+.panel{ position:fixed; inset:0; background:var(--bg-elev, #0f1218); transform:translateX(100%); transition:transform .22s ease-out;
+  display:flex; flex-direction:column; }
+.panel--active{ transform:translateX(0); }
+.panel__header{ display:flex; align-items:center; gap:var(--s-3); padding:var(--s-2) var(--s-3); border-bottom:1px solid rgba(255,255,255,.08);}
+.panel__back{ appearance:none; border:0; background:transparent; padding:8px 10px; border-radius:12px; cursor:pointer;}
+.panel__title{ margin:0; font:600 1.1rem/1.2 system-ui; }
+.panel__body{ padding:var(--s-3); overflow:auto; }
+.panel__subnav{ position:sticky; top:0; background:inherit; padding:var(--s-2) 0 var(--s-2) 0; z-index:2; }
+
+/* Card list polish (tokens only, works with cards-final.css) */
+.card-list{ display:grid; gap:var(--s-3); }
+.card{ display:flex; flex-direction:column; gap:var(--s-2); padding:var(--s-3); border-radius:16px;
+  background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.06); }
+.card__title{ font:600 1rem/1.2 system-ui; margin:0; }
+.card__meta{ opacity:.8; }
+.card__actions{ display:flex; gap:var(--s-2); flex-wrap:wrap; }
+.btn{ appearance:none; border:0; border-radius:12px; padding:8px 12px; cursor:pointer; }
+.btn--primary{ background:var(--accent, #6b7bff); color:white; }
+.btn--ghost{ background:rgba(255,255,255,.06); }
