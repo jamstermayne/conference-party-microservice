@@ -132,8 +132,43 @@ const HOME_CONTRACT = (() => {
     sn.style.display = '';
   };
 
+  const ensureChannels = () => {
+    const app = ensureApp();
+    let grid = qs('.channels-grid');
+    
+    if (!grid) {
+      grid = document.createElement('div');
+      grid.className = 'channels-grid';
+      
+      const channels = [
+        { icon: '🎉', label: 'Parties', route: '#/parties' },
+        { icon: '📍', label: 'Map', route: '#/map' },
+        { icon: '📅', label: 'Calendar', route: '#/calendar' },
+        { icon: '🔍', label: 'Search', route: '#/search' }
+      ];
+      
+      channels.forEach(ch => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'channel-btn';
+        btn.innerHTML = `
+          <span class="channel-icon">${ch.icon}</span>
+          <span class="channel-label">${ch.label}</span>
+        `;
+        on(btn, 'click', () => { location.hash = ch.route; }, { passive: true });
+        grid.appendChild(btn);
+      });
+      
+      // Insert at top of app
+      app.insertBefore(grid, app.firstChild);
+    }
+  };
+  
   const mount = async () => {
     const app = ensureApp();
+
+    // Ensure channels exist
+    ensureChannels();
 
     // Remove ALL existing home sections to start fresh
     qsa('.home-section').forEach(n => n.remove());
@@ -152,9 +187,16 @@ const HOME_CONTRACT = (() => {
     renderPills(partiesSec, days, 'parties');
     renderPills(mapSec, days, 'map');
 
-    // Insert sections at top of #app, Parties first then Map
-    const first = app.firstElementChild;
-    if (!partiesSec.isConnected) app.insertBefore(partiesSec, first || null);
+    // Insert sections after channels grid, Parties first then Map
+    const grid = qs('.channels-grid');
+    const insertAfter = grid || app.firstElementChild;
+    if (!partiesSec.isConnected) {
+      if (insertAfter && insertAfter.nextSibling) {
+        app.insertBefore(partiesSec, insertAfter.nextSibling);
+      } else {
+        app.appendChild(partiesSec);
+      }
+    }
     if (!mapSec.isConnected) app.insertBefore(mapSec, partiesSec.nextSibling);
 
     // Ensure map subnav if needed
