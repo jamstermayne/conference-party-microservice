@@ -1,0 +1,30 @@
+name: Production Smoke (Live)
+on:
+  workflow_dispatch: {}
+  pull_request:
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: https://conference-party-app.web.app
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright
+        working-directory: .smoke
+        run: |
+          npm ci || npm i
+          npx playwright install --with-deps
+
+      - name: Run smoke against production
+        working-directory: .smoke
+        run: npm test

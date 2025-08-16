@@ -1,5 +1,14 @@
 // router-stack.js - Minimal hash router with Map support
 import { mountMapPanel } from './panels/mount-map.js';
+import { bootHome } from './init-app.js';
+import { mountPartiesDay } from './panels/parties-day.js';
+import { mountMapDay } from './panels/map-day.js';
+
+export function navigateTo(hash) {
+  if (!hash || !hash.startsWith('#/')) hash = '#/home';
+  history.pushState(null, '', hash);
+  window.dispatchEvent(new HashChangeEvent('hashchange'));
+}
 
 (function() {
   // Hide all panels
@@ -39,7 +48,7 @@ import { mountMapPanel } from './panels/mount-map.js';
     switch(route) {
       case 'home':
       case '':
-        showPanel('home');
+        await bootHome();
         break;
         
       case 'map':
@@ -86,9 +95,19 @@ import { mountMapPanel } from './panels/mount-map.js';
   
   // Export for other modules
   window.router = {
-    navigate: (path) => {
-      window.location.hash = path.startsWith('#') ? path : `#/${path}`;
-    },
+    navigate: navigateTo,
     refresh: handleRoute
   };
 })();
+
+// Add simplified hashchange listener from patch
+window.addEventListener('hashchange', async () => {
+  const h = location.hash || '#/home';
+  if (h === '#/home') return bootHome();
+  const mParties = /^#\/parties\/(\d{4}-\d{2}-\d{2})$/.exec(h);
+  if (mParties) return mountPartiesDay(mParties[1]);
+  const mMap = /^#\/map\/(\d{4}-\d{2}-\d{2})$/.exec(h);
+  if (mMap) return mountMapDay(mMap[1]);
+  // Fallback: go home if unknown
+  return bootHome();
+});
