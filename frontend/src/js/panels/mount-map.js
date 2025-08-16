@@ -72,22 +72,16 @@ async function initializeMap(mapContainer, date) {
 }
 
 async function loadGoogleMaps() {
-  if (document.querySelector('script[src*="maps.googleapis.com"]')) {
-    // Wait for existing script to load
+  // Maps is loaded by index.html via <script data-maps …>.
+  // Do not inject a second loader; just wait briefly for it if needed.
+  if (!window.google || !window.google.maps) {
+    console.warn('[maps] waiting for global loader…');
     await new Promise(resolve => {
-      const checkMaps = setInterval(() => {
-        if (window.google?.maps) {
-          clearInterval(checkMaps);
-          resolve();
-        }
-      }, 100);
+      let tries = 0;
+      const t = setInterval(() => {
+        if (window.google && window.google.maps) { clearInterval(t); resolve(); }
+        if (++tries > 100) { clearInterval(t); resolve(); } // ~5s max
+      }, 50);
     });
-    return;
   }
-  
-  const script = document.createElement('script');
-  script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc&v=weekly&loading=async&libraries=marker';
-  script.async = true;
-  document.head.appendChild(script);
-  await new Promise(resolve => script.onload = resolve);
 }
