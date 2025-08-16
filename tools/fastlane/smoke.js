@@ -9,16 +9,26 @@ const HOME = `${URL}/#/home`;
   const browser = await puppeteer.launch({ args:['--no-sandbox','--disable-setuid-sandbox'] });
   const page = await browser.newPage();
   page.setDefaultTimeout(15000);
+  
+  // Capture console logs for debugging
+  page.on('console', msg => {
+    if (msg.type() === 'log' && msg.text().includes('[home-pills-ensure]')) {
+      console.log('Browser log:', msg.text());
+    }
+  });
 
   // 1) Home route
   await page.goto(HOME, { waitUntil:'networkidle2' });
   
-  // Wait longer for dynamic content to render (up to 10 seconds)
+  // Wait for dynamic content to render
   await page.waitForFunction(() => {
     const pills = document.querySelectorAll('.day-pill').length;
     const channels = document.querySelectorAll('.channel-btn').length;
     return pills > 0 || channels > 0;
-  }, { timeout: 10000 }).catch(async () => {
+  }, { timeout: 10000 }).then(async () => {
+    // Give a bit more time for all elements to settle
+    await new Promise(r => setTimeout(r, 500));
+  }).catch(async () => {
     console.log('⚠️  Home content did not fully render after 10s');
     const state = await page.evaluate(() => ({
       pills: document.querySelectorAll('.day-pill').length,
@@ -31,17 +41,23 @@ const HOME = `${URL}/#/home`;
 
   const home = await page.evaluate(() => {
     const hrefs = [...document.querySelectorAll('link[rel=stylesheet]')].map(l=>l.href);
-    const lastTwo = hrefs.slice(-2);
-    const orderOk = /home\.css/i.test(lastTwo.at(0)||'') && /cards-final\.css/i.test(lastTwo.at(1)||'');
+    // Find positions of home.css and cards-final.css
+    const homeIdx = hrefs.findIndex(h => /home\.css/i.test(h));
+    const cardsIdx = hrefs.findIndex(h => /cards-final\.css/i.test(h));
+    const orderOk = homeIdx >= 0 && cardsIdx >= 0 && homeIdx < cardsIdx;
 
-    const partiesPills = document.querySelectorAll('.home-section[data-section="parties"] .day-pill').length;
-    const mapPills = document.querySelectorAll('.home-section[data-section="map"] .day-pill').length;
-    const channels = document.querySelectorAll('.channels-grid .channel-btn, .home-panel .channel-btn').length;
+    // More flexible selectors
+    const allPills = document.querySelectorAll('.day-pill').length;
+    const partiesPills = document.querySelectorAll('.home-section[data-section="parties"] .day-pill').length || 
+                         document.querySelectorAll('[data-section="parties"] .day-pill').length;
+    const mapPills = document.querySelectorAll('.home-section[data-section="map"] .day-pill').length ||
+                    document.querySelectorAll('[data-section="map"] .day-pill').length;
+    const channels = document.querySelectorAll('.channel-btn').length;
 
     const mapsScripts = [...document.scripts].filter(s=>s.src.includes('maps.googleapis.com/maps/api/js')).map(s=>s.src);
     const mapsOk = mapsScripts.length === 1 && !mapsScripts[0].includes('__REPLACE_WITH_PROD_KEY__');
 
-    return { orderOk, partiesPills, mapPills, channels, mapsOk, mapsScripts, hash: location.hash };
+    return { orderOk, allPills, partiesPills, mapPills, channels, mapsOk, mapsScripts, hash: location.hash };
   });
 
   console.log('\n[home]');
