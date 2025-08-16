@@ -34,9 +34,9 @@ test.describe('Production Smoke (no manual steps)', () => {
     await settle(page);
     const home = page.locator('.home-panel');
     await expect(home).toBeVisible();
-    const pillCount = await page.locator('.home-panel .day-pill').count();
+    const pillCount = await page.locator('.home-section .day-pills .day-pill').count();
     expect(pillCount).toBeGreaterThan(0);
-    const chanCount = await page.locator('.home-panel .channel-btn').count();
+    const chanCount = await page.locator('.channels-grid .channel-btn').count();
     expect(chanCount).toBeGreaterThan(0);
   });
 
