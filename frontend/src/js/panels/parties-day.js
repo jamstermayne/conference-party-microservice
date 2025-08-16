@@ -1,74 +1,90 @@
-import { jsonGET } from '../utils/json-fetch.js';
+// Panels: Parties by Day (Mon–Sat)
+// Route: #/parties/YYYY-MM-DD
 
-export async function openParties(dayISO, activator) {
-  const wrap = document.createElement('div');
-  const grid = document.createElement('div');
-  grid.className = 'card-grid';
-  wrap.appendChild(grid);
+function toISO(d) {
+  return (d || '').slice(0, 10);
+}
 
-  // Endless scroll
-  let cursor = '';
-  async function load() {
-    const params = new URLSearchParams({ conference: 'gamescom2025' });
-    if (dayISO) params.set('day', dayISO);
-    if (cursor) params.set('after', cursor);
-    const json = await jsonGET(`/api/parties?${params}`);
-    (json.data || json.parties || []).forEach(p => grid.appendChild(renderParty(p)));
-    cursor = json.page?.nextCursor || '';
-    observer.observe(sentinel);
-  }
+function labelFor(iso) {
+  const dt = new Date(iso + 'T00:00:00');
+  const wd = dt.toLocaleDateString(undefined, { weekday:'short' }); // Mon
+  const dd = dt.toLocaleDateString(undefined, { day:'2-digit' });   // 18
+  return `${wd} ${dd}`;
+}
 
-  function renderParty(p) {
-    const card = document.createElement('article');
-    card.className = 'vcard';
-    card.innerHTML = `
-      <div class="vcard__body">
-        <h2 class="vcard__title">${p.title || 'Untitled'}</h2>
-        <div class="muted">${p.venue || ''} • ${fmtTime(p)}</div>
-        <p class="vcard__desc">${p.description || ''}</p>
+async function fetchParties() {
+  const res = await fetch('/api/parties?conference=gamescom2025', {
+    headers: { 'accept': 'application/json' },
+    credentials: 'same-origin'
+  });
+  let raw = null;
+  try { raw = await res.json(); } catch {}
+  const arr = Array.isArray(raw?.data) ? raw.data
+           : Array.isArray(raw?.parties) ? raw.parties
+           : Array.isArray(raw) ? raw : [];
+  return arr;
+}
+
+function normalize(p) {
+  const title = p.title || p.name || 'Party';
+  const start = p.start || p.startsAt || p.date || '';
+  const end   = p.end   || p.endsAt   || '';
+  const date  = toISO(start || p.date || '');
+  const venue = p.venue || p.locationName || p.place || p.location?.name || '';
+  const lat   = Number(p.lat ?? p.latitude ?? p.location?.lat ?? p.coords?.lat);
+  const lng   = Number(p.lng ?? p.longitude ?? p.location?.lng ?? p.coords?.lng);
+  return { title, start, end, date, venue, lat, lng };
+}
+
+function cardHTML(evt) {
+  const t = (s) => s ? new Date(s).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '';
+  const dateLine = evt.start ? new Date(evt.start).toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' }) : evt.date;
+  return `
+    <article class="vcard party-card" data-id="${evt.id || ''}">
+      <header class="vcard-head">
+        <h3 class="vcard-title">${evt.title}</h3>
+        <div class="vcard-meta">${dateLine}${evt.venue ? ` • ${evt.venue}` : ''}</div>
+      </header>
+      <div class="vcard-body">
+        ${evt.start ? `<div class="time"><time>${t(evt.start)}${evt.end ? `–${t(evt.end)}` : ''}</time></div>` : ''}
       </div>
-      <footer class="vcard__footer">
-        <button class="primary">Add to calendar</button>
-        <button class="ghost">Details</button>
+      <footer class="vcard-actions">
+        <button class="btn-add-to-calendar"
+          data-title="${evt.title}"
+          data-start="${evt.start || ''}"
+          data-end="${evt.end || ''}"
+          data-venue="${evt.venue || ''}"
+          aria-label="Add ${evt.title} to calendar">Add to Calendar</button>
       </footer>
-    `;
-    card.querySelector('.primary').addEventListener('click', () => addToCalendar(p));
-    return card;
-  }
+    </article>
+  `;
+}
 
-  async function addToCalendar(p) {
-    const res = await fetch('/api/googleCalendar/create', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ event: p })
-    });
-    if (!res.ok) alert('Connect your calendar first.');
-  }
+export async function mountPartiesDay(iso) {
+  const host = document.getElementById('app') || document.body;
+  const wrap = document.createElement('section');
+  wrap.className = 'panel panel-parties-day';
+  wrap.innerHTML = `
+    <header class="panel-head">
+      <button class="back-btn" aria-label="Back" data-route="#/home">←</button>
+      <h2 class="panel-title">Parties — ${labelFor(iso)}</h2>
+    </header>
+    <div class="card-grid" id="parties-list" role="list"></div>
+  `;
+  host.replaceChildren(wrap);
 
-  function fmtTime(p){
-    try {
-      const start = new Date(p.start || p.startTime);
-      const end = new Date(p.end || p.endTime);
-      const fmt = (d)=> d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-      return `${fmt(start)}–${fmt(end)}`;
-    } catch { return ''; }
-  }
+  const all = (await fetchParties()).map(normalize);
+  const list = all.filter(p => p.date === iso);
+  const grid = wrap.querySelector('#parties-list');
+  grid.innerHTML = list.length ? list.map(cardHTML).join('') : `<div class="empty-state">No parties for ${labelFor(iso)}.</div>`;
 
-  const sentinel = document.createElement('div');
-  sentinel.style.blockSize = '1px';
-  wrap.appendChild(sentinel);
-
-  const observer = new IntersectionObserver(entries => {
-    if (entries.some(e=>e.isIntersecting)) {
-      observer.unobserve(sentinel);
-      if (cursor !== null) load();
+  // simple delegation: back + calendar
+  wrap.addEventListener('click', (e) => {
+    const back = e.target.closest('.back-btn');
+    if (back) {
+      e.preventDefault();
+      history.back();
+      return;
     }
   });
-  
-  // Guard: only observe real Elements
-  if (sentinel && sentinel instanceof Element) {
-    observer.observe(sentinel);
-  }
-
-  await load();
-  Stack.push(`day-${dayISO}`, { title: new Date(dayISO).toLocaleDateString(undefined,{weekday:'long', day:'2-digit', month:'short'}), content: wrap }, activator);
 }
