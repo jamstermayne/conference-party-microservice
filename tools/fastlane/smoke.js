@@ -43,7 +43,7 @@ const HOME = `${URL}/#/home`;
     return pills > 0 || channels > 0;
   }, { timeout: 10000 }).then(async () => {
     // Give a bit more time for all elements to settle
-    await new Promise(r => setTimeout(r, 4000)); // Give enough time for home-contract to run at 500ms and 1000ms
+    await new Promise(r => setTimeout(r, 2000)); // Wait for router to fetch data and render pills
   }).catch(async () => {
     console.log('⚠️  Home content did not fully render after 10s');
     const state = await page.evaluate(() => ({
