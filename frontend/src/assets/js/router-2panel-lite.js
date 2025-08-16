@@ -71,18 +71,8 @@
 
   // --- Maps ------------------------------------------------------------------
   function ensureMaps() {
-    if (window.google?.maps?.marker?.AdvancedMarkerElement) return Promise.resolve();
-    return new Promise((resolve) => {
-      const s = document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]');
-      if (s && window.google?.maps) { resolve(); return; }
-      const u = new URL('https://maps.googleapis.com/maps/api/js');
-      u.searchParams.set('key', window.__MAP_BROWSER_KEY || '');
-      u.searchParams.set('v', 'weekly');
-      u.searchParams.set('libraries', 'marker');
-      u.searchParams.set('loading', 'async');
-      const n = Object.assign(document.createElement('script'), { src: u.toString(), defer: true });
-      n.onload = resolve; document.head.appendChild(n);
-    });
+    // Use the promise from maps-loader.js
+    return window.whenMapsReady || Promise.reject(new Error('Maps loader not initialized'));
   }
   async function mountMap(sel, dateISO) {
     const host = qs(sel); if (!host) return;
