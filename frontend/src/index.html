@@ -16,9 +16,9 @@
   <link rel="stylesheet" href="/assets/css/channel-row.css">
   <link rel="stylesheet" href="/assets/css/components.css">
   <link rel="stylesheet" href="/assets/css/calendar-buttons.css">
-  <!-- Final two stylesheets for cascade priority -->
-  <link rel="stylesheet" href="/assets/css/home.css">
-  <link rel="stylesheet" href="/assets/css/cards-final.css">
+  <!-- Home panel styles must load before cards-final to allow cascade -->
+  <link rel="stylesheet" href="/assets/css/home.css?v=b033">
+  <link rel="stylesheet" href="/assets/css/cards-final.css?v=b033">
 </head>
 <body>
   <div id="app">
