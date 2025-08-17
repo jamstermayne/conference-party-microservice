@@ -3,21 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="maps-key" content="AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc" />
+  <meta name="maps-key" content="__ENV_GOOGLE_MAPS_KEY__" />
   <title>velocity.ai</title>
-  <!-- 2-panel system styles only -->
+  <!-- Production Polish CSS -->
+  <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/home.css">
-  <link rel="stylesheet" href="/assets/css/cards-final.css">
-  <link rel="stylesheet" href="/assets/css/panels-2panel.css"><!-- @sentinel panels-2panel.css v1 -->
+  <link rel="stylesheet" href="/assets/css/panels-2panel.css">
 </head>
 <body>
-  <div id="app"></div>
-  <!-- Module scripts -->
-  <script type="module" src="/assets/js/dom-lite.js" defer></script>
-  <script type="module" src="/assets/js/api-lite.js" defer></script>
-  <script type="module" src="/assets/js/calendar-lite.js" defer></script>
-  <script type="module" src="/assets/js/invites-lite.js" defer></script>
-  <script type="module" src="/assets/js/cards-lite.js" defer></script>
-  <script type="module" src="/assets/js/router-2panel-lite.js" defer></script>
+  <main id="app" class="app">
+    <div class="panel-stack">
+      <section id="home" class="panel-base">
+        <div class="home-panel" id="home-panel">
+          <!-- JS populates Parties & Map sections + Channels -->
+        </div>
+      </section>
+      <!-- Overlay panels injected dynamically -->
+    </div>
+  </main>
+  <script id="maps-loader"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc&v=weekly&libraries=marker&loading=async"
+    defer></script>
+  <script type="module" defer src="/assets/js/parties-index.js"></script>
+  <script type="module" defer src="/assets/js/home-pills-monfri.js"></script>
+  <script type="module" defer src="/assets/js/panel-parties.js"></script>
+  <script type="module" defer src="/assets/js/panel-map.js"></script>
+  <script defer src="/assets/js/channel-widths.js"></script>
+  <script type="module" defer src="/assets/js/router-lite-v2.js"></script>
 </body>
 </html>
