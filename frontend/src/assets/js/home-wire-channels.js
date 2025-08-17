@@ -8,29 +8,44 @@ const WANT = [
   { key:'account',  label:'Account',     href:'#/me',       icon:'👤' },
 ];
 
+function ensureChannelsSection() {
+  // Check if channels section exists
+  let section = document.querySelector('.home-section[data-section="channels"]');
+  if (!section) {
+    // Create it after map section
+    const mapSection = document.querySelector('.home-section[data-section="map"]');
+    if (mapSection) {
+      section = document.createElement('section');
+      section.className = 'home-section';
+      section.dataset.section = 'channels';
+      section.innerHTML = '<h2>Quick Actions</h2><div class="channels-grid"></div>';
+      mapSection.parentNode.insertBefore(section, mapSection.nextSibling);
+    }
+  }
+  return section?.querySelector('.channels-grid');
+}
+
 function normalizeChannels() {
-  const wrap = document.querySelector('.home-panel .channels-grid');
+  const wrap = ensureChannelsSection();
   if (!wrap) return;
 
-  // remove any buttons we don't want (Settings, Map)
-  [...wrap.children].forEach(n => {
-    const t = (n.textContent || '').toLowerCase();
-    if (t.includes('settings') || t.match(/\bmap\b/)) n.remove();
-  });
-
-  // build dictionary of existing (reuse if present)
-  const findByLabel = (lab) =>
-    [...wrap.children].find(n => (n.textContent||'').trim().toLowerCase().includes(lab.toLowerCase()));
-
-  // ensure final order & existence
+  // Clear and rebuild
   wrap.innerHTML = '';
   for (const item of WANT) {
-    const exist = findByLabel(item.label);
-    const a = exist || Object.assign(document.createElement('a'), { className:'channel-btn', href:item.href });
-    a.setAttribute('role','button');
+    const a = document.createElement('a');
+    a.className = 'channel-btn';
+    a.href = item.href;
+    a.setAttribute('role', 'button');
     a.innerHTML = `<span class="ico" aria-hidden="true">${item.icon}</span> ${item.label}`;
     wrap.appendChild(a);
   }
 }
 
-document.addEventListener('DOMContentLoaded', normalizeChannels);
+// Wait for DOM and pills to render
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(normalizeChannels, 100);
+  });
+} else {
+  setTimeout(normalizeChannels, 100);
+}

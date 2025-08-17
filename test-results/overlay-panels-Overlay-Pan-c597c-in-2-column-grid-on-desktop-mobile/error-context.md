@@ -2,11 +2,6 @@
 
 ```yaml
 - main:
-  - heading "Quick Actions" [level=2]
-  - button "✉️ Invites"
-  - button "📅 My calendar"
-  - button "👥 Contacts"
-  - button "👤 Account"
   - heading "Parties" [level=2]
   - group:
     - button "18 Mon" [pressed]

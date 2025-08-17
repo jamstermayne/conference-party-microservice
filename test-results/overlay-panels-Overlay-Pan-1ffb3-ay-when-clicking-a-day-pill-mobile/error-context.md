@@ -16,4 +16,11 @@
     - button "20 Wed"
     - button "21 Thu"
     - button "22 Fri"
+- button "Back": ←
+- heading "Parties · 2025-08-19" [level=1]
+- article:
+  - heading "Gamescom Opening Night Live" [level=3]
+  - text: 2025-08-19 08:00 PM · Koelnmesse
+  - paragraph: The official opening ceremony
+  - button "Add to Calendar"
 ```

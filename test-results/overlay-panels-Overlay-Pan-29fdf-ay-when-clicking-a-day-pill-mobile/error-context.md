@@ -16,4 +16,6 @@
     - button "20 Wed"
     - button "21 Thu"
     - button "22 Fri"
+- button "Back": ←
+- heading "Map · 2025-08-20" [level=1]
 ```
