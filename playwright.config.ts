@@ -1,40 +1,45 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const baseURL =
-  process.env.BASE_URL ||
-  process.env.PLAYWRIGHT_BASE_URL ||
-  'http://localhost:5000'; // firebase emulators: hosting
+// Choose base URL via env: PROD by default for now
+const BASE_URL = process.env.BASE_URL || 'https://conference-party-app.web.app';
+// Mock data by default to make tests deterministic (set E2E_MOCK=0 to hit live)
+const E2E_MOCK = process.env.E2E_MOCK !== '0';
 
 export default defineConfig({
-  testDir: '.',
-  testMatch: 'tests/**/*.spec.ts',
+  testDir: './tests/e2e',
   timeout: 30_000,
-  fullyParallel: true,
+  expect: { timeout: 5000 },
   retries: process.env.CI ? 2 : 0,
-  reporter: [['list'], ['html', { open: 'never' }]],
+  workers: process.env.CI ? 2 : 4,
+  reporter: process.env.CI 
+    ? [['line'], ['html', { open: 'never', outputFolder: 'e2e-report' }]]
+    : [['list'], ['html', { open: 'never', outputFolder: 'e2e-report' }]],
   use: {
-    baseURL,
+    baseURL: BASE_URL,
     headless: true,
-    viewport: { width: 390, height: 844 }, // mobile-first
-    ignoreHTTPSErrors: true,
-    actionTimeout: 10_000,
-    navigationTimeout: 15_000,
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
+    actionTimeout: 10000,
+    navigationTimeout: 30000,
   },
   projects: [
     {
-      name: 'chromium-mobile',
-      use: { ...devices['Pixel 5'] },
+      name: 'chromium',
+      use: { 
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 720 }
+      },
     },
     {
-      name: 'webkit-mobile',
-      use: { ...devices['iPhone 12'] },
-    },
-    {
-      name: 'chromium-desktop',
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
+      name: 'mobile',
+      use: { 
+        ...devices['iPhone 13'],
+      },
     },
   ],
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  preserveOutput: 'failures-only',
+  updateSnapshots: 'missing',
 });

@@ -5,7 +5,7 @@ export async function renderInvites(root){
   root.appendChild(wrap);
   const listEl = wrap.querySelector('#inv-list');
   const items = await fetchInvites();
-  if(\!items.length){ listEl.innerHTML = `<div class="card"><p>No invites yet.</p></div>`; return; }
+  if(!items.length){ listEl.innerHTML = `<div class="card"><p>No invites yet.</p></div>`; return; }
   for(const it of items){
     const card = document.createElement('div'); card.className='card';
     card.innerHTML = `
@@ -17,7 +17,7 @@ export async function renderInvites(root){
       </div>`;
     card.addEventListener('click', (e)=>{
       const a = e.target.closest('button[data-action]');
-      if(\!a) return;
+      if(!a) return;
       it.status = a.dataset.action === 'inv-accept' ? 'accepted' : 'declined';
       saveInvites(items);
       a.textContent = it.status === 'accepted' ? 'Accepted' : 'Declined';

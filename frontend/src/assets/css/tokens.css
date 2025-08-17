@@ -1,4 +1,25 @@
 :root{
+  /* Color palette (as used this week) */
+  --color-bg:           #12151b;                   /* app background */
+  --color-surface:      #0b0f14;                   /* panels */
+  --color-surface-2:    rgba(255,255,255,0.02);    /* subtle cards */
+  --color-text:         #e8ecf1;                   /* primary text */
+  --color-text-dim:     #9aa4b2;                   /* secondary text */
+  --color-border:       rgba(255,255,255,0.08);    /* hairlines */
+  --color-accent:       #6b7bff;                   /* brand accent */
+  --color-accent-weak:  rgba(107,123,255,0.18);    /* pills bg */
+  --color-accent-strong:#6366f1;                   /* focus/hover */
+
+  /* Motion */
+  --elev-shadow: 0 8px 24px rgba(0,0,0,.35);
+  --transition-fast: 200ms cubic-bezier(.2,.7,.2,1);
+  --transition-panel: 320ms cubic-bezier(.2,.7,.2,1);
+
+  /* Spacing & radius */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px; --s-6: 24px; --s-7: 32px; --s-8: 40px;
+  --r-1: 8px; --r-2: 12px; --r-3: 16px; --r-4: 20px;
+  
+  /* Legacy aliases for backward compatibility */
   --card-bg: var(--neutral-100);
   --card-surface: var(--neutral-100);
   --card-border: rgba(255,255,255,0.06);

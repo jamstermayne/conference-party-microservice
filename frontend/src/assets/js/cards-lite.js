@@ -9,7 +9,7 @@ export function cardFor(ev){
       <button class="btn btn--ghost" data-action="cal-google">Google</button>
     </div>`;
   div.addEventListener('click', (e)=>{
-    const a=e.target.closest('[data-action]'); if(\!a) return;
+    const a=e.target.closest('[data-action]'); if(!a) return;
     if(a.dataset.action==='cal-ics') openICS(ev);
     if(a.dataset.action==='cal-google') openGoogle(ev);
   }, { passive:true });
