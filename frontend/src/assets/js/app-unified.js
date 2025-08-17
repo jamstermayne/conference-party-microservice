@@ -123,12 +123,13 @@ class UnifiedConferenceApp {
   }
   
   showInviteWelcome(inviteCode) {
+    const isUniversalCode = inviteCode === 'GAMESCOM2025';
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.innerHTML = `
       <div class="modal-content" style="max-width: 500px; text-align: center;">
         <div class="modal-header">
-          <h3>🎉 Welcome to Gamescom 2025!</h3>
+          <h3>${isUniversalCode ? '🔥 VIP Access Code Detected!' : '🎉 Welcome to Gamescom 2025!'}</h3>
           <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
@@ -137,13 +138,18 @@ class UnifiedConferenceApp {
         </div>
         
         <div style="padding: 2rem;">
-          <div style="background: var(--color-surface); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-            <p style="color: var(--color-text-dim); margin-bottom: 0.5rem;">You've been invited with code:</p>
-            <h2 style="font-size: 1.5rem; color: var(--color-accent); letter-spacing: 0.1em; margin: 0.5rem 0;">${inviteCode}</h2>
+          <div style="background: ${isUniversalCode ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'var(--color-surface)'}; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <p style="color: ${isUniversalCode ? 'white' : 'var(--color-text-dim)'}; margin-bottom: 0.5rem; font-weight: ${isUniversalCode ? 'bold' : 'normal'};">
+              ${isUniversalCode ? 'UNIVERSAL VIP CODE:' : 'You\'ve been invited with code:'}
+            </p>
+            <h2 style="font-size: ${isUniversalCode ? '2rem' : '1.5rem'}; color: ${isUniversalCode ? 'white' : 'var(--color-accent)'}; letter-spacing: 0.1em; margin: 0.5rem 0; font-weight: ${isUniversalCode ? 'bold' : 'normal'};">${inviteCode}</h2>
+            ${isUniversalCode ? '<p style="color: rgba(255,255,255,0.9); margin-top: 0.5rem;">✨ Premium access with bonus features!</p>' : ''}
           </div>
           
           <p style="color: var(--color-text); margin-bottom: 1.5rem;">
-            You've been invited to join the exclusive Gamescom 2025 professional networking platform!
+            ${isUniversalCode ? 
+              'You have VIP access to the Gamescom 2025 professional networking platform!' :
+              'You\'ve been invited to join the exclusive Gamescom 2025 professional networking platform!'}
           </p>
           
           <div style="text-align: left; background: var(--color-surface); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
@@ -151,17 +157,18 @@ class UnifiedConferenceApp {
             <ul style="color: var(--color-text-dim); margin: 0; padding-left: 1.5rem;">
               <li>Access to 60+ exclusive events</li>
               <li>Professional networking features</li>
-              <li>10 invites to share with colleagues</li>
+              <li><strong style="color: var(--color-accent);">${isUniversalCode ? '15' : '10'} invites</strong> to share with colleagues</li>
               <li>Real-time event updates</li>
+              ${isUniversalCode ? '<li><strong style="color: var(--color-accent);">VIP status</strong> and priority features</li>' : ''}
             </ul>
           </div>
           
-          <button class="primary-btn" onclick="window.conferenceApp.redeemInvite('${inviteCode}')" style="width: 100%; padding: 1rem; background: var(--color-accent); color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 0.5rem;">
-            Claim Your Access
+          <button class="primary-btn" onclick="window.conferenceApp.startQuickSetup('${inviteCode}')" style="width: 100%; padding: 1rem; background: ${isUniversalCode ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'var(--color-accent)'}; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 0.5rem; font-weight: bold;">
+            ${isUniversalCode ? '⚡ Quick Setup (30 seconds)' : 'Claim Your Access'}
           </button>
           
-          <button class="secondary-btn" onclick="this.closest('.modal-overlay').remove()" style="width: 100%; padding: 0.75rem; background: transparent; color: var(--color-text-dim); border: 1px solid var(--color-border); border-radius: 4px; cursor: pointer;">
-            Browse Without Account
+          <button class="secondary-btn" onclick="window.conferenceApp.redeemInvite('${inviteCode}')" style="width: 100%; padding: 0.75rem; background: transparent; color: var(--color-text-dim); border: 1px solid var(--color-border); border-radius: 4px; cursor: pointer;">
+            ${isUniversalCode ? 'Skip Setup → Browse Events' : 'Browse Without Account'}
           </button>
         </div>
       </div>
@@ -176,26 +183,117 @@ class UnifiedConferenceApp {
     });
   }
   
+  startQuickSetup(inviteCode) {
+    // Close any modals
+    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    
+    // Show a quick setup form
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-content" style="max-width: 450px;">
+        <div class="modal-header">
+          <h3>⚡ Quick Setup</h3>
+          <span style="color: var(--color-text-dim); font-size: 0.9rem;">30 seconds to get started</span>
+        </div>
+        
+        <div style="padding: 1.5rem;">
+          <form id="quick-setup-form" style="display: flex; flex-direction: column; gap: 1rem;">
+            <div>
+              <label style="display: block; color: var(--color-text-dim); margin-bottom: 0.25rem; font-size: 0.9rem;">Your Name</label>
+              <input type="text" name="name" placeholder="John Doe" required style="width: 100%; padding: 0.75rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 4px; color: var(--color-text);">
+            </div>
+            
+            <div>
+              <label style="display: block; color: var(--color-text-dim); margin-bottom: 0.25rem; font-size: 0.9rem;">Email (for admin access use: jamy@nigriconsulting.com)</label>
+              <input type="email" name="email" placeholder="your@email.com" required style="width: 100%; padding: 0.75rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 4px; color: var(--color-text);">
+            </div>
+            
+            <div>
+              <label style="display: block; color: var(--color-text-dim); margin-bottom: 0.25rem; font-size: 0.9rem;">I'm a...</label>
+              <select name="role" required style="width: 100%; padding: 0.75rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 4px; color: var(--color-text);">
+                <option value="">Select your role</option>
+                <option value="Game Developer">Game Developer</option>
+                <option value="Publisher">Publisher</option>
+                <option value="Investor">Investor</option>
+                <option value="Press/Media">Press/Media</option>
+                <option value="Service Provider">Service Provider</option>
+                <option value="Student">Student</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            
+            <div>
+              <label style="display: block; color: var(--color-text-dim); margin-bottom: 0.25rem; font-size: 0.9rem;">Company (optional)</label>
+              <input type="text" name="company" placeholder="Your Company" style="width: 100%; padding: 0.75rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 4px; color: var(--color-text);">
+            </div>
+            
+            <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 0.5rem;">
+              Complete Setup → Start Networking
+            </button>
+          </form>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Handle form submission
+    document.getElementById('quick-setup-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      
+      // Update profile
+      this.currentUser.profile = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        role: formData.get('role'),
+        company: formData.get('company') || '',
+        linkedin: '',
+        phone: ''
+      };
+      
+      // Check for admin status
+      this.checkAdminStatus();
+      
+      // Redeem the invite
+      this.redeemInvite(inviteCode);
+      
+      // Close modal
+      modal.remove();
+    });
+  }
+  
   async redeemInvite(inviteCode) {
     // Close any open modals
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
     
-    // Mark as redeemed
+    // Check if it's the universal admin code
+    const isUniversalCode = inviteCode === 'GAMESCOM2025';
+    
+    // For universal code, always allow redemption
+    // For regular codes, check if already redeemed
     const redeemedInvites = JSON.parse(localStorage.getItem('redeemedInvites') || '[]');
-    if (!redeemedInvites.includes(inviteCode)) {
-      redeemedInvites.push(inviteCode);
-      localStorage.setItem('redeemedInvites', JSON.stringify(redeemedInvites));
+    
+    if (isUniversalCode || !redeemedInvites.includes(inviteCode)) {
+      if (!isUniversalCode) {
+        redeemedInvites.push(inviteCode);
+        localStorage.setItem('redeemedInvites', JSON.stringify(redeemedInvites));
+      }
       
-      // Track redemption for the inviter (would need backend to properly attribute)
-      console.log(`[Invite] Redeemed invite code: ${inviteCode}`);
+      // Track redemption
+      console.log(`[Invite] Redeemed ${isUniversalCode ? 'universal' : 'regular'} invite code: ${inviteCode}`);
       
       // Give the new user their starter invites
-      this.currentUser.invites.available = 10;
+      this.currentUser.invites.available = isUniversalCode ? 15 : 10; // Bonus invites for universal code
       this.currentUser.invites.receivedFrom = inviteCode;
+      this.currentUser.invites.fromUniversal = isUniversalCode;
       this.saveUserData();
       
       // Show success and redirect to profile setup
-      this.showToast('✨ Welcome! You now have 10 invites to share. Set up your profile to get started!');
+      const message = isUniversalCode ? 
+        '🔥 Welcome! Universal code accepted! You get 15 bonus invites!' :
+        '✨ Welcome! You now have 10 invites to share!';
+      this.showToast(message);
       
       // Navigate to account section for profile setup
       setTimeout(() => {
@@ -1259,28 +1357,38 @@ class UnifiedConferenceApp {
 
   async createInvite() {
     try {
-      // Generate a unique invite code
-      const inviteCode = this.generateInviteCode();
-      const inviteUrl = `${window.location.origin}/?invite=${inviteCode}`;
+      let inviteCode, inviteUrl;
       
-      // Store the invite locally
-      const newInvite = {
-        code: inviteCode,
-        url: inviteUrl,
-        createdAt: new Date().toISOString(),
-        redeemed: false
-      };
-      
-      // Only decrease count for non-admin users
-      if (!this.currentUser.isAdmin) {
+      // Admin users get a special permanent code
+      if (this.currentUser.isAdmin) {
+        // Use a special admin code that never expires
+        inviteCode = 'GAMESCOM2025';
+        inviteUrl = `${window.location.origin}/?invite=${inviteCode}`;
+        
+        // Show special admin modal
+        this.showAdminInviteModal(inviteCode, inviteUrl);
+        
+      } else {
+        // Regular users get unique codes
+        inviteCode = this.generateInviteCode();
+        inviteUrl = `${window.location.origin}/?invite=${inviteCode}`;
+        
+        // Store the invite locally
+        const newInvite = {
+          code: inviteCode,
+          url: inviteUrl,
+          createdAt: new Date().toISOString(),
+          redeemed: false
+        };
+        
+        // Decrease count for non-admin users
         this.currentUser.invites.available--;
+        this.currentUser.invites.sent.push(newInvite);
+        this.saveUserData();
+        
+        // Show regular modal
+        this.showInviteModal(inviteCode, inviteUrl);
       }
-      
-      this.currentUser.invites.sent.push(newInvite);
-      this.saveUserData();
-      
-      // Show modal with invite code
-      this.showInviteModal(inviteCode, inviteUrl);
       
       // Try to sync with backend (optional)
       fetch(`${this.apiBase}/invites/create`, {
@@ -1289,13 +1397,13 @@ class UnifiedConferenceApp {
           'Content-Type': 'application/json',
           'User-ID': this.currentUser.id
         },
-        body: JSON.stringify({ code: inviteCode })
+        body: JSON.stringify({ code: inviteCode, isAdmin: this.currentUser.isAdmin })
       }).catch(err => console.log('Backend sync failed:', err));
       
       this.renderMainInterface();
       
       const message = this.currentUser.isAdmin ? 
-        'Admin invite created! (Unlimited remaining)' : 
+        '🔥 Universal admin code ready! Share unlimited times!' : 
         `Invite created! ${this.currentUser.invites.available} remaining`;
       this.showToast(message);
       
@@ -1303,6 +1411,63 @@ class UnifiedConferenceApp {
       console.error('Failed to create invite:', error);
       this.showToast('Failed to create invite. Please try again.');
     }
+  }
+  
+  showAdminInviteModal(code, url) {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-content" style="max-width: 500px; text-align: center;">
+        <div class="modal-header">
+          <h3>🔥 Admin Universal Invite Code</h3>
+          <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div style="padding: 2rem;">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <p style="color: white; margin-bottom: 0.5rem; font-weight: bold;">UNIVERSAL CODE (Never Expires):</p>
+            <h2 style="font-size: 2.5rem; color: white; letter-spacing: 0.2em; margin: 0.5rem 0; font-weight: bold;">${code}</h2>
+            <p style="color: rgba(255,255,255,0.9); margin-top: 0.5rem; font-size: 0.9rem;">
+              ✨ Share this code unlimited times!
+            </p>
+          </div>
+          
+          <div style="background: var(--color-surface); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <p style="color: var(--color-accent); margin-bottom: 0.5rem; font-weight: bold;">🔗 Universal Link:</p>
+            <input type="text" value="${url}" readonly style="width: 100%; padding: 0.75rem; background: var(--color-bg); border: 2px solid var(--color-accent); border-radius: 4px; color: var(--color-text); font-size: 0.9rem; font-weight: bold;" onclick="this.select()">
+            <p style="color: var(--color-text-dim); margin-top: 0.5rem; font-size: 0.85rem;">
+              This link works forever and for everyone!
+            </p>
+          </div>
+          
+          <button class="primary-btn" onclick="navigator.clipboard.writeText('${url}').then(() => window.conferenceApp.showToast('🎉 Universal link copied!'))" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+            Copy Universal Link
+          </button>
+          
+          <div style="margin-top: 1rem; padding: 1rem; background: var(--color-surface); border-radius: 8px; text-align: left;">
+            <p style="color: var(--color-text-dim); font-size: 0.85rem; margin: 0;">
+              <strong style="color: var(--color-accent);">Admin Benefits:</strong><br>
+              • This code never expires<br>
+              • Unlimited redemptions<br>
+              • Same code for everyone<br>
+              • Perfect for mass sharing
+            </p>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.remove();
+      }
+    });
   }
   
   generateInviteCode() {
