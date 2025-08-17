@@ -293,23 +293,26 @@ class UnifiedConferenceApp {
       
     } catch (error) {
       console.error('Failed to load parties:', error);
-      // Fallback to previous implementation
-      const { default: PremiumPartyList } = await import('./party-list-premium.js');
       
-      // Initialize premium party list
-      this.premiumPartyList = new PremiumPartyList(container, {
-        itemHeight: 200,
-        buffer: 3,
-        pageSize: 20,
-        maxCacheSize: 1000,
-        cacheTTL: 300000
-      });
-      
-      console.log('[App] Premium party list initialized');
-      
-    } catch (error) {
-      console.warn('[App] Premium party list import failed, using fallback:', error);
-      // Fallback is already rendered above
+      try {
+        // Fallback to previous implementation
+        const { default: PremiumPartyList } = await import('./party-list-premium.js');
+        
+        // Initialize premium party list
+        this.premiumPartyList = new PremiumPartyList(container, {
+          itemHeight: 200,
+          buffer: 3,
+          pageSize: 20,
+          maxCacheSize: 1000,
+          cacheTTL: 300000
+        });
+        
+        console.log('[App] Premium party list initialized');
+      } catch (fallbackError) {
+        console.warn('[App] Premium party list import failed, using fallback:', fallbackError);
+        // Show error state
+        this.renderErrorState(container);
+      }
     }
   }
 

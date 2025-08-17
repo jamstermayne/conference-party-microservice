@@ -11,9 +11,7 @@
   <link rel="preconnect" href="https://apis.google.com" crossorigin>
   <link rel="dns-prefetch" href="//conference-party-app.web.app">
   
-  <!-- Preload Critical Party List Resources -->
-  <link rel="preload" href="/assets/js/party-list-premium.js" as="script" crossorigin>
-  <link rel="preload" href="/assets/css/party-list-premium.css" as="style">
+  <!-- Stylesheets will be loaded dynamically as needed -->
   
   <!-- PWA Manifest -->
   <link rel="manifest" href="/manifest.json">
@@ -37,8 +35,6 @@
   </main>
   <!-- Core API Module -->
   <script type="module" defer src="/assets/js/api-lite.js"></script>
-  <!-- Google Calendar API (optional) -->
-  <script async defer src="https://apis.google.com/js/api.js"></script>
   <!-- Router for preflight -->
   <script type="module" src="/assets/js/router-2panel-lite.js?v=2025"></script>
   <!-- Unified Conference App - Production Ready -->
