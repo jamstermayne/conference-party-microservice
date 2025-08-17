@@ -1,5 +1,6 @@
 /* globals google */
 import { getPartiesByDate } from './parties-data.js';
+import { cleanupManager } from './cleanup-manager.js';
 
 const SEL_PARTIES_PILL = '.home-section[data-section="parties"] .day-pill';
 const SEL_MAP_PILL     = '.home-section[data-section="map"] .day-pill';

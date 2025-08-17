@@ -4,15 +4,41 @@
 
   function card(evt){
     const d = document.createElement('article');
-    d.className = 'vcard';
+    d.className = 'card-modern card-modern--event';
+    
+    const dateObj = evt.date ? new Date(evt.date) : null;
+    const dateStr = dateObj ? dateObj.toLocaleDateString('en-US', { 
+      weekday: 'short', 
+      month: 'short', 
+      day: 'numeric' 
+    }) : '';
+    const timeStr = evt.time || '';
+    const venue = evt.venue || '';
+    
     d.innerHTML = `
-      <header class="vcard-h">
-        <h3 class="title">${(evt.title||evt.name||'Party')}</h3>
-        <div class="meta">${(evt.venue||'')}</div>
+      <header class="card-modern__header">
+        <div class="card-modern__eyebrow">
+          <span>${dateStr}</span>
+          ${timeStr ? `<span>•</span><span>${timeStr}</span>` : ''}
+        </div>
+        <h3 class="card-modern__title">${(evt.title||evt.name||'Party')}</h3>
+        ${venue ? `<p class="card-modern__subtitle">${venue}</p>` : ''}
       </header>
-      <div class="vcard-b">
-        <div class="time">${(evt.start||evt.date||'').toString().slice(0,16)}</div>
-      </div>
+      
+      ${evt.description ? `
+        <div class="card-modern__body">
+          <p class="card-modern__description">${evt.description}</p>
+        </div>
+      ` : ''}
+      
+      <footer class="card-modern__footer">
+        <button class="card-modern__action card-modern__action--primary" data-action="view-details">
+          View Details
+        </button>
+        <button class="card-modern__action card-modern__action--secondary" data-action="save">
+          Save
+        </button>
+      </footer>
     `;
     return d;
   }
@@ -38,7 +64,7 @@
       return;
     }
     const grid = document.createElement('section');
-    grid.className = 'card-grid';
+    grid.className = 'card-modern-grid';
     list.forEach(e => grid.appendChild(card(e)));
     panel.appendChild(grid);
   }

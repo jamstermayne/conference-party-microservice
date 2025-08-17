@@ -4,7 +4,7 @@ import { eventCard, wireCardActions } from '/js/party-cards.js?v=b023';
 const PAGE = 10;
 
 export async function renderPartiesInfinite(container, events){
-  container.innerHTML = `<div class="event-grid" id="event-grid"></div><div id="sentinel" style="height:1px"></div>`;
+  container.innerHTML = `<div class="card-modern-grid" id="event-grid"></div><div id="sentinel" style="height:1px"></div>`;
   const grid = container.querySelector('#event-grid');
   wireCardActions(container);
 
