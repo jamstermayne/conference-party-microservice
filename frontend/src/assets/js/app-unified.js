@@ -9,7 +9,7 @@ import { fetchParties } from './api-lite.js';
 class UnifiedConferenceApp {
   constructor() {
     this.currentUser = null;
-    this.apiBase = 'https://us-central1-conference-party-app.cloudfunctions.net/api';
+    this.apiBase = 'https://us-central1-conference-party-app.cloudfunctions.net';
     this.cache = new Map();
     this.isOnline = navigator.onLine;
     this.init();
