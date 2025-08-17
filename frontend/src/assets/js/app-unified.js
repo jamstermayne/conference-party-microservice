@@ -254,63 +254,46 @@ class UnifiedConferenceApp {
   }
 
   async renderPartiesSection(container) {
-    // Show immediate loading state with premium design
+    // Show loading state
     container.innerHTML = `
-      <div class="party-list-premium">
-        <div class="party-list-header">
-          <div class="header-glass"></div>
-          <div class="header-content">
-            <h2 class="section-title">
-              <span class="title-gradient">Tonight's Hottest Parties</span>
-              <div class="live-indicator">
-                <span class="pulse-dot"></span>
-                <span>Live</span>
-              </div>
-            </h2>
-            
-            <div class="party-controls">
-              <div class="search-container">
-                <input type="text" class="search-input" placeholder="Search parties, venues, categories..." data-action="search">
-                <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M9 9a3 3 0 11-6 0 3 3 0 016 0z"/>
-                  <path d="M9 15a6 6 0 100-12 6 6 0 000 12zm6-6a6 6 0 11-12 0 6 6 0 0112 0z"/>
-                  <path d="m15.5 14.5l4 4"/>
-                </svg>
-              </div>
-              
-              <div class="filter-pills">
-                <button class="filter-pill filter-pill--active" data-filter="all">
-                  <span>All</span>
-                  <span class="count" id="count-all">5</span>
-                </button>
-                <button class="filter-pill" data-filter="tonight">
-                  <span>Tonight</span>
-                  <span class="count" id="count-tonight">3</span>
-                </button>
-                <button class="filter-pill" data-filter="saved">
-                  <span>Saved</span>
-                  <span class="count" id="count-saved">0</span>
-                </button>
-                <button class="filter-pill" data-filter="vip">
-                  <span>VIP</span>
-                  <span class="count" id="count-vip">1</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="virtual-scroll-container" data-scroll-container>
-          <div class="visible-items" data-visible-items>
-            ${await this.renderPremiumPartyCards()}
-          </div>
+      <div class="party-list-container">
+        <div class="events-loading">
+          <div class="loading-spinner"></div>
+          <p>Loading all 64 events...</p>
         </div>
       </div>
     `;
     
-    // Try to load premium party list functionality
+    // Load organized party list
     try {
-      // Import premium party list
+      // Add CSS if not already loaded
+      if (!document.querySelector('link[href*="party-list-organized.css"]')) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '/assets/css/party-list-organized.css';
+        document.head.appendChild(link);
+      }
+      
+      // Load the organized party list module
+      if (!window.OrganizedPartyList) {
+        const script = document.createElement('script');
+        script.src = '/assets/js/party-list-organized.js';
+        document.body.appendChild(script);
+        
+        // Wait for script to load
+        await new Promise(resolve => {
+          script.onload = resolve;
+          setTimeout(resolve, 1000); // Fallback timeout
+        });
+      }
+      
+      // Initialize the organized list
+      const organizedList = new window.OrganizedPartyList();
+      await organizedList.init();
+      
+    } catch (error) {
+      console.error('Failed to load parties:', error);
+      // Fallback to previous implementation
       const { default: PremiumPartyList } = await import('./party-list-premium.js');
       
       // Initialize premium party list
