@@ -37,25 +37,56 @@ function hideOverlay() {
   document.getElementById(OVERLAY_ID)?.classList.remove('panel--active');
 }
 
-/* RENDER: Parties list */
+/* RENDER: Parties list with modern cards */
 function cardHTML(e) {
-  const when = e.start ? new Date(e.start).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }) : '';
-  const where = e.venue ? ` · ${e.venue}` : '';
+  const dateObj = e.date ? new Date(e.date) : null;
+  const dateStr = dateObj ? dateObj.toLocaleDateString('en-US', { 
+    weekday: 'short', 
+    month: 'short', 
+    day: 'numeric' 
+  }) : '';
+  const timeStr = e.start ? new Date(e.start).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }) : '';
+  const venue = e.venue || '';
+  const price = e.price || '';
+  
   return `
-    <article class="vcard party-card" data-id="${e.id}">
-      <header><h3>${e.title}</h3></header>
-      <div class="meta">${e.date}${when?` ${when}`:''}${where}</div>
-      ${e.description ? `<p>${e.description}</p>` : ''}
-      <footer>
-        <button class="btn btn-primary btn-cta" data-action="ics" data-id="${e.id}">Add to Calendar</button>
+    <article class="card-modern card-modern--event party-card" data-id="${e.id}">
+      ${price ? `
+        <span class="card-modern__badge ${price.toLowerCase() === 'free' ? 'card-modern__badge--free' : ''}">
+          ${price}
+        </span>
+      ` : ''}
+      
+      <header class="card-modern__header">
+        <div class="card-modern__eyebrow">
+          <span>${dateStr}</span>
+          ${timeStr ? `<span>•</span><span>${timeStr}</span>` : ''}
+        </div>
+        <h3 class="card-modern__title">${e.title || 'Party'}</h3>
+        ${venue ? `<p class="card-modern__subtitle">${venue}</p>` : ''}
+      </header>
+      
+      ${e.description ? `
+        <div class="card-modern__body">
+          <p class="card-modern__description">${e.description}</p>
+        </div>
+      ` : ''}
+      
+      <footer class="card-modern__footer">
+        <button class="card-modern__action card-modern__action--primary btn-cta" data-action="ics" data-id="${e.id}">
+          Add to Calendar
+        </button>
+        <button class="card-modern__action card-modern__action--secondary" data-action="google" data-id="${e.id}">
+          Google
+        </button>
       </footer>
     </article>
   `;
 }
 async function mountParties(dateStr) {
   const body = showOverlay(`Parties · ${dateStr}`);
-  body.innerHTML = '<div class="_list"></div>';
-  const listEl = body.querySelector('._list');
+  body.innerHTML = '<div class="card-modern-grid" style="grid-template-columns: repeat(2, 1fr);"></div>';
+  const listEl = body.querySelector('.card-modern-grid');
 
   // Endless list (very simple: append in chunks of 20)
   const all = await getPartiesByDate(dateStr);
@@ -79,25 +110,36 @@ async function mountParties(dateStr) {
     }
   }, { passive:true });
 
-  // Calendar button wiring (placeholder client-side ICS)
+  // Calendar button wiring
   body.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-action="ics"], [data-action="add-to-calendar"]');
+    const btn = e.target.closest('[data-action]');
     if (!btn) return;
-    const card = btn.closest('.vcard');
-    const title = card.querySelector('h3')?.textContent || 'Party';
-    // Fire minimal ICS download
-    const ics = [
-      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:party-app',
-      'BEGIN:VEVENT',
-      `SUMMARY:${title}`,
-      `DTSTART:${dateStr.replace(/-/g,'')}T180000Z`,
-      `DTEND:${dateStr.replace(/-/g,'')}T210000Z`,
-      'END:VEVENT','END:VCALENDAR'
-    ].join('\r\n');
-    const blob = new Blob([ics], {type:'text/calendar'});
-    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `${title}.ics` });
-    a.click();
-    URL.revokeObjectURL(a.href);
+    
+    const card = btn.closest('.card-modern');
+    const title = card.querySelector('.card-modern__title')?.textContent || 'Party';
+    
+    if (btn.dataset.action === 'ics') {
+      // Fire minimal ICS download
+      const ics = [
+        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:party-app',
+        'BEGIN:VEVENT',
+        `SUMMARY:${title}`,
+        `DTSTART:${dateStr.replace(/-/g,'')}T180000Z`,
+        `DTEND:${dateStr.replace(/-/g,'')}T210000Z`,
+        'END:VEVENT','END:VCALENDAR'
+      ].join('\r\n');
+      const blob = new Blob([ics], {type:'text/calendar'});
+      const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `${title}.ics` });
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } else if (btn.dataset.action === 'google') {
+      // Open Google Calendar
+      const url = new URL('https://calendar.google.com/calendar/render');
+      url.searchParams.set('action', 'TEMPLATE');
+      url.searchParams.set('text', title);
+      url.searchParams.set('dates', `${dateStr.replace(/-/g,'')}T180000Z/${dateStr.replace(/-/g,'')}T210000Z`);
+      window.open(url.toString(), '_blank');
+    }
   });
 }
 

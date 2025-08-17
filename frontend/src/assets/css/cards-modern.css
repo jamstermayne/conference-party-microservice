@@ -1,0 +1,358 @@
+/* Modern Card System - Conference Party App
+   ========================================= 
+   Token-based, accessible, responsive card design */
+
+/* Base Card Component */
+.card-modern {
+  --card-padding: var(--s-5);
+  --card-gap: var(--s-4);
+  --card-radius: var(--r-3);
+  --card-shadow-rest: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.25);
+  --card-shadow-active: 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --card-transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
+  padding: var(--card-padding);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow-rest);
+  transition: var(--card-transition);
+  
+  /* Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hover & Focus States */
+.card-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.card-modern:focus-within {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.card-modern:active {
+  transform: translateY(0);
+  box-shadow: var(--card-shadow-active);
+}
+
+/* Card Header with Visual Hierarchy */
+.card-modern__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.card-modern__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card-modern__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text);
+  margin: 0;
+  
+  /* Truncate long titles elegantly */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-modern__subtitle {
+  font-size: 0.9375rem;
+  color: var(--color-text-dim);
+  line-height: 1.5;
+}
+
+/* Card Body with Better Content Flow */
+.card-modern__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.card-modern__description {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-dim);
+  
+  /* Limit description height for consistency */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Metadata Pills */
+.card-modern__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: auto;
+}
+
+.card-modern__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: var(--s-1) var(--s-3);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--r-4);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-dim);
+  transition: var(--transition-fast);
+}
+
+.card-modern__pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.card-modern__pill--accent {
+  background: var(--color-accent-weak);
+  border-color: var(--color-accent);
+  color: var(--color-accent-strong);
+}
+
+/* Card Actions with Clear CTAs */
+.card-modern__footer {
+  display: flex;
+  gap: var(--s-3);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.card-modern__action {
+  flex: 1;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-2);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  
+  /* Reset button styles */
+  appearance: none;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+.card-modern__action--primary {
+  background: var(--color-accent);
+  color: white;
+}
+
+.card-modern__action--primary:hover {
+  background: var(--color-accent-strong);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(107, 123, 255, 0.3);
+}
+
+.card-modern__action--secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.card-modern__action--secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Event-Specific Card Variant */
+.card-modern--event {
+  --card-padding: var(--s-4);
+  overflow: hidden;
+}
+
+.card-modern--event::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-strong));
+}
+
+.card-modern--event .card-modern__header {
+  padding-bottom: var(--s-3);
+}
+
+/* Time & Location Grid */
+.card-modern__details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-2) var(--s-3);
+  font-size: 0.9375rem;
+}
+
+.card-modern__icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.6;
+}
+
+.card-modern__detail {
+  color: var(--color-text-dim);
+}
+
+/* Price Badge */
+.card-modern__badge {
+  position: absolute;
+  top: var(--s-4);
+  right: var(--s-4);
+  padding: var(--s-1) var(--s-3);
+  background: var(--color-accent-weak);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--r-4);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-accent-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card-modern__badge--free {
+  background: rgba(52, 211, 153, 0.15);
+  border-color: rgba(52, 211, 153, 0.5);
+  color: #34d399;
+}
+
+/* Responsive Grid Layouts */
+.card-modern-grid {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-4);
+  /* Default 2-column layout */
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Inside overlay panels - always 2 columns */
+.panel__body .card-modern-grid {
+  padding: 0;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Mobile: Single Column */
+@media (max-width: 640px) {
+  .card-modern-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Even in overlay on mobile, use single column */
+  .panel__body .card-modern-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small screens in overlay */
+@media (max-width: 900px) {
+  #_overlay_panel .card-modern-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile Optimizations */
+@media (max-width: 639px) {
+  .card-modern {
+    --card-padding: var(--s-4);
+    --card-gap: var(--s-3);
+  }
+  
+  .card-modern__title {
+    font-size: 1.125rem;
+  }
+  
+  .card-modern__footer {
+    flex-direction: column;
+  }
+  
+  .card-modern__action {
+    width: 100%;
+  }
+}
+
+/* Loading State */
+.card-modern--loading {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.card-modern--loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Accessibility: High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .card-modern {
+    border-width: 2px;
+  }
+  
+  .card-modern__action--primary {
+    outline: 2px solid transparent;
+  }
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .card-modern,
+  .card-modern__pill,
+  .card-modern__action {
+    transition: none;
+  }
+  
+  .card-modern:hover {
+    transform: none;
+  }
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+  .card-modern {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+  
+  .card-modern:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+}
