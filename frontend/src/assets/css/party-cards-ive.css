@@ -1,0 +1,395 @@
+/**
+ * Party Cards - Jony Ive Design Language
+ * Minimalist beauty with obsessive attention to detail
+ * "Simplicity is the ultimate sophistication" - Jobs
+ */
+
+/* ============================================
+   The Party Card - A Digital Invitation
+   ============================================ */
+.party-card {
+  position: relative;
+  height: 420px;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  transform: translateZ(0);
+  will-change: transform;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.party-card:active {
+  cursor: grabbing;
+  transform: scale(0.98) translateZ(0);
+}
+
+/* Glass Layer - The Substrate */
+.party-card__glass {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.37),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Hero Image - The Atmosphere */
+.party-card__hero {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  z-index: 0;
+}
+
+.party-card__hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(20%) contrast(1.1);
+}
+
+.party-card__hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+}
+
+/* Content - The Information Architecture */
+.party-card__content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Time Badge - The Precision */
+.party-card__time {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Title - The Identity */
+.party-card__title {
+  margin-top: auto;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Venue - The Location */
+.party-card__venue {
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.party-card__venue::before {
+  content: '📍';
+  font-size: 14px;
+  filter: grayscale(100%) brightness(2);
+}
+
+/* Action Bar - The Interaction */
+.party-card__actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.party-card__btn {
+  flex: 1;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.party-card__btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.party-card__btn:active {
+  transform: translateY(0);
+  transition-duration: 0.05s;
+}
+
+.party-card__btn--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+
+.party-card__btn--primary:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+}
+
+/* Saved State - The Memory */
+.party-card__saved {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.party-card__saved:hover {
+  transform: scale(1.1) rotate(15deg);
+}
+
+.party-card__saved.is-saved {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.party-card__saved svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.party-card__saved.is-saved svg {
+  fill: white;
+  transform: scale(1.2);
+}
+
+/* ============================================
+   The Carousel - A Fluid Experience
+   ============================================ */
+.party-carousel {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.party-carousel__track {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.party-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.party-carousel__item {
+  flex: 0 0 320px;
+  scroll-snap-align: center;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.party-carousel__item:hover {
+  transform: scale(1.02) translateZ(0);
+}
+
+/* Pagination Dots - The Navigation */
+.party-carousel__dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  border-radius: 100px;
+}
+
+.party-carousel__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.party-carousel__dot.is-active {
+  width: 24px;
+  border-radius: 4px;
+  background: white;
+}
+
+/* ============================================
+   The Grid - Organized Chaos
+   ============================================ */
+.party-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+  .party-grid {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+  
+  .party-carousel__item {
+    flex: 0 0 calc(100vw - 32px);
+  }
+}
+
+/* ============================================
+   The Detail View - Full Immersion
+   ============================================ */
+.party-detail {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.party-detail.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.party-detail__card {
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  backdrop-filter: blur(40px);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  transform: scale(0.9) translateZ(0);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.party-detail.is-active .party-detail__card {
+  transform: scale(1) translateZ(0);
+}
+
+/* ============================================
+   Micro-interactions - The Delight
+   ============================================ */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.party-card {
+  animation: slide-up 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.party-card:nth-child(1) { animation-delay: 0s; }
+.party-card:nth-child(2) { animation-delay: 0.05s; }
+.party-card:nth-child(3) { animation-delay: 0.1s; }
+.party-card:nth-child(4) { animation-delay: 0.15s; }
+.party-card:nth-child(5) { animation-delay: 0.2s; }
+
+/* Haptic Feedback Simulation */
+.party-card__btn:active {
+  animation: pulse 0.2s ease;
+}
+
+/* Loading State - The Anticipation */
+.party-card--skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
