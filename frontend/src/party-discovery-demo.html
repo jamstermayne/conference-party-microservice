@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Party Discovery System - Conference App</title>
+  
+  <!-- Core styles -->
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/cards-modern.css">
+  <link rel="stylesheet" href="/assets/css/cards-mtm-calendar.css">
+  <link rel="stylesheet" href="/assets/css/party-search.css">
+  <link rel="stylesheet" href="/assets/css/calendar-enhanced.css">
+  <link rel="stylesheet" href="/assets/css/map-discovery.css">
+  <link rel="stylesheet" href="/assets/css/party-discovery.css">
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0a0f1c 0%, #12151b 100%);
+      color: var(--color-text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+    }
+    
+    .demo-header {
+      padding: var(--s-4) var(--s-5);
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .demo-header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #6b7bff, #4aa3ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .demo-stats {
+      display: flex;
+      gap: var(--s-4);
+      margin-top: var(--s-3);
+      font-size: 0.875rem;
+    }
+    
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: var(--s-2);
+      padding: var(--s-2) var(--s-3);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--r-2);
+      border: 1px solid var(--color-border);
+    }
+    
+    .stat-value {
+      font-weight: 600;
+      color: var(--color-accent);
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--s-4);
+      padding: var(--s-5);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .feature-card {
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--color-border);
+      border-radius: var(--r-3);
+      padding: var(--s-4);
+      transition: all 200ms ease;
+      cursor: pointer;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--color-accent);
+      box-shadow: 0 8px 24px rgba(107, 123, 255, 0.1);
+    }
+    
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(107, 123, 255, 0.2), rgba(74, 163, 255, 0.1));
+      border-radius: var(--r-2);
+      margin-bottom: var(--s-3);
+      font-size: 1.5rem;
+    }
+    
+    .feature-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: var(--s-2);
+    }
+    
+    .feature-description {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+      line-height: 1.5;
+    }
+    
+    .try-button {
+      margin-top: var(--s-3);
+      padding: var(--s-2) var(--s-3);
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: var(--r-2);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+    
+    .try-button:hover {
+      background: var(--color-accent-strong);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(107, 123, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>🎉 Party Discovery System</h1>
+    <div class="demo-stats">
+      <div class="stat">
+        <span>Events:</span>
+        <span class="stat-value" id="event-count">58</span>
+      </div>
+      <div class="stat">
+        <span>Venues:</span>
+        <span class="stat-value" id="venue-count">12</span>
+      </div>
+      <div class="stat">
+        <span>Days:</span>
+        <span class="stat-value" id="days-count">5</span>
+      </div>
+      <div class="stat">
+        <span>Free Events:</span>
+        <span class="stat-value" id="free-count">23</span>
+      </div>
+    </div>
+  </header>
+  
+  <div class="feature-grid">
+    <!-- Search Feature -->
+    <div class="feature-card" onclick="openSearch()">
+      <div class="feature-icon">🔍</div>
+      <div class="feature-title">Smart Search & Filters</div>
+      <div class="feature-description">
+        Instant search with smart suggestions, filter chips for date/venue/price, 
+        and recent search history. Uses debouncing for optimal performance.
+      </div>
+      <button class="try-button">Try Search</button>
+    </div>
+    
+    <!-- Calendar Feature -->
+    <div class="feature-card" onclick="openCalendar()">
+      <div class="feature-icon">📅</div>
+      <div class="feature-title">Calendar Integration</div>
+      <div class="feature-description">
+        Seamless calendar export with conflict detection, multi-platform support 
+        (Google, Apple, Outlook), and customizable reminders.
+      </div>
+      <button class="try-button">Try Calendar</button>
+    </div>
+    
+    <!-- Map Feature -->
+    <div class="feature-card" onclick="openMap()">
+      <div class="feature-icon">🗺️</div>
+      <div class="feature-title">Interactive Map</div>
+      <div class="feature-description">
+        Explore venues on an interactive map with custom markers, clustering, 
+        distance indicators, and quick venue information.
+      </div>
+      <button class="try-button">Try Map</button>
+    </div>
+    
+    <!-- Schedule Feature -->
+    <div class="feature-card" onclick="openSchedule()">
+      <div class="feature-icon">📋</div>
+      <div class="feature-title">Personal Schedule</div>
+      <div class="feature-description">
+        Build your personal event timeline, manage saved parties, 
+        export to calendar, and share with friends.
+      </div>
+      <button class="try-button">Try Schedule</button>
+    </div>
+    
+    <!-- Discovery Feature -->
+    <div class="feature-card" onclick="openDiscovery()">
+      <div class="feature-icon">✨</div>
+      <div class="feature-title">Full Discovery System</div>
+      <div class="feature-description">
+        Complete integrated experience combining search, filters, map view, 
+        and calendar - all with smooth animations and micro-interactions.
+      </div>
+      <button class="try-button" style="background: linear-gradient(135deg, #6b7bff, #4aa3ff);">
+        Launch Full System
+      </button>
+    </div>
+    
+    <!-- Performance Feature -->
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Performance Optimized</div>
+      <div class="feature-description">
+        60fps animations, lazy loading, debounced search, 
+        efficient clustering, and memory-safe event handling.
+      </div>
+      <div style="margin-top: var(--s-3); display: flex; gap: var(--s-3); font-size: 0.75rem;">
+        <span>✓ GPU Accelerated</span>
+        <span>✓ A11y Compliant</span>
+        <span>✓ Mobile Ready</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Discovery System Container -->
+  <div id="discovery-container"></div>
+  
+  <script type="module">
+    import { PartyDiscoverySystem } from '/assets/js/party-discovery.js';
+    import { PartySearch } from '/assets/js/party-search.js';
+    import { CalendarIntegration } from '/assets/js/calendar-enhanced.js';
+    import { MapDiscovery } from '/assets/js/map-discovery.js';
+    
+    // Sample data for demo
+    const sampleEvents = [
+      {
+        id: '1',
+        title: 'Gamescom Opening Party',
+        date: '2025-08-20',
+        time: '7:00 PM',
+        venue: 'Koelnmesse Hall 11',
+        lat: 50.9473,
+        lng: 6.9831,
+        description: 'Official opening celebration with industry leaders',
+        price: 'Free',
+        type: 'networking',
+        attendees: 500
+      },
+      {
+        id: '2',
+        title: 'Xbox Showcase Event',
+        date: '2025-08-20',
+        time: '8:00 PM',
+        venue: 'Lanxess Arena',
+        lat: 50.9385,
+        lng: 6.9826,
+        description: 'Exclusive game previews and announcements',
+        price: '€25',
+        type: 'showcase',
+        attendees: 1000
+      },
+      {
+        id: '3',
+        title: 'Indie Dev Meetup',
+        date: '2025-08-21',
+        time: '6:00 PM',
+        venue: 'Cologne Game Lab',
+        lat: 50.9245,
+        lng: 6.9163,
+        description: 'Network with indie developers',
+        price: 'Free',
+        type: 'networking',
+        attendees: 200
+      },
+      {
+        id: '4',
+        title: 'PlayStation VR Party',
+        date: '2025-08-21',
+        time: '9:00 PM',
+        venue: 'Club Bahnhof Ehrenfeld',
+        lat: 50.9507,
+        lng: 6.9180,
+        description: 'VR experiences and music',
+        price: '€30',
+        type: 'party',
+        attendees: 400
+      },
+      {
+        id: '5',
+        title: 'Nintendo Direct Live',
+        date: '2025-08-22',
+        time: '3:00 PM',
+        venue: 'Musical Dome',
+        lat: 50.9519,
+        lng: 6.8614,
+        description: 'Live announcements and demos',
+        price: 'Free',
+        type: 'showcase',
+        attendees: 800
+      }
+    ];
+    
+    // Initialize systems
+    let discoverySystem;
+    let searchSystem;
+    let calendarSystem;
+    let mapSystem;
+    
+    // Feature launchers
+    window.openSearch = () => {
+      if (!searchSystem) {
+        searchSystem = new PartySearch();
+        searchSystem.initialize(sampleEvents);
+      }
+      searchSystem.open();
+    };
+    
+    window.openCalendar = () => {
+      if (!calendarSystem) {
+        calendarSystem = new CalendarIntegration();
+      }
+      // Show calendar with first event
+      calendarSystem.showEventDetails(sampleEvents[0]);
+    };
+    
+    window.openMap = () => {
+      if (!mapSystem) {
+        mapSystem = new MapDiscovery();
+        mapSystem.initialize(sampleEvents);
+      }
+      mapSystem.show();
+    };
+    
+    window.openSchedule = () => {
+      if (!discoverySystem) {
+        discoverySystem = new PartyDiscoverySystem();
+        discoverySystem.initialize(sampleEvents);
+      }
+      discoverySystem.showSchedule();
+    };
+    
+    window.openDiscovery = () => {
+      if (!discoverySystem) {
+        discoverySystem = new PartyDiscoverySystem();
+        discoverySystem.initialize(sampleEvents);
+      }
+      const container = document.getElementById('discovery-container');
+      container.innerHTML = '';
+      container.appendChild(discoverySystem.render());
+      
+      // Smooth scroll to the system
+      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    
+    // Update stats
+    document.addEventListener('DOMContentLoaded', () => {
+      // Calculate stats from sample data
+      const venues = new Set(sampleEvents.map(e => e.venue));
+      const dates = new Set(sampleEvents.map(e => e.date));
+      const freeEvents = sampleEvents.filter(e => e.price === 'Free');
+      
+      document.getElementById('event-count').textContent = sampleEvents.length;
+      document.getElementById('venue-count').textContent = venues.size;
+      document.getElementById('days-count').textContent = dates.size;
+      document.getElementById('free-count').textContent = freeEvents.length;
+    });
+    
+    // Add floating action button
+    const fab = document.createElement('button');
+    fab.className = 'discovery-fab';
+    fab.innerHTML = '✨';
+    fab.title = 'Open Party Discovery';
+    fab.onclick = openDiscovery;
+    fab.style.cssText = `
+      position: fixed;
+      bottom: var(--s-5);
+      right: var(--s-5);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6b7bff, #4aa3ff);
+      color: white;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(107, 123, 255, 0.3);
+      transition: all 200ms ease;
+      z-index: 1000;
+    `;
+    fab.onmouseover = () => {
+      fab.style.transform = 'scale(1.1) rotate(10deg)';
+    };
+    fab.onmouseout = () => {
+      fab.style.transform = 'scale(1) rotate(0deg)';
+    };
+    document.body.appendChild(fab);
+  </script>
+</body>
+</html>
