@@ -1,6 +1,7 @@
 /* globals google */
 import { getPartiesByDate } from './parties-data.js';
 import { cleanupManager } from './cleanup-manager.js';
+import { createMTMCard } from './cards-mtm-calendar.js';
 
 const SEL_PARTIES_PILL = '.home-section[data-section="parties"] .day-pill';
 const SEL_MAP_PILL     = '.home-section[data-section="map"] .day-pill';
@@ -38,51 +39,10 @@ function hideOverlay() {
   document.getElementById(OVERLAY_ID)?.classList.remove('panel--active');
 }
 
-/* RENDER: Parties list with modern cards */
-function cardHTML(e) {
-  const dateObj = e.date ? new Date(e.date) : null;
-  const dateStr = dateObj ? dateObj.toLocaleDateString('en-US', { 
-    weekday: 'short', 
-    month: 'short', 
-    day: 'numeric' 
-  }) : '';
-  const timeStr = e.start ? new Date(e.start).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }) : '';
-  const venue = e.venue || '';
-  const price = e.price || '';
-  
-  return `
-    <article class="card-modern card-modern--event party-card" data-id="${e.id}">
-      ${price ? `
-        <span class="card-modern__badge ${price.toLowerCase() === 'free' ? 'card-modern__badge--free' : ''}">
-          ${price}
-        </span>
-      ` : ''}
-      
-      <header class="card-modern__header">
-        <div class="card-modern__eyebrow">
-          <span>${dateStr}</span>
-          ${timeStr ? `<span>•</span><span>${timeStr}</span>` : ''}
-        </div>
-        <h3 class="card-modern__title">${e.title || 'Party'}</h3>
-        ${venue ? `<p class="card-modern__subtitle">${venue}</p>` : ''}
-      </header>
-      
-      ${e.description ? `
-        <div class="card-modern__body">
-          <p class="card-modern__description">${e.description}</p>
-        </div>
-      ` : ''}
-      
-      <footer class="card-modern__footer">
-        <button class="card-modern__action card-modern__action--primary btn-cta" data-action="ics" data-id="${e.id}">
-          Add to Calendar
-        </button>
-        <button class="card-modern__action card-modern__action--secondary" data-action="google" data-id="${e.id}">
-          Google
-        </button>
-      </footer>
-    </article>
-  `;
+/* RENDER: Parties list with MTM cards */
+function createCard(e) {
+  // Use the MTM card for better visual design
+  return createMTMCard(e);
 }
 async function mountParties(dateStr) {
   const body = showOverlay(`Parties · ${dateStr}`);
@@ -101,7 +61,10 @@ async function mountParties(dateStr) {
   let idx = 0, CHUNK = 20;
   function appendChunk() {
     const slice = all.slice(idx, idx + CHUNK);
-    listEl.insertAdjacentHTML('beforeend', slice.map(cardHTML).join(''));
+    slice.forEach(event => {
+      const card = createCard(event);
+      listEl.appendChild(card);
+    });
     idx += CHUNK;
   }
   appendChunk();
