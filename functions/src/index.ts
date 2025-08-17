@@ -36,17 +36,18 @@ try {admin.initializeApp();} catch (error) {
 // const db = admin.firestore?.(); // Not used after refactoring to use routes
 const app = express();
 
-// Optimize CORS - allow necessary origins
+// Optimize CORS - specific origins to avoid wildcard issues
 app.use(cors({ 
   origin: [
     'https://conference-party-app.web.app',
+    'https://conference-party-app--preview-*.web.app',
     'http://localhost:3000',
-    'http://localhost:5000', // Firebase emulator
-    'http://localhost:5173'  // Vite dev server
+    'http://localhost:5000',
+    'http://localhost:5173'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
   maxAge: 86400 // Cache preflight for 24 hours
 }));
 
@@ -301,8 +302,14 @@ export const apiFn = onRequest({
   secrets: [MEETTOMATCH_CRYPTO_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_SHEETS_API_KEY],
 }, app);
 
-// Export the Express app for testing
-export const api = app;
+// Also export as `api` to handle /api calls
+export const api = onRequest({
+  region: 'us-central1',
+  cors: true,
+  invoker: "public",
+  maxInstances: 10,
+  secrets: [MEETTOMATCH_CRYPTO_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_SHEETS_API_KEY],
+}, app);
 
 // Scheduled function to ingest parties every 15 minutes
 // TEMPORARILY DISABLED: Cloud Scheduler API not enabled in project

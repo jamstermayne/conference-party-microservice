@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "conference-party-app",
     "public": "frontend/src",
     "ignore": [
       "firebase.json",
