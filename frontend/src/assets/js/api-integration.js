@@ -90,17 +90,22 @@ class APIIntegration {
    * Get fallback events for testing
    */
   getFallbackEvents() {
+    // Enhanced with proper Cologne coordinates
     return [
       {
         id: 'gamescom-opening-night',
         title: 'Gamescom Opening Night Live',
-        venue: 'Koelnmesse',
+        venue: 'Koelnmesse - Hall 11',
         date: '2025-08-19',
         time: '20:00',
+        start: '2025-08-19T20:00:00',
+        end: '2025-08-19T22:00:00',
         description: 'The official opening ceremony with world premieres and announcements',
         lat: 50.9473,
         lng: 6.9838,
-        coordinates: { lat: 50.9473, lng: 6.9838 }
+        coordinates: { lat: 50.9473, lng: 6.9838 },
+        address: 'Messeplatz 1, 50679 Köln',
+        price: 'Free with ticket'
       },
       {
         id: 'xbox-party',
@@ -108,10 +113,14 @@ class APIIntegration {
         venue: 'Lanxess Arena',
         date: '2025-08-20',
         time: '19:00',
+        start: '2025-08-20T19:00:00',
+        end: '2025-08-20T23:00:00',
         description: 'Exclusive Xbox showcase and networking event',
         lat: 50.9385,
         lng: 6.9830,
-        coordinates: { lat: 50.9385, lng: 6.9830 }
+        coordinates: { lat: 50.9385, lng: 6.9830 },
+        address: 'Willy-Brandt-Platz 3, 50679 Köln',
+        price: 'Invite only'
       },
       {
         id: 'playstation-showcase',
@@ -119,10 +128,14 @@ class APIIntegration {
         venue: 'Musical Dome',
         date: '2025-08-21',
         time: '18:00',
+        start: '2025-08-21T18:00:00',
+        end: '2025-08-21T21:00:00',
         description: 'PlayStation exclusive titles preview and developer meetup',
         lat: 50.9513,
         lng: 6.9778,
-        coordinates: { lat: 50.9513, lng: 6.9778 }
+        coordinates: { lat: 50.9513, lng: 6.9778 },
+        address: 'Goldgasse 1, 50668 Köln',
+        price: '€45'
       },
       {
         id: 'indie-megabooth',
@@ -130,21 +143,74 @@ class APIIntegration {
         venue: 'Die Halle Tor 2',
         date: '2025-08-22',
         time: '20:00',
+        start: '2025-08-22T20:00:00',
+        end: '2025-08-23T02:00:00',
         description: 'Celebrate indie gaming with developers from around the world',
         lat: 50.9488,
         lng: 6.9320,
-        coordinates: { lat: 50.9488, lng: 6.9320 }
+        coordinates: { lat: 50.9488, lng: 6.9320 },
+        address: 'Tor 2, Girlitzweg 30, 50829 Köln',
+        price: 'Free'
       },
       {
         id: 'devcom-mixer',
         title: 'Devcom Developer Mixer',
-        venue: 'Hyatt Regency',
+        venue: 'Hyatt Regency Cologne',
         date: '2025-08-23',
         time: '17:00',
+        start: '2025-08-23T17:00:00',
+        end: '2025-08-23T20:00:00',
         description: 'Professional networking for game developers',
         lat: 50.9414,
         lng: 6.9726,
-        coordinates: { lat: 50.9414, lng: 6.9726 }
+        coordinates: { lat: 50.9414, lng: 6.9726 },
+        address: 'Kennedy-Ufer 2A, 50679 Köln',
+        price: 'DevCom badge required'
+      },
+      {
+        id: 'unity-meetup',
+        title: 'Unity Developer Meetup',
+        venue: 'Stadtgarten',
+        date: '2025-08-18',
+        time: '18:00',
+        start: '2025-08-18T18:00:00',
+        end: '2025-08-18T21:00:00',
+        description: 'Connect with Unity developers and share experiences',
+        lat: 50.9229,
+        lng: 6.9302,
+        coordinates: { lat: 50.9229, lng: 6.9302 },
+        address: 'Venloer Str. 40, 50672 Köln',
+        price: 'Free'
+      },
+      {
+        id: 'nintendo-direct-viewing',
+        title: 'Nintendo Direct Viewing Party',
+        venue: 'Cinedom',
+        date: '2025-08-20',
+        time: '15:00',
+        start: '2025-08-20T15:00:00',
+        end: '2025-08-20T17:00:00',
+        description: 'Watch Nintendo Direct together on the big screen',
+        lat: 50.9466,
+        lng: 6.9449,
+        coordinates: { lat: 50.9466, lng: 6.9449 },
+        address: 'Im Mediapark 1, 50670 Köln',
+        price: '€10'
+      },
+      {
+        id: 'esports-finals',
+        title: 'Gamescom Esports Finals',
+        venue: 'Koelnmesse - Hall 8',
+        date: '2025-08-24',
+        time: '14:00',
+        start: '2025-08-24T14:00:00',
+        end: '2025-08-24T20:00:00',
+        description: 'The grand finals of multiple esports tournaments',
+        lat: 50.9468,
+        lng: 6.9827,
+        coordinates: { lat: 50.9468, lng: 6.9827 },
+        address: 'Messeplatz 1, 50679 Köln',
+        price: 'Day ticket required'
       }
     ];
   }

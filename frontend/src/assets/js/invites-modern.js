@@ -26,6 +26,11 @@ class ModernInvitesPanel {
     this.panel.className = 'panel panel--overlay';
     this.panel.innerHTML = `
       <div class="invites-header">
+        <button class="btn-close-panel" data-action="close-panel" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+          </svg>
+        </button>
         <h1>Invitations</h1>
         <button class="btn-new-invite" data-action="new-invite">
           New Invite
@@ -50,6 +55,11 @@ class ModernInvitesPanel {
       const inviteId = card?.dataset.id;
 
       switch (action) {
+        case 'close-panel':
+          this.close();
+          // Reset hash to home
+          location.hash = '#/home';
+          break;
         case 'new-invite':
           await this.showNewInviteDialog();
           break;
