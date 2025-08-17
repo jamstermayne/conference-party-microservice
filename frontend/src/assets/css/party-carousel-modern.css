@@ -1,0 +1,263 @@
+/**
+ * Party Carousel Modern - Consistent Two-Column Design
+ */
+
+.party-carousel-modern {
+  margin-top: var(--space-3);
+}
+
+.party-carousel-modern__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.party-carousel-modern__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.party-carousel-modern__btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-gray-50);
+  backdrop-filter: blur(var(--blur-xl));
+  border: var(--border-width-1) solid var(--color-gray-100);
+  border-radius: var(--radius-full);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.party-carousel-modern__btn:hover {
+  background: var(--color-gray-100);
+  transform: scale(1.1);
+}
+
+.party-carousel-modern__btn:active {
+  transform: scale(0.95);
+}
+
+.party-carousel-modern__indicator {
+  font-size: var(--text-sm);
+  color: var(--color-gray-600);
+  font-weight: var(--font-semibold);
+}
+
+.party-carousel-modern__indicator .current {
+  color: var(--color-white);
+}
+
+.party-carousel-modern__view-all {
+  padding: var(--space-2) var(--space-4);
+  background: var(--bg-gradient-primary);
+  border: none;
+  border-radius: var(--radius-full);
+  color: var(--color-white);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.party-carousel-modern__view-all:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow-md);
+}
+
+/* Grid Layout - Two Columns */
+.party-carousel-modern__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  min-height: 400px;
+}
+
+@media (max-width: 768px) {
+  .party-carousel-modern__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
+
+/* Party Card Modern - Consistent with card-modern */
+.party-card-modern {
+  position: relative;
+  min-height: 180px;
+}
+
+.party-card-modern__save {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(var(--blur-md));
+  border: none;
+  border-radius: var(--radius-full);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  z-index: 2;
+}
+
+.party-card-modern__save:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.1);
+}
+
+.party-card-modern__save.is-saved {
+  background: var(--bg-gradient-primary);
+  color: var(--color-white);
+}
+
+.party-card-modern__save.is-saved:hover {
+  transform: scale(1.2) rotate(15deg);
+}
+
+/* Consistent card-modern styles */
+.party-card-modern .card-modern__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.party-card-modern .card-modern__badge {
+  padding: var(--space-1) var(--space-2);
+  background: var(--bg-gradient-primary);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--color-white);
+}
+
+.party-card-modern .card-modern__date {
+  font-size: var(--text-xs);
+  color: var(--color-gray-500);
+  font-weight: var(--font-medium);
+}
+
+.party-card-modern .card-modern__venue {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-gray-600);
+  margin-top: var(--space-2);
+}
+
+.party-card-modern .card-modern__actions {
+  margin-top: var(--space-3);
+  display: flex;
+  gap: var(--space-2);
+}
+
+.party-card-modern .card-modern__btn {
+  flex: 1;
+  padding: var(--space-2);
+  background: var(--color-gray-50);
+  backdrop-filter: blur(var(--blur-md));
+  border: var(--border-width-1) solid var(--color-gray-100);
+  border-radius: var(--radius-md);
+  color: var(--color-white);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.party-card-modern .card-modern__btn:hover {
+  background: var(--color-gray-100);
+  transform: translateY(-1px);
+}
+
+.party-card-modern .card-modern__btn--primary {
+  background: var(--bg-gradient-primary);
+  border: none;
+}
+
+.party-card-modern .card-modern__btn--primary:hover {
+  box-shadow: var(--shadow-glow-sm);
+}
+
+/* Pagination Dots */
+.party-carousel-modern__dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.party-carousel-modern__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-gray-300);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.party-carousel-modern__dot:hover {
+  background: var(--color-gray-500);
+}
+
+.party-carousel-modern__dot.is-active {
+  width: 24px;
+  border-radius: 4px;
+  background: var(--bg-gradient-primary);
+}
+
+/* Empty State */
+.party-carousel-modern__empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--space-8);
+  color: var(--color-gray-500);
+  font-size: var(--text-base);
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+  .party-carousel-modern__header {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  
+  .party-carousel-modern__nav {
+    order: 2;
+  }
+  
+  .party-carousel-modern__view-all {
+    width: 100%;
+  }
+}
