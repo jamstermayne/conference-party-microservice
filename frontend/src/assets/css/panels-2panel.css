@@ -1,194 +1,77 @@
-/* panels-2panel.css — token-only overlay + channel width polish
-   - Slide-in overlay panel (right → left), no inline styles
-   - Equal-width channel buttons in a tidy grid
-   - Left alignment + tight spacing, using your existing tokens
-*/
-
+/* === panels-2panel.css — overlay slide-in & home polish (tokens only) === */
 :root {
-  /* fallbacks in case tokens missing */
-  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px;
-  --r-2: 10px; --r-3: 12px;
-  --elev-2: 0 6px 18px rgba(0,0,0,.25);
-  --panel-bg: var(--color-panel-bg, rgba(8, 10, 14, 0.96));
-  --panel-header-bg: var(--color-panel-header, rgba(14, 18, 24, 0.96));
-  --panel-text: var(--color-text, #e6e7eb);
-  --accent: var(--color-accent, rgba(99, 102, 241, 0.85)); /* your Indigo glow */
+  /* fallbacks if not already defined */
+  --s-1: .25rem; --s-2: .5rem; --s-3: 1rem; --s-4: 1.5rem; --s-5: 2rem;
+  --r-2: 12px; --r-3: 16px;
 }
 
-/* Base: viewport */
-.app {
-  background: var(--color-bg);
-  min-height: 100vh;
-  color: var(--color-text);
+.home-panel {
+  margin-top: var(--s-2); /* tighter top spacing */
+  padding-inline: var(--s-3);
+  max-width: 70rem;
+  margin-inline: auto;
+}
+.home-panel .home-section h2 {
+  margin: 0 0 var(--s-2) 0;
+  text-align: left;
+}
+.home-panel .day-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  align-items: center;
+}
+.home-panel .channels-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* equal widths */
+  gap: var(--s-2);
+  align-items: stretch;
 }
 
-/* Two-panel stack */
-.panel-stack {
-  position: relative;
+/* Overlay container */
+.panel {
+  position: fixed;
+  inset: 0 0 0 30%;
+  transform: translateX(100%);
+  transition: transform 220ms ease-out;
+  background: rgba(3, 7, 12, 0.9);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+.panel--active { transform: translateX(0); }
+
+.panel__head {
+  display: flex; align-items: center; gap: var(--s-2);
+  padding: var(--s-3);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.panel__title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.panel__body {
+  overflow: auto;
+  padding: var(--s-3);
+  display: grid;
+  gap: var(--s-3);
+}
+
+/* Card basics (uses existing cards-final.css for visuals) */
+.vcard { display: flex; flex-direction: column; gap: var(--s-2); }
+
+/* Map container inside overlay */
+#_overlay_map {
+  height: 60vh; min-height: 320px; border-radius: var(--r-3);
+  background: rgba(255,255,255,0.02);
   overflow: hidden;
 }
 
-/* Base panel (Home) */
-.panel-base {
-  position: relative;
-  z-index: 1;
-}
-
-/* ===== Overlay panel (second panel) ===== */
-.panel.overlay {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: stretch;
-  background: transparent;           /* page remains visible beneath */
-  transform: translateX(100%);
-  transition: transform .28s ease-in-out;
-  z-index: 1000;
-}
-
-.panel.overlay.panel--active {
-  transform: translateX(0);
-}
-
-.panel__wrap {
-  margin-left: auto;                 /* slide-in from right */
-  width: min(960px, 92vw);
-  height: 100%;
-  background: var(--panel-bg);
-  color: var(--panel-text);
-  display: grid;
-  grid-template-rows: max-content 1fr;
-  box-shadow: var(--elev-2);
-}
-
-.panel__header {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  align-items: center;
-  gap: var(--s-2);
-  padding: var(--s-3) var(--s-4);
-  background: var(--panel-header-bg);
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
-
-.panel__title {
-  margin: 0;
-  font-size: 1.125rem;
-  letter-spacing: .2px;
-}
-
-.btn-back {
-  appearance: none;
-  border: none;
-  background: transparent;
-  color: var(--panel-text);
-  padding: var(--s-2) var(--s-3);
-  border-radius: var(--r-3);
-  cursor: pointer;
-}
-.btn-back:hover { background: rgba(255,255,255,0.06); }
-
-.panel__body {
-  padding: var(--s-4);
-  overflow: auto;
-}
-
-/* ===== Party cards (lean; rely on cards-final.css for most) ===== */
-.party-card {
-  display: grid;
-  grid-template-columns: 1fr max-content;
-  gap: var(--s-3);
-  padding: var(--s-3);
-  border-radius: var(--r-3);
-  background: rgba(255,255,255,0.02);
-}
-.party-card__title { margin: 0 0 var(--s-1); }
-.party-card__meta  { opacity: .78; font-size: .95rem; margin-bottom: var(--s-1); }
-.party-card__when  { opacity: .86; font-size: .95rem; }
-
-.btn-cta {
-  appearance: none;
-  border: none;
-  padding: var(--s-2) var(--s-3);
-  background: var(--accent);
-  color: white;
-  border-radius: var(--r-3);
-  cursor: pointer;
-}
-
-/* Cards in panel */
-.vcard {
-  padding: var(--s-3);
-  border-radius: var(--r-3);
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
-  margin-bottom: var(--s-3);
-}
-.vcard__body { margin-bottom: var(--s-2); }
-.vcard__body h3 { 
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-text);
-  margin: 0 0 var(--s-1) 0;
-}
-.vcard__body .meta {
-  font-size: 0.9rem;
-  color: var(--color-text-dim);
-}
-.vcard__actions {
-  display: flex;
-  gap: var(--s-2);
-}
-
-/* Button styles */
-.btn-add-to-calendar {
-  appearance: none;
-  border: 1px solid var(--color-border);
-  background: var(--color-accent-weak);
-  color: var(--color-text);
-  border-radius: var(--r-1);
-  padding: var(--s-2) var(--s-3);
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background var(--transition-fast), border-color var(--transition-fast);
-}
-.btn-add-to-calendar:hover {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
-  color: white;
-}
-
-/* ===== Channels — equal widths + tidy left alignment ===== */
-.channels-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;   /* two columns → equal widths */
-  gap: var(--s-3);
-}
-.channel-btn {
+/* Buttons grid width consistency (Invites/My Calendar/Contacts/Account) */
+.channels-grid a, .channels-grid button {
   width: 100%;
   justify-content: center;
-}
-
-/* ===== Home spacing polish (non-destructive) ===== */
-.home-panel {
-  margin-inline: auto;
-  padding-top: var(--s-2); /* tighten top */
-}
-.home-panel .home-section {
-  margin-top: var(--s-3);
-}
-.home-panel .home-section:first-of-type {
-  margin-top: 0;
-}
-
-/* Pills tidy wrap */
-.home-panel .day-pills {
-  display: flex; flex-wrap: wrap; gap: var(--s-2);
-}
-.home-panel .day-pill {
-  padding: 8px 12px;                 /* matches your earlier verified values */
-  border-radius: 12px;
-  background: rgba(99, 102, 241, 0.18);
+  text-align: center;
 }
