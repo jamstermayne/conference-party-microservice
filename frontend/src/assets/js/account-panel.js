@@ -57,100 +57,163 @@ class AccountPanel {
   renderContent() {
     return `
       <div class="account-content">
-        <!-- Profile Section -->
-        <div class="account-section">
-          <h2 class="account-section-title">Profile</h2>
-          <div class="account-avatar">
-            <div class="avatar-circle">
-              ${this.userData.name ? this.userData.name[0].toUpperCase() : '👤'}
+        <!-- Profile Card -->
+        <div class="card-modern account-profile-card">
+          <div class="card-modern__header">
+            <div class="account-avatar-section">
+              <div class="account-avatar">
+                ${this.userData.name ? this.userData.name[0].toUpperCase() : '👤'}
+              </div>
+              <div class="account-basic-info">
+                <h3 class="card-modern__title">${this.userData.name || 'Gaming Professional'}</h3>
+                <div class="card-modern__subtitle">${this.userData.role || 'Set your role'} ${this.userData.company ? `at ${this.userData.company}` : ''}</div>
+              </div>
             </div>
             <button class="btn-avatar-change">Change Photo</button>
           </div>
           
-          <div class="account-form">
-            <div class="form-group">
-              <label for="account-name">Name</label>
-              <input type="text" id="account-name" value="${this.escapeHtml(this.userData.name)}" placeholder="Your name">
-            </div>
-            
-            <div class="form-group">
-              <label for="account-email">Email</label>
-              <input type="email" id="account-email" value="${this.escapeHtml(this.userData.email)}" placeholder="your@email.com">
-            </div>
-            
-            <div class="form-group">
-              <label for="account-company">Company</label>
-              <input type="text" id="account-company" value="${this.escapeHtml(this.userData.company)}" placeholder="Your company">
-            </div>
-            
-            <div class="form-group">
-              <label for="account-role">Role</label>
-              <select id="account-role">
-                <option value="">Select role...</option>
-                <option value="developer" ${this.userData.role === 'developer' ? 'selected' : ''}>Developer</option>
-                <option value="designer" ${this.userData.role === 'designer' ? 'selected' : ''}>Designer</option>
-                <option value="publisher" ${this.userData.role === 'publisher' ? 'selected' : ''}>Publisher</option>
-                <option value="investor" ${this.userData.role === 'investor' ? 'selected' : ''}>Investor</option>
-                <option value="media" ${this.userData.role === 'media' ? 'selected' : ''}>Media</option>
-                <option value="other" ${this.userData.role === 'other' ? 'selected' : ''}>Other</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="account-linkedin">LinkedIn Profile</label>
-              <input type="url" id="account-linkedin" value="${this.escapeHtml(this.userData.linkedin)}" placeholder="https://linkedin.com/in/...">
-            </div>
-          </div>
-        </div>
-
-        <!-- Stats Section -->
-        <div class="account-section">
-          <h2 class="account-section-title">Your Gamescom Stats</h2>
-          <div class="account-stats">
-            <div class="stat-card">
-              <div class="stat-value">${this.userData.savedEvents.length}</div>
-              <div class="stat-label">Events Saved</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-value">${this.userData.invitesSent}</div>
-              <div class="stat-label">Invites Sent</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-value">${this.userData.connectionsCount}</div>
-              <div class="stat-label">Connections</div>
+          <div class="card-modern__body">
+            <div class="account-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="account-name">Name</label>
+                  <input type="text" id="account-name" value="${this.escapeHtml(this.userData.name)}" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                  <label for="account-email">Email</label>
+                  <input type="email" id="account-email" value="${this.escapeHtml(this.userData.email)}" placeholder="your@email.com">
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="account-company">Company</label>
+                  <input type="text" id="account-company" value="${this.escapeHtml(this.userData.company)}" placeholder="Your company">
+                </div>
+                <div class="form-group">
+                  <label for="account-role">Role</label>
+                  <select id="account-role">
+                    <option value="">Select role...</option>
+                    <option value="developer" ${this.userData.role === 'developer' ? 'selected' : ''}>Developer</option>
+                    <option value="designer" ${this.userData.role === 'designer' ? 'selected' : ''}>Designer</option>
+                    <option value="publisher" ${this.userData.role === 'publisher' ? 'selected' : ''}>Publisher</option>
+                    <option value="investor" ${this.userData.role === 'investor' ? 'selected' : ''}>Investor</option>
+                    <option value="media" ${this.userData.role === 'media' ? 'selected' : ''}>Media</option>
+                    <option value="other" ${this.userData.role === 'other' ? 'selected' : ''}>Other</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="account-linkedin">LinkedIn Profile</label>
+                <input type="url" id="account-linkedin" value="${this.escapeHtml(this.userData.linkedin)}" placeholder="https://linkedin.com/in/...">
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Settings Section -->
-        <div class="account-section">
-          <h2 class="account-section-title">Settings</h2>
-          <div class="settings-list">
-            <label class="setting-item">
-              <input type="checkbox" id="setting-notifications" checked>
-              <span>Push Notifications</span>
-            </label>
-            <label class="setting-item">
-              <input type="checkbox" id="setting-location" checked>
-              <span>Location Services</span>
-            </label>
-            <label class="setting-item">
-              <input type="checkbox" id="setting-calendar-sync" checked>
-              <span>Calendar Auto-Sync</span>
-            </label>
-            <label class="setting-item">
-              <input type="checkbox" id="setting-public-profile">
-              <span>Public Profile</span>
-            </label>
+        <!-- Stats Cards -->
+        <div class="card-modern-grid stats-grid">
+          <div class="card-modern stats-card">
+            <div class="card-modern__header">
+              <div class="stats-icon">📅</div>
+              <h3 class="card-modern__title">Events Saved</h3>
+            </div>
+            <div class="card-modern__body">
+              <div class="stats-number">${this.userData.savedEvents.length}</div>
+              <div class="stats-label">Ready for Gamescom</div>
+            </div>
+          </div>
+
+          <div class="card-modern stats-card">
+            <div class="card-modern__header">
+              <div class="stats-icon">📧</div>
+              <h3 class="card-modern__title">Invites Sent</h3>
+            </div>
+            <div class="card-modern__body">
+              <div class="stats-number">${this.userData.invitesSent}</div>
+              <div class="stats-label">Networking power</div>
+            </div>
+          </div>
+
+          <div class="card-modern stats-card">
+            <div class="card-modern__header">
+              <div class="stats-icon">👥</div>
+              <h3 class="card-modern__title">Connections</h3>
+            </div>
+            <div class="card-modern__body">
+              <div class="stats-number">${this.userData.connectionsCount}</div>
+              <div class="stats-label">Professional network</div>
+            </div>
           </div>
         </div>
 
-        <!-- Actions -->
-        <div class="account-section">
-          <div class="account-actions">
-            <button class="btn-action" data-action="export">Export Data</button>
-            <button class="btn-action" data-action="clear-cache">Clear Cache</button>
-            <button class="btn-action danger" data-action="sign-out">Sign Out</button>
+        <!-- Settings Card -->
+        <div class="card-modern">
+          <div class="card-modern__header">
+            <div class="settings-icon">⚙️</div>
+            <h3 class="card-modern__title">App Settings</h3>
+            <div class="card-modern__subtitle">Customize your experience</div>
+          </div>
+          
+          <div class="card-modern__body">
+            <div class="settings-list">
+              <label class="setting-item">
+                <div class="setting-info">
+                  <span class="setting-name">Push Notifications</span>
+                  <span class="setting-desc">Get alerts for new invites and events</span>
+                </div>
+                <input type="checkbox" id="setting-notifications" checked>
+                <span class="setting-toggle"></span>
+              </label>
+              
+              <label class="setting-item">
+                <div class="setting-info">
+                  <span class="setting-name">Location Services</span>
+                  <span class="setting-desc">Find nearby events and networking opportunities</span>
+                </div>
+                <input type="checkbox" id="setting-location" checked>
+                <span class="setting-toggle"></span>
+              </label>
+              
+              <label class="setting-item">
+                <div class="setting-info">
+                  <span class="setting-name">Calendar Auto-Sync</span>
+                  <span class="setting-desc">Automatically add saved events to your calendar</span>
+                </div>
+                <input type="checkbox" id="setting-calendar-sync" checked>
+                <span class="setting-toggle"></span>
+              </label>
+              
+              <label class="setting-item">
+                <div class="setting-info">
+                  <span class="setting-name">Public Profile</span>
+                  <span class="setting-desc">Let other attendees find and connect with you</span>
+                </div>
+                <input type="checkbox" id="setting-public-profile">
+                <span class="setting-toggle"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions Card -->
+        <div class="card-modern">
+          <div class="card-modern__header">
+            <h3 class="card-modern__title">Account Actions</h3>
+            <div class="card-modern__subtitle">Manage your data and account</div>
+          </div>
+          
+          <div class="card-modern__footer account-actions-footer">
+            <button class="card-modern__action card-modern__action--secondary" data-action="export">
+              📄 Export Data
+            </button>
+            <button class="card-modern__action card-modern__action--secondary" data-action="clear-cache">
+              🗑️ Clear Cache
+            </button>
+            <button class="card-modern__action account-action-danger" data-action="sign-out">
+              🚪 Sign Out
+            </button>
           </div>
         </div>
       </div>

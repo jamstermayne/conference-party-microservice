@@ -4,7 +4,7 @@ export async function getJSON(url){
   return await res.json().catch(()=> ({}));
 }
 const CONF = 'gamescom2025';
-const API_BASE = 'https://us-central1-conference-party-app.cloudfunctions.net';
+const API_BASE = 'https://conference-party-app.web.app';
 export async function fetchParties(){
   const raw = await getJSON(`${API_BASE}/api/parties?conference=${encodeURIComponent(CONF)}`);
   return Array.isArray(raw?.data) ? raw.data : Array.isArray(raw) ? raw : raw?.parties || [];
