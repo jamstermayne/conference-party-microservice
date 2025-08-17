@@ -84,6 +84,9 @@ class UnifiedConferenceApp {
     const startTime = performance.now();
     
     try {
+      // Check for invite code in URL
+      this.checkForInviteCode();
+      
       // Critical path - must complete
       await this.initializeUser();
       this.setupNavigation();
@@ -100,6 +103,112 @@ class UnifiedConferenceApp {
       console.error('[Init Error]', error);
       this.handleFatalError(error);
     }
+  }
+  
+  checkForInviteCode() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const inviteCode = urlParams.get('invite');
+    
+    if (inviteCode) {
+      console.log('[Invite] Found invite code:', inviteCode);
+      
+      // Store the invite code for after user setup
+      sessionStorage.setItem('pendingInvite', inviteCode);
+      
+      // Show welcome message
+      setTimeout(() => {
+        this.showInviteWelcome(inviteCode);
+      }, 1000);
+    }
+  }
+  
+  showInviteWelcome(inviteCode) {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-content" style="max-width: 500px; text-align: center;">
+        <div class="modal-header">
+          <h3>🎉 Welcome to Gamescom 2025!</h3>
+          <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div style="padding: 2rem;">
+          <div style="background: var(--color-surface); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <p style="color: var(--color-text-dim); margin-bottom: 0.5rem;">You've been invited with code:</p>
+            <h2 style="font-size: 1.5rem; color: var(--color-accent); letter-spacing: 0.1em; margin: 0.5rem 0;">${inviteCode}</h2>
+          </div>
+          
+          <p style="color: var(--color-text); margin-bottom: 1.5rem;">
+            You've been invited to join the exclusive Gamescom 2025 professional networking platform!
+          </p>
+          
+          <div style="text-align: left; background: var(--color-surface); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">What you get:</h4>
+            <ul style="color: var(--color-text-dim); margin: 0; padding-left: 1.5rem;">
+              <li>Access to 60+ exclusive events</li>
+              <li>Professional networking features</li>
+              <li>10 invites to share with colleagues</li>
+              <li>Real-time event updates</li>
+            </ul>
+          </div>
+          
+          <button class="primary-btn" onclick="window.conferenceApp.redeemInvite('${inviteCode}')" style="width: 100%; padding: 1rem; background: var(--color-accent); color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 0.5rem;">
+            Claim Your Access
+          </button>
+          
+          <button class="secondary-btn" onclick="this.closest('.modal-overlay').remove()" style="width: 100%; padding: 0.75rem; background: transparent; color: var(--color-text-dim); border: 1px solid var(--color-border); border-radius: 4px; cursor: pointer;">
+            Browse Without Account
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.remove();
+      }
+    });
+  }
+  
+  async redeemInvite(inviteCode) {
+    // Close any open modals
+    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    
+    // Mark as redeemed
+    const redeemedInvites = JSON.parse(localStorage.getItem('redeemedInvites') || '[]');
+    if (!redeemedInvites.includes(inviteCode)) {
+      redeemedInvites.push(inviteCode);
+      localStorage.setItem('redeemedInvites', JSON.stringify(redeemedInvites));
+      
+      // Track redemption for the inviter (would need backend to properly attribute)
+      console.log(`[Invite] Redeemed invite code: ${inviteCode}`);
+      
+      // Give the new user their starter invites
+      this.currentUser.invites.available = 10;
+      this.currentUser.invites.receivedFrom = inviteCode;
+      this.saveUserData();
+      
+      // Show success and redirect to profile setup
+      this.showToast('✨ Welcome! You now have 10 invites to share. Set up your profile to get started!');
+      
+      // Navigate to account section for profile setup
+      setTimeout(() => {
+        this.navigateToSection('account');
+      }, 1500);
+    } else {
+      this.showToast('This invite code has already been used on this device.');
+    }
+    
+    // Clear the invite from URL
+    const url = new URL(window.location);
+    url.searchParams.delete('invite');
+    window.history.replaceState({}, document.title, url.pathname);
   }
 
   async deferredInit() {
