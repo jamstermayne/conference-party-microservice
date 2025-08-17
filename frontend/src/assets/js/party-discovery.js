@@ -24,18 +24,39 @@ class PartyDiscoverySystem {
   async initialize(container) {
     this.container = container;
     
+    // Initialize API if available
+    if (window.apiIntegration) {
+      console.log('[PartyDiscovery] Using API integration');
+      this.api = window.apiIntegration;
+    }
+    
     // Initialize components
     this.searchEngine = new PartySearchEngine();
     this.calendar = new CalendarIntegration();
     
-    // Load data
-    const initialized = await this.searchEngine.initialize();
-    if (!initialized) {
-      this.showError('Failed to load party data');
-      return false;
+    // Load data from API or fallback to local
+    try {
+      if (this.api) {
+        const apiEvents = await this.api.getParties();
+        if (apiEvents.length > 0) {
+          this.searchEngine.parties = apiEvents;
+          this.currentEvents = apiEvents;
+          console.log('[PartyDiscovery] Loaded', apiEvents.length, 'events from API');
+        } else {
+          throw new Error('No events from API');
+        }
+      } else {
+        throw new Error('API not available');
+      }
+    } catch (error) {
+      console.log('[PartyDiscovery] Falling back to local data:', error.message);
+      const initialized = await this.searchEngine.initialize();
+      if (!initialized) {
+        this.showError('Failed to load party data');
+        return false;
+      }
+      this.currentEvents = this.searchEngine.parties;
     }
-    
-    this.currentEvents = this.searchEngine.parties;
     
     // Render main interface
     this.render();

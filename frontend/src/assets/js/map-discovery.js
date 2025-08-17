@@ -20,8 +20,40 @@ class MapDiscovery {
 
   async initialize(container, events = []) {
     this.container = container;
-    this.events = events;
-    this.venues = this.groupEventsByVenue(events);
+    
+    // Try to load events from API if available
+    if (window.apiIntegration && events.length === 0) {
+      console.log('[MapDiscovery] Loading geocoded events from API');
+      try {
+        const apiEvents = await window.apiIntegration.getGeocodedEvents();
+        if (apiEvents.length > 0) {
+          this.events = apiEvents;
+          console.log('[MapDiscovery] Loaded', apiEvents.length, 'geocoded events from API');
+        } else {
+          const hotspots = await window.apiIntegration.getHotspots();
+          if (hotspots.length > 0) {
+            // Convert hotspots to event format
+            this.events = hotspots.map(h => ({
+              id: h.id,
+              title: h.name,
+              venue: h.name,
+              lat: h.coordinates?.lat,
+              lng: h.coordinates?.lng,
+              crowdLevel: h.crowdLevel,
+              type: 'hotspot'
+            }));
+            console.log('[MapDiscovery] Using', hotspots.length, 'hotspots from API');
+          }
+        }
+      } catch (error) {
+        console.error('[MapDiscovery] Failed to load from API:', error);
+        this.events = events;
+      }
+    } else {
+      this.events = events;
+    }
+    
+    this.venues = this.groupEventsByVenue(this.events);
     
     await this.render();
     await this.getUserLocation();

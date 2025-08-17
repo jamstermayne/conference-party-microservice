@@ -307,10 +307,20 @@ class CalendarIntegration {
       // Save event to user's local calendar data
       this.saveUserEvent(this.currentEvent);
       
+      // Use API if available
+      if (window.apiIntegration) {
+        await window.apiIntegration.saveEvent(this.currentEvent.id);
+      }
+      
       const calendarUrl = this.generateCalendarUrl(platform, this.currentEvent);
       
       if (platform === 'ics') {
-        this.downloadICSFile(this.currentEvent);
+        // Try API first, fallback to client-side
+        if (window.apiIntegration) {
+          await window.apiIntegration.generateICS(this.currentEvent.id);
+        } else {
+          this.downloadICSFile(this.currentEvent);
+        }
       } else {
         window.open(calendarUrl, '_blank');
       }
