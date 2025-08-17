@@ -59,6 +59,13 @@ async function mountParties(dateStr) {
 
   // Endless list (very simple: append in chunks of 20)
   const all = await getPartiesByDate(dateStr);
+  
+  // If no parties, show message
+  if (!all || all.length === 0) {
+    body.innerHTML = `<p style="text-align: center; margin-top: 2rem; opacity: 0.7;">No parties for ${dateStr}</p>`;
+    return;
+  }
+  
   let idx = 0, CHUNK = 20;
   function appendChunk() {
     const slice = all.slice(idx, idx + CHUNK);
