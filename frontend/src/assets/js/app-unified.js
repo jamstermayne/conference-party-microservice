@@ -636,6 +636,33 @@ class UnifiedConferenceApp {
   }
 
   async renderInvitesSection(container) {
+    const profile = this.currentUser.profile;
+    const isLoggedIn = profile?.email && profile.email !== '';
+    
+    if (!isLoggedIn) {
+      container.innerHTML = `
+        <div class="section-invites">
+          <div class="section-header">
+            <h2>Invite System</h2>
+          </div>
+          <div class="login-prompt" style="background: var(--color-surface); padding: 2rem; border-radius: 8px; margin: 1rem 0; text-align: center;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="var(--color-accent)" style="margin-bottom: 1rem;">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+            <h3 style="color: var(--color-accent); margin-bottom: 1rem;">Login to Generate Invites</h3>
+            <p style="color: var(--color-text-dim); margin-bottom: 1.5rem;">Create an account to get 10 free invites and start building your professional network.</p>
+            <button class="primary-btn" onclick="window.conferenceApp.navigateToSection('account')" style="padding: 1rem 2rem; background: var(--color-accent); color: white; border: none; border-radius: 4px; font-size: 1.1rem; cursor: pointer;">
+              Login Now
+            </button>
+            <p style="color: var(--color-text-dim); margin-top: 1rem; font-size: 0.9rem;">
+              Admins get unlimited invites!
+            </p>
+          </div>
+        </div>
+      `;
+      return;
+    }
+    
     const inviteData = await this.fetchInviteStatus();
     const availableText = this.currentUser.isAdmin ? 'Unlimited' : inviteData.available;
     const isDisabled = !this.currentUser.isAdmin && inviteData.available === 0;
@@ -698,18 +725,32 @@ class UnifiedConferenceApp {
 
   async renderAccountSection(container) {
     const profile = this.currentUser.profile;
+    const isLoggedIn = profile?.email && profile.email !== '';
     
     container.innerHTML = `
       <div class="section-account">
         <div class="section-header">
-          <h2>Your Profile</h2>
+          <h2>Your Profile ${this.currentUser.isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}</h2>
           <button class="edit-btn" data-action="edit-profile">
             <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
             </svg>
-            Edit
+            ${isLoggedIn ? 'Edit' : 'Login'}
           </button>
         </div>
+        
+        ${!isLoggedIn ? `
+          <div class="login-prompt" style="background: var(--color-surface); padding: 2rem; border-radius: 8px; margin: 1rem 0;">
+            <h3 style="color: var(--color-accent); margin-bottom: 1rem;">Welcome! Please login to access all features</h3>
+            <p style="color: var(--color-text-dim); margin-bottom: 1.5rem;">Login with your email to generate invites and access premium features.</p>
+            <button class="primary-btn" data-action="edit-profile" style="width: 100%; padding: 1rem; background: var(--color-accent); color: white; border: none; border-radius: 4px; font-size: 1.1rem; cursor: pointer;">
+              Login / Sign Up
+            </button>
+            <p style="color: var(--color-text-dim); margin-top: 1rem; font-size: 0.9rem;">
+              Admin? Use email: jamy@nigriconsulting.com for unlimited invites
+            </p>
+          </div>
+        ` : ''}
         
         <div class="profile-content">
           <div class="profile-header">
@@ -720,6 +761,7 @@ class UnifiedConferenceApp {
               <h3>${profile?.name || 'Professional'}</h3>
               <p class="role">${profile?.role || 'Conference Attendee'}</p>
               <p class="company">${profile?.company || 'Add company'}</p>
+              ${profile?.email ? `<p class="email" style="color: var(--color-text-dim);">${profile.email}</p>` : ''}
             </div>
           </div>
           
@@ -1108,35 +1150,100 @@ class UnifiedConferenceApp {
 
   async createInvite() {
     try {
-      const response = await fetch(`${this.apiBase}/invites/create`, {
+      // Generate a unique invite code
+      const inviteCode = this.generateInviteCode();
+      const inviteUrl = `${window.location.origin}/?invite=${inviteCode}`;
+      
+      // Store the invite locally
+      const newInvite = {
+        code: inviteCode,
+        url: inviteUrl,
+        createdAt: new Date().toISOString(),
+        redeemed: false
+      };
+      
+      // Only decrease count for non-admin users
+      if (!this.currentUser.isAdmin) {
+        this.currentUser.invites.available--;
+      }
+      
+      this.currentUser.invites.sent.push(newInvite);
+      this.saveUserData();
+      
+      // Show modal with invite code
+      this.showInviteModal(inviteCode, inviteUrl);
+      
+      // Try to sync with backend (optional)
+      fetch(`${this.apiBase}/invites/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'User-ID': this.currentUser.id
-        }
-      });
+        },
+        body: JSON.stringify({ code: inviteCode })
+      }).catch(err => console.log('Backend sync failed:', err));
       
-      if (response.ok) {
-        const result = await response.json();
-        
-        // Only decrease count for non-admin users
-        if (!this.currentUser.isAdmin) {
-          this.currentUser.invites.available--;
-        }
-        
-        this.currentUser.invites.sent.push(result);
-        this.saveUserData();
-        this.renderMainInterface();
-        
-        const message = this.currentUser.isAdmin ? 
-          'Admin invite created successfully! (Unlimited remaining)' : 
-          'Invite created successfully!';
-        this.showToast(message);
-      }
+      this.renderMainInterface();
+      
+      const message = this.currentUser.isAdmin ? 
+        'Admin invite created! (Unlimited remaining)' : 
+        `Invite created! ${this.currentUser.invites.available} remaining`;
+      this.showToast(message);
+      
     } catch (error) {
       console.error('Failed to create invite:', error);
       this.showToast('Failed to create invite. Please try again.');
     }
+  }
+  
+  generateInviteCode() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let code = '';
+    for (let i = 0; i < 8; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  }
+  
+  showInviteModal(code, url) {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-content" style="max-width: 500px; text-align: center;">
+        <div class="modal-header">
+          <h3>Invite Code Generated!</h3>
+          <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div style="padding: 2rem;">
+          <div style="background: var(--color-surface); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <p style="color: var(--color-text-dim); margin-bottom: 0.5rem;">Your invite code:</p>
+            <h2 style="font-size: 2rem; color: var(--color-accent); letter-spacing: 0.1em; margin: 0.5rem 0;">${code}</h2>
+          </div>
+          
+          <div style="background: var(--color-surface); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <p style="color: var(--color-text-dim); margin-bottom: 0.5rem; font-size: 0.9rem;">Share this link:</p>
+            <input type="text" value="${url}" readonly style="width: 100%; padding: 0.5rem; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 4px; color: var(--color-text); font-size: 0.9rem;" onclick="this.select()">
+          </div>
+          
+          <button class="primary-btn" onclick="navigator.clipboard.writeText('${url}').then(() => window.conferenceApp.showToast('Link copied to clipboard!'))" style="width: 100%; padding: 1rem; background: var(--color-accent); color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Copy Link to Clipboard
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.remove();
+      }
+    });
   }
 
   async syncGoogleCalendar() {
