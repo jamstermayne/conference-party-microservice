@@ -5,10 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="maps-key" content="__ENV_GOOGLE_MAPS_KEY__" />
   <title>Gamescom 2025 - Professional Networking</title>
+  
+  <!-- PWA Resource Hints for Party List Performance -->
+  <link rel="preconnect" href="https://us-central1-conference-party-app.cloudfunctions.net" crossorigin>
+  <link rel="preconnect" href="https://apis.google.com" crossorigin>
+  <link rel="dns-prefetch" href="//conference-party-app.web.app">
+  
+  <!-- Preload Critical Party List Resources -->
+  <link rel="preload" href="/assets/js/party-list-premium.js" as="script" crossorigin>
+  <link rel="preload" href="/assets/css/party-list-premium.css" as="style">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
   <!-- Design System Foundation -->
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <!-- Unified Conference App - Signature Design System -->
   <link rel="stylesheet" href="/assets/css/app-unified.css">
+  <!-- Premium Party List Styles -->
+  <link rel="stylesheet" href="/assets/css/party-list-premium.css">
 </head>
 <body>
   <main id="app" class="app">

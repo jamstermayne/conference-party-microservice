@@ -78,12 +78,21 @@ export async function validate(code) {
   }
 }
 
-// Redeem invite (simulated since backend doesn't have endpoint yet)
+// Redeem invite using real backend API
 export async function redeem(code) {
   try {
-    const validation = await validate(code);
-    if (!validation.valid) {
-      throw new Error(validation.reason || 'Invalid invite code');
+    const userId = Store.get('user.id') || 'anonymous_' + Date.now();
+    const userName = Store.get('user.name') || 'Anonymous User';
+    
+    // Redeem through backend API
+    const result = await api('/invites/redeem', 'POST', {
+      code,
+      userId,
+      userName
+    });
+    
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to redeem invite');
     }
     
     // Store locally
@@ -96,13 +105,13 @@ export async function redeem(code) {
     // Update user
     Store.patch('user.hasInvite', true);
     Store.patch('user.inviteCode', code);
-    Store.patch('user.invitedBy', validation.inviterName);
+    Store.patch('user.invitedBy', result.inviterName);
     Store.remove('pendingInvite');
     
     return {
       success: true,
       code,
-      inviterName: validation.inviterName
+      inviterName: result.inviterName
     };
   } catch (error) {
     throw error;
@@ -157,46 +166,118 @@ export function generateInviteCode() {
   return code;
 }
 
-// Send invite with sharing options
+// Send invite with enhanced sharing capabilities
 export async function sendInvite(target, method = 'link') {
   try {
-    const invitesLeft = Store.get('invites.left') || 10;
-    if (invitesLeft <= 0) {
-      throw new Error('No invites remaining');
+    const userId = Store.get('user.id') || 'anonymous_' + Date.now();
+    const userName = Store.get('user.name') || 'Gamescom Attendee';
+    
+    // Generate invite through backend API
+    const response = await api('/invites/generate', 'POST', {
+      inviterId: userId,
+      inviterName: userName
+    });
+    
+    if (!response.success) {
+      throw new Error(response.error || 'Failed to generate invite');
     }
     
-    const code = generateInviteCode();
-    const link = generateInviteLink(code);
+    const { code, link } = response;
     
-    // Store sent invite
+    // Store sent invite locally
     const sentInvites = Store.get('sentInvites') || [];
     sentInvites.push({
       code,
       target,
       method,
       sentAt: Date.now(),
-      redeemed: false
+      redeemed: false,
+      link
     });
     Store.set('sentInvites', sentInvites);
-    Store.patch('invites.left', invitesLeft - 1);
     
-    // Handle sharing
-    if (method === 'copy') {
-      await navigator.clipboard.writeText(link);
-      Events.emit('ui:toast', { type: 'success', message: 'Invite link copied!' });
-    } else if (method === 'whatsapp') {
-      const text = `Join me at Gamescom 2025 parties! ${link}`;
-      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-    } else if (method === 'twitter') {
-      const text = `Got exclusive access to Gamescom 2025 parties! Join me: ${link}`;
-      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
-    }
+    // Enhanced sharing options
+    await handleInviteSharing(link, method, userName);
     
     await refreshInviteStats();
     return { success: true, code, link };
   } catch (error) {
     Events.emit('ui:toast', { type: 'error', message: error.message });
     throw error;
+  }
+}
+
+// Enhanced sharing handler with more platforms
+async function handleInviteSharing(link, method, userName) {
+  const inviteText = `🎮 ${userName} invited you to exclusive Gamescom 2025 parties! Join the most epic gaming events in Cologne.`;
+  const shareData = {
+    title: 'Gamescom 2025 Party Invite',
+    text: inviteText,
+    url: link
+  };
+  
+  try {
+    switch (method) {
+      case 'copy':
+        await navigator.clipboard.writeText(link);
+        Events.emit('ui:toast', { type: 'success', message: '🔗 Invite link copied!' });
+        break;
+        
+      case 'native':
+        if (navigator.share) {
+          await navigator.share(shareData);
+          Events.emit('ui:toast', { type: 'success', message: '📤 Invite shared!' });
+        } else {
+          // Fallback to copy
+          await navigator.clipboard.writeText(link);
+          Events.emit('ui:toast', { type: 'success', message: '🔗 Link copied (native share not available)' });
+        }
+        break;
+        
+      case 'whatsapp':
+        const whatsappText = `${inviteText}\\n\\n🎯 Get your exclusive access: ${link}`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(whatsappText)}`, '_blank');
+        Events.emit('ui:toast', { type: 'info', message: '💬 Opening WhatsApp...' });
+        break;
+        
+      case 'twitter':
+        const twitterText = `${inviteText}\\n\\n${link}\\n\\n#Gamescom2025 #Gaming #Cologne`;
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}`, '_blank');
+        Events.emit('ui:toast', { type: 'info', message: '🐦 Opening Twitter...' });
+        break;
+        
+      case 'telegram':
+        const telegramText = `${inviteText}\\n\\n🎯 Join here: ${link}`;
+        window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(telegramText)}`, '_blank');
+        Events.emit('ui:toast', { type: 'info', message: '✈️ Opening Telegram...' });
+        break;
+        
+      case 'discord':
+        await navigator.clipboard.writeText(`${inviteText}\\n\\n🎯 **Get your access:** ${link}`);
+        Events.emit('ui:toast', { type: 'success', message: '🎮 Discord message copied - paste in your server!' });
+        break;
+        
+      case 'email':
+        const subject = encodeURIComponent('Exclusive Gamescom 2025 Party Invite 🎮');
+        const body = encodeURIComponent(`Hi there!\\n\\n${inviteText}\\n\\nClick here to get your exclusive access:\\n${link}\\n\\nSee you at the parties!\\n\\n- ${userName}`);
+        window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
+        Events.emit('ui:toast', { type: 'info', message: '📧 Opening email client...' });
+        break;
+        
+      case 'sms':
+        const smsText = encodeURIComponent(`${inviteText} ${link}`);
+        window.open(`sms:?body=${smsText}`, '_blank');
+        Events.emit('ui:toast', { type: 'info', message: '📱 Opening SMS...' });
+        break;
+        
+      default:
+        await navigator.clipboard.writeText(link);
+        Events.emit('ui:toast', { type: 'success', message: '🔗 Link copied!' });
+    }
+  } catch (error) {
+    console.warn('Share method failed, falling back to copy:', error);
+    await navigator.clipboard.writeText(link);
+    Events.emit('ui:toast', { type: 'warning', message: '⚠️ Share failed, link copied instead' });
   }
 }
 
@@ -257,26 +338,41 @@ export async function maybeUnlockBonus() {
   }
 }
 
-// Mount invite accept UI
+// Mount invite accept UI - Security: Safe DOM creation
 function mountInviteAccept({ code, inviterName }) {
   const mainContent = document.querySelector('#main-content');
   if (!mainContent) return;
   
-  mainContent.innerHTML = `
-    <div class="invite-panel">
-      <div class="invite-card">
-        <div class="invite-icon">🎉</div>
-        <h2>You've been invited${inviterName ? ` by ${inviterName}` : ''}!</h2>
-        <p>Accept this exclusive invitation to unlock access to Gamescom 2025 parties and professional networking.</p>
-        <div class="invite-code">Code: ${code}</div>
-        <div class="row gap">
-          <button class="btn btn-primary" id="btn-accept">Accept Invite</button>
-          <button class="btn btn-secondary" id="btn-cancel">Cancel</button>
-        </div>
-      </div>
-    </div>`;
+  // Create elements safely without innerHTML
+  mainContent.replaceChildren();
   
-  document.getElementById('btn-accept').onclick = async () => {
+  const invitePanel = document.createElement('div');
+  invitePanel.className = 'invite-panel';
+  
+  const inviteCard = document.createElement('div');
+  inviteCard.className = 'invite-card';
+  
+  const inviteIcon = document.createElement('div');
+  inviteIcon.className = 'invite-icon';
+  inviteIcon.textContent = '🎉';
+  
+  const heading = document.createElement('h2');
+  heading.textContent = `You've been invited${inviterName ? ` by ${inviterName}` : ''}!`;
+  
+  const description = document.createElement('p');
+  description.textContent = 'Accept this exclusive invitation to unlock access to Gamescom 2025 parties and professional networking.';
+  
+  const codeDisplay = document.createElement('div');
+  codeDisplay.className = 'invite-code';
+  codeDisplay.textContent = `Code: ${code}`;
+  
+  const buttonRow = document.createElement('div');
+  buttonRow.className = 'row gap';
+  
+  const acceptBtn = document.createElement('button');
+  acceptBtn.className = 'btn btn-primary';
+  acceptBtn.textContent = 'Accept Invite';
+  acceptBtn.onclick = async () => {
     try {
       Events.emit('ui:toast', { type: 'info', message: 'Accepting invite...' });
       await redeem(code);
@@ -288,31 +384,69 @@ function mountInviteAccept({ code, inviterName }) {
     }
   };
   
-  document.getElementById('btn-cancel').onclick = () => {
+  const cancelBtn = document.createElement('button');
+  cancelBtn.className = 'btn btn-secondary';
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.onclick = () => {
     Events.emit('navigate', '/');
   };
+  
+  buttonRow.appendChild(acceptBtn);
+  buttonRow.appendChild(cancelBtn);
+  
+  inviteCard.appendChild(inviteIcon);
+  inviteCard.appendChild(heading);
+  inviteCard.appendChild(description);
+  inviteCard.appendChild(codeDisplay);
+  inviteCard.appendChild(buttonRow);
+  
+  invitePanel.appendChild(inviteCard);
+  mainContent.appendChild(invitePanel);
 }
 
-// Mount invalid invite UI
+// Mount invalid invite UI - Security: Safe DOM creation
 function mountInviteInvalid(reason) {
   const mainContent = document.querySelector('#main-content');
   if (!mainContent) return;
   
-  mainContent.innerHTML = `
-    <div class="invite-panel">
-      <div class="invite-card error">
-        <div class="invite-icon">❌</div>
-        <h2>Invalid Invite</h2>
-        <p>${reason || 'This invite code is invalid or has expired.'}</p>
-        <div class="row gap">
-          <button class="btn btn-primary" id="btn-home">Go Home</button>
-        </div>
-      </div>
-    </div>`;
+  // Create elements safely without innerHTML
+  mainContent.replaceChildren();
   
-  document.getElementById('btn-home').onclick = () => {
+  const invitePanel = document.createElement('div');
+  invitePanel.className = 'invite-panel';
+  
+  const inviteCard = document.createElement('div');
+  inviteCard.className = 'invite-card error';
+  
+  const inviteIcon = document.createElement('div');
+  inviteIcon.className = 'invite-icon';
+  inviteIcon.textContent = '❌';
+  
+  const heading = document.createElement('h2');
+  heading.textContent = 'Invalid Invite';
+  
+  const description = document.createElement('p');
+  description.textContent = reason || 'This invite code is invalid or has expired.';
+  
+  const buttonRow = document.createElement('div');
+  buttonRow.className = 'row gap';
+  
+  const homeBtn = document.createElement('button');
+  homeBtn.className = 'btn btn-primary';
+  homeBtn.textContent = 'Go Home';
+  homeBtn.onclick = () => {
     Events.emit('navigate', '/');
   };
+  
+  buttonRow.appendChild(homeBtn);
+  
+  inviteCard.appendChild(inviteIcon);
+  inviteCard.appendChild(heading);
+  inviteCard.appendChild(description);
+  inviteCard.appendChild(buttonRow);
+  
+  invitePanel.appendChild(inviteCard);
+  mainContent.appendChild(invitePanel);
 }
 
 // Handle route changes for invite links

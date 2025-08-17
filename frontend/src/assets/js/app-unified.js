@@ -12,16 +12,124 @@ class UnifiedConferenceApp {
     this.apiBase = 'https://us-central1-conference-party-app.cloudfunctions.net';
     this.cache = new Map();
     this.isOnline = navigator.onLine;
-    this.init();
+    this.errorCount = 0;
+    this.maxRetries = 3;
+    this.retryDelay = 1000;
+    
+    // Add global error handler
+    this.setupErrorBoundary();
+    this.init().catch(this.handleFatalError.bind(this));
+  }
+
+  setupErrorBoundary() {
+    // Global error handlers
+    window.addEventListener('error', (event) => {
+      console.error('[Global Error]', event.error);
+      this.handleNonFatalError(event.error);
+    });
+
+    window.addEventListener('unhandledrejection', (event) => {
+      console.error('[Unhandled Promise]', event.reason);
+      this.handleNonFatalError(event.reason);
+      event.preventDefault();
+    });
+
+    // API error tracking
+    this.apiErrors = new Map();
+  }
+
+  handleFatalError(error) {
+    console.error('[Fatal Error]', error);
+    
+    const app = document.getElementById('app');
+    if (app) {
+      app.innerHTML = `
+        <div class="fatal-error">
+          <div class="error-content">
+            <h1>Something went wrong</h1>
+            <p>We're having trouble loading the app. Please refresh the page to try again.</p>
+            <div class="error-actions">
+              <button onclick="location.reload()" class="error-btn error-btn--primary">
+                Refresh Page
+              </button>
+              <button onclick="this.clearCache()" class="error-btn">
+                Clear Cache & Refresh
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  handleNonFatalError(error, context = '') {
+    this.errorCount++;
+    
+    // Don't spam errors
+    if (this.errorCount > 10) {
+      console.warn('[Error Limit] Suppressing further error reports');
+      return;
+    }
+    
+    // Show user-friendly error message
+    if (this.errorCount <= 3) {
+      this.showToast(`Something went wrong. Please try again. ${context}`.trim());
+    }
   }
 
   async init() {
-    await this.initializeUser();
-    this.setupNavigation();
-    this.renderMainInterface();
-    this.setupEventListeners();
-    this.loadInitialData();
-    this.setupPWAFeatures();
+    const startTime = performance.now();
+    
+    try {
+      // Critical path - must complete
+      await this.initializeUser();
+      this.setupNavigation();
+      this.renderMainInterface();
+      this.setupEventListeners();
+      
+      // Non-critical path - can be deferred
+      this.deferredInit();
+      
+      const loadTime = performance.now() - startTime;
+      console.log(`[Performance] App initialized in ${loadTime.toFixed(2)}ms`);
+      
+    } catch (error) {
+      console.error('[Init Error]', error);
+      this.handleFatalError(error);
+    }
+  }
+
+  async deferredInit() {
+    // Defer non-critical initialization
+    requestIdleCallback(() => {
+      this.loadInitialData().catch(error => {
+        this.handleNonFatalError(error, 'Loading initial data');
+      });
+    });
+
+    requestIdleCallback(() => {
+      this.setupPWAFeatures();
+    });
+
+    // Preload next section after user interaction
+    let hasInteracted = false;
+    const preloadNext = () => {
+      if (!hasInteracted) {
+        hasInteracted = true;
+        this.preloadNextSection();
+        document.removeEventListener('click', preloadNext);
+        document.removeEventListener('keydown', preloadNext);
+      }
+    };
+    document.addEventListener('click', preloadNext);
+    document.addEventListener('keydown', preloadNext);
+  }
+
+  preloadNextSection() {
+    // Preload data for other sections
+    requestIdleCallback(() => {
+      this.fetchInviteStatus().catch(() => {});
+    });
   }
 
   async initializeUser() {
@@ -142,30 +250,182 @@ class UnifiedConferenceApp {
   }
 
   async renderPartiesSection(container) {
+    // Show immediate loading state with premium design
+    container.innerHTML = `
+      <div class="party-list-premium">
+        <div class="party-list-header">
+          <div class="header-glass"></div>
+          <div class="header-content">
+            <h2 class="section-title">
+              <span class="title-gradient">Tonight's Hottest Parties</span>
+              <div class="live-indicator">
+                <span class="pulse-dot"></span>
+                <span>Live</span>
+              </div>
+            </h2>
+            
+            <div class="party-controls">
+              <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search parties, venues, categories..." data-action="search">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M9 9a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path d="M9 15a6 6 0 100-12 6 6 0 000 12zm6-6a6 6 0 11-12 0 6 6 0 0112 0z"/>
+                  <path d="m15.5 14.5l4 4"/>
+                </svg>
+              </div>
+              
+              <div class="filter-pills">
+                <button class="filter-pill filter-pill--active" data-filter="all">
+                  <span>All</span>
+                  <span class="count" id="count-all">5</span>
+                </button>
+                <button class="filter-pill" data-filter="tonight">
+                  <span>Tonight</span>
+                  <span class="count" id="count-tonight">3</span>
+                </button>
+                <button class="filter-pill" data-filter="saved">
+                  <span>Saved</span>
+                  <span class="count" id="count-saved">0</span>
+                </button>
+                <button class="filter-pill" data-filter="vip">
+                  <span>VIP</span>
+                  <span class="count" id="count-vip">1</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="virtual-scroll-container" data-scroll-container>
+          <div class="visible-items" data-visible-items>
+            ${await this.renderPremiumPartyCards()}
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // Try to load premium party list functionality
     try {
-      const parties = await this.fetchPartiesData();
+      // Import premium party list
+      const { default: PremiumPartyList } = await import('./party-list-premium.js');
       
-      container.innerHTML = `
-        <div class="section-parties">
-          <div class="section-header">
-            <h2>Tonight's Hottest Parties</h2>
-            <div class="header-filters">
-              <button class="filter-btn filter-btn--active" data-filter="all">All</button>
-              <button class="filter-btn" data-filter="saved">Saved</button>
-              <button class="filter-btn" data-filter="rsvp">RSVP'd</button>
+      // Initialize premium party list
+      this.premiumPartyList = new PremiumPartyList(container, {
+        itemHeight: 200,
+        buffer: 3,
+        pageSize: 20,
+        maxCacheSize: 1000,
+        cacheTTL: 300000
+      });
+      
+      console.log('[App] Premium party list initialized');
+      
+    } catch (error) {
+      console.warn('[App] Premium party list import failed, using fallback:', error);
+      // Fallback is already rendered above
+    }
+  }
+
+  async renderPremiumPartyCards() {
+    // Get party data
+    const parties = await this.fetchPartiesData();
+    
+    return parties.map(party => `
+      <div class="party-card-premium" data-party-id="${party.id}">
+        <div class="card-glass-bg"></div>
+        
+        <div class="card-header-premium">
+          <div class="status-cluster">
+            <span class="status-live">
+              <span class="live-dot"></span>
+              LIVE
+            </span>
+            <span class="status-time">${this.formatTime(party.start || party.time)}</span>
+            <span class="status-category ${party.category || 'party'}">${(party.category || 'Party').toUpperCase()}</span>
+          </div>
+          
+          <div class="card-actions-cluster">
+            <button class="action-btn action-btn--save" data-action="toggle-save" data-party-id="${party.id}">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            </button>
+            
+            <button class="action-btn action-btn--share" data-action="share" data-party-id="${party.id}">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-content-premium">
+          <h3 class="party-title-premium">${party.title}</h3>
+          
+          <div class="party-meta">
+            <div class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"/>
+              </svg>
+              <span>${party.venue || 'Cologne'}</span>
+            </div>
+            
+            <div class="meta-item">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                <path d="M10 1C5.03 1 1 5.03 1 10s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zM9 17v-6H7v6H5V7h4v10z"/>
+              </svg>
+              <span>${Math.floor(Math.random() * 500) + 50} attending</span>
             </div>
           </div>
           
-          <div class="parties-grid" id="parties-grid">
-            ${this.renderPartyCards(parties)}
-          </div>
+          <p class="party-description-premium">${party.description || 'Join the hottest party at Gamescom 2025'}</p>
         </div>
-      `;
+
+        <div class="card-actions-premium">
+          <button class="btn-primary btn-rsvp" data-action="rsvp" data-party-id="${party.id}">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+              <path d="M10 1C5.03 1 1 5.03 1 10s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"/>
+            </svg>
+            RSVP Now
+          </button>
+          
+          <button class="btn-secondary btn-details" data-action="view-details" data-party-id="${party.id}">
+            View Details
+          </button>
+        </div>
+
+        <div class="card-border-gradient"></div>
+      </div>
+    `).join('');
+  }
+
+  renderPartiesError(container, error) {
+    container.innerHTML = `
+      <div class="parties-error">
+        <div class="error-icon">⚠️</div>
+        <h3>Unable to load parties</h3>
+        <p>We're having trouble connecting to our servers. Please check your connection and try again.</p>
+        <button class="retry-btn" onclick="window.conferenceApp.renderMainInterface()">
+          Retry Loading
+        </button>
+      </div>
+    `;
+  }
+
+  animatePartyCards() {
+    const cards = document.querySelectorAll('.party-card-signature');
+    cards.forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
       
-      this.setupPartyInteractions();
-    } catch (error) {
-      this.renderError(container, 'Failed to load parties', error);
-    }
+      setTimeout(() => {
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, index * 100);
+    });
   }
 
   async renderCalendarSection(container) {
@@ -503,16 +763,70 @@ class UnifiedConferenceApp {
 
   // API Integration Methods
   async fetchPartiesData() {
-    if (this.cache.has('parties') && Date.now() - this.cache.get('parties').timestamp < 300000) {
-      return this.cache.get('parties').data;
+    const cacheKey = 'parties';
+    const cacheTimeout = 300000; // 5 minutes
+    
+    // Check memory cache
+    if (this.cache.has(cacheKey)) {
+      const { data, timestamp } = this.cache.get(cacheKey);
+      if (Date.now() - timestamp < cacheTimeout) {
+        console.log('[Cache] Using cached parties data');
+        return data;
+      }
+    }
+    
+    // Check localStorage cache
+    try {
+      const stored = localStorage.getItem('parties_cache');
+      if (stored) {
+        const { data, timestamp } = JSON.parse(stored);
+        if (Date.now() - timestamp < cacheTimeout) {
+          console.log('[Cache] Using localStorage parties data');
+          this.cache.set(cacheKey, { data, timestamp });
+          return data;
+        }
+      }
+    } catch (e) {
+      console.warn('[Cache] Failed to read localStorage cache');
     }
     
     try {
+      console.log('[API] Fetching fresh parties data');
       const parties = await fetchParties();
-      this.cache.set('parties', { data: parties, timestamp: Date.now() });
-      return parties;
+      
+      if (parties && parties.length > 0) {
+        const cacheData = { data: parties, timestamp: Date.now() };
+        
+        // Update memory cache
+        this.cache.set(cacheKey, cacheData);
+        
+        // Update localStorage cache
+        try {
+          localStorage.setItem('parties_cache', JSON.stringify(cacheData));
+        } catch (e) {
+          console.warn('[Cache] Failed to save to localStorage');
+        }
+        
+        return parties;
+      }
+      
+      throw new Error('No parties data received');
+      
     } catch (error) {
-      console.error('Failed to fetch parties:', error);
+      console.error('[API] Failed to fetch parties:', error);
+      
+      // Try to return stale cache data as fallback
+      try {
+        const stored = localStorage.getItem('parties_cache');
+        if (stored) {
+          const { data } = JSON.parse(stored);
+          console.log('[Fallback] Using stale cache data');
+          return data;
+        }
+      } catch (e) {
+        console.warn('[Fallback] No cache data available');
+      }
+      
       return [];
     }
   }

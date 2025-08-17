@@ -1,0 +1,273 @@
+<!-- Enhanced Invite Card Component with New Actions -->
+<div class="invite-card" data-invite-id="{{id}}">
+  <div class="invite-header">
+    <h3 class="invite-title">{{title}}</h3>
+    <span class="invite-status invite-status-{{status}}">{{status}}</span>
+  </div>
+  
+  <div class="invite-details">
+    <div class="invite-meta">
+      <div class="invite-time">
+        <i class="icon-clock"></i>
+        <span>{{start}} - {{end}}</span>
+      </div>
+      <div class="invite-location">
+        <i class="icon-location"></i>
+        <span>{{location}}</span>
+      </div>
+    </div>
+    
+    <div class="invite-recipient" {{#if toEmail}}data-email="{{toEmail}}"{{/if}}>
+      {{#if toEmail}}
+        <span class="invite-to">To: {{toEmail}}</span>
+      {{else}}
+        <span class="invite-to">Open invite</span>
+      {{/if}}
+    </div>
+    
+    <div class="invite-share-info">
+      <div class="invite-code-display">
+        Code: <strong class="invite-code">{{code}}</strong>
+      </div>
+      <div class="invite-link-display">
+        Link: <a href="{{link}}" class="invite-link" target="_blank">{{link}}</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- New Action Buttons following the spec -->
+  <div class="invite-actions">
+    <button class="btn btn-action" data-act="copy-link" data-id="{{id}}" title="Copy shareable link">
+      <i class="icon-link"></i> Copy Link
+    </button>
+    <button class="btn btn-action" data-act="copy-code" data-id="{{id}}" title="Copy invite code for SMS/voice">
+      <i class="icon-copy"></i> Copy Code
+    </button>
+    <button class="btn btn-action" data-act="show-qr" data-id="{{id}}" title="Show QR code for scanning">
+      <i class="icon-qr"></i> QR
+    </button>
+    <button class="btn btn-secondary" data-act="renew" data-id="{{id}}" title="Generate new link and code">
+      <i class="icon-refresh"></i> Renew
+    </button>
+    <button class="btn btn-danger" data-act="revoke" data-id="{{id}}" title="Permanently disable this invite">
+      <i class="icon-trash"></i> Revoke
+    </button>
+  </div>
+  
+  <!-- Analytics Display -->
+  {{#if lastSharedAt}}
+  <div class="invite-analytics">
+    <small>
+      Last shared: {{formatDate lastSharedAt}} via {{lastMethod}}
+    </small>
+  </div>
+  {{/if}}
+</div>
+
+<style>
+.invite-card {
+  background: white;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: box-shadow 0.2s;
+}
+
+.invite-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.invite-card.invite-revoked {
+  opacity: 0.6;
+  background: #f8f9fa;
+}
+
+.invite-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.invite-title {
+  margin: 0;
+  font-size: 18px;
+  color: #24292e;
+}
+
+.invite-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.invite-status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.invite-status-accepted {
+  background: #d4edda;
+  color: #155724;
+}
+
+.invite-status-declined {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.invite-status-maybe {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.invite-details {
+  margin-bottom: 16px;
+}
+
+.invite-meta {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 12px;
+  color: #586069;
+  font-size: 14px;
+}
+
+.invite-meta i {
+  margin-right: 4px;
+}
+
+.invite-recipient {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: #f6f8fa;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.invite-share-info {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px;
+  background: #f6f8fa;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.invite-code {
+  font-family: 'Monaco', 'Courier New', monospace;
+  background: white;
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid #d1d5da;
+  letter-spacing: 1px;
+  user-select: all;
+}
+
+.invite-link {
+  color: #0366d6;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.invite-link:hover {
+  text-decoration: underline;
+}
+
+.invite-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: 1px solid #e1e4e8;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: 1px solid #d1d5da;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn:hover {
+  background: #f6f8fa;
+  border-color: #0366d6;
+}
+
+.btn-action {
+  color: #0366d6;
+}
+
+.btn-secondary {
+  color: #586069;
+}
+
+.btn-danger {
+  color: #d73a49;
+}
+
+.btn-danger:hover {
+  background: #ffeef0;
+  border-color: #d73a49;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn i {
+  font-size: 16px;
+}
+
+.invite-analytics {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e1e4e8;
+  color: #586069;
+  font-size: 12px;
+}
+
+.invite-revoked-badge {
+  background: #d73a49;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .invite-share-info {
+    grid-template-columns: 1fr;
+  }
+  
+  .invite-actions {
+    justify-content: stretch;
+  }
+  
+  .invite-actions .btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+  
+  .invite-actions .btn span {
+    display: none;
+  }
+}
+</style>

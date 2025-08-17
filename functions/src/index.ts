@@ -14,6 +14,7 @@ import m2mRouter from "./routes/m2m-enhanced";
 import mtmRoutes from "./integrations/mtm/routes";
 import partiesRouter from "./routes/parties";
 import invitesRouter from "./routes/invites";
+import invitesEnhancedRouter from "./routes/invites-enhanced";
 import adminRouter from "./routes/admin";
 // import { runIngest } from "./jobs/ingest-parties"; // Temporarily disabled with scheduled function
 
@@ -88,7 +89,10 @@ app.use(async (req: any, _res, next) => {
   next();
 });
 
-app.use("/api/invites", invitesRouter);
+// Use enhanced invites router for new functionality
+app.use("/api/invites", invitesEnhancedRouter);
+// Keep old invites router as fallback at different path if needed
+app.use("/api/invites-legacy", invitesRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api", googleCalendarRouter);
 app.use("/api/parties", partiesRouter);
@@ -197,6 +201,60 @@ app.get("/api/setupWebhook", (_req, res) => res.status(200).json({ok: true, conf
 
 // === HOTSPOTS ENDPOINT (PERSONA-BASED AGGREGATION) ===
 app.get("/api/hotspots", getHotspots);
+
+// === SHORT INVITE LINKS ===
+// Redirect /i/:code to the invite page with token
+app.get("/i/:code", async (req, res) => {
+  try {
+    const { code } = req.params;
+    
+    // Try to resolve the code to a token
+    const resolveUrl = `https://${req.headers.host}/api/invites/public/resolve/${code}`;
+    const resolveResponse = await fetch(resolveUrl);
+    
+    if (!resolveResponse.ok) {
+      // If code not found or expired, redirect to home with error
+      return res.redirect('/?error=invalid_invite');
+    }
+    
+    const { token } = await resolveResponse.json() as { token: string };
+    
+    // Redirect to the invite page with the token
+    return res.redirect(`/invite/${token}`);
+    
+  } catch (error) {
+    console.error('[short-link] Error:', error);
+    return res.redirect('/?error=invite_error');
+  }
+});
+
+// === QR CODE GENERATION ===
+app.get("/api/qr", async (req, res): Promise<any> => {
+  try {
+    const { text } = req.query as { text?: string };
+    
+    if (!text) {
+      return res.status(400).json({ error: 'Text parameter required' });
+    }
+    
+    // For now, return a placeholder or use a simple QR library
+    // In production, you'd use a library like 'qrcode' package
+    // npm install qrcode
+    // const QRCode = require('qrcode');
+    // const dataUrl = await QRCode.toDataURL(text);
+    
+    // Placeholder response for now
+    return res.json({
+      dataUrl: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==`,
+      text,
+      note: 'QR generation pending library installation'
+    });
+    
+  } catch (error) {
+    console.error('[qr] Error:', error);
+    return res.status(500).json({ error: 'Failed to generate QR code' });
+  }
+});
 
 // ---- Lightweight stubs to prevent 404 noise ----
 app.get("/api/flags", (_req, res) => {
