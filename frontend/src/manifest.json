@@ -36,16 +36,16 @@
   ],
   "screenshots": [
     {
-      "src": "/images/screenshot-mobile.png",
+      "src": "/images/screenshot-mobile.svg",
       "sizes": "390x844",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "form_factor": "narrow",
       "label": "Mobile event discovery"
     },
     {
-      "src": "/images/screenshot-desktop.png",
+      "src": "/images/screenshot-desktop.svg",
       "sizes": "1280x720",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "form_factor": "wide",
       "label": "Desktop event browser"
     }

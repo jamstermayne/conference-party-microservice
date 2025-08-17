@@ -1,0 +1,16 @@
+<svg width="390" height="844" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" fill="#0F0F12"/>
+  <text x="195" y="200" font-family="system-ui, -apple-system, sans-serif" font-size="36" fill="#ff6b6b" text-anchor="middle">
+    Gamescom 2025
+  </text>
+  <text x="195" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#e0e0e0" text-anchor="middle">
+    Professional Networking
+  </text>
+  <rect x="45" y="350" width="300" height="60" rx="8" fill="#ff6b6b"/>
+  <text x="195" y="390" font-family="system-ui, -apple-system, sans-serif" font-size="20" fill="white" text-anchor="middle">
+    Discover Events
+  </text>
+  <rect x="20" y="450" width="350" height="100" rx="8" fill="#1a1a1f" stroke="#333" stroke-width="1"/>
+  <rect x="20" y="570" width="350" height="100" rx="8" fill="#1a1a1f" stroke="#333" stroke-width="1"/>
+  <rect x="20" y="690" width="350" height="100" rx="8" fill="#1a1a1f" stroke="#333" stroke-width="1"/>
+</svg>
