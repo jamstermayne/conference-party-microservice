@@ -74,88 +74,24 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
       console.log("[parties] Live fetch failed, falling back to demo data:", fetchError);
     }
     
-    // Fallback to demo data with coordinates
-    const demoParties = [
-      {
-        id: "gamescom-opening-2025",
-        title: "Gamescom Opening Night Live",
-        venue: "Koelnmesse",
-        date: "2025-08-19",
-        time: "20:00",
-        start: "2025-08-19T20:00:00",
-        end: "2025-08-19T22:00:00",
-        price: "Free with ticket",
-        description: "The official opening ceremony",
-        lat: 50.9473,
-        lng: 6.9838,
-        coordinates: { lat: 50.9473, lng: 6.9838 },
-        address: "Messeplatz 1, 50679 Köln"
-      },
-      {
-        id: "devcom-2025",
-        title: "Devcom Developer Conference",
-        venue: "Koelnmesse",
-        date: "2025-08-17",
-        time: "09:00",
-        start: "2025-08-17T09:00:00",
-        end: "2025-08-17T18:00:00",
-        price: "From €399",
-        description: "Professional game developers conference",
-        lat: 50.9473,
-        lng: 6.9838,
-        coordinates: { lat: 50.9473, lng: 6.9838 },
-        address: "Messeplatz 1, 50679 Köln"
-      },
-      {
-        id: "xbox-party-2025",
-        title: "Xbox @ Gamescom Party",
-        venue: "Bootshaus",
-        date: "2025-08-20",
-        time: "20:00",
-        start: "2025-08-20T20:00:00",
-        end: "2025-08-21T02:00:00",
-        price: "Invite only",
-        description: "Exclusive Xbox celebration",
-        lat: 50.9620,
-        lng: 6.9960,
-        coordinates: { lat: 50.9620, lng: 6.9960 },
-        address: "Auenweg 173, 51063 Köln"
-      },
-      {
-        id: "unity-meetup-2025",
-        title: "Unity Developer Meetup",
-        venue: "Stadtgarten",
-        date: "2025-08-18",
-        time: "18:00",
-        start: "2025-08-18T18:00:00",
-        end: "2025-08-18T21:00:00",
-        price: "Free",
-        description: "Connect with Unity developers",
-        lat: 50.9229,
-        lng: 6.9302,
-        coordinates: { lat: 50.9229, lng: 6.9302 },
-        address: "Venloer Str. 40, 50672 Köln"
-      },
-      {
-        id: "indie-showcase-2025",
-        title: "Indie Games Showcase",
-        venue: "Musical Dome",
-        date: "2025-08-21",
-        time: "14:00",
-        start: "2025-08-21T14:00:00",
-        end: "2025-08-21T18:00:00",
-        price: "Free",
-        description: "Discover amazing indie games",
-        lat: 50.9513,
-        lng: 6.9778,
-        coordinates: { lat: 50.9513, lng: 6.9778 },
-        address: "Goldgasse 1, 50668 Köln"
-      }
-    ];
+    // Fallback to full Gamescom 2025 data
+    const gamescomData = require('../data/gamescom-2025-events.json');
     
-    console.log("[parties] Using demo data fallback - v2");
+    // Add coordinates to match expected format
+    const fullParties = gamescomData.map((event: any) => ({
+      ...event,
+      coordinates: { lat: event.lat, lng: event.lng },
+      address: event.venue + ", Cologne, Germany"
+    }));
+    
+    console.log(`[parties] Using Gamescom 2025 data - ${fullParties.length} events`);
+    
+    // Update cache with full data
+    cachedParties = fullParties;
+    cacheTimestamp = Date.now();
+    
     return res.json({
-      data: demoParties
+      data: fullParties
     });
     
   } catch (error) {
