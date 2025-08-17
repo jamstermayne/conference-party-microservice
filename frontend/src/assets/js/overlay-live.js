@@ -274,10 +274,11 @@ function wirePills() {
     btn.dataset._wired = '1';
     on(btn, 'click', async (e) => {
       e.preventDefault();
-      const date = btn.dataset.date || btn.dataset.iso || pickDateFromLabel(btn.textContent);
+      e.stopPropagation();
+      const date = btn.dataset.iso || btn.dataset.date || pickDateFromLabel(btn.textContent);
       if (!date) return;
       await openPartiesPanel(date);
-    }, { passive: true });
+    }, { passive: false });
   });
 
   // Map pill buttons
@@ -286,16 +287,33 @@ function wirePills() {
     btn.dataset._wired = '1';
     on(btn, 'click', async (e) => {
       e.preventDefault();
-      const date = btn.dataset.date || btn.dataset.iso || pickDateFromLabel(btn.textContent);
+      e.stopPropagation();
+      const date = btn.dataset.iso || btn.dataset.date || pickDateFromLabel(btn.textContent);
       if (!date) return;
       await openMapPanel(date);
-    }, { passive: true });
+    }, { passive: false });
   });
 }
 
 // ========= Boot =========
 async function boot() {
   await fetchParties();
-  wirePills();
+  
+  // Wait for pills to be rendered by home-pills-monfri.js
+  const waitForPills = () => {
+    const pills = document.querySelectorAll('.day-pill');
+    if (pills.length > 0) {
+      wirePills();
+    } else {
+      setTimeout(waitForPills, 100);
+    }
+  };
+  
+  // Also wire on DOM ready and after a delay to be sure
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', waitForPills);
+  } else {
+    waitForPills();
+  }
 }
 boot().catch(console.error);

@@ -42,14 +42,5 @@ async function renderPills() {
     });
   }
 }
-function wireNav() {
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.home-section .day-pills .day-pill');
-    if (!btn) return;
-    const iso = btn.dataset.iso;
-    const sec = btn.closest('.home-section')?.dataset.section;
-    if (sec === 'parties') location.hash = `#/parties/${iso}`;
-    else if (sec === 'map') location.hash = `#/map/${iso}`;
-  }, { passive: true });
-}
-renderPills(); wireNav();
+// Navigation wiring removed - handled by overlay-live.js
+renderPills();
