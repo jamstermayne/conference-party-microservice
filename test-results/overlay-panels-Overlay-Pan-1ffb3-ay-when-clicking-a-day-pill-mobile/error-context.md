@@ -16,6 +16,11 @@
     - button "20 Wed"
     - button "21 Thu"
     - button "22 Fri"
+  - heading "Quick Actions" [level=2]
+  - button "Invites"
+  - button "My calendar"
+  - button "Contacts"
+  - button "Account"
 - button "Back": ←
 - heading "Parties · 2025-08-19" [level=1]
 - article:

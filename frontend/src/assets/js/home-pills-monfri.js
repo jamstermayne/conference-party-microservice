@@ -1,5 +1,5 @@
 // home-pills-monfri.js
-import { loadParties, weekMonFriFromEarliest } from './parties-index.js';
+import { fetchAll, getPartiesByDate } from './parties-data.js';
 
 const pill = (iso, label) => {
   const b = document.createElement('button');
@@ -28,8 +28,21 @@ async function ensureSection(name) {
 }
 
 async function renderPills() {
-  const { dates } = await loadParties();
-  const monfri = weekMonFriFromEarliest(dates); // Mon–Fri only
+  await fetchAll(); // Load the data
+  
+  // Generate Mon-Fri for current week
+  const today = new Date();
+  const monday = new Date(today);
+  const day = monday.getDay();
+  const diff = monday.getDate() - day + (day === 0 ? -6 : 1); // Adjust to Monday
+  monday.setDate(diff);
+  
+  const monfri = [];
+  for (let i = 0; i < 5; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    monfri.push(d.toISOString().slice(0, 10));
+  }
 
   for (const secName of ['parties','map']) {
     const sec = await ensureSection(secName);

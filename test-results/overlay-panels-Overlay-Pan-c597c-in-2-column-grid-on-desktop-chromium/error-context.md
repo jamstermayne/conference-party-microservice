@@ -16,4 +16,9 @@
     - button "20 Wed"
     - button "21 Thu"
     - button "22 Fri"
+  - heading "Quick Actions" [level=2]
+  - button "Invites"
+  - button "My calendar"
+  - button "Contacts"
+  - button "Account"
 ```

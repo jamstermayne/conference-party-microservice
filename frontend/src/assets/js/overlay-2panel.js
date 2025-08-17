@@ -12,17 +12,17 @@ function ensureOverlay() {
   if (el) return el;
   el = document.createElement('section');
   el.id = OVERLAY_ID;
-  el.className = 'panel';
+  el.className = 'panel overlay';
   el.innerHTML = `
     <header class="panel__head">
-      <button class="btn btn--ghost" data-action="back" aria-label="Back">←</button>
+      <button class="btn btn--ghost btn-back" data-action="back" aria-label="Back">←</button>
       <h1 class="panel__title"></h1>
     </header>
     <div class="panel__body"></div>
   `;
   document.body.appendChild(el);
   el.addEventListener('click', (e) => {
-    const b = e.target.closest('[data-action="back"]');
+    const b = e.target.closest('[data-action="back"], .btn-back');
     if (b) hideOverlay();
   }, { passive: true });
   return el;
@@ -42,12 +42,12 @@ function cardHTML(e) {
   const when = e.start ? new Date(e.start).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }) : '';
   const where = e.venue ? ` · ${e.venue}` : '';
   return `
-    <article class="vcard" data-id="${e.id}">
+    <article class="vcard party-card" data-id="${e.id}">
       <header><h3>${e.title}</h3></header>
       <div class="meta">${e.date}${when?` ${when}`:''}${where}</div>
       ${e.description ? `<p>${e.description}</p>` : ''}
       <footer>
-        <button class="btn btn-primary" data-action="add-to-calendar" data-id="${e.id}">Add to Calendar</button>
+        <button class="btn btn-primary btn-cta" data-action="ics" data-id="${e.id}">Add to Calendar</button>
       </footer>
     </article>
   `;
@@ -74,7 +74,7 @@ async function mountParties(dateStr) {
 
   // Calendar button wiring (placeholder client-side ICS)
   body.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-action="add-to-calendar"]');
+    const btn = e.target.closest('[data-action="ics"], [data-action="add-to-calendar"]');
     if (!btn) return;
     const card = btn.closest('.vcard');
     const title = card.querySelector('h3')?.textContent || 'Party';
@@ -127,12 +127,12 @@ function ensureMapsLoader() {
 async function mountMap(dateStr) {
   await ensureMapsLoader();
   const body = showOverlay(`Map · ${dateStr}`);
-  body.innerHTML = `<div id="_overlay_map"></div>`;
+  body.innerHTML = `<div id="overlay-map"></div>`;
   if (!window.google?.maps) {
     body.insertAdjacentHTML('beforeend','<p>Map failed to load.</p>');
     return;
   }
-  const mapEl = body.querySelector('#_overlay_map');
+  const mapEl = body.querySelector('#overlay-map');
   const map = new google.maps.Map(mapEl, {
     zoom: 12,
     center: { lat: 50.9375, lng: 6.9603 },
@@ -188,12 +188,35 @@ function wirePills() {
 }
 
 /* Boot */
-document.addEventListener('DOMContentLoaded', () => {
-  wirePills();
+function initWiring() {
+  // Wait for pills to exist
+  const checkPills = () => {
+    const pills = document.querySelectorAll('.day-pill');
+    if (pills.length > 0) {
+      console.log('[overlay-2panel] Found', pills.length, 'pills, wiring...');
+      wirePills();
+    } else {
+      console.log('[overlay-2panel] No pills yet, waiting...');
+      setTimeout(checkPills, 200);
+    }
+  };
+  checkPills();
+}
+
+// Try multiple init strategies
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initWiring);
+} else {
+  // DOM already loaded, wait a bit for pills to render
+  setTimeout(initWiring, 100);
+}
+
+// Also watch for dynamic updates
+const mo = new MutationObserver(() => {
+  const pills = document.querySelectorAll('.day-pill:not([__wired])');
+  if (pills.length > 0) wirePills();
 });
-/* In case DOM updates dynamically */
-const mo = new MutationObserver(() => wirePills());
-mo.observe(document.documentElement, { childList:true, subtree:true });
+mo.observe(document.body, { childList:true, subtree:true });
 
 /* ESC to close */
 document.addEventListener('keydown', (e) => {

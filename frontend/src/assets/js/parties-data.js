@@ -22,7 +22,7 @@ function normalize(p) {
   };
 }
 
-async function fetchAll() {
+export async function fetchAll() {
   const res = await fetch(ENDPOINT, { headers: { 'accept':'application/json' }});
   const data = await res.json().catch(()=>[]);
   const list = (Array.isArray(data?.data) ? data.data
