@@ -3,14 +3,62 @@
  * Complete CSS for integrated parties, calendar, invites, contacts, account
  */
 
+/* Invite Refill Notification */
+.invite-refill-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: var(--color-accent);
+  color: white;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideInRight 0.3s ease-out;
+}
+
+.invite-refill-notification .notification-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Redemption Progress */
+.redemption-progress {
+  background: var(--color-accent-weak) !important;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--border-radius-sm);
+}
+
+.redemption-progress small {
+  display: block;
+  opacity: 0.8;
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
 /* App Foundation */
 .unified-app {
   min-height: 100vh;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   background: var(--color-bg);
   color: var(--color-text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  position: relative;
 }
 
 /* Header */
@@ -25,12 +73,61 @@
 
 .header-content {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--s-4);
   padding: var(--s-3) var(--s-4);
   max-width: 1200px;
   margin: 0 auto;
+}
+
+/* Top Navigation Tabs */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+}
+
+.nav-tab {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r-2);
+  color: var(--color-text-dim);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.nav-tab:hover {
+  background: var(--color-surface-2);
+  color: var(--color-text);
+}
+
+.nav-tab--active {
+  background: var(--color-accent-weak);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.nav-tab svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 768px) {
+  .nav-tab span {
+    display: none;
+  }
+  
+  .nav-tab {
+    padding: var(--s-2);
+  }
 }
 
 .app-logo h1 {
@@ -104,6 +201,7 @@
 /* Main Content */
 .app-main {
   padding: var(--s-4);
+  padding-bottom: 80px; /* Space for fixed bottom nav */
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
@@ -129,6 +227,105 @@
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* Calendar Sync Prompt */
+.calendar-sync-prompt {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  z-index: 200;
+  max-width: 90%;
+  width: 380px;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.calendar-sync-prompt--visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sync-prompt-content {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-3);
+  padding: var(--s-5);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+}
+
+.sync-prompt-header {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-3);
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.sync-prompt-content p {
+  color: var(--color-text-dim);
+  margin-bottom: var(--s-4);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.sync-prompt-actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--s-3);
+}
+
+.sync-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-2);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--color-surface-2);
+  color: var(--color-text);
+}
+
+.sync-btn--google {
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+
+.sync-btn--google:hover {
+  background: var(--color-accent-strong);
+  transform: translateY(-1px);
+}
+
+.sync-btn--later {
+  color: var(--color-text-dim);
+}
+
+.sync-btn--later:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+@media (max-width: 480px) {
+  .calendar-sync-prompt {
+    width: calc(100% - 32px);
+    bottom: 80px;
+  }
+  
+  .sync-prompt-actions {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Section Headers */
@@ -802,13 +999,33 @@
   transform: translateY(-2px);
 }
 
-/* Bottom Navigation */
+/* Bottom Navigation - Mobile Only */
 .bottom-nav {
-  display: grid;
+  display: none; /* Hidden by default, shown on mobile */
   grid-template-columns: repeat(5, 1fr);
   background: var(--color-surface);
   border-top: 1px solid var(--color-border);
   backdrop-filter: blur(20px);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+@media (max-width: 768px) {
+  .bottom-nav {
+    display: grid;
+  }
+  
+  /* Hide top nav on mobile - using bottom nav instead */
+  .top-nav {
+    display: none;
+  }
+  
+  .header-content {
+    grid-template-columns: 1fr auto;
+  }
 }
 
 .nav-item {
@@ -1177,6 +1394,155 @@ button:focus-visible,
 .contact-card:not(:hover),
 .calendar-event:not(:hover) {
   will-change: auto;
+}
+
+/* Profile Editor Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--s-4);
+}
+
+.modal-content {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-3);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  padding: var(--s-2);
+  cursor: pointer;
+  color: var(--color-text-dim);
+  border-radius: var(--r-2);
+  transition: all var(--transition-fast);
+}
+
+.modal-close:hover {
+  background: var(--color-surface-2);
+  color: var(--color-text);
+}
+
+.profile-form {
+  padding: var(--s-5);
+  display: grid;
+  gap: var(--s-4);
+}
+
+.form-group {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.admin-badge {
+  background: var(--color-accent);
+  color: white;
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--r-1);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-group input {
+  padding: var(--s-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-2);
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  font-size: 0.875rem;
+  transition: all var(--transition-fast);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  background: var(--color-surface);
+  box-shadow: 0 0 0 3px var(--color-accent-weak);
+}
+
+.form-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+}
+
+.btn-primary, .btn-secondary {
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-2);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: 1px solid var(--color-border);
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: white;
+  border-color: transparent;
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-strong);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--color-surface-2);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  .form-actions {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Critical CSS - Above the fold */

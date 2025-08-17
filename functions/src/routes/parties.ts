@@ -1,13 +1,14 @@
 import { Router, Request, Response } from "express";
 import { getPartiesFromFirestore, fetchLive } from "../services/parties-live";
 import { runIngest } from "../jobs/ingest-parties";
+import { fetchFromGoogleSheets, mapSheetRowToParty } from "../services/sheets-client";
 
 const router = Router();
 
 // Cache settings
 let cachedParties: any[] | null = null;
 let cacheTimestamp = 0;
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes - good balance for stability
 
 /**
  * GET /api/parties?conference=gamescom2025 - Get parties for a conference
@@ -50,32 +51,52 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
       });
     }
     
-    // Fallback: Try to fetch live data directly
-    console.log("[parties] No Firestore data, fetching live");
+    // Try to fetch from Google Sheets using service account
+    console.log("[parties] No Firestore data, fetching from Google Sheets");
     
     try {
-      const liveParties = await fetchLive();
+      const sheetRows = await fetchFromGoogleSheets();
       
-      if (liveParties.length > 0) {
-        // Update cache
-        cachedParties = liveParties;
-        cacheTimestamp = Date.now();
+      if (sheetRows.length > 0) {
+        // Map rows to party objects
+        const parties = sheetRows
+          .map((row, index) => mapSheetRowToParty(row, index))
+          .filter(party => party !== null);
         
-        // Trigger background ingestion for next time
-        runIngest().catch(err => 
-          console.error("[parties] Background ingest failed:", err)
-        );
+        console.log(`[parties] Mapped ${parties.length} valid parties from Google Sheets`);
         
-        return res.json({
-          data: liveParties
-        });
+        if (parties.length > 0) {
+          // Update cache
+          cachedParties = parties;
+          cacheTimestamp = Date.now();
+          
+          return res.json({
+            data: parties
+          });
+        }
       }
-    } catch (fetchError) {
-      console.log("[parties] Live fetch failed, falling back to demo data:", fetchError);
+    } catch (sheetsError) {
+      console.log("[parties] Google Sheets fetch failed:", sheetsError);
+      
+      // Try the old fetchLive method as fallback
+      try {
+        const liveParties = await fetchLive();
+        
+        if (liveParties.length > 0) {
+          cachedParties = liveParties;
+          cacheTimestamp = Date.now();
+          
+          return res.json({
+            data: liveParties
+          });
+        }
+      } catch (fetchError) {
+        console.log("[parties] Live fetch also failed:", fetchError);
+      }
     }
     
-    // Fallback to full Gamescom 2025 data
-    const gamescomData = require('../data/gamescom-2025-events.json');
+    // Fallback to full Gamescom 2025 data (all 67 events)
+    const gamescomData = require('../data/gamescom-2025-all-67-events.json');
     
     // Add coordinates to match expected format
     const fullParties = gamescomData.map((event: any) => ({

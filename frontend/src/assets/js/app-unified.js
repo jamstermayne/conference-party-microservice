@@ -140,19 +140,131 @@ class UnifiedConferenceApp {
     const storedUser = localStorage.getItem('conference_user');
     if (storedUser) {
       this.currentUser = JSON.parse(storedUser);
+      // Convert savedEvents array back to Set
+      if (Array.isArray(this.currentUser.savedEvents)) {
+        this.currentUser.savedEvents = new Set(this.currentUser.savedEvents);
+      } else if (!this.currentUser.savedEvents) {
+        this.currentUser.savedEvents = new Set();
+      }
     } else {
       this.currentUser = {
         id: this.generateUserId(),
         created: new Date().toISOString(),
-        profile: {},
-        invites: { available: 10, sent: [], received: [] },
+        profile: {
+          name: 'Professional',
+          role: 'Conference Attendee', 
+          company: '',
+          email: '',
+          phone: '',
+          linkedin: ''
+        },
+        invites: { available: 10, sent: [], received: [], redemptions: 0 },
         connections: [],
         rsvps: {},
         savedEvents: new Set(),
         preferences: { notifications: true, location: false }
       };
-      localStorage.setItem('conference_user', JSON.stringify(this.currentUser));
+      this.saveUserData();
     }
+    
+    // Check for admin privileges
+    this.checkAdminStatus();
+  }
+
+  checkAdminStatus() {
+    const adminEmail = 'jamy@nigriconsulting.com';
+    const userEmail = this.currentUser.profile?.email?.toLowerCase();
+    
+    if (userEmail === adminEmail) {
+      this.currentUser.isAdmin = true;
+      this.currentUser.invites.available = 99999; // Unlimited
+      console.log('[Admin] Admin privileges activated for', userEmail);
+    } else {
+      this.currentUser.isAdmin = false;
+      // Check for redemption-based invite refills
+      this.checkInviteRefill();
+    }
+    
+    this.saveUserData();
+  }
+
+  checkInviteRefill() {
+    // Award 5 new invites for every 5 redemptions
+    const redemptions = this.currentUser.invites.redemptions || 0;
+    const refillsEarned = Math.floor(redemptions / 5);
+    const baseInvites = 10;
+    const bonusInvites = refillsEarned * 5;
+    const totalEarnedInvites = baseInvites + bonusInvites;
+    
+    // Calculate how many invites should be available based on usage
+    const invitesSent = this.currentUser.invites.sent?.length || 0;
+    const shouldHaveAvailable = Math.max(0, totalEarnedInvites - invitesSent);
+    
+    // Update if current available is less than what they should have
+    if (this.currentUser.invites.available < shouldHaveAvailable) {
+      const oldAvailable = this.currentUser.invites.available;
+      this.currentUser.invites.available = shouldHaveAvailable;
+      console.log(`[Invite Refill] Redemptions: ${redemptions}, Refills earned: ${refillsEarned}, Available: ${oldAvailable} → ${shouldHaveAvailable}`);
+    }
+  }
+
+  // Track when someone redeems an invite
+  recordInviteRedemption() {
+    if (!this.currentUser.invites.redemptions) {
+      this.currentUser.invites.redemptions = 0;
+    }
+    
+    this.currentUser.invites.redemptions++;
+    console.log(`[Redemption] User now has ${this.currentUser.invites.redemptions} redemptions`);
+    
+    // Check if they earned new invites (every 5 redemptions = +5 invites)
+    const newRefills = Math.floor(this.currentUser.invites.redemptions / 5);
+    const oldRefills = Math.floor((this.currentUser.invites.redemptions - 1) / 5);
+    
+    if (newRefills > oldRefills) {
+      this.currentUser.invites.available += 5;
+      console.log(`[Bonus] +5 invites earned! New total: ${this.currentUser.invites.available}`);
+      
+      // Show notification to user
+      this.showInviteRefillNotification();
+    }
+    
+    this.saveUserData();
+  }
+
+  showInviteRefillNotification() {
+    const notification = document.createElement('div');
+    notification.className = 'invite-refill-notification';
+    notification.innerHTML = `
+      <div class="notification-content">
+        🎉 <strong>Bonus Invites Earned!</strong><br>
+        +5 invites for reaching ${this.currentUser.invites.redemptions} redemptions
+      </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto-remove after 4 seconds
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 4000);
+  }
+
+  // Admin test function to simulate redemptions
+  testRedemptions(count = 1) {
+    if (!this.currentUser.isAdmin) {
+      console.log('Only admins can test redemptions');
+      return;
+    }
+    
+    for (let i = 0; i < count; i++) {
+      this.recordInviteRedemption();
+    }
+    
+    this.renderMainInterface();
+    console.log(`[Test] Added ${count} redemptions. Total: ${this.currentUser.invites.redemptions}`);
   }
 
   setupNavigation() {
@@ -160,24 +272,54 @@ class UnifiedConferenceApp {
     // Build the complete interface with navigation
     app.innerHTML = `
       <div class="unified-app">
-        <!-- Header with signature design -->
+        <!-- Header with navigation tabs -->
         <header class="app-header">
           <div class="header-content">
             <div class="app-logo">
               <h1>Gamescom 2025</h1>
               <span class="tagline">Professional Networking</span>
             </div>
+            
+            <!-- Top navigation tabs -->
+            <nav class="top-nav">
+              <button class="nav-tab nav-tab--active" data-section="parties">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span>Parties</span>
+              </button>
+              <button class="nav-tab" data-section="calendar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zM19 19H5V8h14v11z"/>
+                </svg>
+                <span>Calendar</span>
+              </button>
+              <button class="nav-tab" data-section="contacts">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.5 7h-5c-.8 0-1.52.5-1.8 1.2l-2.12 5.31L7 12c-1.1 0-2 .9-2 2v8h2v-4h2v4h2v-3.5c0-.28.22-.5.5-.5s.5.22.5.5V22h8z"/>
+                </svg>
+                <span>Contacts</span>
+              </button>
+              <button class="nav-tab" data-section="invites">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                <span>Invites</span>
+              </button>
+              <button class="nav-tab" data-section="account">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                </svg>
+                <span>Account</span>
+              </button>
+            </nav>
+            
             <div class="header-actions">
               <button class="notification-btn" data-action="notifications">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
                 </svg>
                 <span class="notification-count" id="notification-count"></span>
-              </button>
-              <button class="profile-btn" data-action="profile" aria-label="Profile">
-                <div class="profile-avatar">
-                  <span>${this.currentUser?.profile?.name?.[0] || 'U'}</span>
-                </div>
               </button>
             </div>
           </div>
@@ -495,24 +637,38 @@ class UnifiedConferenceApp {
 
   async renderInvitesSection(container) {
     const inviteData = await this.fetchInviteStatus();
+    const availableText = this.currentUser.isAdmin ? 'Unlimited' : inviteData.available;
+    const isDisabled = !this.currentUser.isAdmin && inviteData.available === 0;
+    
+    // Calculate redemption progress for non-admin users
+    const redemptions = this.currentUser.invites.redemptions || 0;
+    const progressToNext = redemptions % 5;
+    const nextBonus = 5 - progressToNext;
+    const showProgress = !this.currentUser.isAdmin && redemptions < 50; // Show up to 10 bonus rounds
     
     container.innerHTML = `
       <div class="section-invites">
         <div class="section-header">
-          <h2>Invite System</h2>
+          <h2>Invite System ${this.currentUser.isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}</h2>
           <div class="invite-stats">
             <span class="stat-item">
-              <strong>${inviteData.available}</strong> Available
+              <strong>${availableText}</strong> Available
             </span>
             <span class="stat-item">
               <strong>${inviteData.sent.length}</strong> Sent
             </span>
+            ${showProgress ? `
+            <span class="stat-item redemption-progress">
+              <strong>${redemptions}</strong> Redemptions
+              <small>+5 invites in ${nextBonus} more</small>
+            </span>
+            ` : ''}
           </div>
         </div>
         
         <div class="invite-content">
           <div class="invite-actions">
-            <button class="primary-btn" data-action="create-invite" ${inviteData.available === 0 ? 'disabled' : ''}>
+            <button class="primary-btn" data-action="create-invite" ${isDisabled ? 'disabled' : ''}>
               <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/>
               </svg>
@@ -707,8 +863,8 @@ class UnifiedConferenceApp {
     window.addEventListener('online', () => this.isOnline = true);
     window.addEventListener('offline', () => this.isOnline = false);
     
-    // Navigation
-    document.querySelectorAll('.nav-item').forEach(item => {
+    // Navigation - handle both top nav tabs and bottom nav items
+    document.querySelectorAll('.nav-tab, .nav-item').forEach(item => {
       item.addEventListener('click', (e) => {
         const section = e.currentTarget.dataset.section;
         this.navigateToSection(section);
@@ -833,8 +989,13 @@ class UnifiedConferenceApp {
       console.error('Failed to fetch invite status:', error);
     }
     
-    // Fallback to localStorage
-    return this.currentUser.invites;
+    // Fallback to localStorage with safe defaults
+    return this.currentUser?.invites || { 
+      available: 10, 
+      sent: [], 
+      received: [], 
+      redemptions: 0 
+    };
   }
 
   async toggleSaveParty(partyId) {
@@ -842,8 +1003,12 @@ class UnifiedConferenceApp {
     
     if (isSaved) {
       this.currentUser.savedEvents.delete(partyId);
+      this.showToast('Event removed from saved');
     } else {
       this.currentUser.savedEvents.add(partyId);
+      
+      // Show calendar sync prompt when saving
+      this.showCalendarSyncPrompt(partyId);
     }
     
     this.saveUserData();
@@ -853,6 +1018,71 @@ class UnifiedConferenceApp {
     if (saveBtn) {
       saveBtn.classList.toggle('save-btn--saved', !isSaved);
     }
+  }
+  
+  showCalendarSyncPrompt(partyId) {
+    // Create a floating prompt for calendar sync
+    const prompt = document.createElement('div');
+    prompt.className = 'calendar-sync-prompt';
+    prompt.innerHTML = `
+      <div class="sync-prompt-content">
+        <div class="sync-prompt-header">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zM19 19H5V8h14v11z"/>
+          </svg>
+          <span>Event Saved!</span>
+        </div>
+        <p>Would you like to sync this event to your calendar?</p>
+        <div class="sync-prompt-actions">
+          <button class="sync-btn sync-btn--google" data-action="sync-google-calendar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Google Calendar
+          </button>
+          <button class="sync-btn sync-btn--later" data-action="dismiss-sync">
+            Later
+          </button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(prompt);
+    
+    // Animate in
+    requestAnimationFrame(() => {
+      prompt.classList.add('calendar-sync-prompt--visible');
+    });
+    
+    // Handle actions
+    prompt.addEventListener('click', async (e) => {
+      const action = e.target.closest('[data-action]')?.dataset.action;
+      
+      if (action === 'sync-google-calendar') {
+        await this.syncGoogleCalendar();
+        this.removePrompt(prompt);
+      } else if (action === 'dismiss-sync') {
+        this.removePrompt(prompt);
+        this.showToast('Event saved! You can sync to calendar anytime from the Calendar tab.');
+      }
+    });
+    
+    // Auto-dismiss after 8 seconds
+    setTimeout(() => {
+      if (prompt.parentNode) {
+        this.removePrompt(prompt);
+      }
+    }, 8000);
+  }
+  
+  removePrompt(prompt) {
+    prompt.classList.remove('calendar-sync-prompt--visible');
+    setTimeout(() => {
+      prompt.remove();
+    }, 300);
   }
 
   async handleRSVP(partyId) {
@@ -888,11 +1118,20 @@ class UnifiedConferenceApp {
       
       if (response.ok) {
         const result = await response.json();
-        this.currentUser.invites.available--;
+        
+        // Only decrease count for non-admin users
+        if (!this.currentUser.isAdmin) {
+          this.currentUser.invites.available--;
+        }
+        
         this.currentUser.invites.sent.push(result);
         this.saveUserData();
         this.renderMainInterface();
-        this.showToast('Invite created successfully!');
+        
+        const message = this.currentUser.isAdmin ? 
+          'Admin invite created successfully! (Unlimited remaining)' : 
+          'Invite created successfully!';
+        this.showToast(message);
       }
     } catch (error) {
       console.error('Failed to create invite:', error);
@@ -917,6 +1156,118 @@ class UnifiedConferenceApp {
     }
   }
 
+  openProfileEditor() {
+    const profile = this.currentUser.profile;
+    
+    // Create modal overlay
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-content profile-editor">
+        <div class="modal-header">
+          <h3>Edit Profile</h3>
+          <button class="modal-close" data-action="close-modal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+        
+        <form class="profile-form" id="profile-form">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="name" value="${profile?.name || ''}" placeholder="Your full name" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Email Address ${this.currentUser.isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}</label>
+            <input type="email" name="email" value="${profile?.email || ''}" placeholder="your.email@company.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Role/Title</label>
+            <input type="text" name="role" value="${profile?.role || ''}" placeholder="e.g., Game Developer, Publisher">
+          </div>
+          
+          <div class="form-group">
+            <label>Company</label>
+            <input type="text" name="company" value="${profile?.company || ''}" placeholder="Your company name">
+          </div>
+          
+          <div class="form-group">
+            <label>Phone (Optional)</label>
+            <input type="tel" name="phone" value="${profile?.phone || ''}" placeholder="+1 (555) 123-4567">
+          </div>
+          
+          <div class="form-group">
+            <label>LinkedIn Profile (Optional)</label>
+            <input type="url" name="linkedin" value="${profile?.linkedin || ''}" placeholder="https://linkedin.com/in/yourprofile">
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" data-action="close-modal">Cancel</button>
+            <button type="submit" class="btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    `;
+    
+    // Add to page
+    document.body.appendChild(modal);
+    
+    // Handle form submission
+    const form = modal.querySelector('#profile-form');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.saveProfileChanges(new FormData(form));
+      modal.remove();
+    });
+    
+    // Handle modal close
+    modal.addEventListener('click', (e) => {
+      if (e.target.matches('.modal-overlay, .modal-close, [data-action="close-modal"]')) {
+        modal.remove();
+      }
+    });
+    
+    // Focus first input
+    setTimeout(() => {
+      modal.querySelector('input[name="name"]').focus();
+    }, 100);
+  }
+
+  saveProfileChanges(formData) {
+    const profile = this.currentUser.profile;
+    const oldEmail = profile.email;
+    
+    // Update profile data
+    profile.name = formData.get('name');
+    profile.email = formData.get('email');
+    profile.role = formData.get('role');
+    profile.company = formData.get('company');
+    profile.phone = formData.get('phone');
+    profile.linkedin = formData.get('linkedin');
+    
+    // Re-check admin status after email change
+    this.checkAdminStatus();
+    
+    // Save to localStorage
+    this.saveUserData();
+    
+    // Refresh UI
+    this.renderMainInterface();
+    
+    // Show success message with admin status if changed
+    let message = 'Profile updated successfully!';
+    if (profile.email !== oldEmail && this.currentUser.isAdmin) {
+      message += ' Admin privileges activated - unlimited invites enabled!';
+    }
+    this.showToast(message);
+    
+    console.log('[Profile] Updated:', profile);
+    console.log('[Admin] Status:', this.currentUser.isAdmin);
+  }
+
   // Utility Methods
   getCurrentSection() {
     const hash = window.location.hash;
@@ -924,7 +1275,10 @@ class UnifiedConferenceApp {
   }
 
   navigateToSection(section) {
-    // Update nav state
+    // Update nav state for both top tabs and bottom nav
+    document.querySelectorAll('.nav-tab').forEach(item => {
+      item.classList.toggle('nav-tab--active', item.dataset.section === section);
+    });
     document.querySelectorAll('.nav-item').forEach(item => {
       item.classList.toggle('nav-item--active', item.dataset.section === section);
     });

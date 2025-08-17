@@ -1,6 +1,6 @@
 // Optimized API client with fallbacks
 const API_ENDPOINTS = [
-  'https://us-central1-conference-party-app.cloudfunctions.net',
+  'https://us-central1-conference-party-app.cloudfunctions.net/apiFn',
   'https://conference-party-app.web.app/api'
 ];
 
@@ -57,8 +57,10 @@ export async function fetchParties() {
   
   for (const baseUrl of API_ENDPOINTS) {
     try {
-      // Both URLs should use /api/parties endpoint
-      const url = `${baseUrl}/api/parties?conference=${encodeURIComponent(CONF)}`;
+      // First endpoint: Direct Cloud Function URL with /apiFn already, just add /parties
+      // Second endpoint: Firebase rewrite handles /api, so just use /parties  
+      const endpoint = baseUrl.includes('cloudfunctions.net') ? '/parties' : '/parties';
+      const url = `${baseUrl}${endpoint}?conference=${encodeURIComponent(CONF)}`;
       const raw = await getJSON(url, { timeout: 5000 });
       
       const parties = Array.isArray(raw?.data) ? raw.data : 
