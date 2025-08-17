@@ -1,0 +1,547 @@
+/**
+ * Modern Invites System
+ * Glass morphism design matching the app aesthetic
+ */
+
+/* ============================================
+   Invites Panel Container
+   ============================================ */
+#panel-invites {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 480px;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 20, 0.98) 0%,
+    rgba(20, 10, 30, 0.98) 100%
+  );
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.3);
+}
+
+#panel-invites.panel--active {
+  transform: translateX(0);
+}
+
+/* ============================================
+   Invites Header
+   ============================================ */
+.invites-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-5) var(--s-4) var(--s-4);
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(20px);
+}
+
+.invites-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  background: linear-gradient(135deg, #fff, #e0e0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   New Invite Button
+   ============================================ */
+.btn-new-invite {
+  padding: var(--s-3) var(--s-4);
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: white;
+  border: none;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 12px rgba(139, 92, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.btn-new-invite:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 20px rgba(139, 92, 246, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-new-invite:active {
+  transform: translateY(0);
+}
+
+.btn-new-invite::before {
+  content: '+';
+  font-size: 18px;
+  font-weight: 300;
+}
+
+/* ============================================
+   Invites List Container
+   ============================================ */
+.invites-list {
+  padding: var(--s-4);
+  display: grid;
+  gap: var(--s-4);
+  height: calc(100% - 80px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.invites-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.invites-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.invites-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, 
+    rgba(139, 92, 246, 0.3),
+    rgba(236, 72, 153, 0.2));
+  border-radius: 3px;
+}
+
+/* ============================================
+   Invite Card (Glass Morphism)
+   ============================================ */
+.invite-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  padding: var(--s-4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.invite-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.invite-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.2),
+    0 0 60px rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+.invite-card:hover::before {
+  opacity: 1;
+}
+
+/* Status-based card styling */
+.invite-card[data-status="accepted"] {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.08) 0%,
+    rgba(34, 197, 94, 0.02) 100%
+  );
+}
+
+.invite-card[data-status="declined"] {
+  opacity: 0.6;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.invite-card[data-status="maybe"] {
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+/* ============================================
+   Card Header
+   ============================================ */
+.invite-card header {
+  margin-bottom: var(--s-3);
+}
+
+.invite-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 var(--s-2) 0;
+  line-height: 1.3;
+}
+
+.invite-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.invite-meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+.invite-meta-item svg {
+  width: 16px;
+  height: 16px;
+  opacity: 0.6;
+}
+
+.invite-meta time {
+  color: #a78bfa;
+}
+
+.invite-meta .loc {
+  color: #fbbf24;
+}
+
+/* ============================================
+   Recipient Info
+   ============================================ */
+.invite-recipient {
+  padding: var(--s-3);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--s-3);
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.invite-recipient-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.invite-recipient-info {
+  flex: 1;
+}
+
+.invite-recipient-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 2px;
+}
+
+.invite-recipient-email {
+  font-size: 15px;
+  color: white;
+  font-weight: 600;
+}
+
+/* ============================================
+   Quick Actions (Modern Design)
+   ============================================ */
+.invite-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+}
+
+.invite-action-btn {
+  padding: var(--s-3);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+.invite-action-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.invite-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.invite-action-btn:hover::before {
+  opacity: 1;
+}
+
+.invite-action-btn:active {
+  transform: translateY(0);
+}
+
+/* Action button variants */
+.invite-action-btn[data-status="accepted"] {
+  background: linear-gradient(135deg, 
+    rgba(34, 197, 94, 0.15),
+    rgba(34, 197, 94, 0.05));
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.invite-action-btn[data-status="accepted"]:hover {
+  background: linear-gradient(135deg,
+    rgba(34, 197, 94, 0.25),
+    rgba(34, 197, 94, 0.1));
+  border-color: rgba(34, 197, 94, 0.5);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+}
+
+.invite-action-btn[data-status="maybe"] {
+  background: linear-gradient(135deg,
+    rgba(251, 191, 36, 0.15),
+    rgba(251, 191, 36, 0.05));
+  border-color: rgba(251, 191, 36, 0.3);
+  color: #fbbf24;
+}
+
+.invite-action-btn[data-status="maybe"]:hover {
+  background: linear-gradient(135deg,
+    rgba(251, 191, 36, 0.25),
+    rgba(251, 191, 36, 0.1));
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
+}
+
+.invite-action-btn[data-status="declined"] {
+  background: linear-gradient(135deg,
+    rgba(239, 68, 68, 0.15),
+    rgba(239, 68, 68, 0.05));
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.invite-action-btn[data-status="declined"]:hover {
+  background: linear-gradient(135deg,
+    rgba(239, 68, 68, 0.25),
+    rgba(239, 68, 68, 0.1));
+  border-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.invite-action-icon {
+  font-size: 20px;
+}
+
+/* ============================================
+   Status Badge
+   ============================================ */
+.invite-status {
+  position: absolute;
+  top: var(--s-4);
+  right: var(--s-4);
+  padding: var(--s-1) var(--s-3);
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.invite-status[data-status="accepted"] {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.invite-status[data-status="declined"] {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.invite-status[data-status="maybe"] {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.3);
+  color: #fbbf24;
+}
+
+/* ============================================
+   Delete Button
+   ============================================ */
+.invite-delete-btn {
+  position: absolute;
+  bottom: var(--s-4);
+  right: var(--s-4);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.invite-card:hover .invite-delete-btn {
+  opacity: 1;
+}
+
+.invite-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  transform: scale(1.1);
+}
+
+/* ============================================
+   Empty State
+   ============================================ */
+.invites-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 200px);
+  text-align: center;
+  padding: var(--s-6);
+}
+
+.invites-empty-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: var(--s-4);
+  background: linear-gradient(135deg,
+    rgba(139, 92, 246, 0.2),
+    rgba(236, 72, 153, 0.1));
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+
+.invites-empty-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: var(--s-2);
+}
+
+.invites-empty-text {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: var(--s-5);
+}
+
+/* ============================================
+   Mobile Responsiveness
+   ============================================ */
+@media (max-width: 640px) {
+  #panel-invites {
+    max-width: 100%;
+  }
+  
+  .invites-header {
+    padding: var(--s-4) var(--s-3) var(--s-3);
+  }
+  
+  .invites-header h1 {
+    font-size: 20px;
+  }
+  
+  .invites-list {
+    padding: var(--s-3);
+    gap: var(--s-3);
+  }
+  
+  .invite-card {
+    padding: var(--s-3);
+  }
+  
+  .invite-actions {
+    grid-template-columns: 1fr;
+    gap: var(--s-2);
+  }
+  
+  .invite-action-btn {
+    flex-direction: row;
+    justify-content: center;
+    padding: var(--s-2) var(--s-3);
+  }
+}
+
+/* ============================================
+   Animation Classes
+   ============================================ */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.invite-card {
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.invite-card:nth-child(1) { animation-delay: 0.05s; }
+.invite-card:nth-child(2) { animation-delay: 0.1s; }
+.invite-card:nth-child(3) { animation-delay: 0.15s; }
+.invite-card:nth-child(4) { animation-delay: 0.2s; }
+.invite-card:nth-child(5) { animation-delay: 0.25s; }

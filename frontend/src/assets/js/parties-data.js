@@ -23,22 +23,54 @@ function normalize(p) {
 }
 
 export async function fetchAll() {
-  const res = await fetch(ENDPOINT, { headers: { 'accept':'application/json' }});
-  const data = await res.json().catch(()=>[]);
-  const list = (Array.isArray(data?.data) ? data.data
-    : Array.isArray(data?.parties) ? data.parties
-    : Array.isArray(data) ? data : []).map(normalize);
-
-  const byDate = new Map();
-  for (const e of list) {
-    if (!e.date) continue;
-    if (!byDate.has(e.date)) byDate.set(e.date, []);
-    byDate.get(e.date).push(e);
+  // Try API first
+  if (window.apiIntegration) {
+    try {
+      const apiData = await window.apiIntegration.getParties();
+      if (apiData && apiData.length > 0) {
+        const list = apiData.map(normalize);
+        const byDate = new Map();
+        for (const e of list) {
+          if (!e.date) continue;
+          if (!byDate.has(e.date)) byDate.set(e.date, []);
+          byDate.get(e.date).push(e);
+        }
+        const dates = [...byDate.keys()].sort();
+        _cache = { list, byDate, dates };
+        return _cache;
+      }
+    } catch (err) {
+      console.log('[parties-data] API failed, trying direct fetch:', err);
+    }
   }
-  // stable, sorted dates
-  const dates = [...byDate.keys()].sort();
-  _cache = { list, byDate, dates };
-  return _cache;
+  
+  // Fallback to direct fetch
+  try {
+    const res = await fetch(ENDPOINT, { headers: { 'accept':'application/json' }});
+    const data = await res.json();
+    console.log('[parties-data] API response:', data);
+    
+    const list = (Array.isArray(data?.data) ? data.data
+      : Array.isArray(data?.events) ? data.events
+      : Array.isArray(data?.parties) ? data.parties
+      : Array.isArray(data) ? data : []).map(normalize);
+
+    const byDate = new Map();
+    for (const e of list) {
+      if (!e.date) continue;
+      if (!byDate.has(e.date)) byDate.set(e.date, []);
+      byDate.get(e.date).push(e);
+    }
+    // stable, sorted dates
+    const dates = [...byDate.keys()].sort();
+    _cache = { list, byDate, dates };
+    return _cache;
+  } catch (err) {
+    console.error('[parties-data] Failed to fetch:', err);
+    // Return empty cache
+    _cache = { list: [], byDate: new Map(), dates: [] };
+    return _cache;
+  }
 }
 
 export async function getPartiesByDate(dateStr) {
