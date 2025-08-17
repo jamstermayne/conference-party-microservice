@@ -1,3 +1,20 @@
+/* panels-2panel.css — token-only overlay + channel width polish
+   - Slide-in overlay panel (right → left), no inline styles
+   - Equal-width channel buttons in a tidy grid
+   - Left alignment + tight spacing, using your existing tokens
+*/
+
+:root {
+  /* fallbacks in case tokens missing */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px;
+  --r-2: 10px; --r-3: 12px;
+  --elev-2: 0 6px 18px rgba(0,0,0,.25);
+  --panel-bg: var(--color-panel-bg, rgba(8, 10, 14, 0.96));
+  --panel-header-bg: var(--color-panel-header, rgba(14, 18, 24, 0.96));
+  --panel-text: var(--color-text, #e6e7eb);
+  --accent: var(--color-accent, rgba(99, 102, 241, 0.85)); /* your Indigo glow */
+}
+
 /* Base: viewport */
 .app {
   background: var(--color-bg);
@@ -17,33 +34,89 @@
   z-index: 1;
 }
 
-/* Overlay panel (slides in) */
-.panel {
+/* ===== Overlay panel (second panel) ===== */
+.panel.overlay {
   position: fixed;
   inset: 0;
-  z-index: 10;
+  display: grid;
+  place-items: stretch;
+  background: transparent;           /* page remains visible beneath */
   transform: translateX(100%);
-  background: var(--color-surface);
-  box-shadow: var(--elev-shadow);
-  transition: transform var(--transition-panel);
-  will-change: transform;
+  transition: transform .28s ease-in-out;
+  z-index: 1000;
 }
-.panel.panel--active { transform: translateX(0); }
 
-/* Panel header (sticky) */
+.panel.overlay.panel--active {
+  transform: translateX(0);
+}
+
+.panel__wrap {
+  margin-left: auto;                 /* slide-in from right */
+  width: min(960px, 92vw);
+  height: 100%;
+  background: var(--panel-bg);
+  color: var(--panel-text);
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  box-shadow: var(--elev-2);
+}
+
 .panel__header {
-  position: sticky; top: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid var(--color-border);
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  gap: var(--s-2);
   padding: var(--s-3) var(--s-4);
-  display: flex; align-items: center; gap: var(--s-2);
+  background: var(--panel-header-bg);
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
-.panel__title { font-size: 1.1rem; font-weight: 700; color: var(--color-text); }
-.panel__back { margin-right: auto; }
 
-/* Panel body */
-.panel__body { padding: var(--s-4); }
+.panel__title {
+  margin: 0;
+  font-size: 1.125rem;
+  letter-spacing: .2px;
+}
+
+.btn-back {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--panel-text);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-3);
+  cursor: pointer;
+}
+.btn-back:hover { background: rgba(255,255,255,0.06); }
+
+.panel__body {
+  padding: var(--s-4);
+  overflow: auto;
+}
+
+/* ===== Party cards (lean; rely on cards-final.css for most) ===== */
+.party-card {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border-radius: var(--r-3);
+  background: rgba(255,255,255,0.02);
+}
+.party-card__title { margin: 0 0 var(--s-1); }
+.party-card__meta  { opacity: .78; font-size: .95rem; margin-bottom: var(--s-1); }
+.party-card__when  { opacity: .86; font-size: .95rem; }
+
+.btn-cta {
+  appearance: none;
+  border: none;
+  padding: var(--s-2) var(--s-3);
+  background: var(--accent);
+  color: white;
+  border-radius: var(--r-3);
+  cursor: pointer;
+}
 
 /* Cards in panel */
 .vcard {
@@ -85,4 +158,37 @@
   background: var(--color-accent);
   border-color: var(--color-accent);
   color: white;
+}
+
+/* ===== Channels — equal widths + tidy left alignment ===== */
+.channels-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;   /* two columns → equal widths */
+  gap: var(--s-3);
+}
+.channel-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ===== Home spacing polish (non-destructive) ===== */
+.home-panel {
+  margin-inline: auto;
+  padding-top: var(--s-2); /* tighten top */
+}
+.home-panel .home-section {
+  margin-top: var(--s-3);
+}
+.home-panel .home-section:first-of-type {
+  margin-top: 0;
+}
+
+/* Pills tidy wrap */
+.home-panel .day-pills {
+  display: flex; flex-wrap: wrap; gap: var(--s-2);
+}
+.home-panel .day-pill {
+  padding: 8px 12px;                 /* matches your earlier verified values */
+  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.18);
 }
