@@ -13,6 +13,7 @@ const getDb = () => admin.firestore();
 interface Invite {
   id: string;
   ownerUid: string;
+  createdBy?: string; // alias for ownerUid
   toEmail?: string;
   token: string;
   code: string;
@@ -25,6 +26,10 @@ interface Invite {
   createdAt: number;
   updatedAt: number;
   revokedAt?: number;
+  expiresAt?: number | string | Date;
+  expiresIn?: number;
+  redeemedAt?: number | null;
+  redeemedBy?: string | null;
   lastSharedAt?: number;
   lastMethod?: 'email' | 'link' | 'code' | 'qr' | 'system';
 }
@@ -111,7 +116,13 @@ router.get('/:id/share', async (req, res): Promise<any> => {
     const invite = inviteDoc.data() as Invite;
     
     // Check if revoked or expired
-    if (invite.revokedAt || isExpired(invite)) {
+    const inviteForExpiry = {
+      ...invite,
+      expiresAt: typeof invite.expiresAt === 'number' 
+        ? new Date(invite.expiresAt) 
+        : invite.expiresAt || undefined
+    };
+    if (invite.revokedAt || isExpired(inviteForExpiry as any)) {
       return res.status(410).json({ error: 'Invite expired or revoked' });
     }
     
@@ -263,7 +274,13 @@ router.get('/public/resolve/:code', async (req, res): Promise<any> => {
     const invite = snapshot.docs[0]!.data() as Invite;
     
     // Check if revoked or expired
-    if (invite.revokedAt || isExpired(invite)) {
+    const inviteForExpiry = {
+      ...invite,
+      expiresAt: typeof invite.expiresAt === 'number' 
+        ? new Date(invite.expiresAt) 
+        : invite.expiresAt || undefined
+    };
+    if (invite.revokedAt || isExpired(inviteForExpiry as any)) {
       console.log(`[invites] Code expired/revoked: ${code}`);
       return res.status(410).json({ error: 'Invite expired or revoked' });
     }
@@ -317,7 +334,13 @@ router.post('/:id/rsvp', async (req, res): Promise<any> => {
     }
     
     // Check if revoked or expired
-    if (invite.revokedAt || isExpired(invite)) {
+    const inviteForExpiry = {
+      ...invite,
+      expiresAt: typeof invite.expiresAt === 'number' 
+        ? new Date(invite.expiresAt) 
+        : invite.expiresAt || undefined
+    };
+    if (invite.revokedAt || isExpired(inviteForExpiry as any)) {
       return res.status(410).json({ error: 'Invite expired or revoked' });
     }
     
@@ -339,6 +362,112 @@ router.post('/:id/rsvp', async (req, res): Promise<any> => {
     return res.status(500).json({
       error: 'Failed to update RSVP',
       details: error instanceof Error ? error.message : String(error)
+    });
+  }
+});
+
+/**
+ * GET /api/invites/stats?userId=XXX - Get invite statistics for a user
+ */
+router.get('/stats', async (req, res): Promise<any> => {
+  try {
+    const { userId } = req.query as { userId?: string };
+    
+    if (!userId) {
+      return res.status(400).json({
+        error: 'User ID required'
+      });
+    }
+    
+    // Count invites created by this user (check both fields for compatibility)
+    const createdInvites = await getDb().collection('invites')
+      .where('ownerUid', '==', userId)
+      .get();
+    
+    const usedInvites = createdInvites.docs.filter(doc => {
+      const data = doc.data() as Invite;
+      return data.redeemedAt !== null;
+    });
+    
+    const stats = {
+      totalGenerated: createdInvites.size,
+      totalRedeemed: usedInvites.length,
+      redemptionRate: createdInvites.size > 0 
+        ? (usedInvites.length / createdInvites.size * 100).toFixed(1) 
+        : '0.0',
+      remaining: Math.max(0, 10 - createdInvites.size), // Default 10 invites per user
+      invites: createdInvites.docs.map(doc => {
+        const data = doc.data() as Invite;
+        return {
+          id: doc.id,
+          code: data.code,
+          createdAt: data.createdAt,
+          expiresAt: data.expiresAt,
+          redeemedAt: data.redeemedAt,
+          redeemedBy: data.redeemedBy,
+          status: data.status
+        };
+      })
+    };
+    
+    return res.json(stats);
+  } catch (error) {
+    console.error('[invites] Stats error:', error);
+    return res.status(500).json({
+      error: 'Failed to get stats',
+      details: error instanceof Error ? error.message : String(error)
+    });
+  }
+});
+
+/**
+ * GET /api/invites/status - Get invite status for current user
+ */
+router.get('/status', async (req, res): Promise<any> => {
+  try {
+    const userId = req.headers['user-id'] as string;
+    
+    if (!userId) {
+      // Return default status for anonymous users
+      return res.json({
+        available: 3,
+        used: 0,
+        redemptionRate: 0,
+        canGenerate: true
+      });
+    }
+    
+    // Get user's invite stats
+    const createdInvites = await getDb().collection('invites')
+      .where('ownerUid', '==', userId)
+      .get();
+    
+    const usedCount = createdInvites.docs.filter(doc => {
+      const data = doc.data() as Invite;
+      return data.redeemedAt !== null;
+    }).length;
+    
+    const maxInvites = 10; // Default limit
+    const available = Math.max(0, maxInvites - createdInvites.size);
+    
+    return res.json({
+      available,
+      used: usedCount,
+      total: createdInvites.size,
+      redemptionRate: createdInvites.size > 0 
+        ? Math.round(usedCount / createdInvites.size * 100)
+        : 0,
+      canGenerate: available > 0
+    });
+    
+  } catch (error) {
+    console.error('[invites] Status error:', error);
+    // Return safe defaults on error
+    return res.json({
+      available: 3,
+      used: 0,
+      redemptionRate: 0,
+      canGenerate: true
     });
   }
 });

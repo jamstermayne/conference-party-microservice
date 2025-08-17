@@ -36,10 +36,17 @@ try {admin.initializeApp();} catch (error) {
 // const db = admin.firestore?.(); // Not used after refactoring to use routes
 const app = express();
 
-// Optimize CORS - restrict to production domain for better security and performance
+// Optimize CORS - allow necessary origins
 app.use(cors({ 
-  origin: ['https://conference-party-app.web.app', 'http://localhost:3000'],
-  credentials: false,
+  origin: [
+    'https://conference-party-app.web.app',
+    'http://localhost:3000',
+    'http://localhost:5000', // Firebase emulator
+    'http://localhost:5173'  // Vite dev server
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   maxAge: 86400 // Cache preflight for 24 hours
 }));
 

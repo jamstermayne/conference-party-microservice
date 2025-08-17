@@ -57,6 +57,7 @@ export async function fetchParties() {
   
   for (const baseUrl of API_ENDPOINTS) {
     try {
+      // Both URLs should use /api/parties endpoint
       const url = `${baseUrl}/api/parties?conference=${encodeURIComponent(CONF)}`;
       const raw = await getJSON(url, { timeout: 5000 });
       

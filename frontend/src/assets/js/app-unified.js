@@ -9,7 +9,10 @@ import { fetchParties } from './api-lite.js';
 class UnifiedConferenceApp {
   constructor() {
     this.currentUser = null;
-    this.apiBase = 'https://us-central1-conference-party-app.cloudfunctions.net';
+    // Use the web app's API endpoint which is rewritten to the function
+    this.apiBase = window.location.hostname === 'localhost' 
+      ? 'http://localhost:3000/api'
+      : '/api';
     this.cache = new Map();
     this.isOnline = navigator.onLine;
     this.errorCount = 0;
