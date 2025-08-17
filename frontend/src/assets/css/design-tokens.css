@@ -1,0 +1,318 @@
+/**
+ * Design Tokens - Single Source of Truth
+ * ========================================
+ * All components must use these tokens for consistency
+ */
+
+:root {
+  /* ============================================
+     Colors - Primary Palette
+     ============================================ */
+  --color-primary: #8b5cf6;        /* Purple */
+  --color-primary-dark: #7c3aed;
+  --color-primary-light: #a78bfa;
+  --color-primary-rgb: 139, 92, 246;
+  
+  --color-secondary: #ec4899;      /* Pink */
+  --color-secondary-dark: #db2777;
+  --color-secondary-light: #f9a8d4;
+  --color-secondary-rgb: 236, 72, 153;
+  
+  --color-accent: #3b82f6;         /* Blue */
+  --color-accent-dark: #2563eb;
+  --color-accent-light: #60a5fa;
+  --color-accent-rgb: 59, 130, 246;
+
+  /* ============================================
+     Colors - Semantic
+     ============================================ */
+  --color-success: #22c55e;
+  --color-success-light: #4ade80;
+  --color-success-dark: #16a34a;
+  --color-success-rgb: 34, 197, 94;
+  
+  --color-warning: #fbbf24;
+  --color-warning-light: #fcd34d;
+  --color-warning-dark: #f59e0b;
+  --color-warning-rgb: 251, 191, 36;
+  
+  --color-error: #ef4444;
+  --color-error-light: #f87171;
+  --color-error-dark: #dc2626;
+  --color-error-rgb: 239, 68, 68;
+  
+  --color-info: #06b6d4;
+  --color-info-light: #22d3ee;
+  --color-info-dark: #0891b2;
+  --color-info-rgb: 6, 182, 212;
+
+  /* ============================================
+     Colors - Neutrals
+     ============================================ */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  
+  --color-gray-50: rgba(255, 255, 255, 0.05);
+  --color-gray-100: rgba(255, 255, 255, 0.1);
+  --color-gray-200: rgba(255, 255, 255, 0.2);
+  --color-gray-300: rgba(255, 255, 255, 0.3);
+  --color-gray-400: rgba(255, 255, 255, 0.4);
+  --color-gray-500: rgba(255, 255, 255, 0.5);
+  --color-gray-600: rgba(255, 255, 255, 0.6);
+  --color-gray-700: rgba(255, 255, 255, 0.7);
+  --color-gray-800: rgba(255, 255, 255, 0.8);
+  --color-gray-900: rgba(255, 255, 255, 0.9);
+
+  /* ============================================
+     Backgrounds
+     ============================================ */
+  --bg-primary: linear-gradient(135deg, #0a0a14 0%, #140a1e 100%);
+  --bg-secondary: linear-gradient(180deg, rgba(10, 10, 20, 0.98) 0%, rgba(20, 10, 30, 0.98) 100%);
+  
+  --bg-glass-light: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  --bg-glass-dark: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%);
+  --bg-glass-purple: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
+  
+  --bg-gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  --bg-gradient-accent: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+  --bg-gradient-success: linear-gradient(135deg, var(--color-success), #10b981);
+
+  /* ============================================
+     Spacing Scale
+     ============================================ */
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 0.125rem;  /* 2px */
+  --space-1: 0.25rem;     /* 4px */
+  --space-1-5: 0.375rem;  /* 6px */
+  --space-2: 0.5rem;      /* 8px */
+  --space-2-5: 0.625rem;  /* 10px */
+  --space-3: 0.75rem;     /* 12px */
+  --space-3-5: 0.875rem;  /* 14px */
+  --space-4: 1rem;        /* 16px */
+  --space-5: 1.25rem;     /* 20px */
+  --space-6: 1.5rem;      /* 24px */
+  --space-7: 1.75rem;     /* 28px */
+  --space-8: 2rem;        /* 32px */
+  --space-9: 2.25rem;     /* 36px */
+  --space-10: 2.5rem;     /* 40px */
+  --space-12: 3rem;       /* 48px */
+  --space-14: 3.5rem;     /* 56px */
+  --space-16: 4rem;       /* 64px */
+  --space-20: 5rem;       /* 80px */
+
+  /* Legacy aliases for compatibility */
+  --s-0: var(--space-0);
+  --s-1: var(--space-1);
+  --s-2: var(--space-2);
+  --s-3: var(--space-3);
+  --s-4: var(--space-4);
+  --s-5: var(--space-5);
+  --s-6: var(--space-6);
+
+  /* ============================================
+     Typography Scale
+     ============================================ */
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", monospace;
+  
+  /* Font Sizes */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+  --text-5xl: 3rem;       /* 48px */
+  
+  /* Font Weights */
+  --font-thin: 100;
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  --font-black: 900;
+  
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+  
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* ============================================
+     Border Radius
+     ============================================ */
+  --radius-none: 0;
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-2xl: 1.5rem;   /* 24px */
+  --radius-3xl: 2rem;     /* 32px */
+  --radius-full: 9999px;
+  
+  /* Legacy aliases */
+  --r-0: var(--radius-none);
+  --r-1: var(--radius-sm);
+  --r-2: var(--radius-md);
+  --r-3: var(--radius-lg);
+
+  /* ============================================
+     Shadows
+     ============================================ */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.25);
+  --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.3);
+  
+  --shadow-glow-sm: 0 0 20px rgba(var(--color-primary-rgb), 0.2);
+  --shadow-glow-md: 0 0 40px rgba(var(--color-primary-rgb), 0.3);
+  --shadow-glow-lg: 0 0 60px rgba(var(--color-primary-rgb), 0.4);
+  
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-inner-lg: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  /* ============================================
+     Borders
+     ============================================ */
+  --border-width-0: 0;
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --border-width-4: 4px;
+  
+  --border-color-default: var(--color-gray-100);
+  --border-color-light: var(--color-gray-50);
+  --border-color-dark: var(--color-gray-200);
+  --border-color-primary: rgba(var(--color-primary-rgb), 0.3);
+  --border-color-secondary: rgba(var(--color-secondary-rgb), 0.3);
+
+  /* ============================================
+     Transitions
+     ============================================ */
+  --transition-none: none;
+  --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slower: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* ============================================
+     Z-Index Scale
+     ============================================ */
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-tooltip: 600;
+  --z-notification: 700;
+  --z-max: 9999;
+
+  /* ============================================
+     Breakpoints (for reference in JS)
+     ============================================ */
+  --breakpoint-xs: 475px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* ============================================
+     Animation Durations
+     ============================================ */
+  --duration-instant: 0ms;
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+  --duration-slowest: 1000ms;
+
+  /* ============================================
+     Blur Values
+     ============================================ */
+  --blur-none: 0;
+  --blur-sm: 4px;
+  --blur-md: 8px;
+  --blur-lg: 12px;
+  --blur-xl: 20px;
+  --blur-2xl: 30px;
+  --blur-3xl: 40px;
+
+  /* ============================================
+     Opacity Scale
+     ============================================ */
+  --opacity-0: 0;
+  --opacity-5: 0.05;
+  --opacity-10: 0.1;
+  --opacity-20: 0.2;
+  --opacity-30: 0.3;
+  --opacity-40: 0.4;
+  --opacity-50: 0.5;
+  --opacity-60: 0.6;
+  --opacity-70: 0.7;
+  --opacity-80: 0.8;
+  --opacity-90: 0.9;
+  --opacity-100: 1;
+}
+
+/* ============================================
+   Dark Mode (already active by default)
+   ============================================ */
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Override for light mode if needed */
+  }
+}
+
+/* ============================================
+   Utility Classes for Consistency
+   ============================================ */
+.bg-glass {
+  background: var(--bg-glass-light);
+  backdrop-filter: blur(var(--blur-xl));
+  -webkit-backdrop-filter: blur(var(--blur-xl));
+  border: var(--border-width-1) solid var(--border-color-default);
+}
+
+.text-gradient {
+  background: var(--bg-gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-glow {
+  box-shadow: var(--shadow-glow-md);
+}
+
+.transition-default {
+  transition: var(--transition-normal);
+}
