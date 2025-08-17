@@ -157,6 +157,7 @@ class UnifiedConferenceApp {
 
   setupNavigation() {
     const app = document.getElementById('app');
+    // Build the complete interface with navigation
     app.innerHTML = `
       <div class="unified-app">
         <!-- Header with signature design -->
