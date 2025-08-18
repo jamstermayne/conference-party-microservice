@@ -48,7 +48,7 @@ export async function mountPartiesPanel(dateISO){
   mount.innerHTML = `
     <section class="parties-panel">
       <h2 class="home-h2">Parties • ${dateISO}</h2>
-      <div class="card-grid" id="parties-list" aria-live="polite"></div>
+      <div class="card-modern-grid" id="parties-list" aria-live="polite"></div>
     </section>
   `;
   const listEl = mount.querySelector('#parties-list');

@@ -2,8 +2,8 @@
 import Events from '../foundation/events.js';
 
 export function createEventCard(event) {
-  const card = document.createElement('div');
-  card.className = 'event-card fade-in';
+  const card = document.createElement('article');
+  card.className = 'card-modern card-modern--event fade-in';
   card.dataset.eventId = event.id;
   
   const now = new Date();
@@ -14,32 +14,42 @@ export function createEventCard(event) {
   if (now >= startTime && now <= endTime) status = 'live';
   else if (now > endTime) status = 'ended';
   
+  const dateStr = startTime.toLocaleDateString('en-US', { 
+    weekday: 'short', 
+    month: 'short', 
+    day: 'numeric' 
+  });
+  const timeStr = formatTime(startTime);
+  
   card.innerHTML = `
-    <div class="event-card__header">
-      <h3 class="event-card__title">${event.name}</h3>
-      <div class="event-card__status event-card__status--${status}">
-        ${status === 'live' ? '🔴 LIVE' : status === 'upcoming' ? 'Upcoming' : 'Ended'}
+    <span class="card-modern__badge ${status === 'live' ? 'card-modern__badge--free' : ''}">
+      ${status === 'live' ? 'LIVE' : status === 'upcoming' ? 'Upcoming' : 'Ended'}
+    </span>
+    
+    <header class="card-modern__header">
+      <div class="card-modern__eyebrow">
+        <span>${dateStr}</span>
+        <span>•</span>
+        <span>${timeStr}</span>
       </div>
-    </div>
-    <div class="event-card__meta">
-      <div class="event-card__time">
-        <span>🕐</span>
-        <span>${formatTime(startTime)}</span>
+      <h3 class="card-modern__title">${event.name}</h3>
+      ${event.location ? `<p class="card-modern__subtitle">${event.location}</p>` : ''}
+    </header>
+    
+    ${event.description ? `
+      <div class="card-modern__body">
+        <p class="card-modern__description">${event.description}</p>
       </div>
-      <div class="event-card__location">
-        <span>📍</span>
-        <span>${event.location || 'TBD'}</span>
-      </div>
-    </div>
-    ${event.description ? `<p class="event-card__description">${event.description}</p>` : ''}
-    <div class="event-card__actions">
-      <button class="btn btn-primary event-card__btn" data-action="join-event" data-event-id="${event.id}">
+    ` : ''}
+    
+    <footer class="card-modern__footer">
+      <button class="card-modern__action card-modern__action--primary" data-action="join-event" data-event-id="${event.id}">
         ${status === 'live' ? 'Join Now' : 'View Details'}
       </button>
-      <button class="btn event-card__btn" data-action="save-event" data-event-id="${event.id}">
-        💾 Save
+      <button class="card-modern__action card-modern__action--secondary" data-action="save-event" data-event-id="${event.id}">
+        Save
       </button>
-    </div>
+    </footer>
   `;
   
   return card;

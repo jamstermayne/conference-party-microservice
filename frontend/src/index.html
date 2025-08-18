@@ -3,45 +3,43 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="maps-key" content="AIzaSyD5Zj_Hj31Vda3bcybxX6W4zmDlg8cotgc" />
-  <title>velocity.ai</title>
-  <!-- 1. Base reset -->
-  <link rel="stylesheet" href="/assets/css/base.css">
-  <!-- 2. Tokens -->
-  <link rel="stylesheet" href="/assets/css/spacing-tokens.css">
-  <link rel="stylesheet" href="/assets/css/tokens/color-tokens.css">
-  <!-- 3. Components -->
-  <link rel="stylesheet" href="/assets/css/components/buttons.css">
-  <link rel="stylesheet" href="/assets/css/components/cards.css">
-  <link rel="stylesheet" href="/assets/css/panel-stack.css">
-  <link rel="stylesheet" href="/assets/css/channel-row.css">
-  <link rel="stylesheet" href="/assets/css/components.css">
-  <link rel="stylesheet" href="/assets/css/calendar-buttons.css">
-  <!-- Home panel styles must load before cards-final to allow cascade -->
-  <link rel="stylesheet" href="/assets/css/home.css?v=1755355966">
-  <link rel="stylesheet" href="/assets/css/cards-final.css?v=1755355966">
+  <meta name="maps-key" content="__ENV_GOOGLE_MAPS_KEY__" />
+  <title>Gamescom 2025 - Professional Networking</title>
+  
+  <!-- PWA Resource Hints for Party List Performance -->
+  <link rel="preconnect" href="https://us-central1-conference-party-app.cloudfunctions.net" crossorigin>
+  <link rel="preconnect" href="https://apis.google.com" crossorigin>
+  <link rel="dns-prefetch" href="//conference-party-app.web.app">
+  
+  <!-- Stylesheets will be loaded dynamically as needed -->
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  <!-- Design System Foundation -->
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <!-- Unified Design System - Enforces Consistency -->
+  <link rel="stylesheet" href="/assets/css/design-system-unified.css">
+  <!-- Unified Conference App - Signature Design System -->
+  <link rel="stylesheet" href="/assets/css/app-unified.css">
+  <!-- Premium Party List Styles -->
+  <link rel="stylesheet" href="/assets/css/party-list-premium.css">
 </head>
 <body>
-  <div id="app">
-    <main id="main" class="v-stack">
-      <!-- Panels are injected here -->
-      <div class="sr-only" aria-live="polite"></div>
-    </main>
-  </div>
-  <!-- Optimized bundles with tree-shaking and code-splitting -->
-  <script type="module" src="/dist/js/init-app.js"></script>
-  <script type="module" src="/dist/js/main.js"></script>
-  <script type="module" src="/dist/js/stack.js"></script>
-  <script type="module" src="/dist/js/router-stack.js"></script>
-  <script defer src="/js/boot/map-boot.js"></script>
-  <script type="module" src="/assets/js/home-panel.js" defer></script>
-  <script type="module" src="/assets/js/home-router-hotfix.js" defer></script>
-  <script defer src="/assets/js/home-bootstrap.js"></script>
-  <script defer src="/assets/js/parties-lite.js"></script>
-  <script defer src="/assets/js/map-subnav-lite.js"></script>
-  <script defer src="/assets/js/home-channels-fix.js"></script>
-  <script defer src="/assets/js/home-pills-fix.js"></script>
-  <script type="module" src="/assets/js/home-mon-sat.js" defer></script>
-  <script type="module" src="/assets/js/home-map-pills.js" defer></script>
+  <main id="app" class="app">
+    <div class="panel-stack">
+      <section id="home" class="panel-base">
+        <div class="home-panel" id="home-panel">
+          <!-- JS populates Parties & Map sections + Channels -->
+        </div>
+      </section>
+      <!-- Overlay panels injected dynamically -->
+    </div>
+  </main>
+  <!-- Core API Module -->
+  <script type="module" defer src="/assets/js/api-lite.js"></script>
+  <!-- Router for preflight -->
+  <script type="module" src="/assets/js/router-2panel-lite.js?v=2025"></script>
+  <!-- Unified Conference App - Production Ready -->
+  <script type="module" defer src="/assets/js/app-unified.js"></script>
 </body>
 </html>

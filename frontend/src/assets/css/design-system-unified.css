@@ -1,0 +1,510 @@
+/**
+ * Unified Design System
+ * Enforces consistent tokens across all components
+ * Based on tokens.css - Single source of truth
+ */
+
+/* ============================================
+   Import Core Design Tokens
+   ============================================ */
+@import './tokens.css';
+
+/* ============================================
+   Component Base Styles
+   ============================================ */
+
+/* All cards must use these base styles */
+.card,
+.card-modern,
+.event-card,
+.event-card-organized,
+.party-card,
+.invite-card,
+.connection-card,
+.opportunity-card,
+.calendar-card,
+.section-card,
+.legacy-card {
+  /* Spacing */
+  padding: var(--s-4);
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
+  
+  /* Colors */
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  
+  /* Border radius */
+  border-radius: var(--r-2);
+  
+  /* Shadow */
+  box-shadow: var(--elev-shadow);
+  
+  /* Transitions */
+  transition: var(--transition-fast);
+}
+
+/* All titles must use consistent typography */
+h1, h2, h3, h4, h5, h6,
+.title,
+.card-title,
+.event-title,
+.party-title,
+.section-title,
+.showcase-title,
+.invites-header h1,
+.account-head h1 {
+  color: var(--color-text);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 0 var(--s-2) 0;
+}
+
+/* Size hierarchy */
+h1, .title-xl { font-size: 1.75rem; }
+h2, .title-lg { font-size: 1.5rem; }
+h3, .title-md { font-size: 1.25rem; }
+h4, .title-sm { font-size: 1.125rem; }
+h5, .title-xs { font-size: 1rem; }
+h6, .title-xxs { font-size: 0.875rem; }
+
+/* All subtitles and secondary text */
+.subtitle,
+.card-sub,
+.card-subtitle,
+.event-subtitle,
+.description,
+.meta-text,
+.secondary-text,
+.row-label,
+.stat-label {
+  color: var(--color-text-dim);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* All buttons must use consistent styles */
+button,
+.btn,
+.button,
+.action-btn,
+.save-btn,
+.map-btn,
+.share-btn,
+.filter-btn,
+.showcase-nav {
+  /* Reset */
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  
+  /* Spacing */
+  padding: var(--s-3) var(--s-4);
+  
+  /* Colors */
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  
+  /* Border radius */
+  border-radius: var(--r-2);
+  
+  /* Typography */
+  font-size: 0.875rem;
+  font-weight: 600;
+  
+  /* Transitions */
+  transition: var(--transition-fast);
+}
+
+/* Primary button variant */
+.btn-primary,
+.btn.primary,
+button.primary {
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+
+.btn-primary:hover,
+.btn.primary:hover,
+button.primary:hover {
+  background: var(--color-accent-strong);
+  border-color: var(--color-accent-strong);
+}
+
+/* Ghost button variant */
+.btn-ghost,
+.btn.ghost,
+button.ghost {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-dim);
+}
+
+.btn-ghost:hover,
+.btn.ghost:hover,
+button.ghost:hover {
+  background: var(--color-surface-2);
+  border-color: var(--color-text-dim);
+  color: var(--color-text);
+}
+
+/* All badges and pills */
+.badge,
+.pill,
+.tag,
+.chip,
+.category-badge,
+.price-badge,
+.category-pill,
+.meta-badge {
+  /* Display */
+  display: inline-flex;
+  align-items: center;
+  
+  /* Spacing */
+  padding: var(--s-1) var(--s-2);
+  gap: var(--s-1);
+  
+  /* Colors */
+  background: var(--color-accent-weak);
+  color: var(--color-text-dim);
+  border: 1px solid var(--color-border);
+  
+  /* Border radius */
+  border-radius: 999px;
+  
+  /* Typography */
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Badge variants */
+.badge.accent,
+.pill.accent {
+  background: var(--color-accent-weak);
+  color: var(--color-accent);
+  border-color: transparent;
+}
+
+.badge.success,
+.pill.success,
+.badge.live {
+  background: var(--ok-bg);
+  color: var(--ok-txt);
+  border-color: transparent;
+}
+
+.badge.warning,
+.pill.warning,
+.badge.pending {
+  background: var(--warn-bg);
+  color: var(--warn-txt);
+  border-color: transparent;
+}
+
+.badge.error,
+.pill.error,
+.badge.revoked {
+  background: var(--err-bg);
+  color: var(--err-txt);
+  border-color: transparent;
+}
+
+/* All input fields */
+input,
+textarea,
+select,
+.input,
+.search-input,
+.filter-select {
+  /* Reset */
+  appearance: none;
+  
+  /* Spacing */
+  padding: var(--s-3) var(--s-4);
+  
+  /* Colors */
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  
+  /* Border radius */
+  border-radius: var(--r-2);
+  
+  /* Typography */
+  font-size: 0.875rem;
+  
+  /* Transitions */
+  transition: var(--transition-fast);
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-weak);
+}
+
+/* Consistent hover states */
+.hover-lift:hover,
+.card:hover,
+.event-card:hover,
+.party-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+/* Consistent focus states */
+*:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Layout Utilities
+   ============================================ */
+
+/* Flex containers */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-end { justify-content: flex-end; }
+.gap-1 { gap: var(--s-1); }
+.gap-2 { gap: var(--s-2); }
+.gap-3 { gap: var(--s-3); }
+.gap-4 { gap: var(--s-4); }
+.gap-5 { gap: var(--s-5); }
+
+/* Grid containers */
+.grid { display: grid; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-auto { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* Spacing utilities */
+.p-0 { padding: 0; }
+.p-1 { padding: var(--s-1); }
+.p-2 { padding: var(--s-2); }
+.p-3 { padding: var(--s-3); }
+.p-4 { padding: var(--s-4); }
+.p-5 { padding: var(--s-5); }
+.p-6 { padding: var(--s-6); }
+
+.m-0 { margin: 0; }
+.m-1 { margin: var(--s-1); }
+.m-2 { margin: var(--s-2); }
+.m-3 { margin: var(--s-3); }
+.m-4 { margin: var(--s-4); }
+.m-5 { margin: var(--s-5); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--s-1); }
+.mb-2 { margin-bottom: var(--s-2); }
+.mb-3 { margin-bottom: var(--s-3); }
+.mb-4 { margin-bottom: var(--s-4); }
+.mb-5 { margin-bottom: var(--s-5); }
+
+/* ============================================
+   Component-Specific Overrides
+   ============================================ */
+
+/* Party List - Remove hardcoded colors */
+.organized-party-list,
+.party-filters,
+.events-timeline,
+.stat-card {
+  background: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+}
+
+.party-filters {
+  box-shadow: var(--elev-shadow) !important;
+}
+
+.search-input,
+.filter-select {
+  border: 1px solid var(--color-border) !important;
+  background: var(--color-surface) !important;
+  color: var(--color-text) !important;
+}
+
+.search-input:focus,
+.filter-select:focus {
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 3px var(--color-accent-weak) !important;
+}
+
+.event-card-organized {
+  background: var(--color-surface-2) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+.event-card-organized:hover {
+  background: var(--color-surface) !important;
+  box-shadow: var(--elev-shadow) !important;
+}
+
+/* Invites Panel - Align with design system */
+#panel-invites {
+  background: var(--color-bg) !important;
+}
+
+.invites-header {
+  background: var(--color-surface) !important;
+  border-bottom: 1px solid var(--color-border) !important;
+}
+
+.btn-close-panel {
+  background: var(--color-surface-2) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text-dim) !important;
+}
+
+.btn-close-panel:hover {
+  background: var(--color-surface) !important;
+  color: var(--color-text) !important;
+}
+
+.btn-new-invite {
+  background: var(--color-accent) !important;
+  border-radius: var(--r-2) !important;
+}
+
+/* Account Panel - Use design tokens */
+.account {
+  padding: var(--s-4) var(--s-5) !important;
+}
+
+.row {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--r-2) !important;
+}
+
+.row:hover {
+  background: var(--color-surface-2) !important;
+  border-color: var(--color-accent-weak) !important;
+}
+
+.stat {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--r-2) !important;
+}
+
+.gradient-callout {
+  background: var(--color-accent-weak) !important;
+  border: 1px solid var(--color-accent) !important;
+  border-radius: var(--r-2) !important;
+}
+
+/* Calendar Components */
+.calendar-card,
+.calendar-event,
+.calendar-slot {
+  background: var(--color-surface-2) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--r-2) !important;
+  padding: var(--s-3) !important;
+}
+
+/* Contacts Components */
+.contact-card,
+.connection-card {
+  background: var(--color-surface-2) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--r-2) !important;
+  padding: var(--s-4) !important;
+}
+
+/* ============================================
+   Dark Mode Consistency
+   ============================================ */
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Ensure all text uses design tokens */
+* {
+  color: inherit;
+}
+
+/* Override any hardcoded white backgrounds */
+.white-bg,
+.bg-white {
+  background: var(--color-surface) !important;
+}
+
+/* Override any hardcoded text colors */
+.text-black,
+.text-dark {
+  color: var(--color-text) !important;
+}
+
+.text-gray,
+.text-muted,
+.text-secondary {
+  color: var(--color-text-dim) !important;
+}
+
+/* ============================================
+   Animation Consistency
+   ============================================ */
+* {
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.no-transition {
+  transition: none !important;
+}
+
+/* ============================================
+   Responsive Consistency
+   ============================================ */
+@media (max-width: 768px) {
+  /* Ensure consistent mobile spacing */
+  .card,
+  .event-card,
+  .party-card,
+  .invite-card {
+    padding: var(--s-3);
+  }
+  
+  button,
+  .btn {
+    padding: var(--s-2) var(--s-3);
+  }
+  
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1.125rem; }
+  h4 { font-size: 1rem; }
+  h5 { font-size: 0.875rem; }
+  h6 { font-size: 0.75rem; }
+}
+
+/* ============================================
+   Print Consistency
+   ============================================ */
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+    border-color: #000 !important;
+  }
+}

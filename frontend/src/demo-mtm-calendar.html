@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTM & Calendar Cards Demo - Conference Party App</title>
+  
+  <!-- Core styles -->
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/cards-modern.css">
+  <link rel="stylesheet" href="/assets/css/cards-mtm-calendar.css">
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0a0f1c 0%, #12151b 100%);
+      color: var(--color-text, #e8ecf1);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+    }
+    
+    .demo-header {
+      padding: var(--s-6) var(--s-5);
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--color-border);
+      text-align: center;
+    }
+    
+    .demo-header h1 {
+      margin: 0 0 var(--s-2) 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6b7bff, #4aa3ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .demo-header p {
+      margin: 0;
+      color: var(--color-text-dim);
+      font-size: 1.125rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .demo-nav {
+      display: flex;
+      justify-content: center;
+      gap: var(--s-3);
+      padding: var(--s-4);
+      background: rgba(255, 255, 255, 0.01);
+      border-bottom: 1px solid var(--color-border);
+      flex-wrap: wrap;
+    }
+    
+    .demo-nav button {
+      padding: var(--s-3) var(--s-5);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+      border-radius: var(--r-2);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+    
+    .demo-nav button:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
+    
+    .demo-nav button.active {
+      background: var(--color-accent);
+      color: white;
+      border-color: transparent;
+    }
+    
+    .demo-container {
+      padding: var(--s-5);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .demo-section {
+      margin-bottom: var(--s-8);
+    }
+    
+    .demo-section h2 {
+      margin: 0 0 var(--s-2) 0;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    
+    .demo-section p {
+      margin: 0 0 var(--s-5) 0;
+      color: var(--color-text-dim);
+      font-size: 1rem;
+      line-height: 1.6;
+      max-width: 800px;
+    }
+    
+    .view-toggle {
+      display: flex;
+      gap: var(--s-2);
+      margin-bottom: var(--s-4);
+    }
+    
+    .view-toggle button {
+      padding: var(--s-2) var(--s-3);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--color-text-dim);
+      border: 1px solid var(--color-border);
+      border-radius: var(--r-2);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+    
+    .view-toggle button.active {
+      background: rgba(107, 123, 255, 0.15);
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+    
+    /* Comparison grid */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-5);
+      margin-bottom: var(--s-6);
+    }
+    
+    @media (max-width: 768px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .comparison-column {
+      background: rgba(255, 255, 255, 0.02);
+      padding: var(--s-4);
+      border-radius: var(--r-3);
+      border: 1px solid var(--color-border);
+    }
+    
+    .comparison-column h3 {
+      margin: 0 0 var(--s-3) 0;
+      font-size: 1.125rem;
+      color: var(--color-text);
+    }
+    
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--s-4);
+      margin: var(--s-6) 0;
+    }
+    
+    .stat-card {
+      background: rgba(255, 255, 255, 0.03);
+      padding: var(--s-4);
+      border-radius: var(--r-2);
+      border: 1px solid var(--color-border);
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: var(--s-1);
+    }
+    
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>MTM & Calendar Event Cards</h1>
+    <p>Modern event card designs with enhanced visual hierarchy, calendar integration, and smooth animations</p>
+  </header>
+  
+  <nav class="demo-nav">
+    <button class="active" data-view="all">All Views</button>
+    <button data-view="mtm">MTM Cards</button>
+    <button data-view="calendar">Calendar Cards</button>
+    <button data-view="comparison">Comparison</button>
+    <button data-theme="dark">Dark Theme</button>
+    <button data-theme="light">Light Theme</button>
+  </nav>
+  
+  <div class="demo-container">
+    <!-- MTM Cards Section -->
+    <section class="demo-section" id="mtm-section">
+      <h2>MTM Event Cards</h2>
+      <p>
+        Meet-the-Market style cards with prominent date display, visual hierarchy, 
+        and hover effects. Perfect for conference schedules and event listings.
+      </p>
+      
+      <div class="view-toggle">
+        <button class="active" data-layout="grid">Grid View</button>
+        <button data-layout="list">List View</button>
+        <button data-layout="compact">Compact View</button>
+      </div>
+      
+      <div id="mtm-container"></div>
+    </section>
+    
+    <!-- Calendar Cards Section -->
+    <section class="demo-section" id="calendar-section">
+      <h2>Calendar Event Cards</h2>
+      <p>
+        Compact calendar-style cards ideal for day views and schedules. 
+        Features time slots, attendee avatars, and location information.
+      </p>
+      
+      <div id="calendar-container"></div>
+    </section>
+    
+    <!-- Comparison Section -->
+    <section class="demo-section" id="comparison-section">
+      <h2>Design Comparison</h2>
+      <div class="comparison-grid">
+        <div class="comparison-column">
+          <h3>Standard Modern Card</h3>
+          <div id="standard-card"></div>
+        </div>
+        <div class="comparison-column">
+          <h3>MTM Enhanced Card</h3>
+          <div id="enhanced-card"></div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Performance Stats -->
+    <section class="demo-section">
+      <h2>Performance Metrics</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">60fps</div>
+          <div class="stat-label">Animation Performance</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">250ms</div>
+          <div class="stat-label">Hover Transition</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">A+</div>
+          <div class="stat-label">Accessibility Score</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">100%</div>
+          <div class="stat-label">Mobile Responsive</div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <script type="module">
+    import { createMTMCard, createCalendarCard, createMTMGrid, createCalendarView } from '/assets/js/cards-mtm-calendar.js';
+    import { createModernCard } from '/assets/js/cards-modern.js';
+    
+    // Sample events with richer data
+    const sampleEvents = [
+      {
+        title: 'Opening Keynote: Future of Gaming',
+        date: '2025-08-20',
+        time: '10:00 AM',
+        start: '10:00 AM',
+        end: '11:30 AM',
+        duration: '1.5 hours',
+        venue: 'Main Stage, Hall 11',
+        description: 'Industry leaders discuss the next generation of gaming technology and trends.',
+        price: 'Free',
+        attendees: [
+          { name: 'John Doe', initials: 'JD' },
+          { name: 'Jane Smith', initials: 'JS' },
+          { name: 'Alex Johnson', initials: 'AJ' }
+        ],
+        attendeeCount: 1250
+      },
+      {
+        title: 'Xbox Game Pass Showcase',
+        date: '2025-08-20',
+        time: '2:00 PM',
+        start: '2:00 PM',
+        end: '3:30 PM',
+        duration: '1.5 hours',
+        venue: 'Xbox Theater',
+        description: 'Exclusive previews of upcoming Game Pass titles and announcements.',
+        price: '€15',
+        attendeeCount: 500
+      },
+      {
+        title: 'Indie Developer Meetup',
+        date: '2025-08-21',
+        time: '6:00 PM',
+        start: '6:00 PM',
+        end: '8:00 PM',
+        duration: '2 hours',
+        venue: 'Developer Lounge',
+        description: 'Network with indie developers and discover innovative game concepts.',
+        price: 'Free',
+        attendeeCount: 200
+      },
+      {
+        title: 'PlayStation VR2 Hands-On',
+        date: '2025-08-21',
+        time: '11:00 AM',
+        start: '11:00 AM',
+        end: '12:00 PM',
+        duration: '1 hour',
+        venue: 'Sony Booth',
+        description: 'Experience the latest VR titles on PlayStation VR2.',
+        price: '€10',
+        attendeeCount: 50
+      },
+      {
+        title: 'Nintendo Direct Live',
+        date: '2025-08-22',
+        time: '3:00 PM',
+        start: '3:00 PM',
+        end: '4:00 PM',
+        duration: '1 hour',
+        venue: 'Nintendo Stage',
+        description: 'Live presentation of upcoming Nintendo titles and surprises.',
+        price: 'Free',
+        attendeeCount: 800
+      },
+      {
+        title: 'Closing Night Party',
+        date: '2025-08-24',
+        time: '8:00 PM',
+        start: '8:00 PM',
+        end: '11:00 PM',
+        duration: '3 hours',
+        venue: 'Convention Center Rooftop',
+        description: 'Celebrate the end of Gamescom with music, drinks, and networking.',
+        price: '€40',
+        attendeeCount: 600
+      }
+    ];
+    
+    // Initialize MTM cards
+    const mtmContainer = document.getElementById('mtm-container');
+    const mtmGrid = createMTMGrid(sampleEvents);
+    mtmContainer.appendChild(mtmGrid);
+    
+    // Initialize Calendar cards
+    const calendarContainer = document.getElementById('calendar-container');
+    const calendarView = createCalendarView(sampleEvents);
+    calendarContainer.appendChild(calendarView);
+    
+    // Comparison cards
+    const standardCard = createModernCard(sampleEvents[0]);
+    document.getElementById('standard-card').appendChild(standardCard);
+    
+    const enhancedCard = createMTMCard(sampleEvents[0]);
+    document.getElementById('enhanced-card').appendChild(enhancedCard);
+    
+    // View navigation
+    document.querySelectorAll('[data-view]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const view = btn.dataset.view;
+        
+        // Update active state
+        document.querySelectorAll('[data-view]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Show/hide sections
+        document.getElementById('mtm-section').style.display = 
+          (view === 'all' || view === 'mtm') ? 'block' : 'none';
+        document.getElementById('calendar-section').style.display = 
+          (view === 'all' || view === 'calendar') ? 'block' : 'none';
+        document.getElementById('comparison-section').style.display = 
+          (view === 'all' || view === 'comparison') ? 'block' : 'none';
+      });
+    });
+    
+    // Layout toggle for MTM cards
+    document.querySelectorAll('[data-layout]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-layout]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const layout = btn.dataset.layout;
+        if (layout === 'grid') {
+          mtmGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(320px, 1fr))';
+        } else if (layout === 'list') {
+          mtmGrid.style.gridTemplateColumns = '1fr';
+        } else if (layout === 'compact') {
+          mtmGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
+        }
+      });
+    });
+    
+    // Theme switcher
+    document.querySelectorAll('[data-theme]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.theme;
+        if (theme === 'light') {
+          document.body.style.background = 'linear-gradient(135deg, #f0f2f5 0%, #ffffff 100%)';
+          document.documentElement.style.setProperty('--color-bg', '#ffffff');
+          document.documentElement.style.setProperty('--color-surface-2', '#f8f9fa');
+          document.documentElement.style.setProperty('--color-text', '#1a1a1a');
+          document.documentElement.style.setProperty('--color-text-dim', '#666666');
+          document.documentElement.style.setProperty('--color-border', 'rgba(0, 0, 0, 0.1)');
+        } else {
+          document.body.style.background = 'linear-gradient(135deg, #0a0f1c 0%, #12151b 100%)';
+          document.documentElement.style.setProperty('--color-bg', '#12151b');
+          document.documentElement.style.setProperty('--color-surface-2', 'rgba(255, 255, 255, 0.02)');
+          document.documentElement.style.setProperty('--color-text', '#e8ecf1');
+          document.documentElement.style.setProperty('--color-text-dim', '#9aa4b2');
+          document.documentElement.style.setProperty('--color-border', 'rgba(255, 255, 255, 0.08)');
+        }
+      });
+    });
+    
+    // Performance monitoring
+    let lastTime = performance.now();
+    let frames = 0;
+    
+    function measureFPS() {
+      frames++;
+      const currentTime = performance.now();
+      
+      if (currentTime >= lastTime + 1000) {
+        const fps = Math.round((frames * 1000) / (currentTime - lastTime));
+        document.querySelector('.stat-value').textContent = fps + 'fps';
+        frames = 0;
+        lastTime = currentTime;
+      }
+      
+      requestAnimationFrame(measureFPS);
+    }
+    
+    measureFPS();
+  </script>
+</body>
+</html>

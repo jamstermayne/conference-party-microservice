@@ -100,6 +100,92 @@ This is a **Professional Intelligence Platform** - a sophisticated microservices
 - **Data backups**: All generated data saved to `tools/data-backups/`
 - **Modular design**: Each tool is standalone with help commands
 
+## Design Standards
+
+### Design System Foundation
+- **Design Tokens**: Follow our design system tokens in `frontend/src/assets/css/tokens.css`
+  - Use CSS custom properties for all colors, spacing, and motion values
+  - Never hardcode colors - always use token variables like `var(--color-accent)`
+  - Maintain consistency with `--s-*` spacing tokens and `--r-*` radius tokens
+  - Apply transitions with `--transition-fast` (200ms) or `--transition-panel` (320ms)
+
+### Accessibility Requirements
+- **WCAG AA Compliance**: Ensure all UI components meet WCAG AA standards
+  - Minimum contrast ratio of 4.5:1 for normal text
+  - Minimum contrast ratio of 3:1 for large text
+  - All interactive elements must have visible focus states
+  - Provide proper ARIA labels and semantic HTML
+  - Ensure keyboard navigation works for all features
+
+### Layout Principles
+- **CSS Grid/Flexbox**: Use modern layout systems exclusively
+  - CSS Grid for page layouts and complex grids
+  - Flexbox for component layouts and alignment
+  - Avoid floats and positioning for layout purposes
+  - Use `gap` property instead of margins for spacing in flex/grid containers
+
+### Performance Standards
+- **60fps Animations**: Implement smooth, hardware-accelerated animations
+  - Use `transform` and `opacity` for animations (GPU-accelerated)
+  - Avoid animating `width`, `height`, `top`, `left` properties
+  - Use `will-change` sparingly for critical animations
+  - Leverage `--transition-fast` and `--transition-panel` tokens
+  - Test animations with Chrome DevTools Performance panel
+
+### Mobile-First Approach
+- **Responsive Breakpoints**: Test and optimize for mobile-first breakpoints
+  - Base styles: Mobile portrait (320px - 640px)
+  - Tablet: `@media (min-width: 641px)`
+  - Desktop: `@media (min-width: 1024px)`
+  - Large screens: `@media (min-width: 1440px)`
+  - Use `clamp()` for fluid typography and spacing
+
+### Component Naming Conventions
+- **BEM-inspired Naming**: Follow our established component naming patterns
+  - Component blocks: `.card`, `.panel`, `.nav`
+  - Component elements: `.card__header`, `.panel__content`
+  - Component modifiers: `.card--featured`, `.panel--overlay`
+  - State classes: `.is-active`, `.is-loading`, `.has-error`
+  - Utility classes: `.u-text-center`, `.u-mt-4`, `.u-hidden`
+
+### Color System Usage
+- **Dark Theme First**: Optimized for dark mode professional interface
+  - Background: `var(--color-bg)` (#12151b)
+  - Surface: `var(--color-surface)` (#0b0f14)
+  - Text: `var(--color-text)` for primary, `var(--color-text-dim)` for secondary
+  - Accent: `var(--color-accent)` for primary actions
+  - Borders: `var(--color-border)` for subtle separators
+
+### Typography Guidelines
+- **System Font Stack**: Use native fonts for optimal performance
+  - Primary: `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`
+  - Monospace: `"SF Mono", Monaco, "Cascadia Code", monospace`
+  - Line height: 1.5 for body text, 1.2 for headings
+  - Font sizes: Use relative units (rem/em) with `clamp()` for fluid scaling
+
+### Interactive Elements
+- **Touch-Friendly Targets**: Minimum 44x44px touch targets on mobile
+- **Focus States**: Clear, visible focus indicators using `var(--color-accent)`
+- **Hover Effects**: Subtle transitions using `--transition-fast`
+- **Loading States**: Skeleton screens and micro-animations for feedback
+- **Error States**: Clear visual feedback with `var(--err-bg)` and `var(--err-txt)`
+
+### CSS Architecture
+- **Modular CSS**: Organize styles by component and feature
+  - Global tokens in `/assets/css/tokens.css`
+  - Component styles in `/assets/css/components/`
+  - Page-specific styles in controller CSS files
+  - Utility classes in `/assets/css/utilities.css`
+- **CSS Custom Properties**: Use for theming and dynamic values
+- **PostCSS/Autoprefixer**: Ensure browser compatibility
+
+### Testing & Validation
+- **Cross-Browser Testing**: Chrome, Safari, Firefox, Edge
+- **Device Testing**: Real device testing on iOS and Android
+- **Performance Budget**: Keep CSS under 50KB (minified + gzipped)
+- **Lighthouse Scores**: Maintain 90+ scores for Performance and Accessibility
+- **Visual Regression**: Screenshot comparison for critical UI components
+
 ## Performance Optimization System
 
 ### Critical Performance Enhancements (Ready for 10,000+ Users)

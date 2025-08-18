@@ -4,13 +4,16 @@ import * as admin from "firebase-admin";
 const SPREADSHEET_ID = "1Cq-UcdgtSz2FaROahsj7Db2nmStBFCN97EZzBEHCrKg";
 const SHEET_RANGE = "Sheet1!A2:ZZ1000";
 
-// Build URL with API key from environment
+// Build URL - API key is optional since we're using service account
 function getSourceUrl(): string {
+  // Try API key first, then fall back to no key (service account auth)
   const apiKey = process.env['GOOGLE_SHEETS_API_KEY'];
-  if (!apiKey) {
-    throw new Error("[parties-live] GOOGLE_SHEETS_API_KEY secret not available. Please configure the secret in Firebase.");
+  if (apiKey) {
+    return `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_RANGE}?key=${apiKey}`;
   }
-  return `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_RANGE}?key=${apiKey}`;
+  // No API key - will use service account authentication
+  console.log("[parties-live] Using service account authentication");
+  return `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_RANGE}`;
 }
 
 // Initialize Firestore lazily

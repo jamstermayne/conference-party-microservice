@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Authentication</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+        .container {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 0;
+            width: 100%;
+        }
+        button:hover {
+            background: #ff5252;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 4px;
+            background: #333;
+        }
+        .success {
+            background: #2e7d32;
+            color: white;
+        }
+        .error {
+            background: #c62828;
+            color: white;
+        }
+        .info {
+            background: #1976d2;
+            color: white;
+        }
+        pre {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .token-display {
+            word-break: break-all;
+            font-family: monospace;
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Firebase Authentication</h1>
+        
+        <div id="status" class="status">
+            Ready to authenticate with Firebase
+        </div>
+
+        <button onclick="authenticateWithGoogle()">
+            Sign in with Google for Firebase CLI
+        </button>
+
+        <button onclick="getAuthToken()">
+            Generate CI Token (After Sign-in)
+        </button>
+
+        <div id="tokenDisplay" style="display:none;">
+            <h3>Authentication Token:</h3>
+            <div class="token-display" id="token"></div>
+            <button onclick="copyToken()">Copy Token</button>
+        </div>
+
+        <h3>Manual CLI Authentication:</h3>
+        <pre>
+# Option 1: Interactive login
+firebase login
+
+# Option 2: CI token (headless)
+firebase login:ci
+
+# Option 3: Use existing token
+export FIREBASE_TOKEN="your-token-here"
+firebase deploy</pre>
+
+        <h3>Deploy Command:</h3>
+        <pre id="deployCommand">npm run deploy</pre>
+    </div>
+
+    <script>
+        function updateStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+        }
+
+        function authenticateWithGoogle() {
+            updateStatus('Opening Google authentication...', 'info');
+            
+            // Firebase CLI OAuth endpoint
+            const clientId = '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com';
+            const redirectUri = 'urn:ietf:wg:oauth:2.0:oob';
+            const scope = [
+                'email',
+                'openid', 
+                'https://www.googleapis.com/auth/cloudplatformprojects.readonly',
+                'https://www.googleapis.com/auth/firebase',
+                'https://www.googleapis.com/auth/cloud-platform'
+            ].join(' ');
+            
+            const authUrl = `https://accounts.google.com/o/oauth2/auth?` +
+                `client_id=${clientId}&` +
+                `scope=${encodeURIComponent(scope)}&` +
+                `response_type=code&` +
+                `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+                `access_type=offline&` +
+                `prompt=consent`;
+            
+            // Open in new window
+            const authWindow = window.open(authUrl, 'firebase-auth', 'width=500,height=600');
+            
+            updateStatus('Complete authentication in the popup window. Copy the authorization code when shown.', 'info');
+            
+            // Check if window closed
+            const checkClosed = setInterval(() => {
+                if (authWindow && authWindow.closed) {
+                    clearInterval(checkClosed);
+                    updateStatus('Authentication window closed. If you received a code, use it with: firebase login --code YOUR_CODE', 'info');
+                }
+            }, 1000);
+        }
+
+        function getAuthToken() {
+            updateStatus('To generate a CI token, run this in your terminal:', 'info');
+            
+            const command = `npx firebase login:ci`;
+            
+            // Update display
+            document.getElementById('deployCommand').textContent = 
+                `# After getting token:\nexport FIREBASE_TOKEN="YOUR_TOKEN_HERE"\nnpm run deploy`;
+            
+            navigator.clipboard.writeText(command).then(() => {
+                updateStatus(`Command copied to clipboard: ${command}`, 'success');
+            });
+        }
+
+        function copyToken() {
+            const token = document.getElementById('token').textContent;
+            navigator.clipboard.writeText(token).then(() => {
+                updateStatus('Token copied to clipboard!', 'success');
+            });
+        }
+
+        // Check for auth code in URL (if redirected back)
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        if (code) {
+            updateStatus('Authorization code received!', 'success');
+            document.getElementById('tokenDisplay').style.display = 'block';
+            document.getElementById('token').textContent = code;
+            
+            // Show how to use it
+            document.getElementById('deployCommand').textContent = 
+                `# Use this authorization code:\nfirebase login --code ${code}\n\n# Then deploy:\nnpm run deploy`;
+        }
+    </script>
+</body>
+</html>

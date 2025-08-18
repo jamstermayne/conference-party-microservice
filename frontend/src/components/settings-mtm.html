@@ -1,0 +1,449 @@
+<!-- Meet to Match Integration Settings Panel -->
+<section id="mtm-integration" class="settings-card">
+  <header class="settings-header">
+    <h3>
+      <i class="icon-calendar"></i>
+      Meet to Match Calendar Sync
+    </h3>
+    <span class="settings-badge">Beta</span>
+  </header>
+  
+  <div class="settings-body">
+    <!-- Connection Status -->
+    <div id="mtm-status" class="status-row">
+      <div class="status-indicator" data-status="disconnected">
+        <span class="status-dot"></span>
+        <span class="status-text">Not connected</span>
+      </div>
+      <div class="status-details"></div>
+    </div>
+    
+    <!-- ICS Connection Panel (shown when not connected) -->
+    <div id="mtm-connect-panel" class="connect-panel">
+      <p class="settings-description">
+        Connect your Meet to Match calendar to automatically sync your professional meetings.
+      </p>
+      
+      <div class="connect-methods">
+        <!-- OAuth Connection (Future) -->
+        <!--
+        <div class="connect-method">
+          <button class="btn btn-primary" data-act="mtm-oauth">
+            <i class="icon-link"></i>
+            Connect with Meet to Match
+          </button>
+          <small>Secure OAuth connection</small>
+        </div>
+        
+        <div class="divider-or">OR</div>
+        -->
+        
+        <!-- ICS URL Connection -->
+        <div class="connect-method">
+          <label for="mtm-ics-url" class="input-label">ICS Calendar URL</label>
+          <div class="input-group">
+            <input 
+              type="url" 
+              id="mtm-ics-url" 
+              class="input-field"
+              placeholder="https://meettomatch.com/calendar/xxxxx.ics"
+              pattern="https://.*\.ics.*"
+            >
+            <button class="btn btn-secondary" data-act="mtm-connect-ics">
+              Connect
+            </button>
+          </div>
+          <small class="input-help">
+            Find your ICS URL in Meet to Match settings → Calendar Sync
+          </small>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Connected Actions Panel -->
+    <div id="mtm-actions-panel" class="actions-panel" style="display: none;">
+      <!-- Sync Actions -->
+      <div class="action-row">
+        <button class="btn btn-primary" data-act="mtm-sync">
+          <i class="icon-refresh"></i>
+          Sync Now
+        </button>
+        <button class="btn btn-danger" data-act="mtm-disconnect">
+          <i class="icon-unlink"></i>
+          Disconnect
+        </button>
+      </div>
+      
+      <!-- Google Calendar Mirror Settings -->
+      <div class="mirror-settings">
+        <div class="setting-row">
+          <label class="switch-label">
+            <input type="checkbox" id="mtm-mirror" class="switch-input">
+            <span class="switch-slider"></span>
+            <span class="switch-text">Mirror to Google Calendar</span>
+          </label>
+        </div>
+        
+        <div id="mtm-calendar-options" class="calendar-options" style="display: none;">
+          <label for="mtm-calendar" class="input-label">Target Calendar</label>
+          <select id="mtm-calendar" class="select-field">
+            <option value="primary">Primary Calendar</option>
+            <option value="work">Work Calendar</option>
+            <option value="personal">Personal Calendar</option>
+            <!-- More calendars loaded dynamically -->
+          </select>
+          <small class="input-help">
+            Meetings will be synced to this Google Calendar
+          </small>
+        </div>
+        
+        <!-- Google Auth Status -->
+        <div id="google-auth-status" class="auth-status" style="display: none;">
+          <div class="alert alert-warning">
+            <i class="icon-warning"></i>
+            <span>Google Calendar authentication required</span>
+            <button class="btn btn-sm" data-act="google-auth">
+              Sign in with Google
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sync Statistics -->
+      <div class="sync-stats">
+        <div class="stat-row">
+          <span class="stat-label">Last sync:</span>
+          <span class="stat-value" id="mtm-last-sync">Never</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Meetings synced:</span>
+          <span class="stat-value" id="mtm-meeting-count">0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Next auto-sync:</span>
+          <span class="stat-value" id="mtm-next-sync">In 15 minutes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.settings-card {
+  background: var(--bg-primary, #fff);
+  border: 1px solid var(--border-color, #e1e4e8);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--bg-secondary, #f6f8fa);
+  border-bottom: 1px solid var(--border-color, #e1e4e8);
+}
+
+.settings-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-badge {
+  background: var(--brand-500, #0366d6);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.settings-body {
+  padding: 20px;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color, #e1e4e8);
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #dc3545;
+}
+
+.status-indicator[data-status="connected"] .status-dot {
+  background: #28a745;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.connect-panel {
+  margin-top: 20px;
+}
+
+.settings-description {
+  color: var(--text-secondary, #586069);
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.connect-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.connect-method {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary, #24292e);
+}
+
+.input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.input-field {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #d1d5da);
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--bg-primary, #fff);
+  color: var(--text-primary, #24292e);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--brand-500, #0366d6);
+  box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.1);
+}
+
+.input-help {
+  font-size: 12px;
+  color: var(--text-secondary, #586069);
+}
+
+.btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border-color, #d1d5da);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--brand-500, #0366d6);
+  color: white;
+  border-color: var(--brand-500, #0366d6);
+}
+
+.btn-primary:hover {
+  background: var(--brand-600, #0056b3);
+}
+
+.btn-secondary {
+  background: var(--bg-primary, #fff);
+  color: var(--text-primary, #24292e);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-secondary, #f6f8fa);
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+.action-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.mirror-settings {
+  padding: 20px;
+  background: var(--bg-secondary, #f6f8fa);
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.switch-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.switch-input {
+  display: none;
+}
+
+.switch-slider {
+  width: 44px;
+  height: 24px;
+  background: #ccc;
+  border-radius: 24px;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.switch-slider::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s;
+}
+
+.switch-input:checked + .switch-slider {
+  background: var(--brand-500, #0366d6);
+}
+
+.switch-input:checked + .switch-slider::after {
+  transform: translateX(20px);
+}
+
+.calendar-options {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color, #e1e4e8);
+}
+
+.select-field {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #d1d5da);
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--bg-primary, #fff);
+  color: var(--text-primary, #24292e);
+  margin-top: 8px;
+}
+
+.alert {
+  padding: 12px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.alert-warning {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  color: #856404;
+}
+
+.sync-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  padding: 16px;
+  background: var(--bg-secondary, #f6f8fa);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat-label {
+  color: var(--text-secondary, #586069);
+}
+
+.stat-value {
+  font-weight: 500;
+  color: var(--text-primary, #24292e);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .settings-card {
+    background: #0d1117;
+    border-color: #30363d;
+  }
+  
+  .settings-header {
+    background: #161b22;
+    border-color: #30363d;
+  }
+  
+  .input-field,
+  .select-field {
+    background: #0d1117;
+    border-color: #30363d;
+    color: #c9d1d9;
+  }
+  
+  .mirror-settings,
+  .sync-stats {
+    background: #161b22;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .action-row {
+    flex-direction: column;
+  }
+  
+  .input-group {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>

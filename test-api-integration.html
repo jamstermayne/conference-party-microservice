@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Integration Test</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #1a1a2e;
+      color: #eee;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .test {
+      margin: 10px 0;
+      padding: 10px;
+      border-left: 3px solid #666;
+    }
+    .test.pass {
+      border-color: #4caf50;
+      background: rgba(76, 175, 80, 0.1);
+    }
+    .test.fail {
+      border-color: #f44336;
+      background: rgba(244, 67, 54, 0.1);
+    }
+    .test.pending {
+      border-color: #ff9800;
+      background: rgba(255, 152, 0, 0.1);
+    }
+    h2 {
+      color: #8b5cf6;
+      margin-top: 30px;
+    }
+    pre {
+      background: rgba(0,0,0,0.3);
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    #summary {
+      padding: 20px;
+      margin: 20px 0;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid #8b5cf6;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 API Integration Test Suite</h1>
+  <div id="summary"></div>
+  <div id="results"></div>
+
+  <script type="module">
+    const results = document.getElementById('results');
+    const summary = document.getElementById('summary');
+    let passCount = 0;
+    let failCount = 0;
+    let totalTests = 0;
+
+    function logTest(name, status, details = '') {
+      totalTests++;
+      if (status === 'pass') passCount++;
+      if (status === 'fail') failCount++;
+      
+      const div = document.createElement('div');
+      div.className = `test ${status}`;
+      div.innerHTML = `
+        <strong>${status === 'pass' ? '✅' : status === 'fail' ? '❌' : '⏳'} ${name}</strong>
+        ${details ? `<pre>${details}</pre>` : ''}
+      `;
+      results.appendChild(div);
+      
+      updateSummary();
+    }
+
+    function updateSummary() {
+      summary.innerHTML = `
+        <h2>Test Summary</h2>
+        <p>Total Tests: ${totalTests}</p>
+        <p>✅ Passed: ${passCount}</p>
+        <p>❌ Failed: ${failCount}</p>
+        <p>Success Rate: ${totalTests ? Math.round((passCount/totalTests)*100) : 0}%</p>
+      `;
+    }
+
+    async function runTests() {
+      // Load API Integration module dynamically
+      const baseURL = 'https://conference-party-app.web.app';
+      
+      results.innerHTML = '<h2>Running API Integration Tests...</h2>';
+      
+      // Test 1: Health Check
+      try {
+        const health = await fetch(`${baseURL}/api/health`);
+        const healthData = await health.json();
+        logTest('API Health Check', healthData.status === 'healthy' ? 'pass' : 'fail', 
+          JSON.stringify(healthData, null, 2));
+      } catch (e) {
+        logTest('API Health Check', 'fail', e.message);
+      }
+
+      // Test 2: Parties Endpoint
+      try {
+        const parties = await fetch(`${baseURL}/api/parties?conference=gamescom2025`);
+        const partiesData = await parties.json();
+        const hasEvents = partiesData.events && Array.isArray(partiesData.events);
+        logTest('Parties API Endpoint', hasEvents ? 'pass' : 'fail', 
+          `Found ${partiesData.events?.length || 0} events`);
+      } catch (e) {
+        logTest('Parties API Endpoint', 'fail', e.message);
+      }
+
+      // Test 3: Hotspots Endpoint
+      try {
+        const hotspots = await fetch(`${baseURL}/api/hotspots?conference=gamescom2025`);
+        const hotspotsData = await hotspots.json();
+        logTest('Hotspots API Endpoint', hotspotsData.success ? 'pass' : 'fail',
+          `Success: ${hotspotsData.success}, Data: ${JSON.stringify(hotspotsData.data?.length || 0)} venues`);
+      } catch (e) {
+        logTest('Hotspots API Endpoint', 'fail', e.message);
+      }
+
+      // Test 4: Party Days Endpoint
+      try {
+        const days = await fetch(`${baseURL}/api/party-days?conference=gamescom2025`);
+        const daysData = await days.json();
+        const hasDays = Array.isArray(daysData) && daysData.length > 0;
+        logTest('Party Days API Endpoint', hasDays ? 'pass' : 'fail',
+          `Found ${daysData.length} days: ${daysData.map(d => d.label).join(', ')}`);
+      } catch (e) {
+        logTest('Party Days API Endpoint', 'fail', e.message);
+      }
+
+      // Test 5: Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        try {
+          const registration = await navigator.serviceWorker.getRegistration();
+          logTest('Service Worker Registration', registration ? 'pass' : 'fail',
+            registration ? `Active: ${registration.active?.state}` : 'Not registered');
+        } catch (e) {
+          logTest('Service Worker Registration', 'fail', e.message);
+        }
+      } else {
+        logTest('Service Worker Registration', 'fail', 'Not supported');
+      }
+
+      // Test 6: Local Storage APIs
+      try {
+        localStorage.setItem('test_api', 'value');
+        const value = localStorage.getItem('test_api');
+        localStorage.removeItem('test_api');
+        logTest('Local Storage API', value === 'value' ? 'pass' : 'fail');
+      } catch (e) {
+        logTest('Local Storage API', 'fail', e.message);
+      }
+
+      // Test 7: Calendar ICS Generation (Mock)
+      try {
+        const icsTest = await fetch(`${baseURL}/api/m2m/events/test-event/ics`);
+        logTest('ICS Generation Endpoint', icsTest.ok ? 'pass' : 'fail',
+          `Status: ${icsTest.status}`);
+      } catch (e) {
+        logTest('ICS Generation Endpoint', 'fail', e.message);
+      }
+
+      // Test 8: API Integration Module Load
+      try {
+        const module = await import(`${baseURL}/assets/js/api-integration.js`);
+        const hasAPIClass = typeof module.default === 'function';
+        logTest('API Integration Module', hasAPIClass ? 'pass' : 'fail',
+          hasAPIClass ? 'Module loaded successfully' : 'Module not found');
+        
+        if (hasAPIClass) {
+          // Test 9: API Integration Instance
+          const api = new module.default();
+          const hasMethodsapi.getParties && api.getHotspots && api.generateICS;
+          logTest('API Integration Methods', hasMethods ? 'pass' : 'fail',
+            hasMethods ? 'All methods available' : 'Missing methods');
+          
+          // Test 10: Fallback Data
+          const events = await api.getParties();
+          logTest('Fallback Events Data', events.length > 0 ? 'pass' : 'fail',
+            `${events.length} fallback events available`);
+        }
+      } catch (e) {
+        logTest('API Integration Module', 'fail', e.message);
+      }
+
+      results.innerHTML += '<h2>✅ Test Suite Complete</h2>';
+    }
+
+    // Run tests on load
+    runTests();
+  </script>
+</body>
+</html>

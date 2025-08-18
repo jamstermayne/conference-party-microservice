@@ -1,0 +1,590 @@
+/**
+ * Design Alignment - Modern Glass Morphism
+ * Aligns all UI elements with the modern design system
+ */
+
+/* ============================================
+   Global Design Tokens Enhancement
+   ============================================ */
+:root {
+  /* Enhanced shadows for depth */
+  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.18);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.22);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.25);
+  --shadow-glow: 0 0 40px rgba(139, 92, 246, 0.15);
+  
+  /* Glass morphism backgrounds */
+  --glass-light: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.08) 0%, 
+    rgba(255, 255, 255, 0.03) 100%);
+  --glass-dark: linear-gradient(135deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.2) 100%);
+  --glass-purple: linear-gradient(135deg,
+    rgba(139, 92, 246, 0.1) 0%,
+    rgba(236, 72, 153, 0.05) 100%);
+}
+
+/* ============================================
+   Base Elements Modernization
+   ============================================ */
+body {
+  background: linear-gradient(135deg, #0a0a14 0%, #140a1e 100%);
+  min-height: 100vh;
+}
+
+/* All panels get glass treatment */
+.panel,
+.home-section,
+.sidebar-section {
+  background: var(--glass-light);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================
+   Navigation & Sidebar Modernization
+   ============================================ */
+.sidebar {
+  background: linear-gradient(180deg,
+    rgba(10, 10, 20, 0.95) 0%,
+    rgba(20, 10, 30, 0.98) 100%);
+  backdrop-filter: blur(30px);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-item {
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius-md);
+  margin: 4px 8px;
+}
+
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(2px);
+}
+
+.sidebar-item.active {
+  background: var(--glass-purple);
+  box-shadow: 
+    0 4px 12px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 24px;
+  background: linear-gradient(180deg, #8b5cf6, #ec4899);
+  border-radius: 0 3px 3px 0;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.6);
+}
+
+/* ============================================
+   Buttons & Interactive Elements
+   ============================================ */
+button,
+.btn,
+.button,
+.btn-primary,
+.btn-secondary,
+.btn-cta {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+}
+
+/* Primary buttons */
+.btn-primary,
+.btn-cta,
+button[type="submit"] {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: white;
+  border: none;
+  box-shadow: 
+    0 4px 12px rgba(139, 92, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary:hover,
+.btn-cta:hover,
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 20px rgba(139, 92, 246, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Secondary buttons */
+.btn-secondary,
+.btn-outline {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.btn-secondary:hover,
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(139, 92, 246, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Day pills modernization */
+.day-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.day-pill:hover {
+  background: var(--glass-purple);
+  border-color: rgba(139, 92, 246, 0.3);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.day-pill.active {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+}
+
+/* ============================================
+   Forms & Inputs Modernization
+   ============================================ */
+input,
+textarea,
+select {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 
+    0 0 0 3px rgba(139, 92, 246, 0.1),
+    0 4px 12px rgba(139, 92, 246, 0.1);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   Cards Universal Modernization
+   ============================================ */
+.card,
+.event-card,
+.party-card,
+.connection-card,
+.opportunity-card {
+  background: var(--glass-light);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover,
+.event-card:hover,
+.party-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 16px 32px rgba(0, 0, 0, 0.2),
+    0 0 60px rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+/* Card headers */
+.card-header,
+.card__header {
+  background: linear-gradient(135deg,
+    rgba(139, 92, 246, 0.1) 0%,
+    rgba(236, 72, 153, 0.05) 100%);
+  padding: var(--s-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Card content */
+.card-body,
+.card__content {
+  padding: var(--s-4);
+}
+
+/* Card footer */
+.card-footer,
+.card__footer {
+  background: rgba(0, 0, 0, 0.2);
+  padding: var(--s-3) var(--s-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   Channel Buttons Modernization
+   ============================================ */
+.channel-btn {
+  background: var(--glass-light);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: var(--s-4);
+  border-radius: var(--radius-lg);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.channel-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(139, 92, 246, 0.1) 0%,
+    rgba(236, 72, 153, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.channel-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.channel-btn:hover::before {
+  opacity: 1;
+}
+
+.channel-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--s-3);
+  background: linear-gradient(135deg,
+    rgba(139, 92, 246, 0.2) 0%,
+    rgba(236, 72, 153, 0.1) 100%);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+/* ============================================
+   Home Sections Modernization
+   ============================================ */
+.home-section {
+  margin-bottom: var(--s-5);
+  padding: var(--s-4);
+  background: var(--glass-light);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.home-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-4);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.home-section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.home-section-title::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(180deg, #8b5cf6, #ec4899);
+  border-radius: 2px;
+}
+
+/* ============================================
+   Lists & Items Modernization
+   ============================================ */
+.list-item,
+.menu-item {
+  padding: var(--s-3);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.list-item:hover,
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+  transform: translateX(4px);
+}
+
+.list-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 0;
+  background: linear-gradient(180deg, #8b5cf6, #ec4899);
+  transition: height 0.2s ease;
+}
+
+.list-item:hover::before {
+  height: 60%;
+}
+
+/* ============================================
+   Badges & Tags Modernization
+   ============================================ */
+.badge,
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.2s ease;
+}
+
+.badge.primary,
+.tag.primary {
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.2),
+    rgba(236, 72, 153, 0.1));
+  border-color: rgba(139, 92, 246, 0.3);
+  color: #a78bfa;
+}
+
+.badge.success,
+.tag.success {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.badge.warning,
+.tag.warning {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.3);
+  color: #fbbf24;
+}
+
+/* ============================================
+   Modals & Overlays Modernization
+   ============================================ */
+.modal,
+.overlay-panel {
+  background: linear-gradient(135deg,
+    rgba(10, 10, 20, 0.98) 0%,
+    rgba(20, 10, 30, 0.98) 100%);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  box-shadow: 
+    0 24px 64px rgba(0, 0, 0, 0.4),
+    0 0 100px rgba(139, 92, 246, 0.1);
+}
+
+.modal-header,
+.overlay-header {
+  padding: var(--s-5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.modal-content,
+.overlay-content {
+  padding: var(--s-5);
+}
+
+.modal-footer,
+.overlay-footer {
+  padding: var(--s-4) var(--s-5);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   Loading States & Skeletons
+   ============================================ */
+.skeleton,
+.loading {
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ============================================
+   Scrollbars Modernization
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg,
+    rgba(139, 92, 246, 0.3),
+    rgba(236, 72, 153, 0.2));
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg,
+    rgba(139, 92, 246, 0.5),
+    rgba(236, 72, 153, 0.3));
+}
+
+/* ============================================
+   Tooltips & Popovers
+   ============================================ */
+.tooltip,
+.popover {
+  background: linear-gradient(135deg,
+    rgba(10, 10, 20, 0.95) 0%,
+    rgba(20, 10, 30, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: var(--s-2) var(--s-3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+}
+
+/* ============================================
+   Animations Enhancement
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply animations to elements */
+.card { animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.modal { animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+.panel.overlay { animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+/* ============================================
+   Focus States
+   ============================================ */
+:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.5);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ============================================
+   Selection Styles
+   ============================================ */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: white;
+}
+
+/* ============================================
+   Mobile Responsiveness
+   ============================================ */
+@media (max-width: 640px) {
+  .home-section {
+    padding: var(--s-3);
+    border-radius: var(--radius-md);
+  }
+  
+  .card,
+  .modal {
+    border-radius: var(--radius-lg);
+  }
+  
+  .channel-btn {
+    padding: var(--s-3);
+  }
+  
+  .channel-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}

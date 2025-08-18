@@ -1,0 +1,390 @@
+/**
+ * Signature Modal System - RSVP & Interactions
+ * WCAG 2.2 AA Compliant | Smooth Animations | Premium Design
+ */
+
+/* ============================================
+   RSVP MODAL - PREMIUM OVERLAY
+   ============================================ */
+.rsvp-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--curve-power);
+  backdrop-filter: blur(var(--blur-signature));
+  -webkit-backdrop-filter: blur(var(--blur-signature));
+}
+
+.rsvp-modal.is-active,
+.rsvp-modal[aria-hidden="false"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal Backdrop */
+.rsvp-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(var(--blur-signature));
+  -webkit-backdrop-filter: blur(var(--blur-signature));
+  cursor: pointer;
+}
+
+/* Modal Content Container */
+.rsvp-modal__content {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  background: var(--glass-signature);
+  backdrop-filter: blur(var(--blur-signature-heavy));
+  -webkit-backdrop-filter: blur(var(--blur-signature-heavy));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-signature-card);
+  overflow: hidden;
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.3s var(--curve-power);
+  
+  /* Enhanced glass morphism */
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.06) 0%, transparent 50%);
+}
+
+.rsvp-modal.is-active .rsvp-modal__content,
+.rsvp-modal[aria-hidden="false"] .rsvp-modal__content {
+  transform: scale(1) translateY(0);
+}
+
+/* Modal Header */
+.rsvp-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-6) var(--space-6) var(--space-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rsvp-modal__header h3 {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--color-white);
+  line-height: var(--leading-tight);
+}
+
+/* Close Button */
+.rsvp-modal__close {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(var(--blur-signature-light));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  color: var(--color-gray-300);
+  cursor: pointer;
+  transition: all 0.2s var(--curve-signature);
+  
+  /* WCAG 2.2 - Enhanced Focus */
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.rsvp-modal__close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--color-white);
+  transform: scale(1.1);
+}
+
+.rsvp-modal__close:focus-visible {
+  outline-color: var(--signature-accent);
+  outline-width: 3px;
+}
+
+.rsvp-modal__close:active {
+  transform: scale(0.95);
+  transition-duration: 0.1s;
+}
+
+/* Modal Body */
+.rsvp-modal__body {
+  padding: var(--space-4) var(--space-6) var(--space-6);
+}
+
+/* RSVP Options */
+.rsvp-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.rsvp-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  padding: var(--space-4);
+  background: var(--glass-signature);
+  backdrop-filter: blur(var(--blur-signature-light));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-xl);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: all 0.2s var(--curve-signature);
+  text-align: left;
+  
+  /* WCAG 2.2 - Enhanced Focus */
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.rsvp-option:hover {
+  background: var(--glass-signature-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-signature-hover);
+}
+
+.rsvp-option:focus-visible {
+  outline-color: var(--signature-accent);
+  outline-width: 3px;
+}
+
+.rsvp-option:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-signature-active);
+  transition-duration: 0.1s;
+}
+
+.rsvp-option--primary {
+  background: linear-gradient(135deg, var(--signature-primary), var(--signature-accent));
+  border: none;
+  font-weight: var(--font-semibold);
+  position: relative;
+  overflow: hidden;
+}
+
+.rsvp-option--primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--signature-primary-light), var(--signature-accent-light));
+  opacity: 0;
+  transition: opacity 0.2s var(--curve-signature);
+}
+
+.rsvp-option--primary:hover::before {
+  opacity: 1;
+}
+
+.rsvp-option--primary:hover {
+  box-shadow: 
+    var(--shadow-signature-hover),
+    0 0 32px rgba(124, 58, 237, 0.3);
+}
+
+/* RSVP Option Icon */
+.rsvp-option__icon {
+  font-size: var(--text-2xl);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* RSVP Option Content */
+.rsvp-option__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.rsvp-option__title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+  margin-bottom: var(--space-1);
+}
+
+.rsvp-option__subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-gray-300);
+  line-height: var(--leading-snug);
+}
+
+.rsvp-option--primary .rsvp-option__subtitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 640px) {
+  .rsvp-modal {
+    padding: var(--space-3);
+  }
+  
+  .rsvp-modal__content {
+    max-width: 100%;
+    border-radius: var(--radius-xl);
+  }
+  
+  .rsvp-modal__header {
+    padding: var(--space-4) var(--space-4) var(--space-3);
+  }
+  
+  .rsvp-modal__header h3 {
+    font-size: var(--text-lg);
+  }
+  
+  .rsvp-modal__body {
+    padding: var(--space-3) var(--space-4) var(--space-4);
+  }
+  
+  .rsvp-option {
+    gap: var(--space-3);
+    padding: var(--space-3);
+  }
+  
+  .rsvp-option__icon {
+    font-size: var(--text-xl);
+  }
+  
+  .rsvp-option__title {
+    font-size: var(--text-base);
+  }
+  
+  .rsvp-option__subtitle {
+    font-size: var(--text-xs);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .rsvp-modal__content {
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid var(--color-white);
+  }
+  
+  .rsvp-option {
+    border: 2px solid var(--color-white);
+  }
+  
+  .rsvp-modal__header h3,
+  .rsvp-option__title {
+    text-shadow: 
+      1px 1px 0 var(--color-black),
+      -1px -1px 0 var(--color-black),
+      1px -1px 0 var(--color-black),
+      -1px 1px 0 var(--color-black);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .rsvp-modal,
+  .rsvp-modal__content,
+  .rsvp-option,
+  .rsvp-modal__close {
+    transition: none;
+  }
+  
+  .rsvp-modal__content {
+    transform: none;
+  }
+  
+  .rsvp-option:hover {
+    transform: none;
+  }
+}
+
+/* Force Colors Mode */
+@media (forced-colors: active) {
+  .rsvp-modal__content {
+    background: Canvas;
+    border: 1px solid ButtonText;
+  }
+  
+  .rsvp-modal__header h3,
+  .rsvp-option__title {
+    color: ButtonText;
+  }
+  
+  .rsvp-option--primary {
+    background: Highlight;
+    color: HighlightText;
+  }
+}
+
+/* ============================================
+   LOADING & ERROR STATES
+   ============================================ */
+.rsvp-modal--loading .rsvp-option {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.rsvp-modal--loading .rsvp-option::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .rsvp-modal {
+    display: none;
+  }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* GPU Acceleration */
+.rsvp-modal__content,
+.rsvp-option,
+.rsvp-modal__close {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Layer Promotion */
+.rsvp-modal {
+  contain: layout style paint;
+}
+
+.rsvp-modal__content {
+  contain: layout style paint;
+}

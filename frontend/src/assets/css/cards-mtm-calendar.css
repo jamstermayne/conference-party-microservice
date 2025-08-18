@@ -1,0 +1,399 @@
+/* MTM & Calendar Event Card Design System
+   =========================================
+   Enhanced cards for conference events with calendar integration
+   Inspired by modern event platforms and calendar UIs */
+
+/* ========== MTM Event Card ========== */
+.card-mtm {
+  --mtm-padding: var(--s-4);
+  --mtm-radius: var(--r-3);
+  --mtm-shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.12);
+  --mtm-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.16);
+  --mtm-transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --mtm-accent: var(--color-accent, #6b7bff);
+  
+  position: relative;
+  display: grid;
+  grid-template-areas: 
+    "date content"
+    "date footer";
+  grid-template-columns: auto 1fr;
+  gap: var(--s-4);
+  padding: var(--mtm-padding);
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.03) 0%, 
+    rgba(255, 255, 255, 0.01) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--mtm-radius);
+  box-shadow: var(--mtm-shadow-soft);
+  transition: var(--mtm-transition);
+  overflow: hidden;
+}
+
+/* Hover state with glow effect */
+.card-mtm:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: var(--mtm-shadow-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.05) 0%, 
+    rgba(255, 255, 255, 0.02) 100%);
+}
+
+/* Accent bar on top */
+.card-mtm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    var(--mtm-accent) 0%, 
+    rgba(107, 123, 255, 0.6) 100%);
+  opacity: 0;
+  transition: opacity var(--mtm-transition);
+}
+
+.card-mtm:hover::before {
+  opacity: 1;
+}
+
+/* Date block - Calendar style */
+.card-mtm__date {
+  grid-area: date;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 4.5rem;
+  padding: var(--s-3);
+  background: rgba(107, 123, 255, 0.1);
+  border: 1px solid rgba(107, 123, 255, 0.2);
+  border-radius: var(--r-2);
+  text-align: center;
+}
+
+.card-mtm__day {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--mtm-accent);
+}
+
+.card-mtm__month {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-dim);
+  margin-top: var(--s-1);
+}
+
+.card-mtm__weekday {
+  font-size: 0.6875rem;
+  color: var(--color-text-dim);
+  opacity: 0.7;
+  margin-top: var(--s-1);
+}
+
+/* Content area */
+.card-mtm__content {
+  grid-area: content;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.card-mtm__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.card-mtm__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text);
+  margin: 0;
+  
+  /* Better truncation */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-mtm__badge {
+  flex-shrink: 0;
+  padding: var(--s-1) var(--s-2);
+  background: rgba(107, 123, 255, 0.15);
+  border: 1px solid rgba(107, 123, 255, 0.3);
+  border-radius: var(--r-4);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mtm-accent);
+}
+
+.card-mtm__badge--free {
+  background: rgba(52, 211, 153, 0.15);
+  border-color: rgba(52, 211, 153, 0.3);
+  color: #34d399;
+}
+
+/* Metadata */
+.card-mtm__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  font-size: 0.875rem;
+  color: var(--color-text-dim);
+}
+
+.card-mtm__meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+.card-mtm__icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6;
+}
+
+/* Footer actions */
+.card-mtm__footer {
+  grid-area: footer;
+  display: flex;
+  gap: var(--s-2);
+  margin-top: auto;
+  padding-top: var(--s-3);
+}
+
+.card-mtm__action {
+  flex: 1;
+  padding: var(--s-2) var(--s-3);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--r-2);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--mtm-transition);
+}
+
+.card-mtm__action:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.card-mtm__action--primary {
+  background: var(--mtm-accent);
+  border-color: transparent;
+  color: white;
+}
+
+.card-mtm__action--primary:hover {
+  background: var(--color-accent-strong);
+  box-shadow: 0 4px 12px rgba(107, 123, 255, 0.3);
+}
+
+/* ========== Calendar Event Card ========== */
+.card-calendar {
+  --cal-padding: var(--s-3);
+  --cal-radius: var(--r-2);
+  --cal-border-width: 2px;
+  
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--cal-radius);
+  overflow: hidden;
+  transition: all 200ms ease;
+}
+
+/* Time slot indicator */
+.card-calendar__time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--cal-padding);
+  min-width: 5rem;
+  background: linear-gradient(180deg, 
+    rgba(107, 123, 255, 0.08) 0%, 
+    rgba(107, 123, 255, 0.04) 100%);
+  border-right: var(--cal-border-width) solid var(--mtm-accent);
+  font-weight: 600;
+}
+
+.card-calendar__time-start {
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.card-calendar__time-duration {
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+  margin-top: var(--s-1);
+}
+
+/* Main content */
+.card-calendar__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--cal-padding);
+  gap: var(--s-2);
+}
+
+.card-calendar__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.card-calendar__location {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  font-size: 0.875rem;
+  color: var(--color-text-dim);
+}
+
+.card-calendar__attendees {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: auto;
+}
+
+.card-calendar__avatar-stack {
+  display: flex;
+  margin-right: var(--s-2);
+}
+
+.card-calendar__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(107, 123, 255, 0.2);
+  border: 2px solid var(--color-bg);
+  margin-left: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--mtm-accent);
+}
+
+.card-calendar__avatar:first-child {
+  margin-left: 0;
+}
+
+.card-calendar__attendee-count {
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+}
+
+/* Calendar hover state */
+.card-calendar:hover {
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: var(--mtm-accent);
+}
+
+/* ========== Responsive Design ========== */
+@media (max-width: 640px) {
+  .card-mtm {
+    grid-template-areas: 
+      "date"
+      "content"
+      "footer";
+    grid-template-columns: 1fr;
+  }
+  
+  .card-mtm__date {
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: auto;
+    padding: var(--s-2) var(--s-3);
+  }
+  
+  .card-mtm__day {
+    font-size: 1.5rem;
+  }
+  
+  .card-calendar {
+    flex-direction: column;
+  }
+  
+  .card-calendar__time {
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: auto;
+    border-right: none;
+    border-bottom: var(--cal-border-width) solid var(--mtm-accent);
+  }
+}
+
+/* ========== Animation Classes ========== */
+.card-mtm--entering {
+  animation: slideInFromRight 400ms ease-out;
+}
+
+.card-calendar--entering {
+  animation: fadeInUp 300ms ease-out;
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== Dark Theme Adjustments ========== */
+@media (prefers-color-scheme: dark) {
+  .card-mtm {
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.02) 0%, 
+      rgba(255, 255, 255, 0.005) 100%);
+  }
+  
+  .card-calendar__time {
+    background: linear-gradient(180deg, 
+      rgba(107, 123, 255, 0.05) 0%, 
+      rgba(107, 123, 255, 0.02) 100%);
+  }
+}

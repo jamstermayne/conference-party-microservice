@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2-Column Card Layout Test</title>
+  <link rel="stylesheet" href="/frontend/src/assets/css/tokens.css">
+  <link rel="stylesheet" href="/frontend/src/assets/css/cards-modern.css">
+  <style>
+    body {
+      background: var(--color-bg, #12151b);
+      color: var(--color-text, #e8ecf1);
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 2rem;
+      margin: 0;
+    }
+    h1 {
+      margin: 0 0 2rem 0;
+      background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .test-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .status {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    .status.success {
+      background: rgba(52, 211, 153, 0.1);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+    .status.error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>2-Column Card Layout Test</h1>
+    
+    <div id="status" class="status">
+      Testing layout...
+    </div>
+    
+    <h2>2-Column Grid (Default)</h2>
+    <div class="card-modern-grid" id="test-grid">
+      <!-- Cards will be inserted here -->
+    </div>
+  </div>
+  
+  <script type="module">
+    // Create test cards
+    const grid = document.getElementById('test-grid');
+    const status = document.getElementById('status');
+    
+    // Generate 6 test cards
+    for (let i = 1; i <= 6; i++) {
+      const card = document.createElement('article');
+      card.className = 'card-modern card-modern--event';
+      card.innerHTML = `
+        <header class="card-modern__header">
+          <div class="card-modern__eyebrow">
+            <span>Test ${i}</span>
+          </div>
+          <h3 class="card-modern__title">Event Card ${i}</h3>
+          <p class="card-modern__subtitle">Testing 2-column layout</p>
+        </header>
+        <div class="card-modern__body">
+          <p class="card-modern__description">
+            This is test card number ${i} to verify the 2-column grid layout is working correctly.
+          </p>
+        </div>
+        <footer class="card-modern__footer">
+          <button class="card-modern__action card-modern__action--primary">
+            Primary Action
+          </button>
+          <button class="card-modern__action card-modern__action--secondary">
+            Secondary
+          </button>
+        </footer>
+      `;
+      grid.appendChild(card);
+    }
+    
+    // Test the layout
+    setTimeout(() => {
+      const computed = window.getComputedStyle(grid);
+      const columns = computed.gridTemplateColumns;
+      const columnCount = columns.split(' ').filter(c => c !== '0px').length;
+      
+      if (columnCount === 2 || columns.includes('repeat(2')) {
+        status.className = 'status success';
+        status.innerHTML = `
+          ✅ SUCCESS: 2-column layout is active<br>
+          Grid columns: ${columns}<br>
+          Column count: ${columnCount}<br>
+          Window width: ${window.innerWidth}px
+        `;
+      } else if (window.innerWidth < 640 && columnCount === 1) {
+        status.className = 'status success';
+        status.innerHTML = `
+          ✅ SUCCESS: Single column on mobile (as expected)<br>
+          Grid columns: ${columns}<br>
+          Window width: ${window.innerWidth}px
+        `;
+      } else {
+        status.className = 'status error';
+        status.innerHTML = `
+          ❌ ERROR: Expected 2 columns, got ${columnCount}<br>
+          Grid columns: ${columns}<br>
+          Window width: ${window.innerWidth}px
+        `;
+      }
+      
+      // Log card dimensions
+      const cards = grid.querySelectorAll('.card-modern');
+      console.log('Card Layout Test Results:');
+      console.log('Grid columns:', columns);
+      console.log('Number of cards:', cards.length);
+      console.log('First card width:', cards[0]?.getBoundingClientRect().width);
+      console.log('Grid width:', grid.getBoundingClientRect().width);
+    }, 100);
+    
+    // Add resize listener
+    window.addEventListener('resize', () => {
+      const computed = window.getComputedStyle(grid);
+      console.log('Resized - Grid columns:', computed.gridTemplateColumns);
+    });
+  </script>
+</body>
+</html>

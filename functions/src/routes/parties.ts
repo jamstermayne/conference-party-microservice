@@ -1,13 +1,14 @@
 import { Router, Request, Response } from "express";
 import { getPartiesFromFirestore, fetchLive } from "../services/parties-live";
 import { runIngest } from "../jobs/ingest-parties";
+import { fetchFromGoogleSheets, mapSheetRowToParty } from "../services/sheets-client";
 
 const router = Router();
 
 // Cache settings
 let cachedParties: any[] | null = null;
 let cacheTimestamp = 0;
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes - good balance for stability
 
 /**
  * GET /api/parties?conference=gamescom2025 - Get parties for a conference
@@ -50,92 +51,68 @@ router.get("/", async (req: Request, res: Response): Promise<Response> => {
       });
     }
     
-    // Fallback: Try to fetch live data directly
-    console.log("[parties] No Firestore data, fetching live");
+    // Try to fetch from Google Sheets using service account
+    console.log("[parties] No Firestore data, fetching from Google Sheets");
     
     try {
-      const liveParties = await fetchLive();
+      const sheetRows = await fetchFromGoogleSheets();
       
-      if (liveParties.length > 0) {
-        // Update cache
-        cachedParties = liveParties;
-        cacheTimestamp = Date.now();
+      if (sheetRows.length > 0) {
+        // Map rows to party objects
+        const parties = sheetRows
+          .map((row, index) => mapSheetRowToParty(row, index))
+          .filter(party => party !== null);
         
-        // Trigger background ingestion for next time
-        runIngest().catch(err => 
-          console.error("[parties] Background ingest failed:", err)
-        );
+        console.log(`[parties] Mapped ${parties.length} valid parties from Google Sheets`);
         
-        return res.json({
-          data: liveParties
-        });
+        if (parties.length > 0) {
+          // Update cache
+          cachedParties = parties;
+          cacheTimestamp = Date.now();
+          
+          return res.json({
+            data: parties
+          });
+        }
       }
-    } catch (fetchError) {
-      console.log("[parties] Live fetch failed, falling back to demo data:", fetchError);
+    } catch (sheetsError) {
+      console.log("[parties] Google Sheets fetch failed:", sheetsError);
+      
+      // Try the old fetchLive method as fallback
+      try {
+        const liveParties = await fetchLive();
+        
+        if (liveParties.length > 0) {
+          cachedParties = liveParties;
+          cacheTimestamp = Date.now();
+          
+          return res.json({
+            data: liveParties
+          });
+        }
+      } catch (fetchError) {
+        console.log("[parties] Live fetch also failed:", fetchError);
+      }
     }
     
-    // Fallback to demo data
-    const demoParties = [
-      {
-        id: "gamescom-opening-2025",
-        title: "Gamescom Opening Night Live",
-        venue: "Koelnmesse",
-        date: "2025-08-19",
-        time: "20:00",
-        start: "2025-08-19T20:00:00",
-        end: "2025-08-19T22:00:00",
-        price: "Free with ticket",
-        description: "The official opening ceremony"
-      },
-      {
-        id: "devcom-2025",
-        title: "Devcom Developer Conference",
-        venue: "Koelnmesse",
-        date: "2025-08-17",
-        time: "09:00",
-        start: "2025-08-17T09:00:00",
-        end: "2025-08-17T18:00:00",
-        price: "From €399",
-        description: "Professional game developers conference"
-      },
-      {
-        id: "xbox-party-2025",
-        title: "Xbox @ Gamescom Party",
-        venue: "Bootshaus",
-        date: "2025-08-20",
-        time: "20:00",
-        start: "2025-08-20T20:00:00",
-        end: "2025-08-21T02:00:00",
-        price: "Invite only",
-        description: "Exclusive Xbox celebration"
-      },
-      {
-        id: "unity-meetup-2025",
-        title: "Unity Developer Meetup",
-        venue: "Friesenplatz",
-        date: "2025-08-18",
-        time: "18:00",
-        start: "2025-08-18T18:00:00",
-        end: "2025-08-18T21:00:00",
-        price: "Free",
-        description: "Connect with Unity developers"
-      },
-      {
-        id: "indie-showcase-2025",
-        title: "Indie Games Showcase",
-        venue: "Gamescom City Hub",
-        date: "2025-08-21",
-        time: "14:00",
-        start: "2025-08-21T14:00:00",
-        end: "2025-08-21T18:00:00",
-        price: "Free",
-        description: "Discover amazing indie games"
-      }
-    ];
+    // Fallback to full Gamescom 2025 data (all 67 events)
+    const gamescomData = require('../data/gamescom-2025-all-67-events.json');
     
-    console.log("[parties] Using demo data fallback - v2");
+    // Add coordinates to match expected format
+    const fullParties = gamescomData.map((event: any) => ({
+      ...event,
+      coordinates: { lat: event.lat, lng: event.lng },
+      address: event.venue + ", Cologne, Germany"
+    }));
+    
+    console.log(`[parties] Using Gamescom 2025 data - ${fullParties.length} events`);
+    
+    // Update cache with full data
+    cachedParties = fullParties;
+    cacheTimestamp = Date.now();
+    
     return res.json({
-      data: demoParties
+      data: fullParties
     });
     
   } catch (error) {

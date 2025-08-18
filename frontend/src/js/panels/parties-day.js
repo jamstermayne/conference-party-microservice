@@ -40,21 +40,32 @@ function cardHTML(evt) {
   const t = (s) => s ? new Date(s).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '';
   const dateLine = evt.start ? new Date(evt.start).toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' }) : evt.date;
   return `
-    <article class="vcard party-card" data-id="${evt.id || ''}">
-      <header class="vcard-head">
-        <h3 class="vcard-title">${evt.title}</h3>
-        <div class="vcard-meta">${dateLine}${evt.venue ? ` • ${evt.venue}` : ''}</div>
+    <article class="card-modern card-modern--event party-card" data-id="${evt.id || ''}">
+      <header class="card-modern__header">
+        <div class="card-modern__eyebrow">
+          <span>${dateLine}</span>
+          ${evt.start ? `<span>•</span><span>${t(evt.start)}${evt.end ? `–${t(evt.end)}` : ''}</span>` : ''}
+        </div>
+        <h3 class="card-modern__title">${evt.title}</h3>
+        ${evt.venue ? `<p class="card-modern__subtitle">${evt.venue}</p>` : ''}
       </header>
-      <div class="vcard-body">
-        ${evt.start ? `<div class="time"><time>${t(evt.start)}${evt.end ? `–${t(evt.end)}` : ''}</time></div>` : ''}
-      </div>
-      <footer class="vcard-actions">
-        <button class="btn-add-to-calendar"
+      
+      ${evt.description ? `
+        <div class="card-modern__body">
+          <p class="card-modern__description">${evt.description}</p>
+        </div>
+      ` : ''}
+      
+      <footer class="card-modern__footer">
+        <button class="card-modern__action card-modern__action--primary btn-add-to-calendar"
           data-title="${evt.title}"
           data-start="${evt.start || ''}"
           data-end="${evt.end || ''}"
           data-venue="${evt.venue || ''}"
           aria-label="Add ${evt.title} to calendar">Add to Calendar</button>
+        <button class="card-modern__action card-modern__action--secondary">
+          Share
+        </button>
       </footer>
     </article>
   `;
@@ -69,7 +80,7 @@ export async function mountPartiesDay(iso) {
       <button class="back-btn" aria-label="Back" data-route="#/home">←</button>
       <h2 class="panel-title">Parties — ${labelFor(iso)}</h2>
     </header>
-    <div class="card-grid" id="parties-list" role="list"></div>
+    <div class="card-modern-grid" id="parties-list" role="list"></div>
   `;
   host.replaceChildren(wrap);
 

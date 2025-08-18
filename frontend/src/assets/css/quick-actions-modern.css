@@ -1,0 +1,387 @@
+/**
+ * Quick Actions - Modern Glass Morphism Design
+ * Matching the app's aesthetic principles
+ */
+
+/* ============================================
+   Quick Actions Section
+   ============================================ */
+.home-section[data-section="channels"] {
+  margin-top: var(--s-5);
+  padding: var(--s-5);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-section[data-section="channels"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(139, 92, 246, 0.3),
+    rgba(236, 72, 153, 0.3),
+    transparent
+  );
+}
+
+.home-section[data-section="channels"] h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 var(--s-4) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  background: linear-gradient(135deg, #fff, #e0e0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.home-section[data-section="channels"] h2::before {
+  content: '⚡';
+  font-size: 20px;
+  -webkit-text-fill-color: initial;
+}
+
+/* ============================================
+   Channels Grid
+   ============================================ */
+.channels-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-3);
+}
+
+/* ============================================
+   Channel Button - Glass Morphism Card
+   ============================================ */
+.channel-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-5) var(--s-4);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  overflow: hidden;
+  min-height: 120px;
+}
+
+/* Gradient overlay on hover */
+.channel-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.1) 0%,
+    rgba(236, 72, 153, 0.05) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Animated border glow */
+.channel-btn::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    135deg,
+    #8b5cf6,
+    #ec4899,
+    #8b5cf6
+  );
+  border-radius: var(--radius-lg);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+  filter: blur(8px);
+}
+
+.channel-btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.2),
+    0 0 80px rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.channel-btn:hover::before {
+  opacity: 1;
+}
+
+.channel-btn:hover::after {
+  opacity: 0.3;
+}
+
+.channel-btn:active {
+  transform: translateY(-2px) scale(1.01);
+}
+
+/* ============================================
+   Channel Icon
+   ============================================ */
+.channel-btn .ico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  font-size: 28px;
+  margin-bottom: var(--s-3);
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.2) 0%,
+    rgba(236, 72, 153, 0.1) 100%
+  );
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.channel-btn:hover .ico {
+  transform: scale(1.1) rotate(5deg);
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.3) 0%,
+    rgba(236, 72, 153, 0.15) 100%
+  );
+  box-shadow: 0 8px 16px rgba(139, 92, 246, 0.2);
+}
+
+/* Icon pulse animation */
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.channel-btn:hover .ico {
+  animation: iconPulse 2s infinite;
+}
+
+/* ============================================
+   Channel Label
+   ============================================ */
+.channel-btn span:not(.ico) {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.channel-btn:hover span:not(.ico) {
+  color: white;
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+
+/* ============================================
+   Individual Channel Accents
+   ============================================ */
+/* Invites - Purple accent */
+.channel-btn[href*="invites"] .ico {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.25) 0%,
+    rgba(168, 85, 247, 0.15) 100%
+  );
+}
+
+.channel-btn[href*="invites"]:hover {
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+/* Calendar - Blue accent */
+.channel-btn[href*="calendar"] .ico {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.25) 0%,
+    rgba(37, 99, 235, 0.15) 100%
+  );
+}
+
+.channel-btn[href*="calendar"]:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+/* Contacts - Green accent */
+.channel-btn[href*="contacts"] .ico {
+  background: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.25) 0%,
+    rgba(16, 185, 129, 0.15) 100%
+  );
+}
+
+.channel-btn[href*="contacts"]:hover {
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+/* Account - Pink accent */
+.channel-btn[href*="me"] .ico {
+  background: linear-gradient(
+    135deg,
+    rgba(236, 72, 153, 0.25) 0%,
+    rgba(219, 39, 119, 0.15) 100%
+  );
+}
+
+.channel-btn[href*="me"]:hover {
+  border-color: rgba(236, 72, 153, 0.4);
+}
+
+/* ============================================
+   Badge/Notification Indicator
+   ============================================ */
+.channel-btn .badge {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+  animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 2px 12px rgba(239, 68, 68, 0.6);
+  }
+}
+
+/* ============================================
+   Loading State
+   ============================================ */
+.channel-btn.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.channel-btn.loading .ico::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 2px solid transparent;
+  border-top-color: rgba(139, 92, 246, 0.6);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   Mobile Responsiveness
+   ============================================ */
+@media (max-width: 640px) {
+  .channels-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-2);
+  }
+  
+  .channel-btn {
+    padding: var(--s-4) var(--s-3);
+    min-height: 100px;
+  }
+  
+  .channel-btn .ico {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+  
+  .channel-btn span:not(.ico) {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 400px) {
+  .channels-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .channel-btn {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: var(--s-3);
+    min-height: auto;
+  }
+  
+  .channel-btn .ico {
+    margin-bottom: 0;
+    margin-right: var(--s-3);
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* ============================================
+   Entrance Animation
+   ============================================ */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.channels-grid .channel-btn {
+  animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.channels-grid .channel-btn:nth-child(1) { animation-delay: 0.05s; }
+.channels-grid .channel-btn:nth-child(2) { animation-delay: 0.1s; }
+.channels-grid .channel-btn:nth-child(3) { animation-delay: 0.15s; }
+.channels-grid .channel-btn:nth-child(4) { animation-delay: 0.2s; }

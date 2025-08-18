@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Cards Demo - Conference Party App</title>
+  
+  <!-- Core Tokens -->
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  
+  <!-- Modern Card Styles -->
+  <link rel="stylesheet" href="/assets/css/cards-modern.css">
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--color-bg, #12151b);
+      color: var(--color-text, #e8ecf1);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      min-height: 100vh;
+    }
+    
+    .demo-header {
+      padding: var(--s-6) var(--s-5);
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--color-border);
+    }
+    
+    .demo-header h1 {
+      margin: 0 0 var(--s-2) 0;
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .demo-header p {
+      margin: 0;
+      color: var(--color-text-dim);
+      font-size: 1.125rem;
+    }
+    
+    .demo-controls {
+      padding: var(--s-5);
+      background: rgba(255, 255, 255, 0.01);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      gap: var(--s-3);
+      flex-wrap: wrap;
+    }
+    
+    .demo-button {
+      padding: var(--s-3) var(--s-4);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+      border-radius: var(--r-2);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    
+    .demo-button:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+    
+    .demo-button--active {
+      background: var(--color-accent);
+      color: white;
+      border-color: transparent;
+    }
+    
+    .demo-container {
+      padding: var(--s-5);
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    
+    .demo-section {
+      margin-bottom: var(--s-8);
+    }
+    
+    .demo-section h2 {
+      margin: 0 0 var(--s-4) 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    
+    .demo-section p {
+      margin: 0 0 var(--s-5) 0;
+      color: var(--color-text-dim);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    /* Comparison grid */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-5);
+      margin-bottom: var(--s-6);
+    }
+    
+    @media (max-width: 768px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .comparison-column h3 {
+      margin: 0 0 var(--s-3) 0;
+      font-size: 1.125rem;
+      color: var(--color-text-dim);
+    }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>Modern Card Design System</h1>
+    <p>Responsive, accessible, and beautifully animated event cards</p>
+  </header>
+  
+  <div class="demo-controls">
+    <button class="demo-button demo-button--active" data-columns="auto">Auto Grid</button>
+    <button class="demo-button" data-columns="1">1 Column</button>
+    <button class="demo-button" data-columns="2">2 Columns</button>
+    <button class="demo-button" data-columns="3">3 Columns</button>
+    <button class="demo-button" data-columns="4">4 Columns</button>
+    <button class="demo-button" data-theme="dark">Dark Theme</button>
+    <button class="demo-button" data-theme="light">Light Theme</button>
+    <button class="demo-button" id="add-card">Add Card</button>
+    <button class="demo-button" id="toggle-loading">Toggle Loading</button>
+  </div>
+  
+  <div class="demo-container">
+    <section class="demo-section">
+      <h2>Modern Card Grid</h2>
+      <p>
+        These cards feature improved visual hierarchy, smooth animations, 
+        and full accessibility support. They adapt seamlessly to different screen sizes
+        and provide clear interactive feedback.
+      </p>
+      <div id="modern-cards"></div>
+    </section>
+    
+    <section class="demo-section">
+      <h2>Card Comparison</h2>
+      <div class="comparison-grid">
+        <div class="comparison-column">
+          <h3>Legacy Card</h3>
+          <div class="card">
+            <h3 class="card__title">Gamescom Opening Party</h3>
+            <div class="card__meta">Aug 20 • 7:00 PM — Koelnmesse</div>
+            <div class="card__actions">
+              <button class="btn btn--primary">Add to Calendar</button>
+              <button class="btn btn--ghost">Google</button>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-column">
+          <h3>Modern Card</h3>
+          <div id="comparison-modern"></div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="demo-section">
+      <h2>Features</h2>
+      <div class="card-modern-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+        <div class="card-modern">
+          <header class="card-modern__header">
+            <h3 class="card-modern__title">🎨 Visual Hierarchy</h3>
+          </header>
+          <div class="card-modern__body">
+            <p class="card-modern__description">
+              Clear content zones with proper typography scales and spacing rhythm
+            </p>
+          </div>
+        </div>
+        
+        <div class="card-modern">
+          <header class="card-modern__header">
+            <h3 class="card-modern__title">✨ Smooth Animations</h3>
+          </header>
+          <div class="card-modern__body">
+            <p class="card-modern__description">
+              Micro-interactions and hover effects that feel natural and responsive
+            </p>
+          </div>
+        </div>
+        
+        <div class="card-modern">
+          <header class="card-modern__header">
+            <h3 class="card-modern__title">📱 Mobile-First</h3>
+          </header>
+          <div class="card-modern__body">
+            <p class="card-modern__description">
+              Responsive grid layout that adapts from mobile to 4K displays
+            </p>
+          </div>
+        </div>
+        
+        <div class="card-modern">
+          <header class="card-modern__header">
+            <h3 class="card-modern__title">♿ Accessible</h3>
+          </header>
+          <div class="card-modern__body">
+            <p class="card-modern__description">
+              ARIA labels, keyboard navigation, and high contrast mode support
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Scripts -->
+  <script type="module">
+    import { createModernCard, createCardGrid, setCardLoading } from '/assets/js/cards-modern.js';
+    
+    // Sample event data
+    const sampleEvents = [
+      {
+        title: 'Gamescom Opening Ceremony',
+        date: '2025-08-20',
+        time: '10:00 AM',
+        venue: 'Koelnmesse Hall 11',
+        description: 'The official opening of Gamescom 2025 featuring major announcements from industry leaders.',
+        price: 'Free',
+        tags: ['Keynote', 'Industry'],
+        capacity: 500
+      },
+      {
+        title: 'Xbox Showcase Party',
+        date: '2025-08-20',
+        time: '7:00 PM',
+        venue: 'Lanxess Arena',
+        description: 'Join Xbox for an exclusive party featuring live gameplay demos and special guests.',
+        price: '€25',
+        tags: ['Party', 'Xbox', 'Gaming']
+      },
+      {
+        title: 'Indie Games Mixer',
+        date: '2025-08-21',
+        time: '6:00 PM',
+        venue: 'Cologne Game Lab',
+        description: 'Network with indie developers and discover the next generation of innovative games.',
+        price: 'Free',
+        tags: ['Networking', 'Indie'],
+        capacity: 200
+      },
+      {
+        title: 'PlayStation VR Experience',
+        date: '2025-08-21',
+        time: '2:00 PM',
+        venue: 'Sony Booth',
+        description: 'Be among the first to try the latest PlayStation VR titles in this hands-on session.',
+        price: '€15',
+        tags: ['VR', 'PlayStation', 'Demo']
+      },
+      {
+        title: 'Game Dev Conference',
+        date: '2025-08-22',
+        time: '9:00 AM',
+        venue: 'Congress Centre',
+        description: 'Technical talks and workshops for game developers covering the latest tools and techniques.',
+        price: '€75',
+        tags: ['Conference', 'Development'],
+        capacity: 1000
+      },
+      {
+        title: 'Closing Night Celebration',
+        date: '2025-08-24',
+        time: '8:00 PM',
+        venue: 'Musical Dome',
+        description: 'Celebrate the end of Gamescom with live music, food, and networking.',
+        price: '€40',
+        tags: ['Party', 'Networking', 'Music']
+      }
+    ];
+    
+    // Initialize modern cards
+    const modernContainer = document.getElementById('modern-cards');
+    const grid = createCardGrid(sampleEvents);
+    modernContainer.appendChild(grid);
+    
+    // Add comparison card
+    const comparisonContainer = document.getElementById('comparison-modern');
+    const comparisonCard = createModernCard(sampleEvents[0]);
+    comparisonContainer.appendChild(comparisonCard);
+    
+    // Grid controls
+    document.querySelectorAll('[data-columns]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-columns]').forEach(b => b.classList.remove('demo-button--active'));
+        btn.classList.add('demo-button--active');
+        
+        const columns = btn.dataset.columns;
+        if (columns === 'auto') {
+          grid.style.gridTemplateColumns = '';
+        } else {
+          grid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+        }
+      });
+    });
+    
+    // Theme controls
+    document.querySelectorAll('[data-theme]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.theme;
+        if (theme === 'light') {
+          document.documentElement.style.setProperty('--color-bg', '#f9fafb');
+          document.documentElement.style.setProperty('--color-surface-2', '#ffffff');
+          document.documentElement.style.setProperty('--color-text', '#111827');
+          document.documentElement.style.setProperty('--color-text-dim', '#6b7280');
+          document.documentElement.style.setProperty('--color-border', 'rgba(0, 0, 0, 0.1)');
+        } else {
+          document.documentElement.style.setProperty('--color-bg', '#12151b');
+          document.documentElement.style.setProperty('--color-surface-2', 'rgba(255, 255, 255, 0.02)');
+          document.documentElement.style.setProperty('--color-text', '#e8ecf1');
+          document.documentElement.style.setProperty('--color-text-dim', '#9aa4b2');
+          document.documentElement.style.setProperty('--color-border', 'rgba(255, 255, 255, 0.08)');
+        }
+      });
+    });
+    
+    // Add card button
+    let cardIndex = sampleEvents.length;
+    document.getElementById('add-card').addEventListener('click', () => {
+      const newEvent = {
+        title: `New Event ${++cardIndex}`,
+        date: '2025-08-23',
+        time: '3:00 PM',
+        venue: 'Demo Venue',
+        description: 'This is a dynamically added event card with smooth entrance animation.',
+        price: 'Free',
+        tags: ['New', 'Dynamic']
+      };
+      
+      const newCard = createModernCard(newEvent);
+      grid.appendChild(newCard);
+      
+      // Scroll to new card
+      setTimeout(() => {
+        newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    });
+    
+    // Toggle loading state
+    document.getElementById('toggle-loading').addEventListener('click', () => {
+      const cards = grid.querySelectorAll('.card-modern');
+      cards.forEach(card => {
+        const isLoading = card.classList.contains('card-modern--loading');
+        setCardLoading(card, !isLoading);
+      });
+    });
+    
+    // Log interactions for demo
+    grid.addEventListener('click', (e) => {
+      if (e.target.closest('[data-action]')) {
+        console.log('Card action clicked:', e.target.closest('[data-action]').dataset.action);
+      }
+    });
+  </script>
+</body>
+</html>

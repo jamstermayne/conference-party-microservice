@@ -51,7 +51,14 @@
     "migrate:tokens": "bash tools/migrate-to-tokens.sh preview",
     "migrate:tokens:apply": "bash tools/migrate-to-tokens.sh apply",
     "build:update": "node tools/update-build.js",
-    "guard:day-pills": "tools/guards/guard-day-pills.sh"
+    "guard:day-pills": "tools/guards/guard-day-pills.sh",
+    "smoke:prod": "node tools/fastlane/smoke.js --url=https://conference-party-app.web.app",
+    "smoke:url": "node tools/fastlane/smoke.js",
+    "ship:prod": "npm run smoke:prod && npx firebase-tools deploy --only hosting --message \"fastlane ship\"",
+    "e2e": "playwright test",
+    "e2e:prod": "cross-env BASE_URL=https://conference-party-app.web.app E2E_MOCK=1 playwright test",
+    "e2e:live": "cross-env BASE_URL=https://conference-party-app.web.app E2E_MOCK=0 playwright test",
+    "e2e:dev": "cross-env BASE_URL=http://localhost:5000 E2E_MOCK=1 playwright test"
   },
   "dependencies": {
     "firebase-admin": "^12.7.0",
@@ -60,15 +67,17 @@
     "path-to-regexp": "6.3.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.46.0",
+    "@playwright/test": "^1.54.2",
     "@types/node": "^20.4.5",
     "chokidar": "^4.0.3",
+    "cross-env": "^10.0.0",
     "esbuild": "^0.25.9",
     "eslint": "^8.57.1",
     "express": "^5.1.0",
     "http-proxy-middleware": "^3.0.5",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.0",
+    "puppeteer": "^21.7.0",
     "stylelint": "^15.11.0",
     "stylelint-config-standard": "^34.0.0",
     "stylelint-declaration-strict-value": "^1.10.4",
