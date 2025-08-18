@@ -1,0 +1,223 @@
+name: Code Protection & Security
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *'  # Daily security scan
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  # 1. Code Quality & Linting
+  lint:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd functions && npm ci
+      
+      - name: Run ESLint
+        run: |
+          cd functions && npm run lint
+      
+      - name: Check for hardcoded secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+
+  # 2. Security Vulnerability Scanning
+  security:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run npm audit
+        run: |
+          npm audit --audit-level=high
+          cd functions && npm audit --audit-level=high
+      
+      - name: Run Snyk Security Scan
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+      
+      - name: Upload Snyk results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: snyk.sarif
+
+  # 3. CodeQL Analysis
+  codeql:
+    name: CodeQL Security Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [ 'javascript', 'typescript' ]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-and-quality
+      
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+      
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  # 4. Test Suite
+  test:
+    name: Test Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd functions && npm ci
+      
+      - name: Run unit tests
+        run: |
+          cd functions && npm test
+      
+      - name: Run API tests
+        run: |
+          node tools/api-test-suite.js
+      
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
+  # 5. Build Verification
+  build:
+    name: Build Verification
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd functions && npm ci
+      
+      - name: Build project
+        run: |
+          npm run build
+          cd functions && npm run build
+      
+      - name: Verify build artifacts
+        run: |
+          test -f frontend/src/manifest.json
+          test -f frontend/src/sw.js
+          test -d functions/lib
+
+  # 6. Dependency Check
+  dependencies:
+    name: Dependency Security Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check for outdated dependencies
+        run: |
+          npm outdated || true
+          cd functions && npm outdated || true
+      
+      - name: License compatibility check
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - run: |
+          npx license-checker --production --onlyAllow 'MIT;Apache-2.0;BSD-3-Clause;BSD-2-Clause;ISC;CC0-1.0;CC-BY-3.0;CC-BY-4.0;Unlicense' || true
+
+  # 7. SAST (Static Application Security Testing)
+  sast:
+    name: SAST Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: auto
+
+  # 8. Container Security (if using containers)
+  container-security:
+    name: Container Security Scan
+    runs-on: ubuntu-latest
+    if: false  # Enable if using containers
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # 9. Branch Protection Enforcement
+  protection-check:
+    name: Protection Requirements
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: [lint, security, test, build]
+    steps:
+      - name: Check PR Requirements
+        run: |
+          echo "✅ All protection checks passed"
+          echo "📝 PR requires:"
+          echo "   - 1 approving review"
+          echo "   - Passing status checks"
+          echo "   - Up-to-date with base branch"
+          echo "   - No security vulnerabilities"

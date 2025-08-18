@@ -104,6 +104,78 @@ class UnifiedConferenceApp {
       this.handleFatalError(error);
     }
   }
+
+  async initializeUser() {
+    // Load user data from localStorage or create new user
+    const storedUser = localStorage.getItem('unifiedAppUser');
+    
+    if (storedUser) {
+      try {
+        this.currentUser = JSON.parse(storedUser);
+        
+        // Ensure savedEvents is a Set
+        if (this.currentUser.savedEvents) {
+          // Convert array to Set, filtering out null/undefined
+          const validEvents = Array.isArray(this.currentUser.savedEvents) 
+            ? this.currentUser.savedEvents.filter(id => id != null && id !== '')
+            : [];
+          this.currentUser.savedEvents = new Set(validEvents);
+        } else {
+          this.currentUser.savedEvents = new Set();
+        }
+        
+        // Ensure other required properties exist
+        this.currentUser.rsvps = this.currentUser.rsvps || {};
+        this.currentUser.connections = this.currentUser.connections || [];
+        this.currentUser.invites = this.currentUser.invites || { available: 10, sent: [] };
+        
+      } catch (e) {
+        console.error('Failed to parse stored user data:', e);
+        this.createNewUser();
+      }
+    } else {
+      this.createNewUser();
+    }
+  }
+
+  createNewUser() {
+    this.currentUser = {
+      id: 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+      profile: {
+        name: '',
+        email: '',
+        role: '',
+        company: ''
+      },
+      savedEvents: new Set(), // Use Set to prevent duplicates
+      rsvps: {},
+      connections: [],
+      invites: {
+        available: 10,
+        sent: [],
+        receivedFrom: null
+      },
+      preferences: {
+        notifications: true,
+        newsletter: false
+      },
+      createdAt: new Date().toISOString()
+    };
+    
+    this.saveUserData();
+  }
+
+  saveUserData() {
+    if (!this.currentUser) return;
+    
+    // Convert Set to Array for storage
+    const userData = {
+      ...this.currentUser,
+      savedEvents: Array.from(this.currentUser.savedEvents || new Set())
+    };
+    
+    localStorage.setItem('unifiedAppUser', JSON.stringify(userData));
+  }
   
   checkForInviteCode() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -1530,6 +1602,59 @@ class UnifiedConferenceApp {
         modal.remove();
       }
     });
+  }
+
+  async fetchEventsByIds(eventIds) {
+    // Filter out null/undefined IDs
+    const validIds = eventIds.filter(id => id != null && id !== '');
+    
+    if (validIds.length === 0) {
+      return [];
+    }
+    
+    try {
+      // First try to get from cached data if available
+      if (window.partiesData && window.partiesData.length > 0) {
+        const realEvents = [];
+        for (const id of validIds) {
+          const event = window.partiesData.find(p => p.id === id);
+          if (event) {
+            realEvents.push(event);
+          }
+        }
+        if (realEvents.length > 0) {
+          return realEvents;
+        }
+      }
+      
+      // If no cached data, fetch from API
+      const response = await fetch('/api/parties?conference=gamescom2025');
+      if (response.ok) {
+        const data = await response.json();
+        const parties = data.data || data.parties || [];
+        
+        // Cache for future use
+        window.partiesData = parties;
+        
+        // Filter to get only the requested events
+        const requestedEvents = [];
+        for (const id of validIds) {
+          const event = parties.find(p => p.id === id);
+          if (event) {
+            requestedEvents.push(event);
+          }
+        }
+        
+        return requestedEvents;
+      }
+      
+      // If all else fails, return empty array (no mock data with null/undefined)
+      return [];
+      
+    } catch (error) {
+      console.error('Failed to fetch events:', error);
+      return [];
+    }
   }
 
   async syncGoogleCalendar() {

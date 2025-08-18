@@ -16,17 +16,12 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes - good balance for stability
  */
 router.get("/", async (req: Request, res: Response): Promise<Response> => {
   try {
-    // Extract and validate conference parameter
+    // Extract conference parameter - default to gamescom2025 if not provided
     const { conference } = req.query as { conference?: string };
-    if (!conference) {
-      return res.status(400).json({ 
-        error: "conference required",
-        message: "Please provide a conference parameter, e.g., ?conference=gamescom2025"
-      });
-    }
+    const targetConference = conference || 'gamescom2025';
     
     // Log the conference being requested
-    console.log(`[parties] Fetching parties for conference: ${conference}`);
+    console.log(`[parties] Fetching parties for conference: ${targetConference}`);
     
     // Check cache first
     if (cachedParties && Date.now() - cacheTimestamp < CACHE_TTL) {

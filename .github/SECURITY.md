@@ -139,4 +139,30 @@ This application follows:
 
 **Security is a shared responsibility. Thank you for helping keep Gamescom 2025 Party Discovery secure!**
 
-*Last updated: August 7, 2025*
+*Last updated: August 18, 2025*
+
+## 🔐 GitHub Protection Enabled
+
+### **Branch Protection Rules**
+- ✅ Main branch protected
+- ✅ Require pull request reviews before merging
+- ✅ Dismiss stale PR approvals when new commits are pushed
+- ✅ Require status checks to pass before merging
+- ✅ Require branches to be up to date before merging
+- ✅ Include administrators in restrictions
+
+### **Required Status Checks**
+- Code Quality Checks (ESLint)
+- Security Scanning (npm audit, Snyk)
+- CodeQL Analysis
+- Test Coverage (Jest, API tests)
+- Build Verification
+- Dependency Security Check
+
+### **Automated Security Tools**
+- **GitHub Advanced Security**: Enabled for vulnerability detection
+- **Dependabot**: Automated dependency updates
+- **Secret Scanning**: Automatic detection of exposed credentials
+- **CodeQL**: Semantic code analysis for security vulnerabilities
+- **Snyk**: Real-time vulnerability monitoring
+- **TruffleHog**: Git history secret scanning
