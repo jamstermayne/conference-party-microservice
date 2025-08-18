@@ -1584,3 +1584,33 @@ button:focus-visible,
     animation: none;
   }
 }
+/* Calendar Sync Options */
+.sync-options {
+  display: flex;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.sync-btn--microsoft {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.sync-btn--microsoft:hover {
+  background: #00a4ef;
+  color: white;
+  border-color: #00a4ef;
+}
+
+.sync-btn--mtm {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.sync-btn--mtm:hover {
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}

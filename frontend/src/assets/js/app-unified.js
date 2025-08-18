@@ -776,12 +776,30 @@ class UnifiedConferenceApp {
       <div class="section-calendar">
         <div class="section-header">
           <h2>Your Calendar</h2>
-          <button class="sync-btn" data-action="sync-google-calendar">
-            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H4zM2 8v8a2 2 0 002 2h12a2 2 0 002-2V8H2z"/>
-            </svg>
-            Sync Google Calendar
-          </button>
+          <div class="sync-options">
+            <button class="sync-btn sync-btn--google" data-action="sync-google-calendar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              Google
+            </button>
+            <button class="sync-btn sync-btn--microsoft" data-action="sync-microsoft-calendar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.4 11.4H2V2h9.4v9.4zM22 2h-9.4v9.4H22V2zm-10.6 10.6H2V22h9.4v-9.4zM22 12.6h-9.4V22H22v-9.4z"/>
+              </svg>
+              Microsoft
+            </button>
+            <button class="sync-btn sync-btn--mtm" data-action="sync-mtm-calendar">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"/>
+                <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"/>
+              </svg>
+              Meet To Match
+            </button>
+          </div>
         </div>
         
         <div class="calendar-content">
@@ -1137,6 +1155,12 @@ class UnifiedConferenceApp {
         break;
       case 'sync-google-calendar':
         await this.syncGoogleCalendar();
+        break;
+      case 'sync-microsoft-calendar':
+        await this.syncMicrosoftCalendar();
+        break;
+      case 'sync-mtm-calendar':
+        await this.syncMTMCalendar();
         break;
       case 'create-invite':
         await this.createInvite();
@@ -1529,19 +1553,163 @@ class UnifiedConferenceApp {
 
   async syncGoogleCalendar() {
     try {
-      const response = await fetch(`${this.apiBase}/calendar/oauth/start`, {
-        headers: { 'User-ID': this.currentUser.id }
-      });
-      
-      if (response.ok) {
-        const { authUrl } = await response.json();
-        window.open(authUrl, '_blank');
-        this.showToast('Opening Google Calendar sync...');
+      // Get all RSVP'd events
+      const userRSVPs = Object.keys(this.currentUser.rsvps);
+      if (userRSVPs.length === 0) {
+        this.showToast('No events to sync. RSVP to some parties first!');
+        return;
       }
+
+      const events = await this.fetchEventsByIds(userRSVPs);
+      
+      // Generate ICS file content
+      const icsContent = this.generateICSContent(events);
+      
+      // Download ICS file
+      const blob = new Blob([icsContent], { type: 'text/calendar' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'gamescom-2025-events.ics';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      this.showToast('Calendar file downloaded! Open it to add events to Google Calendar.');
     } catch (error) {
       console.error('Failed to sync calendar:', error);
-      this.showToast('Calendar sync unavailable. Please try again later.');
+      this.showToast('Failed to generate calendar file. Please try again.');
     }
+  }
+
+  async syncMicrosoftCalendar() {
+    try {
+      // Get all RSVP'd events
+      const userRSVPs = Object.keys(this.currentUser.rsvps);
+      if (userRSVPs.length === 0) {
+        this.showToast('No events to sync. RSVP to some parties first!');
+        return;
+      }
+
+      const events = await this.fetchEventsByIds(userRSVPs);
+      
+      // Generate ICS file content (same format works for Outlook)
+      const icsContent = this.generateICSContent(events);
+      
+      // Download ICS file
+      const blob = new Blob([icsContent], { type: 'text/calendar' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'gamescom-2025-events-outlook.ics';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      this.showToast('Calendar file downloaded! Open it to add events to Outlook/Microsoft Calendar.');
+    } catch (error) {
+      console.error('Failed to sync calendar:', error);
+      this.showToast('Failed to generate calendar file. Please try again.');
+    }
+  }
+
+  async syncMTMCalendar() {
+    try {
+      // Get all RSVP'd events
+      const userRSVPs = Object.keys(this.currentUser.rsvps);
+      if (userRSVPs.length === 0) {
+        this.showToast('No events to sync. RSVP to some parties first!');
+        return;
+      }
+
+      // For Meet To Match, we'll open their web interface with event data
+      const events = await this.fetchEventsByIds(userRSVPs);
+      const eventIds = events.map(e => e.id).join(',');
+      
+      // Open Meet To Match with event IDs (assuming they have a URL scheme)
+      const mtmUrl = `https://meettomatch.com/import?events=${encodeURIComponent(eventIds)}&source=gamescom2025`;
+      window.open(mtmUrl, '_blank');
+      
+      this.showToast('Opening Meet To Match sync page...');
+    } catch (error) {
+      console.error('Failed to sync with Meet To Match:', error);
+      this.showToast('Failed to sync with Meet To Match. Please try again.');
+    }
+  }
+
+  generateICSContent(events) {
+    const icsHeader = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Gamescom 2025//Party Discovery//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH'
+    ].join('\r\n');
+
+    const icsFooter = 'END:VCALENDAR';
+
+    const icsEvents = events.map(event => {
+      const startDate = this.formatDateForICS(event.date, event.time || event.start);
+      const endDate = this.formatDateForICS(event.date, event.endTime || event.end || this.addHours(event.time || event.start, 3));
+      
+      return [
+        'BEGIN:VEVENT',
+        `UID:${event.id}@gamescom2025.com`,
+        `DTSTAMP:${this.formatDateForICS(new Date().toISOString())}`,
+        `DTSTART:${startDate}`,
+        `DTEND:${endDate}`,
+        `SUMMARY:${this.escapeICS(event.title)}`,
+        `DESCRIPTION:${this.escapeICS(event.description || '')}\\n\\nHost: ${this.escapeICS(event.host || 'TBA')}\\nPrice: ${this.escapeICS(event.price || 'Free')}`,
+        `LOCATION:${this.escapeICS(event.venue || 'TBA')}`,
+        `STATUS:CONFIRMED`,
+        'END:VEVENT'
+      ].join('\r\n');
+    }).join('\r\n');
+
+    return `${icsHeader}\r\n${icsEvents}\r\n${icsFooter}`;
+  }
+
+  formatDateForICS(date, time) {
+    if (!date) return '20250820T120000';
+    
+    // If it's already a full datetime string
+    if (date.includes('T')) {
+      return date.replace(/[-:]/g, '').split('.')[0] + 'Z';
+    }
+    
+    // Combine date and time
+    const dateStr = date.replace(/-/g, '');
+    let timeStr = '120000';
+    
+    if (time) {
+      if (time.includes(':')) {
+        const [hours, minutes] = time.split(':');
+        timeStr = hours.padStart(2, '0') + minutes.padStart(2, '0') + '00';
+      } else if (time.includes('T')) {
+        timeStr = time.split('T')[1].replace(/[:]/g, '').substring(0, 6);
+      }
+    }
+    
+    return dateStr + 'T' + timeStr;
+  }
+
+  escapeICS(text) {
+    if (!text) return '';
+    return text.replace(/\\/g, '\\\\').replace(/,/g, '\\,').replace(/;/g, '\\;').replace(/\n/g, '\\n');
+  }
+
+  addHours(time, hours) {
+    if (!time) return '23:00';
+    
+    if (time.includes(':')) {
+      const [h, m] = time.split(':').map(Number);
+      const newHour = (h + hours) % 24;
+      return `${newHour.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+    }
+    
+    return '23:00';
   }
 
   openProfileEditor() {
