@@ -203,13 +203,13 @@ class OrganizedPartyList {
   }
 
   renderFilters() {
-    // Define the weekdays for Gamescom 2025 (August 20-24)
+    // Define the weekdays Mon-Fri for event filtering
     const weekdays = [
+      { day: 'Mon', date: '2025-08-18', label: 'Monday' },
+      { day: 'Tue', date: '2025-08-19', label: 'Tuesday' },
       { day: 'Wed', date: '2025-08-20', label: 'Wednesday' },
       { day: 'Thu', date: '2025-08-21', label: 'Thursday' },
-      { day: 'Fri', date: '2025-08-22', label: 'Friday' },
-      { day: 'Sat', date: '2025-08-23', label: 'Saturday' },
-      { day: 'Sun', date: '2025-08-24', label: 'Sunday' }
+      { day: 'Fri', date: '2025-08-22', label: 'Friday' }
     ];
     
     return `
