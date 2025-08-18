@@ -540,39 +540,6 @@ class UnifiedConferenceApp {
           </div>
         </main>
 
-        <!-- Bottom navigation -->
-        <nav class="bottom-nav">
-          <button class="nav-item nav-item--active" data-section="parties" aria-label="Parties">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            <span>Parties</span>
-          </button>
-          <button class="nav-item" data-section="calendar" aria-label="Calendar">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zM19 19H5V8h14v11z"/>
-            </svg>
-            <span>Calendar</span>
-          </button>
-          <button class="nav-item" data-section="contacts" aria-label="Contacts">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.5 7h-5c-.8 0-1.52.5-1.8 1.2l-2.12 5.31L7 12c-1.1 0-2 .9-2 2v8h2v-4h2v4h2v-3.5c0-.28.22-.5.5-.5s.5.22.5.5V22h8z"/>
-            </svg>
-            <span>Contacts</span>
-          </button>
-          <button class="nav-item" data-section="invites" aria-label="Invites">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-            </svg>
-            <span>Invites</span>
-          </button>
-          <button class="nav-item" data-section="account" aria-label="Account">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-            </svg>
-            <span>Account</span>
-          </button>
-        </nav>
       </div>
     `;
   }
@@ -768,14 +735,16 @@ class UnifiedConferenceApp {
   }
 
   async renderCalendarSection(container) {
-    const userRSVPs = Object.keys(this.currentUser.rsvps);
-    const upcomingEvents = userRSVPs.length > 0 ? 
-      await this.fetchEventsByIds(userRSVPs) : [];
+    // Use saved events instead of RSVPs for calendar sync
+    const savedEvents = Array.from(this.currentUser.savedEvents);
+    const upcomingEvents = savedEvents.length > 0 ? 
+      await this.fetchEventsByIds(savedEvents) : [];
 
     container.innerHTML = `
       <div class="section-calendar">
         <div class="section-header">
           <h2>Your Calendar</h2>
+          <p class="section-subtitle">Sync your saved events to your calendar</p>
           <div class="sync-options">
             <button class="sync-btn sync-btn--google" data-action="sync-google-calendar">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -815,8 +784,8 @@ class UnifiedConferenceApp {
               <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" opacity="0.3">
                 <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zM19 19H5V8h14v11z"/>
               </svg>
-              <h3>No upcoming events</h3>
-              <p>RSVP to parties to see them here</p>
+              <h3>No saved events</h3>
+              <p>Save parties to sync them with your calendar</p>
               <button class="cta-btn" data-action="browse-parties">Browse Parties</button>
             </div>
           `}
@@ -1006,11 +975,20 @@ class UnifiedConferenceApp {
           </div>
           
           <div class="account-actions">
-            <button class="action-item" data-action="sync-linkedin">
+            <button class="action-item ${profile.linkedinConnected ? 'connected' : ''}" data-action="sync-linkedin">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
               </svg>
-              <span>Sync LinkedIn</span>
+              <span>${profile.linkedinConnected ? 'LinkedIn Connected ✓' : 'Connect LinkedIn'}</span>
+            </button>
+            <button class="action-item ${profile.googleConnected ? 'connected' : ''}" data-action="sync-google">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              <span>${profile.googleConnected ? 'Google Connected ✓' : 'Connect Google'}</span>
             </button>
             <button class="action-item" data-action="export-data">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
@@ -1130,8 +1108,8 @@ class UnifiedConferenceApp {
     window.addEventListener('online', () => this.isOnline = true);
     window.addEventListener('offline', () => this.isOnline = false);
     
-    // Navigation - handle both top nav tabs and bottom nav items
-    document.querySelectorAll('.nav-tab, .nav-item').forEach(item => {
+    // Navigation - handle top nav tabs
+    document.querySelectorAll('.nav-tab').forEach(item => {
       item.addEventListener('click', (e) => {
         const section = e.currentTarget.dataset.section;
         this.navigateToSection(section);
@@ -1173,6 +1151,9 @@ class UnifiedConferenceApp {
         break;
       case 'sync-linkedin':
         await this.syncLinkedIn();
+        break;
+      case 'sync-google':
+        await this.syncGoogleAccount();
         break;
       case 'browse-parties':
         this.navigateToSection('parties');
@@ -1553,14 +1534,14 @@ class UnifiedConferenceApp {
 
   async syncGoogleCalendar() {
     try {
-      // Get all RSVP'd events
-      const userRSVPs = Object.keys(this.currentUser.rsvps);
-      if (userRSVPs.length === 0) {
-        this.showToast('No events to sync. RSVP to some parties first!');
+      // Get all saved events (not just RSVPs)
+      const savedEvents = Array.from(this.currentUser.savedEvents);
+      if (savedEvents.length === 0) {
+        this.showToast('No events to sync. Save some parties first!');
         return;
       }
 
-      const events = await this.fetchEventsByIds(userRSVPs);
+      const events = await this.fetchEventsByIds(savedEvents);
       
       // Generate ICS file content
       const icsContent = this.generateICSContent(events);
@@ -1585,14 +1566,14 @@ class UnifiedConferenceApp {
 
   async syncMicrosoftCalendar() {
     try {
-      // Get all RSVP'd events
-      const userRSVPs = Object.keys(this.currentUser.rsvps);
-      if (userRSVPs.length === 0) {
-        this.showToast('No events to sync. RSVP to some parties first!');
+      // Get all saved events (not just RSVPs)
+      const savedEvents = Array.from(this.currentUser.savedEvents);
+      if (savedEvents.length === 0) {
+        this.showToast('No events to sync. Save some parties first!');
         return;
       }
 
-      const events = await this.fetchEventsByIds(userRSVPs);
+      const events = await this.fetchEventsByIds(savedEvents);
       
       // Generate ICS file content (same format works for Outlook)
       const icsContent = this.generateICSContent(events);
@@ -1617,15 +1598,15 @@ class UnifiedConferenceApp {
 
   async syncMTMCalendar() {
     try {
-      // Get all RSVP'd events
-      const userRSVPs = Object.keys(this.currentUser.rsvps);
-      if (userRSVPs.length === 0) {
-        this.showToast('No events to sync. RSVP to some parties first!');
+      // Get all saved events (not just RSVPs)
+      const savedEvents = Array.from(this.currentUser.savedEvents);
+      if (savedEvents.length === 0) {
+        this.showToast('No events to sync. Save some parties first!');
         return;
       }
 
       // For Meet To Match, we'll open their web interface with event data
-      const events = await this.fetchEventsByIds(userRSVPs);
+      const events = await this.fetchEventsByIds(savedEvents);
       const eventIds = events.map(e => e.id).join(',');
       
       // Open Meet To Match with event IDs (assuming they have a URL scheme)
@@ -1710,6 +1691,182 @@ class UnifiedConferenceApp {
     }
     
     return '23:00';
+  }
+
+  async syncLinkedIn() {
+    try {
+      // LinkedIn OAuth configuration
+      const clientId = '78qjr5z5lv8cyn'; // Replace with your LinkedIn app client ID
+      const redirectUri = encodeURIComponent(window.location.origin + '/auth/linkedin/callback');
+      const state = Math.random().toString(36).substring(7);
+      const scope = 'r_liteprofile%20r_emailaddress';
+      
+      // Store state for verification
+      sessionStorage.setItem('linkedin_oauth_state', state);
+      
+      // LinkedIn OAuth URL
+      const authUrl = `https://www.linkedin.com/oauth/v2/authorization?` +
+        `response_type=code&` +
+        `client_id=${clientId}&` +
+        `redirect_uri=${redirectUri}&` +
+        `state=${state}&` +
+        `scope=${scope}`;
+      
+      // Open LinkedIn OAuth in a popup
+      const width = 600;
+      const height = 700;
+      const left = (window.screen.width - width) / 2;
+      const top = (window.screen.height - height) / 2;
+      
+      const popup = window.open(
+        authUrl,
+        'LinkedIn Login',
+        `width=${width},height=${height},left=${left},top=${top}`
+      );
+      
+      // Listen for the OAuth callback
+      const checkPopup = setInterval(() => {
+        try {
+          if (popup.closed) {
+            clearInterval(checkPopup);
+            this.showToast('LinkedIn login cancelled');
+            return;
+          }
+          
+          // Check if popup has returned to our domain
+          if (popup.location.origin === window.location.origin) {
+            // Parse the response
+            const params = new URLSearchParams(popup.location.search);
+            const code = params.get('code');
+            const returnedState = params.get('state');
+            
+            if (code && returnedState === state) {
+              clearInterval(checkPopup);
+              popup.close();
+              
+              // Successfully authenticated
+              this.handleLinkedInCallback(code);
+            }
+          }
+        } catch (e) {
+          // Cross-origin error is expected until popup returns to our domain
+        }
+      }, 500);
+      
+    } catch (error) {
+      console.error('LinkedIn sync failed:', error);
+      this.showToast('Failed to connect LinkedIn. Please try again.');
+    }
+  }
+
+  async handleLinkedInCallback(code) {
+    try {
+      // In a real implementation, you would exchange the code for an access token
+      // through your backend API to keep the client secret secure
+      
+      // For now, we'll simulate a successful connection
+      this.currentUser.profile.linkedinConnected = true;
+      this.saveUserData();
+      
+      this.showToast('LinkedIn account connected successfully!');
+      
+      // Refresh the account section
+      if (this.currentSection === 'account') {
+        this.renderAccountSection(document.querySelector('.app-main'));
+      }
+    } catch (error) {
+      console.error('Failed to process LinkedIn callback:', error);
+      this.showToast('Failed to connect LinkedIn account');
+    }
+  }
+
+  async syncGoogleAccount() {
+    try {
+      // Google OAuth configuration
+      const clientId = 'YOUR_GOOGLE_CLIENT_ID'; // Replace with your Google app client ID
+      const redirectUri = encodeURIComponent(window.location.origin + '/auth/google/callback');
+      const state = Math.random().toString(36).substring(7);
+      const scope = 'openid%20profile%20email';
+      
+      // Store state for verification
+      sessionStorage.setItem('google_oauth_state', state);
+      
+      // Google OAuth URL
+      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
+        `response_type=code&` +
+        `client_id=${clientId}&` +
+        `redirect_uri=${redirectUri}&` +
+        `state=${state}&` +
+        `scope=${scope}&` +
+        `access_type=offline&` +
+        `prompt=consent`;
+      
+      // Open Google OAuth in a popup
+      const width = 500;
+      const height = 600;
+      const left = (window.screen.width - width) / 2;
+      const top = (window.screen.height - height) / 2;
+      
+      const popup = window.open(
+        authUrl,
+        'Google Login',
+        `width=${width},height=${height},left=${left},top=${top}`
+      );
+      
+      // Listen for the OAuth callback
+      const checkPopup = setInterval(() => {
+        try {
+          if (popup.closed) {
+            clearInterval(checkPopup);
+            this.showToast('Google login cancelled');
+            return;
+          }
+          
+          // Check if popup has returned to our domain
+          if (popup.location.origin === window.location.origin) {
+            // Parse the response
+            const params = new URLSearchParams(popup.location.search);
+            const code = params.get('code');
+            const returnedState = params.get('state');
+            
+            if (code && returnedState === state) {
+              clearInterval(checkPopup);
+              popup.close();
+              
+              // Successfully authenticated
+              this.handleGoogleCallback(code);
+            }
+          }
+        } catch (e) {
+          // Cross-origin error is expected until popup returns to our domain
+        }
+      }, 500);
+      
+    } catch (error) {
+      console.error('Google sync failed:', error);
+      this.showToast('Failed to connect Google account. Please try again.');
+    }
+  }
+
+  async handleGoogleCallback(code) {
+    try {
+      // In a real implementation, you would exchange the code for an access token
+      // through your backend API to keep the client secret secure
+      
+      // For now, we'll simulate a successful connection
+      this.currentUser.profile.googleConnected = true;
+      this.saveUserData();
+      
+      this.showToast('Google account connected successfully!');
+      
+      // Refresh the account section
+      if (this.currentSection === 'account') {
+        this.renderAccountSection(document.querySelector('.app-main'));
+      }
+    } catch (error) {
+      console.error('Failed to process Google callback:', error);
+      this.showToast('Failed to connect Google account');
+    }
   }
 
   openProfileEditor() {
@@ -1831,12 +1988,9 @@ class UnifiedConferenceApp {
   }
 
   navigateToSection(section) {
-    // Update nav state for both top tabs and bottom nav
+    // Update nav state for top tabs
     document.querySelectorAll('.nav-tab').forEach(item => {
       item.classList.toggle('nav-tab--active', item.dataset.section === section);
-    });
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.classList.toggle('nav-item--active', item.dataset.section === section);
     });
     
     // Update URL
