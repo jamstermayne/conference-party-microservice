@@ -1232,7 +1232,14 @@ class UnifiedConferenceApp {
         headers: { 'User-ID': this.currentUser.id }
       });
       if (response.ok) {
-        return await response.json();
+        const data = await response.json();
+        // Ensure all required properties exist
+        return {
+          available: data.available ?? 10,
+          sent: data.sent || [],
+          received: data.received || [],
+          redemptions: data.redemptions ?? 0
+        };
       }
     } catch (error) {
       console.error('Failed to fetch invite status:', error);
