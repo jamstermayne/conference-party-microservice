@@ -67,7 +67,7 @@
     "path-to-regexp": "6.3.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.54.2",
+    "@playwright/test": "^1.55.0",
     "@types/node": "^20.4.5",
     "chokidar": "^4.0.3",
     "cross-env": "^10.0.0",
