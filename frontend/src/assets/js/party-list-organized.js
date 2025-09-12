@@ -130,6 +130,8 @@ class OrganizedPartyList {
     if (eventsContainer) {
       eventsContainer.innerHTML = this.renderEvents();
     }
+    
+    // Stats removed per user request
   }
 
   filterByDate(date) {
@@ -159,7 +161,7 @@ class OrganizedPartyList {
         this.filteredParties = [...this.parties];
       } else {
         this.filterByDay(this.currentFilter);
-        return; // filterByDay already updates the display
+        return; // filterByDay already updates the display and stats
       }
     } else {
       // Apply search within current day filter
@@ -185,6 +187,8 @@ class OrganizedPartyList {
     if (eventsContainer) {
       eventsContainer.innerHTML = this.renderEvents();
     }
+    
+    // Stats removed per user request
   }
 
   render() {
@@ -194,7 +198,6 @@ class OrganizedPartyList {
     container.innerHTML = `
       <div class="organized-party-list">
         ${this.renderFilters()}
-        ${this.renderStats()}
         <div class="events-timeline">
           ${this.renderEvents()}
         </div>
@@ -249,27 +252,8 @@ class OrganizedPartyList {
   }
 
   renderStats() {
-    const today = new Date().toISOString().split('T')[0];
-    const todayEvents = this.parties.filter(p => 
-      p.date === today || p.start?.startsWith(today)
-    ).length;
-    
-    return `
-      <div class="party-stats">
-        <div class="stat-card">
-          <div class="stat-number">${this.filteredParties.length}</div>
-          <div class="stat-label">Events Shown</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">${todayEvents}</div>
-          <div class="stat-label">Today's Events</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">${this.parties.length}</div>
-          <div class="stat-label">Total Events</div>
-        </div>
-      </div>
-    `;
+    // Remove duplicate stat boxes per user request
+    return '';
   }
 
   renderEvents() {

@@ -1,0 +1,19 @@
+{
+  "features": {
+    "modern_architecture": false,
+    "modern_auth": false,
+    "modern_data": false,
+    "modern_ui": false,
+    "modern_matching": false,
+    "modern_realtime": false,
+    "modern_party_cards": false,
+    "modern_connections": false
+  },
+  "rollout": {
+    "newPartyCards": 1.0,
+    "infiniteScroll": 1.0,
+    "performanceOptimizations": 0.5,
+    "experimentalUI": 0.1
+  },
+  "killSwitches": {}
+}

@@ -1,16 +1,16 @@
 {
-  "name": "velocity.ai — gamescom 2025",
-  "short_name": "velocity.ai",
-  "description": "Discover the best parties and events at Gamescom 2025 in Cologne",
+  "name": "Conference Party - Professional Networking",
+  "short_name": "Conference Party",
+  "description": "AI-powered professional networking for Gamescom 2025. Find your perfect connections with intelligent matching.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0F0F12",
-  "theme_color": "#0F0F12",
-  "orientation": "portrait-primary",
+  "background_color": "#12151b",
+  "theme_color": "#667eea",
+  "orientation": "portrait",
   "categories": [
-    "entertainment",
+    "business",
     "social",
-    "events"
+    "productivity"
   ],
   "lang": "en",
   "dir": "ltr",
@@ -52,58 +52,46 @@
   ],
   "shortcuts": [
     {
-      "name": "Search Events",
-      "short_name": "Search",
-      "description": "Search for parties and events",
-      "url": "/?action=search",
+      "name": "View Matches",
+      "short_name": "Matches",
+      "description": "View your AI-matched connections",
+      "url": "/matches",
       "icons": [
         {
-          "src": "/images/search-icon.png",
+          "src": "/images/shortcuts/matches.png",
           "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "Today's Events",
-      "short_name": "Today",
-      "description": "See what's happening today",
-      "url": "/?filter=today",
+      "name": "Messages",
+      "short_name": "Messages",
+      "description": "Check your conversations",
+      "url": "/messages",
       "icons": [
         {
-          "src": "/images/today-icon.png",
+          "src": "/images/shortcuts/messages.png",
           "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "My Calendar",
-      "short_name": "Calendar",
-      "description": "View saved events",
-      "url": "/?view=calendar",
+      "name": "Events",
+      "short_name": "Events",
+      "description": "Browse conference events",
+      "url": "/events",
       "icons": [
         {
-          "src": "/images/calendar-icon.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "Map View",
-      "short_name": "Map",
-      "description": "Browse events on map",
-      "url": "/?view=map",
-      "icons": [
-        {
-          "src": "/images/map-icon.png",
+          "src": "/images/shortcuts/events.png",
           "sizes": "96x96"
         }
       ]
     }
   ],
   "scope": "/",
-  "id": "gamescom-party-discovery",
+  "id": "conference-party-pwa",
   "launch_handler": {
-    "client_mode": "navigate-existing"
+    "client_mode": "focus-existing"
   },
   "display_override": [
     "window-controls-overlay",
@@ -113,8 +101,33 @@
   ],
   "protocol_handlers": [
     {
-      "protocol": "web+gamescom",
-      "url": "/?event=%s"
+      "protocol": "web+conference",
+      "url": "/protocol?url=%s"
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "file",
+          "accept": ["image/*"]
+        }
+      ]
+    }
+  },
+  "file_handlers": [
+    {
+      "action": "/import",
+      "accept": {
+        "text/vcard": [".vcf"],
+        "text/calendar": [".ics"]
+      }
     }
   ],
   "related_applications": [],

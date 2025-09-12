@@ -371,6 +371,86 @@ router.post('/googleCalendar/disconnect', async (req: any, res: any) => {
   }
 });
 
+// ---- sync multiple events
+router.post('/googleCalendar/events/sync', async (req: any, res: any) => {
+  try {
+    const sid = req.cookies?.sid;
+    if (!sid) {
+      await ensureSession(req, res);
+      return res.status(401).json({ error: 'No session' });
+    }
+
+    const client = await getAuthenticatedClient(sid);
+    if (!client) {
+      return res.status(401).json({ error: 'Not authenticated with Google Calendar' });
+    }
+
+    const { events } = req.body;
+    if (!events || !Array.isArray(events)) {
+      return res.status(400).json({ error: 'Events array required' });
+    }
+
+    const calendar = google.calendar({ version: 'v3', auth: client });
+    const results = [];
+    const errors = [];
+
+    // Add each event to Google Calendar
+    for (const event of events) {
+      try {
+        // Convert event to Google Calendar format
+        const gcalEvent = {
+          summary: event['Event Name'] || event.title || 'Gamescom 2025 Event',
+          description: `${event['Organizer'] || ''}\n${event['Description'] || ''}\n\nVenue: ${event['Venue'] || event['Address'] || 'TBD'}`,
+          location: event['Address'] || event['Venue'] || 'Cologne, Germany',
+          start: {
+            dateTime: new Date(`${event['Date']} ${event['Start Time'] || '09:00'}`).toISOString(),
+            timeZone: 'Europe/Berlin',
+          },
+          end: {
+            dateTime: new Date(`${event['Date']} ${event['End Time'] || '23:00'}`).toISOString(),
+            timeZone: 'Europe/Berlin',
+          },
+          reminders: {
+            useDefault: false,
+            overrides: [
+              { method: 'email', minutes: 24 * 60 }, // 1 day before
+              { method: 'popup', minutes: 60 },      // 1 hour before
+            ],
+          },
+        };
+
+        const response = await calendar.events.insert({
+          calendarId: 'primary',
+          requestBody: gcalEvent,
+        });
+
+        results.push({
+          id: event.id,
+          success: true,
+          htmlLink: response.data.htmlLink
+        });
+      } catch (err: any) {
+        console.error('[gcal] Failed to sync event:', event.id, err);
+        errors.push({
+          id: event.id,
+          error: err?.message || 'Unknown error'
+        });
+      }
+    }
+
+    res.json({
+      success: true,
+      synced: results.length,
+      failed: errors.length,
+      results,
+      errors
+    });
+  } catch (err) {
+    console.error('[gcal] Sync events error:', err);
+    res.status(500).json({ error: 'Failed to sync events' });
+  }
+});
+
 // ---- user info
 router.get('/googleCalendar/user', async (req: any, res: any) => {
   try {

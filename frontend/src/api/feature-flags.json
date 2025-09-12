@@ -1,0 +1,19 @@
+{
+  "features": {
+    "magic_auth": true,
+    "company_intelligence": true,
+    "profile_enrichment": true,
+    "linkedinAuth": false,
+    "calendarSync": true,
+    "hotspots": true,
+    "emailSync": true,
+    "inviteSystem": true
+  },
+  "rollout": {
+    "newPartyCards": 1.0,
+    "infiniteScroll": 1.0,
+    "performanceOptimizations": 0.5,
+    "experimentalUI": 0.1
+  },
+  "killSwitches": {}
+}

@@ -23,7 +23,7 @@ export async function getGoogleAccessToken(uid: string): Promise<string | null> 
     const googleAuth = googleAuthDoc.data();
     
     if (!googleAuth?.['refreshToken']) {
-      console.log(`No Google refresh token for user ${uid}`);
+      console.log('No Google refresh token found for user');
       return null;
     }
     
@@ -52,7 +52,7 @@ export async function getGoogleAccessToken(uid: string): Promise<string | null> 
     
     if (!response.ok) {
       const error = await response.text();
-      console.error(`Failed to refresh Google token for user ${uid}:`, error);
+      console.error('Failed to refresh Google token:', error || 'Unknown error');
       return null;
     }
     
@@ -68,7 +68,7 @@ export async function getGoogleAccessToken(uid: string): Promise<string | null> 
     
     return tokenData.access_token;
   } catch (error) {
-    console.error(`Error getting Google access token for user ${uid}:`, error);
+    console.error('Error getting Google access token:', error instanceof Error ? error.message : 'Unknown error');
     return null;
   }
 }

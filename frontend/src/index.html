@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="maps-key" content="__ENV_GOOGLE_MAPS_KEY__" />
+  <meta name="google-client-id" content="__ENV_GOOGLE_CLIENT_ID__" />
   <title>Gamescom 2025 - Professional Networking</title>
   
   <!-- PWA Resource Hints for Party List Performance -->
@@ -23,6 +24,8 @@
   <link rel="stylesheet" href="/assets/css/app-unified.css">
   <!-- Premium Party List Styles -->
   <link rel="stylesheet" href="/assets/css/party-list-premium.css">
+  <!-- Settings Modal Styles -->
+  <link rel="stylesheet" href="/assets/css/settings-modal.css">
 </head>
 <body>
   <main id="app" class="app">
@@ -35,6 +38,48 @@
       <!-- Overlay panels injected dynamically -->
     </div>
   </main>
+  <!-- Security Module - Load First -->
+  <script type="module" src="/assets/js/security/sanitizer.js"></script>
+  <!-- Feature Flags - Control blast radius -->
+  <script src="/assets/js/feature-flags.js"></script>
+  <!-- Component Sandbox - Isolate components -->
+  <script type="module" src="/assets/js/component-sandbox.js"></script>
+  
+  <!-- Modern Architecture Integration (Progressive Enhancement) -->
+  <script type="module">
+    // Only load modern features for capable browsers
+    if ('noModule' in HTMLScriptElement.prototype && window.FeatureFlags) {
+      // Check if modern architecture is enabled
+      if (window.FeatureFlags.isEnabled('modern_architecture')) {
+        import('/modern/core/module-loader.js').then(() => {
+          console.log('[Modern] Architecture loaded');
+        });
+        import('/modern/core/compatibility-bridge.js').then(() => {
+          console.log('[Modern] Compatibility bridge established');
+        });
+      }
+      
+      // Load magic auth system if enabled
+      if (window.FeatureFlags.isEnabled('magic_auth')) {
+        // Load all magic auth modules
+        Promise.all([
+          import('/modern/auth/magic-auth.js'),
+          import('/modern/components/magic-auth-ui.js'),
+          import('/modern/services/company-intelligence.js'),
+          import('/modern/services/profile-enrichment.js'),
+          import('/modern/auth/auth-integration.js')
+        ]).then(([magicAuthModule]) => {
+          window.MagicAuth = new magicAuthModule.MagicAuthSystem();
+          console.log('[MagicAuth] Full system initialized with enrichment');
+        }).catch(err => {
+          console.error('[MagicAuth] Failed to load:', err);
+        });
+      }
+    }
+  </script>
+  
+  <!-- PWA Install Prompt -->
+  <script type="module" src="/assets/js/pwa-install-prompt.js"></script>
   <!-- Core API Module -->
   <script type="module" defer src="/assets/js/api-lite.js"></script>
   <!-- Router for preflight -->

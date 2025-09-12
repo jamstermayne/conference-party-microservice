@@ -1,7 +1,13 @@
 // Optimized API client with fallbacks
-const API_ENDPOINTS = [
-  'https://us-central1-conference-party-app.cloudfunctions.net/apiFn/api',
-  'https://conference-party-app.web.app/api'
+// Use ?local=true in URL to force local mock API
+const useLocalAPI = new URLSearchParams(window.location.search).get('local') === 'true';
+
+const API_ENDPOINTS = useLocalAPI ? [
+  `http://${window.location.hostname}:3000/api`       // Local mock API for testing
+] : [
+  'https://us-central1-conference-party-app.cloudfunctions.net/apiFn/api',  // Primary Firebase Functions API
+  'https://api-x2u6rwndvq-uc.a.run.app/api',         // Cloud Run backup
+  'https://conference-party-app.web.app/api'          // Fallback through hosting rewrite
 ];
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes

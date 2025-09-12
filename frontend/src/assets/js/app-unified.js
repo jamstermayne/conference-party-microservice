@@ -5,6 +5,7 @@
  */
 
 import { fetchParties } from './api-lite.js';
+import sanitizer from './security/sanitizer.js';
 
 class UnifiedConferenceApp {
   constructor() {
@@ -46,7 +47,7 @@ class UnifiedConferenceApp {
     
     const app = document.getElementById('app');
     if (app) {
-      app.innerHTML = `
+      sanitizer.setHTML(app, `
         <div class="fatal-error">
           <div class="error-content">
             <h1>Something went wrong</h1>
@@ -55,13 +56,13 @@ class UnifiedConferenceApp {
               <button onclick="location.reload()" class="error-btn error-btn--primary">
                 Refresh Page
               </button>
-              <button onclick="this.clearCache()" class="error-btn">
+              <button onclick="window.clearCache()" class="error-btn">
                 Clear Cache & Refresh
               </button>
             </div>
           </div>
         </div>
-      `;
+      `);
     }
   }
 
@@ -202,7 +203,7 @@ class UnifiedConferenceApp {
       <div class="modal-content" style="max-width: 500px; text-align: center;">
         <div class="modal-header">
           <h3>${isUniversalCode ? '🔥 VIP Access Code Detected!' : '🎉 Welcome to Gamescom 2025!'}</h3>
-          <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+          <button class="modal-close">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
             </svg>
@@ -225,27 +226,51 @@ class UnifiedConferenceApp {
           </p>
           
           <div style="text-align: left; background: var(--color-surface); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">What you get:</h4>
+            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">Create an account to get:</h4>
             <ul style="color: var(--color-text-dim); margin: 0; padding-left: 1.5rem;">
               <li>Access to 60+ exclusive events</li>
               <li>Professional networking features</li>
               <li><strong style="color: var(--color-accent);">${isUniversalCode ? '15' : '10'} invites</strong> to share with colleagues</li>
+              <li>Save events & sync calendars</li>
               <li>Real-time event updates</li>
               ${isUniversalCode ? '<li><strong style="color: var(--color-accent);">VIP status</strong> and priority features</li>' : ''}
             </ul>
           </div>
           
-          <button class="primary-btn" onclick="window.conferenceApp.startQuickSetup('${inviteCode}')" style="width: 100%; padding: 1rem; background: ${isUniversalCode ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'var(--color-accent)'}; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 0.5rem; font-weight: bold;">
+          <button class="primary-btn invite-setup-btn" data-invite="${inviteCode}" style="width: 100%; padding: 1rem; background: ${isUniversalCode ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'var(--color-accent)'}; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 0.5rem; font-weight: bold;">
             ${isUniversalCode ? '⚡ Quick Setup (30 seconds)' : 'Claim Your Access'}
           </button>
           
-          <button class="secondary-btn" onclick="window.conferenceApp.redeemInvite('${inviteCode}')" style="width: 100%; padding: 0.75rem; background: transparent; color: var(--color-text-dim); border: 1px solid var(--color-border); border-radius: 4px; cursor: pointer;">
+          <button class="secondary-btn invite-skip-btn" data-invite="${inviteCode}" style="width: 100%; padding: 0.75rem; background: transparent; color: var(--color-text-dim); border: 1px solid var(--color-border); border-radius: 4px; cursor: pointer;">
             ${isUniversalCode ? 'Skip Setup → Browse Events' : 'Browse Without Account'}
           </button>
         </div>
       </div>
     `;
     document.body.appendChild(modal);
+    
+    // Add event listeners to buttons
+    const setupBtn = modal.querySelector('.invite-setup-btn');
+    const skipBtn = modal.querySelector('.invite-skip-btn');
+    const closeBtn = modal.querySelector('.modal-close');
+    
+    if (setupBtn) {
+      setupBtn.addEventListener('click', () => {
+        this.startQuickSetup(inviteCode);
+      });
+    }
+    
+    if (skipBtn) {
+      skipBtn.addEventListener('click', () => {
+        this.skipSetupAndBrowse(inviteCode);
+      });
+    }
+    
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        modal.remove();
+      });
+    }
     
     // Close on backdrop click
     modal.addEventListener('click', (e) => {
@@ -258,6 +283,21 @@ class UnifiedConferenceApp {
   startQuickSetup(inviteCode) {
     // Close any modals
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    
+    // Ensure currentUser exists before showing setup
+    if (!this.currentUser) {
+      console.error('[QuickSetup] No current user initialized');
+      this.showToast('Please wait for the app to initialize...', 'info');
+      // Try to initialize user first
+      this.initializeUser().then(() => {
+        // Retry setup after initialization
+        this.startQuickSetup(inviteCode);
+      }).catch(error => {
+        console.error('[QuickSetup] Failed to initialize user:', error);
+        this.showToast('Unable to complete setup. Please refresh and try again.', 'error');
+      });
+      return;
+    }
     
     // Show a quick setup form
     const modal = document.createElement('div');
@@ -277,7 +317,7 @@ class UnifiedConferenceApp {
             </div>
             
             <div>
-              <label style="display: block; color: var(--color-text-dim); margin-bottom: 0.25rem; font-size: 0.9rem;">Email (for admin access use: jamy@nigriconsulting.com)</label>
+              <label style="display: block; color: var(--color-text-dim); margin-bottom: 0.25rem; font-size: 0.9rem;">Email</label>
               <input type="email" name="email" placeholder="your@email.com" required style="width: 100%; padding: 0.75rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 4px; color: var(--color-text);">
             </div>
             
@@ -314,30 +354,95 @@ class UnifiedConferenceApp {
       e.preventDefault();
       const formData = new FormData(e.target);
       
-      // Update profile
-      this.currentUser.profile = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        role: formData.get('role'),
-        company: formData.get('company') || '',
-        linkedin: '',
-        phone: ''
-      };
-      
-      // Check for admin status
-      this.checkAdminStatus();
-      
-      // Redeem the invite
-      this.redeemInvite(inviteCode);
-      
-      // Close modal
-      modal.remove();
+      try {
+        // Ensure currentUser exists and has required structure
+        if (!this.currentUser) {
+          throw new Error('User not initialized');
+        }
+        
+        // Ensure profile exists
+        if (!this.currentUser.profile) {
+          this.currentUser.profile = {};
+        }
+        
+        // Update profile
+        this.currentUser.profile = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          role: formData.get('role'),
+          company: formData.get('company') || '',
+          linkedin: '',
+          phone: ''
+        };
+        
+        // Check for admin status
+        this.checkAdminStatus();
+        
+        // Redeem the invite
+        this.redeemInvite(inviteCode);
+        
+        // Close modal
+        modal.remove();
+        
+      } catch (error) {
+        console.error('[QuickSetup] Error during setup:', error);
+        this.showToast('Something went wrong. Please refresh and try again.', 'error');
+      }
     });
+  }
+  
+  skipSetupAndBrowse(inviteCode) {
+    // Close any open modals
+    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    
+    // Track that they used an invite code to access the app (for analytics)
+    const isUniversalCode = inviteCode === 'GAMESCOM2025';
+    console.log(`[Invite] User skipped setup with ${isUniversalCode ? 'universal' : 'regular'} invite code: ${inviteCode}`);
+    
+    // Store that they arrived via invite (for later conversion tracking)
+    sessionStorage.setItem('arrivedViaInvite', inviteCode);
+    
+    // Clear the invite from URL
+    const url = new URL(window.location);
+    url.searchParams.delete('invite');
+    window.history.replaceState({}, document.title, url.pathname);
+    
+    // Show message explaining the limitation
+    this.showToast('👀 Browsing as guest. Create an account to unlock invites and save events!', 'info');
+    
+    // Navigate to events/parties section
+    setTimeout(() => {
+      this.navigateToSection('parties');
+    }, 500);
   }
   
   async redeemInvite(inviteCode) {
     // Close any open modals
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+    
+    // Ensure currentUser exists before proceeding
+    if (!this.currentUser) {
+      console.error('[RedeemInvite] No current user initialized');
+      this.showToast('Please wait for the app to initialize...', 'info');
+      // Try to initialize user first
+      try {
+        await this.initializeUser();
+      } catch (error) {
+        console.error('[RedeemInvite] Failed to initialize user:', error);
+        this.showToast('Unable to redeem invite. Please refresh and try again.', 'error');
+        return;
+      }
+    }
+    
+    // Ensure invites structure exists
+    if (!this.currentUser.invites) {
+      this.currentUser.invites = {
+        available: 0,
+        sent: [],
+        receivedFrom: null,
+        fromUniversal: false
+      };
+    }
     
     // Check if it's the universal admin code
     const isUniversalCode = inviteCode === 'GAMESCOM2025';
@@ -430,8 +535,8 @@ class UnifiedConferenceApp {
         id: this.generateUserId(),
         created: new Date().toISOString(),
         profile: {
-          name: 'Professional',
-          role: 'Conference Attendee', 
+          name: '',
+          role: '', 
           company: '',
           email: '',
           phone: '',
@@ -451,20 +556,23 @@ class UnifiedConferenceApp {
   }
 
   checkAdminStatus() {
-    const adminEmail = 'jamy@nigriconsulting.com';
+    // Admin status should be determined by backend authentication
+    // Not by hardcoded email addresses for security
     const userEmail = this.currentUser.profile?.email?.toLowerCase();
     
-    if (userEmail === adminEmail) {
-      this.currentUser.isAdmin = true;
-      this.currentUser.invites.available = 99999; // Unlimited
-      console.log('[Admin] Admin privileges activated for', userEmail);
-    } else {
-      this.currentUser.isAdmin = false;
-      // Check for redemption-based invite refills
-      this.checkInviteRefill();
-    }
+    // For now, disable admin status based on email
+    // This should be handled by proper backend authentication
+    this.currentUser.isAdmin = false;
+    
+    // Check for redemption-based invite refills
+    this.checkInviteRefill();
     
     this.saveUserData();
+    
+    // Log for debugging
+    if (userEmail) {
+      console.log('[Admin] Status check for:', userEmail, '- Admin:', this.currentUser.isAdmin);
+    }
   }
 
   checkInviteRefill() {
@@ -997,12 +1105,14 @@ class UnifiedConferenceApp {
       <div class="section-account">
         <div class="section-header">
           <h2>Your Profile ${this.currentUser.isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}</h2>
-          <button class="edit-btn" data-action="edit-profile">
-            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
-            </svg>
-            ${isLoggedIn ? 'Edit' : 'Login'}
-          </button>
+          ${isLoggedIn ? `
+            <button class="edit-btn" data-action="edit-profile">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+              </svg>
+              Edit
+            </button>
+          ` : ''}
         </div>
         
         ${!isLoggedIn ? `
@@ -1013,7 +1123,6 @@ class UnifiedConferenceApp {
               Login / Sign Up
             </button>
             <p style="color: var(--color-text-dim); margin-top: 1rem; font-size: 0.9rem;">
-              Admin? Use email: jamy@nigriconsulting.com for unlimited invites
             </p>
           </div>
         ` : ''}
@@ -1024,9 +1133,9 @@ class UnifiedConferenceApp {
               <span>${profile?.name?.[0] || 'U'}</span>
             </div>
             <div class="profile-info">
-              <h3>${profile?.name || 'Professional'}</h3>
-              <p class="role">${profile?.role || 'Conference Attendee'}</p>
-              <p class="company">${profile?.company || 'Add company'}</p>
+              <h3>${profile?.name || 'Guest User'}</h3>
+              ${profile?.role ? `<p class="role">${profile.role}</p>` : ''}
+              <p class="company">${profile?.company || ''}</p>
               ${profile?.email ? `<p class="email" style="color: var(--color-text-dim);">${profile.email}</p>` : ''}
             </div>
           </div>
@@ -1225,10 +1334,16 @@ class UnifiedConferenceApp {
         await this.syncLinkedIn();
         break;
       case 'sync-google':
-        await this.syncGoogleAccount();
+        await this.connectGoogleAccount();  // Connect account first, then offer calendar sync
         break;
       case 'browse-parties':
         this.navigateToSection('parties');
+        break;
+      case 'settings':
+        this.openSettingsModal();
+        break;
+      case 'export-data':
+        this.exportUserData();
         break;
     }
   }
@@ -1657,35 +1772,186 @@ class UnifiedConferenceApp {
     }
   }
 
+  async connectGoogleAccount() {
+    try {
+      // Open Google OAuth in a popup window for account connection
+      const width = 500;
+      const height = 600;
+      const left = (window.screen.width - width) / 2;
+      const top = (window.screen.height - height) / 2;
+      
+      const popup = window.open(
+        '/api/googleCalendar/google/start',
+        'Google Account Authorization',
+        `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no`
+      );
+      
+      // Listen for OAuth completion message
+      const messageHandler = async (event) => {
+        if (event.origin !== window.location.origin) return;
+        
+        if (event.data.type === 'gcal:success' || event.data.type === 'oauth-success') {
+          window.removeEventListener('message', messageHandler);
+          
+          // OAuth successful
+          this.showToast('✅ Google account connected successfully!');
+          this.currentUser.googleConnected = true;
+          
+          // Update profile with Google info if available
+          if (event.data.email && !this.currentUser.profile?.email) {
+            this.currentUser.profile.email = event.data.email;
+          }
+          if (event.data.name && !this.currentUser.profile?.name) {
+            this.currentUser.profile.name = event.data.name;
+          }
+          
+          this.saveUserData();
+          
+          // Refresh the UI to show connected status
+          if (this.currentSection === 'account') {
+            this.renderAccountSection(document.querySelector('.app-main'));
+          }
+          
+          // After connection, ask if they want to sync calendar
+          const savedEvents = Array.from(this.currentUser.savedEvents || []);
+          if (savedEvents.length > 0) {
+            setTimeout(() => {
+              if (confirm(`Would you like to sync your ${savedEvents.length} saved events to Google Calendar?`)) {
+                this.syncSavedEventsToCalendar();
+              }
+            }, 1000);
+          }
+        } else if (event.data.type === 'gcal:error' || event.data.type === 'oauth-error') {
+          window.removeEventListener('message', messageHandler);
+          
+          if (event.data.error === 'cancelled') {
+            this.showToast('Google authorization cancelled');
+          } else {
+            this.showToast('Failed to connect Google account. Please try again.');
+          }
+        }
+      };
+      
+      window.addEventListener('message', messageHandler);
+      
+      // Fallback if popup is blocked
+      if (!popup || popup.closed) {
+        window.removeEventListener('message', messageHandler);
+        // Redirect to OAuth URL in current window
+        window.location.href = '/api/googleCalendar/google/start';
+      }
+    } catch (error) {
+      console.error('Failed to connect Google account:', error);
+      this.showToast('Failed to connect to Google. Please try again.');
+    }
+  }
+
   async syncGoogleCalendar() {
     try {
-      // Get all saved events (not just RSVPs)
+      // Check if user has saved events to sync
       const savedEvents = Array.from(this.currentUser.savedEvents);
       if (savedEvents.length === 0) {
         this.showToast('No events to sync. Save some parties first!');
         return;
       }
 
-      const events = await this.fetchEventsByIds(savedEvents);
+      // Store events in session for after OAuth callback
+      sessionStorage.setItem('pending_calendar_events', JSON.stringify(savedEvents));
       
-      // Generate ICS file content
-      const icsContent = this.generateICSContent(events);
+      // Open Google OAuth in a popup window
+      const width = 500;
+      const height = 600;
+      const left = (window.screen.width - width) / 2;
+      const top = (window.screen.height - height) / 2;
       
-      // Download ICS file
-      const blob = new Blob([icsContent], { type: 'text/calendar' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'gamescom-2025-events.ics';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      const popup = window.open(
+        '/api/googleCalendar/google/start',
+        'Google Calendar Authorization',
+        `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no`
+      );
       
-      this.showToast('Calendar file downloaded! Open it to add events to Google Calendar.');
+      // Listen for OAuth completion message
+      const messageHandler = async (event) => {
+        if (event.origin !== window.location.origin) return;
+        
+        if (event.data.type === 'gcal:success') {
+          window.removeEventListener('message', messageHandler);
+          
+          // OAuth successful, now sync the events
+          const events = await this.fetchEventsByIds(savedEvents);
+          await this.sendEventsToGoogleCalendar(events);
+          
+          this.showToast('✅ Events synced to Google Calendar!');
+          this.currentUser.googleConnected = true;
+          this.saveUserData();
+          
+          // Refresh the UI to show connected status
+          if (this.currentSection === 'account') {
+            this.renderAccountSection();
+          }
+        } else if (event.data.type === 'gcal:error') {
+          window.removeEventListener('message', messageHandler);
+          
+          if (event.data.error === 'cancelled') {
+            this.showToast('Google Calendar authorization cancelled');
+          } else {
+            this.showToast('Failed to connect Google Calendar. Please try again.');
+          }
+        }
+      };
+      
+      window.addEventListener('message', messageHandler);
+      
+      // Fallback if popup is blocked
+      if (!popup || popup.closed) {
+        window.removeEventListener('message', messageHandler);
+        // Redirect to OAuth URL in current window
+        window.location.href = '/api/googleCalendar/google/start';
+      }
     } catch (error) {
       console.error('Failed to sync calendar:', error);
-      this.showToast('Failed to generate calendar file. Please try again.');
+      this.showToast('Failed to connect to Google Calendar. Please try again.');
+    }
+  }
+  
+  async syncSavedEventsToCalendar() {
+    try {
+      const savedEvents = Array.from(this.currentUser.savedEvents || []);
+      if (savedEvents.length === 0) {
+        this.showToast('No events to sync');
+        return;
+      }
+      
+      const events = await this.fetchEventsByIds(savedEvents);
+      await this.sendEventsToGoogleCalendar(events);
+      this.showToast(`✅ ${events.length} events synced to Google Calendar!`);
+    } catch (error) {
+      console.error('Failed to sync events:', error);
+      this.showToast('Failed to sync events to calendar');
+    }
+  }
+
+  async sendEventsToGoogleCalendar(events) {
+    try {
+      // Send events to backend to add to Google Calendar
+      const response = await fetch('/api/googleCalendar/events/sync', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ events })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to sync events');
+      }
+      
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Error syncing events:', error);
+      throw error;
     }
   }
 
@@ -1700,24 +1966,54 @@ class UnifiedConferenceApp {
 
       const events = await this.fetchEventsByIds(savedEvents);
       
-      // Generate ICS file content (same format works for Outlook)
+      // Generate ICS file content
       const icsContent = this.generateICSContent(events);
       
-      // Download ICS file
-      const blob = new Blob([icsContent], { type: 'text/calendar' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'gamescom-2025-events-outlook.ics';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      // Create a data URI for the ICS content
+      const dataUri = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsContent);
       
-      this.showToast('Calendar file downloaded! Open it to add events to Outlook/Microsoft Calendar.');
+      // Try to open in Outlook Web App
+      // Format: https://outlook.live.com/calendar/deeplink/compose
+      const outlookUrl = `https://outlook.live.com/calendar/0/deeplink/compose`;
+      
+      // Open Outlook in a new window
+      const outlookWindow = window.open(outlookUrl, '_blank');
+      
+      if (outlookWindow) {
+        this.showToast('Opening Outlook Calendar... You can import the events there.');
+        
+        // Fallback: Also provide download option after a delay
+        setTimeout(() => {
+          const downloadOption = confirm('Would you also like to download the calendar file for offline import?');
+          if (downloadOption) {
+            const blob = new Blob([icsContent], { type: 'text/calendar' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'gamescom-2025-events.ics';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+          }
+        }, 3000);
+      } else {
+        // If popup was blocked, fall back to download
+        const blob = new Blob([icsContent], { type: 'text/calendar' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'gamescom-2025-events.ics';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        this.showToast('Calendar file downloaded! Open it to add events to Outlook.');
+      }
     } catch (error) {
       console.error('Failed to sync calendar:', error);
-      this.showToast('Failed to generate calendar file. Please try again.');
+      this.showToast('Failed to sync with Microsoft Calendar. Please try again.');
     }
   }
 
@@ -1734,8 +2030,8 @@ class UnifiedConferenceApp {
       const events = await this.fetchEventsByIds(savedEvents);
       const eventIds = events.map(e => e.id).join(',');
       
-      // Open Meet To Match with event IDs (assuming they have a URL scheme)
-      const mtmUrl = `https://meettomatch.com/import?events=${encodeURIComponent(eventIds)}&source=gamescom2025`;
+      // Open Meet To Match app - direct to Cologne 2025 event signin
+      const mtmUrl = `https://app.meettomatch.com/cologne2025/site/signin/selector/?events=${encodeURIComponent(eventIds)}&source=gamescom2025`;
       window.open(mtmUrl, '_blank');
       
       this.showToast('Opening Meet To Match sync page...');
@@ -1820,68 +2116,145 @@ class UnifiedConferenceApp {
 
   async syncLinkedIn() {
     try {
-      // LinkedIn OAuth configuration
-      const clientId = '78qjr5z5lv8cyn'; // Replace with your LinkedIn app client ID
-      const redirectUri = encodeURIComponent(window.location.origin + '/auth/linkedin/callback');
-      const state = Math.random().toString(36).substring(7);
-      const scope = 'r_liteprofile%20r_emailaddress';
+      // Check if already connected
+      const statusResponse = await fetch('/api/linkedin/status', {
+        credentials: 'include'
+      });
+      const status = await statusResponse.json();
       
-      // Store state for verification
-      sessionStorage.setItem('linkedin_oauth_state', state);
+      if (status.connected) {
+        // Already connected, fetch profile
+        const profileResponse = await fetch('/api/linkedin/profile', {
+          credentials: 'include'
+        });
+        
+        if (profileResponse.ok) {
+          const profile = await profileResponse.json();
+          this.showToast(`LinkedIn connected as ${profile.name}`);
+          return;
+        }
+      }
       
-      // LinkedIn OAuth URL
-      const authUrl = `https://www.linkedin.com/oauth/v2/authorization?` +
-        `response_type=code&` +
-        `client_id=${clientId}&` +
-        `redirect_uri=${redirectUri}&` +
-        `state=${state}&` +
-        `scope=${scope}`;
-      
-      // Open LinkedIn OAuth in a popup
+      // Open OAuth popup
       const width = 600;
       const height = 700;
-      const left = (window.screen.width - width) / 2;
-      const top = (window.screen.height - height) / 2;
+      const left = (window.innerWidth - width) / 2;
+      const top = (window.innerHeight - height) / 2;
       
       const popup = window.open(
-        authUrl,
-        'LinkedIn Login',
-        `width=${width},height=${height},left=${left},top=${top}`
+        '/api/linkedin/start',
+        'LinkedIn Authorization',
+        `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no`
       );
       
-      // Listen for the OAuth callback
-      const checkPopup = setInterval(() => {
-        try {
-          if (popup.closed) {
-            clearInterval(checkPopup);
-            this.showToast('LinkedIn login cancelled');
-            return;
-          }
-          
-          // Check if popup has returned to our domain
-          if (popup.location.origin === window.location.origin) {
-            // Parse the response
-            const params = new URLSearchParams(popup.location.search);
-            const code = params.get('code');
-            const returnedState = params.get('state');
-            
-            if (code && returnedState === state) {
-              clearInterval(checkPopup);
-              popup.close();
-              
-              // Successfully authenticated
-              this.handleLinkedInCallback(code);
-            }
-          }
-        } catch (e) {
-          // Cross-origin error is expected until popup returns to our domain
+      // Listen for OAuth completion
+      const messageHandler = (event) => {
+        if (event.origin !== window.location.origin) return;
+        
+        if (event.data.type === 'oauth-success' && event.data.provider === 'linkedin') {
+          window.removeEventListener('message', messageHandler);
+          this.showToast(`Successfully connected LinkedIn as ${event.data.userName}`);
+          this.updateProfileDisplay();
+        } else if (event.data.type === 'oauth-cancelled' && event.data.provider === 'linkedin') {
+          window.removeEventListener('message', messageHandler);
+          this.showToast('LinkedIn authorization cancelled');
+        } else if (event.data.type === 'oauth-unavailable' && event.data.provider === 'linkedin') {
+          window.removeEventListener('message', messageHandler);
+          this.showToast('LinkedIn authentication is coming soon. The feature needs to be configured first.', 'info');
         }
-      }, 500);
+      };
+      
+      window.addEventListener('message', messageHandler);
+      
+      // Cleanup if popup is closed without completion
+      const checkClosed = setInterval(() => {
+        if (popup && popup.closed) {
+          clearInterval(checkClosed);
+          window.removeEventListener('message', messageHandler);
+        }
+      }, 1000);
       
     } catch (error) {
-      console.error('LinkedIn sync failed:', error);
-      this.showToast('Failed to connect LinkedIn. Please try again.');
+      console.error('LinkedIn sync error:', error);
+      // If the backend returns 503, show coming soon modal
+      if (error.message?.includes('503') || error.message?.includes('not configured')) {
+        this.showLinkedInComingSoon();
+      } else {
+        this.showToast('Failed to connect LinkedIn. Please try again.');
+      }
     }
+  }
+  
+  showLinkedInComingSoon() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-content" style="max-width: 500px; text-align: center; padding: 2rem;">
+        <div class="modal-header">
+          <h3>LinkedIn Integration Coming Soon!</h3>
+          <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div style="padding: 2rem;">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="#0077B5" style="margin-bottom: 1.5rem;">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          
+          <h4 style="margin-bottom: 1rem; color: var(--color-text);">Professional Networking Integration</h4>
+          
+          <p style="color: var(--color-text-dim); margin-bottom: 1.5rem; line-height: 1.6;">
+            We're working on LinkedIn integration to help you connect your professional network with your Gamescom experience.
+          </p>
+          
+          <div style="background: var(--color-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <h5 style="color: var(--color-accent); margin-bottom: 0.5rem;">Coming Features:</h5>
+            <ul style="text-align: left; color: var(--color-text-dim); list-style: none; padding: 0;">
+              <li style="padding: 0.25rem 0;">✓ Import professional connections</li>
+              <li style="padding: 0.25rem 0;">✓ Share events with your network</li>
+              <li style="padding: 0.25rem 0;">✓ See which connections are attending</li>
+              <li style="padding: 0.25rem 0;">✓ Professional profile verification</li>
+            </ul>
+          </div>
+          
+          <p style="color: var(--color-text-dim); font-size: 0.9rem;">
+            Want to be notified when this feature launches?
+          </p>
+          
+          <div style="margin-top: 1.5rem;">
+            <button class="btn-primary" onclick="this.closest('.modal-overlay').remove()" style="margin-right: 1rem;">
+              Got it!
+            </button>
+            <button class="btn-secondary" onclick="window.conferenceApp.subscribeToUpdates(); this.closest('.modal-overlay').remove();">
+              Notify Me
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Close on overlay click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.remove();
+      }
+    });
+  }
+  
+  subscribeToUpdates() {
+    // Store preference for update notifications
+    if (!this.currentUser.settings) {
+      this.currentUser.settings = {};
+    }
+    this.currentUser.settings.notifyUpdates = true;
+    this.currentUser.settings.waitingForLinkedIn = true;
+    this.saveUserData();
+    this.showToast('You\'ll be notified when LinkedIn integration is available!');
   }
 
   async handleLinkedInCallback(code) {
@@ -1907,8 +2280,13 @@ class UnifiedConferenceApp {
 
   async syncGoogleAccount() {
     try {
-      // Google OAuth configuration
-      const clientId = 'YOUR_GOOGLE_CLIENT_ID'; // Replace with your Google app client ID
+      // Google OAuth configuration - get from environment
+      const clientId = window.APP_CONFIG?.GOOGLE_CLIENT_ID || document.querySelector('meta[name="google-client-id"]')?.content;
+      
+      if (!clientId) {
+        throw new Error('Google OAuth client ID not configured');
+      }
+      
       const redirectUri = encodeURIComponent(window.location.origin + '/auth/google/callback');
       const state = Math.random().toString(36).substring(7);
       const scope = 'openid%20profile%20email';
@@ -2014,22 +2392,22 @@ class UnifiedConferenceApp {
         <form class="profile-form" id="profile-form">
           <div class="form-group">
             <label>Full Name</label>
-            <input type="text" name="name" value="${profile?.name || ''}" placeholder="Your full name" required>
+            <input type="text" name="name" value="${profile?.name || ''}" placeholder="Your full name" autocomplete="off" required>
           </div>
           
           <div class="form-group">
             <label>Email Address ${this.currentUser.isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}</label>
-            <input type="email" name="email" value="${profile?.email || ''}" placeholder="your.email@company.com" required>
+            <input type="email" name="email" value="${profile?.email || ''}" placeholder="your.email@company.com" autocomplete="off" required>
           </div>
           
           <div class="form-group">
             <label>Role/Title</label>
-            <input type="text" name="role" value="${profile?.role || ''}" placeholder="e.g., Game Developer, Publisher">
+            <input type="text" name="role" value="${profile?.role || ''}" placeholder="e.g., Game Developer, Publisher" autocomplete="off">
           </div>
           
           <div class="form-group">
             <label>Company</label>
-            <input type="text" name="company" value="${profile?.company || ''}" placeholder="Your company name">
+            <input type="text" name="company" value="${profile?.company || ''}" placeholder="Your company name" autocomplete="off">
           </div>
           
           <div class="form-group">
@@ -2104,6 +2482,219 @@ class UnifiedConferenceApp {
     
     console.log('[Profile] Updated:', profile);
     console.log('[Admin] Status:', this.currentUser.isAdmin);
+  }
+
+  openSettingsModal() {
+    // Create settings modal
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+      <div class="modal-content settings-modal">
+        <div class="modal-header">
+          <h3>Settings</h3>
+          <button class="modal-close" data-action="close-modal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="settings-content">
+          <div class="settings-section">
+            <h4>Notifications</h4>
+            <label class="toggle-setting">
+              <input type="checkbox" id="notify-events" ${this.currentUser.settings?.notifyEvents !== false ? 'checked' : ''}>
+              <span>Event reminders</span>
+            </label>
+            <label class="toggle-setting">
+              <input type="checkbox" id="notify-invites" ${this.currentUser.settings?.notifyInvites !== false ? 'checked' : ''}>
+              <span>Invite notifications</span>
+            </label>
+            <label class="toggle-setting">
+              <input type="checkbox" id="notify-updates" ${this.currentUser.settings?.notifyUpdates !== false ? 'checked' : ''}>
+              <span>App updates</span>
+            </label>
+          </div>
+          
+          <div class="settings-section">
+            <h4>Privacy</h4>
+            <label class="toggle-setting">
+              <input type="checkbox" id="public-profile" ${this.currentUser.settings?.publicProfile ? 'checked' : ''}>
+              <span>Public profile</span>
+            </label>
+            <label class="toggle-setting">
+              <input type="checkbox" id="show-activity" ${this.currentUser.settings?.showActivity ? 'checked' : ''}>
+              <span>Show activity status</span>
+            </label>
+            <label class="toggle-setting">
+              <input type="checkbox" id="allow-messages" ${this.currentUser.settings?.allowMessages !== false ? 'checked' : ''}>
+              <span>Allow messages from connections</span>
+            </label>
+          </div>
+          
+          <div class="settings-section">
+            <h4>Calendar Sync</h4>
+            <label class="toggle-setting">
+              <input type="checkbox" id="auto-sync" ${this.currentUser.settings?.autoSync ? 'checked' : ''}>
+              <span>Auto-sync saved events</span>
+            </label>
+            <label class="toggle-setting">
+              <input type="checkbox" id="sync-reminders" ${this.currentUser.settings?.syncReminders !== false ? 'checked' : ''}>
+              <span>Add event reminders</span>
+            </label>
+          </div>
+          
+          <div class="settings-section">
+            <h4>Display</h4>
+            <label class="toggle-setting">
+              <input type="checkbox" id="dark-mode" ${this.currentUser.settings?.darkMode !== false ? 'checked' : ''}>
+              <span>Dark mode</span>
+            </label>
+            <label class="toggle-setting">
+              <input type="checkbox" id="compact-view" ${this.currentUser.settings?.compactView ? 'checked' : ''}>
+              <span>Compact view</span>
+            </label>
+          </div>
+          
+          <div class="settings-section danger-zone">
+            <h4>Danger Zone</h4>
+            <button class="btn-danger" data-action="clear-data">Clear All Data</button>
+            <button class="btn-danger" data-action="delete-account">Delete Account</button>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button class="btn-secondary" data-action="close-modal">Cancel</button>
+          <button class="btn-primary" data-action="save-settings">Save Settings</button>
+        </div>
+      </div>
+    `;
+    
+    // Add to page
+    document.body.appendChild(modal);
+    
+    // Handle settings changes
+    modal.addEventListener('change', (e) => {
+      if (e.target.matches('input[type="checkbox"]')) {
+        const setting = e.target.id.replace(/-/g, '');
+        const settingName = e.target.id.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+        
+        if (!this.currentUser.settings) {
+          this.currentUser.settings = {};
+        }
+        this.currentUser.settings[settingName] = e.target.checked;
+        
+        // Apply immediate changes for some settings
+        if (e.target.id === 'dark-mode') {
+          document.body.classList.toggle('light-mode', !e.target.checked);
+        } else if (e.target.id === 'compact-view') {
+          document.body.classList.toggle('compact-view', e.target.checked);
+        }
+      }
+    });
+    
+    // Handle button clicks
+    modal.addEventListener('click', (e) => {
+      const action = e.target.closest('[data-action]')?.dataset.action;
+      
+      switch(action) {
+        case 'close-modal':
+          modal.remove();
+          break;
+        case 'save-settings':
+          this.saveUserData();
+          this.showToast('Settings saved successfully!');
+          modal.remove();
+          break;
+        case 'clear-data':
+          if (confirm('Are you sure you want to clear all your data? This cannot be undone.')) {
+            this.clearAllData();
+            modal.remove();
+          }
+          break;
+        case 'delete-account':
+          if (confirm('Are you sure you want to delete your account? This will remove all your data permanently.')) {
+            this.deleteAccount();
+            modal.remove();
+          }
+          break;
+      }
+      
+      if (e.target.matches('.modal-overlay')) {
+        modal.remove();
+      }
+    });
+  }
+  
+  exportUserData() {
+    // Prepare data for export
+    const exportData = {
+      version: '1.0',
+      exportDate: new Date().toISOString(),
+      user: {
+        profile: this.currentUser.profile,
+        savedEvents: Array.from(this.currentUser.savedEvents),
+        rsvps: this.currentUser.rsvps,
+        contacts: this.currentUser.contacts,
+        invites: this.currentUser.invites,
+        settings: this.currentUser.settings,
+        stats: {
+          eventsAttended: this.currentUser.eventsAttended || 0,
+          connectionsMade: this.currentUser.connectionsMade || 0,
+          invitesSent: this.currentUser.invitesSent || 0
+        }
+      }
+    };
+    
+    // Create and download JSON file
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `gamescom-2025-data-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    this.showToast('Your data has been exported successfully!');
+  }
+  
+  clearAllData() {
+    // Clear all user data
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Reset to fresh state
+    this.currentUser = {
+      id: `user_${Date.now()}`,
+      savedEvents: new Set(),
+      rsvps: {},
+      profile: {},
+      contacts: [],
+      invites: {
+        remaining: 10,
+        sent: [],
+        received: null
+      },
+      settings: {},
+      isAdmin: false
+    };
+    
+    this.saveUserData();
+    this.renderMainInterface();
+    this.showToast('All data has been cleared. Starting fresh!');
+  }
+  
+  deleteAccount() {
+    // Clear all data
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Redirect to homepage
+    window.location.href = '/';
   }
 
   // Utility Methods

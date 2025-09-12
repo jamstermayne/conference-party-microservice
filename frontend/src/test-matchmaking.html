@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Matchmaking - Gamescom 2025</title>
+    <link rel="stylesheet" href="/assets/css/tokens.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: #667eea;
+        }
+        
+        .nav-link.active {
+            color: #667eea;
+        }
+        
+        .main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .sidebar {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .sidebar h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            color: #374151;
+        }
+        
+        .profile-summary {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0 0 0.25rem 0;
+        }
+        
+        .profile-title {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0;
+        }
+        
+        .settings-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .setting-group {
+            margin-bottom: 1rem;
+        }
+        
+        .setting-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        
+        .slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: #e5e7eb;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+        
+        .slider-value {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 0.25rem;
+        }
+        
+        .stats {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        
+        .stat:last-child {
+            margin-bottom: 0;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .stat-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .intro {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .intro h1 {
+            margin: 0 0 1rem 0;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .intro p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin: 0 0 1rem 0;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .feature {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 0.5rem;
+            opacity: 0.7;
+        }
+        
+        .feature-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+            margin: 0 0 0.25rem 0;
+        }
+        
+        .feature-desc {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin: 0;
+        }
+        
+        .btn-start {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .btn-start:hover {
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">🎮 Gamescom AI Match</div>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                <a href="#" class="nav-link active">Matchmaking</a>
+                <a href="/register.html" class="nav-link">Profile</a>
+                <a href="#" class="nav-link">Connections</a>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h3>Your Profile</h3>
+            <div class="profile-summary">
+                <div class="profile-avatar">JD</div>
+                <div class="profile-info">
+                    <p class="profile-name">John Doe</p>
+                    <p class="profile-title">Software Engineer</p>
+                </div>
+            </div>
+            
+            <!-- Settings -->
+            <div class="settings-section">
+                <h3>Match Preferences</h3>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Professional Weight</label>
+                    <input type="range" class="slider" id="professional-weight" 
+                           min="0" max="100" value="35">
+                    <div class="slider-value">35%</div>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Personal Weight</label>
+                    <input type="range" class="slider" id="personal-weight" 
+                           min="0" max="100" value="25">
+                    <div class="slider-value">25%</div>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Contextual Weight</label>
+                    <input type="range" class="slider" id="contextual-weight" 
+                           min="0" max="100" value="25">
+                    <div class="slider-value">25%</div>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Intent Weight</label>
+                    <input type="range" class="slider" id="intent-weight" 
+                           min="0" max="100" value="15">
+                    <div class="slider-value">15%</div>
+                </div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-label">Matches Found</span>
+                    <span class="stat-value" id="matches-count">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Connections Made</span>
+                    <span class="stat-value" id="connections-count">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Average Score</span>
+                    <span class="stat-value" id="avg-score">0%</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Introduction -->
+            <div class="intro" id="intro">
+                <h1>AI-Powered Conference Matchmaking</h1>
+                <p>
+                    Discover meaningful connections at Gamescom 2025 with our advanced AI matchmaking engine.
+                    We analyze multiple dimensions of compatibility to find your perfect networking matches.
+                </p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <h4 class="feature-title">Multi-Dimensional</h4>
+                        <p class="feature-desc">Professional, personal, contextual, and intent matching</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                        <h4 class="feature-title">Smart Starters</h4>
+                        <p class="feature-desc">AI-generated conversation starters</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                        <h4 class="feature-title">Learning Algorithm</h4>
+                        <p class="feature-desc">Improves with your feedback</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <h4 class="feature-title">Real-Time</h4>
+                        <p class="feature-desc">Instant compatibility scoring</p>
+                    </div>
+                </div>
+                
+                <button class="btn-start" onclick="startMatchmaking()">Start Matchmaking</button>
+            </div>
+            
+            <!-- Matchmaking UI will be inserted here -->
+            <div id="matchmaking-container"></div>
+        </div>
+    </div>
+    
+    <!-- Load matchmaking components -->
+    <script type="module">
+        import './modern/components/matchmaking-ui.js';
+        
+        // Initialize stats
+        updateStats();
+        
+        // Update slider values
+        document.querySelectorAll('.slider').forEach(slider => {
+            slider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                e.target.nextElementSibling.textContent = value + '%';
+                
+                // Update weights in engine
+                updateWeights();
+            });
+        });
+        
+        function updateStats() {
+            const connections = JSON.parse(localStorage.getItem('connections') || '[]');
+            document.getElementById('connections-count').textContent = connections.length;
+            
+            // Calculate average score if we have connections
+            if (connections.length > 0) {
+                const avgScore = connections.reduce((sum, c) => sum + c.score.overall, 0) / connections.length;
+                document.getElementById('avg-score').textContent = Math.round(avgScore) + '%';
+            }
+        }
+        
+        function updateWeights() {
+            const weights = {
+                professional: document.getElementById('professional-weight').value / 100,
+                personal: document.getElementById('personal-weight').value / 100,
+                contextual: document.getElementById('contextual-weight').value / 100,
+                intent: document.getElementById('intent-weight').value / 100
+            };
+            
+            // Normalize weights
+            const total = Object.values(weights).reduce((a, b) => a + b, 0);
+            for (const key in weights) {
+                weights[key] = weights[key] / total;
+            }
+            
+            // Save to localStorage for the engine to use
+            localStorage.setItem('match_weights_user_current', JSON.stringify(weights));
+        }
+        
+        window.startMatchmaking = function() {
+            // Hide intro
+            document.getElementById('intro').style.display = 'none';
+            
+            // Create and insert matchmaking UI
+            const container = document.getElementById('matchmaking-container');
+            container.innerHTML = '<matchmaking-ui></matchmaking-ui>';
+            
+            // Update match count after component loads
+            setTimeout(() => {
+                const matchmakingUI = document.querySelector('matchmaking-ui');
+                if (matchmakingUI && matchmakingUI.matches) {
+                    document.getElementById('matches-count').textContent = matchmakingUI.matches.length;
+                }
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

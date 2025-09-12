@@ -1,1 +1,1 @@
-{"version":3,"file":"canonicalHost.d.ts","sourceRoot":"","sources":["../../../src/middleware/canonicalHost.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,YAAY,EAAE,MAAM,SAAS,CAAC;AAI1D,wBAAgB,aAAa,CAAC,GAAG,EAAE,OAAO,EAAE,GAAG,EAAE,QAAQ,EAAE,IAAI,EAAE,YAAY,QAc5E"}
+{"version":3,"file":"canonicalHost.d.ts","sourceRoot":"","sources":["../../../src/middleware/canonicalHost.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,YAAY,EAAE,MAAM,SAAS,CAAC;AAI1D,wBAAgB,aAAa,CAAC,GAAG,EAAE,OAAO,EAAE,GAAG,EAAE,QAAQ,EAAE,IAAI,EAAE,YAAY,QAoB5E"}

@@ -1,0 +1,82 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "party-1",
+      "name": "Opening Night Mixer",
+      "title": "Gamescom 2025 Opening Night",
+      "description": "Kick off Gamescom 2025 with industry leaders",
+      "time": "2025-08-20T19:00:00",
+      "startTime": "2025-08-20T19:00:00",
+      "endTime": "2025-08-20T23:00:00",
+      "venue": "Koelnmesse Hall 1",
+      "address": "Messeplatz 1, 50679 Cologne",
+      "coordinates": { "lat": 50.9473, "lng": 6.9831 },
+      "organizer": "Gamescom",
+      "capacity": 500,
+      "attendees": [],
+      "tags": ["networking", "official", "opening"],
+      "saved": false,
+      "rsvp": false
+    },
+    {
+      "id": "party-2",
+      "name": "Indie Developer Showcase",
+      "title": "Indie Games Celebration",
+      "description": "Celebrate independent game development",
+      "time": "2025-08-21T18:00:00",
+      "startTime": "2025-08-21T18:00:00",
+      "endTime": "2025-08-21T22:00:00",
+      "venue": "The Loft Cologne",
+      "address": "Wissmannstraße 30, 50823 Cologne",
+      "coordinates": { "lat": 50.9506, "lng": 6.9256 },
+      "organizer": "Indie Arena Booth",
+      "capacity": 300,
+      "attendees": [],
+      "tags": ["indie", "developers", "networking"],
+      "saved": false,
+      "rsvp": false
+    },
+    {
+      "id": "party-3",
+      "name": "Publisher's VIP Reception",
+      "title": "VIP Publisher Event",
+      "description": "Exclusive gathering for publishers and press",
+      "time": "2025-08-22T20:00:00",
+      "startTime": "2025-08-22T20:00:00",
+      "endTime": "2025-08-23T01:00:00",
+      "venue": "Hyatt Regency Cologne",
+      "address": "Kennedy-Ufer 2A, 50679 Cologne",
+      "coordinates": { "lat": 50.9469, "lng": 6.9711 },
+      "organizer": "ESA",
+      "capacity": 200,
+      "attendees": [],
+      "tags": ["vip", "publishers", "exclusive"],
+      "saved": false,
+      "rsvp": false
+    },
+    {
+      "id": "party-4",
+      "name": "Game Audio Network Guild",
+      "title": "GANG Mixer",
+      "description": "Connect with game audio professionals",
+      "time": "2025-08-21T19:00:00",
+      "startTime": "2025-08-21T19:00:00",
+      "endTime": "2025-08-21T23:00:00",
+      "venue": "Studio 672",
+      "address": "Deutz-Mülheimer Str. 127, 51063 Cologne",
+      "coordinates": { "lat": 50.9634, "lng": 7.0102 },
+      "organizer": "GANG",
+      "capacity": 150,
+      "attendees": [],
+      "tags": ["audio", "music", "networking"],
+      "saved": false,
+      "rsvp": false
+    }
+  ],
+  "meta": {
+    "total": 4,
+    "conference": "gamescom2025",
+    "lastUpdated": "2025-09-11T23:00:00Z"
+  }
+}

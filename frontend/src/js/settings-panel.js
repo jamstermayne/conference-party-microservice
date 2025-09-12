@@ -2,10 +2,10 @@ import { initMtmSettings } from './integrations/mtm.js';
 
 export async function renderSettings(mount){
   if(!mount) return;
-  const allowed = new Set(['jamy@nigriconsulting.com','jamynigri@gmail.com']);
+  // Admin privileges should be determined by backend authentication, not hardcoded emails
   const user = (window.firebase?.auth?.().currentUser) || null;
   const email = user?.email || '';
-  const canSelfPromote = email && allowed.has(email.toLowerCase());
+  const canSelfPromote = false; // Disabled for security - should be backend-controlled
 
   mount.innerHTML = `
     <section style="margin:24px">

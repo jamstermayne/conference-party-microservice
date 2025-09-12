@@ -1,0 +1,10 @@
+{
+  "status": "success",
+  "data": {
+    "available": 10,
+    "sent": 0,
+    "accepted": 0,
+    "bonus": 0,
+    "total": 10
+  }
+}

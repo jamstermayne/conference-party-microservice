@@ -1,0 +1,92 @@
+{
+  "parties": [
+    {
+      "id": "party-1",
+      "name": "Opening Night Mixer",
+      "title": "Gamescom 2025 Opening Night",
+      "description": "Kick off Gamescom 2025 with industry leaders",
+      "time": "2025-08-20T19:00:00",
+      "startTime": "2025-08-20T19:00:00",
+      "endTime": "2025-08-20T23:00:00",
+      "venue": "Koelnmesse Hall 1",
+      "address": "Messeplatz 1, 50679 Cologne",
+      "coordinates": { "lat": 50.9473, "lng": 6.9831 },
+      "organizer": "Gamescom",
+      "capacity": 500,
+      "attendees": [],
+      "tags": ["networking", "official", "opening"],
+      "saved": false,
+      "rsvp": false
+    },
+    {
+      "id": "party-2",
+      "name": "Indie Developer Showcase",
+      "title": "Indie Games Celebration",
+      "description": "Celebrate independent game development",
+      "time": "2025-08-21T18:00:00",
+      "startTime": "2025-08-21T18:00:00",
+      "endTime": "2025-08-21T22:00:00",
+      "venue": "The Loft Cologne",
+      "address": "Wissmannstraße 30, 50823 Cologne",
+      "coordinates": { "lat": 50.9506, "lng": 6.9256 },
+      "organizer": "Indie Arena Booth",
+      "capacity": 300,
+      "attendees": [],
+      "tags": ["indie", "developers", "networking"],
+      "saved": false,
+      "rsvp": false
+    },
+    {
+      "id": "party-3",
+      "name": "Publisher's VIP Reception",
+      "title": "VIP Publisher Event",
+      "description": "Exclusive gathering for publishers and press",
+      "time": "2025-08-22T20:00:00",
+      "startTime": "2025-08-22T20:00:00",
+      "endTime": "2025-08-23T01:00:00",
+      "venue": "Hyatt Regency Cologne",
+      "address": "Kennedy-Ufer 2A, 50679 Cologne",
+      "coordinates": { "lat": 50.9469, "lng": 6.9711 },
+      "organizer": "ESA",
+      "capacity": 200,
+      "attendees": [],
+      "tags": ["vip", "publishers", "exclusive"],
+      "saved": false,
+      "rsvp": false
+    }
+  ],
+  "invites": {
+    "status": {
+      "available": 10,
+      "sent": 0,
+      "accepted": 0,
+      "bonus": 0
+    }
+  },
+  "user": {
+    "id": "user-123",
+    "profile": {
+      "name": "Test User",
+      "email": "test@example.com",
+      "role": "attendee",
+      "company": "Test Company"
+    },
+    "savedEvents": [],
+    "connections": [],
+    "interests": ["gaming", "networking", "technology"],
+    "invites": {
+      "available": 10,
+      "sent": []
+    }
+  },
+  "featureFlags": {
+    "features": {
+      "modern_architecture": false,
+      "modern_auth": false,
+      "modern_data": false,
+      "modern_ui": false
+    },
+    "rollout": {},
+    "killSwitches": {}
+  }
+}
