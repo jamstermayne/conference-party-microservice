@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "message": "Magic link sent successfully",
+  "data": {
+    "email": "${email}",
+    "expiresIn": 900,
+    "sentAt": "${timestamp}"
+  }
+}

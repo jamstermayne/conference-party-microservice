@@ -1,0 +1,5 @@
+{
+  "exists": false,
+  "email": "${email}",
+  "message": "User does not exist"
+}

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conference Intelligence Dashboard - Executive Report</title>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #0f0f14 0%, #1a1a24 100%);
+      color: var(--color-text);
+      min-height: 100vh;
+    }
+    
+    .dashboard {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: var(--s-4);
+    }
+    
+    /* Header */
+    .header {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border-radius: var(--r-3);
+      padding: var(--s-6);
+      margin-bottom: var(--s-6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--s-4);
+    }
+    
+    .header-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .header-badge {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: var(--s-2) var(--s-4);
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    
+    .header-subtitle {
+      color: var(--color-text-dim);
+      font-size: 1.125rem;
+      margin-bottom: var(--s-4);
+    }
+    
+    /* ROI Summary */
+    .roi-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--s-4);
+      padding: var(--s-4);
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: var(--r-2);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    
+    .roi-metric {
+      text-align: center;
+    }
+    
+    .roi-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #10b981;
+      margin-bottom: var(--s-1);
+    }
+    
+    .roi-label {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    /* Main Grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: var(--s-4);
+      margin-bottom: var(--s-6);
+    }
+    
+    @media (max-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Cards */
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border-radius: var(--r-2);
+      padding: var(--s-4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: var(--s-3);
+      display: flex;
+      align-items: center;
+      gap: var(--s-2);
+    }
+    
+    .card-icon {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+    }
+    
+    /* Pipeline Value Chart */
+    .pipeline-chart {
+      height: 300px;
+      position: relative;
+      margin-bottom: var(--s-4);
+    }
+    
+    .pipeline-bars {
+      display: flex;
+      align-items: flex-end;
+      height: 250px;
+      gap: var(--s-3);
+      padding: var(--s-3) 0;
+    }
+    
+    .pipeline-bar {
+      flex: 1;
+      background: linear-gradient(180deg, var(--color-accent), var(--color-purple));
+      border-radius: var(--r-1) var(--r-1) 0 0;
+      position: relative;
+      min-height: 20px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .pipeline-bar:hover {
+      opacity: 0.8;
+      transform: translateY(-5px);
+    }
+    
+    .pipeline-bar-value {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    .pipeline-labels {
+      display: flex;
+      gap: var(--s-3);
+    }
+    
+    .pipeline-label {
+      flex: 1;
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+    }
+    
+    /* Top Connections */
+    .connection-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-3);
+    }
+    
+    .connection-item {
+      display: flex;
+      align-items: center;
+      gap: var(--s-3);
+      padding: var(--s-3);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--r-2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.2s;
+    }
+    
+    .connection-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateX(5px);
+    }
+    
+    .connection-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: white;
+    }
+    
+    .connection-info {
+      flex: 1;
+    }
+    
+    .connection-name {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    
+    .connection-title {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+    }
+    
+    .connection-value {
+      text-align: right;
+    }
+    
+    .connection-score {
+      font-weight: 600;
+      color: #10b981;
+      margin-bottom: 2px;
+    }
+    
+    .connection-revenue {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+    }
+    
+    /* Recommendations */
+    .recommendations {
+      display: grid;
+      gap: var(--s-4);
+    }
+    
+    .recommendation-section {
+      padding: var(--s-4);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--r-2);
+      border-left: 3px solid var(--color-accent);
+    }
+    
+    .recommendation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--s-3);
+    }
+    
+    .recommendation-title {
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+    
+    .recommendation-priority {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .priority-critical {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+    
+    .priority-high {
+      background: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+    }
+    
+    .priority-medium {
+      background: rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+    }
+    
+    .recommendation-list {
+      list-style: none;
+    }
+    
+    .recommendation-item {
+      padding: var(--s-2) 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: start;
+      gap: var(--s-2);
+    }
+    
+    .recommendation-item:last-child {
+      border-bottom: none;
+    }
+    
+    .recommendation-bullet {
+      width: 6px;
+      height: 6px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    
+    .recommendation-text {
+      flex: 1;
+      line-height: 1.5;
+    }
+    
+    .recommendation-timeline {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+      margin-top: var(--s-2);
+    }
+    
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--s-4);
+      margin-bottom: var(--s-6);
+    }
+    
+    .metric-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border-radius: var(--r-2);
+      padding: var(--s-4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+    
+    .metric-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto var(--s-3);
+      background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    
+    .metric-value {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: var(--s-1);
+    }
+    
+    .metric-label {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .metric-change {
+      margin-top: var(--s-2);
+      font-size: 0.875rem;
+      color: #10b981;
+    }
+    
+    /* Actions */
+    .actions {
+      position: fixed;
+      bottom: var(--s-4);
+      right: var(--s-4);
+      display: flex;
+      gap: var(--s-2);
+      z-index: 100;
+    }
+    
+    .action-btn {
+      padding: var(--s-3) var(--s-4);
+      background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
+      color: white;
+      border: none;
+      border-radius: var(--r-2);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(102, 126, 234, 0.6);
+    }
+    
+    .action-btn.secondary {
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+    }
+    
+    /* Loading State */
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 400px;
+    }
+    
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top-color: var(--color-accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Competitive Intel */
+    .intel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--s-3);
+    }
+    
+    .intel-item {
+      padding: var(--s-3);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--r-2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .intel-company {
+      font-weight: 600;
+      margin-bottom: var(--s-2);
+    }
+    
+    .intel-details {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+      line-height: 1.5;
+    }
+    
+    .threat-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: var(--s-2);
+    }
+    
+    .threat-low {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+    }
+    
+    .threat-medium {
+      background: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+    }
+    
+    .threat-high {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-top">
+        <h1 class="header-title">Conference Intelligence Report</h1>
+        <div class="header-badge">Executive Summary</div>
+      </div>
+      <div class="header-subtitle">Gamescom 2025 - Post-Conference Analysis</div>
+      
+      <!-- ROI Summary -->
+      <div class="roi-summary" id="roiSummary">
+        <div class="roi-metric">
+          <div class="roi-value">--</div>
+          <div class="roi-label">ROI</div>
+        </div>
+        <div class="roi-metric">
+          <div class="roi-value">--</div>
+          <div class="roi-label">Pipeline Generated</div>
+        </div>
+        <div class="roi-metric">
+          <div class="roi-value">--</div>
+          <div class="roi-label">Qualified Leads</div>
+        </div>
+        <div class="roi-metric">
+          <div class="roi-value">--</div>
+          <div class="roi-label">Partnerships</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Left Column -->
+      <div class="content-left">
+        <!-- Pipeline Chart -->
+        <div class="card">
+          <div class="card-title">
+            <div class="card-icon">📊</div>
+            Revenue Pipeline Analysis
+          </div>
+          <div class="pipeline-chart">
+            <div class="pipeline-bars" id="pipelineBars">
+              <!-- Bars will be generated dynamically -->
+            </div>
+            <div class="pipeline-labels">
+              <div class="pipeline-label">Immediate</div>
+              <div class="pipeline-label">Short-term</div>
+              <div class="pipeline-label">Long-term</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Strategic Recommendations -->
+        <div class="card">
+          <div class="card-title">
+            <div class="card-icon">🎯</div>
+            Strategic Recommendations
+          </div>
+          <div class="recommendations" id="recommendations">
+            <div class="loading"><div class="spinner"></div></div>
+          </div>
+        </div>
+        
+        <!-- Competitive Intelligence -->
+        <div class="card">
+          <div class="card-title">
+            <div class="card-icon">🔍</div>
+            Competitive Intelligence
+          </div>
+          <div class="intel-grid" id="competitiveIntel">
+            <div class="loading"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Column -->
+      <div class="content-right">
+        <!-- Top Connections -->
+        <div class="card">
+          <div class="card-title">
+            <div class="card-icon">🤝</div>
+            Top Connections
+          </div>
+          <div class="connection-list" id="topConnections">
+            <div class="loading"><div class="spinner"></div></div>
+          </div>
+        </div>
+        
+        <!-- Learning Outcomes -->
+        <div class="card">
+          <div class="card-title">
+            <div class="card-icon">🎓</div>
+            Key Learnings
+          </div>
+          <div id="learningOutcomes">
+            <div class="loading"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Metrics Grid -->
+    <div class="metrics-grid" id="metricsGrid">
+      <!-- Metrics will be generated dynamically -->
+    </div>
+    
+    <!-- Actions -->
+    <div class="actions">
+      <button class="action-btn secondary" onclick="refreshData()">Refresh</button>
+      <button class="action-btn" onclick="exportReport()">Export Report</button>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="modern/intelligence/conference-analyzer.js"></script>
+  
+  <script>
+    const engine = window.ConferenceIntelligenceEngine;
+    let currentData = null;
+    let currentInsights = null;
+    
+    // Initialize dashboard
+    async function initDashboard() {
+      try {
+        // Collect conference data
+        currentData = await engine.collectConferenceData();
+        
+        // Generate executive insights
+        currentInsights = await engine.generateExecutiveInsights(currentData);
+        
+        // Update all dashboard sections
+        updateROISummary(currentInsights);
+        updatePipelineChart(currentInsights);
+        updateTopConnections(currentData);
+        updateRecommendations(currentInsights);
+        updateCompetitiveIntel(currentInsights);
+        updateLearningOutcomes(currentData);
+        updateMetricsGrid(currentInsights);
+        
+      } catch (error) {
+        console.error('Failed to initialize dashboard:', error);
+      }
+    }
+    
+    function updateROISummary(insights) {
+      const summary = document.getElementById('roiSummary');
+      summary.innerHTML = `
+        <div class="roi-metric">
+          <div class="roi-value">${insights.executiveSummary.roi.percentage}</div>
+          <div class="roi-label">ROI</div>
+        </div>
+        <div class="roi-metric">
+          <div class="roi-value">${insights.executiveSummary.pipelineGenerated}</div>
+          <div class="roi-label">Pipeline Generated</div>
+        </div>
+        <div class="roi-metric">
+          <div class="roi-value">${insights.executiveSummary.qualifiedLeads}</div>
+          <div class="roi-label">Qualified Leads</div>
+        </div>
+        <div class="roi-metric">
+          <div class="roi-value">${insights.executiveSummary.partnershipOpportunities}</div>
+          <div class="roi-label">Partnerships</div>
+        </div>
+      `;
+    }
+    
+    function updatePipelineChart(insights) {
+      const container = document.getElementById('pipelineBars');
+      const revenue = insights.businessImpact.revenueOpportunities;
+      
+      const maxValue = Math.max(
+        revenue.immediate * 100000,
+        revenue.shortTerm * 75000,
+        revenue.longTerm * 50000
+      );
+      
+      container.innerHTML = `
+        <div class="pipeline-bar" style="height: ${(revenue.immediate * 100000 / maxValue) * 100}%">
+          <div class="pipeline-bar-value">
+            ${revenue.immediate} leads<br>
+            $${(revenue.immediate * 100000).toLocaleString()}
+          </div>
+        </div>
+        <div class="pipeline-bar" style="height: ${(revenue.shortTerm * 75000 / maxValue) * 100}%">
+          <div class="pipeline-bar-value">
+            ${revenue.shortTerm} leads<br>
+            $${(revenue.shortTerm * 75000).toLocaleString()}
+          </div>
+        </div>
+        <div class="pipeline-bar" style="height: ${(revenue.longTerm * 50000 / maxValue) * 100}%">
+          <div class="pipeline-bar-value">
+            ${revenue.longTerm} opps<br>
+            $${(revenue.longTerm * 50000).toLocaleString()}
+          </div>
+        </div>
+      `;
+    }
+    
+    function updateTopConnections(data) {
+      const container = document.getElementById('topConnections');
+      const connections = data.networking.topConnections || [];
+      
+      container.innerHTML = connections.map(conn => `
+        <div class="connection-item">
+          <div class="connection-avatar">
+            ${conn.targetProfile.name.split(' ').map(n => n[0]).join('')}
+          </div>
+          <div class="connection-info">
+            <div class="connection-name">${conn.targetProfile.name}</div>
+            <div class="connection-title">${conn.targetProfile.title} at ${conn.targetProfile.company}</div>
+          </div>
+          <div class="connection-value">
+            <div class="connection-score">${(conn.leadQuality * 100).toFixed(0)}%</div>
+            <div class="connection-revenue">$${conn.revenueEstimate.toLocaleString()}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function updateRecommendations(insights) {
+      const container = document.getElementById('recommendations');
+      const recommendations = insights.strategicRecommendations || [];
+      
+      container.innerHTML = recommendations.map(rec => `
+        <div class="recommendation-section">
+          <div class="recommendation-header">
+            <div class="recommendation-title">${rec.category}</div>
+            <div class="recommendation-priority priority-${rec.priority.toLowerCase()}">${rec.priority}</div>
+          </div>
+          <ul class="recommendation-list">
+            ${rec.recommendations.map(item => `
+              <li class="recommendation-item">
+                <div class="recommendation-bullet"></div>
+                <div>
+                  <div class="recommendation-text">${item.action || item}</div>
+                  ${item.timeline ? `<div class="recommendation-timeline">Timeline: ${item.timeline}</div>` : ''}
+                </div>
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+      `).join('');
+    }
+    
+    function updateCompetitiveIntel(insights) {
+      const container = document.getElementById('competitiveIntel');
+      const intel = insights.businessImpact.competitiveIntelligence;
+      
+      container.innerHTML = intel.competitorActivity.map(comp => `
+        <div class="intel-item">
+          <div class="intel-company">${comp.competitor}</div>
+          <div class="intel-details">
+            Presence: ${comp.presence} booth<br>
+            Team Size: ${comp.teamSize}<br>
+            Focus: ${comp.focus}
+          </div>
+          <span class="threat-badge threat-${comp.threat.toLowerCase()}">
+            ${comp.threat} Threat
+          </span>
+        </div>
+      `).join('');
+    }
+    
+    function updateLearningOutcomes(data) {
+      const container = document.getElementById('learningOutcomes');
+      const learning = data.learning;
+      
+      container.innerHTML = `
+        <div style="padding: var(--s-3);">
+          <div style="margin-bottom: var(--s-3);">
+            <div style="font-size: 2rem; font-weight: bold; color: var(--color-accent);">
+              ${learning.knowledgeScore}%
+            </div>
+            <div style="font-size: 0.875rem; color: var(--color-text-dim);">
+              Knowledge Score
+            </div>
+          </div>
+          <div style="margin-bottom: var(--s-3);">
+            <div style="font-weight: 600; margin-bottom: var(--s-2);">Skills Acquired:</div>
+            ${learning.skillsAcquired.map(skill => `
+              <div style="padding: var(--s-1) 0; font-size: 0.875rem;">
+                • ${skill.skill} (${skill.level})
+              </div>
+            `).join('')}
+          </div>
+          <div>
+            <div style="font-weight: 600; margin-bottom: var(--s-2);">Implementable Insights:</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #10b981;">
+              ${learning.implementableInsights.length}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    function updateMetricsGrid(insights) {
+      const container = document.getElementById('metricsGrid');
+      const metrics = insights.metrics;
+      
+      container.innerHTML = `
+        <div class="metric-card">
+          <div class="metric-icon">💰</div>
+          <div class="metric-value">${metrics.efficiency.costPerLead}</div>
+          <div class="metric-label">Cost Per Lead</div>
+          <div class="metric-change">↓ 23% vs last event</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">⚡</div>
+          <div class="metric-value">${metrics.efficiency.timeToConnect} days</div>
+          <div class="metric-label">Time to Connect</div>
+          <div class="metric-change">↓ 40% faster</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🎯</div>
+          <div class="metric-value">${metrics.efficiency.conversionPotential}</div>
+          <div class="metric-label">Conversion Potential</div>
+          <div class="metric-change">↑ 15% improvement</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🚀</div>
+          <div class="metric-value">${metrics.engagement.networkExpansion}</div>
+          <div class="metric-label">Network Growth Rate</div>
+          <div class="metric-change">Top 10% performance</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">📧</div>
+          <div class="metric-value">${metrics.engagement.followUpRate}</div>
+          <div class="metric-label">Follow-up Rate</div>
+          <div class="metric-change">Industry leading</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🧠</div>
+          <div class="metric-value">${metrics.learning.implementableInsights}</div>
+          <div class="metric-label">Actionable Insights</div>
+          <div class="metric-change">Ready to implement</div>
+        </div>
+      `;
+    }
+    
+    function refreshData() {
+      initDashboard();
+    }
+    
+    function exportReport() {
+      if (!currentData || !currentInsights) {
+        alert('No data to export');
+        return;
+      }
+      
+      const report = {
+        generatedAt: new Date().toISOString(),
+        conferenceData: currentData,
+        executiveInsights: currentInsights
+      };
+      
+      const blob = new Blob([JSON.stringify(report, null, 2)], {
+        type: 'application/json'
+      });
+      
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `conference-intelligence-report-${Date.now()}.json`;
+      a.click();
+      
+      URL.revokeObjectURL(url);
+      
+      // Also generate PDF-ready HTML
+      generatePDFReport();
+    }
+    
+    function generatePDFReport() {
+      const reportWindow = window.open('', '_blank');
+      reportWindow.document.write(`
+        <html>
+        <head>
+          <title>Conference Intelligence Report</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; }
+            h1 { color: #333; }
+            .section { margin: 20px 0; page-break-inside: avoid; }
+            .metric { display: inline-block; margin: 10px 20px; }
+            .value { font-size: 24px; font-weight: bold; color: #10b981; }
+            .label { font-size: 12px; color: #666; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+            th { background: #f5f5f5; }
+          </style>
+        </head>
+        <body>
+          <h1>Executive Conference Intelligence Report</h1>
+          <h2>Gamescom 2025</h2>
+          
+          <div class="section">
+            <h3>ROI Summary</h3>
+            <div class="metric">
+              <div class="value">${currentInsights.executiveSummary.roi.percentage}</div>
+              <div class="label">Return on Investment</div>
+            </div>
+            <div class="metric">
+              <div class="value">${currentInsights.executiveSummary.pipelineGenerated}</div>
+              <div class="label">Pipeline Generated</div>
+            </div>
+          </div>
+          
+          <div class="section">
+            <h3>Key Outcomes</h3>
+            <p>${currentInsights.executiveSummary.keyTakeaway}</p>
+          </div>
+          
+          <div class="section">
+            <h3>Top Strategic Recommendations</h3>
+            <ol>
+              ${currentInsights.strategicRecommendations[0].recommendations.map(r => 
+                `<li>${r.action || r}</li>`
+              ).join('')}
+            </ol>
+          </div>
+          
+          <div class="section">
+            <h3>Next Steps</h3>
+            <p>This report contains ${currentInsights.executiveSummary.qualifiedLeads} qualified leads 
+            requiring immediate follow-up within the next 48 hours.</p>
+          </div>
+          
+          <p style="margin-top: 40px; color: #666; font-size: 12px;">
+            Generated: ${new Date().toLocaleString()}<br>
+            Confidential - Executive Use Only
+          </p>
+        </body>
+        </html>
+      `);
+      
+      setTimeout(() => {
+        reportWindow.print();
+      }, 500);
+    }
+    
+    // Initialize on load
+    setTimeout(initDashboard, 500);
+  </script>
+</body>
+</html>

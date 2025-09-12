@@ -1,5 +1,13 @@
 {
   "features": {
+    "calendarSync": true,
+    "hotspots": true,
+    "emailSync": true,
+    "inviteSystem": true,
+    "pwaInstall": true,
+    "linkedinAuth": false,
+    "advancedMaps": false,
+    "aiRecommendations": false,
     "modern_architecture": false,
     "modern_auth": false,
     "modern_data": false,
@@ -7,7 +15,10 @@
     "modern_matching": false,
     "modern_realtime": false,
     "modern_party_cards": false,
-    "modern_connections": false
+    "modern_connections": false,
+    "magic_auth": true,
+    "company_intelligence": true,
+    "profile_enrichment": true
   },
   "rollout": {
     "newPartyCards": 1.0,

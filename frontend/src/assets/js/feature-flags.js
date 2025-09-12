@@ -223,29 +223,39 @@ class FeatureFlags {
    */
   async checkRemoteConfig() {
     try {
-      // Skip remote config if using local API
-      const useLocalAPI = new URLSearchParams(window.location.search).get('local') === 'true';
-      if (useLocalAPI) {
-        // Use local mock config
-        const response = await fetch('/api/feature-flags');
+      // Check if we're in local development
+      const isLocalDev = window.location.hostname === 'localhost' || 
+                        window.location.hostname === '127.0.0.1' ||
+                        window.location.hostname.startsWith('192.168.');
+      
+      if (isLocalDev) {
+        // Try local endpoint first in development
+        try {
+          const response = await fetch('/api/feature-flags');
+          if (response.ok) {
+            const config = await response.json();
+            this.applyRemoteConfig(config);
+            return;
+          }
+        } catch (localError) {
+          console.debug('[FeatureFlags] Local config not available, using defaults');
+          return;
+        }
+      }
+      
+      // Use production API for remote config (only in production)
+      if (!isLocalDev) {
+        const response = await fetch('https://us-central1-conference-party-app.cloudfunctions.net/apiFn/api/feature-flags', {
+          method: 'GET',
+          headers: {
+            'X-User-Id': this.getUserId()
+          }
+        });
+        
         if (response.ok) {
           const config = await response.json();
           this.applyRemoteConfig(config);
         }
-        return;
-      }
-      
-      // Use production API for remote config
-      const response = await fetch('https://us-central1-conference-party-app.cloudfunctions.net/apiFn/api/feature-flags', {
-        method: 'GET',
-        headers: {
-          'X-User-Id': this.getUserId()
-        }
-      });
-      
-      if (response.ok) {
-        const config = await response.json();
-        this.applyRemoteConfig(config);
       }
     } catch (e) {
       // Fail silently - use local config
