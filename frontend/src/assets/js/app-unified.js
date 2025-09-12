@@ -655,26 +655,28 @@ class UnifiedConferenceApp {
   }
 
   setupNavigation() {
+    // Don't overwrite the panel structure - just set up event listeners
     const app = document.getElementById('app');
-    // Build the complete interface with navigation
-    app.innerHTML = `
-      <div class="unified-app">
-        <!-- Header with navigation tabs -->
-        <header class="app-header">
-          <div class="header-content">
-            <div class="app-logo">
-              <h1>Gamescom 2025</h1>
-              <span class="tagline">Professional Networking</span>
+    
+    // Check if overlay system is loaded
+    if (typeof window.ensureOverlay === 'function') {
+      console.log('[Navigation] Using overlay panel system');
+      return; // Let overlay-live.js handle navigation
+    }
+    
+    // Fallback: Build simple interface if overlay system not available
+    if (!app.querySelector('.panel-stack')) {
+      app.innerHTML = `
+        <div class="unified-app">
+          <!-- Simplified header -->
+          <header class="app-header">
+            <div class="header-content">
+              <div class="app-logo">
+                <h1>Gamescom 2025</h1>
+                <span class="tagline">Professional Networking</span>
+              </div>
             </div>
-            
-            <!-- Top navigation tabs -->
-            <nav class="top-nav">
-              <button class="nav-tab nav-tab--active" data-section="parties">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-                <span>Parties</span>
-              </button>
+          </header>
               <button class="nav-tab" data-section="calendar">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zM19 19H5V8h14v11z"/>

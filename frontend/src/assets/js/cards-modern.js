@@ -12,7 +12,7 @@ import { openICS, openGoogle } from './calendar-lite.js';
  */
 export function createModernCard(event) {
   const card = document.createElement('article');
-  card.className = 'card-modern card-modern--event';
+  card.className = 'card card--event card--interactive';
   card.setAttribute('role', 'article');
   card.setAttribute('aria-label', `Event: ${event.title || 'Party'}`);
   
@@ -32,49 +32,49 @@ export function createModernCard(event) {
   // Build card HTML
   card.innerHTML = `
     ${price ? `
-      <span class="card-modern__badge ${price.toLowerCase() === 'free' ? 'card-modern__badge--free' : ''}">
+      <span class="card__badge ${price.toLowerCase() === 'free' ? 'card__badge--free' : ''}">
         ${price}
       </span>
     ` : ''}
     
-    <header class="card-modern__header">
-      <div class="card-modern__eyebrow">
-        <span>${dateStr}</span>
-        ${timeStr ? `<span>•</span><span>${timeStr}</span>` : ''}
+    <header class="card__header">
+      <div class="card__eyebrow">
+        <span class="card__time">${dateStr}</span>
+        ${timeStr ? `<span>•</span><span class="card__time">${timeStr}</span>` : ''}
       </div>
-      <h3 class="card-modern__title">${event.title || 'Party'}</h3>
-      ${venue ? `<p class="card-modern__subtitle">${venue}</p>` : ''}
+      <h3 class="card__title">${event.title || 'Party'}</h3>
+      ${venue ? `<p class="card__subtitle card__venue">${venue}</p>` : ''}
     </header>
     
-    <div class="card-modern__body">
+    <div class="card__body">
       ${description ? `
-        <p class="card-modern__description">${description}</p>
+        <p class="card__description">${description}</p>
       ` : ''}
       
-      <div class="card-modern__meta">
+      <div class="card__meta">
         ${event.tags && event.tags.length > 0 ? 
           event.tags.map(tag => `
-            <span class="card-modern__pill">${tag}</span>
+            <span class="card__pill">${tag}</span>
           `).join('') : ''
         }
         ${event.capacity ? `
-          <span class="card-modern__pill card-modern__pill--accent">
+          <span class="card__pill card__pill--accent">
             ${event.capacity} spots
           </span>
         ` : ''}
       </div>
     </div>
     
-    <footer class="card-modern__footer">
+    <footer class="card__actions">
       <button 
-        class="card-modern__action card-modern__action--primary"
+        class="btn btn--primary"
         data-action="cal-ics"
         aria-label="Add ${event.title} to calendar"
       >
         Add to Calendar
       </button>
       <button 
-        class="card-modern__action card-modern__action--secondary"
+        class="btn btn--secondary"
         data-action="cal-google"
         aria-label="Add ${event.title} to Google Calendar"
       >

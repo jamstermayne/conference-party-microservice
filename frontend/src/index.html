@@ -16,19 +16,67 @@
   
   <!-- PWA Manifest -->
   <link rel="manifest" href="/manifest.json">
-  <!-- Design System Foundation -->
-  <link rel="stylesheet" href="/assets/css/tokens.css">
-  <!-- Unified Design System - Enforces Consistency -->
-  <link rel="stylesheet" href="/assets/css/design-system-unified.css">
-  <!-- Unified Conference App - Signature Design System -->
+  <!-- Jobs/Ive Design System - Complete Transformation -->
+  <link rel="stylesheet" href="/assets/css/hero-system.css">
+  <link rel="stylesheet" href="/assets/css/unified-system.css">
+  <link rel="stylesheet" href="/assets/css/cards-elegant.css">
+  <link rel="stylesheet" href="/assets/css/nav-elegant.css">
+  <!-- Legacy styles (to be phased out) -->
   <link rel="stylesheet" href="/assets/css/app-unified.css">
-  <!-- Premium Party List Styles -->
-  <link rel="stylesheet" href="/assets/css/party-list-premium.css">
-  <!-- Settings Modal Styles -->
-  <link rel="stylesheet" href="/assets/css/settings-modal.css">
 </head>
 <body>
-  <main id="app" class="app">
+  <!-- Hero Landing - Immediate Visual Impact -->
+  <div id="hero-landing" class="hero-container">
+    <div class="hero-bg-animation">
+      <div class="hero-gradient-orb"></div>
+      <div class="hero-gradient-orb"></div>
+    </div>
+    
+    <header class="hero-header">
+      <div class="hero-logo">
+        <div class="hero-logo-icon">M</div>
+        <span>MAU</span>
+      </div>
+    </header>
+    
+    <main class="hero-main">
+      <div class="hero-content">
+        <h1 class="hero-title">Connect. Discover. Network.</h1>
+        <p class="hero-subtitle">Your professional companion for the world's largest gaming conference</p>
+        
+        <div class="hero-actions">
+          <button class="hero-btn hero-btn-primary" onclick="window.startApp()">
+            <span>Get Started</span>
+            <span>→</span>
+          </button>
+          <button class="hero-btn hero-btn-secondary" onclick="window.exploreDemo()">
+            <span>Explore Features</span>
+          </button>
+        </div>
+        
+        <div class="hero-features">
+          <div class="hero-feature" onclick="window.showFeature('events')">
+            <div class="hero-feature-icon">🎯</div>
+            <h3 class="hero-feature-title">Smart Discovery</h3>
+            <p class="hero-feature-desc">AI-powered event recommendations tailored to your interests</p>
+          </div>
+          <div class="hero-feature" onclick="window.showFeature('network')">
+            <div class="hero-feature-icon">🤝</div>
+            <h3 class="hero-feature-title">Professional Network</h3>
+            <p class="hero-feature-desc">Connect with industry leaders and innovators</p>
+          </div>
+          <div class="hero-feature" onclick="window.showFeature('offline')">
+            <div class="hero-feature-icon">📱</div>
+            <h3 class="hero-feature-title">Works Offline</h3>
+            <p class="hero-feature-desc">Access everything even without connection</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Main App (Hidden Initially) -->
+  <main id="app" class="app" style="display: none;">
     <div class="panel-stack">
       <section id="home" class="panel-base">
         <div class="home-panel" id="home-panel">
@@ -38,6 +86,20 @@
       <!-- Overlay panels injected dynamically -->
     </div>
   </main>
+  <!-- Hero Landing Controller - Beautiful First Impression -->
+  <script type="module" src="/assets/js/hero-landing.js"></script>
+  <!-- Micro-FTUE System - Contextual Feature Discovery -->
+  <script type="module" src="/assets/js/micro-ftue.js"></script>
+  <!-- Haptic Feedback - iOS-like tactile responses -->
+  <script type="module" src="/assets/js/haptic-feedback.js"></script>
+  <!-- Magic Link Authentication -->
+  <script type="module" src="/assets/js/magic-link-auth.js"></script>
+  <!-- Real-time Messaging System -->
+  <script type="module" src="/assets/js/messaging-system.js"></script>
+  <!-- Live Activity Feed -->
+  <script type="module" src="/assets/js/activity-feed.js"></script>
+  <!-- Feature Showcase - Complete Platform Access -->
+  <script type="module" src="/assets/js/feature-showcase.js"></script>
   <!-- Security Module - Load First -->
   <script type="module" src="/assets/js/security/sanitizer.js"></script>
   <!-- Feature Flags - Control blast radius -->
@@ -82,8 +144,14 @@
   <script type="module" src="/assets/js/pwa-install-prompt.js"></script>
   <!-- Core API Module -->
   <script type="module" defer src="/assets/js/api-lite.js"></script>
+  <!-- Collapsible Sidebar Controller -->
+  <script type="module" src="/assets/js/sidebar-controller.js"></script>
+  <!-- Overlay Panel System -->
+  <script type="module" src="/assets/js/overlay-live.js"></script>
   <!-- Router for preflight -->
   <script type="module" src="/assets/js/router-2panel-lite.js?v=2025"></script>
+  <!-- Demo App Content -->
+  <script type="module" src="/assets/js/app-demo.js"></script>
   <!-- Unified Conference App - Production Ready -->
   <script type="module" defer src="/assets/js/app-unified.js"></script>
 </body>

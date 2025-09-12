@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conference Intelligence Platform - Enterprise Edition</title>
+    
+    <style>
+        /* Design System Variables */
+        :root {
+            --color-bg-base: #0F172A;
+            --color-bg-surface: #1E293B;
+            --color-bg-elevated: #334155;
+            --color-border-default: #334155;
+            --color-border-subtle: #475569;
+            --color-text-primary: #F1F5F9;
+            --color-text-secondary: #94A3B8;
+            --color-brand-primary: #6366F1;
+            --color-brand-secondary: #8B5CF6;
+            --color-success: #10B981;
+            --color-warning: #F59E0B;
+            --color-error: #EF4444;
+            --spacing-2: 8px;
+            --spacing-3: 12px;
+            --spacing-4: 16px;
+            --spacing-5: 20px;
+            --spacing-6: 24px;
+            --spacing-8: 32px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+            --transition-fast: 200ms;
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--color-bg-base);
+            color: var(--color-text-primary);
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .app-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--color-bg-surface);
+            border-right: 1px solid var(--color-border-default);
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-header {
+            padding: var(--spacing-6);
+            border-bottom: 1px solid var(--color-border-default);
+        }
+        
+        .app-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .nav-section {
+            padding: var(--spacing-4);
+        }
+        
+        .nav-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            margin-bottom: 4px;
+            border-radius: var(--radius-md);
+            color: #CBD5E1;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .nav-item:hover {
+            background: var(--color-bg-elevated);
+            color: var(--color-text-primary);
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-secondary));
+            color: white;
+        }
+        
+        /* Main Content */
+        .app-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        .app-header {
+            background: var(--color-bg-surface);
+            border-bottom: 1px solid var(--color-border-default);
+            padding: var(--spacing-4) var(--spacing-8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .app-content {
+            padding: var(--spacing-8);
+        }
+        
+        /* Feature Cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-6);
+        }
+        
+        .feature-card {
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--color-brand-primary);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .feature-desc {
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+        
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-5);
+            margin-bottom: var(--spacing-8);
+        }
+        
+        .stat-card {
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-5);
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .stat-label {
+            color: var(--color-text-secondary);
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: var(--spacing-3) var(--spacing-5);
+            border-radius: var(--radius-md);
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: var(--color-bg-elevated);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border-default);
+        }
+        
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: var(--spacing-8);
+        }
+        
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--color-border-default);
+            border-top-color: var(--color-brand-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--spacing-4);
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .app-sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .app-main {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+        
+        /* Page-specific styles */
+        .gathering-form {
+            background: var(--color-bg-surface);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: var(--spacing-5);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-2);
+            color: var(--color-text-secondary);
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: var(--spacing-3);
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-md);
+            color: var(--color-text-primary);
+        }
+        
+        .insight-card {
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-4);
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .chart-container {
+            background: var(--color-bg-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-5);
+            margin-bottom: var(--spacing-5);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="app-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="app-logo">
+                <span>🚀</span>
+                <span>Conference Intel</span>
+            </div>
+        </div>
+        
+        <nav class="nav-section">
+            <div class="nav-title">Main</div>
+            <div class="nav-item active" onclick="navigateTo('dashboard')">
+                <span>📊</span>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('gatherings')">
+                <span>🎉</span>
+                <span>Smart Gatherings</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('matching')">
+                <span>🤝</span>
+                <span>AI Matching</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('reports')">
+                <span>📈</span>
+                <span>Reports</span>
+            </div>
+        </nav>
+        
+        <nav class="nav-section">
+            <div class="nav-title">Intelligence</div>
+            <div class="nav-item" onclick="navigateTo('ai-insights')">
+                <span>🧠</span>
+                <span>AI Insights</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('predictions')">
+                <span>🔮</span>
+                <span>ML Predictions</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('trends')">
+                <span>📊</span>
+                <span>Market Trends</span>
+            </div>
+        </nav>
+        
+        <nav class="nav-section">
+            <div class="nav-title">Enterprise</div>
+            <div class="nav-item" onclick="navigateTo('team')">
+                <span>👥</span>
+                <span>Team Dashboard</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('analytics')">
+                <span>🏢</span>
+                <span>Company Analytics</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('kpi')">
+                <span>🎯</span>
+                <span>KPIs & Metrics</span>
+            </div>
+        </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="app-main">
+        <header class="app-header">
+            <h1 class="page-title" id="pageTitle">Dashboard</h1>
+            <div>
+                <button class="btn btn-secondary" onclick="showNotifications()">🔔 Notifications</button>
+                <button class="btn btn-primary" onclick="showProfile()">👤 Profile</button>
+            </div>
+        </header>
+        
+        <div class="app-content" id="content">
+            <!-- Default Dashboard Content -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Active Opportunities</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">156</div>
+                    <div class="stat-label">Network Connections</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">87%</div>
+                    <div class="stat-label">Career Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$2.4M</div>
+                    <div class="stat-label">Pipeline Generated</div>
+                </div>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card" onclick="navigateTo('gatherings')">
+                    <div class="feature-icon">🎉</div>
+                    <h3 class="feature-title">Smart Gatherings</h3>
+                    <p class="feature-desc">Create AI-optimized networking events</p>
+                </div>
+                <div class="feature-card" onclick="navigateTo('ai-insights')">
+                    <div class="feature-icon">🧠</div>
+                    <h3 class="feature-title">AI Insights</h3>
+                    <p class="feature-desc">Real-time conversation analysis</p>
+                </div>
+                <div class="feature-card" onclick="navigateTo('predictions')">
+                    <div class="feature-icon">🔮</div>
+                    <h3 class="feature-title">Predictions</h3>
+                    <p class="feature-desc">Career & ROI forecasting</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Page content templates
+        const pages = {
+            dashboard: {
+                title: 'Dashboard',
+                content: `
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Active Opportunities</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">156</div>
+                            <div class="stat-label">Network Connections</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">87%</div>
+                            <div class="stat-label">Career Score</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">$2.4M</div>
+                            <div class="stat-label">Pipeline Generated</div>
+                        </div>
+                    </div>
+                    <h2 style="margin: 32px 0 16px;">Quick Actions</h2>
+                    <div class="feature-grid">
+                        <div class="feature-card" onclick="navigateTo('gatherings')">
+                            <div class="feature-icon">🎉</div>
+                            <h3 class="feature-title">Create Gathering</h3>
+                            <p class="feature-desc">Start a new smart networking event</p>
+                        </div>
+                        <div class="feature-card" onclick="navigateTo('ai-insights')">
+                            <div class="feature-icon">🧠</div>
+                            <h3 class="feature-title">View Insights</h3>
+                            <p class="feature-desc">Check your latest AI insights</p>
+                        </div>
+                        <div class="feature-card" onclick="navigateTo('reports')">
+                            <div class="feature-icon">📊</div>
+                            <h3 class="feature-title">Generate Report</h3>
+                            <p class="feature-desc">Create executive summary</p>
+                        </div>
+                    </div>
+                `
+            },
+            
+            gatherings: {
+                title: 'Smart Gatherings',
+                content: `
+                    <div class="gathering-form">
+                        <h2>Create Smart Gathering</h2>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 24px;">
+                            AI will optimize your event for maximum networking ROI
+                        </p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Event Name</label>
+                            <input type="text" class="form-input" placeholder="e.g., Executive Dinner">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Event Type</label>
+                            <select class="form-select">
+                                <option>Networking Dinner</option>
+                                <option>Coffee Meetup</option>
+                                <option>Workshop</option>
+                                <option>Happy Hour</option>
+                                <option>Conference Party</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Date & Time</label>
+                            <input type="datetime-local" class="form-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Max Attendees</label>
+                            <input type="number" class="form-input" value="20">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Optimization Goal</label>
+                            <select class="form-select">
+                                <option>Maximize Diversity</option>
+                                <option>Similar Interests</option>
+                                <option>Complementary Skills</option>
+                                <option>Industry Mix</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="createGathering()">
+                            🎯 Create & Optimize Gathering
+                        </button>
+                    </div>
+                    
+                    <h2 style="margin: 32px 0 16px;">Your Gatherings</h2>
+                    <div class="insight-card">
+                        <h3>Executive Dinner - Tomorrow</h3>
+                        <p>12 confirmed attendees • 89% match score</p>
+                        <button class="btn btn-secondary">View Details</button>
+                    </div>
+                    <div class="insight-card">
+                        <h3>AI Workshop - Next Week</h3>
+                        <p>25 confirmed attendees • 92% match score</p>
+                        <button class="btn btn-secondary">View Details</button>
+                    </div>
+                `
+            },
+            
+            matching: {
+                title: 'AI Matching',
+                content: `
+                    <h2>Smart Attendee Matching</h2>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 24px;">
+                        AI analyzes profiles to find your perfect networking matches
+                    </p>
+                    
+                    <div class="stats-grid" style="margin-bottom: 32px;">
+                        <div class="stat-card">
+                            <div class="stat-value">15</div>
+                            <div class="stat-label">High-Value Matches</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">Match Accuracy</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Meetings Scheduled</div>
+                        </div>
+                    </div>
+                    
+                    <h3>Top Matches for You</h3>
+                    ${generateMatchCards()}
+                `
+            },
+            
+            reports: {
+                title: 'Reports & Analytics',
+                content: `
+                    <h2>Executive Reports</h2>
+                    
+                    <div class="chart-container">
+                        <div>📊 ROI Trend Chart (Sample Visualization)</div>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">340%</div>
+                            <div class="stat-label">Conference ROI</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">$1.2M</div>
+                            <div class="stat-label">Pipeline Value</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">45</div>
+                            <div class="stat-label">Deals Closed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">89</div>
+                            <div class="stat-label">NPS Score</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 32px;">
+                        <button class="btn btn-primary" onclick="generateReport()">
+                            📊 Generate Full Report
+                        </button>
+                        <button class="btn btn-secondary" style="margin-left: 16px;">
+                            📤 Share Report
+                        </button>
+                    </div>
+                `
+            },
+            
+            'ai-insights': {
+                title: 'AI Insights',
+                content: `
+                    <h2>AI-Powered Intelligence</h2>
+                    
+                    <div class="stats-grid" style="margin-bottom: 32px;">
+                        <div class="stat-card">
+                            <div class="stat-value">42</div>
+                            <div class="stat-label">Insights Generated</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Opportunities Detected</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">95%</div>
+                            <div class="stat-label">Prediction Accuracy</div>
+                        </div>
+                    </div>
+                    
+                    <h3>Latest Insights</h3>
+                    ${generateInsightCards()}
+                    
+                    <h3 style="margin-top: 32px;">Conversation Analysis</h3>
+                    <div class="chart-container">
+                        <div>🧠 Sentiment Analysis Chart</div>
+                    </div>
+                `
+            },
+            
+            predictions: {
+                title: 'ML Predictions',
+                content: `
+                    <h2>Machine Learning Predictions</h2>
+                    
+                    <div class="insight-card" style="background: linear-gradient(135deg, #667EEA, #764BA2); color: white;">
+                        <h3>Career Path Prediction</h3>
+                        <p style="font-size: 24px; margin: 16px 0;">Senior Director → VP Engineering</p>
+                        <p>Probability: 78% • Timeline: 18-24 months</p>
+                        <p style="margin-top: 16px;">Key Requirements: Cloud architecture certification, team size 20+</p>
+                    </div>
+                    
+                    <h3 style="margin: 32px 0 16px;">Conference ROI Predictions</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">$450K</div>
+                            <div class="stat-label">Predicted Pipeline</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">High-Value Connections</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Success Probability</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 32px 0 16px;">Recommended Actions</h3>
+                    ${generateRecommendations()}
+                `
+            },
+            
+            trends: {
+                title: 'Market Trends',
+                content: `
+                    <h2>Market Trend Analysis</h2>
+                    
+                    <div class="chart-container">
+                        <div>📈 Industry Growth Trends</div>
+                    </div>
+                    
+                    <h3>Emerging Technologies</h3>
+                    <div class="feature-grid">
+                        <div class="insight-card">
+                            <h4>🚀 WebAssembly</h4>
+                            <p>Growth: +340% YoY</p>
+                        </div>
+                        <div class="insight-card">
+                            <h4>🤖 Edge AI</h4>
+                            <p>Growth: +280% YoY</p>
+                        </div>
+                        <div class="insight-card">
+                            <h4>⚡ Quantum Computing</h4>
+                            <p>Growth: +195% YoY</p>
+                        </div>
+                    </div>
+                `
+            },
+            
+            team: {
+                title: 'Team Dashboard',
+                content: `
+                    <h2>Team Collaboration Hub</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Team Members</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">45</div>
+                            <div class="stat-label">Conferences Attended</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">$3.2M</div>
+                            <div class="stat-label">Team Pipeline</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">89%</div>
+                            <div class="stat-label">Goal Achievement</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 32px 0 16px;">Team Activity</h3>
+                    <div class="insight-card">
+                        <h4>Sarah Chen attended Web Summit</h4>
+                        <p>Generated 12 leads • $450K pipeline</p>
+                    </div>
+                    <div class="insight-card">
+                        <h4>Mike Johnson scheduled 5 meetings at GDC</h4>
+                        <p>High-value connections with EA, Ubisoft teams</p>
+                    </div>
+                `
+            },
+            
+            analytics: {
+                title: 'Company Analytics',
+                content: `
+                    <h2>Company-Wide Analytics</h2>
+                    
+                    <div class="chart-container">
+                        <div>🏢 Department Performance Chart</div>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">$12.4M</div>
+                            <div class="stat-label">Total Pipeline</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">450%</div>
+                            <div class="stat-label">Average ROI</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">89</div>
+                            <div class="stat-label">Conferences</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">1,245</div>
+                            <div class="stat-label">Connections</div>
+                        </div>
+                    </div>
+                `
+            },
+            
+            kpi: {
+                title: 'KPIs & Metrics',
+                content: `
+                    <h2>Success Metrics Dashboard</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card" style="border-left: 4px solid var(--color-success);">
+                            <div class="stat-value">92</div>
+                            <div class="stat-label">NPS Score</div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid var(--color-success);">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">App Rating</div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid var(--color-warning);">
+                            <div class="stat-value">87%</div>
+                            <div class="stat-label">Feature Adoption</div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid var(--color-success);">
+                            <div class="stat-value">99.9%</div>
+                            <div class="stat-label">Uptime</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 32px 0 16px;">Performance Trends</h3>
+                    <div class="chart-container">
+                        <div>📈 KPI Trend Analysis</div>
+                    </div>
+                    
+                    <div style="margin-top: 32px;">
+                        <button class="btn btn-primary" onclick="exportKPIs()">
+                            📊 Export KPI Report
+                        </button>
+                    </div>
+                `
+            }
+        };
+        
+        // Helper functions to generate dynamic content
+        function generateMatchCards() {
+            const matches = [
+                { name: 'John Smith', role: 'CTO at TechCorp', score: 95, reason: 'Shared interests in AI/ML' },
+                { name: 'Sarah Johnson', role: 'VP Sales at StartupX', score: 92, reason: 'Complementary skills' },
+                { name: 'Mike Chen', role: 'Investor at VentureY', score: 89, reason: 'Looking for your expertise' }
+            ];
+            
+            return matches.map(m => `
+                <div class="insight-card">
+                    <h4>${m.name}</h4>
+                    <p>${m.role}</p>
+                    <p style="color: var(--color-brand-primary);">Match Score: ${m.score}%</p>
+                    <p style="color: var(--color-text-secondary);">${m.reason}</p>
+                    <button class="btn btn-primary" style="margin-top: 16px;">Connect</button>
+                </div>
+            `).join('');
+        }
+        
+        function generateInsightCards() {
+            const insights = [
+                { icon: '🎯', title: 'High-Value Partnership Opportunity', desc: 'TechCorp showing strong interest in collaboration' },
+                { icon: '📈', title: 'Career Advancement Signal', desc: 'Your profile matches 87% with VP Engineering roles' },
+                { icon: '💡', title: 'Market Trend Alert', desc: 'WebAssembly expertise in high demand - 340% growth' }
+            ];
+            
+            return insights.map(i => `
+                <div class="insight-card">
+                    <h3>${i.icon} ${i.title}</h3>
+                    <p>${i.desc}</p>
+                    <button class="btn btn-secondary">Learn More</button>
+                </div>
+            `).join('');
+        }
+        
+        function generateRecommendations() {
+            const recs = [
+                'Attend AWS re:Invent - 94% ROI probability',
+                'Connect with Sarah Johnson at next event',
+                'Get AWS Solutions Architect certification',
+                'Schedule follow-up with TechCorp team'
+            ];
+            
+            return recs.map(r => `
+                <div class="insight-card">
+                    <p>✅ ${r}</p>
+                </div>
+            `).join('');
+        }
+        
+        // Navigation function
+        function navigateTo(page) {
+            const pageData = pages[page];
+            if (!pageData) return;
+            
+            // Update nav active state
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.nav-item').classList.add('active');
+            
+            // Update content
+            document.getElementById('pageTitle').textContent = pageData.title;
+            document.getElementById('content').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading ${pageData.title}...</p>
+                </div>
+            `;
+            
+            // Simulate loading
+            setTimeout(() => {
+                document.getElementById('content').innerHTML = pageData.content;
+            }, 500);
+        }
+        
+        // Action functions
+        function createGathering() {
+            alert('✅ Smart Gathering created! AI is now optimizing attendee list for maximum ROI.');
+        }
+        
+        function generateReport() {
+            alert('📊 Report generated! Downloading executive summary...');
+        }
+        
+        function exportKPIs() {
+            alert('📈 KPI report exported successfully!');
+        }
+        
+        function showNotifications() {
+            alert('🔔 You have 3 new connection requests and 2 meeting invites');
+        }
+        
+        function showProfile() {
+            alert('👤 Profile settings coming soon!');
+        }
+        
+        // Initialize
+        console.log('Conference Intelligence Platform loaded successfully!');
+    </script>
+</body>
+</html>

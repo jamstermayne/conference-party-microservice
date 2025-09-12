@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conference Intelligence Platform - Enterprise Edition</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="src/assets/css/design-system-consolidated.css">
+    <link rel="stylesheet" href="src/assets/css/executive-dashboard.css">
+    <link rel="stylesheet" href="src/assets/css/gatherings.css">
+    <link rel="stylesheet" href="src/assets/css/ml-recommendations.css">
+    <link rel="stylesheet" href="src/assets/css/team-dashboard.css">
+    <link rel="stylesheet" href="src/assets/css/api-platform.css">
+    <link rel="stylesheet" href="src/assets/css/white-label.css">
+    <link rel="stylesheet" href="src/assets/css/ai-insights.css">
+    <link rel="stylesheet" href="src/assets/css/kpi-dashboard.css">
+    
+    <style>
+        /* Main Application Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0F172A;
+            color: #F1F5F9;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Navigation */
+        .app-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: #1E293B;
+            border-right: 1px solid #334155;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .app-sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+        
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .app-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #F1F5F9;
+        }
+        
+        .nav-section {
+            padding: 16px;
+        }
+        
+        .nav-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            color: #CBD5E1;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-item:hover {
+            background: #334155;
+            color: #F1F5F9;
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            color: white;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .app-main {
+            margin-left: 280px;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .app-main.expanded {
+            margin-left: 0;
+        }
+        
+        .app-header {
+            background: #1E293B;
+            border-bottom: 1px solid #334155;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #F1F5F9;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .header-btn {
+            padding: 8px 16px;
+            background: #334155;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            color: #F1F5F9;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .header-btn:hover {
+            background: #475569;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .app-content {
+            padding: 32px;
+        }
+        
+        /* Welcome Screen */
+        .welcome-screen {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .welcome-title {
+            font-size: 48px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #6366F1, #8B5CF6, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        
+        .welcome-subtitle {
+            font-size: 20px;
+            color: #94A3B8;
+            margin-bottom: 48px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: #1E293B;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            border-color: #6366F1;
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .feature-desc {
+            color: #94A3B8;
+            line-height: 1.5;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .app-sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .app-main {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="app-logo">
+                <span>🚀</span>
+                <span>Conference Intel</span>
+            </div>
+        </div>
+        
+        <nav class="nav-section">
+            <div class="nav-title">Main</div>
+            <div class="nav-item active" data-page="dashboard">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item" data-page="gatherings">
+                <span class="nav-icon">🎉</span>
+                <span>Smart Gatherings</span>
+            </div>
+            <div class="nav-item" data-page="matching">
+                <span class="nav-icon">🤝</span>
+                <span>AI Matching</span>
+            </div>
+            <div class="nav-item" data-page="reports">
+                <span class="nav-icon">📈</span>
+                <span>Reports & Analytics</span>
+            </div>
+        </nav>
+        
+        <nav class="nav-section">
+            <div class="nav-title">Intelligence</div>
+            <div class="nav-item" data-page="ai-insights">
+                <span class="nav-icon">🧠</span>
+                <span>AI Insights</span>
+            </div>
+            <div class="nav-item" data-page="predictions">
+                <span class="nav-icon">🔮</span>
+                <span>ML Predictions</span>
+            </div>
+            <div class="nav-item" data-page="market">
+                <span class="nav-icon">📊</span>
+                <span>Market Trends</span>
+            </div>
+        </nav>
+        
+        <nav class="nav-section">
+            <div class="nav-title">Enterprise</div>
+            <div class="nav-item" data-page="team">
+                <span class="nav-icon">👥</span>
+                <span>Team Dashboard</span>
+            </div>
+            <div class="nav-item" data-page="company">
+                <span class="nav-icon">🏢</span>
+                <span>Company Analytics</span>
+            </div>
+            <div class="nav-item" data-page="kpi">
+                <span class="nav-icon">🎯</span>
+                <span>KPIs & Metrics</span>
+            </div>
+        </nav>
+        
+        <nav class="nav-section">
+            <div class="nav-title">Platform</div>
+            <div class="nav-item" data-page="api">
+                <span class="nav-icon">🔌</span>
+                <span>API & Integrations</span>
+            </div>
+            <div class="nav-item" data-page="white-label">
+                <span class="nav-icon">🎨</span>
+                <span>White Label</span>
+            </div>
+            <div class="nav-item" data-page="settings">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </div>
+        </nav>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="app-main" id="main">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1 class="page-title" id="pageTitle">Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <button class="header-btn">🔔 Notifications</button>
+                <button class="header-btn">📅 Schedule</button>
+                <div class="user-avatar">JD</div>
+            </div>
+        </header>
+        
+        <!-- Dynamic Content Area -->
+        <div class="app-content" id="content">
+            <!-- Welcome Screen (Default) -->
+            <div class="welcome-screen">
+                <h1 class="welcome-title">Conference Intelligence Platform</h1>
+                <p class="welcome-subtitle">Your AI-powered conference ROI maximization system</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card" onclick="navigateTo('gatherings')">
+                        <div class="feature-icon">🎉</div>
+                        <h3 class="feature-title">Smart Gatherings</h3>
+                        <p class="feature-desc">Create and manage AI-optimized networking events with automatic attendee matching</p>
+                    </div>
+                    
+                    <div class="feature-card" onclick="navigateTo('ai-insights')">
+                        <div class="feature-icon">🧠</div>
+                        <h3 class="feature-title">AI Insights</h3>
+                        <p class="feature-desc">Real-time conversation analysis and opportunity detection powered by advanced AI</p>
+                    </div>
+                    
+                    <div class="feature-card" onclick="navigateTo('predictions')">
+                        <div class="feature-icon">🔮</div>
+                        <h3 class="feature-title">ML Predictions</h3>
+                        <p class="feature-desc">Career path predictions and conference ROI forecasting with 85%+ accuracy</p>
+                    </div>
+                    
+                    <div class="feature-card" onclick="navigateTo('team')">
+                        <div class="feature-icon">👥</div>
+                        <h3 class="feature-title">Team Collaboration</h3>
+                        <p class="feature-desc">Coordinate conference attendance and share insights across your organization</p>
+                    </div>
+                    
+                    <div class="feature-card" onclick="navigateTo('kpi')">
+                        <div class="feature-icon">🎯</div>
+                        <h3 class="feature-title">Success Metrics</h3>
+                        <p class="feature-desc">Track KPIs and measure conference ROI with comprehensive analytics</p>
+                    </div>
+                    
+                    <div class="feature-card" onclick="navigateTo('api')">
+                        <div class="feature-icon">🔌</div>
+                        <h3 class="feature-title">Integrations</h3>
+                        <p class="feature-desc">Connect with 30+ platforms including Salesforce, HubSpot, and LinkedIn</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- JavaScript Modules -->
+    <script src="src/modern/gatherings/smart-gatherings.js"></script>
+    <script src="src/modern/analytics/executive-dashboard.js"></script>
+    <script src="src/modern/reports/viral-sharing.js"></script>
+    <script src="src/modern/ml/conference-predictor.js"></script>
+    <script src="src/modern/ml/recommendation-ui.js"></script>
+    <script src="src/modern/enterprise/team-dashboard.js"></script>
+    <script src="src/modern/enterprise/company-analytics.js"></script>
+    <script src="src/modern/api/enterprise-api.js"></script>
+    <script src="src/modern/api/integration-hub.js"></script>
+    <script src="src/modern/white-label/customization-engine.js"></script>
+    <script src="src/modern/white-label/theme-generator.js"></script>
+    <script src="src/modern/ai/advanced-intelligence.js"></script>
+    <script src="src/modern/ai/ai-insights-ui.js"></script>
+    <script src="src/modern/analytics/success-metrics.js"></script>
+    <script src="src/modern/analytics/kpi-dashboard.js"></script>
+    
+    <script>
+        // Main Application Controller
+        class ConferenceIntelApp {
+            constructor() {
+                this.currentPage = 'dashboard';
+                this.sidebar = document.getElementById('sidebar');
+                this.content = document.getElementById('content');
+                this.pageTitle = document.getElementById('pageTitle');
+                this.init();
+            }
+            
+            init() {
+                // Setup navigation
+                this.setupNavigation();
+                
+                // Setup mobile menu
+                this.setupMobileMenu();
+                
+                // Initialize modules
+                this.initializeModules();
+            }
+            
+            setupNavigation() {
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const page = item.dataset.page;
+                        this.navigateTo(page);
+                        
+                        // Update active state
+                        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                        item.classList.add('active');
+                    });
+                });
+            }
+            
+            setupMobileMenu() {
+                const menuToggle = document.getElementById('menuToggle');
+                menuToggle.addEventListener('click', () => {
+                    this.sidebar.classList.toggle('open');
+                });
+            }
+            
+            navigateTo(page) {
+                this.currentPage = page;
+                this.updatePageTitle(page);
+                this.loadPageContent(page);
+                
+                // Close mobile menu
+                if (window.innerWidth < 768) {
+                    this.sidebar.classList.remove('open');
+                }
+            }
+            
+            updatePageTitle(page) {
+                const titles = {
+                    'dashboard': 'Dashboard',
+                    'gatherings': 'Smart Gatherings',
+                    'matching': 'AI Matching',
+                    'reports': 'Reports & Analytics',
+                    'ai-insights': 'AI Insights',
+                    'predictions': 'ML Predictions',
+                    'market': 'Market Trends',
+                    'team': 'Team Dashboard',
+                    'company': 'Company Analytics',
+                    'kpi': 'KPIs & Metrics',
+                    'api': 'API & Integrations',
+                    'white-label': 'White Label',
+                    'settings': 'Settings'
+                };
+                
+                this.pageTitle.textContent = titles[page] || 'Dashboard';
+            }
+            
+            loadPageContent(page) {
+                // Clear content
+                this.content.innerHTML = '<div style="text-align: center; padding: 60px;"><h2>Loading...</h2></div>';
+                
+                // Load page-specific content
+                setTimeout(() => {
+                    switch(page) {
+                        case 'gatherings':
+                            this.loadGatherings();
+                            break;
+                        case 'ai-insights':
+                            this.loadAIInsights();
+                            break;
+                        case 'predictions':
+                            this.loadPredictions();
+                            break;
+                        case 'team':
+                            this.loadTeamDashboard();
+                            break;
+                        case 'company':
+                            this.loadCompanyAnalytics();
+                            break;
+                        case 'kpi':
+                            this.loadKPIDashboard();
+                            break;
+                        case 'api':
+                            this.loadAPIIntegrations();
+                            break;
+                        case 'white-label':
+                            this.loadWhiteLabel();
+                            break;
+                        default:
+                            this.loadDashboard();
+                    }
+                }, 300);
+            }
+            
+            loadGatherings() {
+                this.content.innerHTML = '<div id="gatherings-container"></div>';
+                if (typeof SmartGatherings !== 'undefined') {
+                    new SmartGatherings();
+                }
+            }
+            
+            loadAIInsights() {
+                this.content.innerHTML = '<div id="ai-insights-container"></div>';
+                if (typeof AIInsightsUI !== 'undefined') {
+                    new AIInsightsUI();
+                }
+            }
+            
+            loadPredictions() {
+                this.content.innerHTML = '<div id="ml-recommendations-container"></div>';
+                if (typeof MLRecommendationUI !== 'undefined') {
+                    new MLRecommendationUI();
+                }
+            }
+            
+            loadTeamDashboard() {
+                this.content.innerHTML = '<div id="team-dashboard-container"></div>';
+                if (typeof TeamDashboard !== 'undefined') {
+                    new TeamDashboard();
+                }
+            }
+            
+            loadCompanyAnalytics() {
+                this.content.innerHTML = '<div id="company-analytics-container"></div>';
+                if (typeof CompanyAnalyticsEngine !== 'undefined') {
+                    const engine = new CompanyAnalyticsEngine();
+                    engine.renderDashboard('company-analytics-container');
+                }
+            }
+            
+            loadKPIDashboard() {
+                this.content.innerHTML = '<div id="kpi-dashboard-container"></div>';
+                if (typeof KPIDashboard !== 'undefined') {
+                    new KPIDashboard();
+                }
+            }
+            
+            loadAPIIntegrations() {
+                this.content.innerHTML = `
+                    <div class="api-dashboard">
+                        <h2>API & Integrations Hub</h2>
+                        <p>Connect with 30+ platforms to maximize your conference ROI</p>
+                        <div id="integration-hub-container"></div>
+                    </div>
+                `;
+                if (typeof IntegrationHub !== 'undefined') {
+                    new IntegrationHub();
+                }
+            }
+            
+            loadWhiteLabel() {
+                this.content.innerHTML = `
+                    <div class="white-label-dashboard">
+                        <h2>White Label Customization</h2>
+                        <p>Create your own branded conference intelligence platform</p>
+                        <div id="white-label-container"></div>
+                    </div>
+                `;
+                if (typeof ThemeGenerator !== 'undefined') {
+                    new ThemeGenerator();
+                }
+            }
+            
+            loadDashboard() {
+                // Load default dashboard content
+                this.content.innerHTML = this.getDefaultDashboard();
+            }
+            
+            getDefaultDashboard() {
+                return `
+                    <div class="welcome-screen">
+                        <h1 class="welcome-title">Welcome Back!</h1>
+                        <p class="welcome-subtitle">Your conference intelligence at a glance</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 40px;">
+                            <div style="background: #1E293B; padding: 24px; border-radius: 12px; border: 1px solid #334155;">
+                                <div style="font-size: 36px; margin-bottom: 8px;">24</div>
+                                <div style="color: #94A3B8;">Active Opportunities</div>
+                            </div>
+                            <div style="background: #1E293B; padding: 24px; border-radius: 12px; border: 1px solid #334155;">
+                                <div style="font-size: 36px; margin-bottom: 8px;">156</div>
+                                <div style="color: #94A3B8;">Network Connections</div>
+                            </div>
+                            <div style="background: #1E293B; padding: 24px; border-radius: 12px; border: 1px solid #334155;">
+                                <div style="font-size: 36px; margin-bottom: 8px;">87%</div>
+                                <div style="color: #94A3B8;">Career Score</div>
+                            </div>
+                            <div style="background: #1E293B; padding: 24px; border-radius: 12px; border: 1px solid #334155;">
+                                <div style="font-size: 36px; margin-bottom: 8px;">$2.4M</div>
+                                <div style="color: #94A3B8;">Pipeline Generated</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            initializeModules() {
+                // Initialize any global modules
+                console.log('Conference Intelligence Platform initialized');
+            }
+        }
+        
+        // Global navigation function
+        function navigateTo(page) {
+            window.app.navigateTo(page);
+        }
+        
+        // Initialize application
+        window.app = new ConferenceIntelApp();
+    </script>
+</body>
+</html>

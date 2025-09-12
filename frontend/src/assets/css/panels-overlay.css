@@ -1,0 +1,246 @@
+/* Overlay Panel System - Mobile-first slide-in panels
+   =====================================================
+   2-panel architecture: base panel + overlay panel */
+
+/* Base panel (always visible) */
+.panel-stack {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--color-bg);
+}
+
+.panel-base {
+  width: 100%;
+  min-height: 100vh;
+  padding: var(--s-4);
+}
+
+/* Overlay panel (slides in from right) */
+.panel.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 480px;
+  background: var(--color-surface);
+  transform: translateX(100%);
+  transition: transform var(--transition-panel) cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Active state - panel visible */
+.panel.overlay.panel--active {
+  transform: translateX(0);
+}
+
+/* Panel wrapper for content */
+.panel__wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Panel header */
+.panel__header {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.panel__title {
+  flex: 1;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* Back button */
+.btn-back {
+  width: var(--s-8);
+  height: var(--s-8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-md);
+  color: var(--color-text);
+  font-size: var(--text-lg);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-back:hover {
+  background: var(--color-surface-3);
+  border-color: var(--color-accent);
+  transform: translateX(-2px);
+}
+
+/* Panel body */
+.panel__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--s-4);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Backdrop overlay */
+.panel-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+  z-index: 999;
+}
+
+.panel-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Home panel specific styles */
+.home-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Day pills for triggering overlays */
+.day-pills {
+  display: flex;
+  gap: var(--s-2);
+  padding: var(--s-3) 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.day-pill {
+  flex-shrink: 0;
+  padding: var(--s-2) var(--s-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-pill);
+  color: var(--color-text-dim);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.day-pill:hover {
+  background: var(--color-surface-2);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+  transform: translateY(-1px);
+}
+
+.day-pill.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-text-on-accent);
+}
+
+/* Party cards in overlay */
+.parties-grid {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+
+/* Map container in overlay */
+.map-container {
+  width: 100%;
+  height: 500px;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--color-surface-2);
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .panel.overlay {
+    max-width: 600px;
+  }
+  
+  .parties-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* On desktop, show panel as sidebar */
+  .panel.overlay {
+    max-width: 480px;
+  }
+  
+  /* Allow clicking outside to close */
+  .panel.overlay.panel--active ~ .panel-backdrop {
+    display: block;
+  }
+}
+
+/* Animations */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Accessibility */
+.panel.overlay[aria-hidden="true"] {
+  pointer-events: none;
+}
+
+.panel.overlay[aria-hidden="false"] {
+  pointer-events: auto;
+}
+
+/* Focus management */
+.panel.overlay:focus-within {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .panel.overlay {
+    transition: none;
+  }
+  
+  .panel-backdrop {
+    transition: none;
+  }
+}
