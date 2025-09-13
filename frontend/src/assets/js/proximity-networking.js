@@ -83,11 +83,11 @@ class ProximityNetworking {
                 <div class="timeline-hour" data-hour="18">6 PM</div>
                 
                 <!-- Visual blocks for existing events -->
-                <div class="event-block" style="top: 20%; height: 15%;">
-                  <span>Keynote</span>
+                <div class="event-block" style="top: 20%; height: 10%;">
+                  <span>Keynote (11-12)</span>
                 </div>
-                <div class="event-block" style="top: 55%; height: 10%;">
-                  <span>Lunch</span>
+                <div class="event-block" style="top: 50%; height: 10%;">
+                  <span>Lunch (2-3pm)</span>
                 </div>
                 
                 <!-- Selected slots will appear here -->
@@ -98,24 +98,24 @@ class ProximityNetworking {
             <!-- Time Slot Selection -->
             <div class="slot-selection">
               <div class="time-slots">
-                <div class="time-slot" data-time="11:30">
-                  <span class="slot-time">11:30 AM</span>
+                <div class="time-slot" data-time="10:00">
+                  <span class="slot-time">10:00 AM</span>
                   <span class="slot-duration">30 min coffee</span>
                   <button class="slot-toggle">
                     <span class="toggle-icon">○</span>
                   </button>
                 </div>
                 
-                <div class="time-slot" data-time="13:00">
-                  <span class="slot-time">1:00 PM</span>
-                  <span class="slot-duration">45 min lunch</span>
+                <div class="time-slot" data-time="12:30">
+                  <span class="slot-time">12:30 PM</span>
+                  <span class="slot-duration">45 min meeting</span>
                   <button class="slot-toggle">
                     <span class="toggle-icon">○</span>
                   </button>
                 </div>
                 
-                <div class="time-slot" data-time="15:00">
-                  <span class="slot-time">3:00 PM</span>
+                <div class="time-slot" data-time="15:30">
+                  <span class="slot-time">3:30 PM</span>
                   <span class="slot-duration">30 min chat</span>
                   <button class="slot-toggle">
                     <span class="toggle-icon">○</span>
@@ -1024,18 +1024,25 @@ class ProximityNetworking {
   }
 
   startMatchmaking() {
-    const matchmakingSection = document.querySelector('.matchmaking-section');
-    matchmakingSection.style.display = 'block';
-    matchmakingSection.style.animation = 'fadeIn 500ms ease-out';
+    console.log('[ProximityNetworking] Starting matchmaking process');
     
-    // Scroll to matchmaking section
-    setTimeout(() => {
-      matchmakingSection.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'nearest',
-        inline: 'nearest'
-      });
-    }, 100);
+    const matchmakingSection = document.querySelector('.matchmaking-section');
+    if (matchmakingSection) {
+      matchmakingSection.style.display = 'block';
+      matchmakingSection.style.animation = 'fadeIn 500ms ease-out';
+      
+      // Scroll to matchmaking section
+      setTimeout(() => {
+        matchmakingSection.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'nearest',
+          inline: 'nearest'
+        });
+      }, 100);
+    }
+
+    // Show finding matches toast
+    this.showToast('Finding nearby matches...');
 
     // Detect location automatically
     this.detectLocation();
@@ -1048,29 +1055,54 @@ class ProximityNetworking {
 
     // Show results after animation
     setTimeout(() => {
+      this.showToast('3 perfect matches found!');
       this.showMatchResults();
-    }, 3000);
+    }, 3500);
   }
 
   showMatchResults() {
-    const resultsSection = document.querySelector('.match-results');
-    resultsSection.style.display = 'block';
-    resultsSection.style.animation = 'slideInFromBottom 600ms ease-out';
+    console.log('[ProximityNetworking] Showing match results section');
+    
+    // Try both possible selectors for results section
+    let resultsSection = document.querySelector('.proximity-results');
+    if (!resultsSection) {
+      resultsSection = document.querySelector('.match-results');
+    }
+    
+    if (resultsSection) {
+      resultsSection.style.display = 'block';
+      resultsSection.style.animation = 'slideInFromBottom 600ms ease-out';
 
-    // Scroll to results with better positioning
-    setTimeout(() => {
-      resultsSection.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start',  // Show from the top of the results
-        inline: 'nearest'
-      });
+      // Scroll to results with better positioning
+      setTimeout(() => {
+        resultsSection.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',  // Show from the top of the results
+          inline: 'nearest'
+        });
+        
+        // Also ensure the container scrolls
+        const container = document.querySelector('.proximity-container');
+        if (container) {
+          container.scrollTop = resultsSection.offsetTop - 100;
+        }
+      }, 100);
       
-      // Also ensure the container scrolls
-      const container = document.querySelector('.proximity-container');
-      if (container) {
-        container.scrollTop = resultsSection.offsetTop - 100;
-      }
-    }, 100);
+      // Animate match cards if they exist
+      const matchCards = document.querySelectorAll('.match-card');
+      matchCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        
+        setTimeout(() => {
+          card.style.transition = 'all 0.5s ease-out';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 200 + index * 150);
+      });
+    } else {
+      console.error('[ProximityNetworking] Results section not found!');
+    }
 
     // Haptic celebration
     if (window.haptic) {
