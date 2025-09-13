@@ -73,6 +73,7 @@ class HeroLanding {
     window.startApp = () => this.startApp();
     window.exploreDemo = () => this.exploreDemo();
     window.showFeature = (feature) => this.showFeature(feature);
+    window.heroLanding = this;
   }
 
   renderIcons() {
@@ -131,6 +132,350 @@ class HeroLanding {
         }
       }, 100);
     }
+  }
+
+  showFeatureShowcase() {
+    console.log('[HeroLanding] Showing feature showcase');
+    
+    // Create a beautiful feature showcase modal
+    const showcase = document.createElement('div');
+    showcase.className = 'feature-showcase-modal';
+    showcase.innerHTML = `
+      <div class="showcase-backdrop" onclick="window.heroLanding.closeShowcase()"></div>
+      <div class="showcase-content">
+        <button class="showcase-close" onclick="window.heroLanding.closeShowcase()">
+          ${getIcon('x', 24)}
+        </button>
+        
+        <div class="showcase-header">
+          <h2>Powerful Features for Professional Networking</h2>
+          <p>Everything you need to make the most of Gamescom 2025</p>
+        </div>
+        
+        <div class="showcase-features">
+          <!-- Smart Networking -->
+          <div class="showcase-feature">
+            <div class="feature-icon-wrapper">
+              ${getIcon('users', 32)}
+            </div>
+            <h3>Smart Networking</h3>
+            <p>AI-powered matching finds your perfect connections based on business goals, industry focus, and availability.</p>
+            <ul class="feature-benefits">
+              <li>Intelligent profile matching</li>
+              <li>Calendar integration</li>
+              <li>Proximity-based discovery</li>
+            </ul>
+          </div>
+          
+          <!-- Event Discovery -->
+          <div class="showcase-feature">
+            <div class="feature-icon-wrapper">
+              ${getIcon('calendar', 32)}
+            </div>
+            <h3>Event Discovery</h3>
+            <p>Never miss important parties and networking events with our curated database of 50+ exclusive gatherings.</p>
+            <ul class="feature-benefits">
+              <li>Personalized recommendations</li>
+              <li>Real-time updates</li>
+              <li>Calendar sync</li>
+            </ul>
+          </div>
+          
+          <!-- Professional Messaging -->
+          <div class="showcase-feature">
+            <div class="feature-icon-wrapper">
+              ${getIcon('messageCircle', 32)}
+            </div>
+            <h3>In-App Messaging</h3>
+            <p>Connect instantly with matches through our built-in messaging system. No phone numbers needed.</p>
+            <ul class="feature-benefits">
+              <li>Secure conversations</li>
+              <li>Meeting scheduling</li>
+              <li>Contact exchange</li>
+            </ul>
+          </div>
+          
+          <!-- Offline Mode -->
+          <div class="showcase-feature">
+            <div class="feature-icon-wrapper">
+              ${getIcon('wifiOff', 32)}
+            </div>
+            <h3>Works Offline</h3>
+            <p>Access everything even in crowded venues with poor connectivity. Your data syncs when you're back online.</p>
+            <ul class="feature-benefits">
+              <li>Offline event access</li>
+              <li>Saved connections</li>
+              <li>Background sync</li>
+            </ul>
+          </div>
+          
+          <!-- Analytics -->
+          <div class="showcase-feature">
+            <div class="feature-icon-wrapper">
+              ${getIcon('trendingUp', 32)}
+            </div>
+            <h3>Networking Analytics</h3>
+            <p>Track your networking success with insights on connections made, meetings scheduled, and goals achieved.</p>
+            <ul class="feature-benefits">
+              <li>Connection tracking</li>
+              <li>ROI measurement</li>
+              <li>Follow-up reminders</li>
+            </ul>
+          </div>
+          
+          <!-- Security -->
+          <div class="showcase-feature">
+            <div class="feature-icon-wrapper">
+              ${getIcon('shield', 32)}
+            </div>
+            <h3>Privacy First</h3>
+            <p>Your data stays yours. Share only what you want, when you want, with granular privacy controls.</p>
+            <ul class="feature-benefits">
+              <li>Selective sharing</li>
+              <li>Data encryption</li>
+              <li>GDPR compliant</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="showcase-cta">
+          <button class="btn-get-started" onclick="window.heroLanding.startFromShowcase()">
+            <span>Get Started Now</span>
+            ${getIcon('arrowRight', 20)}
+          </button>
+          <p class="cta-subtext">Join thousands of gaming professionals already networking smarter</p>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(showcase);
+    
+    // Animate in
+    requestAnimationFrame(() => {
+      showcase.classList.add('active');
+      
+      // Stagger feature animations
+      const features = showcase.querySelectorAll('.showcase-feature');
+      features.forEach((feature, index) => {
+        setTimeout(() => {
+          feature.style.animation = 'slideInUp 0.5s ease-out forwards';
+        }, index * 50);
+      });
+    });
+    
+    // Add styles if not already present
+    if (!document.querySelector('#showcase-styles')) {
+      const styles = document.createElement('style');
+      styles.id = 'showcase-styles';
+      styles.textContent = `
+        .feature-showcase-modal {
+          position: fixed;
+          inset: 0;
+          z-index: 10000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        
+        .feature-showcase-modal.active {
+          opacity: 1;
+        }
+        
+        .showcase-backdrop {
+          position: absolute;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.95);
+          backdrop-filter: blur(20px);
+        }
+        
+        .showcase-content {
+          position: relative;
+          width: 90%;
+          max-width: 1200px;
+          max-height: 90vh;
+          overflow-y: auto;
+          background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+          border-radius: 24px;
+          padding: 48px;
+          transform: scale(0.9);
+          transition: transform 0.3s ease;
+        }
+        
+        .feature-showcase-modal.active .showcase-content {
+          transform: scale(1);
+        }
+        
+        .showcase-close {
+          position: absolute;
+          top: 24px;
+          right: 24px;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.1);
+          border: none;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .showcase-close:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.1);
+        }
+        
+        .showcase-header {
+          text-align: center;
+          margin-bottom: 48px;
+        }
+        
+        .showcase-header h2 {
+          font-size: 36px;
+          font-weight: 700;
+          background: linear-gradient(135deg, #007aff, #5856d6);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin-bottom: 12px;
+        }
+        
+        .showcase-header p {
+          font-size: 18px;
+          color: #9ca3af;
+        }
+        
+        .showcase-features {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 32px;
+          margin-bottom: 48px;
+        }
+        
+        .showcase-feature {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 16px;
+          padding: 32px;
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        
+        @keyframes slideInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .feature-icon-wrapper {
+          width: 64px;
+          height: 64px;
+          background: linear-gradient(135deg, #007aff, #5856d6);
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 20px;
+          color: white;
+        }
+        
+        .showcase-feature h3 {
+          font-size: 20px;
+          font-weight: 600;
+          color: white;
+          margin-bottom: 12px;
+        }
+        
+        .showcase-feature p {
+          color: #9ca3af;
+          line-height: 1.6;
+          margin-bottom: 20px;
+        }
+        
+        .feature-benefits {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+        
+        .feature-benefits li {
+          color: #e5e7eb;
+          padding: 8px 0;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        
+        .feature-benefits li::before {
+          content: "✓";
+          color: #10b981;
+          font-weight: bold;
+        }
+        
+        .showcase-cta {
+          text-align: center;
+        }
+        
+        .btn-get-started {
+          padding: 16px 48px;
+          background: linear-gradient(135deg, #007aff, #5856d6);
+          border: none;
+          border-radius: 12px;
+          color: white;
+          font-size: 18px;
+          font-weight: 600;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          transition: all 0.3s ease;
+        }
+        
+        .btn-get-started:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3);
+        }
+        
+        .cta-subtext {
+          margin-top: 16px;
+          color: #9ca3af;
+          font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+          .showcase-content {
+            padding: 32px 20px;
+          }
+          
+          .showcase-header h2 {
+            font-size: 28px;
+          }
+          
+          .showcase-features {
+            grid-template-columns: 1fr;
+            gap: 20px;
+          }
+        }
+      `;
+      document.head.appendChild(styles);
+    }
+  }
+  
+  closeShowcase() {
+    const showcase = document.querySelector('.feature-showcase-modal');
+    if (showcase) {
+      showcase.classList.remove('active');
+      setTimeout(() => showcase.remove(), 300);
+    }
+  }
+  
+  startFromShowcase() {
+    this.closeShowcase();
+    this.startApp();
   }
 
   showFeature(featureName) {
