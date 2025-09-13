@@ -264,12 +264,12 @@ class ProximityNetworking {
               <div class="match-avatar" style="background: linear-gradient(135deg, #ec4899, #8b5cf6);">SC</div>
               <div class="match-info">
                 <h4>Sarah Chen</h4>
-                <p>Senior Game Designer at Ubisoft</p>
+                <p>VP Marketing Operations at Salesforce</p>
                 <div class="match-tags">
-                  <span class="tag">Unity Expert</span>
-                  <span class="tag">AI/ML</span>
-                  <span class="tag">Multiplayer</span>
-                  <span class="tag">Procedural Gen</span>
+                  <span class="tag">Marketing Cloud</span>
+                  <span class="tag">CDP</span>
+                  <span class="tag">Attribution</span>
+                  <span class="tag">Einstein AI</span>
                 </div>
               </div>
             </div>
@@ -296,10 +296,10 @@ class ProximityNetworking {
             <div class="match-reasons">
               <h5>Why you match:</h5>
               <ul>
-                <li>Both working on AI-driven game mechanics</li>
-                <li>Looking for Unity networking collaboration</li>
-                <li>Shared interest in procedural generation</li>
-                <li>Compatible meeting time at 11:30 AM</li>
+                <li>Both implementing AI-driven personalization</li>
+                <li>Looking for CDP integration partners</li>
+                <li>Shared focus on multi-touch attribution</li>
+                <li>Compatible meeting time at 12:30 PM</li>
               </ul>
             </div>
             
@@ -326,12 +326,12 @@ class ProximityNetworking {
               <div class="match-avatar" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">MJ</div>
               <div class="match-info">
                 <h4>Marcus Johnson</h4>
-                <p>Publishing Director at EA Games</p>
+                <p>Director of Growth at HubSpot</p>
                 <div class="match-tags">
-                  <span class="tag">Publishing</span>
-                  <span class="tag">Indie Games</span>
-                  <span class="tag">Investment</span>
-                  <span class="tag">Marketing</span>
+                  <span class="tag">Marketing Automation</span>
+                  <span class="tag">Lead Scoring</span>
+                  <span class="tag">ABM</span>
+                  <span class="tag">Integrations</span>
                 </div>
               </div>
             </div>
@@ -339,7 +339,7 @@ class ProximityNetworking {
             <div class="match-details-grid">
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('mapPin', 16)}</span>
-                <span>100m away • Business Area</span>
+                <span>100m away • HubSpot Booth</span>
               </div>
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('users', 16)}</span>
@@ -351,17 +351,17 @@ class ProximityNetworking {
               </div>
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('trophy', 16)}</span>
-                <span>Published 50+ titles</span>
+                <span>10,000+ customers</span>
               </div>
             </div>
             
             <div class="match-reasons">
               <h5>Why you match:</h5>
               <ul>
-                <li>Actively seeking innovative indie projects</li>
-                <li>Interest in AI-enhanced gameplay</li>
-                <li>Looking for Q1 2026 releases</li>
-                <li>Budget range matches your project</li>
+                <li>Building unified MarTech stack integrations</li>
+                <li>Interest in AI-powered lead scoring</li>
+                <li>Looking for ABM platform partners</li>
+                <li>Discussing workflow automation solutions</li>
               </ul>
             </div>
             
@@ -388,12 +388,12 @@ class ProximityNetworking {
               <div class="match-avatar" style="background: linear-gradient(135deg, #10b981, #fbbf24);">EW</div>
               <div class="match-info">
                 <h4>Emma Wilson</h4>
-                <p>Founder at Pixel Dreams Studio</p>
+                <p>Head of Product at Segment (Twilio)</p>
                 <div class="match-tags">
-                  <span class="tag">Indie Dev</span>
-                  <span class="tag">Pixel Art</span>
-                  <span class="tag">Narrative</span>
-                  <span class="tag">Steam</span>
+                  <span class="tag">CDP</span>
+                  <span class="tag">Data Pipeline</span>
+                  <span class="tag">Real-time</span>
+                  <span class="tag">APIs</span>
                 </div>
               </div>
             </div>
@@ -401,7 +401,7 @@ class ProximityNetworking {
             <div class="match-details-grid">
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('mapPin', 16)}</span>
-                <span>75m away • Indie Area</span>
+                <span>75m away • CDP Pavilion</span>
               </div>
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('users', 16)}</span>
@@ -420,10 +420,10 @@ class ProximityNetworking {
             <div class="match-reasons">
               <h5>Why you match:</h5>
               <ul>
-                <li>Complementary skills (art + programming)</li>
-                <li>Both targeting narrative-driven games</li>
-                <li>Looking for technical co-founder</li>
-                <li>Similar vision for indie gaming</li>
+                <li>Expert in real-time data pipelines</li>
+                <li>Looking for MAP integration partners</li>
+                <li>Both using event-driven architecture</li>
+                <li>Shared focus on customer data unification</li>
               </ul>
             </div>
             
@@ -979,11 +979,11 @@ class ProximityNetworking {
   findNearbyProfessionals() {
     // Simulate finding nearby professionals
     this.nearbyProfessionals = [
-      { id: 1, name: 'Sarah Chen', role: 'Game Designer', company: 'Ubisoft', distance: 50, score: 98 },
-      { id: 2, name: 'Marcus Johnson', role: 'Publisher', company: 'EA Games', distance: 100, score: 89 },
-      { id: 3, name: 'Emma Wilson', role: 'Indie Developer', company: 'Pixel Dreams', distance: 75, score: 85 },
-      { id: 4, name: 'Alex Kumar', role: 'Investor', company: 'GameVentures', distance: 200, score: 76 },
-      { id: 5, name: 'Lisa Park', role: 'Artist', company: 'Riot Games', distance: 150, score: 82 }
+      { id: 1, name: 'Sarah Chen', role: 'VP Marketing Ops', company: 'Salesforce', distance: 50, score: 98 },
+      { id: 2, name: 'Marcus Johnson', role: 'Director Growth', company: 'HubSpot', distance: 100, score: 89 },
+      { id: 3, name: 'Emma Wilson', role: 'Head of Product', company: 'Segment', distance: 75, score: 85 },
+      { id: 4, name: 'Alex Kumar', role: 'CTO', company: '6sense', distance: 200, score: 76 },
+      { id: 5, name: 'Lisa Park', role: 'VP Analytics', company: 'Tableau', distance: 150, score: 82 }
     ];
 
     // Update radar visualization
@@ -1189,19 +1189,19 @@ class ProximityNetworking {
           <div class="chat-messages" id="chat-messages">
             <div class="message received">
               <div class="message-content">
-                <p>Hi! I saw we matched on interests in procedural generation. Would love to connect!</p>
+                <p>Hi! I saw we both work in marketing automation. We're launching a new CDP integration with Segment. Are you using a CDP currently?</p>
                 <span class="message-time">11:28 AM</span>
               </div>
             </div>
             <div class="message sent">
               <div class="message-content">
-                <p>Absolutely! I'm working on a Unity project with procedural environments. Would love to discuss collaboration opportunities.</p>
+                <p>Yes! We're evaluating CDPs right now. Currently using HubSpot for MAP but need better data unification. How does your integration handle real-time event streaming?</p>
                 <span class="message-time">11:29 AM</span>
               </div>
             </div>
             <div class="message received">
               <div class="message-content">
-                <p>Perfect! I'm at the Unity booth now if you want to meet in person, or we can schedule for later?</p>
+                <p>Great timing! We handle 10M+ events/day with sub-second latency. I'm at booth #423 near the Salesforce pavilion if you want a demo, or we can schedule for tomorrow?</p>
                 <span class="message-time">11:30 AM</span>
               </div>
             </div>
@@ -1255,10 +1255,14 @@ class ProximityNetworking {
       // Simulate response after delay
       setTimeout(() => {
         const responses = [
-          "Sounds great! Looking forward to discussing more.",
-          "That's exactly what we're looking for. Let's connect!",
-          "Awesome! I'll send you my calendar link.",
-          "Perfect timing! We should definitely collaborate."
+          "Excellent! We just integrated with Salesforce Marketing Cloud. Would love to show you the attribution dashboard.",
+          "That's our specialty! Our ABM platform integrates with 6sense for intent data. When can you stop by?",
+          "Perfect use case for us! We help Klaviyo users optimize their email deliverability. Let's discuss your open rates.",
+          "Great question! Our CDP unifies data from HubSpot, Segment, and Google Analytics. I'll show you the real-time dashboard.",
+          "Interesting! We're launching an iPaaS solution with MuleSoft. No-code integrations for your entire martech stack.",
+          "That aligns perfectly! Our AI-powered personalization beats Optimizely's conversion rates by 23%. Demo at 3pm?",
+          "Fantastic! Our attribution model covers all touchpoints from first click to closed-won. Using Tableau or Looker?",
+          "Love it! We help Marketo users reduce their CAC by 40%. What's your current lead scoring model?"
         ];
         const response = responses[Math.floor(Math.random() * responses.length)];
         
