@@ -571,32 +571,11 @@ class MessagingSystem {
   injectStyles() {
     const style = document.createElement('style');
     style.textContent = `
-      /* Message FAB */
+      /* Message FAB - inherits positioning from floating-buttons-unified.css */
       .message-fab {
-        position: fixed;
-        bottom: 150px;
-        right: 24px;
-        width: 56px;
-        height: 56px;
-        background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
-        border: none;
-        border-radius: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3);
-        z-index: 998;
-        transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      }
-      
-      .message-fab:hover {
-        transform: scale(1.1);
-        box-shadow: 0 12px 32px rgba(0, 122, 255, 0.4);
-      }
-      
-      .message-fab-icon {
-        font-size: 24px;
+        /* Position, size, and hover effects are handled by floating-buttons-unified.css */
+        /* Green gradient for messaging */
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       }
       
       .message-fab-badge {

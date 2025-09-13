@@ -878,5 +878,31 @@ class MagicLinkAuth {
 const magicAuth = new MagicLinkAuth();
 window.magicAuth = magicAuth;
 
+// Add demo reset commands for easy testing
+window.resetAuth = () => {
+  magicAuth.logout();
+  console.log('✅ Auth cleared! You can now demo the magic link flow again.');
+  return 'Ready for demo';
+};
+
+// Add keyboard shortcut for demo: Ctrl/Cmd + Shift + R
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'R') {
+    e.preventDefault();
+    window.resetAuth();
+  }
+});
+
+// Log demo instructions on page load
+setTimeout(() => {
+  if (magicAuth.isAuthenticated) {
+    console.log('%c🔐 Magic Link Demo Mode:', 'color: #007aff; font-weight: bold; font-size: 14px');
+    console.log('%c  You are currently logged in as: ' + magicAuth.userEmail, 'color: #666');
+    console.log('%c  To demo the magic link flow again:', 'color: #666');
+    console.log('%c  • Type: resetAuth() in console', 'color: #10b981');
+    console.log('%c  • Or press: Ctrl/Cmd + Shift + R', 'color: #10b981');
+  }
+}, 1000);
+
 // Export for module usage
 export default magicAuth;

@@ -13,6 +13,8 @@ class ProximityNetworking {
     this.currentLocation = null;
     this.matchmakingActive = false;
     this.ftueShown = localStorage.getItem('proximity_ftue_seen') !== 'true';
+    this.selectedDuration = 4; // Default 4 hours
+    this.selectedGranularity = 'precise'; // Default precise
     
     this.venues = [
       { id: 'hall7', name: 'Hall 7', lat: 50.946, lng: 6.944, radius: 200 },
@@ -51,43 +53,159 @@ class ProximityNetworking {
     const panel = document.createElement('div');
     panel.className = 'proximity-panel';
     panel.innerHTML = `
-      <div class="proximity-backdrop" onclick="window.proximityNetworking.close()"></div>
+      <div class="proximity-backdrop"></div>
       <div class="proximity-container">
         <div class="proximity-header">
           <h2>Smart Networking</h2>
           <p>AI-powered professional matchmaking</p>
-          <button class="proximity-close" onclick="window.proximityNetworking.close()">×</button>
+          <button class="proximity-close">×</button>
         </div>
 
-        <!-- Calendar Slot Marking -->
+        <!-- Enhanced Calendar with Side-by-Side View -->
         <div class="calendar-slots-section">
           <h3>Mark Your Open Time</h3>
           <p class="section-subtitle">Let AI find the perfect networking opportunity</p>
           
-          <div class="time-slots">
-            <div class="time-slot" data-time="11:00">
-              <span class="slot-time">11:00 AM</span>
-              <span class="slot-status">Available</span>
-              <button class="slot-mark-btn" onclick="window.proximityNetworking.markSlotOpen('11:00')">
-                Mark as Open
-              </button>
+          <div class="calendar-container">
+            <!-- Visual Timeline -->
+            <div class="visual-timeline">
+              <div class="timeline-header">Today's Schedule</div>
+              <div class="timeline-track">
+                <div class="timeline-hour" data-hour="9">9 AM</div>
+                <div class="timeline-hour" data-hour="10">10 AM</div>
+                <div class="timeline-hour" data-hour="11">11 AM</div>
+                <div class="timeline-hour" data-hour="12">12 PM</div>
+                <div class="timeline-hour" data-hour="13">1 PM</div>
+                <div class="timeline-hour" data-hour="14">2 PM</div>
+                <div class="timeline-hour" data-hour="15">3 PM</div>
+                <div class="timeline-hour" data-hour="16">4 PM</div>
+                <div class="timeline-hour" data-hour="17">5 PM</div>
+                <div class="timeline-hour" data-hour="18">6 PM</div>
+                
+                <!-- Visual blocks for existing events -->
+                <div class="event-block" style="top: 20%; height: 15%;">
+                  <span>Keynote</span>
+                </div>
+                <div class="event-block" style="top: 55%; height: 10%;">
+                  <span>Lunch</span>
+                </div>
+                
+                <!-- Selected slots will appear here -->
+                <div class="selected-slots" id="timeline-selected"></div>
+              </div>
             </div>
             
-            <div class="time-slot" data-time="14:00">
-              <span class="slot-time">2:00 PM</span>
-              <span class="slot-status">Available</span>
-              <button class="slot-mark-btn" onclick="window.proximityNetworking.markSlotOpen('14:00')">
-                Mark as Open
-              </button>
+            <!-- Time Slot Selection -->
+            <div class="slot-selection">
+              <div class="time-slots">
+                <div class="time-slot" data-time="11:30">
+                  <span class="slot-time">11:30 AM</span>
+                  <span class="slot-duration">30 min coffee</span>
+                  <button class="slot-toggle">
+                    <span class="toggle-icon">○</span>
+                  </button>
+                </div>
+                
+                <div class="time-slot" data-time="13:00">
+                  <span class="slot-time">1:00 PM</span>
+                  <span class="slot-duration">45 min lunch</span>
+                  <button class="slot-toggle">
+                    <span class="toggle-icon">○</span>
+                  </button>
+                </div>
+                
+                <div class="time-slot" data-time="15:00">
+                  <span class="slot-time">3:00 PM</span>
+                  <span class="slot-duration">30 min chat</span>
+                  <button class="slot-toggle">
+                    <span class="toggle-icon">○</span>
+                  </button>
+                </div>
+                
+                <div class="time-slot" data-time="17:00">
+                  <span class="slot-time">5:00 PM</span>
+                  <span class="slot-duration">60 min dinner</span>
+                  <button class="slot-toggle">
+                    <span class="toggle-icon">○</span>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Submit Button -->
+              <div class="calendar-actions">
+                <div class="selected-count">
+                  <span id="slot-count">0</span> time slots selected
+                </div>
+                <button class="btn-submit-calendar" disabled>
+                  ${getIcon('check', 20)}
+                  <span>Submit Availability</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- GPS Sharing Options (Hidden initially) -->
+        <div class="gps-sharing-section" style="display: none;">
+          <h3>Share Your Location</h3>
+          <p class="section-subtitle">Help matches find you at the venue</p>
+          
+          <div class="gps-options">
+            <!-- Duration Options -->
+            <div class="option-group">
+              <label>How long to share?</label>
+              <div class="duration-options">
+                <button class="duration-btn" data-duration="1">
+                  ${getIcon('clock', 16)}
+                  <span>1 Hour</span>
+                  <small>Quick meetup</small>
+                </button>
+                <button class="duration-btn active" data-duration="4">
+                  ${getIcon('clock', 16)}
+                  <span>4 Hours</span>
+                  <small>Half day</small>
+                </button>
+                <button class="duration-btn" data-duration="8">
+                  ${getIcon('clock', 16)}
+                  <span>8 Hours</span>
+                  <small>Full day</small>
+                </button>
+              </div>
             </div>
             
-            <div class="time-slot" data-time="16:00">
-              <span class="slot-time">4:00 PM</span>
-              <span class="slot-status">Available</span>
-              <button class="slot-mark-btn" onclick="window.proximityNetworking.markSlotOpen('16:00')">
-                Mark as Open
-              </button>
+            <!-- Granularity Options -->
+            <div class="option-group">
+              <label>Location precision?</label>
+              <div class="granularity-options">
+                <button class="granularity-btn active" data-level="precise">
+                  ${getIcon('mapPin', 16)}
+                  <span>Precise</span>
+                  <small>Find me exactly (±5m)</small>
+                </button>
+                <button class="granularity-btn" data-level="room">
+                  ${getIcon('home', 16)}
+                  <span>Meeting Room</span>
+                  <small>Room level (±50m)</small>
+                </button>
+                <button class="granularity-btn" data-level="building">
+                  ${getIcon('building', 16)}
+                  <span>Building</span>
+                  <small>General area (±200m)</small>
+                </button>
+              </div>
             </div>
+            
+            <!-- Privacy Notice -->
+            <div class="privacy-notice">
+              ${getIcon('shield', 16)}
+              <span>Your location is only shared with confirmed matches during the selected time window</span>
+            </div>
+            
+            <!-- Confirm GPS Sharing -->
+            <button class="btn-confirm-gps">
+              ${getIcon('navigation', 20)}
+              <span>Enable Location Sharing</span>
+            </button>
           </div>
         </div>
 
@@ -100,7 +218,7 @@ class ProximityNetworking {
               <span class="location-name">Detecting...</span>
               <span class="location-accuracy">Getting GPS signal</span>
             </div>
-            <button class="location-refresh" onclick="window.proximityNetworking.detectLocation()">
+            <button class="location-refresh">
               Refresh
             </button>
           </div>
@@ -136,73 +254,304 @@ class ProximityNetworking {
 
         <!-- Match Results -->
         <div class="match-results" style="display: none;">
-          <h3>Perfect Match Found!</h3>
-          <div class="match-card featured">
+          <h3>Top 3 Matches Found!</h3>
+          <p class="match-subtitle">Choose who you'd like to connect with</p>
+          
+          <!-- Primary Match -->
+          <div class="match-card featured" data-match-id="1">
             <div class="match-score-badge">98%</div>
             <div class="match-profile">
-              <div class="match-avatar">SC</div>
+              <div class="match-avatar" style="background: linear-gradient(135deg, #ec4899, #8b5cf6);">SC</div>
               <div class="match-info">
                 <h4>Sarah Chen</h4>
-                <p>Game Designer at Ubisoft</p>
+                <p>Senior Game Designer at Ubisoft</p>
                 <div class="match-tags">
                   <span class="tag">Unity Expert</span>
                   <span class="tag">AI/ML</span>
                   <span class="tag">Multiplayer</span>
+                  <span class="tag">Procedural Gen</span>
                 </div>
               </div>
             </div>
             
-            <div class="match-reasons">
-              <h5>Why you should meet:</h5>
-              <ul>
-                <li>Working on similar AI game mechanics</li>
-                <li>Looking for Unity collaboration</li>
-                <li>3 mutual connections</li>
-                <li>Currently 50m away at Hall 7</li>
-              </ul>
-            </div>
-            
-            <div class="match-suggestion">
-              <div class="suggestion-icon">☕</div>
-              <div class="suggestion-text">
-                <strong>Suggested Meeting</strong>
-                <p>Coffee at Food Court • 11:00 AM</p>
+            <div class="match-details-grid">
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('mapPin', 16)}</span>
+                <span>50m away • Hall 7</span>
+              </div>
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('users', 16)}</span>
+                <span>3 mutual connections</span>
+              </div>
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('briefcase', 16)}</span>
+                <span>8 years experience</span>
+              </div>
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('star', 16)}</span>
+                <span>Ship 2 AAA titles</span>
               </div>
             </div>
             
+            <div class="match-reasons">
+              <h5>Why you match:</h5>
+              <ul>
+                <li>Both working on AI-driven game mechanics</li>
+                <li>Looking for Unity networking collaboration</li>
+                <li>Shared interest in procedural generation</li>
+                <li>Compatible meeting time at 11:30 AM</li>
+              </ul>
+            </div>
+            
             <div class="match-actions">
-              <button class="btn-connect" onclick="window.proximityNetworking.sendConnection()">
-                Send Connection Request
+              <button class="btn-connect" data-name="Sarah Chen">
+                ${getIcon('userPlus', 16)}
+                <span>Connect</span>
               </button>
-              <button class="btn-schedule" onclick="window.proximityNetworking.scheduleMeeting()">
-                Schedule Coffee Chat
+              <button class="btn-schedule" data-name="Sarah Chen">
+                ${getIcon('calendar', 16)}
+                <span>Schedule Meet</span>
+              </button>
+              <button class="btn-message" data-name="Sarah Chen">
+                ${getIcon('messageCircle', 16)}
+                <span>Message</span>
               </button>
             </div>
           </div>
 
-          <!-- Other Matches -->
-          <h4>Other Great Matches Nearby</h4>
-          <div class="other-matches">
-            <div class="match-card mini">
-              <div class="match-score-badge">89%</div>
-              <div class="match-mini-info">
-                <strong>Marcus Johnson</strong>
-                <span>Publisher at EA • 100m away</span>
+          <!-- Second Match -->
+          <div class="match-card" data-match-id="2">
+            <div class="match-score-badge">89%</div>
+            <div class="match-profile">
+              <div class="match-avatar" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">MJ</div>
+              <div class="match-info">
+                <h4>Marcus Johnson</h4>
+                <p>Publishing Director at EA Games</p>
+                <div class="match-tags">
+                  <span class="tag">Publishing</span>
+                  <span class="tag">Indie Games</span>
+                  <span class="tag">Investment</span>
+                  <span class="tag">Marketing</span>
+                </div>
               </div>
             </div>
             
-            <div class="match-card mini">
-              <div class="match-score-badge">85%</div>
-              <div class="match-mini-info">
-                <strong>Emma Wilson</strong>
-                <span>Indie Dev • 75m away</span>
+            <div class="match-details-grid">
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('mapPin', 16)}</span>
+                <span>100m away • Business Area</span>
               </div>
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('users', 16)}</span>
+                <span>7 mutual connections</span>
+              </div>
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('briefcase', 16)}</span>
+                <span>12 years experience</span>
+              </div>
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('trophy', 16)}</span>
+                <span>Published 50+ titles</span>
+              </div>
+            </div>
+            
+            <div class="match-reasons">
+              <h5>Why you match:</h5>
+              <ul>
+                <li>Actively seeking innovative indie projects</li>
+                <li>Interest in AI-enhanced gameplay</li>
+                <li>Looking for Q1 2026 releases</li>
+                <li>Budget range matches your project</li>
+              </ul>
+            </div>
+            
+            <div class="match-actions">
+              <button class="btn-connect" data-name="Marcus Johnson">
+                ${getIcon('userPlus', 16)}
+                <span>Connect</span>
+              </button>
+              <button class="btn-schedule" data-name="Marcus Johnson">
+                ${getIcon('calendar', 16)}
+                <span>Schedule Meet</span>
+              </button>
+              <button class="btn-message" data-name="Marcus Johnson">
+                ${getIcon('messageCircle', 16)}
+                <span>Message</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Third Match -->
+          <div class="match-card" data-match-id="3">
+            <div class="match-score-badge">85%</div>
+            <div class="match-profile">
+              <div class="match-avatar" style="background: linear-gradient(135deg, #10b981, #fbbf24);">EW</div>
+              <div class="match-info">
+                <h4>Emma Wilson</h4>
+                <p>Founder at Pixel Dreams Studio</p>
+                <div class="match-tags">
+                  <span class="tag">Indie Dev</span>
+                  <span class="tag">Pixel Art</span>
+                  <span class="tag">Narrative</span>
+                  <span class="tag">Steam</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="match-details-grid">
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('mapPin', 16)}</span>
+                <span>75m away • Indie Area</span>
+              </div>
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('users', 16)}</span>
+                <span>2 mutual connections</span>
+              </div>
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('briefcase', 16)}</span>
+                <span>5 years experience</span>
+              </div>
+              <div class="match-stat">
+                <span class="stat-icon">${getIcon('award', 16)}</span>
+                <span>IGF nominated 2024</span>
+              </div>
+            </div>
+            
+            <div class="match-reasons">
+              <h5>Why you match:</h5>
+              <ul>
+                <li>Complementary skills (art + programming)</li>
+                <li>Both targeting narrative-driven games</li>
+                <li>Looking for technical co-founder</li>
+                <li>Similar vision for indie gaming</li>
+              </ul>
+            </div>
+            
+            <div class="match-actions">
+              <button class="btn-connect" data-name="Emma Wilson">
+                ${getIcon('userPlus', 16)}
+                <span>Connect</span>
+              </button>
+              <button class="btn-schedule" data-name="Emma Wilson">
+                ${getIcon('calendar', 16)}
+                <span>Schedule Meet</span>
+              </button>
+              <button class="btn-message" data-name="Emma Wilson">
+                ${getIcon('messageCircle', 16)}
+                <span>Message</span>
+              </button>
             </div>
           </div>
         </div>
       </div>
     `;
     document.body.appendChild(panel);
+    
+    // Attach event handlers after DOM creation
+    this.attachEventHandlers();
+  }
+  
+  attachEventHandlers() {
+    console.log('[ProximityNetworking] Attaching event handlers...');
+    
+    // Close button handler
+    const closeBtn = document.querySelector('.proximity-close');
+    if (closeBtn) {
+      closeBtn.onclick = () => this.close();
+    }
+    
+    // Backdrop click handler
+    const backdrop = document.querySelector('.proximity-backdrop');
+    if (backdrop) {
+      backdrop.onclick = () => this.close();
+    }
+    
+    // Make entire time slot clickable, not just the button
+    document.querySelectorAll('.time-slot').forEach(slot => {
+      const time = slot.dataset.time;
+      slot.style.cursor = 'pointer';
+      slot.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('[ProximityNetworking] Slot clicked:', time);
+        this.toggleSlot(time);
+      };
+    });
+    
+    // Submit calendar button
+    const submitBtn = document.querySelector('.btn-submit-calendar');
+    if (submitBtn) {
+      submitBtn.onclick = (e) => {
+        e.preventDefault();
+        console.log('[ProximityNetworking] Submit button clicked');
+        this.submitCalendar();
+      };
+    }
+    
+    // Duration buttons
+    document.querySelectorAll('.duration-btn').forEach(btn => {
+      const duration = parseInt(btn.dataset.duration);
+      btn.onclick = (e) => {
+        e.preventDefault();
+        console.log('[ProximityNetworking] Duration selected:', duration);
+        this.selectDuration(duration);
+      };
+    });
+    
+    // Granularity buttons
+    document.querySelectorAll('.granularity-btn').forEach(btn => {
+      const level = btn.dataset.level;
+      btn.onclick = (e) => {
+        e.preventDefault();
+        console.log('[ProximityNetworking] Granularity selected:', level);
+        this.selectGranularity(level);
+      };
+    });
+    
+    // GPS confirmation button
+    const gpsBtn = document.querySelector('.btn-confirm-gps');
+    if (gpsBtn) {
+      gpsBtn.onclick = (e) => {
+        e.preventDefault();
+        this.confirmGPSSharing();
+      };
+    }
+    
+    // Location refresh button
+    const refreshBtn = document.querySelector('.location-refresh');
+    if (refreshBtn) {
+      refreshBtn.onclick = (e) => {
+        e.preventDefault();
+        this.detectLocation();
+      };
+    }
+    
+    // Match action buttons - handle all connect/schedule/message buttons
+    document.querySelectorAll('.btn-connect').forEach(btn => {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        const name = btn.dataset.name;
+        this.sendConnection(name, btn);
+      };
+    });
+    
+    document.querySelectorAll('.btn-schedule').forEach(btn => {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        const name = btn.dataset.name;
+        this.scheduleMeeting(name, btn);
+      };
+    });
+    
+    document.querySelectorAll('.btn-message').forEach(btn => {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        const name = btn.dataset.name;
+        this.sendMessage(name, btn);
+      };
+    });
+    
+    console.log('[ProximityNetworking] Event handlers attached. Found', document.querySelectorAll('.time-slot').length, 'time slots');
   }
 
   showFTUE() {
@@ -404,32 +753,202 @@ class ProximityNetworking {
     setTimeout(() => this.startDemo(), 500);
   }
 
-  markSlotOpen(time) {
+  toggleSlot(time) {
+    console.log('[ProximityNetworking] toggleSlot called with time:', time);
     const slot = document.querySelector(`.time-slot[data-time="${time}"]`);
-    if (!slot) return;
-
-    // Mark slot as open
-    slot.classList.add('marked-open');
-    const btn = slot.querySelector('.slot-mark-btn');
-    btn.textContent = '✓ Open for Networking';
-    btn.disabled = true;
-
-    // Store open slot
-    this.openSlots.set(time, {
-      time: time,
-      date: 'August 21, 2025',
-      status: 'open'
-    });
-
-    // Show matchmaking after marking slot
-    if (this.openSlots.size === 1) {
-      setTimeout(() => this.startMatchmaking(), 800);
+    if (!slot) {
+      console.error('[ProximityNetworking] Slot not found for time:', time);
+      return;
     }
 
+    const isSelected = slot.classList.toggle('selected');
+    const toggleIcon = slot.querySelector('.toggle-icon');
+    
+    if (toggleIcon) {
+      if (isSelected) {
+        toggleIcon.textContent = '●';
+        this.openSlots.set(time, {
+          time: time,
+          date: 'August 21, 2025',
+          status: 'open'
+        });
+        this.addToTimeline(time);
+      } else {
+        toggleIcon.textContent = '○';
+        this.openSlots.delete(time);
+        this.removeFromTimeline(time);
+      }
+    }
+
+    console.log('[ProximityNetworking] Slot', time, 'is now', isSelected ? 'selected' : 'unselected');
+    console.log('[ProximityNetworking] Total selected slots:', this.openSlots.size);
+
+    // Update count and button state
+    this.updateCalendarUI();
+
+    // Haptic feedback
+    if (window.haptic) {
+      window.haptic.selection();
+    }
+  }
+
+  addToTimeline(time) {
+    const timelineSelected = document.getElementById('timeline-selected');
+    if (!timelineSelected) return;
+    
+    const hourMap = {
+      '11:30': { top: '25%', height: '5%' },  // 11:30 AM - between existing events
+      '13:00': { top: '40%', height: '7.5%' }, // 1:00 PM - after lunch
+      '15:00': { top: '60%', height: '5%' },  // 3:00 PM - free slot
+      '17:00': { top: '80%', height: '10%' }  // 5:00 PM - after day events
+    };
+    
+    const position = hourMap[time];
+    if (position) {
+      const block = document.createElement('div');
+      block.className = 'selected-block';
+      block.dataset.time = time;
+      block.style.top = position.top;
+      block.style.height = position.height;
+      block.innerHTML = `<span>Available</span>`;
+      timelineSelected.appendChild(block);
+    }
+  }
+
+  removeFromTimeline(time) {
+    const block = document.querySelector(`.selected-block[data-time="${time}"]`);
+    if (block) {
+      block.remove();
+    }
+  }
+
+  updateCalendarUI() {
+    const count = this.openSlots.size;
+    const countElement = document.getElementById('slot-count');
+    const submitBtn = document.querySelector('.btn-submit-calendar');
+    
+    console.log('[ProximityNetworking] Updating calendar UI. Count:', count);
+    
+    if (countElement) {
+      countElement.textContent = count;
+    }
+    
+    if (submitBtn) {
+      submitBtn.disabled = count === 0;
+      console.log('[ProximityNetworking] Submit button', submitBtn.disabled ? 'disabled' : 'enabled');
+    }
+  }
+
+  submitCalendar() {
+    if (this.openSlots.size === 0) return;
+    
+    // Animate submit button
+    const submitBtn = document.querySelector('.btn-submit-calendar');
+    submitBtn.innerHTML = `${getIcon('check', 20)}<span>Submitted!</span>`;
+    submitBtn.classList.add('submitted');
+    submitBtn.disabled = true;
+    
+    // Show success feedback
+    this.showToast(`${this.openSlots.size} time slots confirmed!`);
+    
+    // Transition to GPS sharing after a delay
+    setTimeout(() => {
+      this.showGPSOptions();
+    }, 1500);
+    
     // Haptic feedback
     if (window.haptic) {
       window.haptic.notification('success');
     }
+  }
+
+  showGPSOptions() {
+    // Hide calendar section with fade
+    const calendarSection = document.querySelector('.calendar-slots-section');
+    if (calendarSection) {
+      calendarSection.style.transition = 'opacity 300ms ease';
+      calendarSection.style.opacity = '0.5';
+    }
+    
+    // Show GPS sharing section
+    const gpsSection = document.querySelector('.gps-sharing-section');
+    if (gpsSection) {
+      gpsSection.style.display = 'block';
+      gpsSection.style.animation = 'slideInFromBottom 500ms ease-out';
+      
+      // Ensure it's visible in the viewport
+      setTimeout(() => {
+        gpsSection.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'nearest',
+          inline: 'nearest'
+        });
+      }, 100);
+    }
+  }
+
+  selectDuration(hours) {
+    // Update active state
+    document.querySelectorAll('.duration-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    document.querySelector(`.duration-btn[data-duration="${hours}"]`)?.classList.add('active');
+    
+    this.selectedDuration = hours;
+    
+    if (window.haptic) {
+      window.haptic.selection();
+    }
+  }
+
+  selectGranularity(level) {
+    // Update active state
+    document.querySelectorAll('.granularity-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    document.querySelector(`.granularity-btn[data-level="${level}"]`)?.classList.add('active');
+    
+    this.selectedGranularity = level;
+    
+    if (window.haptic) {
+      window.haptic.selection();
+    }
+  }
+
+  confirmGPSSharing() {
+    const duration = this.selectedDuration || 4;
+    const granularity = this.selectedGranularity || 'precise';
+    
+    // Update button to show confirmation
+    const confirmBtn = document.querySelector('.btn-confirm-gps');
+    if (confirmBtn) {
+      confirmBtn.innerHTML = `${getIcon('check', 20)}<span>Location Sharing Active</span>`;
+      confirmBtn.classList.add('confirmed');
+      confirmBtn.disabled = true;
+    }
+    
+    // Show confirmation toast
+    const granularityText = {
+      precise: 'precise location',
+      room: 'room-level location',
+      building: 'building area'
+    };
+    
+    this.showToast(`Sharing ${granularityText[granularity]} for ${duration} hour${duration > 1 ? 's' : ''}`); 
+    
+    // After GPS confirmation, proceed to matchmaking
+    setTimeout(() => {
+      this.startMatchmaking();
+    }, 1500);
+    
+    if (window.haptic) {
+      window.haptic.notification('success');
+    }
+  }
+
+  // Legacy function for backward compatibility
+  markSlotOpen(time) {
+    this.toggleSlot(time);
   }
 
   detectLocation() {
@@ -508,13 +1027,24 @@ class ProximityNetworking {
     const matchmakingSection = document.querySelector('.matchmaking-section');
     matchmakingSection.style.display = 'block';
     matchmakingSection.style.animation = 'fadeIn 500ms ease-out';
+    
+    // Scroll to matchmaking section
+    setTimeout(() => {
+      matchmakingSection.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'nearest',
+        inline: 'nearest'
+      });
+    }, 100);
 
     // Detect location automatically
     this.detectLocation();
 
     // Animate radar sweep
     const sweep = document.querySelector('.radar-sweep');
-    sweep.style.animation = 'radarSweep 2s linear infinite';
+    if (sweep) {
+      sweep.style.animation = 'radarSweep 2s linear infinite';
+    }
 
     // Show results after animation
     setTimeout(() => {
@@ -527,8 +1057,20 @@ class ProximityNetworking {
     resultsSection.style.display = 'block';
     resultsSection.style.animation = 'slideInFromBottom 600ms ease-out';
 
-    // Scroll to results
-    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Scroll to results with better positioning
+    setTimeout(() => {
+      resultsSection.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start',  // Show from the top of the results
+        inline: 'nearest'
+      });
+      
+      // Also ensure the container scrolls
+      const container = document.querySelector('.proximity-container');
+      if (container) {
+        container.scrollTop = resultsSection.offsetTop - 100;
+      }
+    }, 100);
 
     // Haptic celebration
     if (window.haptic) {
@@ -536,42 +1078,261 @@ class ProximityNetworking {
     }
   }
 
-  sendConnection() {
-    this.showToast('Connection request sent to Sarah Chen!');
+  sendConnection(name, btn) {
+    this.showToast(`Connection request sent to ${name || 'match'}!`);
     
     // Update button
-    const btn = event.target;
-    btn.textContent = '✓ Request Sent';
-    btn.disabled = true;
-    btn.classList.add('sent');
+    if (btn) {
+      btn.innerHTML = `${getIcon('check', 16)}<span>Sent</span>`;
+      btn.disabled = true;
+      btn.classList.add('sent');
+    }
+    
+    // Haptic feedback
+    if (window.haptic) {
+      window.haptic.notification('success');
+    }
   }
 
-  scheduleMeeting() {
+  scheduleMeeting(name, btn) {
     // Add to calendar
     const meeting = {
-      title: 'Coffee with Sarah Chen',
+      title: `Coffee with ${name || 'match'}`,
       location: 'Food Court',
-      time: '11:00 AM',
+      time: '11:30 AM',
       date: 'August 21, 2025'
     };
 
     // Show confirmation
-    this.showToast('Meeting scheduled! Added to your calendar.');
+    this.showToast(`Meeting with ${name || 'match'} scheduled!`);
     
     // Update UI
-    const btn = event.target;
-    btn.textContent = '✓ Scheduled';
-    btn.disabled = true;
-    btn.classList.add('scheduled');
-
-    // Close panel after success
-    setTimeout(() => this.close(), 2000);
+    if (btn) {
+      btn.innerHTML = `${getIcon('check', 16)}<span>Scheduled</span>`;
+      btn.disabled = true;
+      btn.classList.add('scheduled');
+    }
+    
+    // Haptic feedback
+    if (window.haptic) {
+      window.haptic.notification('success');
+    }
+  }
+  
+  sendMessage(name, btn) {
+    // Create and show messaging interface
+    this.openMessagingInterface(name);
+    
+    // Update button to show it's active
+    if (btn) {
+      btn.innerHTML = `${getIcon('messageCircle', 16)}<span>Chatting</span>`;
+      btn.classList.add('active');
+    }
+    
+    // Haptic feedback
+    if (window.haptic) {
+      window.haptic.impact('light');
+    }
+  }
+  
+  openMessagingInterface(name) {
+    // Create messaging modal
+    const modal = document.createElement('div');
+    modal.className = 'messaging-modal active';
+    modal.innerHTML = `
+      <div class="messaging-container">
+        <div class="messaging-header">
+          <button class="btn-back">${getIcon('arrowLeft', 20)}</button>
+          <div class="messaging-contact">
+            <div class="contact-avatar">${name.split(' ').map(n => n[0]).join('')}</div>
+            <div class="contact-info">
+              <h4>${name}</h4>
+              <span class="contact-status">🟢 Active now</span>
+            </div>
+          </div>
+          <button class="btn-video">${getIcon('video', 20)}</button>
+        </div>
+        
+        <div class="messaging-chat">
+          <div class="chat-messages" id="chat-messages">
+            <div class="message received">
+              <div class="message-content">
+                <p>Hi! I saw we matched on interests in procedural generation. Would love to connect!</p>
+                <span class="message-time">11:28 AM</span>
+              </div>
+            </div>
+            <div class="message sent">
+              <div class="message-content">
+                <p>Absolutely! I'm working on a Unity project with procedural environments. Would love to discuss collaboration opportunities.</p>
+                <span class="message-time">11:29 AM</span>
+              </div>
+            </div>
+            <div class="message received">
+              <div class="message-content">
+                <p>Perfect! I'm at the Unity booth now if you want to meet in person, or we can schedule for later?</p>
+                <span class="message-time">11:30 AM</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="messaging-input">
+            <input type="text" placeholder="Type a message..." class="message-input" id="message-input">
+            <button class="btn-send">${getIcon('send', 20)}</button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Handle back button
+    modal.querySelector('.btn-back').addEventListener('click', () => {
+      modal.classList.remove('active');
+      setTimeout(() => modal.remove(), 300);
+      
+      // If from FTUE, continue to networking
+      if (window.smartOnboarding && window.smartOnboarding.isActive) {
+        this.continueFromFTUE();
+      }
+    });
+    
+    // Handle send button
+    const input = modal.querySelector('#message-input');
+    const sendBtn = modal.querySelector('.btn-send');
+    const messagesContainer = modal.querySelector('#chat-messages');
+    
+    const sendMessage = () => {
+      const text = input.value.trim();
+      if (!text) return;
+      
+      // Add message to chat
+      const messageEl = document.createElement('div');
+      messageEl.className = 'message sent';
+      messageEl.innerHTML = `
+        <div class="message-content">
+          <p>${text}</p>
+          <span class="message-time">${new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
+        </div>
+      `;
+      messagesContainer.appendChild(messageEl);
+      
+      // Clear input and scroll to bottom
+      input.value = '';
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      
+      // Simulate response after delay
+      setTimeout(() => {
+        const responses = [
+          "Sounds great! Looking forward to discussing more.",
+          "That's exactly what we're looking for. Let's connect!",
+          "Awesome! I'll send you my calendar link.",
+          "Perfect timing! We should definitely collaborate."
+        ];
+        const response = responses[Math.floor(Math.random() * responses.length)];
+        
+        const responseEl = document.createElement('div');
+        responseEl.className = 'message received';
+        responseEl.innerHTML = `
+          <div class="message-content">
+            <p>${response}</p>
+            <span class="message-time">${new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
+          </div>
+        `;
+        messagesContainer.appendChild(responseEl);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        
+        // Haptic feedback for received message
+        if (window.haptic) {
+          window.haptic.notification('success');
+        }
+      }, 2000 + Math.random() * 2000);
+      
+      // Haptic feedback for sent message
+      if (window.haptic) {
+        window.haptic.impact('light');
+      }
+    };
+    
+    sendBtn.addEventListener('click', sendMessage);
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+    
+    // Focus input
+    setTimeout(() => input.focus(), 100);
+  }
+  
+  continueFromFTUE() {
+    // Transition from FTUE to live networking experience
+    console.log('[ProximityNetworking] Continuing from FTUE to live experience');
+    
+    // Hide FTUE if active
+    if (window.smartOnboarding && window.smartOnboarding.isActive) {
+      window.smartOnboarding.complete();
+    }
+    
+    // Show main app
+    const heroLanding = document.getElementById('hero-landing');
+    const app = document.getElementById('app');
+    
+    if (heroLanding) {
+      heroLanding.style.display = 'none';
+    }
+    
+    if (app) {
+      app.style.display = 'block';
+      
+      // Navigate to smart networking section
+      setTimeout(() => {
+        // Open the proximity panel
+        this.open();
+        
+        // Show welcome message
+        this.showToast('Welcome to Smart Networking! Your matches are ready.');
+        
+        // Show match results
+        this.showMatchResults();
+      }, 500);
+    }
+  }
+  
+  showMatchResults() {
+    console.log('[ProximityNetworking] Showing match results with animation');
+    
+    // Make sure the results section is visible
+    const resultsSection = document.querySelector('.proximity-results');
+    if (resultsSection) {
+      resultsSection.style.display = 'block';
+      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Trigger match card animations
+    const matchCards = document.querySelectorAll('.match-card');
+    matchCards.forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      
+      setTimeout(() => {
+        card.style.transition = 'all 0.5s ease-out';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, index * 150);
+    });
+    
+    // Haptic feedback for each card appearance
+    if (window.haptic) {
+      matchCards.forEach((card, index) => {
+        setTimeout(() => {
+          window.haptic.impact('light');
+        }, index * 150);
+      });
+    }
   }
 
   startDemo() {
-    // Auto-mark a slot
+    // Auto-mark a slot that doesn't conflict
     setTimeout(() => {
-      this.markSlotOpen('11:00');
+      this.markSlotOpen('11:30');
     }, 1000);
   }
 
@@ -587,6 +1348,9 @@ class ProximityNetworking {
     const panel = document.querySelector('.proximity-panel');
     panel.classList.add('active');
     this.isActive = true;
+    
+    // Re-attach event handlers when opening (in case DOM was recreated)
+    this.attachEventHandlers();
 
     if (window.haptic) {
       window.haptic.impact('medium');
@@ -622,38 +1386,250 @@ class ProximityNetworking {
   injectStyles() {
     const style = document.createElement('style');
     style.textContent = `
-      /* Smart Network Button */
-      .smart-network-btn {
+      /* Messaging Modal */
+      .messaging-modal {
         position: fixed;
-        bottom: 24px;
-        right: 24px;
-        width: 56px;
-        height: 56px;
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      
+      .messaging-modal.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+      
+      .messaging-container {
+        background: var(--color-surface, #1a1a1a);
+        border-radius: 16px;
+        width: 90%;
+        max-width: 500px;
+        height: 80vh;
+        max-height: 600px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transform: translateY(20px);
+        transition: transform 0.3s ease;
+      }
+      
+      .messaging-modal.active .messaging-container {
+        transform: translateY(0);
+      }
+      
+      .messaging-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        background: var(--color-bg, #0f0f0f);
+        border-bottom: 1px solid var(--color-border, #2a2a2a);
+      }
+      
+      .messaging-header .btn-back,
+      .messaging-header .btn-video {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--color-surface, #1a1a1a);
         border: none;
-        border-radius: 28px;
+        color: var(--color-text, #ffffff);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
-        z-index: 995;
-        transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        transition: all 0.2s ease;
       }
       
-      @media (max-width: 768px) {
-        .smart-network-btn {
-          bottom: 80px; /* Account for mobile navigation */
-          right: 16px;
-          width: 48px;
-          height: 48px;
+      .messaging-header .btn-back:hover,
+      .messaging-header .btn-video:hover {
+        background: var(--color-accent, #7c3aed);
+        transform: scale(1.05);
+      }
+      
+      .messaging-contact {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      
+      .contact-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #7c3aed, #10b981);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        color: white;
+      }
+      
+      .contact-info h4 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--color-text, #ffffff);
+      }
+      
+      .contact-status {
+        font-size: 12px;
+        color: var(--color-text-dim, #9ca3af);
+      }
+      
+      .messaging-chat {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      
+      .message {
+        display: flex;
+        max-width: 70%;
+        animation: messageSlide 0.3s ease-out;
+      }
+      
+      @keyframes messageSlide {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
       
-      .smart-network-btn:hover {
-        transform: scale(1.1);
-        box-shadow: 0 12px 32px rgba(16, 185, 129, 0.4);
+      .message.sent {
+        align-self: flex-end;
       }
+      
+      .message.received {
+        align-self: flex-start;
+      }
+      
+      .message-content {
+        background: var(--color-surface, #1a1a1a);
+        padding: 12px 16px;
+        border-radius: 16px;
+        position: relative;
+      }
+      
+      .message.sent .message-content {
+        background: var(--color-accent, #7c3aed);
+        border-bottom-right-radius: 4px;
+      }
+      
+      .message.received .message-content {
+        background: var(--color-surface-elevated, #2a2a2a);
+        border-bottom-left-radius: 4px;
+      }
+      
+      .message-content p {
+        margin: 0;
+        color: var(--color-text, #ffffff);
+        font-size: 14px;
+        line-height: 1.4;
+      }
+      
+      .message-time {
+        display: block;
+        font-size: 11px;
+        color: var(--color-text-dim, #9ca3af);
+        margin-top: 4px;
+        opacity: 0.7;
+      }
+      
+      .messaging-input {
+        display: flex;
+        gap: 12px;
+        padding: 16px;
+        background: var(--color-bg, #0f0f0f);
+        border-top: 1px solid var(--color-border, #2a2a2a);
+      }
+      
+      .message-input {
+        flex: 1;
+        background: var(--color-surface, #1a1a1a);
+        border: 1px solid var(--color-border, #2a2a2a);
+        border-radius: 24px;
+        padding: 12px 20px;
+        color: var(--color-text, #ffffff);
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s ease;
+      }
+      
+      .message-input:focus {
+        border-color: var(--color-accent, #7c3aed);
+        background: var(--color-surface-elevated, #2a2a2a);
+      }
+      
+      .btn-send {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--color-accent, #7c3aed);
+        border: none;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      
+      .btn-send:hover {
+        transform: scale(1.05);
+        background: var(--color-accent-hover, #6b2fc3);
+      }
+      
+      .btn-send:active {
+        transform: scale(0.95);
+      }
+      
+      /* Animation for continuing from FTUE */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      /* Smart Network Button - inherits positioning from floating-buttons-unified.css */
+      .smart-network-btn {
+        /* Position, size, and effects handled by floating-buttons-unified.css */
+        /* Just override the background color */
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      }
+      
+      /* Mobile and hover styles handled by floating-buttons-unified.css */
       
       .smart-network-icon {
         color: white;
@@ -745,7 +1721,7 @@ class ProximityNetworking {
         transform: rotate(90deg);
       }
       
-      /* Calendar Slots Section */
+      /* Enhanced Calendar Section */
       .calendar-slots-section {
         padding: 32px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -764,10 +1740,100 @@ class ProximityNetworking {
         margin-bottom: 24px;
       }
       
+      .calendar-container {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 32px;
+        align-items: start;
+      }
+      
+      /* Visual Timeline */
+      .visual-timeline {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 16px;
+      }
+      
+      .timeline-header {
+        font-size: 14px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 16px;
+        text-align: center;
+      }
+      
+      .timeline-track {
+        position: relative;
+        height: 400px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02) 0%,
+          rgba(255, 255, 255, 0.01) 100%
+        );
+        border-left: 2px solid rgba(255, 255, 255, 0.1);
+        margin-left: 60px;
+      }
+      
+      .timeline-hour {
+        position: absolute;
+        left: -60px;
+        width: 50px;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.4);
+        text-align: right;
+      }
+      
+      .timeline-hour[data-hour="9"] { top: 0%; }
+      .timeline-hour[data-hour="10"] { top: 10%; }
+      .timeline-hour[data-hour="11"] { top: 20%; }
+      .timeline-hour[data-hour="12"] { top: 30%; }
+      .timeline-hour[data-hour="13"] { top: 40%; }
+      .timeline-hour[data-hour="14"] { top: 50%; }
+      .timeline-hour[data-hour="15"] { top: 60%; }
+      .timeline-hour[data-hour="16"] { top: 70%; }
+      .timeline-hour[data-hour="17"] { top: 80%; }
+      .timeline-hour[data-hour="18"] { top: 90%; }
+      
+      .event-block,
+      .selected-block {
+        position: absolute;
+        left: 0;
+        right: 0;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 11px;
+        color: white;
+        display: flex;
+        align-items: center;
+      }
+      
+      .event-block {
+        background: rgba(239, 68, 68, 0.2);
+        border-left: 3px solid #ef4444;
+      }
+      
+      .selected-block {
+        background: rgba(16, 185, 129, 0.2);
+        border-left: 3px solid #10b981;
+        animation: fadeIn 300ms ease;
+      }
+      
+      .selected-slots {
+        position: absolute;
+        inset: 0;
+      }
+      
+      /* Slot Selection */
+      .slot-selection {
+        flex: 1;
+      }
+      
       .time-slots {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 16px;
+        gap: 12px;
+        margin-bottom: 24px;
       }
       
       .time-slot {
@@ -776,50 +1842,262 @@ class ProximityNetworking {
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
         display: flex;
-        flex-direction: column;
-        gap: 8px;
+        align-items: center;
+        gap: 12px;
         transition: all 200ms ease;
+        cursor: pointer;
       }
       
-      .time-slot.marked-open {
+      .time-slot:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+      }
+      
+      .time-slot.selected {
         background: rgba(16, 185, 129, 0.1);
         border-color: rgba(16, 185, 129, 0.3);
       }
       
+      .time-slot > div {
+        flex: 1;
+      }
+      
       .slot-time {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 600;
         color: white;
+        display: block;
       }
       
-      .slot-status {
+      .slot-duration {
         font-size: 12px;
         color: rgba(255, 255, 255, 0.5);
+        display: block;
+        margin-top: 2px;
       }
       
-      .slot-mark-btn {
-        padding: 8px 16px;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 8px;
+      .slot-toggle {
+        width: 32px;
+        height: 32px;
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 200ms ease;
+        pointer-events: none; /* Let parent handle clicks */
+      }
+      
+      .slot-toggle:hover {
+        border-color: rgba(16, 185, 129, 0.5);
+      }
+      
+      .time-slot.selected .slot-toggle {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: #10b981;
+      }
+      
+      .toggle-icon {
+        font-size: 18px;
+        color: #10b981;
+        line-height: 1;
+      }
+      
+      /* Calendar Actions */
+      .calendar-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .selected-count {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      
+      .selected-count #slot-count {
+        font-weight: 600;
+        color: #10b981;
+        font-size: 18px;
+      }
+      
+      .btn-submit-calendar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        border: none;
+        border-radius: 12px;
         color: white;
-        font-size: 13px;
+        font-size: 15px;
         font-weight: 600;
         cursor: pointer;
         transition: all 200ms ease;
       }
       
-      .slot-mark-btn:hover:not(:disabled) {
-        background: rgba(16, 185, 129, 0.2);
-        border-color: rgba(16, 185, 129, 0.4);
-        transform: translateY(-1px);
+      .btn-submit-calendar:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
       }
       
-      .slot-mark-btn:disabled {
-        background: rgba(16, 185, 129, 0.1);
-        border-color: rgba(16, 185, 129, 0.3);
+      .btn-submit-calendar:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      
+      .btn-submit-calendar.submitted {
+        background: rgba(16, 185, 129, 0.2);
         color: #10b981;
-        cursor: default;
+      }
+      
+      .btn-submit-calendar svg {
+        width: 20px;
+        height: 20px;
+      }
+      
+      /* GPS Sharing Section */
+      .gps-sharing-section {
+        padding: 32px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .gps-sharing-section h3 {
+        font-size: 20px;
+        font-weight: 600;
+        color: white;
+        margin-bottom: 8px;
+      }
+      
+      .gps-options {
+        margin-top: 24px;
+      }
+      
+      .option-group {
+        margin-bottom: 32px;
+      }
+      
+      .option-group label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 16px;
+      }
+      
+      .duration-options,
+      .granularity-options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      
+      .duration-btn,
+      .granularity-btn {
+        padding: 16px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 200ms ease;
+        text-align: center;
+      }
+      
+      .duration-btn:hover,
+      .granularity-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      
+      .duration-btn.active,
+      .granularity-btn.active {
+        background: rgba(99, 102, 241, 0.1);
+        border-color: #6366f1;
+      }
+      
+      .duration-btn svg,
+      .granularity-btn svg {
+        width: 20px;
+        height: 20px;
+        color: #6366f1;
+        margin-bottom: 8px;
+      }
+      
+      .duration-btn span,
+      .granularity-btn span {
+        display: block;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+      
+      .duration-btn small,
+      .granularity-btn small {
+        display: block;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 11px;
+      }
+      
+      .privacy-notice {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        background: rgba(99, 102, 241, 0.05);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        border-radius: 12px;
+        margin-bottom: 24px;
+      }
+      
+      .privacy-notice svg {
+        width: 20px;
+        height: 20px;
+        color: #6366f1;
+        flex-shrink: 0;
+      }
+      
+      .privacy-notice span {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.4;
+      }
+      
+      .btn-confirm-gps {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 200ms ease;
+      }
+      
+      .btn-confirm-gps:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+      }
+      
+      .btn-confirm-gps.confirmed {
+        background: rgba(99, 102, 241, 0.2);
+        color: #6366f1;
+      }
+      
+      .btn-confirm-gps svg {
+        width: 20px;
+        height: 20px;
       }
       
       /* Location Section */
@@ -1029,8 +2307,15 @@ class ProximityNetworking {
         font-size: 24px;
         font-weight: 600;
         color: white;
-        margin-bottom: 24px;
+        margin-bottom: 8px;
         text-align: center;
+      }
+      
+      .match-subtitle {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 14px;
+        margin-bottom: 32px;
       }
       
       .match-card {
@@ -1040,11 +2325,19 @@ class ProximityNetworking {
         padding: 24px;
         position: relative;
         margin-bottom: 24px;
+        transition: all 200ms ease;
+      }
+      
+      .match-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
       }
       
       .match-card.featured {
         background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(5, 150, 105, 0.05));
         border-color: rgba(16, 185, 129, 0.2);
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
       }
       
       .match-score-badge {
@@ -1171,21 +2464,62 @@ class ProximityNetworking {
         margin: 0;
       }
       
+      /* Match Details Grid */
+      .match-details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        margin: 20px 0;
+        padding: 16px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+      }
+      
+      .match-stat {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      
+      .stat-icon {
+        color: rgba(255, 255, 255, 0.4);
+        flex-shrink: 0;
+      }
+      
+      .stat-icon svg {
+        width: 16px;
+        height: 16px;
+      }
+      
       .match-actions {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
         gap: 12px;
       }
       
       .btn-connect,
-      .btn-schedule {
-        padding: 12px 20px;
-        border-radius: 12px;
-        font-size: 14px;
+      .btn-schedule,
+      .btn-message {
+        padding: 10px 16px;
+        border-radius: 10px;
+        font-size: 13px;
         font-weight: 600;
         cursor: pointer;
         transition: all 200ms ease;
         border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+      
+      .btn-connect svg,
+      .btn-schedule svg,
+      .btn-message svg {
+        width: 16px;
+        height: 16px;
       }
       
       .btn-connect {
@@ -1218,6 +2552,16 @@ class ProximityNetworking {
       .btn-schedule.scheduled {
         background: rgba(16, 185, 129, 0.2);
         color: #10b981;
+      }
+      
+      .btn-message {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        color: white;
+      }
+      
+      .btn-message:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
       }
       
       .match-card.mini {
@@ -1674,6 +3018,15 @@ class ProximityNetworking {
           max-height: 90vh;
         }
         
+        .calendar-container {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+        
+        .visual-timeline {
+          display: none; /* Hide timeline on mobile for space */
+        }
+        
         .matchmaking-visualization {
           grid-template-columns: 1fr;
           gap: 32px;
@@ -1689,6 +3042,11 @@ class ProximityNetworking {
         }
         
         .time-slots {
+          grid-template-columns: 1fr;
+        }
+        
+        .duration-options,
+        .granularity-options {
           grid-template-columns: 1fr;
         }
       }

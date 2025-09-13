@@ -136,8 +136,40 @@ class HeroLanding {
   showFeature(featureName) {
     console.log('[Hero] Feature clicked:', featureName);
     
-    // SKIP ALL MODALS - Just go directly to the app
-    // This prevents any blocking overlays from appearing
+    // For Smart Discovery, show the comprehensive onboarding flow
+    if (featureName === 'discovery') {
+      // Check if user has already completed onboarding
+      const profileExists = localStorage.getItem('smartProfile');
+      
+      if (!profileExists) {
+        // Show smart onboarding for new users
+        if (window.smartOnboarding) {
+          window.smartOnboarding.show();
+          // Hide hero after a brief delay
+          setTimeout(() => {
+            const hero = document.getElementById('hero-landing');
+            if (hero) {
+              hero.style.transition = 'opacity 500ms ease';
+              hero.style.opacity = '0';
+              setTimeout(() => {
+                hero.style.display = 'none';
+              }, 500);
+            }
+          }, 300);
+        }
+      } else {
+        // Existing user - go directly to smart networking
+        this.startApp();
+        setTimeout(() => {
+          if (window.proximityNetworking) {
+            window.proximityNetworking.open();
+          }
+        }, 500);
+      }
+      return;
+    }
+    
+    // For other features, go directly to the app
     this.startApp();
     return;
 

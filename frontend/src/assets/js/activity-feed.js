@@ -323,28 +323,11 @@ class ActivityFeed {
   injectStyles() {
     const style = document.createElement('style');
     style.textContent = `
-      /* Activity Feed Button */
+      /* Activity Feed Button - inherits positioning from floating-buttons-unified.css */
       .activity-feed-btn {
-        position: fixed;
-        bottom: 220px;
-        right: 24px;
-        width: 56px;
-        height: 56px;
+        /* Position, size, and effects handled by floating-buttons-unified.css */
+        /* Just set the background color */
         background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);
-        border: none;
-        border-radius: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 8px 24px rgba(255, 107, 107, 0.3);
-        z-index: 997;
-        transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      }
-      
-      .activity-feed-btn:hover {
-        transform: scale(1.1);
-        box-shadow: 0 12px 32px rgba(255, 107, 107, 0.4);
       }
       
       .activity-feed-btn-icon {

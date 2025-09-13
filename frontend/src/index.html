@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="maps-key" content="__ENV_GOOGLE_MAPS_KEY__" />
   <meta name="google-client-id" content="__ENV_GOOGLE_CLIENT_ID__" />
-  <title>Gamescom 2025 - Professional Networking</title>
+  <title>Network Pro</title>
   
   <!-- PWA Resource Hints for Party List Performance -->
   <link rel="preconnect" href="https://us-central1-conference-party-app.cloudfunctions.net" crossorigin>
@@ -23,8 +23,21 @@
   <link rel="stylesheet" href="/assets/css/nav-elegant.css">
   <!-- Legacy styles (to be phased out) -->
   <link rel="stylesheet" href="/assets/css/app-unified.css">
-  <!-- Mobile FAB positioning fix -->
-  <link rel="stylesheet" href="/assets/css/mobile-fab-fix.css">
+  <!-- Unified Floating Button System -->
+  <link rel="stylesheet" href="/assets/css/floating-buttons-unified.css">
+  
+  <!-- Smart Onboarding for Intelligent Matchmaking -->
+  <script type="module" src="/assets/js/smart-onboarding.js"></script>
+  
+  <!-- Initialize Smart Onboarding -->
+  <script type="module">
+    // Wait for smart onboarding to be ready
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log('[Init] Smart Onboarding ready');
+      // Clear profile for demo (remove this line in production)
+      // localStorage.removeItem('smartProfile');
+    });
+  </script>
 </head>
 <body>
   <!-- Hero Landing - Immediate Visual Impact -->
@@ -57,7 +70,7 @@
         </div>
         
         <div class="hero-features">
-          <div class="hero-feature" onclick="window.startApp()">
+          <div class="hero-feature" onclick="window.heroLanding.showFeature('discovery')">
             <div class="hero-feature-icon" data-icon="target"></div>
             <h3 class="hero-feature-title">Smart Discovery</h3>
             <p class="hero-feature-desc">AI-powered event recommendations tailored to your interests</p>
@@ -106,6 +119,8 @@
   <script type="module" src="/assets/js/haptic-feedback.js"></script>
   <!-- Magic Link Authentication -->
   <script type="module" src="/assets/js/magic-link-auth.js"></script>
+  <!-- Demo Reset Button - For testing magic link flow -->
+  <script type="module" src="/assets/js/demo-reset-button.js"></script>
   <!-- Real-time Messaging System -->
   <script type="module" src="/assets/js/messaging-system.js"></script>
   <!-- Live Activity Feed -->

@@ -13,7 +13,7 @@ class DemoApp {
         date: 'Aug 20, 2025',
         attendees: 500,
         tags: ['Networking', 'VIP', 'Open Bar'],
-        image: 'https://source.unsplash.com/400x225/?las-vegas,nightlife',
+        image: 'https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?w=400&h=225&fit=crop',
         vip: true,
         live: false
       },
@@ -24,7 +24,7 @@ class DemoApp {
         date: 'Aug 21, 2025',
         attendees: 200,
         tags: ['Technical', 'Indie', 'AAA'],
-        image: 'https://source.unsplash.com/400x225/?gaming,conference',
+        image: 'https://images.unsplash.com/photo-1511882150382-421056c89033?w=400&h=225&fit=crop',
         vip: false,
         live: true
       },
@@ -35,7 +35,7 @@ class DemoApp {
         date: 'Aug 21, 2025',
         attendees: 350,
         tags: ['Business', 'Deals', 'Preview'],
-        image: 'https://source.unsplash.com/400x225/?vegas,convention',
+        image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=225&fit=crop',
         vip: true,
         live: false
       },
@@ -46,7 +46,7 @@ class DemoApp {
         date: 'Aug 22, 2025',
         attendees: 400,
         tags: ['Awards', 'Indie', 'Celebration'],
-        image: 'https://source.unsplash.com/400x225/?esports,gaming',
+        image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=225&fit=crop',
         vip: false,
         live: false
       },
@@ -57,7 +57,7 @@ class DemoApp {
         date: 'Aug 22, 2025',
         attendees: 150,
         tags: ['Tech', 'AI', 'Cloud'],
-        image: 'https://source.unsplash.com/400x225/?technology,conference',
+        image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=400&h=225&fit=crop',
         vip: false,
         live: false
       },
@@ -68,7 +68,7 @@ class DemoApp {
         date: 'Aug 23, 2025',
         attendees: 600,
         tags: ['Networking', 'Party', 'VIP'],
-        image: 'https://source.unsplash.com/400x225/?las-vegas,party',
+        image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=225&fit=crop',
         vip: true,
         live: false
       }
@@ -155,11 +155,6 @@ class DemoApp {
           ${this.events.map((event, index) => this.createEventCard(event, index === 0)).join('')}
         </div>
       </main>
-
-      <!-- Floating Action Button -->
-      <button class="fab" onclick="window.demoApp.showFilters()">
-        <span>+</span>
-      </button>
     `;
   }
 
@@ -167,9 +162,9 @@ class DemoApp {
     const isSaved = this.savedEvents.has(event.id);
     
     return `
-      <div class="event-card ${featured ? 'featured' : ''}" data-event-id="${event.id}">
+      <div class="event-card ${featured ? 'featured' : ''}" data-event-id="${event.id}" onclick="window.demoApp.showEventDetails(${event.id})" style="cursor: pointer;">
         <div class="event-card-image">
-          <img src="${event.image}" alt="${event.title}" loading="lazy">
+          <img src="${event.image}" alt="${event.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=225&fit=crop'">
           ${event.vip ? '<div class="event-card-vip">VIP</div>' : ''}
           ${event.live ? '<div class="event-card-live">LIVE NOW</div>' : ''}
         </div>
@@ -337,6 +332,73 @@ class DemoApp {
     this.showToast(`${event.title}: ${event.attendees} attendees expected`);
   }
 
+  showEventDetails(eventId) {
+    // Stop event bubbling to prevent triggering button clicks
+    if (event.target.closest('button')) {
+      return;
+    }
+    
+    const eventData = this.events.find(e => e.id === eventId);
+    if (!eventData) return;
+    
+    // Create a modal with event details
+    const modal = document.createElement('div');
+    modal.className = 'event-modal';
+    modal.innerHTML = `
+      <div class="event-modal-backdrop" onclick="this.parentElement.remove()"></div>
+      <div class="event-modal-content">
+        <button class="event-modal-close" onclick="this.closest('.event-modal').remove()">×</button>
+        <div class="event-modal-image">
+          <img src="${eventData.image}" alt="${eventData.title}" onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=225&fit=crop'">
+          ${eventData.vip ? '<div class="event-modal-badge vip">VIP Event</div>' : ''}
+          ${eventData.live ? '<div class="event-modal-badge live">LIVE NOW</div>' : ''}
+        </div>
+        <div class="event-modal-body">
+          <h2>${eventData.title}</h2>
+          <p class="event-modal-description">${eventData.description}</p>
+          
+          <div class="event-modal-info">
+            <div class="event-modal-info-item">
+              <span class="label">Date</span>
+              <span class="value">${eventData.date}</span>
+            </div>
+            <div class="event-modal-info-item">
+              <span class="label">Expected Attendees</span>
+              <span class="value">${eventData.attendees}</span>
+            </div>
+            <div class="event-modal-info-item">
+              <span class="label">Tags</span>
+              <div class="event-modal-tags">
+                ${eventData.tags.map(tag => `<span class="event-modal-tag">${tag}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+          
+          <div class="event-modal-actions">
+            <button class="event-modal-btn primary" onclick="window.demoApp.rsvp(${eventData.id}); this.closest('.event-modal').remove();">
+              ${this.savedEvents.has(eventData.id) ? 'Already RSVPed ✓' : 'RSVP to Event'}
+            </button>
+            <button class="event-modal-btn secondary" onclick="window.demoApp.share(${eventData.id}); this.closest('.event-modal').remove();">
+              Share Event
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Add animation
+    setTimeout(() => {
+      modal.classList.add('active');
+    }, 10);
+    
+    // Haptic feedback
+    if (window.haptic) {
+      window.haptic.selection();
+    }
+  }
+
   showSection(section) {
     const header = document.querySelector('.app-header h1');
     const titles = {
@@ -373,12 +435,6 @@ class DemoApp {
     }
   }
 
-  showFilters() {
-    this.showToast('Filter options coming soon!');
-    if (window.haptic) {
-      window.haptic.impact('medium');
-    }
-  }
 
   showToast(message) {
     const existing = document.querySelector('.toast');
@@ -459,6 +515,222 @@ style.textContent = `
   
   .empty-state p {
     color: rgba(255, 255, 255, 0.6);
+  }
+  
+  /* Event Modal Styles */
+  .event-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+  
+  .event-modal.active {
+    opacity: 1;
+  }
+  
+  .event-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+  }
+  
+  .event-modal-content {
+    position: relative;
+    background: #1a1a2e;
+    border-radius: 20px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: transform 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .event-modal.active .event-modal-content {
+    transform: scale(1);
+  }
+  
+  .event-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1;
+    transition: all 200ms ease;
+  }
+  
+  .event-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+  }
+  
+  .event-modal-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
+  }
+  
+  .event-modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .event-modal-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .event-modal-badge.vip {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: #000;
+  }
+  
+  .event-modal-badge.live {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    animation: pulse 2s infinite;
+  }
+  
+  .event-modal-body {
+    padding: 32px;
+  }
+  
+  .event-modal-body h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 12px;
+  }
+  
+  .event-modal-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  
+  .event-modal-info {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .event-modal-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .event-modal-info-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .event-modal-info-item .label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+  }
+  
+  .event-modal-info-item .value {
+    color: white;
+    font-weight: 600;
+  }
+  
+  .event-modal-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .event-modal-tag {
+    padding: 4px 12px;
+    background: rgba(0, 122, 255, 0.2);
+    color: #007aff;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .event-modal-actions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .event-modal-btn {
+    flex: 1;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 200ms ease;
+  }
+  
+  .event-modal-btn.primary {
+    background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+    color: white;
+  }
+  
+  .event-modal-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3);
+  }
+  
+  .event-modal-btn.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .event-modal-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  @media (max-width: 640px) {
+    .event-modal-content {
+      max-width: 100%;
+      margin: 10px;
+    }
+    
+    .event-modal-body {
+      padding: 24px;
+    }
+    
+    .event-modal-actions {
+      flex-direction: column;
+    }
   }
 `;
 document.head.appendChild(style);
