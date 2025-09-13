@@ -154,7 +154,7 @@ class HeroLanding {
         
         <div class="showcase-features">
           <!-- Smart Networking -->
-          <div class="showcase-feature">
+          <div class="showcase-feature clickable" onclick="window.heroLanding.featureAction('smart-networking')">
             <div class="feature-icon-wrapper">
               ${getIcon('users', 32)}
             </div>
@@ -168,7 +168,7 @@ class HeroLanding {
           </div>
           
           <!-- Event Discovery -->
-          <div class="showcase-feature">
+          <div class="showcase-feature clickable" onclick="window.heroLanding.featureAction('event-discovery')">
             <div class="feature-icon-wrapper">
               ${getIcon('calendar', 32)}
             </div>
@@ -182,7 +182,7 @@ class HeroLanding {
           </div>
           
           <!-- Professional Messaging -->
-          <div class="showcase-feature">
+          <div class="showcase-feature clickable" onclick="window.heroLanding.featureAction('messaging')">
             <div class="feature-icon-wrapper">
               ${getIcon('messageCircle', 32)}
             </div>
@@ -210,7 +210,7 @@ class HeroLanding {
           </div>
           
           <!-- Analytics -->
-          <div class="showcase-feature">
+          <div class="showcase-feature clickable" onclick="window.heroLanding.featureAction('analytics')">
             <div class="feature-icon-wrapper">
               ${getIcon('trendingUp', 32)}
             </div>
@@ -362,6 +362,18 @@ class HeroLanding {
           padding: 32px;
           opacity: 0;
           transform: translateY(20px);
+          transition: all 0.3s ease;
+        }
+        
+        .showcase-feature.clickable {
+          cursor: pointer;
+        }
+        
+        .showcase-feature.clickable:hover {
+          background: rgba(255, 255, 255, 0.08);
+          border-color: var(--color-accent, #7c3aed);
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2);
         }
         
         @keyframes slideInUp {
@@ -476,6 +488,479 @@ class HeroLanding {
   startFromShowcase() {
     this.closeShowcase();
     this.startApp();
+  }
+
+  featureAction(feature) {
+    console.log('[HeroLanding] Feature clicked:', feature);
+    
+    switch(feature) {
+      case 'smart-networking':
+        // Start account setup / onboarding
+        this.closeShowcase();
+        if (window.smartOnboarding) {
+          window.smartOnboarding.show();
+          // Hide hero after a brief delay
+          setTimeout(() => {
+            const hero = document.getElementById('hero-landing');
+            if (hero) {
+              hero.style.transition = 'opacity 500ms ease';
+              hero.style.opacity = '0';
+              setTimeout(() => {
+                hero.style.display = 'none';
+              }, 500);
+            }
+          }, 300);
+        }
+        break;
+        
+      case 'event-discovery':
+        // Go to events page
+        this.closeShowcase();
+        this.startApp();
+        // Navigate to events after app loads
+        setTimeout(() => {
+          if (window.location.hash !== '#events') {
+            window.location.hash = '#events';
+          }
+        }, 500);
+        break;
+        
+      case 'messaging':
+        // Start smart matchmaking flow
+        this.closeShowcase();
+        this.startApp();
+        setTimeout(() => {
+          if (window.proximityNetworking) {
+            window.proximityNetworking.open();
+            window.proximityNetworking.showToast('Let\'s make your first connection!');
+          }
+        }, 500);
+        break;
+        
+      case 'analytics':
+        // Show after-conference report
+        this.closeShowcase();
+        this.showAnalyticsReport();
+        break;
+        
+      default:
+        console.log('[HeroLanding] No action for feature:', feature);
+    }
+  }
+  
+  showAnalyticsReport() {
+    const report = document.createElement('div');
+    report.className = 'analytics-report-modal';
+    report.innerHTML = `
+      <div class="report-backdrop" onclick="window.heroLanding.closeReport()"></div>
+      <div class="report-content">
+        <button class="report-close" onclick="window.heroLanding.closeReport()">
+          ${getIcon('x', 24)}
+        </button>
+        
+        <div class="report-header">
+          <div class="report-logo">MAU 2025</div>
+          <h2>Your Conference Analytics Report</h2>
+          <p>Marketing Automation Universe • March 15-18, 2025</p>
+        </div>
+        
+        <div class="report-stats">
+          <div class="stat-card primary">
+            <div class="stat-value">47</div>
+            <div class="stat-label">Connections Made</div>
+            <div class="stat-change">+235% vs avg attendee</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-value">12</div>
+            <div class="stat-label">Meetings Scheduled</div>
+            <div class="stat-change">8 completed, 4 follow-ups</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-value">89%</div>
+            <div class="stat-label">Match Quality</div>
+            <div class="stat-change">Top 5% of attendees</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-value">$2.3M</div>
+            <div class="stat-label">Pipeline Generated</div>
+            <div class="stat-change">From 6 qualified leads</div>
+          </div>
+        </div>
+        
+        <div class="report-sections">
+          <div class="report-section">
+            <h3>Top Connections by Category</h3>
+            <div class="connection-list">
+              <div class="connection-item">
+                <span class="connection-category">CDP Integration</span>
+                <span class="connection-count">15 contacts</span>
+                <div class="connection-bar" style="width: 100%"></div>
+              </div>
+              <div class="connection-item">
+                <span class="connection-category">Marketing Automation</span>
+                <span class="connection-count">12 contacts</span>
+                <div class="connection-bar" style="width: 80%"></div>
+              </div>
+              <div class="connection-item">
+                <span class="connection-category">Attribution & Analytics</span>
+                <span class="connection-count">10 contacts</span>
+                <div class="connection-bar" style="width: 67%"></div>
+              </div>
+              <div class="connection-item">
+                <span class="connection-category">ABM Platforms</span>
+                <span class="connection-count">8 contacts</span>
+                <div class="connection-bar" style="width: 53%"></div>
+              </div>
+              <div class="connection-item">
+                <span class="connection-category">Integration (iPaaS)</span>
+                <span class="connection-count">2 contacts</span>
+                <div class="connection-bar" style="width: 13%"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="report-section">
+            <h3>Key Achievements</h3>
+            <div class="achievements">
+              <div class="achievement">
+                <span class="achievement-icon">🏆</span>
+                <div>
+                  <strong>Super Connector</strong>
+                  <p>Made 40+ meaningful connections</p>
+                </div>
+              </div>
+              <div class="achievement">
+                <span class="achievement-icon">🎯</span>
+                <div>
+                  <strong>Perfect Match</strong>
+                  <p>95%+ compatibility score achieved</p>
+                </div>
+              </div>
+              <div class="achievement">
+                <span class="achievement-icon">⚡</span>
+                <div>
+                  <strong>Early Bird</strong>
+                  <p>First 100 to check in Day 1</p>
+                </div>
+              </div>
+              <div class="achievement">
+                <span class="achievement-icon">💎</span>
+                <div>
+                  <strong>VIP Networker</strong>
+                  <p>Connected with 5+ C-level executives</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="report-section">
+            <h3>Follow-Up Actions</h3>
+            <div class="followup-list">
+              <div class="followup-item">
+                <input type="checkbox" checked>
+                <label>Schedule demo with Salesforce CDP team (Sarah Chen)</label>
+              </div>
+              <div class="followup-item">
+                <input type="checkbox" checked>
+                <label>Send integration specs to HubSpot (Marcus Johnson)</label>
+              </div>
+              <div class="followup-item">
+                <input type="checkbox">
+                <label>Review Segment pricing proposal (Emma Wilson)</label>
+              </div>
+              <div class="followup-item">
+                <input type="checkbox">
+                <label>Attend 6sense webinar on intent data (Next Tuesday)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="report-footer">
+          <button class="btn-export" onclick="window.heroLanding.exportReport()">
+            ${getIcon('download', 20)}
+            <span>Export Report (PDF)</span>
+          </button>
+          <button class="btn-share" onclick="window.heroLanding.shareReport()">
+            ${getIcon('share2', 20)}
+            <span>Share with Team</span>
+          </button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(report);
+    
+    // Animate in
+    requestAnimationFrame(() => {
+      report.classList.add('active');
+    });
+    
+    // Add styles if not present
+    this.injectReportStyles();
+  }
+  
+  closeReport() {
+    const report = document.querySelector('.analytics-report-modal');
+    if (report) {
+      report.classList.remove('active');
+      setTimeout(() => report.remove(), 300);
+    }
+  }
+  
+  exportReport() {
+    this.showToast('Report exported to Downloads folder');
+  }
+  
+  shareReport() {
+    this.showToast('Report link copied to clipboard');
+  }
+  
+  showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'hero-toast';
+    toast.textContent = message;
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-accent, #7c3aed);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 10002;
+      animation: slideUp 0.3s ease;
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.style.animation = 'slideDown 0.3s ease';
+      setTimeout(() => toast.remove(), 300);
+    }, 2000);
+  }
+  
+  injectReportStyles() {
+    if (!document.querySelector('#report-styles')) {
+      const styles = document.createElement('style');
+      styles.id = 'report-styles';
+      styles.textContent = `
+        .analytics-report-modal {
+          position: fixed;
+          inset: 0;
+          z-index: 10001;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        
+        .analytics-report-modal.active {
+          opacity: 1;
+        }
+        
+        .report-backdrop {
+          position: absolute;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.95);
+          backdrop-filter: blur(20px);
+        }
+        
+        .report-content {
+          position: relative;
+          width: 90%;
+          max-width: 900px;
+          max-height: 90vh;
+          overflow-y: auto;
+          background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+          border-radius: 24px;
+          padding: 48px;
+        }
+        
+        .report-close {
+          position: absolute;
+          top: 24px;
+          right: 24px;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.1);
+          border: none;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+        
+        .report-header {
+          text-align: center;
+          margin-bottom: 48px;
+        }
+        
+        .report-logo {
+          display: inline-block;
+          padding: 8px 16px;
+          background: var(--color-accent, #7c3aed);
+          color: white;
+          font-weight: 700;
+          border-radius: 8px;
+          margin-bottom: 16px;
+        }
+        
+        .report-header h2 {
+          font-size: 32px;
+          margin-bottom: 8px;
+        }
+        
+        .report-header p {
+          color: #9ca3af;
+        }
+        
+        .report-stats {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 24px;
+          margin-bottom: 48px;
+        }
+        
+        .stat-card {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 16px;
+          padding: 24px;
+          text-align: center;
+        }
+        
+        .stat-card.primary {
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(16, 185, 129, 0.2));
+          border-color: var(--color-accent, #7c3aed);
+        }
+        
+        .stat-value {
+          font-size: 36px;
+          font-weight: 700;
+          color: white;
+          margin-bottom: 8px;
+        }
+        
+        .stat-label {
+          font-size: 14px;
+          color: #9ca3af;
+          margin-bottom: 8px;
+        }
+        
+        .stat-change {
+          font-size: 12px;
+          color: #10b981;
+        }
+        
+        .report-section {
+          margin-bottom: 48px;
+        }
+        
+        .report-section h3 {
+          font-size: 20px;
+          margin-bottom: 24px;
+        }
+        
+        .connection-list {
+          space-y: 16px;
+        }
+        
+        .connection-item {
+          position: relative;
+          padding: 12px 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .connection-category {
+          display: inline-block;
+          font-weight: 600;
+        }
+        
+        .connection-count {
+          float: right;
+          color: #9ca3af;
+        }
+        
+        .connection-bar {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 2px;
+          background: var(--color-accent, #7c3aed);
+        }
+        
+        .achievements {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 20px;
+        }
+        
+        .achievement {
+          display: flex;
+          gap: 16px;
+          padding: 16px;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 12px;
+        }
+        
+        .achievement-icon {
+          font-size: 32px;
+        }
+        
+        .followup-list {
+          space-y: 12px;
+        }
+        
+        .followup-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px;
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 8px;
+        }
+        
+        .followup-item input[type="checkbox"] {
+          width: 20px;
+          height: 20px;
+        }
+        
+        .report-footer {
+          display: flex;
+          gap: 16px;
+          justify-content: center;
+          margin-top: 48px;
+        }
+        
+        .btn-export, .btn-share {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 24px;
+          background: var(--color-accent, #7c3aed);
+          border: none;
+          border-radius: 12px;
+          color: white;
+          font-weight: 600;
+          cursor: pointer;
+        }
+        
+        .btn-share {
+          background: transparent;
+          border: 2px solid var(--color-accent, #7c3aed);
+        }
+      `;
+      document.head.appendChild(styles);
+    }
   }
 
   showFeature(featureName) {
