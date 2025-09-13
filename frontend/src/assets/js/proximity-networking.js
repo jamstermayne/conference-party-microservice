@@ -1186,6 +1186,39 @@ class ProximityNetworking {
         </div>
         
         <div class="messaging-chat">
+          <!-- Pinned Team MAU Messages -->
+          <div class="pinned-messages">
+            <div class="pinned-header">
+              <span class="pin-icon">📌</span>
+              <span>Team MAU Announcements</span>
+            </div>
+            <div class="message team-mau pinned">
+              <div class="message-content">
+                <div class="mau-badge">Team MAU</div>
+                <p>🎯 <strong>Keynote Alert:</strong> Salesforce announcing new Einstein AI for Marketing Cloud at 2pm - Hall A. Perfect for attribution modeling!</p>
+                <span class="message-time">10:15 AM</span>
+              </div>
+            </div>
+            <div class="message team-mau pinned">
+              <div class="message-content">
+                <div class="mau-badge">Team MAU</div>
+                <p>🚀 <strong>Hot Demo:</strong> HubSpot showing their new ABM integration with 6sense at Booth #423. Real-time intent data + lead scoring!</p>
+                <span class="message-time">9:45 AM</span>
+              </div>
+            </div>
+            <div class="message team-mau pinned">
+              <div class="message-content">
+                <div class="mau-badge">Team MAU</div>
+                <p>💡 <strong>Exclusive:</strong> Segment (Twilio) launching Reverse ETL feature - sync CDP data back to your MAP. Private preview signup at CDP Pavilion!</p>
+                <span class="message-time">9:30 AM</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="messages-divider">
+            <span>Conversation with ${name}</span>
+          </div>
+          
           <div class="chat-messages" id="chat-messages">
             <div class="message received">
               <div class="message-content">
@@ -1530,6 +1563,52 @@ class ProximityNetworking {
         display: flex;
         flex-direction: column;
         overflow: hidden;
+      }
+      
+      /* Pinned Messages Section */
+      .pinned-messages {
+        background: var(--color-bg, #0f0f0f);
+        border-bottom: 2px solid var(--color-accent, #7c3aed);
+        padding: 16px 20px;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+      
+      .pinned-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--color-text-dim, #9ca3af);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+      }
+      
+      .message.team-mau {
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(16, 185, 129, 0.1));
+        border-left: 3px solid var(--color-accent, #7c3aed);
+        margin-bottom: 12px;
+      }
+      
+      .mau-badge {
+        display: inline-block;
+        background: var(--color-accent, #7c3aed);
+        color: white;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-bottom: 8px;
+      }
+      
+      .messages-divider {
+        padding: 12px 20px;
+        background: var(--color-surface, #1a1a1a);
+        border-bottom: 1px solid var(--color-border, #2a2a2a);
+        text-align: center;
+        font-size: 13px;
+        color: var(--color-text-dim, #9ca3af);
       }
       
       .chat-messages {

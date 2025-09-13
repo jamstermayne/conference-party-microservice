@@ -10,32 +10,32 @@ class ActivityFeed {
     this.autoUpdate = true;
     
     this.activityTemplates = [
-      { icon: 'network', text: '{name} connected with {other}', type: 'connection' },
-      { icon: 'target', text: '{name} RSVP\'d to {event}', type: 'rsvp' },
-      { icon: 'discover', text: '{name} checked in at {location}', type: 'checkin' },
-      { icon: 'vip', text: '{name} earned {achievement}', type: 'achievement' },
-      { icon: 'message', text: '{name} started a discussion about {topic}', type: 'discussion' },
-      { icon: 'share', text: '{name} shared a photo from {event}', type: 'photo' },
-      { icon: 'activity', text: '{name} is playing {game} at {booth}', type: 'gaming' },
-      { icon: 'profile', text: '{name} is at the networking lounge', type: 'networking' },
-      { icon: 'features', text: '{speaker} started presenting: {talk}', type: 'presentation' },
-      { icon: 'live', text: '{event} is trending now!', type: 'trending' }
+      { icon: 'network', text: '{name} connected with {other} to discuss {topic}', type: 'connection' },
+      { icon: 'target', text: '{name} scheduled demo of {product} at {location}', type: 'demo' },
+      { icon: 'discover', text: '{name} checked in at {vendor} booth', type: 'checkin' },
+      { icon: 'vip', text: '{name} unlocked {achievement} integration', type: 'achievement' },
+      { icon: 'message', text: '{name} asked about {topic} in {category}', type: 'discussion' },
+      { icon: 'share', text: '{name} shared insights from {session}', type: 'share' },
+      { icon: 'activity', text: '{name} is comparing {product1} vs {product2}', type: 'comparison' },
+      { icon: 'profile', text: '{name} joined the {category} roundtable', type: 'networking' },
+      { icon: 'features', text: '{speaker} presenting: "{talk}" - {category}', type: 'presentation' },
+      { icon: 'live', text: '{vendor} announcing {announcement}!', type: 'trending' }
     ];
     
     this.names = [
-      'Sarah Chen', 'Marcus Johnson', 'Emma Wilson', 'Alex Kumar',
-      'Lisa Park', 'James Mitchell', 'Sofia Rodriguez', 'David Kim',
-      'Anna Schmidt', 'Tom Anderson', 'Maya Patel', 'Chris Lee'
+      'Sarah Chen (Salesforce)', 'Marcus Johnson (HubSpot)', 'Emma Wilson (Segment)', 'Alex Kumar (6sense)',
+      'Lisa Park (Tableau)', 'James Mitchell (Marketo)', 'Sofia Rodriguez (Klaviyo)', 'David Kim (Optimizely)',
+      'Anna Schmidt (MuleSoft)', 'Tom Anderson (Zapier)', 'Maya Patel (Tealium)', 'Chris Lee (Terminus)'
     ];
     
     this.events = [
-      'Opening Night Party', 'Developer Meetup', 'Publisher Showcase',
-      'Indie Game Awards', 'Tech Talk: Next-Gen Gaming', 'Closing Gala'
+      'CDP Integration Workshop', 'ABM Strategy Session', 'Attribution Modeling Masterclass',
+      'AI in Marketing Keynote', 'Lead Scoring Best Practices', 'Real-time Personalization Demo'
     ];
     
     this.locations = [
-      'Hall 7', 'North Entrance', 'VIP Lounge', 'Demo Zone',
-      'Main Stage', 'Food Court', 'Business Center', 'Outdoor Pavilion'
+      'Salesforce Pavilion', 'HubSpot Booth #423', 'CDP Zone', 'Analytics Theater',
+      'Main Stage', 'Integration Hub', 'ABM Center', 'AI Demo Area'
     ];
     
     this.init();
@@ -83,16 +83,16 @@ class ActivityFeed {
 
       <div class="activity-feed-stats">
         <div class="activity-stat">
-          <span class="activity-stat-value">2,847</span>
-          <span class="activity-stat-label">Online Now</span>
+          <span class="activity-stat-value">3,247</span>
+          <span class="activity-stat-label">Attendees</span>
         </div>
         <div class="activity-stat">
-          <span class="activity-stat-value">156</span>
-          <span class="activity-stat-label">Active Events</span>
+          <span class="activity-stat-value">187</span>
+          <span class="activity-stat-label">Vendors</span>
         </div>
         <div class="activity-stat">
-          <span class="activity-stat-value">89%</span>
-          <span class="activity-stat-label">Engagement</span>
+          <span class="activity-stat-value">42</span>
+          <span class="activity-stat-label">Live Demos</span>
         </div>
       </div>
 
@@ -125,17 +125,39 @@ class ActivityFeed {
     const event = this.events[Math.floor(Math.random() * this.events.length)];
     const location = this.locations[Math.floor(Math.random() * this.locations.length)];
     
+    // MAU-specific data
+    const topics = ['CDP integration', 'lead scoring', 'attribution modeling', 'ABM strategy', 'email deliverability', 'real-time personalization'];
+    const products = ['Marketing Cloud', 'HubSpot', 'Segment CDP', 'Marketo', 'Klaviyo', 'Optimizely', '6sense', 'Tableau'];
+    const vendors = ['Salesforce', 'HubSpot', 'Twilio', 'Adobe', 'Oracle', 'Microsoft', 'Google'];
+    const categories = ['MAP', 'CDP', 'ABM', 'Analytics', 'Ad Tech', 'iPaaS'];
+    const achievements = ['Integration Expert', 'CDP Pioneer', 'Attribution Master', 'ABM Champion', 'Data Wizard'];
+    const sessions = ['CDP Workshop', 'ABM Masterclass', 'Attribution Summit', 'AI Keynote', 'Integration Lab'];
+    const announcements = ['new AI features', 'CDP 2.0 launch', 'real-time sync API', 'ABM integration', 'attribution engine'];
+    const speakers = ['Sarah Chen (Salesforce)', 'Marcus Johnson (HubSpot)', 'Emma Wilson (Segment)', 'Alex Kumar (6sense)'];
+    const talks = [
+      'AI-Powered Attribution Models',
+      'Building a Unified MarTech Stack',
+      'Real-time CDP Integration Strategies',
+      'The Future of Account-Based Marketing',
+      'Maximizing ROI with Multi-Touch Attribution'
+    ];
+    
     let text = template.text
       .replace('{name}', name)
       .replace('{other}', other)
       .replace('{event}', event)
       .replace('{location}', location)
-      .replace('{achievement}', 'Early Bird Badge')
-      .replace('{topic}', 'game monetization')
-      .replace('{game}', 'Cyberpunk 2077')
-      .replace('{booth}', 'CD Projekt Red')
-      .replace('{speaker}', 'John Carmack')
-      .replace('{talk}', 'The Future of VR Gaming');
+      .replace('{vendor}', vendors[Math.floor(Math.random() * vendors.length)])
+      .replace('{achievement}', achievements[Math.floor(Math.random() * achievements.length)])
+      .replace('{topic}', topics[Math.floor(Math.random() * topics.length)])
+      .replace('{product}', products[Math.floor(Math.random() * products.length)])
+      .replace('{product1}', products[Math.floor(Math.random() * products.length)])
+      .replace('{product2}', products[Math.floor(Math.random() * products.length)])
+      .replace('{category}', categories[Math.floor(Math.random() * categories.length)])
+      .replace('{session}', sessions[Math.floor(Math.random() * sessions.length)])
+      .replace('{announcement}', announcements[Math.floor(Math.random() * announcements.length)])
+      .replace('{speaker}', speakers[Math.floor(Math.random() * speakers.length)])
+      .replace('{talk}', talks[Math.floor(Math.random() * talks.length)]);
     
     return {
       id: Math.random().toString(36).substr(2, 9),
