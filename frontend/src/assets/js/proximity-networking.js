@@ -277,7 +277,7 @@ class ProximityNetworking {
             <div class="match-details-grid">
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('mapPin', 16)}</span>
-                <span>50m away • Hall 7</span>
+                <span>50m away • Salesforce Pavilion</span>
               </div>
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('users', 16)}</span>
@@ -285,11 +285,11 @@ class ProximityNetworking {
               </div>
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('briefcase', 16)}</span>
-                <span>8 years experience</span>
+                <span>8 years in MarTech</span>
               </div>
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('star', 16)}</span>
-                <span>Ship 2 AAA titles</span>
+                <span>Speaker: "AI in Marketing"</span>
               </div>
             </div>
             
@@ -347,7 +347,7 @@ class ProximityNetworking {
               </div>
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('briefcase', 16)}</span>
-                <span>12 years experience</span>
+                <span>12 years in SaaS</span>
               </div>
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('trophy', 16)}</span>
@@ -409,11 +409,11 @@ class ProximityNetworking {
               </div>
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('briefcase', 16)}</span>
-                <span>5 years experience</span>
+                <span>5 years at Twilio/Segment</span>
               </div>
               <div class="match-stat">
                 <span class="stat-icon">${getIcon('award', 16)}</span>
-                <span>IGF nominated 2024</span>
+                <span>Built 10M+ events/day pipeline</span>
               </div>
             </div>
             
@@ -1129,10 +1129,10 @@ class ProximityNetworking {
   scheduleMeeting(name, btn) {
     // Add to calendar
     const meeting = {
-      title: `Coffee with ${name || 'match'}`,
-      location: 'Food Court',
-      time: '11:30 AM',
-      date: 'August 21, 2025'
+      title: `Meeting with ${name || 'match'}`,
+      location: 'CDP Zone - Meeting Room B',
+      time: '12:30 PM',
+      date: 'March 17, 2025'
     };
 
     // Show confirmation
