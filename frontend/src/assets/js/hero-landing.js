@@ -3,6 +3,8 @@
  * Elegant app initialization with progressive disclosure
  */
 
+import { getIcon } from './icon-gallery.js';
+
 class HeroLanding {
   constructor() {
     this.heroContainer = document.getElementById('hero-landing');
@@ -23,6 +25,7 @@ class HeroLanding {
 
     this.setupFeatures();
     this.attachEventHandlers();
+    this.renderIcons();
     this.animateEntrance();
   }
 
@@ -30,7 +33,7 @@ class HeroLanding {
     // Feature definitions for progressive disclosure
     this.features.set('events', {
       title: 'Event Discovery',
-      icon: '🎯',
+      icon: 'target',
       description: 'Find the perfect events for your interests',
       tutorial: [
         'Browse 50+ exclusive gaming industry parties',
@@ -42,7 +45,7 @@ class HeroLanding {
 
     this.features.set('network', {
       title: 'Professional Networking',
-      icon: '🤝',
+      icon: 'handshake',
       description: 'Build meaningful industry connections',
       tutorial: [
         'Connect with developers, publishers, and investors',
@@ -54,7 +57,7 @@ class HeroLanding {
 
     this.features.set('offline', {
       title: 'Offline Access',
-      icon: '📱',
+      icon: 'wifiOff',
       description: 'Everything works without internet',
       tutorial: [
         'Download event data for offline viewing',
@@ -70,6 +73,18 @@ class HeroLanding {
     window.startApp = () => this.startApp();
     window.exploreDemo = () => this.exploreDemo();
     window.showFeature = (feature) => this.showFeature(feature);
+  }
+
+  renderIcons() {
+    // Render professional SVG icons
+    const iconElements = document.querySelectorAll('[data-icon]');
+    iconElements.forEach(element => {
+      const iconName = element.dataset.icon;
+      const iconSvg = getIcon(iconName, 48, 'hero-icon-svg');
+      if (iconSvg) {
+        element.innerHTML = iconSvg;
+      }
+    });
   }
 
   animateEntrance() {
@@ -96,10 +111,10 @@ class HeroLanding {
       // Trigger app initialization event
       window.dispatchEvent(new Event('app-ready'));
       
-      // Show FTUE for first-time users
-      if (this.isFirstVisit) {
-        setTimeout(() => this.showOnboarding(), 1000);
-      }
+      // DISABLED - Show FTUE for first-time users
+      // if (this.isFirstVisit) {
+      //   setTimeout(() => this.showOnboarding(), 1000);
+      // }
     }, 500);
   }
 
@@ -119,62 +134,195 @@ class HeroLanding {
   }
 
   showFeature(featureName) {
-    const feature = this.features.get(featureName);
-    if (!feature) return;
+    console.log('[Hero] Feature clicked:', featureName);
+    
+    // SKIP ALL MODALS - Just go directly to the app
+    // This prevents any blocking overlays from appearing
+    this.startApp();
+    return;
 
-    // Create feature spotlight modal
-    const modal = document.createElement('div');
-    modal.className = 'hero-feature-modal';
-    modal.innerHTML = `
-      <div class="hero-feature-modal-backdrop" onclick="window.heroLanding.closeFeatureModal(this.parentElement)"></div>
-      <div class="hero-feature-modal-content">
-        <div class="hero-feature-modal-header">
-          <div class="hero-feature-modal-icon">${feature.icon}</div>
-          <h2 class="hero-feature-modal-title">${feature.title}</h2>
-        </div>
-        <p class="hero-feature-modal-description">${feature.description}</p>
-        <ul class="hero-feature-modal-list">
-          ${feature.tutorial.map(item => `
-            <li class="hero-feature-modal-item">
-              <span class="hero-feature-modal-check">✓</span>
-              <span>${item}</span>
-            </li>
-          `).join('')}
-        </ul>
-        <div class="hero-feature-modal-actions">
-          <button class="hero-btn hero-btn-primary" onclick="window.heroLanding.startAppFromModal()">
-            Get Started
-          </button>
-          <button class="hero-btn hero-btn-secondary" onclick="window.heroLanding.closeFeatureModal(this.closest('.hero-feature-modal'))">
-            Close
-          </button>
+    // Simple modal - no fancy animations to avoid issues
+    const modalHTML = `
+      <div class="hero-feature-modal-simple" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      " onclick="if(event.target === this) window.heroLanding.closeSimpleModal()">
+        <div style="
+          background: #1a1a2e;
+          border-radius: 16px;
+          padding: 32px;
+          max-width: 500px;
+          width: 90%;
+          max-height: 80vh;
+          overflow-y: auto;
+          position: relative;
+        " onclick="event.stopPropagation()">
+          <button onclick="window.heroLanding.closeSimpleModal()" style="
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+          ">×</button>
+          
+          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #007aff 0%, #5856d6 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+              ${getIcon(feature.icon, 32, 'modal-icon-svg')}
+            </div>
+            <h2 style="color: white; margin: 0; font-size: 24px;">${feature.title}</h2>
+          </div>
+          
+          <p style="color: #9ca3af; margin-bottom: 24px;">${feature.description}</p>
+          
+          <ul style="list-style: none; padding: 0; margin-bottom: 24px;">
+            ${feature.tutorial.map(item => `
+              <li style="display: flex; align-items: center; gap: 12px; padding: 8px 0; color: #e5e7eb;">
+                <span style="color: #10b981;">✓</span>
+                <span>${item}</span>
+              </li>
+            `).join('')}
+          </ul>
+          
+          <div style="display: flex; gap: 12px;">
+            <button onclick="window.heroLanding.startAppFromModal()" style="
+              flex: 1;
+              padding: 12px;
+              background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+              border: none;
+              border-radius: 8px;
+              color: white;
+              font-weight: 600;
+              cursor: pointer;
+            ">Get Started</button>
+            <button onclick="window.heroLanding.closeSimpleModal()" style="
+              flex: 1;
+              padding: 12px;
+              background: rgba(255, 255, 255, 0.1);
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              border-radius: 8px;
+              color: white;
+              font-weight: 600;
+              cursor: pointer;
+            ">Close</button>
+          </div>
         </div>
       </div>
     `;
-    
+
+    // Create and insert modal
+    const modalContainer = document.createElement('div');
+    modalContainer.innerHTML = modalHTML;
+    const modal = modalContainer.firstElementChild;
     document.body.appendChild(modal);
+
+    // Store reference for cleanup
+    this.currentModal = modal;
+
+    // ESC key handler
+    const escHandler = (e) => {
+      if (e.key === 'Escape') {
+        this.closeSimpleModal();
+      }
+    };
+    this.currentEscHandler = escHandler;
+    document.addEventListener('keydown', escHandler);
+
+    console.log('[Hero] Modal created and displayed');
+  }
+
+  closeSimpleModal() {
+    console.log('[Hero] Closing simple modal');
     
-    // Animate in
-    requestAnimationFrame(() => {
-      modal.querySelector('.hero-feature-modal-content').style.animation = 
-        'slideUp 300ms cubic-bezier(0.4, 0, 0.2, 1)';
-    });
+    if (this.currentModal) {
+      this.currentModal.remove();
+      this.currentModal = null;
+    }
+    
+    if (this.currentEscHandler) {
+      document.removeEventListener('keydown', this.currentEscHandler);
+      this.currentEscHandler = null;
+    }
+    
+    // Clear auto-cleanup timer
+    if (this.autoCleanupTimer) {
+      clearTimeout(this.autoCleanupTimer);
+      this.autoCleanupTimer = null;
+    }
+    
+    // Final cleanup - remove any lingering modals
+    document.querySelectorAll('.hero-feature-modal-simple, .hero-feature-modal').forEach(el => el.remove());
+    
+    // Reset body state to ensure page is clickable
+    document.body.style.overflow = '';
+    document.body.style.pointerEvents = '';
   }
 
   closeFeatureModal(modal) {
-    if (modal) {
-      modal.style.animation = 'fadeOut 300ms ease-out';
-      setTimeout(() => modal.remove(), 300);
+    if (modal && modal.classList.contains('hero-feature-modal')) {
+      // Immediately disable interaction
+      modal.style.pointerEvents = 'none';
+      modal.classList.remove('active');
+      
+      // Clean up event listener
+      if (modal._escHandler) {
+        document.removeEventListener('keydown', modal._escHandler);
+        delete modal._escHandler;
+      }
+      
+      // Clear failsafe timeout
+      if (modal._cleanupTimeout) {
+        clearTimeout(modal._cleanupTimeout);
+        delete modal._cleanupTimeout;
+      }
+      
+      // Wait for animation to complete before removing
+      setTimeout(() => {
+        if (modal && modal.parentNode) {
+          modal.remove();
+        }
+        
+        // Double-check cleanup of any orphaned elements
+        const orphans = document.querySelectorAll('.hero-feature-modal-backdrop, .hero-feature-modal');
+        orphans.forEach(el => {
+          el.style.pointerEvents = 'none';
+          el.remove();
+        });
+      }, 300);
     }
   }
 
   startAppFromModal() {
-    // Close any open modals first
-    document.querySelectorAll('.hero-feature-modal').forEach(modal => {
+    console.log('[Hero] Starting app from modal');
+    
+    // Close the simple modal first using our cleanup method
+    this.closeSimpleModal();
+    
+    // Also remove any other modals that might exist
+    document.querySelectorAll('.hero-feature-modal-simple, .hero-feature-modal, .hero-feature-modal-backdrop').forEach(modal => {
+      console.log('[Hero] Removing modal:', modal.className);
       modal.remove();
     });
-    // Then start the app
-    this.startApp();
+    
+    // Clear any stored references
+    this.currentModal = null;
+    this.currentEscHandler = null;
+    
+    // Small delay to ensure cleanup completes
+    setTimeout(() => {
+      console.log('[Hero] Starting app after cleanup');
+      this.startApp();
+    }, 100);
   }
 
   startAppFromCarousel() {
@@ -409,6 +557,14 @@ style.textContent = `
     align-items: center;
     justify-content: center;
     padding: var(--hero-space-4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease-out;
+  }
+  
+  .hero-feature-modal.active {
+    opacity: 1;
+    pointer-events: auto;
   }
   
   .hero-feature-modal-backdrop {
@@ -417,6 +573,7 @@ style.textContent = `
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
     cursor: pointer;
+    transition: opacity 300ms ease-out;
   }
   
   .hero-feature-modal-content {
@@ -429,6 +586,12 @@ style.textContent = `
     width: 100%;
     max-height: 80vh;
     overflow-y: auto;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .hero-feature-modal.active .hero-feature-modal-content {
+    transform: scale(1) translateY(0);
   }
   
   .hero-feature-modal-header {

@@ -10,20 +10,20 @@ class FeatureShowcase {
     
     this.features = {
       ml: {
-        title: 'ML Recommendations',
-        icon: 'ai',
-        description: 'AI-powered networking and event suggestions',
+        title: 'Smart Networking',
+        icon: 'brain',
+        description: 'AI-powered professional connection matching',
         capabilities: [
           'Smart contact matching',
-          'Event recommendations',
+          'Professional recommendations',
           'Optimal networking paths',
-          'Sentiment analysis',
-          'Predictive attendance'
+          'Industry-based connections',
+          'Meeting scheduling'
         ]
       },
       eventCreation: {
         title: 'Create Event',
-        icon: 'plus',
+        icon: 'calendar',
         description: 'Host your own conference event',
         capabilities: [
           'Custom event setup',
@@ -35,7 +35,7 @@ class FeatureShowcase {
       },
       analytics: {
         title: 'Analytics Dashboard',
-        icon: 'analytics',
+        icon: 'chartBar',
         description: 'Post-event insights and metrics',
         capabilities: [
           'Attendance analytics',
@@ -47,7 +47,7 @@ class FeatureShowcase {
       },
       aiAssistant: {
         title: 'AI Assistant',
-        icon: 'ai',
+        icon: 'sparkles',
         description: 'Your personal conference concierge',
         capabilities: [
           'Schedule optimization',
@@ -109,7 +109,7 @@ class FeatureShowcase {
 
         <div class="showcase-grid">
           ${Object.entries(this.features).map(([key, feature]) => {
-            const iconSvg = window.getIcon ? window.getIcon(feature.icon) : this.getFallbackIcon(feature.icon);
+            const iconSvg = getIcon(feature.icon, 48, 'feature-icon-svg');
             return `
             <div class="feature-card" onclick="window.featureShowcase.openFeature('${key}')">
               <div class="feature-card-icon">${iconSvg}</div>
@@ -932,9 +932,22 @@ class FeatureShowcase {
       /* Feature Grid */
       .showcase-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 24px;
         padding: 32px;
+        align-items: stretch;
+      }
+      
+      @media (max-width: 1024px) {
+        .showcase-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      
+      @media (max-width: 640px) {
+        .showcase-grid {
+          grid-template-columns: 1fr;
+        }
       }
       
       .feature-card {
@@ -944,6 +957,9 @@ class FeatureShowcase {
         padding: 24px;
         cursor: pointer;
         transition: all 200ms ease;
+        display: flex;
+        flex-direction: column;
+        min-height: 320px;
       }
       
       .feature-card:hover {
@@ -954,8 +970,23 @@ class FeatureShowcase {
       }
       
       .feature-card-icon {
-        font-size: 48px;
-        margin-bottom: 16px;
+        width: 48px;
+        height: 48px;
+        margin: 0 auto 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+        border-radius: 12px;
+        padding: 10px;
+      }
+      
+      .feature-card-icon svg,
+      .feature-icon-svg {
+        width: 100%;
+        height: 100%;
+        color: white;
+        stroke-width: 1.5;
       }
       
       .feature-card-title {
@@ -977,6 +1008,7 @@ class FeatureShowcase {
         flex-direction: column;
         gap: 4px;
         margin-bottom: 16px;
+        flex: 1; /* Take remaining space */
       }
       
       .capability-tag {
@@ -994,6 +1026,7 @@ class FeatureShowcase {
         font-weight: 600;
         cursor: pointer;
         transition: all 200ms ease;
+        margin-top: auto; /* Push to bottom */
       }
       
       .feature-card-action:hover {

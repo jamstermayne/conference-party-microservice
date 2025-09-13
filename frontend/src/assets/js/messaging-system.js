@@ -643,6 +643,18 @@ class MessagingSystem {
         visibility: visible;
       }
       
+      @media (max-width: 768px) {
+        .messaging-container {
+          bottom: 0;
+          right: 0;
+          left: 0;
+          width: 100%;
+          height: calc(100vh - 60px);
+          max-height: calc(100vh - 60px);
+          border-radius: 20px 20px 0 0;
+        }
+      }
+      
       .messaging-header {
         display: flex;
         align-items: center;
@@ -1237,7 +1249,7 @@ class MessagingSystem {
       /* Toast */
       .message-toast {
         position: fixed;
-        bottom: 100px;
+        bottom: 20px;
         left: 50%;
         transform: translateX(-50%) translateY(100px);
         padding: 12px 20px;
@@ -1249,6 +1261,12 @@ class MessagingSystem {
         font-size: 14px;
         z-index: 1001;
         transition: transform 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      
+      @media (max-width: 768px) {
+        .message-toast {
+          bottom: 80px; /* Account for mobile navigation */
+        }
       }
       
       .message-toast.active {

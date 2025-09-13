@@ -116,6 +116,24 @@ export function showOverlay(title = '') {
 
 export function hideOverlay() {
   const scrim = document.querySelector('.overlay-scrim');
-  if (scrim) scrim.classList.remove('overlay-scrim--active');
-  if (overlayEl) overlayEl.classList.remove('overlay-panel--active');
+  if (scrim) {
+    scrim.classList.remove('overlay-scrim--active');
+    // Ensure scrim is fully removed after animation
+    setTimeout(() => {
+      if (scrim && scrim.parentNode) {
+        scrim.remove();
+      }
+    }, 300);
+  }
+  if (overlayEl) {
+    overlayEl.classList.remove('overlay-panel--active');
+    // Clean up overlay after animation
+    setTimeout(() => {
+      if (overlayEl && overlayEl.parentNode) {
+        overlayEl.remove();
+        overlayEl = null;
+        bodyEl = null;
+      }
+    }, 300);
+  }
 }

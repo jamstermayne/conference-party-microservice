@@ -13,7 +13,7 @@ class DemoApp {
         date: 'Aug 20, 2025',
         attendees: 500,
         tags: ['Networking', 'VIP', 'Open Bar'],
-        image: 'https://picsum.photos/400/225?random=1',
+        image: 'https://source.unsplash.com/400x225/?las-vegas,nightlife',
         vip: true,
         live: false
       },
@@ -24,7 +24,7 @@ class DemoApp {
         date: 'Aug 21, 2025',
         attendees: 200,
         tags: ['Technical', 'Indie', 'AAA'],
-        image: 'https://picsum.photos/400/225?random=2',
+        image: 'https://source.unsplash.com/400x225/?gaming,conference',
         vip: false,
         live: true
       },
@@ -35,7 +35,7 @@ class DemoApp {
         date: 'Aug 21, 2025',
         attendees: 350,
         tags: ['Business', 'Deals', 'Preview'],
-        image: 'https://picsum.photos/400/225?random=3',
+        image: 'https://source.unsplash.com/400x225/?vegas,convention',
         vip: true,
         live: false
       },
@@ -46,7 +46,7 @@ class DemoApp {
         date: 'Aug 22, 2025',
         attendees: 400,
         tags: ['Awards', 'Indie', 'Celebration'],
-        image: 'https://picsum.photos/400/225?random=4',
+        image: 'https://source.unsplash.com/400x225/?esports,gaming',
         vip: false,
         live: false
       },
@@ -57,7 +57,7 @@ class DemoApp {
         date: 'Aug 22, 2025',
         attendees: 150,
         tags: ['Tech', 'AI', 'Cloud'],
-        image: 'https://picsum.photos/400/225?random=5',
+        image: 'https://source.unsplash.com/400x225/?technology,conference',
         vip: false,
         live: false
       },
@@ -68,7 +68,7 @@ class DemoApp {
         date: 'Aug 23, 2025',
         attendees: 600,
         tags: ['Networking', 'Party', 'VIP'],
-        image: 'https://picsum.photos/400/225?random=6',
+        image: 'https://source.unsplash.com/400x225/?las-vegas,party',
         vip: true,
         live: false
       }

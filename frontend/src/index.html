@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="/assets/css/nav-elegant.css">
   <!-- Legacy styles (to be phased out) -->
   <link rel="stylesheet" href="/assets/css/app-unified.css">
+  <!-- Mobile FAB positioning fix -->
+  <link rel="stylesheet" href="/assets/css/mobile-fab-fix.css">
 </head>
 <body>
   <!-- Hero Landing - Immediate Visual Impact -->
@@ -49,24 +51,24 @@
             <span>Get Started</span>
             <span>→</span>
           </button>
-          <button class="hero-btn hero-btn-secondary" onclick="window.exploreDemo()">
+          <button class="hero-btn hero-btn-secondary" onclick="window.startApp()">
             <span>Explore Features</span>
           </button>
         </div>
         
         <div class="hero-features">
-          <div class="hero-feature" onclick="window.showFeature('events')">
-            <div class="hero-feature-icon">🎯</div>
+          <div class="hero-feature" onclick="window.startApp()">
+            <div class="hero-feature-icon" data-icon="target"></div>
             <h3 class="hero-feature-title">Smart Discovery</h3>
             <p class="hero-feature-desc">AI-powered event recommendations tailored to your interests</p>
           </div>
-          <div class="hero-feature" onclick="window.showFeature('network')">
-            <div class="hero-feature-icon">🤝</div>
+          <div class="hero-feature" onclick="window.startApp()">
+            <div class="hero-feature-icon" data-icon="handshake"></div>
             <h3 class="hero-feature-title">Professional Network</h3>
             <p class="hero-feature-desc">Connect with industry leaders and innovators</p>
           </div>
-          <div class="hero-feature" onclick="window.showFeature('offline')">
-            <div class="hero-feature-icon">📱</div>
+          <div class="hero-feature" onclick="window.startApp()">
+            <div class="hero-feature-icon" data-icon="wifiOff"></div>
             <h3 class="hero-feature-title">Works Offline</h3>
             <p class="hero-feature-desc">Access everything even without connection</p>
           </div>
@@ -86,10 +88,20 @@
       <!-- Overlay panels injected dynamically -->
     </div>
   </main>
+  <!-- Icon Gallery - Professional SVG Icons -->
+  <script type="module" src="/assets/js/icon-gallery.js"></script>
+  <!-- Icon Initializer - Auto-render SVG icons -->
+  <script type="module" src="/assets/js/icon-initializer.js"></script>
+  <!-- Overlay Cleanup - DISABLED -->
+  <!-- <script type="module" src="/assets/js/overlay-cleanup.js"></script> -->
+  <!-- Debug Overlay - Diagnostic tool -->
+  <script type="module" src="/assets/js/debug-overlay.js"></script>
+  <!-- Modal Failsafe - Prevents stuck modals -->
+  <script type="module" src="/assets/js/modal-failsafe.js"></script>
   <!-- Hero Landing Controller - Beautiful First Impression -->
   <script type="module" src="/assets/js/hero-landing.js"></script>
-  <!-- Micro-FTUE System - Contextual Feature Discovery -->
-  <script type="module" src="/assets/js/micro-ftue.js"></script>
+  <!-- Micro-FTUE System - DISABLED -->
+  <!-- <script type="module" src="/assets/js/micro-ftue.js"></script> -->
   <!-- Haptic Feedback - iOS-like tactile responses -->
   <script type="module" src="/assets/js/haptic-feedback.js"></script>
   <!-- Magic Link Authentication -->
@@ -98,8 +110,10 @@
   <script type="module" src="/assets/js/messaging-system.js"></script>
   <!-- Live Activity Feed -->
   <script type="module" src="/assets/js/activity-feed.js"></script>
-  <!-- Feature Showcase - Complete Platform Access -->
-  <script type="module" src="/assets/js/feature-showcase.js"></script>
+  <!-- Feature Showcase - DISABLED -->
+  <!-- <script type="module" src="/assets/js/feature-showcase.js"></script> -->
+  <!-- Smart Proximity Networking - Location-based matchmaking -->
+  <script type="module" src="/assets/js/proximity-networking.js"></script>
   <!-- Security Module - Load First -->
   <script type="module" src="/assets/js/security/sanitizer.js"></script>
   <!-- Feature Flags - Control blast radius -->
@@ -146,8 +160,8 @@
   <script type="module" defer src="/assets/js/api-lite.js"></script>
   <!-- Collapsible Sidebar Controller -->
   <script type="module" src="/assets/js/sidebar-controller.js"></script>
-  <!-- Overlay Panel System -->
-  <script type="module" src="/assets/js/overlay-live.js"></script>
+  <!-- Overlay Panel System - DISABLED DUE TO BLOCKING ISSUES -->
+  <!-- <script type="module" src="/assets/js/overlay-live.js"></script> -->
   <!-- Router for preflight -->
   <script type="module" src="/assets/js/router-2panel-lite.js?v=2025"></script>
   <!-- Demo App Content -->
