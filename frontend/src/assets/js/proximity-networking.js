@@ -1060,55 +1060,7 @@ class ProximityNetworking {
     }, 3500);
   }
 
-  showMatchResults() {
-    console.log('[ProximityNetworking] Showing match results section');
-    
-    // Try both possible selectors for results section
-    let resultsSection = document.querySelector('.proximity-results');
-    if (!resultsSection) {
-      resultsSection = document.querySelector('.match-results');
-    }
-    
-    if (resultsSection) {
-      resultsSection.style.display = 'block';
-      resultsSection.style.animation = 'slideInFromBottom 600ms ease-out';
-
-      // Scroll to results with better positioning
-      setTimeout(() => {
-        resultsSection.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start',  // Show from the top of the results
-          inline: 'nearest'
-        });
-        
-        // Also ensure the container scrolls
-        const container = document.querySelector('.proximity-container');
-        if (container) {
-          container.scrollTop = resultsSection.offsetTop - 100;
-        }
-      }, 100);
-      
-      // Animate match cards if they exist
-      const matchCards = document.querySelectorAll('.match-card');
-      matchCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        
-        setTimeout(() => {
-          card.style.transition = 'all 0.5s ease-out';
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, 200 + index * 150);
-      });
-    } else {
-      console.error('[ProximityNetworking] Results section not found!');
-    }
-
-    // Haptic celebration
-    if (window.haptic) {
-      window.haptic.notification('success');
-    }
-  }
+  // Removed duplicate showMatchResults - see implementation at line 1368
 
   sendConnection(name, btn) {
     this.showToast(`Connection request sent to ${name || 'match'}!`);
@@ -1367,14 +1319,46 @@ class ProximityNetworking {
   
   showMatchResults() {
     console.log('[ProximityNetworking] Showing match results with animation');
-    
-    // Make sure the results section is visible
-    const resultsSection = document.querySelector('.proximity-results');
-    if (resultsSection) {
-      resultsSection.style.display = 'block';
-      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // First ensure the panel is open
+    if (!this.isActive) {
+      this.open();
     }
-    
+
+    // Wait a moment for panel to be ready
+    setTimeout(() => {
+      // Make sure the results section is visible (use correct class name)
+      const resultsSection = document.querySelector('.match-results');
+      if (resultsSection) {
+        resultsSection.style.display = 'block';
+
+        // Scroll to results smoothly
+        setTimeout(() => {
+          resultsSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'nearest'
+          });
+        }, 100);
+
+        // Also ensure the container scrolls if needed
+        const container = document.querySelector('.proximity-container');
+        if (container) {
+          setTimeout(() => {
+            const resultsTop = resultsSection.offsetTop;
+            container.scrollTo({
+              top: resultsTop - 100,
+              behavior: 'smooth'
+            });
+          }, 200);
+        }
+      } else {
+        console.error('[ProximityNetworking] Match results section not found - creating fallback');
+        // Create a fallback results display
+        this.createFallbackResults();
+      }
+    }, this.isActive ? 0 : 300); // Wait longer if panel was just opened
+
     // Trigger match card animations
     const matchCards = document.querySelectorAll('.match-card');
     matchCards.forEach((card, index) => {
@@ -1415,20 +1399,66 @@ class ProximityNetworking {
 
   open() {
     const panel = document.querySelector('.proximity-panel');
-    panel.classList.add('active');
-    this.isActive = true;
-    
-    // Re-attach event handlers when opening (in case DOM was recreated)
-    this.attachEventHandlers();
+    if (panel) {
+      panel.classList.add('active');
+      this.isActive = true;
 
-    if (window.haptic) {
-      window.haptic.impact('medium');
+      // Re-attach event handlers when opening (in case DOM was recreated)
+      this.attachEventHandlers();
+
+      if (window.haptic) {
+        window.haptic.impact('medium');
+      }
+    } else {
+      console.error('[ProximityNetworking] Panel not found, recreating...');
+      this.createUI();
+      setTimeout(() => this.open(), 100);
     }
+  }
+
+  createFallbackResults() {
+    console.log('[ProximityNetworking] Creating fallback results display');
+    const container = document.querySelector('.proximity-container');
+    if (!container) return;
+
+    // Check if results already exist
+    if (document.querySelector('.match-results')) return;
+
+    const resultsHTML = `
+      <div class="match-results" style="display: block;">
+        <h3>Top 3 Matches Found!</h3>
+        <p class="match-subtitle">Choose who you'd like to connect with</p>
+        <div class="match-cards">
+          ${this.generateMatchCardsHTML()}
+        </div>
+      </div>
+    `;
+
+    container.insertAdjacentHTML('beforeend', resultsHTML);
+
+    // Re-attach handlers for the new cards
+    this.attachMatchCardHandlers();
+  }
+
+  attachMatchCardHandlers() {
+    // Attach click handlers to match card buttons
+    document.querySelectorAll('.match-card button').forEach(btn => {
+      if (!btn.hasAttribute('data-handler-attached')) {
+        btn.addEventListener('click', (e) => {
+          const card = e.target.closest('.match-card');
+          const name = card ? card.querySelector('h4').textContent : 'match';
+          this.sendConnection(name, e.target);
+        });
+        btn.setAttribute('data-handler-attached', 'true');
+      }
+    });
   }
 
   close() {
     const panel = document.querySelector('.proximity-panel');
-    panel.classList.remove('active');
+    if (panel) {
+      panel.classList.remove('active');
+    }
     this.isActive = false;
 
     if (window.haptic) {
