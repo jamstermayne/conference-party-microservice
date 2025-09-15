@@ -517,10 +517,10 @@ class HeroLanding {
         // Go to events page
         this.closeShowcase();
         this.startApp();
-        // Navigate to events after app loads
+        // Navigate to parties route (which shows events)
         setTimeout(() => {
-          if (window.location.hash !== '#events') {
-            window.location.hash = '#events';
+          if (window.location.hash !== '#/parties') {
+            window.location.hash = '#/parties';
           }
         }, 500);
         break;

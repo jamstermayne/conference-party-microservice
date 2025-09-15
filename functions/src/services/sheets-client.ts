@@ -1,9 +1,9 @@
 import { google } from 'googleapis';
 
 // Google Sheets configuration
-const SPREADSHEET_ID = "1Cq-UcdgtSz2FaROahsj7Db2nmStBFCN97EZzBEHCrKg";
-// Try without sheet name - will use first sheet
-const SHEET_RANGE = "A2:I1000";
+const SPREADSHEET_ID = "10c54Otn4pMYTFQ7bRQulO-qDB05aCk_l1rRtuPmwmtE"; // MAU 2025 Events
+// Use first sheet without specifying name - get all columns up to T
+const SHEET_RANGE = "A2:T1000";
 
 /**
  * Fetches data from Google Sheets using service account authentication
@@ -52,81 +52,70 @@ export async function fetchFromGoogleSheets(): Promise<any[]> {
 export function mapSheetRowToParty(row: any[], index: number): any {
   try {
     
-    // Actual columns from your Google Sheet:
-    // A: Date (Mon Aug 18), B: Start Time (09:00), C: End Time (19:00)
-    // D: Duration string (09:00 - 19:00), E: Event Name, F: Link/URL
-    // G: Category/Organizer, H: Venue, I: Price/Location
-    const [dateStr, startTime, endTimeStr, durationStr, eventName, link, organizer, venue, priceOrLocation] = row;
+    // MAU 2025 Google Sheet columns:
+    // 0: id, 1: slug, 2: name, 3: categoryId, 4: products, 5: capabilities
+    // 6: region, 7: tags, 8: status, 9: updatedAt, 10: subcategory
+    // 11: hqCountry, 12: website, 13: description, 14: notableClients
+    // 15: date, 16: startTime, 17: endTime, 18: venue, 19: notes
+    const [
+      _id, slug, name, categoryId, _products, _capabilities,
+      _region, tags, _status, _updatedAt, _subcategory,
+      _hqCountry, website, description, notableClients,
+      date, startTime, endTime, venue, _notes
+    ] = row;
     
-    if (!eventName || !dateStr || !startTime) {
+    // Skip completely empty rows
+    if (!name && !slug) {
       return null;
     }
     
-    // Parse date from "Mon Aug 18" format to ISO
-    let isoDate = '2025-08-18'; // Default
-    if (dateStr) {
-      const dateMap: {[key: string]: string} = {
-        'Mon Aug 18': '2025-08-18',
-        'Tue Aug 19': '2025-08-19',
-        'Wed Aug 20': '2025-08-20',
-        'Thu Aug 21': '2025-08-21',
-        'Fri Aug 22': '2025-08-22',
-        'Sat Aug 23': '2025-08-23',
-        'Sun Aug 24': '2025-08-24',
-      };
-      isoDate = dateMap[dateStr] || '2025-08-20';
+    // Log what we're processing for debugging
+    console.log(`[sheets-client] Processing row ${index}: name=${name}, date=${date}, startTime=${startTime}`);
+    
+    // Parse date (format: 2025-05-19)
+    let isoDate = date || '2025-05-19'; // MAU Vegas default date
+    if (isoDate === '[]' || !isoDate) {
+      isoDate = '2025-05-19';
     }
     
+    // Parse tags array string
+    let parsedTags = [];
+    try {
+      if (tags && tags.startsWith('[')) {
+        parsedTags = JSON.parse(tags.replace(/'/g, '"'));
+      }
+    } catch (e) {
+      // If parsing fails, use as-is
+      parsedTags = tags ? [tags] : [];
+    }
+    
+    // Extract sponsors from tags
+    const sponsors = parsedTags
+      .filter((t: string) => t.startsWith('sponsor:'))
+      .map((t: string) => t.replace('sponsor:', ''))
+      .join(', ');
+    
     return {
-      id: `event-${index}-${eventName.toLowerCase().replace(/[^a-z0-9]/g, '-').substring(0, 30)}`,
-      title: eventName.trim(),
-      venue: venue?.trim() || "Cologne",
+      id: slug || `event-${index}-${name.toLowerCase().replace(/[^a-z0-9]/g, '-').substring(0, 30)}`,
+      title: name?.trim() || '',
+      venue: venue?.trim() || "Las Vegas",
       date: isoDate,
-      time: startTime.trim(),
-      start: `${isoDate}T${startTime.trim()}:00`,
-      end: endTimeStr ? `${isoDate}T${endTimeStr.trim()}:00` : undefined,
-      duration: durationStr?.trim() || "",
-      price: priceOrLocation?.trim() || "See event page",
-      description: `Event by ${organizer || 'Organizer'}`,
-      link: link?.trim() || "",
-      tags: [organizer].filter(Boolean).map(t => t.trim()),
-      category: determineCategory(eventName, organizer),
-      organizer: organizer?.trim() || "",
-      // Add default coordinates for Cologne (you can geocode these later)
-      lat: 50.9473,
-      lng: 6.9838,
+      time: startTime?.trim() || '09:00',
+      start: `${isoDate}T${startTime?.trim() || '09:00'}:00`,
+      end: endTime ? `${isoDate}T${endTime.trim()}:00` : undefined,
+      duration: startTime && endTime ? `${startTime} - ${endTime}` : "",
+      price: "Invite Only",
+      description: description?.trim() || `${categoryId} event`,
+      link: website?.trim() || "",
+      tags: parsedTags,
+      category: categoryId?.toLowerCase() || 'event',
+      organizer: sponsors || notableClients || 'MAU',
+      // Las Vegas coordinates
+      lat: 36.1699,
+      lng: -115.1398,
     };
   } catch (error) {
     console.error(`[sheets-client] Error mapping row ${index}:`, error);
     return null;
   }
-}
-
-/**
- * Determines event category based on title and organizer field
- */
-function determineCategory(title: string, organizerField?: string): string {
-  const text = `${title} ${organizerField || ''}`.toLowerCase();
-  
-  // Check organizer field for category hints
-  if (organizerField) {
-    const org = organizerField.toLowerCase();
-    if (org.includes('ai') || org.includes('xr')) return 'tech';
-    if (org.includes('game') || org.includes('gaming')) return 'gaming';
-    if (org.includes('indie')) return 'indie';
-    if (org.includes('party')) return 'party';
-    if (org.includes('network')) return 'networking';
-    if (org === 'all') return 'conference';
-  }
-  
-  // Fallback to title-based detection
-  if (text.includes('party') || text.includes('afterparty')) return 'party';
-  if (text.includes('tournament') || text.includes('esports')) return 'tournament';
-  if (text.includes('conference') || text.includes('summit') || text.includes('devcom')) return 'conference';
-  if (text.includes('showcase') || text.includes('demo')) return 'showcase';
-  if (text.includes('meetup') || text.includes('networking') || text.includes('meettomatch')) return 'networking';
-  if (text.includes('opening') || text.includes('closing')) return 'ceremony';
-  if (text.includes('vip') || text.includes('exclusive')) return 'vip';
-  
-  return 'event';
 }

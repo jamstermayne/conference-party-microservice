@@ -5,8 +5,9 @@ const useLocalAPI = new URLSearchParams(window.location.search).get('local') ===
 const API_ENDPOINTS = useLocalAPI ? [
   `http://${window.location.hostname}:3000/api`       // Local mock API for testing
 ] : [
-  'https://us-central1-conference-party-app.cloudfunctions.net/apiFn/api',  // Primary Firebase Functions API
+  `/api`,                                              // Use local proxy first
   'https://api-x2u6rwndvq-uc.a.run.app/api',         // Cloud Run backup
+  'https://us-central1-conference-party-app.cloudfunctions.net/apiFn/api',  // Firebase Functions
   'https://conference-party-app.web.app/api'          // Fallback through hosting rewrite
 ];
 
@@ -61,10 +62,15 @@ const CONF = 'gamescom2025';
 export async function fetchParties() {
   const fallbackData = getFallbackParties();
   
+  // Clear cache to force fresh fetch
+  cache.clear();
+  console.log('[API] Cache cleared, fetching fresh data...');
+  
   for (const baseUrl of API_ENDPOINTS) {
     try {
       // All endpoints now use /parties consistently
       const url = `${baseUrl}/parties?conference=${encodeURIComponent(CONF)}`;
+      console.log(`[API] Trying ${url}...`);
       const raw = await getJSON(url, { timeout: 5000 });
       
       const parties = Array.isArray(raw?.data) ? raw.data : 
@@ -72,7 +78,8 @@ export async function fetchParties() {
                      raw?.parties || [];
       
       if (parties.length > 0) {
-        console.log(`[API] Loaded ${parties.length} parties from ${baseUrl}`);
+        console.log(`[API] SUCCESS! Loaded ${parties.length} parties from ${baseUrl}`);
+        console.log('[API] First party:', parties[0]?.title || 'Unknown');
         return parties;
       }
     } catch (error) {
@@ -82,8 +89,9 @@ export async function fetchParties() {
   }
   
   // Use fallback data if all endpoints fail
-  console.log('[API] Using fallback party data');
-  return fallbackData;
+  console.log('[API] All endpoints failed, returning empty array instead of fallback');
+  return []; // Temporarily disable fallback to force real API usage
+  // return fallbackData;
 }
 
 function getFallbackParties() {

@@ -23,6 +23,33 @@ const mimeTypes = {
 
 // Mock API handlers
 const apiHandlers = {
+  '/api/parties': async (req, res, parsedUrl) => {
+    // Proxy to real Firebase API
+    try {
+      const https = require('https');
+      const apiUrl = 'https://api-x2u6rwndvq-uc.a.run.app/api/parties' + (parsedUrl.search || '');
+      
+      https.get(apiUrl, (apiRes) => {
+        let data = '';
+        apiRes.on('data', chunk => data += chunk);
+        apiRes.on('end', () => {
+          res.writeHead(200, { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          });
+          res.end(data);
+        });
+      }).on('error', (err) => {
+        console.error('API proxy error:', err);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to fetch from API' }));
+      });
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Proxy error' }));
+    }
+  },
+  
   '/api/users/exists': (req, res, parsedUrl) => {
     const email = parsedUrl.query.email || 'unknown@example.com';
     res.writeHead(200, { 'Content-Type': 'application/json' });

@@ -5,81 +5,83 @@
 
 class DemoApp {
   constructor() {
-    this.events = [
-      {
-        id: 1,
-        title: 'Opening Night Party',
-        description: 'Kick off the conference with industry leaders and innovators',
-        date: 'Aug 20, 2025',
-        attendees: 500,
-        tags: ['Networking', 'VIP', 'Open Bar'],
-        image: 'https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?w=400&h=225&fit=crop',
-        vip: true,
-        live: false
-      },
-      {
-        id: 2,
-        title: 'Developer Meetup',
-        description: 'Connect with game developers from around the world',
-        date: 'Aug 21, 2025',
-        attendees: 200,
-        tags: ['Technical', 'Indie', 'AAA'],
-        image: 'https://images.unsplash.com/photo-1511882150382-421056c89033?w=400&h=225&fit=crop',
-        vip: false,
-        live: true
-      },
-      {
-        id: 3,
-        title: 'Publisher Showcase',
-        description: 'Exclusive previews of upcoming releases',
-        date: 'Aug 21, 2025',
-        attendees: 350,
-        tags: ['Business', 'Deals', 'Preview'],
-        image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=225&fit=crop',
-        vip: true,
-        live: false
-      },
-      {
-        id: 4,
-        title: 'Indie Game Awards',
-        description: 'Celebrate the best independent games of the year',
-        date: 'Aug 22, 2025',
-        attendees: 400,
-        tags: ['Awards', 'Indie', 'Celebration'],
-        image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=225&fit=crop',
-        vip: false,
-        live: false
-      },
-      {
-        id: 5,
-        title: 'Tech Talk: Next-Gen Gaming',
-        description: 'Deep dive into emerging technologies shaping the future',
-        date: 'Aug 22, 2025',
-        attendees: 150,
-        tags: ['Tech', 'AI', 'Cloud'],
-        image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=400&h=225&fit=crop',
-        vip: false,
-        live: false
-      },
-      {
-        id: 6,
-        title: 'Closing Gala',
-        description: 'End the conference in style with live entertainment',
-        date: 'Aug 23, 2025',
-        attendees: 600,
-        tags: ['Networking', 'Party', 'VIP'],
-        image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=225&fit=crop',
-        vip: true,
-        live: false
-      }
-    ];
+    this.events = [];
+    this.loadEvents(); // Load from API instead of hardcoded
     
     this.savedEvents = new Set();
     this.init();
   }
 
+  async loadEvents() {
+    try {
+      console.log('[DemoApp] Fetching events from API...');
+      const response = await fetch('/api/parties?conference=gamescom2025');
+      const data = await response.json();
+      const parties = data.data || data.parties || [];
+      
+      // Transform API data to match demo format - show ALL events
+      this.events = parties.map((party, index) => ({
+        id: party.id || index + 1,
+        title: party.title || party.name || 'Untitled Event',
+        description: party.description || 'Join us for this exciting event',
+        date: this.formatDate(party.date || party.start),
+        attendees: party.capacity || Math.floor(Math.random() * 400) + 100,
+        tags: party.tags || this.generateTags(party.category || party.categoryId),
+        image: this.getEventImage(party.category || 'default', index),
+        vip: party.price?.includes('VIP') || party.category === 'vip',
+        live: index === 1 // Make second event "live" for demo
+      }));
+      
+      console.log(`[DemoApp] Loaded ${this.events.length} events from API`);
+      this.render();
+    } catch (error) {
+      console.error('[DemoApp] Failed to load events:', error);
+      // Use empty array as fallback
+      this.events = [];
+      this.render();
+    }
+  }
+  
+  formatDate(dateStr) {
+    if (!dateStr) return 'TBD';
+    try {
+      const date = new Date(dateStr);
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+    } catch {
+      return dateStr;
+    }
+  }
+  
+  generateTags(category) {
+    const tagMap = {
+      'topgolf': ['Networking', 'Sports', 'Fun'],
+      'dinner': ['VIP', 'Exclusive', 'Networking'],
+      'party': ['Networking', 'Party', 'Social'],
+      'workshop': ['Technical', 'Learning', 'Hands-on'],
+      'default': ['Networking', 'Conference', 'MAU']
+    };
+    return tagMap[category?.toLowerCase()] || tagMap.default;
+  }
+  
+  getEventImage(category, index) {
+    const images = [
+      'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=225&fit=crop', // Conference
+      'https://images.unsplash.com/photo-1511882150382-421056c89033?w=400&h=225&fit=crop', // Tech meetup
+      'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=400&h=225&fit=crop', // Business
+      'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=225&fit=crop', // Party
+      'https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?w=400&h=225&fit=crop', // VIP
+      'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=225&fit=crop'  // Awards
+    ];
+    return images[index % images.length];
+  }
+
   init() {
-    this.render();
+    // Render initial loading state
+    const app = document.getElementById('app');
+    if (app) {
+      app.innerHTML = '<div class="loading-state">Loading events...</div>';
+    }
     this.attachEventListeners();
   }
 
@@ -160,10 +162,12 @@ class DemoApp {
 
   createEventCard(event, featured = false) {
     const isSaved = this.savedEvents.has(event.id);
+    // Escape the event ID for use in onclick handlers
+    const eventIdStr = typeof event.id === 'string' ? `'${event.id}'` : event.id;
     
     return `
-      <div class="event-card ${featured ? 'featured' : ''}" data-event-id="${event.id}" onclick="window.demoApp.showEventDetails(${event.id})" style="cursor: pointer;">
-        <div class="event-card-image">
+      <div class="event-card ${featured ? 'featured' : ''}" data-event-id="${event.id}" style="cursor: pointer;">
+        <div class="event-card-image" onclick="event.stopPropagation(); window.demoApp.showEventDetails(${eventIdStr})">
           <img src="${event.image}" alt="${event.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=225&fit=crop'">
           ${event.vip ? '<div class="event-card-vip">VIP</div>' : ''}
           ${event.live ? '<div class="event-card-live">LIVE NOW</div>' : ''}
@@ -182,18 +186,18 @@ class DemoApp {
             <div class="event-card-action-group">
               <button class="event-card-action event-card-action-save ${isSaved ? 'saved' : ''}" 
                       data-event-id="${event.id}" 
-                      onclick="window.demoApp.toggleSave(${event.id})">
+                      onclick="event.stopPropagation(); window.demoApp.toggleSave(${eventIdStr})">
                 ${isSaved ? '🔖' : '📌'}
               </button>
-              <button class="event-card-action" onclick="window.demoApp.share(${event.id})">
+              <button class="event-card-action" onclick="event.stopPropagation(); window.demoApp.share(${eventIdStr})">
                 🔗
               </button>
-              <button class="event-card-action" onclick="window.demoApp.showInfo(${event.id})">
+              <button class="event-card-action" onclick="event.stopPropagation(); window.demoApp.showInfo(${eventIdStr})">
                 ℹ️
               </button>
             </div>
             <button class="event-card-rsvp ${isSaved ? 'confirmed' : ''}" 
-                    onclick="window.demoApp.rsvp(${event.id})">
+                    onclick="event.stopPropagation(); window.demoApp.rsvp(${eventIdStr})">
               ${isSaved ? 'Confirmed' : 'RSVP'}
             </button>
           </div>
@@ -311,7 +315,11 @@ class DemoApp {
   }
 
   share(eventId) {
-    const event = this.events.find(e => e.id === eventId);
+    const event = this.events.find(e => e.id === eventId || e.id == eventId);
+    if (!event) {
+      console.error('[DemoApp] Event not found:', eventId);
+      return;
+    }
     if (navigator.share) {
       navigator.share({
         title: event.title,
@@ -328,17 +336,22 @@ class DemoApp {
   }
 
   showInfo(eventId) {
-    const event = this.events.find(e => e.id === eventId);
+    const event = this.events.find(e => e.id === eventId || e.id == eventId);
+    if (!event) {
+      console.error('[DemoApp] Event not found:', eventId);
+      return;
+    }
     this.showToast(`${event.title}: ${event.attendees} attendees expected`);
   }
 
   showEventDetails(eventId) {
     // Stop event bubbling to prevent triggering button clicks
-    if (event.target.closest('button')) {
+    if (window.event && window.event.target.closest('button')) {
       return;
     }
     
-    const eventData = this.events.find(e => e.id === eventId);
+    // Handle both string and number IDs
+    const eventData = this.events.find(e => e.id === eventId || e.id == eventId);
     if (!eventData) return;
     
     // Create a modal with event details
@@ -375,10 +388,10 @@ class DemoApp {
           </div>
           
           <div class="event-modal-actions">
-            <button class="event-modal-btn primary" onclick="window.demoApp.rsvp(${eventData.id}); this.closest('.event-modal').remove();">
-              ${this.savedEvents.has(eventData.id) ? 'Already RSVPed ✓' : 'RSVP to Event'}
+            <button class="event-modal-btn primary" onclick="window.demoApp.rsvp('${eventData.id}'); this.closest('.event-modal').remove();">
+              ${this.savedEvents.has(String(eventData.id)) ? 'Already RSVPed ✓' : 'RSVP to Event'}
             </button>
-            <button class="event-modal-btn secondary" onclick="window.demoApp.share(${eventData.id}); this.closest('.event-modal').remove();">
+            <button class="event-modal-btn secondary" onclick="window.demoApp.share('${eventData.id}'); this.closest('.event-modal').remove();">
               Share Event
             </button>
           </div>
