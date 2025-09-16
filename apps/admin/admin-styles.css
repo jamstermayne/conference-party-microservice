@@ -1,3 +1,19 @@
+/* Import Main App Design Tokens */
+@import url('../../frontend/src/assets/css/tokens.css');
+
+/* Admin Styles Using Main App Design System */
+:root {
+  /* Override with main app tokens */
+  --admin-bg: var(--color-bg, #12151b);
+  --admin-surface: var(--color-surface, #0b0f14);
+  --admin-surface-2: var(--color-surface-2, rgba(255,255,255,0.02));
+  --admin-text: var(--color-text, #e8ecf1);
+  --admin-text-dim: var(--color-text-dim, #9aa4b2);
+  --admin-border: var(--color-border, rgba(255,255,255,0.08));
+  --admin-accent: var(--color-accent, #6b7bff);
+  --admin-accent-weak: var(--color-accent-weak, rgba(107,123,255,0.18));
+}
+
 /* FTUE Modal Styles */
 .ftue-modal {
   position: fixed;
@@ -10,7 +26,7 @@
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 250ms ease;
+  transition: opacity var(--transition-panel, 320ms) ease;
 }
 
 .ftue-modal.active {
@@ -28,12 +44,12 @@
   position: relative;
   width: 90%;
   max-width: 600px;
-  background: #1f2237;
-  border-radius: 16px;
-  border: 1px solid #2a2d47;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  background: var(--admin-surface);
+  border-radius: var(--r-4, 20px);
+  border: 1px solid var(--admin-border);
+  box-shadow: var(--elev-shadow, 0 8px 24px rgba(0,0,0,.35));
   transform: translateY(20px);
-  transition: transform 250ms ease;
+  transition: transform var(--transition-panel, 320ms) ease;
 }
 
 .ftue-modal.active .ftue-container {

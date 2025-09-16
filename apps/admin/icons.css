@@ -1,0 +1,234 @@
+/**
+ * Professional Icon System Styles
+ * Consistent styling for SVG icons throughout the app
+ */
+
+/* Base icon styles */
+.icon,
+.inline-icon,
+.icon-replacement svg,
+.achievement-icon svg,
+.demo-icon svg {
+  display: inline-block;
+  vertical-align: middle;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Icon sizes */
+.icon-xs, .icon-xs svg { width: 12px; height: 12px; }
+.icon-sm, .icon-sm svg { width: 16px; height: 16px; }
+.icon-md, .icon-md svg { width: 20px; height: 20px; }
+.icon-lg, .icon-lg svg { width: 24px; height: 24px; }
+.icon-xl, .icon-xl svg { width: 32px; height: 32px; }
+.icon-2xl, .icon-2xl svg { width: 40px; height: 40px; }
+
+/* Inline icon replacement */
+.icon-replacement {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+
+.icon-replacement svg {
+  width: 1em;
+  height: 1em;
+}
+
+/* Achievement icons */
+.achievement-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.achievement-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+}
+
+/* Demo panel icons */
+.demo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.demo-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: #6366f1;
+}
+
+/* Navigation icons */
+.nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.nav-icon svg {
+  width: 20px;
+  height: 20px;
+  transition: stroke 0.2s ease;
+}
+
+/* Button icons */
+button .icon,
+.btn .icon,
+.button .icon {
+  margin-right: 8px;
+}
+
+button .icon:last-child,
+.btn .icon:last-child,
+.button .icon:last-child {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+/* Icon colors */
+.icon-primary svg { stroke: var(--color-accent); }
+.icon-success svg { stroke: #10b981; }
+.icon-warning svg { stroke: #f59e0b; }
+.icon-error svg { stroke: #ef4444; }
+.icon-info svg { stroke: #3b82f6; }
+.icon-muted svg { stroke: var(--color-text-dim); }
+
+/* Interactive states */
+.icon-clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.icon-clickable:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+.icon-clickable:active {
+  transform: scale(0.95);
+}
+
+/* Loading/animated icons */
+@keyframes icon-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.icon-spin svg {
+  animation: icon-spin 1s linear infinite;
+}
+
+@keyframes icon-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.icon-pulse svg {
+  animation: icon-pulse 2s ease-in-out infinite;
+}
+
+/* Icon badges */
+.icon-with-badge {
+  position: relative;
+  display: inline-block;
+}
+
+.icon-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: var(--color-accent);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 16px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+/* Icon containers */
+.icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 50%;
+}
+
+.icon-square {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 8px;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .icon svg,
+  .inline-icon svg {
+    stroke: rgba(255, 255, 255, 0.9);
+  }
+
+  .icon-muted svg {
+    stroke: rgba(255, 255, 255, 0.5);
+  }
+}
+
+/* Accessibility */
+.icon[aria-label]::after {
+  content: attr(aria-label);
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.icon[aria-label]:hover::after {
+  opacity: 1;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .icon svg,
+  .inline-icon svg {
+    stroke-width: 3;
+  }
+}
