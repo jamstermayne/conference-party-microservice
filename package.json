@@ -65,7 +65,7 @@
     "firebase-admin": "^12.7.0",
     "firebase-functions": "^6.1.0",
     "googleapis": "^122.0.0",
-    "path-to-regexp": "6.3.0"
+    "path-to-regexp": "8.3.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.54.2",
