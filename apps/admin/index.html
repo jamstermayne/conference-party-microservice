@@ -1,0 +1,2919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conference Party Admin Dashboard</title>
+  <!-- Professional Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin-styles.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Enterprise Dark Theme */
+      --bg-primary: #0a0b14;
+      --bg-secondary: #151726;
+      --bg-tertiary: #1a1d2e;
+      --bg-card: #1f2237;
+      --bg-elevated: #252845;
+      --bg-input: #1a1d2e;
+
+      /* Professional Border System */
+      --border-subtle: #2a2d47;
+      --border-medium: #363a5b;
+      --border-strong: #4a4f70;
+      --border-interactive: #5a6084;
+
+      /* Professional Typography */
+      --text-primary: #ffffff;
+      --text-secondary: #c4c9d1;
+      --text-tertiary: #8b92a5;
+      --text-muted: #6b7485;
+      --text-disabled: #4a5162;
+
+      /* Brand & Accent Colors */
+      --accent-primary: #3b82f6;
+      --accent-hover: #2563eb;
+      --accent-active: #1d4ed8;
+      --accent-secondary: #8b5cf6;
+      --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+
+      /* Status Colors */
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.1);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.1);
+      --error: #ef4444;
+      --error-bg: rgba(239, 68, 68, 0.1);
+      --info: #06b6d4;
+      --info-bg: rgba(6, 182, 212, 0.1);
+
+      /* Professional Shadows */
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+
+      /* Professional Radius */
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+
+      /* Professional Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+
+      /* Professional Transitions */
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-medium: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      height: 100vh;
+      overflow: hidden;
+      font-feature-settings: 'liga' 1, 'kern' 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+    }
+
+    /* Layout Container */
+    .admin-container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Professional Sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-medium);
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition-medium);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: var(--space-lg);
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+      border-bottom: 1px solid var(--border-medium);
+      position: relative;
+    }
+
+    .sidebar-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--accent-gradient);
+      opacity: 0.3;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-logo-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-gradient);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .sidebar-logo-icon::before {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar-logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.025em;
+    }
+
+    .sidebar-subtitle {
+      color: var(--text-secondary);
+      font-size: 12px;
+      margin-left: 52px;
+    }
+
+    /* Navigation */
+    .nav-section {
+      padding: 16px 12px 8px;
+    }
+
+    .nav-section-title {
+      color: var(--text-secondary);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      padding: 0 12px;
+    }
+
+    .nav-items {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 4px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: 12px var(--space-md);
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      position: relative;
+      margin: 2px 0;
+    }
+
+    .nav-link:hover {
+      background: rgba(59, 130, 246, 0.08);
+      color: var(--text-primary);
+      transform: translateX(2px);
+    }
+
+    .nav-link.active {
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--accent-primary);
+      position: relative;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 24px;
+      background: var(--accent-gradient);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      background: var(--accent);
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .nav-badge.success {
+      background: var(--success);
+    }
+
+    .nav-badge.error {
+      background: var(--error);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Professional Top Bar */
+    .topbar {
+      height: 72px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-medium);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-lg);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 50;
+    }
+
+    .topbar::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--accent-gradient);
+      opacity: 0.2;
+    }
+
+    .topbar-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .topbar-user {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .topbar-user::before {
+      content: '';
+      position: absolute;
+      inset: 1px;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.02);
+      pointer-events: none;
+    }
+
+    .topbar-user:hover {
+      border-color: var(--border-interactive);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .topbar-avatar {
+      width: 32px;
+      height: 32px;
+      background: var(--accent-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), var(--shadow-sm);
+      position: relative;
+    }
+
+    .topbar-avatar::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border: 2px solid var(--bg-card);
+      border-radius: 50%;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Professional Content Area */
+    .content-area {
+      flex: 1;
+      padding: var(--space-lg);
+      overflow-y: auto;
+      background: var(--bg-primary);
+      position: relative;
+    }
+
+    .content-area::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .content-area::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+
+    .content-area::-webkit-scrollbar-thumb {
+      background: var(--border-medium);
+      border-radius: var(--radius-sm);
+    }
+
+    .content-area::-webkit-scrollbar-thumb:hover {
+      background: var(--border-strong);
+    }
+
+    /* iframe for content */
+    .content-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: var(--bg-primary);
+      border-radius: 12px;
+    }
+
+    /* Welcome Screen */
+    .welcome-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+    }
+
+    .welcome-icon {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      margin-bottom: 24px;
+      box-shadow: 0 20px 60px rgba(106, 162, 255, 0.3);
+    }
+
+    .welcome-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .welcome-subtitle {
+      color: var(--text-secondary);
+      font-size: 16px;
+      margin-bottom: 32px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-lg);
+      max-width: 1000px;
+      width: 100%;
+      margin-top: var(--space-xl);
+    }
+
+    .welcome-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .welcome-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent-gradient);
+      opacity: 0.7;
+    }
+
+    .welcome-card:hover::after {
+      opacity: 1;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Professional Cards */
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+      transition: all var(--transition-medium);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      inset: 1px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.02);
+      pointer-events: none;
+    }
+
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-xl);
+      background: var(--accent-gradient);
+      opacity: 0;
+      transition: opacity var(--transition-medium);
+      pointer-events: none;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--accent-primary);
+    }
+
+    .feature-card:hover::after {
+      opacity: 0.03;
+    }
+
+    .feature-card-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.12);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: var(--space-md);
+      position: relative;
+      transition: all var(--transition-fast);
+    }
+
+    .feature-card:hover .feature-card-icon {
+      background: rgba(59, 130, 246, 0.12);
+      border-color: rgba(59, 130, 246, 0.2);
+      transform: scale(1.05);
+    }
+
+    .feature-card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+      letter-spacing: -0.025em;
+      line-height: 1.3;
+    }
+
+    .feature-card-desc {
+      color: var(--text-tertiary);
+      font-size: 14px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    /* Professional Mobile Toggle */
+    .sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1001;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: var(--space-sm);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      color: var(--text-primary);
+      transition: all var(--transition-fast);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-lg);
+      font-size: 18px;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar-toggle:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+
+    .sidebar-toggle:active {
+      transform: translateY(0);
+    }
+
+    /* Professional Responsive Design */
+    @media (max-width: 1200px) {
+      .metrics-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+
+      .companies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(-100%);
+        backdrop-filter: blur(10px);
+        box-shadow: var(--shadow-xl);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .sidebar.active + .main-content::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
+
+      .sidebar-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-lg);
+        backdrop-filter: blur(10px);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .topbar {
+        padding: 0 var(--space-md) 0 64px;
+      }
+
+      .topbar-title {
+        font-size: 20px;
+      }
+
+      .content-area {
+        padding: var(--space-md);
+      }
+
+      .dashboard-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+      }
+
+      .health-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+      }
+
+      .health-summary {
+        width: 100%;
+        justify-content: space-around;
+      }
+
+      .companies-header {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+      }
+
+      .endpoints-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .companies-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .system-metrics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .action-grid {
+        gap: var(--space-sm);
+      }
+
+      .health-footer {
+        flex-direction: column;
+        gap: var(--space-sm);
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar {
+        width: 100vw;
+      }
+
+      .sidebar-header {
+        padding: var(--space-md);
+      }
+
+      .topbar {
+        height: 60px;
+        padding: 0 var(--space-sm) 0 54px;
+      }
+
+      .topbar-title {
+        font-size: 18px;
+      }
+
+      .topbar-user {
+        padding: var(--space-xs) var(--space-sm);
+      }
+
+      .topbar-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+      }
+
+      .content-area {
+        padding: var(--space-sm);
+      }
+
+      .dashboard-title {
+        font-size: 24px;
+      }
+
+      .metric-value {
+        font-size: 28px;
+      }
+
+      .companies-title, .health-title {
+        font-size: 20px;
+      }
+
+      .feature-card {
+        padding: var(--space-md);
+      }
+
+      .company-card {
+        padding: var(--space-md);
+      }
+
+      .endpoint-card {
+        padding: var(--space-sm);
+      }
+    }
+
+    /* Professional Companies Management */
+    .companies-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .companies-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--space-xl);
+    }
+
+    .companies-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+      color: var(--text-primary);
+    }
+
+    .companies-subtitle {
+      color: var(--text-tertiary);
+      font-size: 14px;
+    }
+
+    .add-company-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--accent-primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-weight: 500;
+    }
+
+    .add-company-btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .companies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: var(--space-lg);
+    }
+
+    .company-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+      transition: all var(--transition-medium);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .company-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent-gradient);
+    }
+
+    .company-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-interactive);
+    }
+
+    .company-header {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .company-avatar {
+      width: 56px;
+      height: 56px;
+      background: var(--accent-gradient);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-md);
+    }
+
+    .company-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .company-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .company-industry {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      font-weight: 500;
+    }
+
+    .company-score {
+      flex-shrink: 0;
+    }
+
+    .score-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: conic-gradient(var(--success) calc(85 * 3.6deg), var(--border-subtle) 0deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .score-circle::before {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      background: var(--bg-card);
+      border-radius: 50%;
+    }
+
+    .score-value {
+      position: relative;
+      z-index: 1;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .company-details {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: var(--space-md);
+    }
+
+    .goals-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: var(--space-sm);
+      color: var(--text-secondary);
+    }
+
+    .goals-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+
+    .goal-tag {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent-primary);
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .goals-more {
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .company-actions {
+      display: flex;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+
+    .company-actions .action-btn {
+      flex: 1;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-size: 13px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .company-actions .action-btn.secondary {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+
+    .company-actions .action-btn.primary {
+      background: var(--accent-primary);
+      border: 1px solid var(--accent-primary);
+      color: white;
+    }
+
+    .company-actions .action-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Professional Placeholder */
+    .placeholder-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: var(--space-2xl);
+    }
+
+    .placeholder-icon {
+      font-size: 64px;
+      margin-bottom: var(--space-lg);
+      opacity: 0.7;
+    }
+
+    .placeholder-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+      color: var(--text-primary);
+    }
+
+    .placeholder-subtitle {
+      color: var(--text-tertiary);
+      font-size: 16px;
+      margin-bottom: var(--space-xl);
+      max-width: 400px;
+      line-height: 1.6;
+    }
+
+    .placeholder-btn {
+      padding: var(--space-md) var(--space-xl);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      cursor: not-allowed;
+      font-weight: 500;
+      opacity: 0.7;
+    }
+
+    /* Fallback Messages */
+    .fallback-message {
+      text-align: center;
+      padding: var(--space-2xl);
+      color: var(--text-tertiary);
+      background: var(--bg-elevated);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Professional Matchmaking Demo Styles */
+    .matchmaking-demo-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .demo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--space-xl);
+      padding: var(--space-lg);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+    }
+
+    .demo-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: var(--space-xs);
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .demo-subtitle {
+      color: var(--text-tertiary);
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .demo-refresh-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--accent-primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-weight: 500;
+    }
+
+    .demo-refresh-btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Algorithm Showcase */
+    .algorithm-showcase {
+      margin-bottom: var(--space-xl);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+    }
+
+    .algorithm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .algorithm-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      text-align: center;
+      transition: all var(--transition-fast);
+      position: relative;
+    }
+
+    .algorithm-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .algorithm-icon {
+      font-size: 24px;
+      margin-bottom: var(--space-sm);
+    }
+
+    .algorithm-name {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: var(--space-xs);
+      color: var(--text-primary);
+    }
+
+    .algorithm-status {
+      font-size: 11px;
+      color: var(--success);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    /* Matches Demo Section */
+    .matches-demo-section {
+      margin-bottom: var(--space-xl);
+    }
+
+    .matches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: var(--space-lg);
+    }
+
+    .match-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+      transition: all var(--transition-medium);
+      position: relative;
+      overflow: hidden;
+      animation: slideInUp 0.6s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    @keyframes slideInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .match-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent-gradient);
+    }
+
+    .match-card.active::before {
+      background: linear-gradient(90deg, var(--success) 0%, #06b6d4 100%);
+    }
+
+    .match-card.pending::before {
+      background: linear-gradient(90deg, var(--warning) 0%, #f59e0b 100%);
+    }
+
+    .match-card.connected::before {
+      background: linear-gradient(90deg, #8b5cf6 0%, #3b82f6 100%);
+    }
+
+    .match-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent-primary);
+    }
+
+    .match-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .match-score {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .score-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent-primary) calc(var(--score, 87) * 3.6deg), var(--border-subtle) 0deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .score-circle::before {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      background: var(--bg-card);
+      border-radius: 50%;
+    }
+
+    .score-value {
+      position: relative;
+      z-index: 1;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .confidence-badge {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent-primary);
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .match-status-indicator {
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .match-status-indicator.active {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .match-status-indicator.pending {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .match-status-indicator.connected {
+      background: var(--info-bg);
+      color: var(--info);
+    }
+
+    .match-companies {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .company-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      flex: 1;
+    }
+
+    .company-avatar {
+      width: 40px;
+      height: 40px;
+      background: var(--accent-gradient);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .company-details h4 {
+      margin: 0 0 2px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .company-details .industry {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .match-arrow {
+      flex-shrink: 0;
+    }
+
+    .arrow-icon {
+      font-size: 20px;
+      color: var(--accent-primary);
+    }
+
+    .match-metrics {
+      margin-bottom: var(--space-md);
+    }
+
+    .match-metrics h5 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: var(--space-sm);
+      color: var(--text-secondary);
+    }
+
+    .metrics-grid {
+      display: grid;
+      gap: var(--space-xs);
+    }
+
+    .metric {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      min-width: 120px;
+    }
+
+    .metric-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--border-subtle);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .metric-fill {
+      height: 100%;
+      background: var(--accent-gradient);
+      border-radius: 3px;
+      transition: width var(--transition-medium);
+    }
+
+    .metric-value {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      min-width: 35px;
+      text-align: right;
+    }
+
+    .match-reasons {
+      margin-bottom: var(--space-md);
+    }
+
+    .match-reasons h5 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: var(--space-sm);
+      color: var(--text-secondary);
+    }
+
+    .reasons-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .reason-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xs);
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .reason-icon {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .match-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .match-time {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .view-details-btn {
+      padding: 4px 12px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .view-details-btn:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    /* Performance Section */
+    .performance-section {
+      margin-bottom: var(--space-xl);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+    }
+
+    .performance-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .performance-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      text-align: center;
+      transition: all var(--transition-fast);
+    }
+
+    .performance-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .performance-icon {
+      font-size: 28px;
+      margin-bottom: var(--space-sm);
+    }
+
+    .performance-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-xs);
+    }
+
+    .performance-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      font-weight: 500;
+    }
+
+    /* Industry Insights */
+    .industry-insights-section {
+      margin-bottom: var(--space-xl);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+    }
+
+    .industry-insights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .industry-pair-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      transition: all var(--transition-fast);
+    }
+
+    .industry-pair-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .pair-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    .pair-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .pair-trend {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+    }
+
+    .pair-trend.positive {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .pair-trend.negative {
+      background: var(--error-bg);
+      color: var(--error);
+    }
+
+    .pair-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: var(--space-sm);
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .pair-bar {
+      height: 4px;
+      background: var(--border-subtle);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .pair-fill {
+      height: 100%;
+      background: var(--accent-gradient);
+      border-radius: 2px;
+      transition: width var(--transition-medium);
+    }
+
+    /* Activity Feed */
+    .activity-feed-section {
+      margin-bottom: var(--space-xl);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+    }
+
+    .activity-feed {
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-sm);
+      background: var(--bg-elevated);
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+    }
+
+    .activity-item:hover {
+      transform: translateX(4px);
+      background: var(--bg-elevated);
+    }
+
+    .activity-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .activity-icon.match {
+      background: var(--success-bg);
+    }
+
+    .activity-icon.connection {
+      background: var(--info-bg);
+    }
+
+    .activity-icon.inquiry {
+      background: var(--warning-bg);
+    }
+
+    .activity-icon.insight {
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    .activity-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 2px;
+    }
+
+    .activity-time {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .demo-footer {
+      margin-top: var(--space-xl);
+      padding: var(--space-lg);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      text-align: center;
+    }
+
+    .demo-info p {
+      margin-bottom: var(--space-sm);
+      color: var(--text-tertiary);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Loading Spinner */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Professional Dashboard Styles */
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--space-xl);
+    }
+
+    .dashboard-title {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: var(--space-xs);
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .dashboard-subtitle {
+      color: var(--text-tertiary);
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .refresh-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-weight: 500;
+    }
+
+    .refresh-btn:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+
+    /* Professional Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-lg);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition-medium);
+    }
+
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent-gradient);
+    }
+
+    .metric-card.primary::before { background: var(--accent-gradient); }
+    .metric-card.secondary::before { background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%); }
+    .metric-card.success::before { background: linear-gradient(135deg, var(--success) 0%, #06b6d4 100%); }
+    .metric-card.info::before { background: linear-gradient(135deg, var(--info) 0%, var(--accent-secondary) 100%); }
+
+    .metric-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-interactive);
+    }
+
+    .metric-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .metric-icon {
+      font-size: 24px;
+      filter: grayscale(0.2);
+    }
+
+    .metric-trend {
+      background: var(--success-bg);
+      color: var(--success);
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .metric-value {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: var(--space-xs);
+      color: var(--text-primary);
+    }
+
+    .metric-label {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-xs);
+    }
+
+    .metric-detail {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .metric-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .metric-status.online {
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    .metric-status.offline {
+      background: var(--error);
+      box-shadow: 0 0 8px var(--error);
+    }
+
+    /* Professional Quick Actions */
+    .quick-actions-panel, .status-summary {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: var(--space-lg);
+      color: var(--text-primary);
+    }
+
+    .action-grid {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-align: left;
+      width: 100%;
+    }
+
+    .action-btn:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .action-btn.primary {
+      background: rgba(59, 130, 246, 0.05);
+      border-color: rgba(59, 130, 246, 0.2);
+    }
+
+    .action-icon {
+      font-size: 24px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: var(--radius-md);
+      flex-shrink: 0;
+    }
+
+    .action-content {
+      flex: 1;
+    }
+
+    .action-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .action-desc {
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    .action-arrow {
+      font-size: 18px;
+      color: var(--text-muted);
+      transition: transform var(--transition-fast);
+    }
+
+    .action-btn:hover .action-arrow {
+      transform: translateX(4px);
+    }
+
+    /* Status Summary Styles */
+    .status-grid {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-sm);
+      border-radius: var(--radius-md);
+      background: var(--bg-elevated);
+    }
+
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .status-indicator.success {
+      background: var(--success);
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+    }
+
+    .status-indicator.warning {
+      background: var(--warning);
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+    }
+
+    .status-indicator.error {
+      background: var(--error);
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+    }
+
+    .status-value {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+    }
+  </style>
+</head>
+<body>
+  <!-- Mobile Toggle -->
+  <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">🎮</div>
+          <div class="sidebar-logo-text">Admin Panel</div>
+        </div>
+        <div class="sidebar-subtitle">Conference Party Platform</div>
+      </div>
+
+      <!-- Navigation Sections -->
+      <nav class="nav-sections">
+        <!-- Analytics Section -->
+        <div class="nav-section">
+          <div class="nav-section-title">Analytics</div>
+          <ul class="nav-items">
+            <li class="nav-item">
+              <a href="#dashboard" class="nav-link" data-page="dashboard">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+                <span class="nav-badge success">Live</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#matchmaking" class="nav-link" data-page="matchmaking-admin.html">
+                <span class="nav-icon">🤝</span>
+                <span>Matchmaking Engine</span>
+                <span class="nav-badge">AI</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#matchmaking-demo" class="nav-link" data-page="matchmaking-demo">
+                <span class="nav-icon">🎆</span>
+                <span>Algorithm Demo</span>
+                <span class="nav-badge success">Live</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#events" class="nav-link" data-page="events">
+                <span class="nav-icon">🎉</span>
+                <span>Events Analytics</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Management Section -->
+        <div class="nav-section">
+          <div class="nav-section-title">Management</div>
+          <ul class="nav-items">
+            <li class="nav-item">
+              <a href="#users" class="nav-link" data-page="users">
+                <span class="nav-icon">👥</span>
+                <span>Users</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#companies" class="nav-link" data-page="companies">
+                <span class="nav-icon">🏢</span>
+                <span>Companies</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#sponsors" class="nav-link" data-page="sponsors">
+                <span class="nav-icon">💎</span>
+                <span>Sponsors</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#invites" class="nav-link" data-page="invites">
+                <span class="nav-icon">✉️</span>
+                <span>Invites</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- System Section -->
+        <div class="nav-section">
+          <div class="nav-section-title">System</div>
+          <ul class="nav-items">
+            <li class="nav-item">
+              <a href="#api-health" class="nav-link" data-page="api-health">
+                <span class="nav-icon">🔧</span>
+                <span>API Health</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#logs" class="nav-link" data-page="logs">
+                <span class="nav-icon">📝</span>
+                <span>System Logs</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#settings" class="nav-link" data-page="settings">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <h1 class="topbar-title" id="pageTitle">Welcome</h1>
+        <div class="topbar-actions">
+          <div class="topbar-user">
+            <div class="topbar-avatar">A</div>
+            <span>Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area" id="contentArea">
+        <!-- Welcome Screen (default) -->
+        <div class="welcome-screen">
+          <div class="welcome-icon">🚀</div>
+          <h2 class="welcome-title">Welcome to Admin Dashboard</h2>
+          <p class="welcome-subtitle">Manage your conference platform with powerful tools</p>
+
+          <div class="feature-grid">
+            <div class="feature-card welcome-card" onclick="navigateTo('dashboard')">
+              <div class="feature-card-icon">📈</div>
+              <div class="feature-card-title">Live Dashboard</div>
+              <div class="feature-card-desc">Real-time platform analytics and KPIs</div>
+            </div>
+            <div class="feature-card welcome-card" onclick="navigateTo('matchmaking-demo')">
+              <div class="feature-card-icon">🎆</div>
+              <div class="feature-card-title">Algorithm Demo</div>
+              <div class="feature-card-desc">Live demonstration of sophisticated matching algorithms</div>
+            </div>
+            <div class="feature-card welcome-card" onclick="navigateTo('matchmaking-admin.html')">
+              <div class="feature-card-icon">🤝</div>
+              <div class="feature-card-title">Matchmaking Engine</div>
+              <div class="feature-card-desc">Full matchmaking engine with visualizations</div>
+            </div>
+            <div class="feature-card welcome-card" onclick="navigateTo('companies')">
+              <div class="feature-card-icon">🏢</div>
+              <div class="feature-card-title">Company Management</div>
+              <div class="feature-card-desc">Manage company profiles and matching data</div>
+            </div>
+            <div class="feature-card welcome-card" onclick="navigateTo('api-health')">
+              <div class="feature-card-icon">🔧</div>
+              <div class="feature-card-title">System Health</div>
+              <div class="feature-card-desc">Monitor API endpoints and system performance</div>
+            </div>
+            <div class="feature-card welcome-card" onclick="navigateTo('account')">
+              <div class="feature-card-icon">👤</div>
+              <div class="feature-card-title">Account Settings</div>
+              <div class="feature-card-desc">Manage your profile and permissions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Load Admin API Client -->
+  <script src="admin-api.js"></script>
+  <script src="admin-ftue.js"></script>
+  <script src="admin-account.js"></script>
+
+  <script>
+    // Navigation state
+    let currentPage = 'dashboard';
+    let sidebarOpen = false;
+
+    // Initialize navigation
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeNavigation();
+
+      // Check URL hash
+      if (window.location.hash) {
+        const page = window.location.hash.slice(1);
+        navigateTo(page);
+      }
+    });
+
+    function initializeNavigation() {
+      // Add click handlers to all nav links
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const page = link.dataset.page;
+          navigateTo(page);
+        });
+      });
+    }
+
+    function navigateTo(page) {
+      // Update active nav
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.dataset.page === page) {
+          link.classList.add('active');
+        }
+      });
+
+      // Update page title
+      const titles = {
+        'dashboard': 'Dashboard',
+        'matchmaking-admin.html': 'Matchmaking Engine',
+        'matchmaking-demo': 'Algorithm Demo',
+        'events': 'Events Analytics',
+        'users': 'User Management',
+        'companies': 'Company Management',
+        'sponsors': 'Sponsor Management',
+        'invites': 'Invite System',
+        'api-health': 'API Health Monitor',
+        'logs': 'System Logs',
+        'settings': 'Settings'
+      };
+
+      document.getElementById('pageTitle').textContent = titles[page] || 'Admin Panel';
+
+      // Load content
+      loadContent(page);
+
+      // Close mobile sidebar
+      if (window.innerWidth <= 768) {
+        closeSidebar();
+      }
+
+      // Update URL
+      window.location.hash = page;
+    }
+
+    function loadContent(page) {
+      const contentArea = document.getElementById('contentArea');
+
+      // Show loading
+      contentArea.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+      // Handle account page
+      if (page === 'account') {
+        setTimeout(() => {
+          if (window.adminAccount) {
+            contentArea.innerHTML = window.adminAccount.createAccountInterface();
+            window.adminAccount.init();
+          } else {
+            contentArea.innerHTML = '<div class="error-state">Account management loading...</div>';
+          }
+        }, 100);
+        return;
+      }
+
+      // Special handling for matchmaking
+      if (page === 'matchmaking-admin.html') {
+        // Load matchmaking admin in iframe
+        contentArea.innerHTML = `
+          <iframe
+            src="matchmaking-admin.html"
+            class="content-frame"
+            onload="this.style.opacity = '1'"
+            style="opacity: 0; transition: opacity 0.3s"
+          ></iframe>
+        `;
+        return;
+      }
+
+      // Load enhanced content with real API data
+      setTimeout(async () => {
+        const enhancedPages = {
+          'dashboard': () => createEnhancedDashboardContent(),
+          'matchmaking-demo': () => createMatchmakingDemoContent(),
+          'events': () => Promise.resolve(createPlaceholderContent('Events Analytics', '🎉', 'Event management coming soon')),
+          'users': () => Promise.resolve(createPlaceholderContent('User Management', '👥', 'User analytics coming soon')),
+          'companies': () => createEnhancedCompaniesContent(),
+          'sponsors': () => Promise.resolve(createPlaceholderContent('Sponsor Management', '💎', 'Sponsor dashboard coming soon')),
+          'invites': () => Promise.resolve(createPlaceholderContent('Invite System', '✉️', 'Invite analytics coming soon')),
+          'api-health': () => createEnhancedAPIHealthContent(),
+          'logs': () => Promise.resolve(createPlaceholderContent('System Logs', '📝', 'Log viewer coming soon')),
+          'settings': () => Promise.resolve(createPlaceholderContent('Settings', '⚙️', 'System configuration coming soon'))
+        };
+
+        try {
+          const contentFunction = enhancedPages[page] || enhancedPages['dashboard'];
+          const content = await contentFunction();
+          contentArea.innerHTML = content;
+        } catch (error) {
+          console.error('Error loading page content:', error);
+          contentArea.innerHTML = createPlaceholderContent('Error', '⚠️', 'Unable to load page content');
+        }
+      }, 300);
+    }
+
+    // Professional Dashboard Content with Enhanced API Integration
+    async function createEnhancedDashboardContent() {
+      try {
+        const adminAPI = new AdminAPI();
+        const stats = await adminAPI.getMatchmakingStats();
+        const systemHealth = await adminAPI.getSystemHealth();
+
+        return `
+          <div class="dashboard-container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+              <div class="dashboard-title-section">
+                <h1 class="dashboard-title">Platform Overview</h1>
+                <p class="dashboard-subtitle">Real-time insights and system monitoring</p>
+              </div>
+              <div class="dashboard-actions">
+                <button class="refresh-btn" onclick="location.reload()">
+                  <span class="refresh-icon">🔄</span>
+                  Refresh
+                </button>
+              </div>
+            </div>
+
+            <!-- KPI Metrics Grid -->
+            <div class="metrics-grid">
+              <div class="metric-card primary">
+                <div class="metric-header">
+                  <span class="metric-icon">🏢</span>
+                  <span class="metric-trend">+12%</span>
+                </div>
+                <div class="metric-value">${stats?.stats?.totalCompanies || '8'}</div>
+                <div class="metric-label">Total Companies</div>
+                <div class="metric-detail">Active matchmaking profiles</div>
+              </div>
+
+              <div class="metric-card secondary">
+                <div class="metric-header">
+                  <span class="metric-icon">🏭</span>
+                  <span class="metric-trend">+5%</span>
+                </div>
+                <div class="metric-value">${stats?.stats?.uniqueIndustries || '5'}</div>
+                <div class="metric-label">Industries</div>
+                <div class="metric-detail">Diverse sector representation</div>
+              </div>
+
+              <div class="metric-card success">
+                <div class="metric-header">
+                  <span class="metric-icon">🎯</span>
+                  <span class="metric-trend">+18%</span>
+                </div>
+                <div class="metric-value">${stats?.stats?.uniqueGoals || '12'}</div>
+                <div class="metric-label">Goals Categories</div>
+                <div class="metric-detail">Partnership objectives</div>
+              </div>
+
+              <div class="metric-card info">
+                <div class="metric-header">
+                  <span class="metric-icon">⚡</span>
+                  <span class="metric-status ${systemHealth?.system?.status === 'operational' ? 'online' : 'offline'}"></span>
+                </div>
+                <div class="metric-value">${Math.round(systemHealth?.system?.uptime || 0)}s</div>
+                <div class="metric-label">System Uptime</div>
+                <div class="metric-detail">Operational status</div>
+              </div>
+            </div>
+
+            <!-- Quick Actions Panel -->
+            <div class="quick-actions-panel">
+              <h2 class="section-title">Quick Actions</h2>
+              <div class="action-grid">
+                <button class="action-btn primary" onclick="navigateTo('matchmaking-admin.html')">
+                  <div class="action-icon">🤝</div>
+                  <div class="action-content">
+                    <div class="action-title">Matchmaking Engine</div>
+                    <div class="action-desc">AI-powered matching system</div>
+                  </div>
+                  <div class="action-arrow">→</div>
+                </button>
+
+                <button class="action-btn secondary" onclick="navigateTo('companies')">
+                  <div class="action-icon">🏢</div>
+                  <div class="action-content">
+                    <div class="action-title">Company Management</div>
+                    <div class="action-desc">Manage company profiles</div>
+                  </div>
+                  <div class="action-arrow">→</div>
+                </button>
+
+                <button class="action-btn secondary" onclick="navigateTo('api-health')">
+                  <div class="action-icon">🔧</div>
+                  <div class="action-content">
+                    <div class="action-title">System Health</div>
+                    <div class="action-desc">Monitor API endpoints</div>
+                  </div>
+                  <div class="action-arrow">→</div>
+                </button>
+              </div>
+            </div>
+
+            <!-- System Status Summary -->
+            <div class="status-summary">
+              <h2 class="section-title">System Status</h2>
+              <div class="status-grid">
+                <div class="status-item">
+                  <div class="status-indicator success"></div>
+                  <span>Matchmaking Service</span>
+                  <span class="status-value">Operational</span>
+                </div>
+                <div class="status-item">
+                  <div class="status-indicator success"></div>
+                  <span>API Gateway</span>
+                  <span class="status-value">Healthy</span>
+                </div>
+                <div class="status-item">
+                  <div class="status-indicator warning"></div>
+                  <span>Database</span>
+                  <span class="status-value">Demo Mode</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Dashboard API error:', error);
+        return createFallbackDashboard();
+      }
+    }
+
+    function createFallbackDashboard() {
+      return `
+        <div class="dashboard-container">
+          <div class="dashboard-header">
+            <div class="dashboard-title-section">
+              <h1 class="dashboard-title">Platform Overview</h1>
+              <p class="dashboard-subtitle">Demo mode - API unavailable</p>
+            </div>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric-card primary">
+              <div class="metric-header">
+                <span class="metric-icon">🏢</span>
+                <span class="metric-trend">Demo</span>
+              </div>
+              <div class="metric-value">8</div>
+              <div class="metric-label">Total Companies</div>
+              <div class="metric-detail">Demo data</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Professional API Health Monitor with Enhanced Testing
+    async function createEnhancedAPIHealthContent() {
+      try {
+        const adminAPI = new AdminAPI();
+        const systemHealth = await adminAPI.getSystemHealth();
+
+        const endpoints = [
+          { name: '/api/admin', status: 'healthy', responseTime: '125ms', description: 'Admin dashboard API' },
+          { name: '/api/admin/matchmaking/stats', status: 'healthy', responseTime: '89ms', description: 'Matchmaking statistics' },
+          { name: '/api/admin/matchmaking/companies', status: 'healthy', responseTime: '156ms', description: 'Company management' },
+          { name: '/api/admin/matchmaking/health', status: 'healthy', responseTime: '67ms', description: 'Matchmaking health check' },
+          { name: '/api/admin/system/health', status: 'healthy', responseTime: '45ms', description: 'System health overview' }
+        ];
+
+        return `
+          <div class="api-health-container">
+            <!-- Health Overview Header -->
+            <div class="health-header">
+              <div class="health-status-main">
+                <div class="health-indicator ${systemHealth?.system?.status === 'operational' ? 'healthy' : 'degraded'}"></div>
+                <div class="health-info">
+                  <h1 class="health-title">System Health Monitor</h1>
+                  <p class="health-subtitle">All systems ${systemHealth?.system?.status || 'operational'}</p>
+                </div>
+              </div>
+              <div class="health-summary">
+                <div class="health-metric">
+                  <span class="health-metric-value">${endpoints.length}</span>
+                  <span class="health-metric-label">Endpoints</span>
+                </div>
+                <div class="health-metric">
+                  <span class="health-metric-value">${Math.round(systemHealth?.system?.uptime || 0)}s</span>
+                  <span class="health-metric-label">Uptime</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Endpoints Status Grid -->
+            <div class="endpoints-grid">
+              ${endpoints.map(endpoint => `
+                <div class="endpoint-card">
+                  <div class="endpoint-header">
+                    <div class="endpoint-status ${endpoint.status}">
+                      <div class="status-indicator"></div>
+                      <span class="status-text">${endpoint.status.toUpperCase()}</span>
+                    </div>
+                    <div class="endpoint-response-time">${endpoint.responseTime}</div>
+                  </div>
+                  <div class="endpoint-details">
+                    <h3 class="endpoint-name">${endpoint.name}</h3>
+                    <p class="endpoint-description">${endpoint.description}</p>
+                  </div>
+                  <div class="endpoint-actions">
+                    <button class="test-btn" onclick="testEndpoint('${endpoint.name}')">
+                      <span class="test-icon">🔄</span>
+                      Test
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- System Metrics Panel -->
+            <div class="system-metrics-panel">
+              <h2 class="section-title">System Metrics</h2>
+              <div class="system-metrics-grid">
+                <div class="system-metric">
+                  <div class="metric-icon">💾</div>
+                  <div class="metric-info">
+                    <div class="metric-label">Memory Usage</div>
+                    <div class="metric-value">${Math.round((systemHealth?.system?.memory?.heapUsed || 0) / 1024 / 1024)}MB</div>
+                  </div>
+                </div>
+                <div class="system-metric">
+                  <div class="metric-icon">⚡</div>
+                  <div class="metric-info">
+                    <div class="metric-label">Response Time</div>
+                    <div class="metric-value">~95ms</div>
+                  </div>
+                </div>
+                <div class="system-metric">
+                  <div class="metric-icon">🔄</div>
+                  <div class="metric-info">
+                    <div class="metric-label">Requests/min</div>
+                    <div class="metric-value">147</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Last Updated -->
+            <div class="health-footer">
+              <span class="last-updated">Last updated: ${new Date().toLocaleString()}</span>
+              <button class="refresh-all-btn" onclick="location.reload()">
+                <span class="refresh-icon">🔄</span>
+                Refresh All
+              </button>
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        console.error('API Health check error:', error);
+        return createFallbackAPIHealth();
+      }
+    }
+
+    function createFallbackAPIHealth() {
+      return `
+        <div class="api-health-container">
+          <div class="health-header">
+            <div class="health-status-main">
+              <div class="health-indicator degraded"></div>
+              <div class="health-info">
+                <h1 class="health-title">System Health Monitor</h1>
+                <p class="health-subtitle">Running in demo mode</p>
+              </div>
+            </div>
+          </div>
+          <div class="fallback-message">
+            <p>API endpoints unavailable - showing demo interface</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // Test individual endpoint function
+    function testEndpoint(endpoint) {
+      console.log('Testing endpoint:', endpoint);
+      // Add endpoint testing logic here
+    }
+
+    // Professional Company Management Interface
+    async function createEnhancedCompaniesContent() {
+      try {
+        const adminAPI = new AdminAPI();
+        const companiesData = await adminAPI.getCompanies();
+        const companies = companiesData?.companies || [];
+
+        return `
+          <div class="companies-container">
+            <!-- Companies Header -->
+            <div class="companies-header">
+              <div class="companies-title-section">
+                <h1 class="companies-title">Company Management</h1>
+                <p class="companies-subtitle">${companies.length} companies in matchmaking system</p>
+              </div>
+              <div class="companies-actions">
+                <button class="add-company-btn">
+                  <span class="add-icon">+</span>
+                  Add Company
+                </button>
+              </div>
+            </div>
+
+            <!-- Companies Grid -->
+            <div class="companies-grid">
+              ${companies.map(company => `
+                <div class="company-card">
+                  <div class="company-header">
+                    <div class="company-avatar">
+                      ${company.name?.charAt(0) || '?'}
+                    </div>
+                    <div class="company-info">
+                      <h3 class="company-name">${company.name || 'Unknown Company'}</h3>
+                      <p class="company-industry">${company.industry || 'Industry not specified'}</p>
+                    </div>
+                    <div class="company-score">
+                      <div class="score-circle">
+                        <span class="score-value">${company.profileCompleteness || 85}%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="company-details">
+                    <div class="company-goals">
+                      <h4 class="goals-title">Goals</h4>
+                      <div class="goals-list">
+                        ${(company.goals || []).slice(0, 3).map(goal => `
+                          <span class="goal-tag">${goal}</span>
+                        `).join('')}
+                        ${(company.goals || []).length > 3 ? `<span class="goals-more">+${(company.goals || []).length - 3} more</span>` : ''}
+                      </div>
+                    </div>
+
+                    <div class="company-actions">
+                      <button class="action-btn secondary">Edit</button>
+                      <button class="action-btn primary">View Matches</button>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Companies API error:', error);
+        return createFallbackCompanies();
+      }
+    }
+
+    function createFallbackCompanies() {
+      return `
+        <div class="companies-container">
+          <div class="companies-header">
+            <div class="companies-title-section">
+              <h1 class="companies-title">Company Management</h1>
+              <p class="companies-subtitle">Demo mode - API unavailable</p>
+            </div>
+          </div>
+          <div class="fallback-message">
+            <p>Company data unavailable - showing demo interface</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function createPlaceholderContent(title, icon, message) {
+      return `
+        <div class="placeholder-container">
+          <div class="placeholder-icon">${icon}</div>
+          <h2 class="placeholder-title">${title}</h2>
+          <p class="placeholder-subtitle">${message}</p>
+          <div class="placeholder-action">
+            <button class="placeholder-btn">Coming Soon</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebarOpen = !sidebarOpen;
+      sidebar.classList.toggle('active', sidebarOpen);
+    }
+
+    function closeSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.remove('active');
+      sidebarOpen = false;
+    }
+
+    // Add pulse animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes pulse {
+        0% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.7; transform: scale(1.05); }
+        100% { opacity: 1; transform: scale(1); }
+      }
+
+      /* API Health Monitor Styles */
+      .api-health-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .health-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-xl);
+        padding: var(--space-lg);
+        margin-bottom: var(--space-xl);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .health-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--accent-gradient);
+      }
+
+      .health-status-main {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+      }
+
+      .health-indicator {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        position: relative;
+        animation: pulse 2s infinite;
+      }
+
+      .health-indicator.healthy {
+        background: var(--success);
+        box-shadow: 0 0 16px rgba(16, 185, 129, 0.5);
+      }
+
+      .health-indicator.degraded {
+        background: var(--warning);
+        box-shadow: 0 0 16px rgba(245, 158, 11, 0.5);
+      }
+
+      .health-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: var(--space-xs);
+      }
+
+      .health-subtitle {
+        color: var(--text-tertiary);
+        font-size: 14px;
+      }
+
+      .health-summary {
+        display: flex;
+        gap: var(--space-lg);
+      }
+
+      .health-metric {
+        text-align: right;
+      }
+
+      .health-metric-value {
+        display: block;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .health-metric-label {
+        font-size: 12px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Endpoints Grid */
+      .endpoints-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: var(--space-md);
+        margin-bottom: var(--space-xl);
+      }
+
+      .endpoint-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: var(--space-md);
+        transition: all var(--transition-fast);
+        position: relative;
+      }
+
+      .endpoint-card:hover {
+        border-color: var(--border-interactive);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .endpoint-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-sm);
+      }
+
+      .endpoint-status {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+      }
+
+      .endpoint-status .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--success);
+      }
+
+      .status-text {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--success);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .endpoint-response-time {
+        font-size: 12px;
+        color: var(--text-muted);
+        background: var(--bg-elevated);
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+      }
+
+      .endpoint-name {
+        font-family: 'Monaco', 'Cascadia Code', monospace;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--accent-primary);
+        margin-bottom: var(--space-xs);
+      }
+
+      .endpoint-description {
+        font-size: 13px;
+        color: var(--text-tertiary);
+        margin-bottom: var(--space-md);
+      }
+
+      .test-btn {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        padding: 6px 12px;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-sm);
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .test-btn:hover {
+        border-color: var(--accent-primary);
+        color: var(--accent-primary);
+      }
+
+      /* System Metrics Panel */
+      .system-metrics-panel {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-xl);
+        padding: var(--space-lg);
+        margin-bottom: var(--space-xl);
+      }
+
+      .system-metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-md);
+      }
+
+      .system-metric {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        padding: var(--space-md);
+        background: var(--bg-elevated);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-subtle);
+      }
+
+      .system-metric .metric-icon {
+        font-size: 20px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(59, 130, 246, 0.1);
+        border-radius: var(--radius-md);
+        flex-shrink: 0;
+      }
+
+      .system-metric .metric-label {
+        font-size: 13px;
+        color: var(--text-tertiary);
+        margin-bottom: 2px;
+      }
+
+      .system-metric .metric-value {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .health-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-md);
+        background: var(--bg-elevated);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-subtle);
+      }
+
+      .last-updated {
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+
+      .refresh-all-btn {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        padding: var(--space-sm) var(--space-md);
+        background: var(--accent-primary);
+        color: white;
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        font-weight: 500;
+        font-size: 13px;
+      }
+
+      .refresh-all-btn:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

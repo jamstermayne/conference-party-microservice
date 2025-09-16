@@ -1,0 +1,506 @@
+/**
+ * Modern Button System
+ * Consistent, accessible, and beautiful buttons
+ */
+
+/* ============================================
+   BASE BUTTON STYLES
+   ============================================ */
+
+.btn {
+  /* Reset & Box Model */
+  appearance: none;
+  border: none;
+  margin: 0;
+  padding: var(--space-3) var(--space-6);
+
+  /* Display & Position */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  position: relative;
+
+  /* Typography */
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+
+  /* Appearance */
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  border-radius: var(--radius-lg);
+
+  /* Cursor & User Interaction */
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  /* Transitions */
+  transition: all var(--duration-200) var(--ease-out);
+
+  /* Overflow */
+  overflow: hidden;
+
+  /* Isolation for pseudo-elements */
+  isolation: isolate;
+}
+
+/* Button hover state */
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+/* Button active state */
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+  transition-duration: var(--duration-75);
+}
+
+/* Button focus state */
+.btn:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================
+   BUTTON VARIANTS
+   ============================================ */
+
+/* Primary Button */
+.btn--primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow:
+    var(--shadow-md),
+    0 0 20px rgba(139, 92, 246, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn--primary:hover:not(:disabled) {
+  box-shadow:
+    var(--shadow-lg),
+    0 0 30px rgba(139, 92, 246, 0.4);
+}
+
+.btn--primary:active:not(:disabled) {
+  box-shadow:
+    var(--shadow-sm),
+    0 0 15px rgba(139, 92, 246, 0.2);
+}
+
+/* Secondary Button */
+.btn--secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: var(--blur-sm);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Ghost Button */
+.btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  box-shadow: none;
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+/* Outline Button */
+.btn--outline {
+  background: transparent;
+  color: var(--primary-400);
+  border: 2px solid var(--primary-400);
+  padding: calc(var(--space-3) - 1px) calc(var(--space-6) - 1px);
+}
+
+.btn--outline:hover:not(:disabled) {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: var(--primary-300);
+  color: var(--primary-300);
+}
+
+/* Danger Button */
+.btn--danger {
+  background: linear-gradient(135deg, var(--error) 0%, var(--error-dark) 100%);
+  color: white;
+  box-shadow:
+    var(--shadow-md),
+    0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.btn--danger:hover:not(:disabled) {
+  box-shadow:
+    var(--shadow-lg),
+    0 0 30px rgba(239, 68, 68, 0.4);
+}
+
+/* Success Button */
+.btn--success {
+  background: linear-gradient(135deg, var(--success) 0%, var(--success-dark) 100%);
+  color: white;
+  box-shadow:
+    var(--shadow-md),
+    0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+/* ============================================
+   BUTTON SIZES
+   ============================================ */
+
+/* Extra Small */
+.btn--xs {
+  padding: var(--space-1-5) var(--space-3);
+  font-size: var(--text-xs);
+  border-radius: var(--radius-md);
+  gap: var(--space-1);
+}
+
+/* Small */
+.btn--sm {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  gap: var(--space-1-5);
+}
+
+/* Medium (default) */
+.btn--md {
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-base);
+}
+
+/* Large */
+.btn--lg {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-lg);
+  border-radius: var(--radius-xl);
+}
+
+/* Extra Large */
+.btn--xl {
+  padding: var(--space-5) var(--space-10);
+  font-size: var(--text-xl);
+  border-radius: var(--radius-xl);
+  gap: var(--space-3);
+}
+
+/* ============================================
+   BUTTON MODIFIERS
+   ============================================ */
+
+/* Full Width */
+.btn--full {
+  width: 100%;
+}
+
+/* Rounded (Pill shape) */
+.btn--rounded {
+  border-radius: var(--radius-full);
+}
+
+/* Square */
+.btn--square {
+  aspect-ratio: 1;
+  padding: var(--space-3);
+}
+
+/* Icon Button */
+.btn--icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--radius-lg);
+}
+
+.btn--icon.btn--sm {
+  width: 32px;
+  height: 32px;
+}
+
+.btn--icon.btn--lg {
+  width: 48px;
+  height: 48px;
+}
+
+/* Loading State */
+.btn--loading {
+  color: transparent;
+  pointer-events: none;
+}
+
+.btn--loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin var(--duration-700) linear infinite;
+  color: white;
+}
+
+/* With Icon */
+.btn__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.btn--icon-left {
+  flex-direction: row;
+}
+
+.btn--icon-right {
+  flex-direction: row-reverse;
+}
+
+/* ============================================
+   BUTTON GROUPS
+   ============================================ */
+
+.btn-group {
+  display: inline-flex;
+  gap: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.btn-group .btn {
+  border-radius: 0;
+  margin-left: -1px;
+}
+
+.btn-group .btn:first-child {
+  border-top-left-radius: var(--radius-lg);
+  border-bottom-left-radius: var(--radius-lg);
+  margin-left: 0;
+}
+
+.btn-group .btn:last-child {
+  border-top-right-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+}
+
+.btn-group .btn:focus-visible {
+  z-index: 1;
+}
+
+/* Vertical Button Group */
+.btn-group--vertical {
+  flex-direction: column;
+}
+
+.btn-group--vertical .btn {
+  margin-left: 0;
+  margin-top: -1px;
+}
+
+.btn-group--vertical .btn:first-child {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  margin-top: 0;
+}
+
+.btn-group--vertical .btn:last-child {
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* ============================================
+   FLOATING ACTION BUTTON (FAB)
+   ============================================ */
+
+.fab {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow:
+    var(--shadow-lg),
+    0 0 30px rgba(139, 92, 246, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--duration-300) var(--ease-out);
+  z-index: var(--z-fixed);
+}
+
+.fab:hover {
+  transform: scale(1.1);
+  box-shadow:
+    var(--shadow-xl),
+    0 0 40px rgba(139, 92, 246, 0.4);
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+.fab--mini {
+  width: 40px;
+  height: 40px;
+}
+
+/* ============================================
+   BUTTON ANIMATIONS
+   ============================================ */
+
+/* Pulse animation for attention */
+.btn--pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Ripple effect */
+.btn--ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn--ripple::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width var(--duration-500), height var(--duration-500);
+}
+
+.btn--ripple:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Gradient animation */
+.btn--gradient-animate {
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* ============================================
+   TOGGLE & SWITCH BUTTONS
+   ============================================ */
+
+.btn-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.btn-toggle[aria-pressed="true"] {
+  background: var(--primary-500);
+  color: white;
+  border-color: transparent;
+}
+
+.btn-toggle[aria-pressed="true"]::after {
+  content: '✓';
+  margin-left: var(--space-2);
+}
+
+/* ============================================
+   ANIMATIONS KEYFRAMES
+   ============================================ */
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 640px) {
+  .btn {
+    min-height: 44px; /* Touch-friendly size */
+  }
+
+  .fab {
+    bottom: var(--space-4);
+    right: var(--space-4);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+
+  .btn--primary,
+  .btn--danger,
+  .btn--success {
+    border-color: transparent;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition-duration: 0.01ms !important;
+  }
+
+  .btn--loading::after {
+    animation-duration: 0.01ms !important;
+  }
+}

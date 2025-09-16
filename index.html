@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conference Party Microservice - Development</title>
+
+  <!-- Design System -->
+  <link rel="stylesheet" href="/design-system/tokens.css">
+  <link rel="stylesheet" href="/design-system/components/cards.css">
+  <link rel="stylesheet" href="/design-system/components/buttons.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--surface-bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      padding: var(--space-8);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: var(--space-12);
+    }
+
+    .title {
+      font-size: var(--text-5xl);
+      font-weight: var(--font-bold);
+      background: var(--gradient-purple-pink);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--space-4);
+    }
+
+    .subtitle {
+      font-size: var(--text-xl);
+      color: var(--text-secondary);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-6);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-1) var(--space-3);
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success-light);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      margin-top: var(--space-4);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="title">Conference Party Microservice</h1>
+      <p class="subtitle">Development Dashboard</p>
+      <span class="status-badge">✅ Server Running on Port 8080</span>
+    </div>
+
+    <div class="grid">
+      <!-- Design System Card -->
+      <div class="card card--elevated">
+        <div class="card__badge card__badge--success">New</div>
+        <h3 class="card__title">🎨 Design System</h3>
+        <p class="card__body">
+          Modern glassmorphism design system with cards, buttons, and comprehensive design tokens.
+        </p>
+        <div class="card__divider"></div>
+        <div class="card__footer">
+          <div class="card__meta">
+            <span class="card__meta-item">v2.0.0</span>
+          </div>
+          <a href="/design-system/playground.html" class="btn btn--primary btn--sm">
+            View Playground
+          </a>
+        </div>
+      </div>
+
+      <!-- Frontend Card -->
+      <div class="card">
+        <h3 class="card__title">🚀 Frontend</h3>
+        <p class="card__body">
+          Main application frontend with professional networking features and event discovery.
+        </p>
+        <div class="card__divider"></div>
+        <div class="card__footer">
+          <div class="card__meta">
+            <span class="card__meta-item">PWA Ready</span>
+          </div>
+          <a href="/frontend/src/index.html" class="btn btn--secondary btn--sm">
+            Open App
+          </a>
+        </div>
+      </div>
+
+      <!-- API Documentation Card -->
+      <div class="card">
+        <h3 class="card__title">📚 API Services</h3>
+        <p class="card__body">
+          Microservices architecture with auth, events, matchmaking, and design validation services.
+        </p>
+        <div class="card__divider"></div>
+        <div class="card__footer">
+          <div class="card__meta">
+            <span class="card__meta-item">5 Services</span>
+          </div>
+          <button class="btn btn--outline btn--sm" disabled>
+            Coming Soon
+          </button>
+        </div>
+      </div>
+
+      <!-- Documentation Card -->
+      <div class="card">
+        <h3 class="card__title">📖 Documentation</h3>
+        <p class="card__body">
+          Comprehensive documentation for the design system, API, and development guidelines.
+        </p>
+        <div class="card__divider"></div>
+        <div class="card__footer">
+          <div class="card__meta">
+            <span class="card__meta-item">Markdown</span>
+          </div>
+          <a href="/design-system/README.md" class="btn btn--ghost btn--sm">
+            Read Docs
+          </a>
+        </div>
+      </div>
+
+      <!-- Tools Card -->
+      <div class="card">
+        <h3 class="card__title">🛠️ Developer Tools</h3>
+        <p class="card__body">
+          Development tools, build scripts, and testing utilities for efficient development.
+        </p>
+        <div class="card__divider"></div>
+        <div class="card__footer">
+          <div class="card__meta">
+            <span class="card__meta-item">10+ Tools</span>
+          </div>
+          <a href="/tools" class="btn btn--ghost btn--sm">
+            Browse Tools
+          </a>
+        </div>
+      </div>
+
+      <!-- Tests Card -->
+      <div class="card">
+        <h3 class="card__title">🧪 Test Suite</h3>
+        <p class="card__body">
+          Comprehensive testing with Jest, Playwright, and API test suites.
+        </p>
+        <div class="card__divider"></div>
+        <div class="card__footer">
+          <div class="card__meta">
+            <span class="card__meta-item">82% Pass</span>
+          </div>
+          <button class="btn btn--ghost btn--sm" onclick="alert('Run: npm test')">
+            Run Tests
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: var(--space-12); text-align: center;">
+      <h2 style="font-size: var(--text-2xl); margin-bottom: var(--space-6);">Quick Links</h2>
+      <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
+        <a href="/design-system/playground.html" class="btn btn--primary">
+          🎨 Design Playground
+        </a>
+        <a href="/design-system/DESIGN_STANDARDS.md" class="btn btn--secondary">
+          📋 Design Standards
+        </a>
+        <a href="/design-system/tokens.css" class="btn btn--outline">
+          🎯 Design Tokens
+        </a>
+        <a href="/CLEANUP_SUMMARY.md" class="btn btn--ghost">
+          🧹 Cleanup Report
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

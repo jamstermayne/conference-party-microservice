@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System Playground - Modern Cards & Buttons</title>
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="components/cards.css">
+  <link rel="stylesheet" href="components/buttons.css">
+
+  <style>
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--surface-bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Layout */
+    .playground {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--space-8);
+    }
+
+    .playground__header {
+      text-align: center;
+      margin-bottom: var(--space-16);
+      padding-bottom: var(--space-8);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .playground__title {
+      font-size: var(--text-5xl);
+      font-weight: var(--font-bold);
+      background: var(--gradient-purple-pink);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--space-4);
+    }
+
+    .playground__subtitle {
+      font-size: var(--text-xl);
+      color: var(--text-secondary);
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: var(--space-20);
+    }
+
+    .section__header {
+      margin-bottom: var(--space-8);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .section__title {
+      font-size: var(--text-3xl);
+      font-weight: var(--font-semibold);
+      margin-bottom: var(--space-2);
+    }
+
+    .section__description {
+      color: var(--text-secondary);
+      font-size: var(--text-lg);
+    }
+
+    /* Component Display */
+    .component-display {
+      padding: var(--space-8);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--glass-border);
+      margin-bottom: var(--space-6);
+    }
+
+    .component-label {
+      font-size: var(--text-sm);
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      margin-bottom: var(--space-4);
+      font-weight: var(--font-semibold);
+    }
+
+    /* Theme Switcher */
+    .theme-switcher {
+      position: fixed;
+      top: var(--space-6);
+      right: var(--space-6);
+      z-index: var(--z-fixed);
+    }
+
+    /* Grid Examples */
+    .grid-example {
+      margin-bottom: var(--space-8);
+    }
+
+    /* Button Examples */
+    .button-examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    /* Color Palette */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-6);
+    }
+
+    .color-swatch {
+      aspect-ratio: 1;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      transition: transform var(--duration-200) var(--ease-out);
+      cursor: pointer;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.05);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .playground {
+        padding: var(--space-4);
+      }
+
+      .playground__title {
+        font-size: var(--text-3xl);
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Theme Switcher -->
+  <div class="theme-switcher">
+    <button class="btn btn--secondary" onclick="toggleTheme()">
+      <span id="theme-icon">🌙</span>
+      <span id="theme-text">Dark</span>
+    </button>
+  </div>
+
+  <div class="playground">
+    <!-- Header -->
+    <header class="playground__header">
+      <h1 class="playground__title">Modern Design System</h1>
+      <p class="playground__subtitle">Interactive Component Playground</p>
+    </header>
+
+    <!-- Cards Section -->
+    <section class="section">
+      <div class="section__header">
+        <h2 class="section__title">Cards</h2>
+        <p class="section__description">Modern glassmorphism cards with various styles and layouts</p>
+      </div>
+
+      <!-- Basic Cards Grid -->
+      <div class="component-display">
+        <div class="component-label">Card Variants</div>
+        <div class="card-grid">
+          <!-- Base Card -->
+          <div class="card">
+            <div class="card__badge">New</div>
+            <h3 class="card__title">Base Card</h3>
+            <p class="card__body">
+              This is a basic card with glassmorphism effect. It features subtle transparency and backdrop blur for a modern look.
+            </p>
+            <div class="card__footer">
+              <div class="card__meta">
+                <span class="card__meta-item">2 mins ago</span>
+              </div>
+              <button class="btn btn--primary btn--sm">View More</button>
+            </div>
+          </div>
+
+          <!-- Elevated Card -->
+          <div class="card card--elevated">
+            <div class="card__badge card__badge--success">Featured</div>
+            <h3 class="card__title">Elevated Card</h3>
+            <p class="card__body">
+              Elevated cards have enhanced shadows and hover effects, making them stand out from the background.
+            </p>
+            <div class="card__footer">
+              <div class="card__meta">
+                <span class="card__meta-item">5 mins ago</span>
+              </div>
+              <button class="btn btn--secondary btn--sm">Learn More</button>
+            </div>
+          </div>
+
+          <!-- Interactive Card -->
+          <div class="card card--interactive" onclick="alert('Card clicked!')">
+            <div class="card__badge card__badge--warning">Interactive</div>
+            <h3 class="card__title">Interactive Card</h3>
+            <p class="card__body">
+              Click this entire card to trigger an action. Perfect for navigation or selection interfaces.
+            </p>
+            <div class="card__footer">
+              <div class="card__meta">
+                <span class="card__meta-item">10 mins ago</span>
+              </div>
+              <span style="color: var(--primary-400)">Click me →</span>
+            </div>
+          </div>
+
+          <!-- Featured Card -->
+          <div class="card card--featured">
+            <div class="card__badge card__badge--error">Hot</div>
+            <h3 class="card__title">Featured Card</h3>
+            <p class="card__body">
+              Featured cards have gradient borders and glow effects to draw maximum attention.
+            </p>
+            <div class="card__footer">
+              <div class="card__meta">
+                <span class="card__meta-item">1 hour ago</span>
+              </div>
+              <button class="btn btn--primary btn--sm">Get Started</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card with Media -->
+      <div class="component-display">
+        <div class="component-label">Card with Media</div>
+        <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));">
+          <div class="card">
+            <div class="card__media card__media--16-9" style="background: var(--gradient-purple-pink);"></div>
+            <div class="card__header">
+              <h3 class="card__title">Conference Event</h3>
+              <div class="card__actions">
+                <button class="btn btn--icon btn--ghost">❤️</button>
+                <button class="btn btn--icon btn--ghost">📤</button>
+              </div>
+            </div>
+            <p class="card__body">
+              Join us for an amazing conference experience with industry leaders and innovators.
+            </p>
+            <div class="card__divider"></div>
+            <div class="card__meta">
+              <span class="card__meta-item">📍 Berlin</span>
+              <span class="card__meta-item">📅 Aug 22</span>
+              <span class="card__meta-item">👥 500+</span>
+            </div>
+          </div>
+
+          <div class="card card--elevated">
+            <div class="card__media card__media--4-3" style="background: var(--gradient-teal-blue);"></div>
+            <div class="card__header">
+              <h3 class="card__title">Networking Mixer</h3>
+              <div class="card__badge">VIP</div>
+            </div>
+            <p class="card__body">
+              Exclusive networking opportunity with top professionals in the gaming industry.
+            </p>
+            <div class="card__footer">
+              <div class="card__meta">
+                <span class="card__meta-item">Limited Spots</span>
+              </div>
+              <button class="btn btn--primary btn--sm">Register Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons Section -->
+    <section class="section">
+      <div class="section__header">
+        <h2 class="section__title">Buttons</h2>
+        <p class="section__description">Comprehensive button system with multiple variants and states</p>
+      </div>
+
+      <!-- Button Variants -->
+      <div class="component-display">
+        <div class="component-label">Button Variants</div>
+        <div class="button-examples">
+          <button class="btn btn--primary">Primary</button>
+          <button class="btn btn--secondary">Secondary</button>
+          <button class="btn btn--ghost">Ghost</button>
+          <button class="btn btn--outline">Outline</button>
+          <button class="btn btn--danger">Danger</button>
+          <button class="btn btn--success">Success</button>
+        </div>
+      </div>
+
+      <!-- Button Sizes -->
+      <div class="component-display">
+        <div class="component-label">Button Sizes</div>
+        <div class="button-examples">
+          <button class="btn btn--primary btn--xs">Extra Small</button>
+          <button class="btn btn--primary btn--sm">Small</button>
+          <button class="btn btn--primary btn--md">Medium</button>
+          <button class="btn btn--primary btn--lg">Large</button>
+          <button class="btn btn--primary btn--xl">Extra Large</button>
+        </div>
+      </div>
+
+      <!-- Button States -->
+      <div class="component-display">
+        <div class="component-label">Button States</div>
+        <div class="button-examples">
+          <button class="btn btn--primary">Normal</button>
+          <button class="btn btn--primary" style="transform: translateY(-1px); filter: brightness(1.1);">Hover</button>
+          <button class="btn btn--primary" style="transform: scale(0.98);">Active</button>
+          <button class="btn btn--primary" disabled>Disabled</button>
+          <button class="btn btn--primary btn--loading">Loading</button>
+        </div>
+      </div>
+
+      <!-- Special Buttons -->
+      <div class="component-display">
+        <div class="component-label">Special Buttons</div>
+        <div class="button-examples">
+          <button class="btn btn--primary btn--rounded">Rounded</button>
+          <button class="btn btn--secondary btn--icon">🚀</button>
+          <button class="btn btn--outline btn--pulse">Pulse</button>
+          <button class="btn btn--primary btn--gradient-animate" style="background: var(--gradient-purple-pink); background-size: 200% 200%;">Gradient</button>
+          <button class="btn-toggle" aria-pressed="false" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed') === 'false' ? 'true' : 'false')">Toggle</button>
+        </div>
+      </div>
+
+      <!-- Button Groups -->
+      <div class="component-display">
+        <div class="component-label">Button Groups</div>
+        <div style="display: flex; gap: var(--space-6); flex-wrap: wrap;">
+          <div class="btn-group">
+            <button class="btn btn--secondary">Left</button>
+            <button class="btn btn--secondary">Center</button>
+            <button class="btn btn--secondary">Right</button>
+          </div>
+          <div class="btn-group--vertical" style="display: inline-flex; flex-direction: column;">
+            <button class="btn btn--outline">Top</button>
+            <button class="btn btn--outline">Middle</button>
+            <button class="btn btn--outline">Bottom</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Color Palette -->
+    <section class="section">
+      <div class="section__header">
+        <h2 class="section__title">Color Palette</h2>
+        <p class="section__description">Design system color tokens</p>
+      </div>
+
+      <div class="component-display">
+        <div class="component-label">Primary Colors</div>
+        <div class="color-grid">
+          <div class="color-swatch" style="background: var(--primary-50); color: var(--neutral-900);">50</div>
+          <div class="color-swatch" style="background: var(--primary-100); color: var(--neutral-900);">100</div>
+          <div class="color-swatch" style="background: var(--primary-200); color: var(--neutral-900);">200</div>
+          <div class="color-swatch" style="background: var(--primary-300); color: var(--neutral-900);">300</div>
+          <div class="color-swatch" style="background: var(--primary-400); color: white;">400</div>
+          <div class="color-swatch" style="background: var(--primary-500); color: white;">500</div>
+          <div class="color-swatch" style="background: var(--primary-600); color: white;">600</div>
+          <div class="color-swatch" style="background: var(--primary-700); color: white;">700</div>
+          <div class="color-swatch" style="background: var(--primary-800); color: white;">800</div>
+          <div class="color-swatch" style="background: var(--primary-900); color: white;">900</div>
+        </div>
+      </div>
+
+      <div class="component-display">
+        <div class="component-label">Semantic Colors</div>
+        <div class="color-grid">
+          <div class="color-swatch" style="background: var(--success); color: white;">Success</div>
+          <div class="color-swatch" style="background: var(--warning); color: white;">Warning</div>
+          <div class="color-swatch" style="background: var(--error); color: white;">Error</div>
+          <div class="color-swatch" style="background: var(--info); color: white;">Info</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loading States -->
+    <section class="section">
+      <div class="section__header">
+        <h2 class="section__title">Loading States</h2>
+        <p class="section__description">Skeleton loaders and loading animations</p>
+      </div>
+
+      <div class="component-display">
+        <div class="component-label">Card Skeleton</div>
+        <div class="card-skeleton">
+          <div class="skeleton skeleton--title"></div>
+          <div class="skeleton skeleton--text"></div>
+          <div class="skeleton skeleton--text" style="width: 80%;"></div>
+          <div class="skeleton skeleton--text" style="width: 60%;"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Floating Action Button -->
+  <button class="fab" onclick="alert('FAB clicked!')">
+    <span style="font-size: 24px;">+</span>
+  </button>
+
+  <script>
+    // Theme Switcher
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+      html.setAttribute('data-theme', newTheme);
+
+      const icon = document.getElementById('theme-icon');
+      const text = document.getElementById('theme-text');
+
+      if (newTheme === 'dark') {
+        icon.textContent = '🌙';
+        text.textContent = 'Dark';
+      } else {
+        icon.textContent = '☀️';
+        text.textContent = 'Light';
+      }
+    }
+
+    // Add animation on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = 'slideUp 0.5s ease-out';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards
+    document.querySelectorAll('.card').forEach(card => {
+      observer.observe(card);
+    });
+
+    // Copy color value on click
+    document.querySelectorAll('.color-swatch').forEach(swatch => {
+      swatch.addEventListener('click', function() {
+        const color = window.getComputedStyle(this).backgroundColor;
+        navigator.clipboard.writeText(color);
+
+        // Show feedback
+        const original = this.textContent;
+        this.textContent = 'Copied!';
+        setTimeout(() => {
+          this.textContent = original;
+        }, 1000);
+      });
+    });
+  </script>
+</body>
+</html>

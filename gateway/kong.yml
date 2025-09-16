@@ -1,0 +1,325 @@
+_format_version: "3.0"
+_transform: true
+
+# Multi-tenant API Gateway Configuration
+# Routes traffic to appropriate microservices based on tenant and path
+
+services:
+  # Matchmaking Service
+  - name: matchmaking-service
+    url: http://matchmaking-service:3001
+    protocol: http
+    port: 3001
+    path: /
+    retries: 3
+    connect_timeout: 5000
+    write_timeout: 60000
+    read_timeout: 60000
+    tags:
+      - microservice
+      - matchmaking
+    
+  # Events Service
+  - name: events-service
+    url: http://events-service:3002
+    protocol: http
+    port: 3002
+    path: /
+    retries: 3
+    connect_timeout: 5000
+    tags:
+      - microservice
+      - events
+
+  # Auth Service
+  - name: auth-service
+    url: http://auth-service:3003
+    protocol: http
+    port: 3003
+    path: /
+    retries: 3
+    connect_timeout: 5000
+    tags:
+      - microservice
+      - auth
+
+  # Tenant Service
+  - name: tenant-service
+    url: http://tenant-service:3004
+    protocol: http
+    port: 3004
+    path: /
+    retries: 3
+    connect_timeout: 5000
+    tags:
+      - microservice
+      - tenant
+
+routes:
+  # Matchmaking routes with tenant extraction
+  - name: matchmaking-calculate
+    service: matchmaking-service
+    paths:
+      - /api/v1/matching/calculate
+    methods:
+      - POST
+    strip_path: false
+    preserve_host: true
+    tags:
+      - matchmaking
+      - authenticated
+
+  - name: matchmaking-history
+    service: matchmaking-service
+    paths:
+      - /api/v1/matching/history
+    methods:
+      - GET
+    strip_path: false
+    preserve_host: true
+    tags:
+      - matchmaking
+      - authenticated
+
+  - name: matchmaking-profiles
+    service: matchmaking-service
+    paths:
+      - /api/v1/profiles
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+    strip_path: false
+    preserve_host: true
+    tags:
+      - matchmaking
+      - authenticated
+
+  # Events service routes
+  - name: events-list
+    service: events-service
+    paths:
+      - /api/v1/events
+    methods:
+      - GET
+      - POST
+    strip_path: false
+    preserve_host: true
+    tags:
+      - events
+      - public
+
+  # Auth service routes
+  - name: auth-login
+    service: auth-service
+    paths:
+      - /api/v1/auth/login
+      - /api/v1/auth/register
+      - /api/v1/auth/refresh
+    methods:
+      - POST
+    strip_path: false
+    preserve_host: true
+    tags:
+      - auth
+      - public
+
+  # Tenant management routes
+  - name: tenant-management
+    service: tenant-service
+    paths:
+      - /api/v1/tenants
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+    strip_path: false
+    preserve_host: true
+    tags:
+      - tenant
+      - admin
+
+plugins:
+  # Global plugins
+  - name: correlation-id
+    config:
+      header_name: X-Correlation-ID
+      generator: uuid
+      echo_downstream: true
+
+  - name: prometheus
+    config:
+      status_code_metrics: true
+      latency_metrics: true
+      bandwidth_metrics: true
+      upstream_health_metrics: true
+
+  # Rate limiting per tenant
+  - name: rate-limiting-advanced
+    config:
+      limit:
+        - 1000
+      window_size:
+        - 3600
+      identifier: tenant
+      sync_rate: 10
+      strategy: sliding
+      hide_client_headers: false
+
+  # Multi-tenant header injection
+  - name: request-transformer
+    config:
+      add:
+        headers:
+          - X-Service-Name:$(service.name)
+          - X-Request-ID:$(request_id)
+      replace:
+        headers:
+          - X-Tenant-ID:$(headers.host | split(".") | first)
+
+  # Circuit breaker for service protection
+  - name: circuit-breaker
+    config:
+      error_threshold_percentage: 50
+      min_calls_in_window: 10
+      window_size: 60
+      recovery_time: 30
+      notify:
+        - log
+      excluded_status_codes:
+        - 400
+        - 401
+        - 403
+        - 404
+
+  # Response caching
+  - name: proxy-cache
+    config:
+      strategy: memory
+      memory:
+        dictionary_name: api_cache
+      content_type:
+        - application/json
+      cache_ttl: 60
+      cache_control: true
+
+  # JWT Authentication
+  - name: jwt
+    route: matchmaking-calculate
+    config:
+      key_claim_name: iss
+      secret_is_base64: false
+      anonymous: false
+      run_on_preflight: false
+      maximum_expiration: 86400
+      header_names:
+        - Authorization
+
+  # CORS for browser access
+  - name: cors
+    config:
+      origins:
+        - http://localhost:3000
+        - https://*.conference-app.com
+      methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      headers:
+        - Accept
+        - Accept-Version
+        - Content-Length
+        - Content-Type
+        - Authorization
+        - X-Tenant-ID
+        - X-Correlation-ID
+      exposed_headers:
+        - X-RateLimit-Limit
+        - X-RateLimit-Remaining
+        - X-RateLimit-Reset
+      credentials: true
+      max_age: 3600
+
+  # Request size limiting
+  - name: request-size-limiting
+    config:
+      allowed_payload_size: 10
+      size_unit: megabytes
+      require_content_length: false
+
+  # Response transformation
+  - name: response-transformer
+    config:
+      add:
+        headers:
+          - X-Kong-Proxy:true
+          - X-Service-Version:1.0.0
+      remove:
+        headers:
+          - Server
+          - X-Powered-By
+
+# Upstreams with health checks
+upstreams:
+  - name: matchmaking-service
+    algorithm: round-robin
+    slots: 100
+    healthchecks:
+      active:
+        type: http
+        http_path: /health
+        timeout: 5
+        concurrency: 10
+        healthy:
+          interval: 10
+          successes: 2
+          http_statuses:
+            - 200
+        unhealthy:
+          interval: 5
+          tcp_failures: 2
+          timeouts: 3
+          http_failures: 3
+          http_statuses:
+            - 500
+            - 503
+    targets:
+      - target: matchmaking-service-1:3001
+        weight: 100
+      - target: matchmaking-service-2:3001
+        weight: 100
+
+# Consumer groups for tenant isolation
+consumers:
+  - username: gamescom-tenant
+    custom_id: tenant-gamescom
+    tags:
+      - tenant
+      - gamescom
+
+  - username: mau2025-tenant
+    custom_id: tenant-mau2025
+    tags:
+      - tenant
+      - mau2025
+
+  - username: demo-tenant
+    custom_id: tenant-demo
+    tags:
+      - tenant
+      - demo
+
+# ACL groups for role-based access
+acls:
+  - consumer: gamescom-tenant
+    group: premium-tenant
+
+  - consumer: mau2025-tenant
+    group: premium-tenant
+
+  - consumer: demo-tenant
+    group: basic-tenant

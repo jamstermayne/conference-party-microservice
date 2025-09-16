@@ -1,0 +1,349 @@
+/**
+ * Modern Design System Tokens
+ * Version: 2.0.0
+ * Last Updated: 2024
+ *
+ * Core design tokens for consistent UI across the application
+ */
+
+:root {
+  /* ============================================
+     COLOR SYSTEM
+     ============================================ */
+
+  /* Primary Palette - Purple/Violet */
+  --primary-50: #f5f3ff;
+  --primary-100: #ede9fe;
+  --primary-200: #ddd6fe;
+  --primary-300: #c4b5fd;
+  --primary-400: #a78bfa;
+  --primary-500: #8b5cf6;
+  --primary-600: #7c3aed;
+  --primary-700: #6d28d9;
+  --primary-800: #5b21b6;
+  --primary-900: #4c1d95;
+  --primary-950: #3b0764;
+
+  /* Secondary Palette - Cyan/Teal */
+  --secondary-50: #f0fdfa;
+  --secondary-100: #ccfbf1;
+  --secondary-200: #99f6e4;
+  --secondary-300: #5eead4;
+  --secondary-400: #2dd4bf;
+  --secondary-500: #14b8a6;
+  --secondary-600: #0d9488;
+  --secondary-700: #0f766e;
+  --secondary-800: #115e59;
+  --secondary-900: #134e4a;
+
+  /* Neutral Palette - Optimized for Dark Mode */
+  --neutral-50: #fafafa;
+  --neutral-100: #f4f4f5;
+  --neutral-200: #e4e4e7;
+  --neutral-300: #d4d4d8;
+  --neutral-400: #a1a1aa;
+  --neutral-500: #71717a;
+  --neutral-600: #52525b;
+  --neutral-700: #3f3f46;
+  --neutral-800: #27272a;
+  --neutral-900: #18181b;
+  --neutral-950: #09090b;
+
+  /* Semantic Colors */
+  --success-light: #86efac;
+  --success: #10b981;
+  --success-dark: #059669;
+
+  --warning-light: #fde047;
+  --warning: #f59e0b;
+  --warning-dark: #d97706;
+
+  --error-light: #fca5a5;
+  --error: #ef4444;
+  --error-dark: #dc2626;
+
+  --info-light: #93c5fd;
+  --info: #3b82f6;
+  --info-dark: #2563eb;
+
+  /* Surface Colors for Dark Theme */
+  --surface-bg: var(--neutral-950);
+  --surface-card: rgba(255, 255, 255, 0.03);
+  --surface-overlay: rgba(0, 0, 0, 0.5);
+  --surface-elevated: rgba(255, 255, 255, 0.05);
+  --surface-sunken: rgba(0, 0, 0, 0.2);
+
+  /* Glass Effects */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(10px);
+  --glass-saturate: saturate(180%);
+
+  /* Text Colors */
+  --text-primary: rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
+  --text-disabled: rgba(255, 255, 255, 0.3);
+  --text-inverse: var(--neutral-950);
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+
+  /* Font Families */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", "Roboto", sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", Monaco, monospace;
+  --font-display: "Inter", var(--font-sans);
+
+  /* Font Sizes */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+  --text-5xl: 3rem;       /* 48px */
+  --text-6xl: 3.75rem;    /* 60px */
+
+  /* Font Weights */
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* ============================================
+     SPACING SYSTEM (8px Grid)
+     ============================================ */
+
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 0.125rem;  /* 2px */
+  --space-1: 0.25rem;     /* 4px */
+  --space-1-5: 0.375rem;  /* 6px */
+  --space-2: 0.5rem;      /* 8px */
+  --space-2-5: 0.625rem;  /* 10px */
+  --space-3: 0.75rem;     /* 12px */
+  --space-3-5: 0.875rem;  /* 14px */
+  --space-4: 1rem;        /* 16px */
+  --space-5: 1.25rem;     /* 20px */
+  --space-6: 1.5rem;      /* 24px */
+  --space-7: 1.75rem;     /* 28px */
+  --space-8: 2rem;        /* 32px */
+  --space-9: 2.25rem;     /* 36px */
+  --space-10: 2.5rem;     /* 40px */
+  --space-12: 3rem;       /* 48px */
+  --space-14: 3.5rem;     /* 56px */
+  --space-16: 4rem;       /* 64px */
+  --space-20: 5rem;       /* 80px */
+  --space-24: 6rem;       /* 96px */
+  --space-28: 7rem;       /* 112px */
+  --space-32: 8rem;       /* 128px */
+
+  /* ============================================
+     BORDERS & RADIUS
+     ============================================ */
+
+  /* Border Widths */
+  --border-0: 0;
+  --border-1: 1px;
+  --border-2: 2px;
+  --border-4: 4px;
+  --border-8: 8px;
+
+  /* Border Radius */
+  --radius-none: 0;
+  --radius-sm: 0.25rem;    /* 4px */
+  --radius-md: 0.5rem;     /* 8px */
+  --radius-lg: 0.75rem;    /* 12px */
+  --radius-xl: 1rem;       /* 16px */
+  --radius-2xl: 1.5rem;    /* 24px */
+  --radius-3xl: 2rem;      /* 32px */
+  --radius-full: 9999px;
+
+  /* ============================================
+     SHADOWS
+     ============================================ */
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.07);
+  --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.12), 0 6px 12px rgba(0, 0, 0, 0.08);
+  --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.15), 0 12px 24px rgba(0, 0, 0, 0.1);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-glow-sm: 0 0 20px rgba(139, 92, 246, 0.15);
+  --shadow-glow-md: 0 0 40px rgba(139, 92, 246, 0.2);
+  --shadow-glow-lg: 0 0 60px rgba(139, 92, 246, 0.3);
+
+  /* ============================================
+     ANIMATIONS
+     ============================================ */
+
+  /* Timing Functions */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+
+  /* Durations */
+  --duration-75: 75ms;
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  --duration-1000: 1000ms;
+
+  /* ============================================
+     Z-INDEX SCALE
+     ============================================ */
+
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-notification: 1080;
+  --z-max: 9999;
+
+  /* ============================================
+     BREAKPOINTS
+     ============================================ */
+
+  --screen-xs: 475px;
+  --screen-sm: 640px;
+  --screen-md: 768px;
+  --screen-lg: 1024px;
+  --screen-xl: 1280px;
+  --screen-2xl: 1536px;
+
+  /* ============================================
+     LAYOUT
+     ============================================ */
+
+  --container-xs: 475px;
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+  --container-full: 100%;
+
+  /* Grid System */
+  --grid-cols-1: repeat(1, minmax(0, 1fr));
+  --grid-cols-2: repeat(2, minmax(0, 1fr));
+  --grid-cols-3: repeat(3, minmax(0, 1fr));
+  --grid-cols-4: repeat(4, minmax(0, 1fr));
+  --grid-cols-5: repeat(5, minmax(0, 1fr));
+  --grid-cols-6: repeat(6, minmax(0, 1fr));
+  --grid-cols-12: repeat(12, minmax(0, 1fr));
+
+  /* ============================================
+     EFFECTS
+     ============================================ */
+
+  /* Blur Values */
+  --blur-xs: blur(2px);
+  --blur-sm: blur(4px);
+  --blur-md: blur(8px);
+  --blur-lg: blur(12px);
+  --blur-xl: blur(16px);
+  --blur-2xl: blur(24px);
+  --blur-3xl: blur(40px);
+
+  /* Opacity Values */
+  --opacity-0: 0;
+  --opacity-5: 0.05;
+  --opacity-10: 0.1;
+  --opacity-20: 0.2;
+  --opacity-30: 0.3;
+  --opacity-40: 0.4;
+  --opacity-50: 0.5;
+  --opacity-60: 0.6;
+  --opacity-70: 0.7;
+  --opacity-80: 0.8;
+  --opacity-90: 0.9;
+  --opacity-100: 1;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--secondary-400) 0%, var(--secondary-600) 100%);
+  --gradient-purple-pink: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-blue-purple: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --gradient-teal-blue: linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%);
+  --gradient-dark: linear-gradient(180deg, var(--neutral-900) 0%, var(--neutral-950) 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.03) 100%);
+}
+
+/* ============================================
+   DARK MODE OVERRIDES
+   ============================================ */
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --surface-bg: var(--neutral-950);
+  --surface-card: rgba(255, 255, 255, 0.03);
+  --text-primary: rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.7);
+}
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --surface-bg: var(--neutral-50);
+  --surface-card: rgba(255, 255, 255, 0.8);
+  --surface-overlay: rgba(0, 0, 0, 0.1);
+  --surface-elevated: rgba(255, 255, 255, 0.95);
+
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.1);
+
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-700);
+  --text-tertiary: var(--neutral-500);
+  --text-disabled: var(--neutral-400);
+  --text-inverse: var(--neutral-50);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.08), 0 6px 12px rgba(0, 0, 0, 0.05);
+  --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.1), 0 12px 24px rgba(0, 0, 0, 0.06);
+}

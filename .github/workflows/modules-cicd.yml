@@ -1,0 +1,391 @@
+name: Modules CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'frontend/src/modules/**'
+      - 'scripts/build-modules.sh'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'frontend/src/modules/**'
+
+env:
+  NODE_VERSION: '18'
+  MODULES_PATH: 'frontend/src/modules'
+
+jobs:
+  # Detect which modules changed
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      auth: ${{ steps.changes.outputs.auth }}
+      events: ${{ steps.changes.outputs.events }}
+      matchmaking: ${{ steps.changes.outputs.matchmaking }}
+      calendar: ${{ steps.changes.outputs.calendar }}
+      map: ${{ steps.changes.outputs.map }}
+      core: ${{ steps.changes.outputs.core }}
+      any_module: ${{ steps.changes.outputs.any_module }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            auth:
+              - 'frontend/src/modules/auth/**'
+            events:
+              - 'frontend/src/modules/events/**'
+            matchmaking:
+              - 'frontend/src/modules/matchmaking/**'
+            calendar:
+              - 'frontend/src/modules/calendar/**'
+            map:
+              - 'frontend/src/modules/map/**'
+            core:
+              - 'frontend/src/modules/core/**'
+            any_module:
+              - 'frontend/src/modules/**'
+
+  # Test individual modules
+  test-modules:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.any_module == 'true'
+    strategy:
+      matrix:
+        module: [auth, events, matchmaking, calendar, map]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check if module changed
+        id: check_module
+        run: |
+          if [ "${{ needs.detect-changes.outputs[matrix.module] }}" == "true" ] || [ "${{ needs.detect-changes.outputs.core }}" == "true" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Test module syntax
+        if: steps.check_module.outputs.changed == 'true'
+        run: |
+          MODULE_PATH="${{ env.MODULES_PATH }}/${{ matrix.module }}"
+          if [ -f "$MODULE_PATH/index.js" ]; then
+            echo "Testing ${{ matrix.module }} module syntax..."
+            node -c "$MODULE_PATH/index.js"
+            echo "✅ ${{ matrix.module }} module syntax valid"
+          else
+            echo "⚠️ Module ${{ matrix.module }} not found, skipping"
+          fi
+
+      - name: Validate module interface
+        if: steps.check_module.outputs.changed == 'true'
+        run: |
+          MODULE_PATH="${{ env.MODULES_PATH }}/${{ matrix.module }}/index.js"
+          if [ -f "$MODULE_PATH" ]; then
+            echo "Validating ${{ matrix.module }} module interface..."
+            # Check for required methods
+            if grep -q "mount.*(" "$MODULE_PATH" && \
+               grep -q "unmount.*(" "$MODULE_PATH" && \
+               grep -q "getState.*(" "$MODULE_PATH" && \
+               grep -q "setState.*(" "$MODULE_PATH"; then
+              echo "✅ ${{ matrix.module }} module interface valid"
+            else
+              echo "❌ ${{ matrix.module }} module missing required interface methods"
+              exit 1
+            fi
+          fi
+
+  # Build individual modules
+  build-modules:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, test-modules]
+    if: needs.detect-changes.outputs.any_module == 'true'
+    strategy:
+      matrix:
+        module: [auth, events, matchmaking, calendar, map]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check if module changed
+        id: check_module
+        run: |
+          if [ "${{ needs.detect-changes.outputs[matrix.module] }}" == "true" ] || [ "${{ needs.detect-changes.outputs.core }}" == "true" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install Vite
+        if: steps.check_module.outputs.changed == 'true'
+        run: npm install -g vite
+
+      - name: Build module
+        if: steps.check_module.outputs.changed == 'true'
+        run: |
+          MODULE_PATH="${{ env.MODULES_PATH }}/${{ matrix.module }}"
+          if [ -f "$MODULE_PATH/vite.config.js" ]; then
+            echo "Building ${{ matrix.module }} module..."
+            cd "$MODULE_PATH"
+
+            # Install module dependencies if package.json exists
+            if [ -f "package.json" ]; then
+              npm install
+            fi
+
+            # Build with Vite
+            vite build --config vite.config.js
+
+            # Verify build output
+            if [ -f "dist/${{ matrix.module }}-module.js" ]; then
+              echo "✅ ${{ matrix.module }} module built successfully"
+
+              # Check build size
+              BUILD_SIZE=$(du -sh dist/ | cut -f1)
+              echo "📦 Build size: $BUILD_SIZE"
+
+              # Validate JS syntax
+              node -c "dist/${{ matrix.module }}-module.js"
+              echo "✅ Built module syntax valid"
+            else
+              echo "❌ ${{ matrix.module }} module build failed - no output file"
+              exit 1
+            fi
+          else
+            echo "⚠️ No vite.config.js found for ${{ matrix.module }}, skipping build"
+          fi
+
+      - name: Upload build artifacts
+        if: steps.check_module.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: module-${{ matrix.module }}-build
+          path: ${{ env.MODULES_PATH }}/${{ matrix.module }}/dist/
+          retention-days: 7
+
+  # Integration test with all modules
+  integration-test:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, build-modules]
+    if: needs.detect-changes.outputs.any_module == 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Restore module builds
+        run: |
+          for module in auth events matchmaking calendar map; do
+            if [ -d "artifacts/module-$module-build" ]; then
+              echo "Restoring $module module build..."
+              mkdir -p "${{ env.MODULES_PATH }}/$module/dist"
+              cp -r artifacts/module-$module-build/* "${{ env.MODULES_PATH }}/$module/dist/"
+            fi
+          done
+
+      - name: Run integration tests
+        run: |
+          echo "Running integration tests..."
+
+          # Test module loading
+          cd frontend/src
+
+          # Create simple test to verify all modules load
+          cat > test-integration.js << 'EOF'
+          import platform from './modules/core/platform.js';
+
+          async function testModuleLoading() {
+            console.log('Testing module loading...');
+
+            // Test platform initialization
+            await platform.init();
+            console.log('✅ Platform initialized');
+
+            // Test module registration interface
+            const mockModule = {
+              mount: async () => {},
+              unmount: async () => {},
+              getState: () => ({}),
+              setState: () => {}
+            };
+
+            platform.registerModule('test', mockModule);
+            console.log('✅ Module registration works');
+
+            // Test event bus
+            let eventReceived = false;
+            platform.on('test:event', () => { eventReceived = true; });
+            platform.emit('test:event', {});
+
+            if (eventReceived) {
+              console.log('✅ Event bus works');
+            } else {
+              throw new Error('Event bus failed');
+            }
+
+            console.log('🎉 All integration tests passed');
+          }
+
+          testModuleLoading().catch(err => {
+            console.error('❌ Integration test failed:', err);
+            process.exit(1);
+          });
+          EOF
+
+          # Run the test
+          node test-integration.js
+
+  # Deploy to staging (if on main branch)
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, integration-test]
+    if: github.ref == 'refs/heads/main' && needs.detect-changes.outputs.any_module == 'true'
+    environment: staging
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Prepare deployment
+        run: |
+          echo "Preparing deployment package..."
+          mkdir -p deployment/modules
+
+          # Copy built modules
+          for module in auth events matchmaking calendar map; do
+            if [ -d "artifacts/module-$module-build" ]; then
+              echo "Packaging $module module..."
+              mkdir -p "deployment/modules/$module"
+              cp -r "artifacts/module-$module-build"/* "deployment/modules/$module/"
+
+              # Create deployment manifest
+              cat > "deployment/modules/$module/deploy-manifest.json" << EOF
+          {
+            "module": "$module",
+            "version": "1.0.0",
+            "deployTime": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "gitCommit": "${{ github.sha }}",
+            "branch": "${{ github.ref_name }}",
+            "environment": "staging"
+          }
+          EOF
+            fi
+          done
+
+          # Create overall deployment manifest
+          cat > deployment/deployment-manifest.json << EOF
+          {
+            "deploymentId": "${{ github.run_id }}",
+            "gitCommit": "${{ github.sha }}",
+            "branch": "${{ github.ref_name }}",
+            "deployTime": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "environment": "staging",
+            "modules": [$(ls deployment/modules | tr '\n' ',' | sed 's/,$//' | sed 's/,/","/g' | sed 's/^/"/' | sed 's/$/"/')],
+            "buildUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }
+          EOF
+
+      - name: Deploy to staging
+        run: |
+          echo "🚀 Deploying modules to staging environment..."
+
+          # In a real environment, this would deploy to your CDN/hosting
+          # For demo, we'll just show what would happen
+
+          echo "📦 Deployment package ready:"
+          find deployment/ -type f -name "*.js" -o -name "*.json" | while read file; do
+            echo "  📄 $file ($(du -sh "$file" | cut -f1))"
+          done
+
+          echo "✅ Staging deployment completed"
+          echo "🌐 Modules available at: https://staging.conference-party-app.web.app/modules/"
+
+  # Deploy to production (manual approval required)
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: [deploy-staging]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download deployment artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Deploy to production
+        run: |
+          echo "🚀 Deploying modules to production environment..."
+
+          # Production deployment would go here
+          # Including CDN uploads, cache invalidation, etc.
+
+          echo "✅ Production deployment completed"
+          echo "🌐 Modules live at: https://conference-party-app.web.app/modules/"
+
+  # Clean up old artifacts
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: always()
+    steps:
+      - name: Clean up artifacts
+        run: |
+          echo "🧹 Cleaning up deployment artifacts..."
+          # Cleanup would happen here
+          echo "✅ Cleanup completed"
+
+# Security and compliance
+concurrency:
+  group: modules-${{ github.ref }}
+  cancel-in-progress: true

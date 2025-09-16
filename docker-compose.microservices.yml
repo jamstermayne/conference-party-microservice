@@ -1,0 +1,206 @@
+version: '3.8'
+
+# Multi-tenant Microservices Architecture
+# Local development environment
+
+services:
+  # API Gateway (Kong)
+  kong:
+    image: kong:3.4-alpine
+    container_name: api-gateway
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: "/kong/kong.yml"
+      KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+      KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
+      KONG_PROXY_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001"
+      KONG_PROXY_LISTEN: "0.0.0.0:8000"
+    volumes:
+      - ./gateway/kong.yml:/kong/kong.yml:ro
+    ports:
+      - "8000:8000"  # API Gateway
+      - "8001:8001"  # Admin API
+    networks:
+      - microservices
+    depends_on:
+      - matchmaking-service
+    healthcheck:
+      test: ["CMD", "kong", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Matchmaking Microservice
+  matchmaking-service:
+    build:
+      context: ./services/matchmaking
+      dockerfile: Dockerfile
+    container_name: matchmaking-service
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      SERVICE_NAME: matchmaking-service
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://rabbitmq:5672
+      FIREBASE_PROJECT_ID: conference-party-app
+      JWT_SECRET: development-secret
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+      LOG_LEVEL: debug
+    ports:
+      - "3001:3001"
+    networks:
+      - microservices
+    depends_on:
+      - redis
+      - rabbitmq
+    volumes:
+      - ./services/matchmaking/src:/app/src
+      - ./services/shared/middleware:/app/node_modules/@conference-app/shared-middleware
+    command: npm run dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # Events Microservice (placeholder)
+  events-service:
+    image: node:18-alpine
+    container_name: events-service
+    working_dir: /app
+    environment:
+      NODE_ENV: development
+      PORT: 3002
+      SERVICE_NAME: events-service
+    ports:
+      - "3002:3002"
+    networks:
+      - microservices
+    command: sh -c "npm init -y && npm install express && node -e 'require(\"express\")().get(\"/health\", (req, res) => res.json({status:\"healthy\"})).listen(3002)'"
+
+  # Auth Microservice (placeholder)
+  auth-service:
+    image: node:18-alpine
+    container_name: auth-service
+    working_dir: /app
+    environment:
+      NODE_ENV: development
+      PORT: 3003
+      SERVICE_NAME: auth-service
+    ports:
+      - "3003:3003"
+    networks:
+      - microservices
+    command: sh -c "npm init -y && npm install express && node -e 'require(\"express\")().get(\"/health\", (req, res) => res.json({status:\"healthy\"})).listen(3003)'"
+
+  # Tenant Microservice (placeholder)
+  tenant-service:
+    image: node:18-alpine
+    container_name: tenant-service
+    working_dir: /app
+    environment:
+      NODE_ENV: development
+      PORT: 3004
+      SERVICE_NAME: tenant-service
+    ports:
+      - "3004:3004"
+    networks:
+      - microservices
+    command: sh -c "npm init -y && npm install express && node -e 'require(\"express\")().get(\"/health\", (req, res) => res.json({status:\"healthy\"})).listen(3004)'"
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+    networks:
+      - microservices
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # RabbitMQ Message Queue
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Management UI
+    networks:
+      - microservices
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Jaeger Tracing
+  jaeger:
+    image: jaegertracing/all-in-one:1.48
+    container_name: jaeger
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686" # Jaeger UI
+      - "14268:14268" # Collector HTTP
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    networks:
+      - microservices
+
+  # Prometheus Metrics
+  prometheus:
+    image: prom/prometheus:v2.47.0
+    container_name: prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - "9090:9090"
+    networks:
+      - microservices
+
+  # Grafana Dashboards
+  grafana:
+    image: grafana/grafana:10.1.0
+    container_name: grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_INSTALL_PLUGINS: redis-datasource
+    ports:
+      - "3005:3000"
+    networks:
+      - microservices
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+
+networks:
+  microservices:
+    driver: bridge
+
+volumes:
+  redis-data:
+  rabbitmq-data:
+  prometheus-data:
+  grafana-data:

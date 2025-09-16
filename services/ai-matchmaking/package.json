@@ -1,0 +1,50 @@
+{
+  "name": "@conference-intel/ai-matchmaking-service",
+  "version": "2.0.0",
+  "description": "AI-powered matchmaking service for Conference Intelligence Platform",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "@google-cloud/firestore": "^7.1.0",
+    "@google-cloud/pubsub": "^4.0.7",
+    "@google-cloud/memcache": "^2.2.0",
+    "@google-cloud/aiplatform": "^3.8.0",
+    "@google-cloud/tasks": "^4.0.1",
+    "@google-cloud/logging": "^11.0.0",
+    "@google-cloud/monitoring": "^4.0.0",
+    "@google-cloud/trace-agent": "^7.1.2",
+    "@google-cloud/secret-manager": "^5.0.1",
+    "firebase-admin": "^11.11.0",
+    "firebase-functions": "^4.5.0",
+    "@tensorflow/tfjs-node": "^4.15.0",
+    "natural": "^6.7.0",
+    "joi": "^17.11.0",
+    "uuid": "^9.0.1",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/jest": "^29.5.8",
+    "typescript": "^5.3.2",
+    "ts-node": "^10.9.1",
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

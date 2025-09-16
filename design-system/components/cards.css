@@ -1,0 +1,499 @@
+/**
+ * Modern Card Components
+ * Glassmorphism + Neo-brutalism design
+ */
+
+/* ============================================
+   BASE CARD STYLES
+   ============================================ */
+
+.card {
+  /* Layout */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  /* Spacing */
+  padding: var(--space-6);
+  gap: var(--space-4);
+
+  /* Background & Effects */
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur) var(--glass-saturate);
+  -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+
+  /* Borders */
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+
+  /* Shadows */
+  box-shadow: var(--shadow-md);
+
+  /* Transitions */
+  transition: all var(--duration-300) var(--ease-out);
+
+  /* Overflow */
+  overflow: hidden;
+}
+
+/* Card hover state */
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Card active state */
+.card:active {
+  transform: scale(0.98);
+  transition-duration: var(--duration-100);
+}
+
+/* ============================================
+   CARD VARIANTS
+   ============================================ */
+
+/* Elevated Card - More prominent shadow */
+.card--elevated {
+  box-shadow: var(--shadow-lg);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+}
+
+.card--elevated:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-4px);
+}
+
+/* Interactive Card - Clickable */
+.card--interactive {
+  cursor: pointer;
+  user-select: none;
+}
+
+.card--interactive::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.05) 100%
+  );
+  opacity: 0;
+  transition: opacity var(--duration-300) var(--ease-out);
+  pointer-events: none;
+}
+
+.card--interactive:hover::after {
+  opacity: 1;
+}
+
+/* Featured Card - Gradient border */
+.card--featured {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.1) 0%,
+    rgba(139, 92, 246, 0.05) 100%
+  );
+  border: 0;
+  box-shadow:
+    var(--shadow-lg),
+    0 0 40px rgba(139, 92, 246, 0.1);
+}
+
+.card--featured::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  padding: 1px;
+  background: var(--gradient-purple-pink);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* Compact Card - Less padding */
+.card--compact {
+  padding: var(--space-4);
+  gap: var(--space-3);
+}
+
+/* Outlined Card - No background */
+.card--outlined {
+  background: transparent;
+  backdrop-filter: none;
+  border: 2px solid var(--glass-border);
+}
+
+.card--outlined:hover {
+  background: var(--glass-bg);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+/* ============================================
+   CARD ANATOMY
+   ============================================ */
+
+/* Card Header */
+.card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: calc(var(--space-6) * -1);
+  margin-bottom: 0;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Card Badge */
+.card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--primary-300);
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+.card__badge--success {
+  color: var(--success-light);
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.card__badge--warning {
+  color: var(--warning-light);
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.card__badge--error {
+  color: var(--error-light);
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Card Actions */
+.card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Card Title */
+.card__title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  line-height: var(--leading-tight);
+  margin: 0;
+}
+
+/* Card Subtitle */
+.card__subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+}
+
+/* Card Body */
+.card__body {
+  flex: 1;
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+/* Card Media */
+.card__media {
+  position: relative;
+  margin: calc(var(--space-6) * -1);
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  overflow: hidden;
+  background: var(--neutral-900);
+}
+
+.card__media img,
+.card__media video {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Card media with aspect ratio */
+.card__media--16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.card__media--4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+.card__media--square {
+  aspect-ratio: 1 / 1;
+}
+
+/* Card Footer */
+.card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: 0 calc(var(--space-6) * -1) calc(var(--space-6) * -1);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Card Metadata */
+.card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+.card__meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.card__meta-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+}
+
+/* Card Divider */
+.card__divider {
+  height: 1px;
+  background: var(--glass-border);
+  margin: var(--space-4) 0;
+}
+
+/* ============================================
+   CARD GRID LAYOUTS
+   ============================================ */
+
+.card-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.card-grid--2-cols {
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+}
+
+.card-grid--3-cols {
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+}
+
+.card-grid--4-cols {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+/* Responsive grid */
+@media (max-width: 768px) {
+  .card-grid,
+  .card-grid--2-cols,
+  .card-grid--3-cols,
+  .card-grid--4-cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   CARD LIST LAYOUTS
+   ============================================ */
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.card-list--horizontal {
+  flex-direction: row;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.card-list--horizontal .card {
+  flex: 0 0 320px;
+  scroll-snap-align: start;
+}
+
+/* ============================================
+   CARD ANIMATIONS
+   ============================================ */
+
+/* Fade in animation */
+.card--fade-in {
+  animation: fadeIn var(--duration-500) var(--ease-out);
+}
+
+/* Slide up animation */
+.card--slide-up {
+  animation: slideUp var(--duration-500) var(--ease-out);
+}
+
+/* Scale in animation */
+.card--scale-in {
+  animation: scaleIn var(--duration-300) var(--ease-bounce);
+}
+
+/* Loading state */
+.card--loading {
+  pointer-events: none;
+  position: relative;
+}
+
+.card--loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+/* ============================================
+   CARD SKELETON LOADER
+   ============================================ */
+
+.card-skeleton {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+.skeleton--text {
+  height: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.skeleton--title {
+  height: var(--space-6);
+  width: 60%;
+  margin-bottom: var(--space-3);
+}
+
+.skeleton--media {
+  height: 200px;
+  margin: calc(var(--space-6) * -1);
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+/* ============================================
+   ANIMATIONS KEYFRAMES
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+/* Focus styles */
+.card:focus-visible,
+.card--interactive:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

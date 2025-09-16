@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Icon System Test</title>
+  <link rel="stylesheet" href="/frontend/src/assets/css/icons.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 40px;
+      background: #12151b;
+      color: #fff;
+    }
+    .test-section {
+      margin-bottom: 40px;
+    }
+    h2 {
+      color: #6366f1;
+      margin-bottom: 20px;
+    }
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+    }
+    .icon-item {
+      text-align: center;
+      padding: 10px;
+    }
+    .icon-item .icon {
+      margin-bottom: 8px;
+    }
+    .icon-name {
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+    }
+    .emoji-test {
+      padding: 20px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Professional Icon System Test</h1>
+
+  <div class="test-section">
+    <h2>Emoji Replacement Test</h2>
+    <div class="emoji-test">
+      <p>Original text with emojis: 🚀 Launch the app! 🎯 Hit your targets! 💰 Make money! 🔥 Hot features!</p>
+      <p>After replacement: <span id="replaced-text"></span></p>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Icon Categories</h2>
+    <div id="icon-categories"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>Size Variations</h2>
+    <div style="display: flex; gap: 20px; align-items: center;">
+      <span id="size-xs"></span>
+      <span id="size-sm"></span>
+      <span id="size-md"></span>
+      <span id="size-lg"></span>
+      <span id="size-xl"></span>
+      <span id="size-2xl"></span>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Color Variations</h2>
+    <div style="display: flex; gap: 20px;">
+      <span class="icon-primary" id="color-primary"></span>
+      <span class="icon-success" id="color-success"></span>
+      <span class="icon-warning" id="color-warning"></span>
+      <span class="icon-error" id="color-error"></span>
+      <span class="icon-info" id="color-info"></span>
+    </div>
+  </div>
+
+  <script src="/frontend/src/assets/js/icon-system.js"></script>
+  <script src="/frontend/src/assets/js/icon-replacer.js"></script>
+  <script>
+    // Wait for icon system to initialize
+    setTimeout(() => {
+      const iconSystem = window.iconSystem;
+
+      // Test emoji replacement
+      const testText = "🚀 Launch the app! 🎯 Hit your targets! 💰 Make money! 🔥 Hot features!";
+      const replacedSpan = document.getElementById('replaced-text');
+      replacedSpan.innerHTML = testText.replace(/🚀/g, iconSystem.getIcon('rocket', 'sm'))
+                                        .replace(/🎯/g, iconSystem.getIcon('target', 'sm'))
+                                        .replace(/💰/g, iconSystem.getIcon('dollarSign', 'sm'))
+                                        .replace(/🔥/g, iconSystem.getIcon('flame', 'sm'));
+
+      // Show categories
+      const categoriesDiv = document.getElementById('icon-categories');
+      Object.entries(iconSystem.categories).forEach(([category, icons]) => {
+        const categorySection = document.createElement('div');
+        categorySection.innerHTML = `
+          <h3 style="color: #6366f1; margin: 20px 0 10px;">${category.charAt(0).toUpperCase() + category.slice(1)}</h3>
+          <div class="icon-grid">
+            ${icons.slice(0, 8).map(icon => `
+              <div class="icon-item">
+                ${iconSystem.getIcon(icon, 'md')}
+                <div class="icon-name">${icon}</div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        categoriesDiv.appendChild(categorySection);
+      });
+
+      // Show sizes
+      const sizes = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
+      sizes.forEach(size => {
+        const sizeSpan = document.getElementById(`size-${size}`);
+        sizeSpan.innerHTML = iconSystem.getIcon('star', size) + ` <small>(${size})</small>`;
+      });
+
+      // Show colors
+      const colors = ['primary', 'success', 'warning', 'error', 'info'];
+      colors.forEach(color => {
+        const colorSpan = document.getElementById(`color-${color}`);
+        colorSpan.innerHTML = iconSystem.getIcon('checkCircle', 'lg');
+      });
+
+      console.log('Icon system test completed!');
+    }, 100);
+  </script>
+</body>
+</html>

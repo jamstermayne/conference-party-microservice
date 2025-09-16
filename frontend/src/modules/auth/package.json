@@ -1,0 +1,27 @@
+{
+  "name": "@conference-app/auth-module",
+  "version": "1.0.0",
+  "description": "Authentication micro-frontend module",
+  "type": "module",
+  "main": "dist/auth.bundle.js",
+  "scripts": {
+    "dev": "vite --port 3001",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0",
+    "eslint": "^8.0.0"
+  },
+  "keywords": [
+    "micro-frontend",
+    "authentication",
+    "conference-app"
+  ]
+}
