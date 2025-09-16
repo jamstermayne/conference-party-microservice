@@ -62,7 +62,7 @@
     "e2e:dev": "cross-env BASE_URL=http://localhost:5000 E2E_MOCK=1 playwright test"
   },
   "dependencies": {
-    "firebase-admin": "^12.7.0",
+    "firebase-admin": "^13.5.0",
     "firebase-functions": "^6.1.0",
     "googleapis": "^122.0.0",
     "path-to-regexp": "6.3.0"
