@@ -1,0 +1,480 @@
+{
+  "generated": "2025-09-15T07:00:34.564Z",
+  "executive": {
+    "overview": {
+      "eventName": "Global Gaming Summit 2025",
+      "dateRange": "March 15-18, 2025",
+      "totalInvestment": 250000,
+      "currentROI": 3.2,
+      "projectedROI": 4.1,
+      "daysRemaining": 45
+    },
+    "metrics": {
+      "attendees": {
+        "total": 15847,
+        "vip": 234,
+        "speakers": 89,
+        "exhibitors": 456,
+        "media": 123
+      },
+      "engagement": {
+        "avgSessionTime": "34 min",
+        "connectionsPerUser": 23,
+        "messagesExchanged": 125000,
+        "meetingsScheduled": 3456,
+        "documentsShared": 8901
+      },
+      "pipeline": {
+        "total": 4200000,
+        "qualified": 847,
+        "inProgress": 234,
+        "closed": 89,
+        "avgDealSize": 125000
+      },
+      "teamPerformance": [
+        {
+          "name": "Sarah Chen",
+          "role": "Sales Director",
+          "avatar": "👩‍💼",
+          "connections": 52,
+          "meetings": 11,
+          "pipeline": 1756976,
+          "deals": 8,
+          "score": 96,
+          "trend": "up"
+        },
+        {
+          "name": "Michael Ross",
+          "role": "BD Manager",
+          "avatar": "👨‍💼",
+          "connections": 181,
+          "meetings": 42,
+          "pipeline": 2428742,
+          "deals": 12,
+          "score": 70,
+          "trend": "up"
+        },
+        {
+          "name": "Elena Vasquez",
+          "role": "Marketing Lead",
+          "avatar": "👩‍💻",
+          "connections": 122,
+          "meetings": 16,
+          "pipeline": 1364614,
+          "deals": 5,
+          "score": 73,
+          "trend": "up"
+        },
+        {
+          "name": "James Park",
+          "role": "Account Executive",
+          "avatar": "👨‍💻",
+          "connections": 121,
+          "meetings": 32,
+          "pipeline": 915444,
+          "deals": 15,
+          "score": 81,
+          "trend": "stable"
+        },
+        {
+          "name": "Aisha Patel",
+          "role": "Customer Success",
+          "avatar": "👩‍🔬",
+          "connections": 157,
+          "meetings": 41,
+          "pipeline": 2020309,
+          "deals": 24,
+          "score": 88,
+          "trend": "up"
+        },
+        {
+          "name": "Tom Williams",
+          "role": "Sales Rep",
+          "avatar": "👨‍🔧",
+          "connections": 133,
+          "meetings": 25,
+          "pipeline": 1407878,
+          "deals": 18,
+          "score": 92,
+          "trend": "up"
+        },
+        {
+          "name": "Lisa Zhang",
+          "role": "Partnerships",
+          "avatar": "👩‍🎨",
+          "connections": 156,
+          "meetings": 23,
+          "pipeline": 1663638,
+          "deals": 21,
+          "score": 88,
+          "trend": "stable"
+        },
+        {
+          "name": "David Kim",
+          "role": "Solutions Architect",
+          "avatar": "👨‍🎨",
+          "connections": 124,
+          "meetings": 12,
+          "pipeline": 2024387,
+          "deals": 13,
+          "score": 95,
+          "trend": "up"
+        }
+      ]
+    }
+  },
+  "ai": {
+    "predictions": {
+      "nextQuarterROI": 3.8,
+      "confidence": 0.89,
+      "topOpportunities": [
+        {
+          "company": "Microsoft Gaming",
+          "probability": 0.92,
+          "value": 1200000,
+          "nextStep": "Schedule executive meeting"
+        },
+        {
+          "company": "Sony Interactive",
+          "probability": 0.87,
+          "value": 800000,
+          "nextStep": "Send partnership proposal"
+        },
+        {
+          "company": "Epic Games",
+          "probability": 0.84,
+          "value": 650000,
+          "nextStep": "Technical demonstration"
+        }
+      ]
+    },
+    "insights": [
+      {
+        "type": "trend",
+        "title": "AR/VR Interest Spike",
+        "description": "Detected 340% increase in AR/VR related conversations",
+        "action": "Increase AR/VR demo stations"
+      },
+      {
+        "type": "connection",
+        "title": "High-Value Network Cluster",
+        "description": "Identified 23 decision makers in gaming infrastructure",
+        "action": "Organize exclusive roundtable"
+      },
+      {
+        "type": "opportunity",
+        "title": "Partnership Potential",
+        "description": "AI matched 45 complementary businesses",
+        "action": "Facilitate introductions"
+      }
+    ],
+    "nlpAnalysis": {
+      "topTopics": [
+        {
+          "topic": "Cloud Gaming",
+          "mentions": 1234,
+          "sentiment": 0.82
+        },
+        {
+          "topic": "AI in Games",
+          "mentions": 987,
+          "sentiment": 0.91
+        },
+        {
+          "topic": "Blockchain Gaming",
+          "mentions": 654,
+          "sentiment": 0.73
+        },
+        {
+          "topic": "Mobile Gaming",
+          "mentions": 543,
+          "sentiment": 0.88
+        },
+        {
+          "topic": "Esports",
+          "mentions": 432,
+          "sentiment": 0.95
+        }
+      ],
+      "sentimentTrend": [
+        {
+          "time": "9 AM",
+          "score": 0.75
+        },
+        {
+          "time": "10 AM",
+          "score": 0.78
+        },
+        {
+          "time": "11 AM",
+          "score": 0.82
+        },
+        {
+          "time": "12 PM",
+          "score": 0.8
+        },
+        {
+          "time": "1 PM",
+          "score": 0.85
+        },
+        {
+          "time": "2 PM",
+          "score": 0.89
+        },
+        {
+          "time": "3 PM",
+          "score": 0.91
+        }
+      ]
+    }
+  },
+  "activity": [
+    {
+      "timestamp": "2025-09-15T07:00:34.564Z",
+      "type": "meeting",
+      "user": "John Ross",
+      "company": "Netflix",
+      "value": 273679,
+      "icon": "🤝"
+    },
+    {
+      "timestamp": "2025-09-15T06:59:34.564Z",
+      "type": "connection",
+      "user": "Michael Chen",
+      "company": "Microsoft",
+      "value": 111427,
+      "icon": "💬"
+    },
+    {
+      "timestamp": "2025-09-15T06:59:34.564Z",
+      "type": "deal",
+      "user": "Lisa Chen",
+      "company": "Adobe",
+      "value": 131052,
+      "icon": "🤝"
+    },
+    {
+      "timestamp": "2025-09-15T06:59:34.564Z",
+      "type": "meeting",
+      "user": "Elena Ross",
+      "company": "Google",
+      "value": 423147,
+      "icon": "💬"
+    },
+    {
+      "timestamp": "2025-09-15T06:55:34.564Z",
+      "type": "deal",
+      "user": "Sarah Garcia",
+      "company": "Google",
+      "value": 61996,
+      "icon": "📅"
+    },
+    {
+      "timestamp": "2025-09-15T06:47:34.564Z",
+      "type": "meeting",
+      "user": "Elena Patel",
+      "company": "Adobe",
+      "value": 431141,
+      "icon": "📅"
+    },
+    {
+      "timestamp": "2025-09-15T06:46:34.564Z",
+      "type": "connection",
+      "user": "John Smith",
+      "company": "Meta",
+      "value": 437978,
+      "icon": "💬"
+    },
+    {
+      "timestamp": "2025-09-15T06:43:34.564Z",
+      "type": "meeting",
+      "user": "Elena Garcia",
+      "company": "AMD",
+      "value": 175956,
+      "icon": "💼"
+    },
+    {
+      "timestamp": "2025-09-15T06:43:34.564Z",
+      "type": "connection",
+      "user": "Sarah Williams",
+      "company": "Spotify",
+      "value": 125637,
+      "icon": "💼"
+    },
+    {
+      "timestamp": "2025-09-15T06:42:34.564Z",
+      "type": "connection",
+      "user": "John Williams",
+      "company": "Spotify",
+      "value": 419694,
+      "icon": "💼"
+    },
+    {
+      "timestamp": "2025-09-15T06:39:34.564Z",
+      "type": "meeting",
+      "user": "Lisa Kim",
+      "company": "Spotify",
+      "value": 323559,
+      "icon": "🤝"
+    },
+    {
+      "timestamp": "2025-09-15T06:37:34.564Z",
+      "type": "connection",
+      "user": "Michael Kim",
+      "company": "Google",
+      "value": 117709,
+      "icon": "💼"
+    },
+    {
+      "timestamp": "2025-09-15T06:34:34.564Z",
+      "type": "connection",
+      "user": "Michael Kim",
+      "company": "NVIDIA",
+      "value": 227798,
+      "icon": "📅"
+    },
+    {
+      "timestamp": "2025-09-15T06:26:34.564Z",
+      "type": "connection",
+      "user": "James Williams",
+      "company": "Microsoft",
+      "value": 221529,
+      "icon": "📅"
+    },
+    {
+      "timestamp": "2025-09-15T06:25:34.564Z",
+      "type": "message",
+      "user": "David Johnson",
+      "company": "Adobe",
+      "value": 362781,
+      "icon": "📅"
+    },
+    {
+      "timestamp": "2025-09-15T06:24:34.564Z",
+      "type": "message",
+      "user": "Aisha Kim",
+      "company": "Google",
+      "value": 317321,
+      "icon": "🤝"
+    },
+    {
+      "timestamp": "2025-09-15T06:22:34.564Z",
+      "type": "connection",
+      "user": "Sarah Patel",
+      "company": "Netflix",
+      "value": 497178,
+      "icon": "💬"
+    },
+    {
+      "timestamp": "2025-09-15T06:10:34.564Z",
+      "type": "message",
+      "user": "John Smith",
+      "company": "Salesforce",
+      "value": 108512,
+      "icon": "💼"
+    },
+    {
+      "timestamp": "2025-09-15T06:08:34.564Z",
+      "type": "message",
+      "user": "Lisa Williams",
+      "company": "Adobe",
+      "value": 136028,
+      "icon": "💼"
+    },
+    {
+      "timestamp": "2025-09-15T06:02:34.564Z",
+      "type": "meeting",
+      "user": "Sarah Garcia",
+      "company": "Spotify",
+      "value": 179649,
+      "icon": "📅"
+    }
+  ],
+  "gatherings": [
+    {
+      "id": "g001",
+      "title": "☕ Coffee with Gaming VCs",
+      "time": "2:00 PM",
+      "location": "Networking Lounge",
+      "attendees": 8,
+      "maxAttendees": 12,
+      "tags": [
+        "Investment",
+        "Gaming",
+        "Startups"
+      ],
+      "aiScore": 0.94,
+      "description": "AI matched you with 3 VCs interested in your vertical"
+    },
+    {
+      "id": "g002",
+      "title": "🎮 Indie Dev Collaboration",
+      "time": "3:30 PM",
+      "location": "Developer Zone",
+      "attendees": 15,
+      "maxAttendees": 20,
+      "tags": [
+        "Indie",
+        "Development",
+        "Collaboration"
+      ],
+      "aiScore": 0.87,
+      "description": "Connect with developers using similar tech stacks"
+    },
+    {
+      "id": "g003",
+      "title": "🚀 Web3 Gaming Roundtable",
+      "time": "4:00 PM",
+      "location": "Innovation Hub",
+      "attendees": 6,
+      "maxAttendees": 10,
+      "tags": [
+        "Web3",
+        "Blockchain",
+        "NFT"
+      ],
+      "aiScore": 0.91,
+      "description": "Exclusive discussion on blockchain gaming future"
+    }
+  ],
+  "whiteLabelClients": [
+    {
+      "name": "TechCrunch Disrupt",
+      "logo": "🚀",
+      "primaryColor": "#00D084",
+      "attendees": 10000,
+      "status": "Live"
+    },
+    {
+      "name": "Web Summit",
+      "logo": "🌐",
+      "primaryColor": "#FF6B6B",
+      "attendees": 70000,
+      "status": "Live"
+    },
+    {
+      "name": "CES 2025",
+      "logo": "💡",
+      "primaryColor": "#0066CC",
+      "attendees": 180000,
+      "status": "Deploying"
+    },
+    {
+      "name": "Game Developers Conference",
+      "logo": "🎮",
+      "primaryColor": "#8B5CF6",
+      "attendees": 30000,
+      "status": "Live"
+    }
+  ],
+  "quickStats": {
+    "totalRevenue": "$4.2M",
+    "activeEvents": 23,
+    "totalUsers": 125847,
+    "npsScore": 92,
+    "uptime": "99.99%",
+    "apiCalls": "12.5M",
+    "dataProcessed": "2.3TB",
+    "aiPredictions": "45K/day"
+  }
+}

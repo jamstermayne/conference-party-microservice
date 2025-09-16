@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Auth Test - Gamescom 2025</title>
+    <link rel="stylesheet" href="/assets/css/tokens.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: var(--color-accent);
+            margin-bottom: 2rem;
+        }
+        
+        .section {
+            background: var(--color-surface);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--color-border);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .test-area {
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        button {
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem;
+            transition: opacity 0.2s;
+        }
+        
+        button:hover {
+            opacity: 0.8;
+        }
+        
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+            background: var(--color-bg);
+            color: var(--color-text);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            background: rgba(0,255,0,0.1);
+            border: 1px solid rgba(0,255,0,0.3);
+        }
+        
+        .error {
+            background: rgba(255,0,0,0.1);
+            border: 1px solid rgba(255,0,0,0.3);
+        }
+        
+        pre {
+            background: rgba(0,0,0,0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+        
+        .quick-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .quick-links a {
+            color: var(--color-accent);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--color-accent);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .quick-links a:hover {
+            background: var(--color-accent);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 Magic Auth Test - Gamescom 2025</h1>
+    
+    <div class="section">
+        <h2>Feature Status</h2>
+        <div id="feature-status"></div>
+    </div>
+    
+    <div class="grid">
+        <div class="section">
+            <h2>1. Magic Link Authentication</h2>
+            <p>Enter your email to receive a magic link:</p>
+            <input type="email" id="magic-email" placeholder="your@email.com" value="test@example.com">
+            <button onclick="sendMagicLink()">Send Magic Link</button>
+            <div id="magic-status"></div>
+        </div>
+        
+        <div class="section">
+            <h2>2. Quick Registration URLs</h2>
+            <p>Test quick registration with URL parameters:</p>
+            <div class="quick-links">
+                <a href="?register=john@ea.com">EA Employee</a>
+                <a href="?register=sarah@ubisoft.com">Ubisoft Employee</a>
+                <a href="?register=mike@unity.com">Unity Employee</a>
+                <a href="?register=indie@gmail.com">Indie Developer</a>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>3. Social Login</h2>
+            <magic-auth-ui mode="social"></magic-auth-ui>
+        </div>
+        
+        <div class="section">
+            <h2>4. Company Intelligence</h2>
+            <p>Test email domain enrichment:</p>
+            <input type="email" id="company-email" placeholder="test@company.com" value="john@microsoft.com">
+            <button onclick="testCompanyIntelligence()">Get Company Info</button>
+            <div id="company-result"></div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>5. Profile Enrichment</h2>
+        <p>Generate AI-enhanced profile:</p>
+        <select id="persona-select">
+            <option value="developer">Game Developer</option>
+            <option value="publisher">Publisher</option>
+            <option value="investor">Investor</option>
+            <option value="service">Service Provider</option>
+        </select>
+        <input type="text" id="profile-name" placeholder="Your Name" value="John Doe">
+        <input type="email" id="profile-email" placeholder="your@email.com" value="john@microsoft.com">
+        <button onclick="testProfileEnrichment()">Generate Profile</button>
+        <div id="profile-result"></div>
+    </div>
+    
+    <div class="section">
+        <h2>6. Current User</h2>
+        <button onclick="getCurrentUser()">Get Current User</button>
+        <div id="user-result"></div>
+    </div>
+    
+    <!-- Load feature flags first -->
+    <script src="/assets/js/feature-flags.js"></script>
+    
+    <!-- Load magic auth modules -->
+    <script type="module">
+        // Import all modules
+        import { MagicAuthSystem } from '/modern/auth/magic-auth.js';
+        import '/modern/components/magic-auth-ui.js';
+        import { companyIntelligence } from '/modern/services/company-intelligence.js';
+        import { profileEnrichment } from '/modern/services/profile-enrichment.js';
+        import { authIntegration } from '/modern/auth/auth-integration.js';
+        
+        // Make them globally available for testing
+        window.MagicAuth = new MagicAuthSystem();
+        window.companyIntelligence = companyIntelligence;
+        window.profileEnrichment = profileEnrichment;
+        window.authIntegration = authIntegration;
+        
+        console.log('[Test] Magic Auth modules loaded');
+        
+        // Show feature status
+        const statusEl = document.getElementById('feature-status');
+        const features = ['magic_auth', 'company_intelligence', 'profile_enrichment'];
+        const statuses = features.map(f => {
+            const enabled = window.FeatureFlags?.isEnabled(f);
+            return `<div>${f}: <strong style="color: ${enabled ? 'green' : 'red'}">${enabled ? 'ENABLED' : 'DISABLED'}</strong></div>`;
+        });
+        statusEl.innerHTML = statuses.join('');
+    </script>
+    
+    <script>
+        // Test functions
+        async function sendMagicLink() {
+            const email = document.getElementById('magic-email').value;
+            const status = document.getElementById('magic-status');
+            
+            if (!email) {
+                status.innerHTML = '<div class="status error">Please enter an email</div>';
+                return;
+            }
+            
+            status.innerHTML = '<div class="status">Sending magic link...</div>';
+            
+            try {
+                const result = await window.MagicAuth.sendMagicLink(email);
+                status.innerHTML = `<div class="status">✅ Magic link sent to ${email}!</div>`;
+                console.log('Magic link result:', result);
+            } catch (error) {
+                status.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                console.error('Magic link error:', error);
+            }
+        }
+        
+        async function testCompanyIntelligence() {
+            const email = document.getElementById('company-email').value;
+            const result = document.getElementById('company-result');
+            
+            if (!email) {
+                result.innerHTML = '<div class="status error">Please enter an email</div>';
+                return;
+            }
+            
+            result.innerHTML = '<div class="status">Fetching company info...</div>';
+            
+            try {
+                const company = await window.companyIntelligence.getCompanyFromEmail(email);
+                result.innerHTML = `
+                    <div class="status">
+                        <h4>Company Information:</h4>
+                        <pre>${JSON.stringify(company, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                console.error('Company intelligence error:', error);
+            }
+        }
+        
+        async function testProfileEnrichment() {
+            const name = document.getElementById('profile-name').value;
+            const email = document.getElementById('profile-email').value;
+            const persona = document.getElementById('persona-select').value;
+            const result = document.getElementById('profile-result');
+            
+            result.innerHTML = '<div class="status">Generating AI profile...</div>';
+            
+            try {
+                const profile = await window.profileEnrichment.enrichProfile({
+                    name,
+                    email,
+                    persona
+                });
+                
+                result.innerHTML = `
+                    <div class="status">
+                        <h4>Enhanced Profile (${profile.completeness}% complete):</h4>
+                        <pre>${JSON.stringify(profile, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                console.error('Profile enrichment error:', error);
+            }
+        }
+        
+        async function getCurrentUser() {
+            const result = document.getElementById('user-result');
+            
+            try {
+                const user = await window.MagicAuth.getCurrentUser();
+                
+                if (user) {
+                    result.innerHTML = `
+                        <div class="status">
+                            <h4>Current User:</h4>
+                            <pre>${JSON.stringify(user, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    result.innerHTML = '<div class="status">No user logged in</div>';
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                console.error('Get user error:', error);
+            }
+        }
+        
+        // Check for quick registration on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const registerEmail = params.get('register');
+            
+            if (registerEmail) {
+                document.getElementById('magic-email').value = registerEmail;
+                // Auto-trigger magic link
+                setTimeout(() => {
+                    console.log('Auto-sending magic link for:', registerEmail);
+                    sendMagicLink();
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

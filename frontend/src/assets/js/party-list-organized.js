@@ -112,18 +112,26 @@ class OrganizedPartyList {
     return colors[category?.toLowerCase()] || '#95A5A6';
   }
 
-  filterByCategory(category) {
-    this.currentFilter = category;
+  filterByDay(dayDate) {
+    this.currentFilter = dayDate;
     
-    if (category === 'all') {
+    if (dayDate === 'all') {
       this.filteredParties = [...this.parties];
     } else {
-      this.filteredParties = this.parties.filter(p => 
-        (p.category || '').toLowerCase() === category.toLowerCase()
-      );
+      this.filteredParties = this.parties.filter(p => {
+        // Get the date from either date field or start field
+        const eventDate = p.date || (p.start ? p.start.split('T')[0] : null);
+        return eventDate === dayDate;
+      });
     }
     
-    this.renderEvents();
+    // Update events display
+    const eventsContainer = document.querySelector('.events-timeline');
+    if (eventsContainer) {
+      eventsContainer.innerHTML = this.renderEvents();
+    }
+    
+    // Stats removed per user request
   }
 
   filterByDate(date) {
@@ -137,24 +145,50 @@ class OrganizedPartyList {
       );
     }
     
-    this.renderEvents();
+    // Update events display
+    const eventsContainer = document.querySelector('.events-timeline');
+    if (eventsContainer) {
+      eventsContainer.innerHTML = this.renderEvents();
+    }
   }
 
   searchEvents(query) {
-    const searchTerm = query.toLowerCase();
+    const searchTerm = query.toLowerCase().trim();
     
     if (!searchTerm) {
-      this.filteredParties = [...this.parties];
+      // If search is cleared, restore the current filter
+      if (this.currentFilter === 'all') {
+        this.filteredParties = [...this.parties];
+      } else {
+        this.filterByDay(this.currentFilter);
+        return; // filterByDay already updates the display and stats
+      }
     } else {
-      this.filteredParties = this.parties.filter(p => 
+      // Apply search within current day filter
+      let baseParties = this.parties;
+      if (this.currentFilter !== 'all') {
+        baseParties = this.parties.filter(p => {
+          const eventDate = p.date || (p.start ? p.start.split('T')[0] : null);
+          return eventDate === this.currentFilter;
+        });
+      }
+      
+      this.filteredParties = baseParties.filter(p => 
         p.title?.toLowerCase().includes(searchTerm) ||
         p.venue?.toLowerCase().includes(searchTerm) ||
         p.description?.toLowerCase().includes(searchTerm) ||
-        p.category?.toLowerCase().includes(searchTerm)
+        p.category?.toLowerCase().includes(searchTerm) ||
+        p.host?.toLowerCase().includes(searchTerm)
       );
     }
     
-    this.renderEvents();
+    // Update events display
+    const eventsContainer = document.querySelector('.events-timeline');
+    if (eventsContainer) {
+      eventsContainer.innerHTML = this.renderEvents();
+    }
+    
+    // Stats removed per user request
   }
 
   render() {
@@ -164,7 +198,6 @@ class OrganizedPartyList {
     container.innerHTML = `
       <div class="organized-party-list">
         ${this.renderFilters()}
-        ${this.renderStats()}
         <div class="events-timeline">
           ${this.renderEvents()}
         </div>
@@ -173,11 +206,14 @@ class OrganizedPartyList {
   }
 
   renderFilters() {
-    // Get unique categories
-    const categories = [...new Set(this.parties.map(p => p.category || 'other'))];
-    
-    // Get unique dates
-    const dates = [...new Set(this.parties.map(p => p.date || p.start?.split('T')[0]))].sort();
+    // Define the weekdays Mon-Fri for event filtering
+    const weekdays = [
+      { day: 'Mon', date: '2025-08-18', label: 'Monday' },
+      { day: 'Tue', date: '2025-08-19', label: 'Tuesday' },
+      { day: 'Wed', date: '2025-08-20', label: 'Wednesday' },
+      { day: 'Thu', date: '2025-08-21', label: 'Thursday' },
+      { day: 'Fri', date: '2025-08-22', label: 'Friday' }
+    ];
     
     return `
       <div class="party-filters">
@@ -195,27 +231,17 @@ class OrganizedPartyList {
         
         <div class="filter-row">
           <div class="filter-group">
-            <label>Date:</label>
-            <select id="date-filter" class="filter-select">
-              <option value="all">All Days</option>
-              ${dates.map(date => `
-                <option value="${date}">${this.formatDate(date)}</option>
-              `).join('')}
-            </select>
-          </div>
-          
-          <div class="filter-group">
-            <label>Category:</label>
+            <label>Filter by Day:</label>
             <div class="category-pills">
               <button class="category-pill ${this.currentFilter === 'all' ? 'active' : ''}" 
-                      data-category="all">
-                All
+                      data-day="all">
+                All Days
               </button>
-              ${categories.sort().map(cat => `
-                <button class="category-pill ${this.currentFilter === cat ? 'active' : ''}" 
-                        data-category="${cat}"
-                        style="--cat-color: ${this.getCategoryColor(cat)}">
-                  ${cat}
+              ${weekdays.map(({day, date, label}) => `
+                <button class="category-pill ${this.currentFilter === date ? 'active' : ''}" 
+                        data-day="${date}"
+                        title="${label}">
+                  ${day}
                 </button>
               `).join('')}
             </div>
@@ -226,27 +252,8 @@ class OrganizedPartyList {
   }
 
   renderStats() {
-    const today = new Date().toISOString().split('T')[0];
-    const todayEvents = this.parties.filter(p => 
-      p.date === today || p.start?.startsWith(today)
-    ).length;
-    
-    return `
-      <div class="party-stats">
-        <div class="stat-card">
-          <div class="stat-number">${this.filteredParties.length}</div>
-          <div class="stat-label">Events Shown</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">${todayEvents}</div>
-          <div class="stat-label">Today's Events</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">${this.parties.length}</div>
-          <div class="stat-label">Total Events</div>
-        </div>
-      </div>
-    `;
+    // Remove duplicate stat boxes per user request
+    return '';
   }
 
   renderEvents() {
@@ -356,10 +363,10 @@ class OrganizedPartyList {
       this.filterByDate(e.target.value);
     });
     
-    // Category pills
+    // Day pills
     document.querySelectorAll('.category-pill').forEach(pill => {
       pill.addEventListener('click', (e) => {
-        const category = e.currentTarget.dataset.category;
+        const dayDate = e.currentTarget.dataset.day;
         
         // Update active state
         document.querySelectorAll('.category-pill').forEach(p => 
@@ -367,7 +374,7 @@ class OrganizedPartyList {
         );
         e.currentTarget.classList.add('active');
         
-        this.filterByCategory(category);
+        this.filterByDay(dayDate);
       });
     });
     

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Gamescom 2025 Professional Networking</title>
+    <link rel="stylesheet" href="/assets/css/tokens.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        
+        /* Loading state */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+        
+        .loading-overlay.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loader">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Registration flow component will be inserted here -->
+    <registration-flow></registration-flow>
+    
+    <!-- Load feature flags -->
+    <script src="/assets/js/feature-flags.js"></script>
+    
+    <!-- Load registration flow -->
+    <script type="module">
+        import './modern/components/registration-flow.js';
+        
+        // Hide loader when component is ready
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hide');
+            }, 500);
+        });
+        
+        // Handle OAuth callbacks
+        const params = new URLSearchParams(window.location.search);
+        
+        // Check for magic link token
+        const token = params.get('token');
+        if (token) {
+            handleMagicLinkVerification(token);
+        }
+        
+        // Check for OAuth callback
+        const code = params.get('code');
+        const state = params.get('state');
+        if (code && state) {
+            handleOAuthCallback(code, state);
+        }
+        
+        async function handleMagicLinkVerification(token) {
+            try {
+                const { MagicAuthSystem } = await import('./modern/auth/magic-auth.js');
+                const magicAuth = new MagicAuthSystem();
+                
+                const result = await magicAuth.verifyMagicLink(token);
+                
+                if (result.success) {
+                    showSuccess('Email verified! Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = '/#dashboard';
+                    }, 2000);
+                } else {
+                    showError('Invalid or expired link. Please request a new one.');
+                }
+            } catch (error) {
+                console.error('Magic link verification failed:', error);
+                showError('Verification failed. Please try again.');
+            }
+        }
+        
+        async function handleOAuthCallback(code, state) {
+            try {
+                // Determine provider from state
+                const provider = state.includes('google') ? 'google' : 
+                               state.includes('linkedin') ? 'linkedin' : 'unknown';
+                
+                if (provider === 'unknown') {
+                    throw new Error('Unknown OAuth provider');
+                }
+                
+                // Complete OAuth flow
+                const response = await fetch(`/api/${provider}/callback?code=${code}&state=${state}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Store user data
+                    localStorage.setItem('userProfile', JSON.stringify(data.profile));
+                    
+                    showSuccess(`Welcome ${data.profile.name}! Redirecting...`);
+                    setTimeout(() => {
+                        window.location.href = '/#dashboard';
+                    }, 2000);
+                } else {
+                    throw new Error('OAuth callback failed');
+                }
+            } catch (error) {
+                console.error('OAuth callback failed:', error);
+                showError('Authentication failed. Please try again.');
+            }
+        }
+        
+        function showSuccess(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast success';
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: #10b981;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 5000);
+        }
+        
+        function showError(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast error';
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: #ef4444;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 5000);
+        }
+        
+        // Add animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    
+    <!-- Analytics -->
+    <script>
+        // Track registration page view
+        if (window.gtag) {
+            gtag('event', 'page_view', {
+                page_title: 'Registration',
+                page_location: window.location.href,
+                page_path: '/register'
+            });
+        }
+        
+        // Track registration source
+        const source = new URLSearchParams(window.location.search).get('source');
+        if (source) {
+            console.log('Registration source:', source);
+            
+            if (window.gtag) {
+                gtag('event', 'registration_start', {
+                    source: source
+                });
+            }
+        }
+    </script>
+</body>
+</html>

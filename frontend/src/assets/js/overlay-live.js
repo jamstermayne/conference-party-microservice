@@ -246,11 +246,49 @@ async function openMapPanel(date) {
   renderMap(date);
 }
 
+// ========= Create Home Interface =========
+function createHomeInterface() {
+  const homePanel = document.querySelector('.home-panel');
+  if (!homePanel || homePanel.dataset.initialized) return;
+  
+  homePanel.dataset.initialized = 'true';
+  homePanel.innerHTML = `
+    <div class="home-content">
+      <header class="home-header">
+        <h1>Gamescom 2025</h1>
+        <p class="tagline">Professional Networking</p>
+      </header>
+      
+      <section class="parties-section">
+        <h2>Party Schedule</h2>
+        <div class="day-pills">
+          <button class="day-pill" data-date="2025-08-20">Wed Aug 20</button>
+          <button class="day-pill" data-date="2025-08-21">Thu Aug 21</button>
+          <button class="day-pill" data-date="2025-08-22">Fri Aug 22</button>
+          <button class="day-pill" data-date="2025-08-23">Sat Aug 23</button>
+          <button class="day-pill" data-date="2025-08-24">Sun Aug 24</button>
+        </div>
+      </section>
+      
+      <section class="map-section">
+        <h2>Venue Map</h2>
+        <div class="day-pills">
+          <button class="day-pill" data-date="2025-08-20">Wed</button>
+          <button class="day-pill" data-date="2025-08-21">Thu</button>
+          <button class="day-pill" data-date="2025-08-22">Fri</button>
+          <button class="day-pill" data-date="2025-08-23">Sat</button>
+          <button class="day-pill" data-date="2025-08-24">Sun</button>
+        </div>
+      </section>
+    </div>
+  `;
+}
+
 // ========= Pill wiring (uses existing DOM) =========
 function findHomeSections() {
   return {
-    partiesSec: document.querySelector('.home-section[data-section="parties"]') || document,
-    mapSec:     document.querySelector('.home-section[data-section="map"]')     || document
+    partiesSec: document.querySelector('.parties-section') || document,
+    mapSec:     document.querySelector('.map-section')     || document
   };
 }
 
@@ -297,9 +335,17 @@ function wirePills() {
 
 // ========= Boot =========
 async function boot() {
+  // Expose functions globally for app-unified.js to detect
+  window.ensureOverlay = ensureOverlay;
+  window.openOverlay = openOverlay;
+  window.closeOverlay = closeOverlay;
+  
   await fetchParties();
   
-  // Wait for pills to be rendered by home-pills-monfri.js
+  // Create initial home interface with day pills
+  createHomeInterface();
+  
+  // Wait for pills to be rendered
   const waitForPills = () => {
     const pills = document.querySelectorAll('.day-pill');
     if (pills.length > 0) {

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Sidebar Collapse</title>
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/sidebar-collapsible.css">
+  <style>
+    body { margin: 0; padding: 0; background: var(--color-bg); color: var(--color-text); }
+    .test-content {
+      padding: var(--s-4);
+    }
+    .test-content h1 {
+      margin-bottom: var(--s-4);
+    }
+    .status {
+      padding: var(--s-3);
+      background: var(--color-surface);
+      border-radius: var(--r-md);
+      margin-bottom: var(--s-4);
+    }
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--s-2) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .status-item:last-child {
+      border-bottom: none;
+    }
+    .value {
+      font-weight: 600;
+      color: var(--color-accent);
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="app">
+    <div class="panel-stack">
+      <section id="home" class="panel-base">
+        <div class="home-panel">
+          <h1>Sidebar will be injected here by JavaScript</h1>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script type="module">
+    // Import and initialize sidebar
+    import SidebarController from '/assets/js/sidebar-controller.js';
+    
+    // Wait for DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Sidebar controller loaded and initialized');
+      
+      // Add test content to main area after sidebar loads
+      setTimeout(() => {
+        const mainContent = document.getElementById('mainContent');
+        if (mainContent) {
+          mainContent.innerHTML = `
+            <div class="test-content">
+              <h1>Sidebar Collapse Test</h1>
+              
+              <div class="status">
+                <h2>Sidebar Status</h2>
+                <div class="status-item">
+                  <span>Sidebar Found:</span>
+                  <span class="value" id="sidebarFound">Checking...</span>
+                </div>
+                <div class="status-item">
+                  <span>Toggle Button Found:</span>
+                  <span class="value" id="toggleFound">Checking...</span>
+                </div>
+                <div class="status-item">
+                  <span>Current State:</span>
+                  <span class="value" id="currentState">Checking...</span>
+                </div>
+                <div class="status-item">
+                  <span>Width:</span>
+                  <span class="value" id="sidebarWidth">Checking...</span>
+                </div>
+              </div>
+              
+              <div class="status">
+                <h2>Instructions</h2>
+                <ul>
+                  <li>Click the arrow button in the top-right of the sidebar to collapse/expand</li>
+                  <li>Press <kbd>Ctrl+B</kbd> (or <kbd>Cmd+B</kbd> on Mac) to toggle</li>
+                  <li>On mobile, click the hamburger menu button</li>
+                  <li>The sidebar state is saved in localStorage</li>
+                </ul>
+              </div>
+              
+              <button onclick="testToggle()" style="padding: var(--s-3); background: var(--color-accent); color: white; border: none; border-radius: var(--r-md); cursor: pointer;">
+                Test Toggle Programmatically
+              </button>
+            </div>
+          `;
+          
+          // Update status
+          updateStatus();
+        }
+      }, 100);
+    });
+    
+    // Update status function
+    window.updateStatus = function() {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.getElementById('sidebarToggle');
+      
+      document.getElementById('sidebarFound').textContent = sidebar ? 'Yes ✓' : 'No ✗';
+      document.getElementById('toggleFound').textContent = toggleBtn ? 'Yes ✓' : 'No ✗';
+      
+      if (sidebar) {
+        const isCollapsed = sidebar.classList.contains('collapsed');
+        document.getElementById('currentState').textContent = isCollapsed ? 'Collapsed' : 'Expanded';
+        
+        const width = window.getComputedStyle(sidebar).width;
+        document.getElementById('sidebarWidth').textContent = width;
+      }
+    };
+    
+    // Test toggle function
+    window.testToggle = function() {
+      if (window.sidebarController) {
+        window.sidebarController.toggleSidebar();
+        setTimeout(updateStatus, 350); // Wait for animation
+      } else {
+        alert('Sidebar controller not found!');
+      }
+    };
+    
+    // Listen for sidebar toggle events
+    window.addEventListener('sidebarToggled', (e) => {
+      console.log('Sidebar toggled:', e.detail);
+      updateStatus();
+    });
+    
+    // Update status periodically
+    setInterval(updateStatus, 1000);
+  </script>
+</body>
+</html>

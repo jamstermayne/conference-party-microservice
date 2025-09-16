@@ -364,7 +364,7 @@ async function testSetupWebhookEndpoint() {
     
     try {
         // Test 1: GET setup webhook
-        const response = await makeRequest(`${CONFIG.API_BASE}/setupWebhook`);
+        const response = await makeRequest(`${CONFIG.API_BASE}/api/setupWebhook`);
         
         if (response.statusCode === 200) {
             logTest('Setup webhook status', 'PASS', '200 OK', response.duration);

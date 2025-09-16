@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Conference ROI Report - Gamescom 2025</title>
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Gamescom 2025 ROI: $2.5M Pipeline Generated">
+  <meta property="og:description" content="Conference delivered $2.5M in pipeline value with 733% ROI">
+  <meta property="og:image" content="/assets/images/report-preview.png">
+  <meta property="og:url" content="https://conference-party-app.web.app/reports/demo">
+  <meta property="og:type" content="article">
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gamescom 2025 ROI: $2.5M Pipeline Generated">
+  <meta name="twitter:description" content="Conference delivered $2.5M in pipeline value with 733% ROI">
+  <meta name="twitter:image" content="/assets/images/report-preview.png">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/executive-report.css">
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    /* Additional demo styles */
+    .demo-banner {
+      background: linear-gradient(135deg, var(--color-accent), rgba(139, 92, 246, 1));
+      color: white;
+      padding: var(--s-3) var(--s-4);
+      text-align: center;
+      font-size: var(--text-sm);
+    }
+    
+    .demo-banner a {
+      color: white;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Demo Banner -->
+  <div class="demo-banner">
+    📊 This is a demo of the Executive Report Interface with viral sharing capabilities. 
+    <a href="/dashboard">Back to Dashboard</a>
+  </div>
+  
+  <!-- Report Container -->
+  <div id="executive-report"></div>
+  
+  <!-- Scripts -->
+  <script type="module">
+    // Import report modules
+    import { ConferenceReportGenerator } from '/modern/reports/report-generator.js';
+    import { PDFGenerator } from '/modern/reports/pdf-generator.js';
+    import ExecutiveReportInterface from '/modern/reports/executive-report.js';
+    
+    // Add PDF generator stub if not already defined
+    if (!window.PDFGenerator) {
+      window.PDFGenerator = class PDFGenerator {
+        async generatePDF(report) {
+          console.log('Generating PDF for report:', report);
+          
+          // Create a simple text representation
+          const content = `
+CONFERENCE ROI REPORT
+=====================
+
+${report.metadata.conferenceName}
+${report.metadata.dates}
+${report.metadata.attendeeName}
+
+EXECUTIVE SUMMARY
+-----------------
+${report.executiveSummary.headline}
+
+KEY METRICS
+-----------
+Pipeline Generated: ${report.executiveSummary.keyMetrics.pipelineGenerated}
+Qualified Leads: ${report.executiveSummary.keyMetrics.qualifiedLeads}
+New Connections: ${report.executiveSummary.keyMetrics.newConnections}
+Time Efficiency: ${report.executiveSummary.keyMetrics.timeEfficiency}
+
+BUSINESS VALUE
+--------------
+Immediate Value:
+${report.executiveSummary.businessValue.immediateValue.map(v => '• ' + v).join('\n')}
+
+Future Value:
+${report.executiveSummary.businessValue.futureValue.map(v => '• ' + v).join('\n')}
+
+NEXT STEPS
+----------
+${report.executiveSummary.nextSteps.map(s => '• ' + s.title + ': ' + s.description).join('\n')}
+
+Generated on: ${new Date().toLocaleDateString()}
+          `;
+          
+          // Convert to blob
+          return new Blob([content], { type: 'text/plain' });
+        }
+      };
+    }
+    
+    // Initialize report interface
+    console.log('Initializing Executive Report Interface...');
+  </script>
+</body>
+</html>

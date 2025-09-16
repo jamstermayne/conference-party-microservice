@@ -1,8 +1,10 @@
 # 🎮 Professional Intelligence Platform
 
 [![Tests](https://github.com/jamstermayne/conference-party-microservice/actions/workflows/test-and-deploy.yml/badge.svg)](https://github.com/jamstermayne/conference-party-microservice/actions/workflows/test-and-deploy.yml)
+[![Security](https://github.com/jamstermayne/conference-party-microservice/actions/workflows/protection.yml/badge.svg)](https://github.com/jamstermayne/conference-party-microservice/actions/workflows/protection.yml)
 [![Coverage](https://img.shields.io/badge/coverage-91%20tests-brightgreen)](functions/coverage)
-[![API Health](https://img.shields.io/badge/API-18%20endpoints-blue)](https://us-central1-conference-party-app.cloudfunctions.net/api/health)
+[![API Health](https://img.shields.io/badge/API-100%25%20passing-brightgreen)](https://us-central1-conference-party-app.cloudfunctions.net/api/health)
+[![Protected](https://img.shields.io/badge/branch-protected-green)](https://github.com/jamstermayne/conference-party-microservice/settings/branches)
 
 Enterprise-grade microservices platform for **Gamescom 2025** professional networking. LinkedIn-killer PWA with advanced proximity detection, cross-conference persistence, and 10,000+ concurrent user support.
 

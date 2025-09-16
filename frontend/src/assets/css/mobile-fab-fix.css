@@ -1,0 +1,156 @@
+/**
+ * Mobile FAB (Floating Action Button) Positioning Fix
+ * Ensures all floating buttons respect mobile viewport and navigation
+ */
+
+:root {
+  --mobile-nav-height: 60px;
+  --fab-spacing: 16px;
+  --fab-size: 56px;
+  --fab-size-mobile: 48px;
+}
+
+/* Global FAB positioning rules */
+@media (max-width: 768px) {
+  /* Fix any floating action buttons */
+  [class*="float"],
+  [class*="fab"],
+  [class*="action-btn"],
+  [class*="network-btn"] {
+    /* Ensure buttons don't overlap mobile navigation */
+    bottom: calc(var(--mobile-nav-height) + var(--fab-spacing)) !important;
+  }
+  
+  /* Smart positioning for stacked FABs */
+  .fab-container {
+    position: fixed;
+    bottom: calc(var(--mobile-nav-height) + var(--fab-spacing));
+    right: var(--fab-spacing);
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 12px;
+    z-index: 900;
+  }
+  
+  /* Ensure main content doesn't get hidden */
+  .panel-base,
+  .home-panel,
+  main {
+    padding-bottom: calc(var(--mobile-nav-height) + 20px) !important;
+  }
+  
+  /* Fix any fixed positioned toasts/notifications */
+  .toast,
+  .notification,
+  .message-toast,
+  [class*="toast"] {
+    bottom: calc(var(--mobile-nav-height) + var(--fab-spacing) + var(--fab-size-mobile) + 20px) !important;
+  }
+  
+  /* Ensure proper z-index stacking */
+  .smart-network-btn { z-index: 901; }
+  .messaging-fab { z-index: 902; }
+  .invite-fab { z-index: 903; }
+  
+  /* Reduce button sizes on mobile for better UX */
+  .smart-network-btn,
+  [class*="fab"] {
+    width: var(--fab-size-mobile) !important;
+    height: var(--fab-size-mobile) !important;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  [class*="float"],
+  [class*="fab"] {
+    bottom: 24px !important;
+    right: 24px !important;
+  }
+}
+
+/* Animation adjustments for mobile */
+@media (max-width: 768px) {
+  /* Reduce animation complexity on mobile */
+  .smart-network-pulse,
+  [class*="pulse"] {
+    animation: none !important;
+  }
+  
+  /* Simpler hover states on mobile */
+  .smart-network-btn:hover,
+  [class*="fab"]:hover {
+    transform: scale(1.05) !important;
+  }
+}
+
+/* Ensure buttons are accessible */
+@media (max-width: 768px) {
+  /* Minimum touch target size */
+  button,
+  .btn,
+  [role="button"] {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Fix specific problematic buttons */
+.smart-network-btn {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+}
+
+@media (max-width: 768px) {
+  .smart-network-btn {
+    bottom: calc(var(--mobile-nav-height) + 16px) !important;
+    right: 16px !important;
+  }
+}
+
+/* Ensure modals and panels don't overlap FABs */
+@media (max-width: 768px) {
+  .proximity-panel,
+  .messaging-container,
+  .modal,
+  .sheet {
+    bottom: 0 !important;
+    border-radius: 20px 20px 0 0 !important;
+    max-height: calc(100vh - var(--mobile-nav-height)) !important;
+  }
+}
+
+/* Stack multiple FABs vertically on mobile */
+@media (max-width: 768px) {
+  .fab-1 { bottom: calc(var(--mobile-nav-height) + 16px) !important; }
+  .fab-2 { bottom: calc(var(--mobile-nav-height) + 16px + 48px + 12px) !important; }
+  .fab-3 { bottom: calc(var(--mobile-nav-height) + 16px + 96px + 24px) !important; }
+}
+
+/* Prevent FABs from blocking content */
+body {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom, 0));
+  }
+}
+
+/* Debug helper - remove in production */
+@media (max-width: 768px) and (min-width: 320px) {
+  /* Visual guide for safe zones - comment out when done */
+  /* body::after {
+    content: "";
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--mobile-nav-height);
+    background: rgba(255, 0, 0, 0.1);
+    pointer-events: none;
+    z-index: 9999;
+  } */
+}

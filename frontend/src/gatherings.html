@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Gatherings - Conference Party</title>
+    <link rel="stylesheet" href="/assets/css/tokens.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        /* Navigation */
+        .nav {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        
+        .nav-logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .nav-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #667eea;
+        }
+        
+        .nav-link.active {
+            color: #667eea;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.95;
+            margin: 0 0 2rem 0;
+            line-height: 1.6;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .hero-btn {
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .hero-btn-primary {
+            background: white;
+            color: #667eea;
+        }
+        
+        .hero-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+        }
+        
+        .hero-btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .hero-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Main Content */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.25rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            background: transparent;
+            border: none;
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-tab:hover {
+            color: #667eea;
+        }
+        
+        .filter-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .gatherings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        
+        .empty-desc {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Create Flow Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 2rem;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: transparent;
+            max-width: 720px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            color: #6b7280;
+            transition: all 0.2s;
+        }
+        
+        .modal-close:hover {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.875rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .gatherings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">
+                <div class="nav-logo">G</div>
+                <div class="nav-title">Gatherings</div>
+            </a>
+            
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/matches.html" class="nav-link">Matches</a>
+                <a href="/gatherings.html" class="nav-link active">Gatherings</a>
+                <a href="#" class="nav-link">Messages</a>
+                <a href="#" class="nav-link">Profile</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1 class="hero-title">Smart Spontaneous Gatherings ✨</h1>
+            <p class="hero-subtitle">
+                Create instant meetups with AI-matched attendees. 
+                Our engine finds the perfect people for your gathering in seconds.
+            </p>
+            <div class="hero-actions">
+                <button class="hero-btn hero-btn-primary" onclick="showCreateFlow()">
+                    Create Gathering
+                </button>
+                <button class="hero-btn hero-btn-secondary" onclick="scrollToGatherings()">
+                    Browse Active
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Active Gatherings -->
+        <div class="section-header">
+            <h2 class="section-title">Active Gatherings</h2>
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="coffee">Coffee</button>
+                <button class="filter-tab" data-filter="demo">Demos</button>
+                <button class="filter-tab" data-filter="discussion">Discussions</button>
+                <button class="filter-tab" data-filter="networking">Networking</button>
+            </div>
+        </div>
+        
+        <div class="gatherings-grid" id="gatherings-list">
+            <!-- Gatherings will be loaded here -->
+        </div>
+        
+        <!-- Empty State -->
+        <div class="empty-state" id="empty-state" style="display: none;">
+            <div class="empty-icon">🎯</div>
+            <div class="empty-title">No active gatherings yet</div>
+            <div class="empty-desc">Be the first to create a spontaneous gathering!</div>
+            <button class="hero-btn hero-btn-primary" onclick="showCreateFlow()">
+                Create First Gathering
+            </button>
+        </div>
+    </main>
+    
+    <!-- Create Flow Modal -->
+    <div class="modal-overlay" id="create-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="hideCreateFlow()">×</button>
+            <gathering-create-flow></gathering-create-flow>
+        </div>
+    </div>
+    
+    <!-- Load Components -->
+    <script type="module">
+        import { gatheringEngine } from './modern/gatherings/gathering-engine.js';
+        import './modern/components/gathering-ui.js';
+        import './modern/components/gathering-create-flow.js';
+        
+        // Initialize
+        let currentFilter = 'all';
+        let gatherings = [];
+        
+        async function loadGatherings() {
+            // Initialize engine
+            if (!gatheringEngine.isInitialized) {
+                await gatheringEngine.initialize();
+            }
+            
+            // Get all gatherings
+            gatherings = Array.from(gatheringEngine.gatherings.values());
+            
+            // Filter active gatherings
+            const activeGatherings = gatherings.filter(g => 
+                ['inviting', 'confirmed', 'active', 'full'].includes(g.status)
+            );
+            
+            // Apply filter
+            const filtered = currentFilter === 'all' 
+                ? activeGatherings 
+                : activeGatherings.filter(g => g.type === currentFilter);
+            
+            // Render
+            const container = document.getElementById('gatherings-list');
+            const emptyState = document.getElementById('empty-state');
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+                container.innerHTML = filtered.map(gathering => `
+                    <gathering-card></gathering-card>
+                `).join('');
+                
+                // Set data for each card
+                const cards = container.querySelectorAll('gathering-card');
+                cards.forEach((card, index) => {
+                    card.data = filtered[index];
+                });
+            }
+        }
+        
+        // Filter tabs
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                document.querySelectorAll('.filter-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                tab.classList.add('active');
+                
+                // Update filter and reload
+                currentFilter = tab.dataset.filter;
+                loadGatherings();
+            });
+        });
+        
+        // Show/hide create flow
+        window.showCreateFlow = function() {
+            document.getElementById('create-modal').classList.add('show');
+        };
+        
+        window.hideCreateFlow = function() {
+            document.getElementById('create-modal').classList.remove('show');
+        };
+        
+        window.scrollToGatherings = function() {
+            document.querySelector('.main').scrollIntoView({ behavior: 'smooth' });
+        };
+        
+        // Listen for gathering created
+        document.addEventListener('gathering-created', (event) => {
+            console.log('Gathering created:', event.detail);
+            hideCreateFlow();
+            loadGatherings();
+            
+            // Show success notification
+            showNotification('Gathering created successfully!', 'success');
+        });
+        
+        // Notification helper
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                background: ${type === 'success' ? '#10b981' : '#3b82f6'};
+                color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                font-size: 14px;
+                font-weight: 500;
+                z-index: 2000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Load initial gatherings
+        loadGatherings();
+        
+        // Refresh gatherings every 30 seconds
+        setInterval(loadGatherings, 30000);
+        
+        // Create some sample gatherings for demo
+        setTimeout(async () => {
+            if (gatherings.length === 0) {
+                // Create a sample gathering
+                const sampleGathering = await gatheringEngine.createGathering({
+                    creatorId: 'demo_user',
+                    creatorProfile: {
+                        id: 'demo_user',
+                        name: 'Demo User',
+                        title: 'Conference Organizer',
+                        company: 'Gamescom'
+                    },
+                    title: 'Welcome Coffee Chat',
+                    description: 'Join us for a casual coffee chat to kick off the conference!',
+                    type: 'coffee',
+                    maxAttendees: 6,
+                    preferredTime: new Date(Date.now() + 60 * 60 * 1000) // 1 hour from now
+                });
+                
+                loadGatherings();
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

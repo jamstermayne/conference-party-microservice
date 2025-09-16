@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-Time Chat System - Conference Party</title>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      height: 100vh;
+      display: flex;
+    }
+    
+    .chat-app {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .conversations-sidebar {
+      width: 320px;
+      background: var(--color-surface);
+      border-right: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .sidebar-header {
+      padding: var(--s-4);
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+    }
+    
+    .sidebar-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: var(--s-3);
+    }
+    
+    .new-chat-btn {
+      width: 100%;
+      padding: var(--s-3);
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: var(--r-2);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .new-chat-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    
+    .conversations-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--s-3);
+    }
+    
+    .conversation-item {
+      display: flex;
+      align-items: center;
+      gap: var(--s-3);
+      padding: var(--s-3);
+      border-radius: var(--r-2);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: var(--s-2);
+    }
+    
+    .conversation-item:hover {
+      background: var(--color-bg);
+    }
+    
+    .conversation-item.active {
+      background: var(--color-bg);
+      border-left: 3px solid var(--color-accent);
+    }
+    
+    .conversation-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    
+    .conversation-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .conversation-name {
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 4px;
+    }
+    
+    .conversation-preview {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .conversation-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    
+    .conversation-time {
+      font-size: 0.75rem;
+      color: var(--color-text-dim);
+    }
+    
+    .unread-badge {
+      background: var(--color-accent);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 10px;
+      min-width: 20px;
+      text-align: center;
+    }
+    
+    .chat-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-dim);
+    }
+    
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: var(--s-4);
+      opacity: 0.5;
+    }
+    
+    .empty-title {
+      font-size: 1.25rem;
+      margin-bottom: var(--s-2);
+    }
+    
+    .empty-text {
+      font-size: 0.9375rem;
+      text-align: center;
+      max-width: 300px;
+    }
+    
+    chat-interface {
+      height: 100%;
+    }
+    
+    .demo-controls {
+      position: fixed;
+      bottom: var(--s-4);
+      right: var(--s-4);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--r-2);
+      padding: var(--s-3);
+      z-index: 100;
+    }
+    
+    .demo-title {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+      margin-bottom: var(--s-2);
+    }
+    
+    .demo-btn {
+      display: block;
+      width: 100%;
+      padding: var(--s-2);
+      margin-bottom: var(--s-1);
+      background: var(--color-bg);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+      border-radius: var(--r-1);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .demo-btn:hover {
+      background: var(--color-accent);
+      color: white;
+      border-color: var(--color-accent);
+    }
+    
+    @media (max-width: 768px) {
+      .conversations-sidebar {
+        width: 100%;
+        position: absolute;
+        z-index: 10;
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+      }
+      
+      .conversations-sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+        position: absolute;
+        top: var(--s-4);
+        left: var(--s-4);
+        z-index: 11;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-app">
+    <!-- Conversations Sidebar -->
+    <div class="conversations-sidebar">
+      <div class="sidebar-header">
+        <h2 class="sidebar-title">Messages</h2>
+        <button class="new-chat-btn" onclick="startNewChat()">
+          + New Conversation
+        </button>
+      </div>
+      
+      <div class="conversations-list" id="conversationsList">
+        <!-- Conversations will be added here -->
+      </div>
+    </div>
+    
+    <!-- Main Chat Area -->
+    <div class="chat-main">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">💬</div>
+        <div class="empty-title">Welcome to Conference Chat</div>
+        <div class="empty-text">
+          Connect with other attendees, share insights, and build your professional network
+        </div>
+      </div>
+      
+      <chat-interface id="chatInterface" style="display: none;"></chat-interface>
+    </div>
+  </div>
+  
+  <!-- Demo Controls -->
+  <div class="demo-controls">
+    <div class="demo-title">Demo Actions</div>
+    <button class="demo-btn" onclick="createMockConversations()">
+      Create Mock Conversations
+    </button>
+    <button class="demo-btn" onclick="simulateIncomingMessage()">
+      Simulate Incoming Message
+    </button>
+    <button class="demo-btn" onclick="showTypingIndicator()">
+      Show Typing Indicator
+    </button>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="modern/chat/real-time-chat.js"></script>
+  <script src="modern/components/chat-interface.js"></script>
+  
+  <script>
+    // Initialize chat system
+    const chatSystem = window.RealTimeChatSystem;
+    const chatInterface = document.getElementById('chatInterface');
+    const emptyState = document.getElementById('emptyState');
+    const conversationsList = document.getElementById('conversationsList');
+    
+    // Set up user ID if not exists
+    if (!localStorage.getItem('userId')) {
+      localStorage.setItem('userId', 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9));
+    }
+    
+    // Load conversations
+    function loadConversations() {
+      const conversations = chatSystem.getConversationList(chatSystem.userId);
+      
+      conversationsList.innerHTML = '';
+      
+      conversations.forEach(conv => {
+        const otherParticipant = conv.participants.find(p => p !== chatSystem.userId);
+        const item = createConversationItem(conv, otherParticipant);
+        conversationsList.appendChild(item);
+      });
+    }
+    
+    // Create conversation item
+    function createConversationItem(conversation, participantId) {
+      const item = document.createElement('div');
+      item.className = 'conversation-item';
+      item.dataset.conversationId = conversation.id;
+      
+      const lastMessageTime = conversation.lastMessageAt 
+        ? new Date(conversation.lastMessageAt).toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit'
+          })
+        : '';
+      
+      const unreadCount = conversation.unreadCount[chatSystem.userId] || 0;
+      
+      item.innerHTML = `
+        <div class="conversation-avatar">
+          ${participantId.substr(0, 1).toUpperCase()}
+        </div>
+        <div class="conversation-info">
+          <div class="conversation-name">User ${participantId.substr(0, 8)}</div>
+          <div class="conversation-preview">
+            ${conversation.lastMessage || 'Start a conversation...'}
+          </div>
+        </div>
+        <div class="conversation-meta">
+          ${lastMessageTime ? `<div class="conversation-time">${lastMessageTime}</div>` : ''}
+          ${unreadCount > 0 ? `<div class="unread-badge">${unreadCount}</div>` : ''}
+        </div>
+      `;
+      
+      item.addEventListener('click', () => openConversation(conversation.id));
+      
+      return item;
+    }
+    
+    // Open conversation
+    function openConversation(conversationId) {
+      // Update UI
+      document.querySelectorAll('.conversation-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      
+      const item = document.querySelector(`[data-conversation-id="${conversationId}"]`);
+      if (item) {
+        item.classList.add('active');
+      }
+      
+      // Show chat interface
+      emptyState.style.display = 'none';
+      chatInterface.style.display = 'block';
+      chatInterface.setAttribute('conversation-id', conversationId);
+      chatInterface.loadConversation(conversationId);
+    }
+    
+    // Start new chat
+    async function startNewChat() {
+      const otherUserId = prompt('Enter user ID to chat with (or leave empty for random):');
+      
+      const participantId = otherUserId || 'user_' + Math.random().toString(36).substr(2, 9);
+      
+      // Create mock profile for demo
+      const profile = {
+        id: participantId,
+        name: `User ${participantId.substr(0, 8)}`,
+        title: 'Software Engineer',
+        company: 'Tech Company',
+        interests: ['AI', 'Gaming', 'Web Development'],
+        skills: ['JavaScript', 'Python', 'React']
+      };
+      
+      localStorage.setItem(`profile_${participantId}`, JSON.stringify(profile));
+      
+      // Start conversation
+      const conversationId = await chatSystem.startConversation(chatSystem.userId, participantId);
+      
+      // Reload conversations list
+      loadConversations();
+      
+      // Open the new conversation
+      openConversation(conversationId);
+    }
+    
+    // Demo functions
+    function createMockConversations() {
+      const mockUsers = [
+        { id: 'john_smith', name: 'John Smith', title: 'Game Developer', company: 'Unity Studios' },
+        { id: 'sarah_chen', name: 'Sarah Chen', title: 'Product Manager', company: 'EA Games' },
+        { id: 'mike_jones', name: 'Mike Jones', title: 'AI Engineer', company: 'Nvidia' }
+      ];
+      
+      mockUsers.forEach(async (user) => {
+        // Save profile
+        localStorage.setItem(`profile_${user.id}`, JSON.stringify({
+          ...user,
+          interests: ['Gaming', 'AI', 'Technology'],
+          skills: ['Leadership', 'Strategy', 'Innovation']
+        }));
+        
+        // Create conversation
+        const conversationId = await chatSystem.startConversation(chatSystem.userId, user.id);
+        
+        // Add some mock messages
+        const messages = [
+          { senderId: user.id, content: `Hi! I'm ${user.name} from ${user.company}. Great to connect!` },
+          { senderId: chatSystem.userId, content: 'Nice to meet you! Looking forward to the conference.' },
+          { senderId: user.id, content: 'Which sessions are you planning to attend?' }
+        ];
+        
+        for (const msg of messages) {
+          await chatSystem.sendMessage(conversationId, msg.senderId, msg.content);
+        }
+      });
+      
+      // Reload conversations
+      setTimeout(loadConversations, 500);
+      
+      alert('Created 3 mock conversations with sample messages!');
+    }
+    
+    function simulateIncomingMessage() {
+      const conversations = chatSystem.getConversationList(chatSystem.userId);
+      if (conversations.length === 0) {
+        alert('Create some conversations first!');
+        return;
+      }
+      
+      const conv = conversations[0];
+      const otherParticipant = conv.participants.find(p => p !== chatSystem.userId);
+      
+      const messages = [
+        'That sounds interesting! Tell me more.',
+        'I completely agree with your perspective.',
+        'Would you like to meet up at the conference?',
+        'Have you seen the latest announcement?',
+        'Looking forward to the keynote tomorrow!'
+      ];
+      
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      
+      chatSystem.sendMessage(conv.id, otherParticipant, randomMessage);
+      
+      // Reload if this conversation is active
+      if (chatInterface.currentConversation === conv.id) {
+        setTimeout(() => {
+          const updatedMessages = chatSystem.loadMessages(conv.id);
+          chatInterface.displayMessages(updatedMessages);
+        }, 100);
+      }
+      
+      // Update conversation list
+      loadConversations();
+    }
+    
+    function showTypingIndicator() {
+      const conversations = chatSystem.getConversationList(chatSystem.userId);
+      if (conversations.length === 0) {
+        alert('Create some conversations first!');
+        return;
+      }
+      
+      const conv = conversations[0];
+      const otherParticipant = conv.participants.find(p => p !== chatSystem.userId);
+      
+      // Simulate typing indicator
+      chatSystem.onTypingIndicator(conv.id, otherParticipant, true);
+      
+      // Stop after 3 seconds
+      setTimeout(() => {
+        chatSystem.onTypingIndicator(conv.id, otherParticipant, false);
+      }, 3000);
+      
+      alert('Check the chat header for typing indicator!');
+    }
+    
+    // Initial load
+    loadConversations();
+    
+    // Refresh conversations periodically
+    setInterval(loadConversations, 10000);
+  </script>
+</body>
+</html>

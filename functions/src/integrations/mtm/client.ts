@@ -70,7 +70,7 @@ export async function ensureFreshToken(
   }
   
   // Token expired or expiring soon, refresh it
-  console.log('[MTM] Refreshing access token for user:', uid);
+  console.log('[MTM] Refreshing access token for user');
   
   try {
     const refreshToken = getRefreshToken(account);

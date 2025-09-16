@@ -1,0 +1,122 @@
+# Page snapshot
+
+```yaml
+- main:
+  - heading "Gamescom 2025" [level=1]
+  - text: Professional Networking
+  - button:
+    - img
+  - main:
+    - textbox "Search events..."
+    - img
+    - text: "Filter by Day:"
+    - button "All Days"
+    - button "Mon"
+    - button "Tue"
+    - button "Wed"
+    - button "Thu"
+    - button "Fri"
+    - text: 12 Events Shown 2 Today's Events 12 Total Events
+    - heading "Monday, Aug 18" [level=3]
+    - text: 2 events 8:00 PM
+    - heading "Party A 2025-08-18" [level=4]
+    - img
+    - text: Hall A
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+    - text: 10:00 PM
+    - heading "Party B 2025-08-18" [level=4]
+    - img
+    - text: Hall B
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+    - heading "Tuesday, Aug 19" [level=3]
+    - text: 2 events 8:00 PM
+    - heading "Party A 2025-08-19" [level=4]
+    - img
+    - text: Hall A
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+    - text: 10:00 PM
+    - heading "Party B 2025-08-19" [level=4]
+    - img
+    - text: Hall B
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+    - heading "Wednesday, Aug 20" [level=3]
+    - text: 2 events 8:00 PM
+    - heading "Party A 2025-08-20" [level=4]
+    - img
+    - text: Hall A
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+    - text: 10:00 PM
+    - heading "Party B 2025-08-20" [level=4]
+    - img
+    - text: Hall B
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+    - heading "Thursday, Aug 21" [level=3]
+    - text: 2 events 8:00 PM
+    - heading "Party A 2025-08-21" [level=4]
+    - img
+    - text: Hall A
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+    - text: 10:00 PM
+    - heading "Party B 2025-08-21" [level=4]
+    - img
+    - text: Hall B
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+    - heading "Friday, Aug 22" [level=3]
+    - text: 2 events 8:00 PM
+    - heading "Party A 2025-08-22" [level=4]
+    - img
+    - text: Hall A
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+    - text: 10:00 PM
+    - heading "Party B 2025-08-22" [level=4]
+    - img
+    - text: Hall B
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+    - heading "Saturday, Aug 23" [level=3]
+    - text: 2 events 8:00 PM
+    - heading "Party A 2025-08-23" [level=4]
+    - img
+    - text: Hall A
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+    - text: 10:00 PM
+    - heading "Party B 2025-08-23" [level=4]
+    - img
+    - text: Hall B
+    - button "☆ Save"
+    - button "📍 Map"
+    - button "🔗 Share"
+  - navigation:
+    - button "Parties":
+      - img
+    - button "Calendar":
+      - img
+    - button "Contacts":
+      - img
+    - button "Invites":
+      - img
+    - button "Account":
+      - img
+- text: Something went wrong. Please try again.
+```

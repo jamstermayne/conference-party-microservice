@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matchmaking Integration Test</title>
+
+  <!-- Design System Tokens -->
+  <link rel="stylesheet" href="/design-system/tokens.css">
+
+  <!-- Design System Components -->
+  <link rel="stylesheet" href="/design-system/components/cards.css">
+  <link rel="stylesheet" href="/design-system/components/buttons.css">
+
+  <style>
+    body {
+      background: var(--neutral-950);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      padding: var(--space-6);
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-8);
+      padding-bottom: var(--space-6);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .header__title {
+      font-size: var(--text-3xl);
+      font-weight: var(--font-bold);
+      background: var(--gradient-purple-pink);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header__subtitle {
+      color: var(--text-secondary);
+      margin-top: var(--space-2);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: var(--space-6);
+    }
+
+    @media (max-width: 1024px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .controls {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    #matches-container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .status-panel {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+    }
+
+    .status-panel h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-semibold);
+      margin: 0 0 var(--space-3) 0;
+      color: var(--text-primary);
+    }
+
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--glass-border);
+      font-size: var(--text-sm);
+    }
+
+    .status-item:last-child {
+      border-bottom: none;
+    }
+
+    .status-label {
+      color: var(--text-secondary);
+    }
+
+    .status-value {
+      color: var(--text-primary);
+      font-weight: var(--font-medium);
+    }
+
+    .status-value--success {
+      color: var(--success-light);
+    }
+
+    .status-value--error {
+      color: var(--error-light);
+    }
+
+    .profile-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .form-label {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    .form-input {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-2) var(--space-3);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      transition: all var(--duration-200) var(--ease-out);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary-500);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    textarea.form-input {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .tag-input {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      padding: var(--space-2);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      min-height: 40px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-1) var(--space-2);
+      background: rgba(139, 92, 246, 0.1);
+      color: var(--primary-400);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+    }
+
+    .tag__remove {
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity var(--duration-200);
+    }
+
+    .tag__remove:hover {
+      opacity: 1;
+    }
+
+    .test-console {
+      background: var(--neutral-900);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .console-line {
+      padding: var(--space-1) 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .console-line--info { color: var(--text-secondary); }
+    .console-line--success { color: var(--success-light); }
+    .console-line--error { color: var(--error-light); }
+    .console-line--warning { color: var(--warning-light); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div>
+        <h1 class="header__title">Matchmaking Integration Test</h1>
+        <p class="header__subtitle">Test the modern matchmaking system with real-time swipe interface</p>
+      </div>
+      <div class="controls">
+        <button class="btn btn--primary" id="refresh-matches">
+          <svg class="btn__icon" width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+          </svg>
+          Generate Matches
+        </button>
+        <button class="btn btn--secondary" onclick="matchmakingClient.clearCache()">Clear Cache</button>
+        <button class="btn btn--ghost" onclick="showStats()">Show Stats</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Left Sidebar - Profile -->
+      <aside class="sidebar">
+        <div class="card">
+          <h3 class="card__title">Your Profile</h3>
+          <div class="card__body">
+            <form class="profile-form" id="profile-form">
+              <div class="form-group">
+                <label class="form-label">Display Name</label>
+                <input type="text" class="form-input" id="displayName" placeholder="John Doe">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Company</label>
+                <input type="text" class="form-input" id="company" placeholder="TechCorp">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Position</label>
+                <input type="text" class="form-input" id="position" placeholder="Senior Developer">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Industry</label>
+                <select class="form-input" id="industry">
+                  <option value="">Select Industry</option>
+                  <option value="Gaming">Gaming</option>
+                  <option value="Technology">Technology</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Media">Media</option>
+                  <option value="Healthcare">Healthcare</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Bio</label>
+                <textarea class="form-input" id="bio" placeholder="Tell us about yourself..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Interests (comma-separated)</label>
+                <input type="text" class="form-input" id="interests" placeholder="AI, Web Development, Gaming">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Skills (comma-separated)</label>
+                <input type="text" class="form-input" id="skills" placeholder="JavaScript, React, Node.js">
+              </div>
+
+              <button type="submit" class="btn btn--primary btn--block">Update Profile</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="status-panel">
+          <h3>Connection Status</h3>
+          <div id="status-info">
+            <div class="status-item">
+              <span class="status-label">Service</span>
+              <span class="status-value" id="service-status">Checking...</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Auth Token</span>
+              <span class="status-value" id="auth-status">Checking...</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Profile</span>
+              <span class="status-value" id="profile-status">Not loaded</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Cache Size</span>
+              <span class="status-value" id="cache-status">0</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content - Matches -->
+      <main class="main">
+        <div class="card card--elevated">
+          <div class="card__header">
+            <h2 class="card__title">Your Matches</h2>
+            <div class="card__badge" id="match-count">0 matches</div>
+          </div>
+        </div>
+
+        <div id="matches-container">
+          <!-- Matches will be rendered here -->
+        </div>
+      </main>
+
+      <!-- Right Sidebar - Activity -->
+      <aside class="sidebar">
+        <div class="card">
+          <h3 class="card__title">Recent Activity</h3>
+          <div class="card__body">
+            <div id="activity-log" class="test-console">
+              <div class="console-line console-line--info">System initialized</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card__title">Test Actions</h3>
+          <div class="card__body">
+            <div class="controls" style="flex-direction: column;">
+              <button class="btn btn--sm btn--secondary" onclick="testHealthCheck()">Test Health Check</button>
+              <button class="btn btn--sm btn--secondary" onclick="testGenerateMatches()">Generate 5 Matches</button>
+              <button class="btn btn--sm btn--secondary" onclick="testNearbyUsers()">Find Nearby Users</button>
+              <button class="btn btn--sm btn--secondary" onclick="updateLocation()">Update Location</button>
+              <button class="btn btn--sm btn--warning" onclick="useDemoData()">Use Demo Data</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Load Matchmaking Client -->
+  <script src="/frontend/src/assets/js/matchmaking-client.js"></script>
+
+  <script>
+    // Activity logger
+    function logActivity(message, type = 'info') {
+      const log = document.getElementById('activity-log');
+      const line = document.createElement('div');
+      line.className = `console-line console-line--${type}`;
+      line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      log.appendChild(line);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    // Update status panel
+    function updateStatus() {
+      const stats = matchmakingClient.getStats();
+
+      // Service status
+      document.getElementById('service-status').textContent = 'Connected';
+      document.getElementById('service-status').className = 'status-value status-value--success';
+
+      // Auth status
+      const authEl = document.getElementById('auth-status');
+      authEl.textContent = stats.authToken;
+      authEl.className = stats.authToken === 'Present'
+        ? 'status-value status-value--success'
+        : 'status-value status-value--error';
+
+      // Profile status
+      const profileEl = document.getElementById('profile-status');
+      profileEl.textContent = stats.currentProfile || 'Not loaded';
+      profileEl.className = stats.currentProfile
+        ? 'status-value status-value--success'
+        : 'status-value';
+
+      // Cache status
+      document.getElementById('cache-status').textContent = stats.cacheSize;
+    }
+
+    // Show stats in console
+    function showStats() {
+      const stats = matchmakingClient.getStats();
+      console.log('Matchmaking Client Stats:', stats);
+      logActivity(`Stats: Cache ${stats.cacheSize}, Auth ${stats.authToken}, Profile ${stats.currentProfile || 'None'}`, 'info');
+    }
+
+    // Test functions
+    async function testHealthCheck() {
+      try {
+        logActivity('Testing health check...', 'info');
+        const response = await fetch(`${matchmakingClient.apiBase}/health`);
+        const data = await response.json();
+        logActivity(`Health check: ${data.status}`, 'success');
+        console.log('Health check response:', data);
+      } catch (error) {
+        logActivity(`Health check failed: ${error.message}`, 'error');
+      }
+    }
+
+    async function testGenerateMatches() {
+      try {
+        logActivity('Generating 5 matches...', 'info');
+        const matches = await matchmakingClient.generateMatches({ limit: 5 });
+        logActivity(`Generated ${matches.length} matches`, 'success');
+        matchmakingClient.renderMatches(matches);
+        updateMatchCount(matches.length);
+      } catch (error) {
+        logActivity(`Failed to generate matches: ${error.message}`, 'error');
+      }
+    }
+
+    async function testNearbyUsers() {
+      try {
+        logActivity('Finding nearby users...', 'info');
+        const users = await matchmakingClient.getNearbyUsers(1000, 10);
+        logActivity(`Found ${users.length} nearby users`, 'success');
+        console.log('Nearby users:', users);
+      } catch (error) {
+        logActivity(`Failed to find nearby users: ${error.message}`, 'error');
+      }
+    }
+
+    async function updateLocation() {
+      try {
+        logActivity('Updating location...', 'info');
+        // Use Gamescom coordinates
+        const success = await matchmakingClient.updateLocation(50.9467, 6.9427, 'Koelnmesse');
+        if (success) {
+          logActivity('Location updated to Koelnmesse', 'success');
+        } else {
+          logActivity('Failed to update location', 'error');
+        }
+      } catch (error) {
+        logActivity(`Location update error: ${error.message}`, 'error');
+      }
+    }
+
+    function useDemoData() {
+      logActivity('Loading demo matches...', 'info');
+      const demoMatches = matchmakingClient.getDemoMatches();
+      matchmakingClient.renderMatches(demoMatches);
+      updateMatchCount(demoMatches.length);
+      logActivity(`Loaded ${demoMatches.length} demo matches`, 'success');
+    }
+
+    function updateMatchCount(count) {
+      document.getElementById('match-count').textContent = `${count} matches`;
+    }
+
+    // Profile form handler
+    document.getElementById('profile-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const profileData = {
+        displayName: document.getElementById('displayName').value,
+        company: document.getElementById('company').value,
+        position: document.getElementById('position').value,
+        industry: document.getElementById('industry').value,
+        bio: document.getElementById('bio').value,
+        interests: document.getElementById('interests').value.split(',').map(i => i.trim()).filter(Boolean),
+        skills: document.getElementById('skills').value.split(',').map(s => s.trim()).filter(Boolean)
+      };
+
+      try {
+        logActivity('Updating profile...', 'info');
+        const profile = await matchmakingClient.updateProfile(profileData);
+        logActivity('Profile updated successfully', 'success');
+        updateStatus();
+      } catch (error) {
+        logActivity(`Profile update failed: ${error.message}`, 'error');
+      }
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      logActivity('Initializing matchmaking system...', 'info');
+
+      // Update status every 5 seconds
+      setInterval(updateStatus, 5000);
+      updateStatus();
+
+      // Load demo data initially
+      setTimeout(() => {
+        useDemoData();
+        logActivity('Ready for testing', 'success');
+      }, 1000);
+    });
+
+    // Make functions available globally for testing
+    window.testHealthCheck = testHealthCheck;
+    window.testGenerateMatches = testGenerateMatches;
+    window.testNearbyUsers = testNearbyUsers;
+    window.updateLocation = updateLocation;
+    window.useDemoData = useDemoData;
+    window.showStats = showStats;
+  </script>
+</body>
+</html>

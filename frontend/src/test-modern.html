@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Architecture Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status.success { background: #10b981; color: white; }
+        .status.error { background: #ef4444; color: white; }
+        .status.warning { background: #f59e0b; color: white; }
+        .status.info { background: #3b82f6; color: white; }
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .test-results {
+            margin-top: 20px;
+        }
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Modern Architecture Integration Test</h1>
+    
+    <div class="test-card">
+        <h2>System Status</h2>
+        <div id="system-status">Checking...</div>
+    </div>
+    
+    <div class="test-card">
+        <h2>Feature Flags Control</h2>
+        <button onclick="enableModern()">Enable Modern Architecture</button>
+        <button onclick="disableModern()">Disable Modern Architecture</button>
+        <button onclick="enableAllModern()">Enable All Modern Features</button>
+        <button onclick="resetAll()">Reset All</button>
+        <div id="feature-status" class="test-results"></div>
+    </div>
+    
+    <div class="test-card">
+        <h2>Compatibility Tests</h2>
+        <button onclick="runTests()">Run All Tests</button>
+        <div id="test-results" class="test-results"></div>
+    </div>
+    
+    <div class="test-card">
+        <h2>Console Output</h2>
+        <pre id="console-output"></pre>
+    </div>
+
+    <!-- Load the existing app first -->
+    <script src="/assets/js/feature-flags.js"></script>
+    
+    <!-- Modern architecture (will only load if enabled) -->
+    <script type="module">
+        if (window.FeatureFlags?.isEnabled('modern_architecture')) {
+            import('/modern/core/module-loader.js').then(() => {
+                log('✅ Modern module loader loaded');
+            });
+            import('/modern/core/compatibility-bridge.js').then(() => {
+                log('✅ Compatibility bridge loaded');
+            });
+        }
+    </script>
+
+    <script>
+        // Logging helper
+        function log(message) {
+            const output = document.getElementById('console-output');
+            const timestamp = new Date().toLocaleTimeString();
+            output.textContent += `[${timestamp}] ${message}\n`;
+            console.log(message);
+        }
+
+        // Check system status
+        function checkStatus() {
+            const statusDiv = document.getElementById('system-status');
+            const status = {
+                'Feature Flags': !!window.FeatureFlags,
+                'Modern Core': !!window.ModernCore,
+                'Compatibility Bridge': !!window.CompatibilityBridge,
+                'Modern Architecture Enabled': window.FeatureFlags?.isEnabled('modern_architecture')
+            };
+            
+            let html = '';
+            Object.entries(status).forEach(([key, value]) => {
+                const statusClass = value ? 'success' : 'error';
+                const icon = value ? '✅' : '❌';
+                html += `<div class="test-item">
+                    <span>${key}</span>
+                    <span class="status ${statusClass}">${icon} ${value ? 'Loaded' : 'Not Loaded'}</span>
+                </div>`;
+            });
+            
+            statusDiv.innerHTML = html;
+            
+            // Update feature status
+            updateFeatureStatus();
+        }
+
+        // Update feature status display
+        function updateFeatureStatus() {
+            const features = [
+                'modern_architecture',
+                'modern_auth',
+                'modern_data',
+                'modern_ui',
+                'modern_matching',
+                'modern_realtime',
+                'modern_party_cards',
+                'modern_connections'
+            ];
+            
+            const statusDiv = document.getElementById('feature-status');
+            let html = '<h3>Modern Features:</h3>';
+            
+            features.forEach(feature => {
+                const enabled = window.FeatureFlags?.isEnabled(feature);
+                const statusClass = enabled ? 'success' : 'info';
+                html += `<div class="test-item">
+                    <span>${feature}</span>
+                    <span class="status ${statusClass}">${enabled ? 'ON' : 'OFF'}</span>
+                </div>`;
+            });
+            
+            statusDiv.innerHTML = html;
+        }
+
+        // Enable modern architecture
+        function enableModern() {
+            log('Enabling modern architecture...');
+            localStorage.setItem('ff_modern_architecture', 'true');
+            log('✅ Modern architecture enabled. Reloading...');
+            setTimeout(() => location.reload(), 1000);
+        }
+
+        // Disable modern architecture
+        function disableModern() {
+            log('Disabling modern architecture...');
+            localStorage.setItem('ff_modern_architecture', 'false');
+            log('✅ Modern architecture disabled. Reloading...');
+            setTimeout(() => location.reload(), 1000);
+        }
+
+        // Enable all modern features
+        function enableAllModern() {
+            log('Enabling all modern features...');
+            const features = [
+                'modern_architecture',
+                'modern_auth',
+                'modern_data',
+                'modern_ui',
+                'modern_matching',
+                'modern_realtime',
+                'modern_party_cards',
+                'modern_connections'
+            ];
+            
+            features.forEach(feature => {
+                window.FeatureFlags?.enable(feature);
+                log(`  ✅ ${feature} enabled`);
+            });
+            
+            log('All modern features enabled. Reloading...');
+            setTimeout(() => location.reload(), 1500);
+        }
+
+        // Reset all settings
+        function resetAll() {
+            log('Resetting all feature flags...');
+            window.FeatureFlags?.clearOverrides();
+            log('✅ All overrides cleared. Reloading...');
+            setTimeout(() => location.reload(), 1000);
+        }
+
+        // Run compatibility tests
+        async function runTests() {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '<h3>Running tests...</h3>';
+            
+            const tests = [
+                {
+                    name: 'Feature Flags System',
+                    test: () => !!window.FeatureFlags
+                },
+                {
+                    name: 'Modern Core (if enabled)',
+                    test: () => {
+                        if (!window.FeatureFlags?.isEnabled('modern_architecture')) {
+                            return 'skipped';
+                        }
+                        return !!window.ModernCore;
+                    }
+                },
+                {
+                    name: 'Compatibility Bridge (if enabled)',
+                    test: () => {
+                        if (!window.FeatureFlags?.isEnabled('modern_architecture')) {
+                            return 'skipped';
+                        }
+                        return !!window.CompatibilityBridge;
+                    }
+                },
+                {
+                    name: 'Module Loading',
+                    test: async () => {
+                        if (!window.ModernCore) return 'skipped';
+                        try {
+                            const testModule = await window.ModernCore.loadModule('test', '/modern/test.js');
+                            return true;
+                        } catch {
+                            return false;
+                        }
+                    }
+                },
+                {
+                    name: 'Storage Bridge',
+                    test: () => {
+                        if (!window.UnifiedStorage) return false;
+                        window.UnifiedStorage.set('test', 'value');
+                        return window.UnifiedStorage.get('test') === 'value';
+                    }
+                },
+                {
+                    name: 'API Enhancement',
+                    test: async () => {
+                        try {
+                            const response = await fetch('/api/health');
+                            return response.ok;
+                        } catch {
+                            return false;
+                        }
+                    }
+                }
+            ];
+            
+            let html = '<h3>Test Results:</h3>';
+            
+            for (const {name, test} of tests) {
+                log(`Running test: ${name}`);
+                try {
+                    const result = await test();
+                    const passed = result === true;
+                    const skipped = result === 'skipped';
+                    
+                    let statusClass = passed ? 'success' : (skipped ? 'warning' : 'error');
+                    let statusText = passed ? 'PASS' : (skipped ? 'SKIP' : 'FAIL');
+                    
+                    html += `<div class="test-item">
+                        <span>${name}</span>
+                        <span class="status ${statusClass}">${statusText}</span>
+                    </div>`;
+                    
+                    log(`  ${statusText}: ${name}`);
+                } catch (error) {
+                    html += `<div class="test-item">
+                        <span>${name}</span>
+                        <span class="status error">ERROR</span>
+                    </div>`;
+                    log(`  ERROR: ${name} - ${error.message}`);
+                }
+            }
+            
+            resultsDiv.innerHTML = html;
+            log('✅ All tests completed');
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            log('🚀 Modern Architecture Test Page Loaded');
+            log('Browser: ' + navigator.userAgent);
+            
+            // Wait a bit for modules to load
+            setTimeout(() => {
+                checkStatus();
+                
+                if (window.ModernCore) {
+                    log('Modern Core Status:');
+                    log(JSON.stringify(window.ModernCore.getStatus(), null, 2));
+                }
+                
+                if (window.CompatibilityBridge) {
+                    log('Bridge Status:');
+                    log(JSON.stringify(window.CompatibilityBridge.getStatus(), null, 2));
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

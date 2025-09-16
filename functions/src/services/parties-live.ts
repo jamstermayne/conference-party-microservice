@@ -1,7 +1,7 @@
 import * as admin from "firebase-admin";
 
 // Source URL for live party data (API key will be appended from secret)
-const SPREADSHEET_ID = "1Cq-UcdgtSz2FaROahsj7Db2nmStBFCN97EZzBEHCrKg";
+const SPREADSHEET_ID = "10c54Otn4pMYTFQ7bRQulO-qDB05aCk_l1rRtuPmwmtE"; // MAU 2025 Events
 const SHEET_RANGE = "Sheet1!A2:ZZ1000";
 
 // Build URL - API key is optional since we're using service account

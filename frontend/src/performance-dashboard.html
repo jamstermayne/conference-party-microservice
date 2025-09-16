@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Performance Dashboard - Conference Party</title>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      padding: var(--s-4);
+    }
+    
+    .dashboard {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--s-6);
+      padding: var(--s-4);
+      background: var(--color-surface);
+      border-radius: var(--r-3);
+    }
+    
+    .title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--color-accent), var(--color-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .score-badge {
+      display: flex;
+      align-items: center;
+      gap: var(--s-3);
+    }
+    
+    .score-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    
+    .score-value.excellent { color: var(--color-success); }
+    .score-value.good { color: #10b981; }
+    .score-value.needs-improvement { color: #f59e0b; }
+    .score-value.poor { color: var(--color-error); }
+    
+    .score-label {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+    }
+    
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--s-4);
+      margin-bottom: var(--s-6);
+    }
+    
+    .metric-card {
+      background: var(--color-surface);
+      border-radius: var(--r-2);
+      padding: var(--s-4);
+      border: 1px solid var(--color-border);
+      transition: all 0.3s;
+    }
+    
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .metric-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--s-3);
+    }
+    
+    .metric-title {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    
+    .metric-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .metric-badge.good {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+    }
+    
+    .metric-badge.needs-work {
+      background: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+    }
+    
+    .metric-badge.poor {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+    
+    .metric-value {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: var(--s-2);
+    }
+    
+    .metric-description {
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+      margin-bottom: var(--s-3);
+    }
+    
+    .metric-bar {
+      height: 8px;
+      background: var(--color-bg);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: var(--s-2);
+    }
+    
+    .metric-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-accent), var(--color-purple));
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    
+    .metric-threshold {
+      font-size: 0.75rem;
+      color: var(--color-text-dim);
+    }
+    
+    .charts-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-4);
+      margin-bottom: var(--s-6);
+    }
+    
+    @media (max-width: 768px) {
+      .charts-section {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .chart-card {
+      background: var(--color-surface);
+      border-radius: var(--r-2);
+      padding: var(--s-4);
+      border: 1px solid var(--color-border);
+    }
+    
+    .chart-title {
+      font-weight: 600;
+      margin-bottom: var(--s-4);
+    }
+    
+    .chart-container {
+      height: 300px;
+      position: relative;
+    }
+    
+    .resource-table {
+      background: var(--color-surface);
+      border-radius: var(--r-2);
+      padding: var(--s-4);
+      border: 1px solid var(--color-border);
+    }
+    
+    .table-title {
+      font-weight: 600;
+      margin-bottom: var(--s-4);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th {
+      text-align: left;
+      padding: var(--s-2) var(--s-3);
+      background: var(--color-bg);
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--color-text-dim);
+    }
+    
+    td {
+      padding: var(--s-2) var(--s-3);
+      border-top: 1px solid var(--color-border);
+    }
+    
+    tr:hover {
+      background: var(--color-bg);
+    }
+    
+    .size-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .size-small {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+    }
+    
+    .size-medium {
+      background: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+    }
+    
+    .size-large {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+    
+    .controls {
+      position: fixed;
+      bottom: var(--s-4);
+      right: var(--s-4);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--r-2);
+      padding: var(--s-3);
+      display: flex;
+      gap: var(--s-2);
+    }
+    
+    .control-btn {
+      padding: var(--s-2) var(--s-3);
+      background: var(--color-bg);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+      border-radius: var(--r-1);
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    
+    .control-btn:hover {
+      background: var(--color-accent);
+      color: white;
+      border-color: var(--color-accent);
+    }
+    
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+      color: var(--color-text-dim);
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--color-border);
+      border-top-color: var(--color-accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .timeline {
+      display: flex;
+      gap: var(--s-1);
+      height: 60px;
+      align-items: center;
+      padding: var(--s-3);
+      background: var(--color-bg);
+      border-radius: var(--r-2);
+      overflow-x: auto;
+    }
+    
+    .timeline-bar {
+      height: 40px;
+      min-width: 20px;
+      border-radius: 4px;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .timeline-bar.navigation { background: #3b82f6; }
+    .timeline-bar.resource { background: #10b981; }
+    .timeline-bar.paint { background: #f59e0b; }
+    .timeline-bar.script { background: #ef4444; }
+    
+    .timeline-tooltip {
+      position: absolute;
+      bottom: 45px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      padding: var(--s-2);
+      border-radius: var(--r-1);
+      font-size: 0.75rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    
+    .timeline-bar:hover .timeline-tooltip {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Header -->
+    <div class="header">
+      <h1 class="title">Performance Dashboard</h1>
+      <div class="score-badge">
+        <div class="score-value" id="performanceScore">--</div>
+        <div>
+          <div class="score-label">Performance Score</div>
+          <div class="score-label" id="scoreDescription">Calculating...</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Core Web Vitals -->
+    <div class="metrics-grid" id="coreWebVitals">
+      <div class="loading"><div class="spinner"></div></div>
+    </div>
+    
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <!-- Resource Breakdown Chart -->
+      <div class="chart-card">
+        <h3 class="chart-title">Resource Breakdown</h3>
+        <div class="chart-container" id="resourceChart">
+          <canvas id="resourceCanvas"></canvas>
+        </div>
+      </div>
+      
+      <!-- Performance Timeline -->
+      <div class="chart-card">
+        <h3 class="chart-title">Loading Timeline</h3>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </div>
+    
+    <!-- Resource Tables -->
+    <div class="resource-table">
+      <h3 class="table-title">Largest Resources</h3>
+      <table id="largestResources">
+        <thead>
+          <tr>
+            <th>Resource</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th>Load Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="4" class="loading">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Controls -->
+    <div class="controls">
+      <button class="control-btn" onclick="refreshMetrics()">Refresh</button>
+      <button class="control-btn" onclick="exportReport()">Export Report</button>
+      <button class="control-btn" onclick="clearData()">Clear Data</button>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="modern/performance/monitoring.js"></script>
+  <script src="modern/performance/optimization.js"></script>
+  
+  <script>
+    const monitor = window.PerformanceMonitor;
+    const optimizer = window.BundleOptimizer;
+    
+    // Update dashboard with current metrics
+    function updateDashboard() {
+      const summary = monitor.getPerformanceSummary();
+      const bundleAnalysis = optimizer.getBundleAnalysis();
+      
+      // Update performance score
+      updatePerformanceScore(summary.score);
+      
+      // Update Core Web Vitals
+      updateCoreWebVitals(summary.coreWebVitals);
+      
+      // Update resource chart
+      updateResourceChart(bundleAnalysis);
+      
+      // Update timeline
+      updateTimeline();
+      
+      // Update resource table
+      updateResourceTable(bundleAnalysis);
+    }
+    
+    function updatePerformanceScore(score) {
+      const scoreEl = document.getElementById('performanceScore');
+      const descEl = document.getElementById('scoreDescription');
+      
+      scoreEl.textContent = score;
+      
+      if (score >= 90) {
+        scoreEl.className = 'score-value excellent';
+        descEl.textContent = 'Excellent Performance';
+      } else if (score >= 70) {
+        scoreEl.className = 'score-value good';
+        descEl.textContent = 'Good Performance';
+      } else if (score >= 50) {
+        scoreEl.className = 'score-value needs-improvement';
+        descEl.textContent = 'Needs Improvement';
+      } else {
+        scoreEl.className = 'score-value poor';
+        descEl.textContent = 'Poor Performance';
+      }
+    }
+    
+    function updateCoreWebVitals(vitals) {
+      const container = document.getElementById('coreWebVitals');
+      
+      const metrics = [
+        {
+          name: 'Largest Contentful Paint',
+          key: 'lcp',
+          value: vitals.lcp || 0,
+          unit: 'ms',
+          threshold: 2500,
+          description: 'Measures loading performance'
+        },
+        {
+          name: 'First Input Delay',
+          key: 'fid',
+          value: vitals.fid || 0,
+          unit: 'ms',
+          threshold: 100,
+          description: 'Measures interactivity'
+        },
+        {
+          name: 'Cumulative Layout Shift',
+          key: 'cls',
+          value: vitals.cls || 0,
+          unit: '',
+          threshold: 0.1,
+          description: 'Measures visual stability'
+        },
+        {
+          name: 'First Contentful Paint',
+          key: 'fcp',
+          value: vitals.fcp || 0,
+          unit: 'ms',
+          threshold: 1800,
+          description: 'Time to first content'
+        }
+      ];
+      
+      container.innerHTML = metrics.map(metric => {
+        const status = getMetricStatus(metric.value, metric.threshold);
+        const percentage = Math.min(100, (metric.value / (metric.threshold * 2)) * 100);
+        
+        return `
+          <div class="metric-card">
+            <div class="metric-header">
+              <div class="metric-title">${metric.name}</div>
+              <div class="metric-badge ${status}">${status.replace('-', ' ')}</div>
+            </div>
+            <div class="metric-value">
+              ${metric.key === 'cls' ? metric.value.toFixed(3) : Math.round(metric.value)}${metric.unit}
+            </div>
+            <div class="metric-description">${metric.description}</div>
+            <div class="metric-bar">
+              <div class="metric-bar-fill" style="width: ${percentage}%"></div>
+            </div>
+            <div class="metric-threshold">Threshold: ${metric.threshold}${metric.unit}</div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function getMetricStatus(value, threshold) {
+      if (value <= threshold) return 'good';
+      if (value <= threshold * 1.5) return 'needs-work';
+      return 'poor';
+    }
+    
+    function updateResourceChart(analysis) {
+      const canvas = document.getElementById('resourceCanvas');
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext('2d');
+      const data = Object.entries(analysis.byType).map(([type, info]) => ({
+        label: type,
+        value: info.size
+      }));
+      
+      // Simple pie chart
+      const total = data.reduce((sum, item) => sum + item.value, 0);
+      let currentAngle = -Math.PI / 2;
+      
+      const colors = {
+        javascript: '#3b82f6',
+        stylesheet: '#10b981',
+        image: '#f59e0b',
+        font: '#8b5cf6',
+        json: '#ef4444',
+        other: '#6b7280'
+      };
+      
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const radius = Math.min(centerX, centerY) - 20;
+      
+      data.forEach(item => {
+        const sliceAngle = (item.value / total) * 2 * Math.PI;
+        
+        // Draw slice
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+        ctx.closePath();
+        ctx.fillStyle = colors[item.label] || colors.other;
+        ctx.fill();
+        
+        // Draw label
+        const labelAngle = currentAngle + sliceAngle / 2;
+        const labelX = centerX + Math.cos(labelAngle) * (radius * 0.7);
+        const labelY = centerY + Math.sin(labelAngle) * (radius * 0.7);
+        
+        ctx.fillStyle = '#fff';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(
+          `${item.label} (${((item.value / total) * 100).toFixed(1)}%)`,
+          labelX,
+          labelY
+        );
+        
+        currentAngle += sliceAngle;
+      });
+    }
+    
+    function updateTimeline() {
+      const timeline = document.getElementById('timeline');
+      const entries = performance.getEntriesByType('navigation').concat(
+        performance.getEntriesByType('resource')
+      ).sort((a, b) => a.startTime - b.startTime);
+      
+      const maxTime = Math.max(...entries.map(e => e.startTime + e.duration));
+      
+      timeline.innerHTML = entries.slice(0, 50).map(entry => {
+        const width = Math.max(20, (entry.duration / maxTime) * 500);
+        const left = (entry.startTime / maxTime) * 100;
+        const type = entry.entryType === 'navigation' ? 'navigation' :
+                    entry.name.includes('.js') ? 'script' :
+                    entry.name.includes('.css') ? 'resource' :
+                    'paint';
+        
+        return `
+          <div class="timeline-bar ${type}" style="width: ${width}px; margin-left: ${left}px">
+            <div class="timeline-tooltip">
+              ${entry.name.split('/').pop() || entry.entryType}<br>
+              ${entry.duration.toFixed(2)}ms
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function updateResourceTable(analysis) {
+      const tbody = document.querySelector('#largestResources tbody');
+      
+      tbody.innerHTML = analysis.largest.slice(0, 10).map(resource => {
+        const sizeKB = (resource.size / 1024).toFixed(2);
+        const sizeClass = sizeKB > 500 ? 'size-large' : 
+                         sizeKB > 100 ? 'size-medium' : 'size-small';
+        
+        return `
+          <tr>
+            <td>${resource.url}</td>
+            <td>${getResourceType(resource.url)}</td>
+            <td><span class="size-badge ${sizeClass}">${sizeKB} KB</span></td>
+            <td>${resource.duration.toFixed(2)} ms</td>
+          </tr>
+        `;
+      }).join('');
+    }
+    
+    function getResourceType(url) {
+      if (url.includes('.js')) return 'Script';
+      if (url.includes('.css')) return 'Stylesheet';
+      if (url.match(/\.(jpg|png|gif|webp)/)) return 'Image';
+      if (url.match(/\.(woff|woff2)/)) return 'Font';
+      return 'Other';
+    }
+    
+    function refreshMetrics() {
+      monitor.sendMetrics();
+      updateDashboard();
+    }
+    
+    function exportReport() {
+      const summary = monitor.getPerformanceSummary();
+      const bundleAnalysis = optimizer.getBundleAnalysis();
+      
+      const report = {
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+        performanceScore: summary.score,
+        coreWebVitals: summary.coreWebVitals,
+        timing: summary.timing,
+        resources: summary.resources,
+        memory: summary.memory,
+        bundleAnalysis: bundleAnalysis
+      };
+      
+      const blob = new Blob([JSON.stringify(report, null, 2)], {
+        type: 'application/json'
+      });
+      
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `performance-report-${Date.now()}.json`;
+      a.click();
+      
+      URL.revokeObjectURL(url);
+    }
+    
+    function clearData() {
+      localStorage.removeItem('performance_metrics');
+      localStorage.removeItem('performance_issues');
+      location.reload();
+    }
+    
+    // Auto-refresh every 5 seconds
+    setInterval(updateDashboard, 5000);
+    
+    // Initial load
+    setTimeout(updateDashboard, 1000);
+  </script>
+</body>
+</html>

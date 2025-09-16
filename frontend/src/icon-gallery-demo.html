@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Icon Gallery - MAU Platform</title>
+  <style>
+    :root {
+      --bg-dark: #0a0a0a;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #ffffff;
+      --text-dim: #888888;
+      --accent: #007AFF;
+      --accent-hover: #0051D5;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-dark);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    .gallery-header {
+      padding: 40px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .gallery-header h1 {
+      margin: 0 0 10px 0;
+      font-size: 36px;
+      font-weight: 600;
+    }
+    
+    .gallery-header p {
+      margin: 0;
+      opacity: 0.9;
+      font-size: 18px;
+    }
+    
+    .gallery-container {
+      padding: 40px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .gallery-section {
+      margin-bottom: 60px;
+    }
+    
+    .gallery-section h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--text);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 10px;
+    }
+    
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 20px;
+    }
+    
+    .icon-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    
+    .icon-item:hover {
+      background: #242424;
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 122, 255, 0.2);
+    }
+    
+    .icon-display {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .icon-display svg {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .icon-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-dim);
+      font-family: 'SF Mono', Monaco, monospace;
+    }
+    
+    .usage-section {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 30px;
+      margin-top: 40px;
+    }
+    
+    .usage-section h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+    
+    .code-block {
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 15px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+    
+    .code-comment {
+      color: #6a737d;
+    }
+    
+    .code-string {
+      color: #79b8ff;
+    }
+    
+    .code-keyword {
+      color: #f97583;
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="gallery-header">
+    <h1>Professional Icon Gallery</h1>
+    <p>Consistent SVG icons for the MAU Platform</p>
+  </div>
+  
+  <div class="gallery-container">
+    <!-- Discovery & Search -->
+    <div class="gallery-section">
+      <h2>Discovery & Search</h2>
+      <div class="icon-grid">
+        <div class="icon-item" data-icon="target">
+          <div class="icon-display" data-icon="target"></div>
+          <div class="icon-name">target</div>
+        </div>
+        <div class="icon-item" data-icon="search">
+          <div class="icon-display" data-icon="search"></div>
+          <div class="icon-name">search</div>
+        </div>
+        <div class="icon-item" data-icon="compass">
+          <div class="icon-display" data-icon="compass"></div>
+          <div class="icon-name">compass</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Networking & Connections -->
+    <div class="gallery-section">
+      <h2>Networking & Connections</h2>
+      <div class="icon-grid">
+        <div class="icon-item" data-icon="handshake">
+          <div class="icon-display" data-icon="handshake"></div>
+          <div class="icon-name">handshake</div>
+        </div>
+        <div class="icon-item" data-icon="users">
+          <div class="icon-display" data-icon="users"></div>
+          <div class="icon-name">users</div>
+        </div>
+        <div class="icon-item" data-icon="userPlus">
+          <div class="icon-display" data-icon="userPlus"></div>
+          <div class="icon-name">userPlus</div>
+        </div>
+        <div class="icon-item" data-icon="link">
+          <div class="icon-display" data-icon="link"></div>
+          <div class="icon-name">link</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile & Offline -->
+    <div class="gallery-section">
+      <h2>Mobile & Offline</h2>
+      <div class="icon-grid">
+        <div class="icon-item" data-icon="smartphone">
+          <div class="icon-display" data-icon="smartphone"></div>
+          <div class="icon-name">smartphone</div>
+        </div>
+        <div class="icon-item" data-icon="wifiOff">
+          <div class="icon-display" data-icon="wifiOff"></div>
+          <div class="icon-name">wifiOff</div>
+        </div>
+        <div class="icon-item" data-icon="download">
+          <div class="icon-display" data-icon="download"></div>
+          <div class="icon-name">download</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- AI & Analytics -->
+    <div class="gallery-section">
+      <h2>AI & Analytics</h2>
+      <div class="icon-grid">
+        <div class="icon-item" data-icon="brain">
+          <div class="icon-display" data-icon="brain"></div>
+          <div class="icon-name">brain</div>
+        </div>
+        <div class="icon-item" data-icon="chartBar">
+          <div class="icon-display" data-icon="chartBar"></div>
+          <div class="icon-name">chartBar</div>
+        </div>
+        <div class="icon-item" data-icon="trendingUp">
+          <div class="icon-display" data-icon="trendingUp"></div>
+          <div class="icon-name">trendingUp</div>
+        </div>
+        <div class="icon-item" data-icon="activity">
+          <div class="icon-display" data-icon="activity"></div>
+          <div class="icon-name">activity</div>
+        </div>
+        <div class="icon-item" data-icon="sparkles">
+          <div class="icon-display" data-icon="sparkles"></div>
+          <div class="icon-name">sparkles</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Events & Calendar -->
+    <div class="gallery-section">
+      <h2>Events & Calendar</h2>
+      <div class="icon-grid">
+        <div class="icon-item" data-icon="calendar">
+          <div class="icon-display" data-icon="calendar"></div>
+          <div class="icon-name">calendar</div>
+        </div>
+        <div class="icon-item" data-icon="clock">
+          <div class="icon-display" data-icon="clock"></div>
+          <div class="icon-name">clock</div>
+        </div>
+        <div class="icon-item" data-icon="mapPin">
+          <div class="icon-display" data-icon="mapPin"></div>
+          <div class="icon-name">mapPin</div>
+        </div>
+        <div class="icon-item" data-icon="ticket">
+          <div class="icon-display" data-icon="ticket"></div>
+          <div class="icon-name">ticket</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Communication -->
+    <div class="gallery-section">
+      <h2>Communication</h2>
+      <div class="icon-grid">
+        <div class="icon-item" data-icon="message">
+          <div class="icon-display" data-icon="message"></div>
+          <div class="icon-name">message</div>
+        </div>
+        <div class="icon-item" data-icon="mail">
+          <div class="icon-display" data-icon="mail"></div>
+          <div class="icon-name">mail</div>
+        </div>
+        <div class="icon-item" data-icon="phone">
+          <div class="icon-display" data-icon="phone"></div>
+          <div class="icon-name">phone</div>
+        </div>
+        <div class="icon-item" data-icon="video">
+          <div class="icon-display" data-icon="video"></div>
+          <div class="icon-name">video</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Actions -->
+    <div class="gallery-section">
+      <h2>Actions</h2>
+      <div class="icon-grid">
+        <div class="icon-item" data-icon="plus">
+          <div class="icon-display" data-icon="plus"></div>
+          <div class="icon-name">plus</div>
+        </div>
+        <div class="icon-item" data-icon="check">
+          <div class="icon-display" data-icon="check"></div>
+          <div class="icon-name">check</div>
+        </div>
+        <div class="icon-item" data-icon="x">
+          <div class="icon-display" data-icon="x"></div>
+          <div class="icon-name">x</div>
+        </div>
+        <div class="icon-item" data-icon="settings">
+          <div class="icon-display" data-icon="settings"></div>
+          <div class="icon-name">settings</div>
+        </div>
+        <div class="icon-item" data-icon="edit">
+          <div class="icon-display" data-icon="edit"></div>
+          <div class="icon-name">edit</div>
+        </div>
+        <div class="icon-item" data-icon="share">
+          <div class="icon-display" data-icon="share"></div>
+          <div class="icon-name">share</div>
+        </div>
+        <div class="icon-item" data-icon="save">
+          <div class="icon-display" data-icon="save"></div>
+          <div class="icon-name">save</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Navigation -->
+    <div class="gallery-section">
+      <h2>Navigation</h2>
+      <div class="icon-grid">
+        <div class="icon-item" data-icon="arrowRight">
+          <div class="icon-display" data-icon="arrowRight"></div>
+          <div class="icon-name">arrowRight</div>
+        </div>
+        <div class="icon-item" data-icon="arrowLeft">
+          <div class="icon-display" data-icon="arrowLeft"></div>
+          <div class="icon-name">arrowLeft</div>
+        </div>
+        <div class="icon-item" data-icon="chevronRight">
+          <div class="icon-display" data-icon="chevronRight"></div>
+          <div class="icon-name">chevronRight</div>
+        </div>
+        <div class="icon-item" data-icon="chevronDown">
+          <div class="icon-display" data-icon="chevronDown"></div>
+          <div class="icon-name">chevronDown</div>
+        </div>
+        <div class="icon-item" data-icon="menu">
+          <div class="icon-display" data-icon="menu"></div>
+          <div class="icon-name">menu</div>
+        </div>
+        <div class="icon-item" data-icon="grid">
+          <div class="icon-display" data-icon="grid"></div>
+          <div class="icon-name">grid</div>
+        </div>
+        <div class="icon-item" data-icon="home">
+          <div class="icon-display" data-icon="home"></div>
+          <div class="icon-name">home</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Status & Notifications -->
+    <div class="gallery-section">
+      <h2>Status & Notifications</h2>
+      <div class="icon-grid">
+        <div class="icon-item" data-icon="alertCircle">
+          <div class="icon-display" data-icon="alertCircle"></div>
+          <div class="icon-name">alertCircle</div>
+        </div>
+        <div class="icon-item" data-icon="info">
+          <div class="icon-display" data-icon="info"></div>
+          <div class="icon-name">info</div>
+        </div>
+        <div class="icon-item" data-icon="checkCircle">
+          <div class="icon-display" data-icon="checkCircle"></div>
+          <div class="icon-name">checkCircle</div>
+        </div>
+        <div class="icon-item" data-icon="star">
+          <div class="icon-display" data-icon="star"></div>
+          <div class="icon-name">star</div>
+        </div>
+        <div class="icon-item" data-icon="bell">
+          <div class="icon-display" data-icon="bell"></div>
+          <div class="icon-name">bell</div>
+        </div>
+        <div class="icon-item" data-icon="bellOff">
+          <div class="icon-display" data-icon="bellOff"></div>
+          <div class="icon-name">bellOff</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Security -->
+    <div class="gallery-section">
+      <h2>Security</h2>
+      <div class="icon-grid">
+        <div class="icon-item" data-icon="lock">
+          <div class="icon-display" data-icon="lock"></div>
+          <div class="icon-name">lock</div>
+        </div>
+        <div class="icon-item" data-icon="unlock">
+          <div class="icon-display" data-icon="unlock"></div>
+          <div class="icon-name">unlock</div>
+        </div>
+        <div class="icon-item" data-icon="shield">
+          <div class="icon-display" data-icon="shield"></div>
+          <div class="icon-name">shield</div>
+        </div>
+        <div class="icon-item" data-icon="key">
+          <div class="icon-display" data-icon="key"></div>
+          <div class="icon-name">key</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Miscellaneous -->
+    <div class="gallery-section">
+      <h2>Miscellaneous</h2>
+      <div class="icon-grid">
+        <div class="icon-item" data-icon="gift">
+          <div class="icon-display" data-icon="gift"></div>
+          <div class="icon-name">gift</div>
+        </div>
+        <div class="icon-item" data-icon="trophy">
+          <div class="icon-display" data-icon="trophy"></div>
+          <div class="icon-name">trophy</div>
+        </div>
+        <div class="icon-item" data-icon="flag">
+          <div class="icon-display" data-icon="flag"></div>
+          <div class="icon-name">flag</div>
+        </div>
+        <div class="icon-item" data-icon="zap">
+          <div class="icon-display" data-icon="zap"></div>
+          <div class="icon-name">zap</div>
+        </div>
+        <div class="icon-item" data-icon="refresh">
+          <div class="icon-display" data-icon="refresh"></div>
+          <div class="icon-name">refresh</div>
+        </div>
+        <div class="icon-item" data-icon="globe">
+          <div class="icon-display" data-icon="globe"></div>
+          <div class="icon-name">globe</div>
+        </div>
+        <div class="icon-item" data-icon="server">
+          <div class="icon-display" data-icon="server"></div>
+          <div class="icon-name">server</div>
+        </div>
+        <div class="icon-item" data-icon="cpu">
+          <div class="icon-display" data-icon="cpu"></div>
+          <div class="icon-name">cpu</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Usage Instructions -->
+    <div class="usage-section">
+      <h3>Usage Instructions</h3>
+      
+      <h4>HTML (with data attributes)</h4>
+      <div class="code-block">
+        <span class="code-comment">// Icon will be rendered automatically</span><br>
+        &lt;<span class="code-keyword">div</span> <span class="code-string">data-icon="target"</span> <span class="code-string">data-icon-size="48"</span>&gt;&lt;/<span class="code-keyword">div</span>&gt;
+      </div>
+      
+      <h4>JavaScript (programmatic)</h4>
+      <div class="code-block">
+        <span class="code-keyword">import</span> { getIcon } <span class="code-keyword">from</span> <span class="code-string">'./icon-gallery.js'</span>;<br><br>
+        <span class="code-comment">// Get icon as HTML string</span><br>
+        <span class="code-keyword">const</span> iconHtml = getIcon(<span class="code-string">'handshake'</span>, 24, <span class="code-string">'custom-class'</span>);<br>
+        element.innerHTML = iconHtml;
+      </div>
+      
+      <h4>Replacing Emoji Icons</h4>
+      <div class="code-block">
+        <span class="code-comment">// Add class 'icon-emoji' to elements with emoji</span><br>
+        &lt;<span class="code-keyword">span</span> <span class="code-string">class="icon-emoji"</span>&gt;🎯&lt;/<span class="code-keyword">span</span>&gt;<br>
+        <span class="code-comment">// Will be replaced with professional SVG icon</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="toast" id="toast">Icon name copied to clipboard!</div>
+  
+  <!-- Load icon gallery and initializer -->
+  <script type="module" src="/assets/js/icon-gallery.js"></script>
+  <script type="module" src="/assets/js/icon-initializer.js"></script>
+  
+  <script>
+    // Copy icon name to clipboard on click
+    document.addEventListener('click', (e) => {
+      const iconItem = e.target.closest('.icon-item');
+      if (iconItem) {
+        const iconName = iconItem.dataset.icon;
+        navigator.clipboard.writeText(iconName).then(() => {
+          const toast = document.getElementById('toast');
+          toast.textContent = `"${iconName}" copied to clipboard!`;
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2000);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

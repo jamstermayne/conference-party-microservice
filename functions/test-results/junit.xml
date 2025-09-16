@@ -1,107 +1,1437 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="133" failures="2" errors="0" time="10.319">
-  <testsuite name="🤝 Professional Networking Integration Tests" errors="0" failures="0" skipped="0" timestamp="2025-08-17T15:50:08" time="1.242" tests="11">
-    <testcase classname="🤝 Professional Networking Integration Tests 👤 Professional Onboarding Flow should complete 4-step professional onboarding" name="🤝 Professional Networking Integration Tests 👤 Professional Onboarding Flow should complete 4-step professional onboarding" time="0.011">
+<testsuites name="jest tests" tests="133" failures="3" errors="0" time="4.818">
+  <testsuite name="GPT-5 Foundation API" errors="0" failures="3" skipped="0" timestamp="2025-09-12T01:27:41" time="2.953" tests="14">
+    <testcase classname="GPT-5 Foundation API Health Endpoint should return basic health status" name="GPT-5 Foundation API Health Endpoint should return basic health status" time="0.049">
+    </testcase>
+    <testcase classname="GPT-5 Foundation API Health Endpoint should include CORS headers" name="GPT-5 Foundation API Health Endpoint should include CORS headers" time="0.012">
+    </testcase>
+    <testcase classname="GPT-5 Foundation API Health Endpoint should respond quickly" name="GPT-5 Foundation API Health Endpoint should respond quickly" time="0.013">
+    </testcase>
+    <testcase classname="GPT-5 Foundation API Parties Endpoint should return parties data" name="GPT-5 Foundation API Parties Endpoint should return parties data" time="0.048">
+      <failure>Error: expect(received).toEqual(expected) // deep equality
+
+- Expected  -    3
++ Received  + 1257
+
+- ObjectContaining {
+-   &quot;data&quot;: Any&lt;Array&gt;,
+-   &quot;success&quot;: true,
++ Object {
++   &quot;data&quot;: Array [
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 11, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;opening&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Geoff Keighley hosts the official kickoff with world premieres&quot;,
++       &quot;end&quot;: &quot;2025-08-19T22:30:00&quot;,
++       &quot;id&quot;: &quot;gamescom-opening-night-live&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free with Gamescom ticket&quot;,
++       &quot;start&quot;: &quot;2025-08-19T20:00:00&quot;,
++       &quot;time&quot;: &quot;20:00&quot;,
++       &quot;title&quot;: &quot;Gamescom Opening Night Live 2025&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 11&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Congress Centre East, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;conference&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-17&quot;,
++       &quot;description&quot;: &quot;Europe&apos;s leading game developer conference&quot;,
++       &quot;end&quot;: &quot;2025-08-17T18:00:00&quot;,
++       &quot;id&quot;: &quot;devcom-day-1&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;€449&quot;,
++       &quot;start&quot;: &quot;2025-08-17T09:00:00&quot;,
++       &quot;time&quot;: &quot;09:00&quot;,
++       &quot;title&quot;: &quot;Devcom 2025 - Day 1&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Congress Centre East&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Congress Centre East, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;conference&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-18&quot;,
++       &quot;description&quot;: &quot;Workshops and masterclasses&quot;,
++       &quot;end&quot;: &quot;2025-08-18T18:00:00&quot;,
++       &quot;id&quot;: &quot;devcom-day-2&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;€449&quot;,
++       &quot;start&quot;: &quot;2025-08-18T09:00:00&quot;,
++       &quot;time&quot;: &quot;09:00&quot;,
++       &quot;title&quot;: &quot;Devcom 2025 - Day 2&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Congress Centre East&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Gloria Theater, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;party&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9383,
++         &quot;lng&quot;: 6.958,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Exclusive Xbox celebration with hands-on gameplay&quot;,
++       &quot;end&quot;: &quot;2025-08-21T01:00:00&quot;,
++       &quot;id&quot;: &quot;xbox-fanfest-2025&quot;,
++       &quot;lat&quot;: 50.9383,
++       &quot;lng&quot;: 6.958,
++       &quot;price&quot;: &quot;Invite only&quot;,
++       &quot;start&quot;: &quot;2025-08-20T19:00:00&quot;,
++       &quot;time&quot;: &quot;19:00&quot;,
++       &quot;title&quot;: &quot;Xbox FanFest 2025&quot;,
++       &quot;venue&quot;: &quot;Gloria Theater&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Hyatt Regency Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;vip&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9413,
++         &quot;lng&quot;: 6.9736,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Premium PlayStation showcase with PSVR2 demos&quot;,
++       &quot;end&quot;: &quot;2025-08-20T23:00:00&quot;,
++       &quot;id&quot;: &quot;playstation-experience&quot;,
++       &quot;lat&quot;: 50.9413,
++       &quot;lng&quot;: 6.9736,
++       &quot;price&quot;: &quot;VIP invite only&quot;,
++       &quot;start&quot;: &quot;2025-08-20T18:00:00&quot;,
++       &quot;time&quot;: &quot;18:00&quot;,
++       &quot;title&quot;: &quot;PlayStation Experience Lounge&quot;,
++       &quot;venue&quot;: &quot;Hyatt Regency Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Stadtgarten, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;party&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9229,
++         &quot;lng&quot;: 6.9302,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Celebrate indie gaming with developers&quot;,
++       &quot;end&quot;: &quot;2025-08-22T02:00:00&quot;,
++       &quot;id&quot;: &quot;indie-arena-booth-party&quot;,
++       &quot;lat&quot;: 50.9229,
++       &quot;lng&quot;: 6.9302,
++       &quot;price&quot;: &quot;€15&quot;,
++       &quot;start&quot;: &quot;2025-08-21T20:00:00&quot;,
++       &quot;time&quot;: &quot;20:00&quot;,
++       &quot;title&quot;: &quot;Indie Arena Booth Afterparty&quot;,
++       &quot;venue&quot;: &quot;Stadtgarten&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Cinedom Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;viewing&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9497,
++         &quot;lng&quot;: 6.9442,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Watch Nintendo Direct on the big screen&quot;,
++       &quot;end&quot;: &quot;2025-08-19T18:00:00&quot;,
++       &quot;id&quot;: &quot;nintendo-direct-viewing&quot;,
++       &quot;lat&quot;: 50.9497,
++       &quot;lng&quot;: 6.9442,
++       &quot;price&quot;: &quot;€12&quot;,
++       &quot;start&quot;: &quot;2025-08-19T16:00:00&quot;,
++       &quot;time&quot;: &quot;16:00&quot;,
++       &quot;title&quot;: &quot;Nintendo Direct @ Gamescom&quot;,
++       &quot;venue&quot;: &quot;Cinedom Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Musical Dome Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;presentation&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9513,
++         &quot;lng&quot;: 6.9778,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Live presentation of upcoming Ubisoft titles&quot;,
++       &quot;end&quot;: &quot;2025-08-20T23:00:00&quot;,
++       &quot;id&quot;: &quot;ubisoft-forward-live&quot;,
++       &quot;lat&quot;: 50.9513,
++       &quot;lng&quot;: 6.9778,
++       &quot;price&quot;: &quot;Free (registration required)&quot;,
++       &quot;start&quot;: &quot;2025-08-20T21:00:00&quot;,
++       &quot;time&quot;: &quot;21:00&quot;,
++       &quot;title&quot;: &quot;Ubisoft Forward Live&quot;,
++       &quot;venue&quot;: &quot;Musical Dome Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 8, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Play EA Sports FC 25 and more&quot;,
++       &quot;end&quot;: &quot;2025-08-21T20:00:00&quot;,
++       &quot;id&quot;: &quot;ea-play-day-1&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free with Gamescom ticket&quot;,
++       &quot;start&quot;: &quot;2025-08-21T10:00:00&quot;,
++       &quot;time&quot;: &quot;10:00&quot;,
++       &quot;title&quot;: &quot;EA Play 2025 - Day 1&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 8&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 8, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;EA Games showcase continues&quot;,
++       &quot;end&quot;: &quot;2025-08-22T20:00:00&quot;,
++       &quot;id&quot;: &quot;ea-play-day-2&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free with Gamescom ticket&quot;,
++       &quot;start&quot;: &quot;2025-08-22T10:00:00&quot;,
++       &quot;time&quot;: &quot;10:00&quot;,
++       &quot;title&quot;: &quot;EA Play 2025 - Day 2&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 8&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Bootshaus, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;party&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.962,
++         &quot;lng&quot;: 6.996,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;The legendary Twitch party&quot;,
++       &quot;end&quot;: &quot;2025-08-23T04:00:00&quot;,
++       &quot;id&quot;: &quot;twitch-party-2025&quot;,
++       &quot;lat&quot;: 50.962,
++       &quot;lng&quot;: 6.996,
++       &quot;price&quot;: &quot;Invite only&quot;,
++       &quot;start&quot;: &quot;2025-08-22T22:00:00&quot;,
++       &quot;time&quot;: &quot;22:00&quot;,
++       &quot;title&quot;: &quot;Twitch Party Gamescom 2025&quot;,
++       &quot;venue&quot;: &quot;Bootshaus&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Die Wohngemeinschaft, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;networking&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9356,
++         &quot;lng&quot;: 6.9397,
++       },
++       &quot;date&quot;: &quot;2025-08-18&quot;,
++       &quot;description&quot;: &quot;Network with Unreal Engine developers&quot;,
++       &quot;end&quot;: &quot;2025-08-18T23:00:00&quot;,
++       &quot;id&quot;: &quot;epic-games-mixer&quot;,
++       &quot;lat&quot;: 50.9356,
++       &quot;lng&quot;: 6.9397,
++       &quot;price&quot;: &quot;Developer pass required&quot;,
++       &quot;start&quot;: &quot;2025-08-18T19:00:00&quot;,
++       &quot;time&quot;: &quot;19:00&quot;,
++       &quot;title&quot;: &quot;Epic Games Developer Mixer&quot;,
++       &quot;venue&quot;: &quot;Die Wohngemeinschaft&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Arcade Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;party&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9385,
++         &quot;lng&quot;: 6.9594,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Classic arcade games and retro consoles&quot;,
++       &quot;end&quot;: &quot;2025-08-20T00:00:00&quot;,
++       &quot;id&quot;: &quot;retro-gaming-night&quot;,
++       &quot;lat&quot;: 50.9385,
++       &quot;lng&quot;: 6.9594,
++       &quot;price&quot;: &quot;€20&quot;,
++       &quot;start&quot;: &quot;2025-08-19T18:00:00&quot;,
++       &quot;time&quot;: &quot;18:00&quot;,
++       &quot;title&quot;: &quot;Retro Gaming Night&quot;,
++       &quot;venue&quot;: &quot;Arcade Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Excelsior Hotel Ernst, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;networking&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9383,
++         &quot;lng&quot;: 6.9511,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Connect with women professionals&quot;,
++       &quot;end&quot;: &quot;2025-08-20T13:00:00&quot;,
++       &quot;id&quot;: &quot;women-in-games-brunch&quot;,
++       &quot;lat&quot;: 50.9383,
++       &quot;lng&quot;: 6.9511,
++       &quot;price&quot;: &quot;€45&quot;,
++       &quot;start&quot;: &quot;2025-08-20T10:00:00&quot;,
++       &quot;time&quot;: &quot;10:00&quot;,
++       &quot;title&quot;: &quot;Women in Games Networking Brunch&quot;,
++       &quot;venue&quot;: &quot;Excelsior Hotel Ernst&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Saturn Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9406,
++         &quot;lng&quot;: 6.9572,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Try the latest Steam Deck games&quot;,
++       &quot;end&quot;: &quot;2025-08-21T18:00:00&quot;,
++       &quot;id&quot;: &quot;steam-deck-showcase&quot;,
++       &quot;lat&quot;: 50.9406,
++       &quot;lng&quot;: 6.9572,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-21T14:00:00&quot;,
++       &quot;time&quot;: &quot;14:00&quot;,
++       &quot;title&quot;: &quot;Steam Deck Verified Showcase&quot;,
++       &quot;venue&quot;: &quot;Saturn Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Marriott Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9474,
++         &quot;lng&quot;: 6.9766,
++       },
++       &quot;date&quot;: &quot;2025-08-18&quot;,
++       &quot;description&quot;: &quot;Exclusive Bethesda gameplay sessions&quot;,
++       &quot;end&quot;: &quot;2025-08-18T20:00:00&quot;,
++       &quot;id&quot;: &quot;bethesda-game-days&quot;,
++       &quot;lat&quot;: 50.9474,
++       &quot;lng&quot;: 6.9766,
++       &quot;price&quot;: &quot;Registration required&quot;,
++       &quot;start&quot;: &quot;2025-08-18T11:00:00&quot;,
++       &quot;time&quot;: &quot;11:00&quot;,
++       &quot;title&quot;: &quot;Bethesda Game Days&quot;,
++       &quot;venue&quot;: &quot;Marriott Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 10.2, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tournament&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;Watch speedrunners break records live&quot;,
++       &quot;end&quot;: &quot;2025-08-22T22:00:00&quot;,
++       &quot;id&quot;: &quot;speedrun-marathon&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free with Gamescom ticket&quot;,
++       &quot;start&quot;: &quot;2025-08-22T12:00:00&quot;,
++       &quot;time&quot;: &quot;12:00&quot;,
++       &quot;title&quot;: &quot;Gamescom Speedrun Marathon&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 10.2&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Tanzbrunnen, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;festival&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9478,
++         &quot;lng&quot;: 6.9716,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Final Fantasy and Kingdom Hearts celebration&quot;,
++       &quot;end&quot;: &quot;2025-08-21T23:00:00&quot;,
++       &quot;id&quot;: &quot;square-enix-fan-fest&quot;,
++       &quot;lat&quot;: 50.9478,
++       &quot;lng&quot;: 6.9716,
++       &quot;price&quot;: &quot;€35&quot;,
++       &quot;start&quot;: &quot;2025-08-21T16:00:00&quot;,
++       &quot;time&quot;: &quot;16:00&quot;,
++       &quot;title&quot;: &quot;Square Enix Fan Festival&quot;,
++       &quot;venue&quot;: &quot;Tanzbrunnen&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Lanxess Arena, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;esports&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9385,
++         &quot;lng&quot;: 6.983,
++       },
++       &quot;date&quot;: &quot;2025-08-23&quot;,
++       &quot;description&quot;: &quot;Pro teams exhibition match&quot;,
++       &quot;end&quot;: &quot;2025-08-23T17:00:00&quot;,
++       &quot;id&quot;: &quot;riot-games-lol-finals&quot;,
++       &quot;lat&quot;: 50.9385,
++       &quot;lng&quot;: 6.983,
++       &quot;price&quot;: &quot;€30-€60&quot;,
++       &quot;start&quot;: &quot;2025-08-23T13:00:00&quot;,
++       &quot;time&quot;: &quot;13:00&quot;,
++       &quot;title&quot;: &quot;League of Legends Exhibition Match&quot;,
++       &quot;venue&quot;: &quot;Lanxess Arena&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Lanxess Arena, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;esports&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9385,
++         &quot;lng&quot;: 6.983,
++       },
++       &quot;date&quot;: &quot;2025-08-23&quot;,
++       &quot;description&quot;: &quot;Valorant pro showmatch&quot;,
++       &quot;end&quot;: &quot;2025-08-23T21:00:00&quot;,
++       &quot;id&quot;: &quot;riot-valorant-showmatch&quot;,
++       &quot;lat&quot;: 50.9385,
++       &quot;lng&quot;: 6.983,
++       &quot;price&quot;: &quot;€30-€60&quot;,
++       &quot;start&quot;: &quot;2025-08-23T18:00:00&quot;,
++       &quot;time&quot;: &quot;18:00&quot;,
++       &quot;title&quot;: &quot;Valorant Champions Showmatch&quot;,
++       &quot;venue&quot;: &quot;Lanxess Arena&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 7, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;reveal&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;World premiere of new Call of Duty&quot;,
++       &quot;end&quot;: &quot;2025-08-22T17:00:00&quot;,
++       &quot;id&quot;: &quot;activision-cod-reveal&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free with badge&quot;,
++       &quot;start&quot;: &quot;2025-08-22T15:00:00&quot;,
++       &quot;time&quot;: &quot;15:00&quot;,
++       &quot;title&quot;: &quot;Call of Duty 2025 Reveal&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 7&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 7, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;party&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;Celebrate Overwatch and Diablo&quot;,
++       &quot;end&quot;: &quot;2025-08-22T22:00:00&quot;,
++       &quot;id&quot;: &quot;blizzard-booth-party&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free with badge&quot;,
++       &quot;start&quot;: &quot;2025-08-22T18:00:00&quot;,
++       &quot;time&quot;: &quot;18:00&quot;,
++       &quot;title&quot;: &quot;Blizzard Entertainment Booth Party&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 7&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Club Bahnhof Ehrenfeld, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;party&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9516,
++         &quot;lng&quot;: 6.9183,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Cyberpunk themed exclusive party&quot;,
++       &quot;end&quot;: &quot;2025-08-21T03:00:00&quot;,
++       &quot;id&quot;: &quot;cdpr-cyberpunk-party&quot;,
++       &quot;lat&quot;: 50.9516,
++       &quot;lng&quot;: 6.9183,
++       &quot;price&quot;: &quot;Invite only&quot;,
++       &quot;start&quot;: &quot;2025-08-20T21:00:00&quot;,
++       &quot;time&quot;: &quot;21:00&quot;,
++       &quot;title&quot;: &quot;CD Projekt Red Night City Party&quot;,
++       &quot;venue&quot;: &quot;Club Bahnhof Ehrenfeld&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Microsoft Germany Office, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;meetup&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9419,
++         &quot;lng&quot;: 6.9732,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Exclusive preview of Game Pass titles&quot;,
++       &quot;end&quot;: &quot;2025-08-19T18:00:00&quot;,
++       &quot;id&quot;: &quot;gamepass-insider-meetup&quot;,
++       &quot;lat&quot;: 50.9419,
++       &quot;lng&quot;: 6.9732,
++       &quot;price&quot;: &quot;Game Pass Ultimate required&quot;,
++       &quot;start&quot;: &quot;2025-08-19T15:00:00&quot;,
++       &quot;time&quot;: &quot;15:00&quot;,
++       &quot;title&quot;: &quot;Xbox Game Pass Insider Meetup&quot;,
++       &quot;venue&quot;: &quot;Microsoft Germany Office&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Japanisches Kulturinstitut, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9318,
++         &quot;lng&quot;: 6.9395,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Dragon Ball and Naruto gaming showcase&quot;,
++       &quot;end&quot;: &quot;2025-08-21T23:00:00&quot;,
++       &quot;id&quot;: &quot;bandai-namco-anime&quot;,
++       &quot;lat&quot;: 50.9318,
++       &quot;lng&quot;: 6.9395,
++       &quot;price&quot;: &quot;€25&quot;,
++       &quot;start&quot;: &quot;2025-08-21T19:00:00&quot;,
++       &quot;time&quot;: &quot;19:00&quot;,
++       &quot;title&quot;: &quot;Bandai Namco Anime Game Night&quot;,
++       &quot;venue&quot;: &quot;Japanisches Kulturinstitut&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Odysseum, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;party&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9406,
++         &quot;lng&quot;: 6.9297,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Celebrate Sonic with classic and new games&quot;,
++       &quot;end&quot;: &quot;2025-08-20T22:00:00&quot;,
++       &quot;id&quot;: &quot;sega-sonic-celebration&quot;,
++       &quot;lat&quot;: 50.9406,
++       &quot;lng&quot;: 6.9297,
++       &quot;price&quot;: &quot;€18&quot;,
++       &quot;start&quot;: &quot;2025-08-20T16:00:00&quot;,
++       &quot;time&quot;: &quot;16:00&quot;,
++       &quot;title&quot;: &quot;SEGA Sonic Anniversary Party&quot;,
++       &quot;venue&quot;: &quot;Odysseum&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Design Post, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;conference&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9711,
++         &quot;lng&quot;: 6.944,
++       },
++       &quot;date&quot;: &quot;2025-08-18&quot;,
++       &quot;description&quot;: &quot;Unity engine workshops and demos&quot;,
++       &quot;end&quot;: &quot;2025-08-18T18:00:00&quot;,
++       &quot;id&quot;: &quot;unity-unite-day1&quot;,
++       &quot;lat&quot;: 50.9711,
++       &quot;lng&quot;: 6.944,
++       &quot;price&quot;: &quot;Free (registration required)&quot;,
++       &quot;start&quot;: &quot;2025-08-18T10:00:00&quot;,
++       &quot;time&quot;: &quot;10:00&quot;,
++       &quot;title&quot;: &quot;Unity Unite Day 1&quot;,
++       &quot;venue&quot;: &quot;Design Post&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Design Post, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;conference&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9711,
++         &quot;lng&quot;: 6.944,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Advanced Unity workshops&quot;,
++       &quot;end&quot;: &quot;2025-08-19T18:00:00&quot;,
++       &quot;id&quot;: &quot;unity-unite-day2&quot;,
++       &quot;lat&quot;: 50.9711,
++       &quot;lng&quot;: 6.944,
++       &quot;price&quot;: &quot;Free (registration required)&quot;,
++       &quot;start&quot;: &quot;2025-08-19T10:00:00&quot;,
++       &quot;time&quot;: &quot;10:00&quot;,
++       &quot;title&quot;: &quot;Unity Unite Day 2&quot;,
++       &quot;venue&quot;: &quot;Design Post&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Fight Club Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tournament&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9357,
++         &quot;lng&quot;: 6.9282,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;Official SF6 tournament&quot;,
++       &quot;end&quot;: &quot;2025-08-22T23:00:00&quot;,
++       &quot;id&quot;: &quot;capcom-sf6-tournament&quot;,
++       &quot;lat&quot;: 50.9357,
++       &quot;lng&quot;: 6.9282,
++       &quot;price&quot;: &quot;€20&quot;,
++       &quot;start&quot;: &quot;2025-08-22T17:00:00&quot;,
++       &quot;time&quot;: &quot;17:00&quot;,
++       &quot;title&quot;: &quot;Street Fighter 6 Tournament&quot;,
++       &quot;venue&quot;: &quot;Fight Club Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Cologne Game Lab, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9244,
++         &quot;lng&quot;: 6.9267,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Try the latest VR experiences&quot;,
++       &quot;end&quot;: &quot;2025-08-19T19:00:00&quot;,
++       &quot;id&quot;: &quot;meta-quest-vr-demos&quot;,
++       &quot;lat&quot;: 50.9244,
++       &quot;lng&quot;: 6.9267,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-19T13:00:00&quot;,
++       &quot;time&quot;: &quot;13:00&quot;,
++       &quot;title&quot;: &quot;Meta Quest 3 VR Showcase&quot;,
++       &quot;venue&quot;: &quot;Cologne Game Lab&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Google Zukunftswerkstatt, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9489,
++         &quot;lng&quot;: 6.9439,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Mobile and cloud gaming innovations&quot;,
++       &quot;end&quot;: &quot;2025-08-20T18:00:00&quot;,
++       &quot;id&quot;: &quot;google-play-games&quot;,
++       &quot;lat&quot;: 50.9489,
++       &quot;lng&quot;: 6.9439,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-20T14:00:00&quot;,
++       &quot;time&quot;: &quot;14:00&quot;,
++       &quot;title&quot;: &quot;Google Play Games Showcase&quot;,
++       &quot;venue&quot;: &quot;Google Zukunftswerkstatt&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Philharmonie Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;concert&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9321,
++         &quot;lng&quot;: 6.9472,
++       },
++       &quot;date&quot;: &quot;2025-08-23&quot;,
++       &quot;description&quot;: &quot;Orchestra performs game soundtracks&quot;,
++       &quot;end&quot;: &quot;2025-08-23T22:30:00&quot;,
++       &quot;id&quot;: &quot;game-music-concert&quot;,
++       &quot;lat&quot;: 50.9321,
++       &quot;lng&quot;: 6.9472,
++       &quot;price&quot;: &quot;€45-€85&quot;,
++       &quot;start&quot;: &quot;2025-08-23T20:00:00&quot;,
++       &quot;time&quot;: &quot;20:00&quot;,
++       &quot;title&quot;: &quot;Video Game Music Concert&quot;,
++       &quot;venue&quot;: &quot;Philharmonie Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;MMC Studios, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;presentation&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9693,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Live broadcast featuring 50+ games&quot;,
++       &quot;end&quot;: &quot;2025-08-21T21:30:00&quot;,
++       &quot;id&quot;: &quot;future-games-show&quot;,
++       &quot;lat&quot;: 50.9693,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free stream&quot;,
++       &quot;start&quot;: &quot;2025-08-21T20:00:00&quot;,
++       &quot;time&quot;: &quot;20:00&quot;,
++       &quot;title&quot;: &quot;Future Games Show Live&quot;,
++       &quot;venue&quot;: &quot;MMC Studios&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Carlswerk, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9819,
++         &quot;lng&quot;: 6.9114,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Koch Media&apos;s premium gaming showcase&quot;,
++       &quot;end&quot;: &quot;2025-08-19T21:00:00&quot;,
++       &quot;id&quot;: &quot;koch-media-showcase&quot;,
++       &quot;lat&quot;: 50.9819,
++       &quot;lng&quot;: 6.9114,
++       &quot;price&quot;: &quot;Press/Trade only&quot;,
++       &quot;start&quot;: &quot;2025-08-19T17:00:00&quot;,
++       &quot;time&quot;: &quot;17:00&quot;,
++       &quot;title&quot;: &quot;Prime Matter Showcase&quot;,
++       &quot;venue&quot;: &quot;Carlswerk&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Flora Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;party&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9597,
++         &quot;lng&quot;: 6.9718,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;THQ Nordic and Deep Silver celebration&quot;,
++       &quot;end&quot;: &quot;2025-08-21T01:00:00&quot;,
++       &quot;id&quot;: &quot;embracer-party&quot;,
++       &quot;lat&quot;: 50.9597,
++       &quot;lng&quot;: 6.9718,
++       &quot;price&quot;: &quot;Industry invite&quot;,
++       &quot;start&quot;: &quot;2025-08-20T20:00:00&quot;,
++       &quot;time&quot;: &quot;20:00&quot;,
++       &quot;title&quot;: &quot;Embracer Group Publisher Party&quot;,
++       &quot;venue&quot;: &quot;Flora Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Museum Ludwig, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;networking&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9408,
++         &quot;lng&quot;: 6.9579,
++       },
++       &quot;date&quot;: &quot;2025-08-18&quot;,
++       &quot;description&quot;: &quot;Official German games industry networking&quot;,
++       &quot;end&quot;: &quot;2025-08-18T22:00:00&quot;,
++       &quot;id&quot;: &quot;game-germany-reception&quot;,
++       &quot;lat&quot;: 50.9408,
++       &quot;lng&quot;: 6.9579,
++       &quot;price&quot;: &quot;Industry members&quot;,
++       &quot;start&quot;: &quot;2025-08-18T19:00:00&quot;,
++       &quot;time&quot;: &quot;19:00&quot;,
++       &quot;title&quot;: &quot;game - German Industry Reception&quot;,
++       &quot;venue&quot;: &quot;Museum Ludwig&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 5.2, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;contest&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;Cosplay competition preliminaries&quot;,
++       &quot;end&quot;: &quot;2025-08-22T14:00:00&quot;,
++       &quot;id&quot;: &quot;cosplay-contest-prelims&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free with ticket&quot;,
++       &quot;start&quot;: &quot;2025-08-22T11:00:00&quot;,
++       &quot;time&quot;: &quot;11:00&quot;,
++       &quot;title&quot;: &quot;Cosplay Contest Preliminaries&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 5.2&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 5.2, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;contest&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-23&quot;,
++       &quot;description&quot;: &quot;Grand finale of cosplay competition&quot;,
++       &quot;end&quot;: &quot;2025-08-23T18:00:00&quot;,
++       &quot;id&quot;: &quot;cosplay-contest-finals&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free with ticket&quot;,
++       &quot;start&quot;: &quot;2025-08-23T15:00:00&quot;,
++       &quot;time&quot;: &quot;15:00&quot;,
++       &quot;title&quot;: &quot;Cosplay Contest Grand Finals&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 5.2&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Hiveworld, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;gaming&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9354,
++         &quot;lng&quot;: 6.9313,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Board games and tabletop RPGs&quot;,
++       &quot;end&quot;: &quot;2025-08-22T00:00:00&quot;,
++       &quot;id&quot;: &quot;board-game-night&quot;,
++       &quot;lat&quot;: 50.9354,
++       &quot;lng&quot;: 6.9313,
++       &quot;price&quot;: &quot;€15&quot;,
++       &quot;start&quot;: &quot;2025-08-21T18:00:00&quot;,
++       &quot;time&quot;: &quot;18:00&quot;,
++       &quot;title&quot;: &quot;Analog Gaming Night&quot;,
++       &quot;venue&quot;: &quot;Hiveworld&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;25hours Hotel The Circle, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;networking&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9514,
++         &quot;lng&quot;: 6.9074,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;Network with YouTubers and streamers&quot;,
++       &quot;end&quot;: &quot;2025-08-22T20:00:00&quot;,
++       &quot;id&quot;: &quot;influencer-meetup&quot;,
++       &quot;lat&quot;: 50.9514,
++       &quot;lng&quot;: 6.9074,
++       &quot;price&quot;: &quot;Creator pass required&quot;,
++       &quot;start&quot;: &quot;2025-08-22T16:00:00&quot;,
++       &quot;time&quot;: &quot;16:00&quot;,
++       &quot;title&quot;: &quot;Content Creator Meetup&quot;,
++       &quot;venue&quot;: &quot;25hours Hotel The Circle&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;TH Köln, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;conference&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9244,
++         &quot;lng&quot;: 6.9267,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Advancing accessibility in games&quot;,
++       &quot;end&quot;: &quot;2025-08-19T15:00:00&quot;,
++       &quot;id&quot;: &quot;accessibility-summit&quot;,
++       &quot;lat&quot;: 50.9244,
++       &quot;lng&quot;: 6.9267,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-19T11:00:00&quot;,
++       &quot;time&quot;: &quot;11:00&quot;,
++       &quot;title&quot;: &quot;Gaming Accessibility Summit&quot;,
++       &quot;venue&quot;: &quot;TH Köln&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 11, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;ceremony&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-23&quot;,
++       &quot;description&quot;: &quot;Official closing with awards&quot;,
++       &quot;end&quot;: &quot;2025-08-23T20:30:00&quot;,
++       &quot;id&quot;: &quot;gamescom-closing&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free with ticket&quot;,
++       &quot;start&quot;: &quot;2025-08-23T19:00:00&quot;,
++       &quot;time&quot;: &quot;19:00&quot;,
++       &quot;title&quot;: &quot;Gamescom 2025 Closing Ceremony&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 11&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 6, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;NBA 2K25 and WWE 2K25 demos&quot;,
++       &quot;end&quot;: &quot;2025-08-21T19:00:00&quot;,
++       &quot;id&quot;: &quot;2k-games-showcase&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free with ticket&quot;,
++       &quot;start&quot;: &quot;2025-08-21T11:00:00&quot;,
++       &quot;time&quot;: &quot;11:00&quot;,
++       &quot;title&quot;: &quot;2K Games Showcase&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 6&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 9, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Metal Gear and Silent Hill presentations&quot;,
++       &quot;end&quot;: &quot;2025-08-20T18:00:00&quot;,
++       &quot;id&quot;: &quot;konami-showcase&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Free with ticket&quot;,
++       &quot;start&quot;: &quot;2025-08-20T12:00:00&quot;,
++       &quot;time&quot;: &quot;12:00&quot;,
++       &quot;title&quot;: &quot;Konami Gaming Showcase&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 9&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Deutz Bridge Venue, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9364,
++         &quot;lng&quot;: 6.9658,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Focus Entertainment game reveals&quot;,
++       &quot;end&quot;: &quot;2025-08-19T18:00:00&quot;,
++       &quot;id&quot;: &quot;focus-entertainment&quot;,
++       &quot;lat&quot;: 50.9364,
++       &quot;lng&quot;: 6.9658,
++       &quot;price&quot;: &quot;Press invite&quot;,
++       &quot;start&quot;: &quot;2025-08-19T14:00:00&quot;,
++       &quot;time&quot;: &quot;14:00&quot;,
++       &quot;title&quot;: &quot;Focus Entertainment Showcase&quot;,
++       &quot;venue&quot;: &quot;Deutz Bridge Venue&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Alte Feuerwache, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;showcase&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9516,
++         &quot;lng&quot;: 6.924,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Strategy gaming showcase and networking&quot;,
++       &quot;end&quot;: &quot;2025-08-20T23:00:00&quot;,
++       &quot;id&quot;: &quot;paradox-interactive&quot;,
++       &quot;lat&quot;: 50.9516,
++       &quot;lng&quot;: 6.924,
++       &quot;price&quot;: &quot;€30&quot;,
++       &quot;start&quot;: &quot;2025-08-20T19:00:00&quot;,
++       &quot;time&quot;: &quot;19:00&quot;,
++       &quot;title&quot;: &quot;Paradox Interactive Strategy Night&quot;,
++       &quot;venue&quot;: &quot;Alte Feuerwache&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;ESL Studio Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tournament&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 7.0088,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;Official Tekken 8 tournament&quot;,
++       &quot;end&quot;: &quot;2025-08-22T20:00:00&quot;,
++       &quot;id&quot;: &quot;tekken-8-tournament&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 7.0088,
++       &quot;price&quot;: &quot;€25&quot;,
++       &quot;start&quot;: &quot;2025-08-22T14:00:00&quot;,
++       &quot;time&quot;: &quot;14:00&quot;,
++       &quot;title&quot;: &quot;Tekken 8 World Tournament&quot;,
++       &quot;venue&quot;: &quot;ESL Studio Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Kölner Jugendpark, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;community&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9573,
++         &quot;lng&quot;: 6.9725,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Discord community meetups and activities&quot;,
++       &quot;end&quot;: &quot;2025-08-21T18:00:00&quot;,
++       &quot;id&quot;: &quot;discord-community-day&quot;,
++       &quot;lat&quot;: 50.9573,
++       &quot;lng&quot;: 6.9725,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-21T12:00:00&quot;,
++       &quot;time&quot;: &quot;12:00&quot;,
++       &quot;title&quot;: &quot;Discord Community Day&quot;,
++       &quot;venue&quot;: &quot;Kölner Jugendpark&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Saturn Hansaring, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9485,
++         &quot;lng&quot;: 6.9543,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Latest RTX graphics demos&quot;,
++       &quot;end&quot;: &quot;2025-08-20T19:00:00&quot;,
++       &quot;id&quot;: &quot;nvidia-rtx-showcase&quot;,
++       &quot;lat&quot;: 50.9485,
++       &quot;lng&quot;: 6.9543,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-20T15:00:00&quot;,
++       &quot;time&quot;: &quot;15:00&quot;,
++       &quot;title&quot;: &quot;NVIDIA RTX Gaming Showcase&quot;,
++       &quot;venue&quot;: &quot;Saturn Hansaring&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;MediaPark, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9485,
++         &quot;lng&quot;: 6.944,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;AMD Radeon gaming showcase&quot;,
++       &quot;end&quot;: &quot;2025-08-21T19:00:00&quot;,
++       &quot;id&quot;: &quot;amd-gaming-lounge&quot;,
++       &quot;lat&quot;: 50.9485,
++       &quot;lng&quot;: 6.944,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-21T13:00:00&quot;,
++       &quot;time&quot;: &quot;13:00&quot;,
++       &quot;title&quot;: &quot;AMD Gaming Lounge&quot;,
++       &quot;venue&quot;: &quot;MediaPark&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;ESL Arena, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;esports&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 7.0088,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Preview of IEM tournaments&quot;,
++       &quot;end&quot;: &quot;2025-08-19T20:00:00&quot;,
++       &quot;id&quot;: &quot;intel-gaming-arena&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 7.0088,
++       &quot;price&quot;: &quot;€15&quot;,
++       &quot;start&quot;: &quot;2025-08-19T16:00:00&quot;,
++       &quot;time&quot;: &quot;16:00&quot;,
++       &quot;title&quot;: &quot;Intel Extreme Masters Preview&quot;,
++       &quot;venue&quot;: &quot;ESL Arena&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Razer Store Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9367,
++         &quot;lng&quot;: 6.9495,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Razer gaming peripherals showcase&quot;,
++       &quot;end&quot;: &quot;2025-08-20T20:00:00&quot;,
++       &quot;id&quot;: &quot;razer-gaming-lounge&quot;,
++       &quot;lat&quot;: 50.9367,
++       &quot;lng&quot;: 6.9495,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-20T11:00:00&quot;,
++       &quot;time&quot;: &quot;11:00&quot;,
++       &quot;title&quot;: &quot;Razer Gaming Lounge&quot;,
++       &quot;venue&quot;: &quot;Razer Store Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;MediaMarkt Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9406,
++         &quot;lng&quot;: 6.9572,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Pro gaming setup demonstrations&quot;,
++       &quot;end&quot;: &quot;2025-08-21T18:00:00&quot;,
++       &quot;id&quot;: &quot;logitech-g-setup&quot;,
++       &quot;lat&quot;: 50.9406,
++       &quot;lng&quot;: 6.9572,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-21T12:00:00&quot;,
++       &quot;time&quot;: &quot;12:00&quot;,
++       &quot;title&quot;: &quot;Logitech G Gaming Setup Showcase&quot;,
++       &quot;venue&quot;: &quot;MediaMarkt Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Alternate Store, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9322,
++         &quot;lng&quot;: 6.9185,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;High-end gaming PC demonstrations&quot;,
++       &quot;end&quot;: &quot;2025-08-19T19:00:00&quot;,
++       &quot;id&quot;: &quot;corsair-pc-showcase&quot;,
++       &quot;lat&quot;: 50.9322,
++       &quot;lng&quot;: 6.9185,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-19T14:00:00&quot;,
++       &quot;time&quot;: &quot;14:00&quot;,
++       &quot;title&quot;: &quot;Corsair PC Gaming Showcase&quot;,
++       &quot;venue&quot;: &quot;Alternate Store&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Cyberport Store, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9598,
++         &quot;lng&quot;: 6.9718,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;ROG gaming laptops and peripherals&quot;,
++       &quot;end&quot;: &quot;2025-08-22T19:00:00&quot;,
++       &quot;id&quot;: &quot;asus-rog-experience&quot;,
++       &quot;lat&quot;: 50.9598,
++       &quot;lng&quot;: 6.9718,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-22T13:00:00&quot;,
++       &quot;time&quot;: &quot;13:00&quot;,
++       &quot;title&quot;: &quot;ASUS ROG Gaming Experience&quot;,
++       &quot;venue&quot;: &quot;Cyberport Store&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Mindfactory Showroom, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9411,
++         &quot;lng&quot;: 6.9253,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;MSI gaming hardware showcase&quot;,
++       &quot;end&quot;: &quot;2025-08-20T18:00:00&quot;,
++       &quot;id&quot;: &quot;msi-gaming-zone&quot;,
++       &quot;lat&quot;: 50.9411,
++       &quot;lng&quot;: 6.9253,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-20T12:00:00&quot;,
++       &quot;time&quot;: &quot;12:00&quot;,
++       &quot;title&quot;: &quot;MSI Gaming Zone&quot;,
++       &quot;venue&quot;: &quot;Mindfactory Showroom&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Dell Experience Store, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9356,
++         &quot;lng&quot;: 6.9602,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Alienware gaming systems showcase&quot;,
++       &quot;end&quot;: &quot;2025-08-21T20:00:00&quot;,
++       &quot;id&quot;: &quot;alienware-arena&quot;,
++       &quot;lat&quot;: 50.9356,
++       &quot;lng&quot;: 6.9602,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-21T14:00:00&quot;,
++       &quot;time&quot;: &quot;14:00&quot;,
++       &quot;title&quot;: &quot;Alienware Gaming Arena&quot;,
++       &quot;venue&quot;: &quot;Dell Experience Store&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Gaming House Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9478,
++         &quot;lng&quot;: 6.9185,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;HyperX gaming peripherals test zone&quot;,
++       &quot;end&quot;: &quot;2025-08-19T21:00:00&quot;,
++       &quot;id&quot;: &quot;hyperx-gaming-lounge&quot;,
++       &quot;lat&quot;: 50.9478,
++       &quot;lng&quot;: 6.9185,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-19T15:00:00&quot;,
++       &quot;time&quot;: &quot;15:00&quot;,
++       &quot;title&quot;: &quot;HyperX Gaming Lounge&quot;,
++       &quot;venue&quot;: &quot;Gaming House Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Sound Store Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9389,
++         &quot;lng&quot;: 6.9478,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;Premium gaming audio demonstrations&quot;,
++       &quot;end&quot;: &quot;2025-08-22T19:00:00&quot;,
++       &quot;id&quot;: &quot;astro-gaming-showcase&quot;,
++       &quot;lat&quot;: 50.9389,
++       &quot;lng&quot;: 6.9478,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-22T14:00:00&quot;,
++       &quot;time&quot;: &quot;14:00&quot;,
++       &quot;title&quot;: &quot;ASTRO Gaming Audio Experience&quot;,
++       &quot;venue&quot;: &quot;Sound Store Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Expert Klein, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9445,
++         &quot;lng&quot;: 6.9358,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Gaming headset demonstrations&quot;,
++       &quot;end&quot;: &quot;2025-08-20T18:00:00&quot;,
++       &quot;id&quot;: &quot;turtle-beach-audio&quot;,
++       &quot;lat&quot;: 50.9445,
++       &quot;lng&quot;: 6.9358,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-20T13:00:00&quot;,
++       &quot;time&quot;: &quot;13:00&quot;,
++       &quot;title&quot;: &quot;Turtle Beach Audio Showcase&quot;,
++       &quot;venue&quot;: &quot;Expert Klein&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Furniture Store Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9512,
++         &quot;lng&quot;: 6.9642,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Premium gaming chair showcase&quot;,
++       &quot;end&quot;: &quot;2025-08-21T17:00:00&quot;,
++       &quot;id&quot;: &quot;secretlab-gaming-chairs&quot;,
++       &quot;lat&quot;: 50.9512,
++       &quot;lng&quot;: 6.9642,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-21T11:00:00&quot;,
++       &quot;time&quot;: &quot;11:00&quot;,
++       &quot;title&quot;: &quot;Secretlab Gaming Chair Showcase&quot;,
++       &quot;venue&quot;: &quot;Furniture Store Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Design Store Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;tech&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9367,
++         &quot;lng&quot;: 6.9284,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Gaming furniture and ergonomics&quot;,
++       &quot;end&quot;: &quot;2025-08-19T18:00:00&quot;,
++       &quot;id&quot;: &quot;noblechairs-showcase&quot;,
++       &quot;lat&quot;: 50.9367,
++       &quot;lng&quot;: 6.9284,
++       &quot;price&quot;: &quot;Free&quot;,
++       &quot;start&quot;: &quot;2025-08-19T12:00:00&quot;,
++       &quot;time&quot;: &quot;12:00&quot;,
++       &quot;title&quot;: &quot;noblechairs Gaming Furniture&quot;,
++       &quot;venue&quot;: &quot;Design Store Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Creator Space Cologne, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;workshop&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9423,
++         &quot;lng&quot;: 6.9576,
++       },
++       &quot;date&quot;: &quot;2025-08-22&quot;,
++       &quot;description&quot;: &quot;Professional streaming setup workshop&quot;,
++       &quot;end&quot;: &quot;2025-08-22T18:00:00&quot;,
++       &quot;id&quot;: &quot;elgato-streaming&quot;,
++       &quot;lat&quot;: 50.9423,
++       &quot;lng&quot;: 6.9576,
++       &quot;price&quot;: &quot;€20&quot;,
++       &quot;start&quot;: &quot;2025-08-22T15:00:00&quot;,
++       &quot;time&quot;: &quot;15:00&quot;,
++       &quot;title&quot;: &quot;Elgato Streaming Workshop&quot;,
++       &quot;venue&quot;: &quot;Creator Space Cologne&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Press Center, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;press&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-19&quot;,
++       &quot;description&quot;: &quot;Official press conferences&quot;,
++       &quot;end&quot;: &quot;2025-08-19T12:00:00&quot;,
++       &quot;id&quot;: &quot;press-conference-day1&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Press only&quot;,
++       &quot;start&quot;: &quot;2025-08-19T09:00:00&quot;,
++       &quot;time&quot;: &quot;09:00&quot;,
++       &quot;title&quot;: &quot;Press Conference Day 1&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Press Center&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Press Center, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;press&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-20&quot;,
++       &quot;description&quot;: &quot;Publisher press conferences&quot;,
++       &quot;end&quot;: &quot;2025-08-20T12:00:00&quot;,
++       &quot;id&quot;: &quot;press-conference-day2&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Press only&quot;,
++       &quot;start&quot;: &quot;2025-08-20T09:00:00&quot;,
++       &quot;time&quot;: &quot;09:00&quot;,
++       &quot;title&quot;: &quot;Press Conference Day 2&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Press Center&quot;,
++     },
++     Object {
++       &quot;address&quot;: &quot;Koelnmesse Hall 11, Cologne, Germany&quot;,
++       &quot;category&quot;: &quot;awards&quot;,
++       &quot;coordinates&quot;: Object {
++         &quot;lat&quot;: 50.9473,
++         &quot;lng&quot;: 6.9838,
++       },
++       &quot;date&quot;: &quot;2025-08-21&quot;,
++       &quot;description&quot;: &quot;Official Gamescom Awards ceremony&quot;,
++       &quot;end&quot;: &quot;2025-08-21T19:30:00&quot;,
++       &quot;id&quot;: &quot;gamescom-awards&quot;,
++       &quot;lat&quot;: 50.9473,
++       &quot;lng&quot;: 6.9838,
++       &quot;price&quot;: &quot;Invite only&quot;,
++       &quot;start&quot;: &quot;2025-08-21T18:00:00&quot;,
++       &quot;time&quot;: &quot;18:00&quot;,
++       &quot;title&quot;: &quot;Gamescom Awards 2025&quot;,
++       &quot;venue&quot;: &quot;Koelnmesse Hall 11&quot;,
++     },
++   ],
+  }
+    at Object.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/tests/api-foundation.test.ts:68:29)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="GPT-5 Foundation API Parties Endpoint should include CORS headers" name="GPT-5 Foundation API Parties Endpoint should include CORS headers" time="0.012">
+    </testcase>
+    <testcase classname="GPT-5 Foundation API Sync Endpoint should handle GET requests" name="GPT-5 Foundation API Sync Endpoint should handle GET requests" time="0.016">
+      <failure>Error: expect(received).toEqual(expected) // deep equality
+
+- Expected  - 2
++ Received  + 4
+
+- ObjectContaining {
++ Object {
++   &quot;count&quot;: 0,
++   &quot;message&quot;: &quot;Database check skipped&quot;,
+    &quot;mode&quot;: &quot;get&quot;,
+    &quot;ok&quot;: true,
+-   &quot;status&quot;: &quot;queued&quot;,
++   &quot;status&quot;: &quot;operational&quot;,
+  }
+    at Object.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/tests/api-foundation.test.ts:95:29)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="GPT-5 Foundation API Sync Endpoint should handle POST requests" name="GPT-5 Foundation API Sync Endpoint should handle POST requests" time="0.008">
+      <failure>Error: expect(received).toEqual(expected) // deep equality
+
+- Expected  - 2
++ Received  + 4
+
+- ObjectContaining {
++ Object {
++   &quot;message&quot;: &quot;Manual sync triggered successfully&quot;,
+    &quot;mode&quot;: &quot;post&quot;,
+    &quot;ok&quot;: true,
+-   &quot;status&quot;: &quot;queued&quot;,
++   &quot;status&quot;: &quot;completed&quot;,
++   &quot;success&quot;: true,
+  }
+    at Object.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/tests/api-foundation.test.ts:109:29)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="GPT-5 Foundation API Error Handling should handle 404 for unknown endpoints" name="GPT-5 Foundation API Error Handling should handle 404 for unknown endpoints" time="0.009">
+    </testcase>
+    <testcase classname="GPT-5 Foundation API Error Handling should handle internal errors gracefully" name="GPT-5 Foundation API Error Handling should handle internal errors gracefully" time="0.01">
+    </testcase>
+    <testcase classname="GPT-5 Foundation API CORS Handling should handle OPTIONS preflight requests" name="GPT-5 Foundation API CORS Handling should handle OPTIONS preflight requests" time="0.002">
+    </testcase>
+    <testcase classname="GPT-5 Foundation API CORS Handling should set CORS headers for all requests" name="GPT-5 Foundation API CORS Handling should set CORS headers for all requests" time="0.007">
+    </testcase>
+    <testcase classname="GPT-5 Foundation API CORS Handling should handle requests from allowed origins" name="GPT-5 Foundation API CORS Handling should handle requests from allowed origins" time="0.008">
+    </testcase>
+    <testcase classname="GPT-5 Foundation API Performance should respond quickly" name="GPT-5 Foundation API Performance should respond quickly" time="0.007">
+    </testcase>
+    <testcase classname="GPT-5 Foundation API Performance should include response time in health check" name="GPT-5 Foundation API Performance should include response time in health check" time="0.014">
+    </testcase>
+  </testsuite>
+  <testsuite name="⚡ Performance Optimization Systems" errors="0" failures="0" skipped="0" timestamp="2025-09-12T01:27:44" time="0.779" tests="10">
+    <testcase classname="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should perform cache operations within performance thresholds" name="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should perform cache operations within performance thresholds" time="0.006">
+    </testcase>
+    <testcase classname="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should handle memory pressure efficiently" name="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should handle memory pressure efficiently" time="0.017">
+    </testcase>
+    <testcase classname="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should batch operations efficiently" name="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should batch operations efficiently" time="0.005">
+    </testcase>
+    <testcase classname="⚡ Performance Optimization Systems 📦 Module Loading Performance should load modules within performance thresholds" name="⚡ Performance Optimization Systems 📦 Module Loading Performance should load modules within performance thresholds" time="0.054">
+    </testcase>
+    <testcase classname="⚡ Performance Optimization Systems 📦 Module Loading Performance should handle failed imports gracefully" name="⚡ Performance Optimization Systems 📦 Module Loading Performance should handle failed imports gracefully" time="0.033">
+    </testcase>
+    <testcase classname="⚡ Performance Optimization Systems 🔄 System Integration Performance should handle concurrent operations efficiently" name="⚡ Performance Optimization Systems 🔄 System Integration Performance should handle concurrent operations efficiently" time="0.027">
+    </testcase>
+    <testcase classname="⚡ Performance Optimization Systems 🔄 System Integration Performance should optimize memory usage under load" name="⚡ Performance Optimization Systems 🔄 System Integration Performance should optimize memory usage under load" time="0.037">
+    </testcase>
+    <testcase classname="⚡ Performance Optimization Systems 📊 Performance Benchmarking should meet enterprise performance standards" name="⚡ Performance Optimization Systems 📊 Performance Benchmarking should meet enterprise performance standards" time="0.005">
+    </testcase>
+    <testcase classname="⚡ Performance Optimization Systems 📊 Performance Benchmarking should handle load testing scenarios" name="⚡ Performance Optimization Systems 📊 Performance Benchmarking should handle load testing scenarios" time="0.519">
+    </testcase>
+    <testcase classname="⚡ Performance Optimization Systems 🔍 Real-time Monitoring Simulation should track performance metrics in real-time" name="⚡ Performance Optimization Systems 🔍 Real-time Monitoring Simulation should track performance metrics in real-time" time="0.041">
+    </testcase>
+  </testsuite>
+  <testsuite name="🤝 Professional Networking Integration Tests" errors="0" failures="0" skipped="0" timestamp="2025-09-12T01:27:45" time="0.268" tests="11">
+    <testcase classname="🤝 Professional Networking Integration Tests 👤 Professional Onboarding Flow should complete 4-step professional onboarding" name="🤝 Professional Networking Integration Tests 👤 Professional Onboarding Flow should complete 4-step professional onboarding" time="0.003">
     </testcase>
     <testcase classname="🤝 Professional Networking Integration Tests 👤 Professional Onboarding Flow should validate persona-specific opportunities" name="🤝 Professional Networking Integration Tests 👤 Professional Onboarding Flow should validate persona-specific opportunities" time="0.002">
     </testcase>
-    <testcase classname="🤝 Professional Networking Integration Tests 👤 Professional Onboarding Flow should handle onboarding errors gracefully" name="🤝 Professional Networking Integration Tests 👤 Professional Onboarding Flow should handle onboarding errors gracefully" time="0.201">
+    <testcase classname="🤝 Professional Networking Integration Tests 👤 Professional Onboarding Flow should handle onboarding errors gracefully" name="🤝 Professional Networking Integration Tests 👤 Professional Onboarding Flow should handle onboarding errors gracefully" time="0">
     </testcase>
-    <testcase classname="🤝 Professional Networking Integration Tests 💼 Professional Opportunities System should match opportunities based on user persona" name="🤝 Professional Networking Integration Tests 💼 Professional Opportunities System should match opportunities based on user persona" time="0.002">
+    <testcase classname="🤝 Professional Networking Integration Tests 💼 Professional Opportunities System should match opportunities based on user persona" name="🤝 Professional Networking Integration Tests 💼 Professional Opportunities System should match opportunities based on user persona" time="0.001">
     </testcase>
-    <testcase classname="🤝 Professional Networking Integration Tests 💼 Professional Opportunities System should handle opportunity consent and privacy" name="🤝 Professional Networking Integration Tests 💼 Professional Opportunities System should handle opportunity consent and privacy" time="0.002">
+    <testcase classname="🤝 Professional Networking Integration Tests 💼 Professional Opportunities System should handle opportunity consent and privacy" name="🤝 Professional Networking Integration Tests 💼 Professional Opportunities System should handle opportunity consent and privacy" time="0.001">
     </testcase>
     <testcase classname="🤝 Professional Networking Integration Tests 📍 Proximity &amp; Location Intelligence should handle venue-based proximity detection" name="🤝 Professional Networking Integration Tests 📍 Proximity &amp; Location Intelligence should handle venue-based proximity detection" time="0.001">
     </testcase>
-    <testcase classname="🤝 Professional Networking Integration Tests 📍 Proximity &amp; Location Intelligence should respect privacy preferences in proximity detection" name="🤝 Professional Networking Integration Tests 📍 Proximity &amp; Location Intelligence should respect privacy preferences in proximity detection" time="0.001">
+    <testcase classname="🤝 Professional Networking Integration Tests 📍 Proximity &amp; Location Intelligence should respect privacy preferences in proximity detection" name="🤝 Professional Networking Integration Tests 📍 Proximity &amp; Location Intelligence should respect privacy preferences in proximity detection" time="0.002">
     </testcase>
     <testcase classname="🤝 Professional Networking Integration Tests 🔗 Cross-Conference Persistence should maintain user network across conferences" name="🤝 Professional Networking Integration Tests 🔗 Cross-Conference Persistence should maintain user network across conferences" time="0.002">
     </testcase>
-    <testcase classname="🤝 Professional Networking Integration Tests 🔗 Cross-Conference Persistence should handle network migration and data portability" name="🤝 Professional Networking Integration Tests 🔗 Cross-Conference Persistence should handle network migration and data portability" time="0.001">
+    <testcase classname="🤝 Professional Networking Integration Tests 🔗 Cross-Conference Persistence should handle network migration and data portability" name="🤝 Professional Networking Integration Tests 🔗 Cross-Conference Persistence should handle network migration and data portability" time="0.004">
     </testcase>
     <testcase classname="🤝 Professional Networking Integration Tests 📱 Mobile-First Networking UX should handle bottom navigation and gesture interactions" name="🤝 Professional Networking Integration Tests 📱 Mobile-First Networking UX should handle bottom navigation and gesture interactions" time="0.002">
     </testcase>
     <testcase classname="🤝 Professional Networking Integration Tests 📱 Mobile-First Networking UX should optimize for offline networking scenarios" name="🤝 Professional Networking Integration Tests 📱 Mobile-First Networking UX should optimize for offline networking scenarios" time="0.153">
     </testcase>
   </testsuite>
-  <testsuite name="⚡ Performance Optimization Systems" errors="0" failures="0" skipped="0" timestamp="2025-08-17T15:50:09" time="1.029" tests="10">
-    <testcase classname="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should perform cache operations within performance thresholds" name="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should perform cache operations within performance thresholds" time="0.011">
-    </testcase>
-    <testcase classname="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should handle memory pressure efficiently" name="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should handle memory pressure efficiently" time="0.009">
-    </testcase>
-    <testcase classname="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should batch operations efficiently" name="⚡ Performance Optimization Systems 🚀 Cache Manager Performance should batch operations efficiently" time="0.005">
-    </testcase>
-    <testcase classname="⚡ Performance Optimization Systems 📦 Module Loading Performance should load modules within performance thresholds" name="⚡ Performance Optimization Systems 📦 Module Loading Performance should load modules within performance thresholds" time="0.058">
-    </testcase>
-    <testcase classname="⚡ Performance Optimization Systems 📦 Module Loading Performance should handle failed imports gracefully" name="⚡ Performance Optimization Systems 📦 Module Loading Performance should handle failed imports gracefully" time="0.011">
-    </testcase>
-    <testcase classname="⚡ Performance Optimization Systems 🔄 System Integration Performance should handle concurrent operations efficiently" name="⚡ Performance Optimization Systems 🔄 System Integration Performance should handle concurrent operations efficiently" time="0.025">
-    </testcase>
-    <testcase classname="⚡ Performance Optimization Systems 🔄 System Integration Performance should optimize memory usage under load" name="⚡ Performance Optimization Systems 🔄 System Integration Performance should optimize memory usage under load" time="0.016">
-    </testcase>
-    <testcase classname="⚡ Performance Optimization Systems 📊 Performance Benchmarking should meet enterprise performance standards" name="⚡ Performance Optimization Systems 📊 Performance Benchmarking should meet enterprise performance standards" time="0.001">
-    </testcase>
-    <testcase classname="⚡ Performance Optimization Systems 📊 Performance Benchmarking should handle load testing scenarios" name="⚡ Performance Optimization Systems 📊 Performance Benchmarking should handle load testing scenarios" time="0.532">
-    </testcase>
-    <testcase classname="⚡ Performance Optimization Systems 🔍 Real-time Monitoring Simulation should track performance metrics in real-time" name="⚡ Performance Optimization Systems 🔍 Real-time Monitoring Simulation should track performance metrics in real-time" time="0.039">
-    </testcase>
-  </testsuite>
-  <testsuite name="🔌 API Endpoints - Complete Test Suite" errors="0" failures="0" skipped="0" timestamp="2025-08-17T15:50:10" time="0.217" tests="37">
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🩺 Health &amp; Status Endpoints GET /api/health should return comprehensive health status" name="🔌 API Endpoints - Complete Test Suite 🩺 Health &amp; Status Endpoints GET /api/health should return comprehensive health status" time="0.002">
+  <testsuite name="🔌 API Endpoints - Complete Test Suite" errors="0" failures="0" skipped="0" timestamp="2025-09-12T01:27:45" time="0.064" tests="37">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🩺 Health &amp; Status Endpoints GET /api/health should return comprehensive health status" name="🔌 API Endpoints - Complete Test Suite 🩺 Health &amp; Status Endpoints GET /api/health should return comprehensive health status" time="0.001">
     </testcase>
     <testcase classname="🔌 API Endpoints - Complete Test Suite 🩺 Health &amp; Status Endpoints should handle health check with performance metrics" name="🔌 API Endpoints - Complete Test Suite 🩺 Health &amp; Status Endpoints should handle health check with performance metrics" time="0.001">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🩺 Health &amp; Status Endpoints should include CORS headers in health response" name="🔌 API Endpoints - Complete Test Suite 🩺 Health &amp; Status Endpoints should include CORS headers in health response" time="0.002">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🩺 Health &amp; Status Endpoints should include CORS headers in health response" name="🔌 API Endpoints - Complete Test Suite 🩺 Health &amp; Status Endpoints should include CORS headers in health response" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties should return paginated events" name="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties should return paginated events" time="0.002">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties should return paginated events" name="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties should return paginated events" time="0.001">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties with pagination parameters" name="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties with pagination parameters" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties with pagination parameters" name="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties with pagination parameters" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties should handle UGC events inclusion" name="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties should handle UGC events inclusion" time="0.002">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties should handle UGC events inclusion" name="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints GET /api/parties should handle UGC events inclusion" time="0.001">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints should handle empty parties response gracefully" name="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints should handle empty parties response gracefully" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints should handle empty parties response gracefully" name="🔌 API Endpoints - Complete Test Suite 🎉 Parties &amp; Events Endpoints should handle empty parties response gracefully" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints POST /api/swipe should record user interactions" name="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints POST /api/swipe should record user interactions" time="0">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints POST /api/swipe should record user interactions" name="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints POST /api/swipe should record user interactions" time="0.001">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints POST /api/swipe should validate required fields" name="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints POST /api/swipe should validate required fields" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints POST /api/swipe should validate required fields" name="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints POST /api/swipe should validate required fields" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints should handle different swipe actions appropriately" name="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints should handle different swipe actions appropriately" time="0">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints should handle different swipe actions appropriately" name="🔌 API Endpoints - Complete Test Suite 👍 Swipe &amp; Interaction Endpoints should handle different swipe actions appropriately" time="0.001">
     </testcase>
     <testcase classname="🔌 API Endpoints - Complete Test Suite 🔗 Sync &amp; Management Endpoints POST /api/sync should sync Google Sheets data" name="🔌 API Endpoints - Complete Test Suite 🔗 Sync &amp; Management Endpoints POST /api/sync should sync Google Sheets data" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🔗 Sync &amp; Management Endpoints POST /api/sync should handle empty sheets gracefully" name="🔌 API Endpoints - Complete Test Suite 🔗 Sync &amp; Management Endpoints POST /api/sync should handle empty sheets gracefully" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🔗 Sync &amp; Management Endpoints POST /api/sync should handle empty sheets gracefully" name="🔌 API Endpoints - Complete Test Suite 🔗 Sync &amp; Management Endpoints POST /api/sync should handle empty sheets gracefully" time="0">
     </testcase>
     <testcase classname="🔌 API Endpoints - Complete Test Suite 🔗 Sync &amp; Management Endpoints POST /api/admin/clear should clear all parties" name="🔌 API Endpoints - Complete Test Suite 🔗 Sync &amp; Management Endpoints POST /api/admin/clear should clear all parties" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints POST /api/ugc/events/create should create user event" name="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints POST /api/ugc/events/create should create user event" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints POST /api/ugc/events/create should create user event" name="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints POST /api/ugc/events/create should create user event" time="0.005">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints GET /api/ugc/events should return user-generated events" name="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints GET /api/ugc/events should return user-generated events" time="0">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints GET /api/ugc/events should return user-generated events" name="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints GET /api/ugc/events should return user-generated events" time="0.001">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints DELETE /api/ugc/events should remove user events" name="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints DELETE /api/ugc/events should remove user events" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints DELETE /api/ugc/events should remove user events" name="🔌 API Endpoints - Complete Test Suite 📝 UGC (User Generated Content) Endpoints DELETE /api/ugc/events should remove user events" time="0.002">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🔗 Referral System Endpoints POST /api/referral/generate should create referral codes" name="🔌 API Endpoints - Complete Test Suite 🔗 Referral System Endpoints POST /api/referral/generate should create referral codes" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🔗 Referral System Endpoints POST /api/referral/generate should create referral codes" name="🔌 API Endpoints - Complete Test Suite 🔗 Referral System Endpoints POST /api/referral/generate should create referral codes" time="0">
     </testcase>
     <testcase classname="🔌 API Endpoints - Complete Test Suite 🔗 Referral System Endpoints POST /api/referral/track should track referral actions" name="🔌 API Endpoints - Complete Test Suite 🔗 Referral System Endpoints POST /api/referral/track should track referral actions" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🔗 Referral System Endpoints GET /api/referral/stats/{userId} should return user referral analytics" name="🔌 API Endpoints - Complete Test Suite 🔗 Referral System Endpoints GET /api/referral/stats/{userId} should return user referral analytics" time="0">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🔗 Referral System Endpoints GET /api/referral/stats/{userId} should return user referral analytics" name="🔌 API Endpoints - Complete Test Suite 🔗 Referral System Endpoints GET /api/referral/stats/{userId} should return user referral analytics" time="0.003">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/status should return user invite status" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/status should return user invite status" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/status should return user invite status" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/status should return user invite status" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/create should create new invites" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/create should create new invites" time="0">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/create should create new invites" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/create should create new invites" time="0.002">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/redeem should process invite redemption" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/redeem should process invite redemption" time="0">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/redeem should process invite redemption" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/redeem should process invite redemption" time="0.001">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/sent should return user sent invites" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/sent should return user sent invites" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/sent should return user sent invites" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/sent should return user sent invites" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/me should return personal invite link" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/me should return personal invite link" time="0">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/me should return personal invite link" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints GET /api/invites/me should return personal invite link" time="0.001">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/bonus should grant bonus invites" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/bonus should grant bonus invites" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/bonus should grant bonus invites" name="🔌 API Endpoints - Complete Test Suite 💌 Invite System Endpoints POST /api/invites/bonus should grant bonus invites" time="0">
     </testcase>
     <testcase classname="🔌 API Endpoints - Complete Test Suite 🤝 Connection System Endpoints POST /api/connections/add should add user connections" name="🔌 API Endpoints - Complete Test Suite 🤝 Connection System Endpoints POST /api/connections/add should add user connections" time="0.001">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🔧 Calendar &amp; OAuth Endpoints GET /api/calendar/oauth/start should initiate OAuth flow" name="🔌 API Endpoints - Complete Test Suite 🔧 Calendar &amp; OAuth Endpoints GET /api/calendar/oauth/start should initiate OAuth flow" time="0.007">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🔧 Calendar &amp; OAuth Endpoints GET /api/calendar/oauth/start should initiate OAuth flow" name="🔌 API Endpoints - Complete Test Suite 🔧 Calendar &amp; OAuth Endpoints GET /api/calendar/oauth/start should initiate OAuth flow" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle invalid endpoints with 404" name="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle invalid endpoints with 404" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle invalid endpoints with 404" name="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle invalid endpoints with 404" time="0">
     </testcase>
     <testcase classname="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle method not allowed with 405" name="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle method not allowed with 405" time="0">
     </testcase>
@@ -111,95 +1441,37 @@
     </testcase>
     <testcase classname="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should validate CORS origins" name="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should validate CORS origins" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle JSON parsing errors" name="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle JSON parsing errors" time="0">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle JSON parsing errors" name="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle JSON parsing errors" time="0.001">
     </testcase>
     <testcase classname="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle payload size limits" name="🔌 API Endpoints - Complete Test Suite 🛡️ Security &amp; Error Handling should handle payload size limits" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should track response times" name="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should track response times" time="0.001">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should track response times" name="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should track response times" time="0">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should include cost monitoring data" name="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should include cost monitoring data" time="0">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should include cost monitoring data" name="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should include cost monitoring data" time="0.001">
     </testcase>
-    <testcase classname="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should validate cache optimization" name="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should validate cache optimization" time="0.001">
-    </testcase>
-  </testsuite>
-  <testsuite name="Security Module Coverage" errors="0" failures="0" skipped="0" timestamp="2025-08-17T15:50:10" time="0.133" tests="28">
-    <testcase classname="Security Module Coverage Origin Validation should validate allowed origins" name="Security Module Coverage Origin Validation should validate allowed origins" time="0.003">
-    </testcase>
-    <testcase classname="Security Module Coverage Origin Validation should reject blocked origins" name="Security Module Coverage Origin Validation should reject blocked origins" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage Origin Validation should handle wildcard patterns" name="Security Module Coverage Origin Validation should handle wildcard patterns" time="0.001">
-    </testcase>
-    <testcase classname="Security Module Coverage Origin Validation should handle undefined/null origins" name="Security Module Coverage Origin Validation should handle undefined/null origins" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage String Sanitization should remove HTML tags" name="Security Module Coverage String Sanitization should remove HTML tags" time="0.003">
-    </testcase>
-    <testcase classname="Security Module Coverage String Sanitization should decode HTML entities" name="Security Module Coverage String Sanitization should decode HTML entities" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage String Sanitization should handle SQL injection attempts" name="Security Module Coverage String Sanitization should handle SQL injection attempts" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage String Sanitization should handle null/undefined inputs" name="Security Module Coverage String Sanitization should handle null/undefined inputs" time="0.001">
-    </testcase>
-    <testcase classname="Security Module Coverage String Sanitization should preserve normal text" name="Security Module Coverage String Sanitization should preserve normal text" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage CSRF Token Validation should validate correct CSRF tokens" name="Security Module Coverage CSRF Token Validation should validate correct CSRF tokens" time="0.001">
-    </testcase>
-    <testcase classname="Security Module Coverage CSRF Token Validation should reject invalid CSRF tokens" name="Security Module Coverage CSRF Token Validation should reject invalid CSRF tokens" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage CSRF Token Validation should handle missing session token" name="Security Module Coverage CSRF Token Validation should handle missing session token" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage CSRF Token Validation should be case sensitive" name="Security Module Coverage CSRF Token Validation should be case sensitive" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage Rate Limiting should allow requests within limit" name="Security Module Coverage Rate Limiting should allow requests within limit" time="0.002">
-    </testcase>
-    <testcase classname="Security Module Coverage Rate Limiting should block requests over limit" name="Security Module Coverage Rate Limiting should block requests over limit" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage Rate Limiting should handle different client IDs separately" name="Security Module Coverage Rate Limiting should handle different client IDs separately" time="0.001">
-    </testcase>
-    <testcase classname="Security Module Coverage Rate Limiting should reset after time window" name="Security Module Coverage Rate Limiting should reset after time window" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage Request Validation should validate required fields" name="Security Module Coverage Request Validation should validate required fields" time="0.001">
-    </testcase>
-    <testcase classname="Security Module Coverage Request Validation should reject requests missing required fields" name="Security Module Coverage Request Validation should reject requests missing required fields" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage Request Validation should validate request size limits" name="Security Module Coverage Request Validation should validate request size limits" time="0.001">
-    </testcase>
-    <testcase classname="Security Module Coverage Request Validation should validate content types" name="Security Module Coverage Request Validation should validate content types" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage Input Sanitization should sanitize object inputs" name="Security Module Coverage Input Sanitization should sanitize object inputs" time="0.001">
-    </testcase>
-    <testcase classname="Security Module Coverage Input Sanitization should handle nested objects" name="Security Module Coverage Input Sanitization should handle nested objects" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage Input Sanitization should handle arrays" name="Security Module Coverage Input Sanitization should handle arrays" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage Input Sanitization should preserve non-string values" name="Security Module Coverage Input Sanitization should preserve non-string values" time="0.001">
-    </testcase>
-    <testcase classname="Security Module Coverage Error Handling should handle malformed inputs gracefully" name="Security Module Coverage Error Handling should handle malformed inputs gracefully" time="0.001">
-    </testcase>
-    <testcase classname="Security Module Coverage Error Handling should handle circular references" name="Security Module Coverage Error Handling should handle circular references" time="0">
-    </testcase>
-    <testcase classname="Security Module Coverage Error Handling should handle extremely large inputs" name="Security Module Coverage Error Handling should handle extremely large inputs" time="0.003">
+    <testcase classname="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should validate cache optimization" name="🔌 API Endpoints - Complete Test Suite ⚡ Performance &amp; Monitoring should validate cache optimization" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="🚀 Professional Intelligence Platform - Core Tests" errors="0" failures="0" skipped="0" timestamp="2025-08-17T15:50:11" time="0.138" tests="15">
+  <testsuite name="🚀 Professional Intelligence Platform - Core Tests" errors="0" failures="0" skipped="0" timestamp="2025-09-12T01:27:45" time="0.066" tests="15">
     <testcase classname="🚀 Professional Intelligence Platform - Core Tests 📊 System Health should validate test environment setup" name="🚀 Professional Intelligence Platform - Core Tests 📊 System Health should validate test environment setup" time="0.001">
     </testcase>
-    <testcase classname="🚀 Professional Intelligence Platform - Core Tests 📊 System Health should have test utilities available" name="🚀 Professional Intelligence Platform - Core Tests 📊 System Health should have test utilities available" time="0.001">
+    <testcase classname="🚀 Professional Intelligence Platform - Core Tests 📊 System Health should have test utilities available" name="🚀 Professional Intelligence Platform - Core Tests 📊 System Health should have test utilities available" time="0">
     </testcase>
     <testcase classname="🚀 Professional Intelligence Platform - Core Tests 📊 System Health should create consistent mock data" name="🚀 Professional Intelligence Platform - Core Tests 📊 System Health should create consistent mock data" time="0.001">
     </testcase>
-    <testcase classname="🚀 Professional Intelligence Platform - Core Tests 📄 Data Validation should validate event data structure" name="🚀 Professional Intelligence Platform - Core Tests 📄 Data Validation should validate event data structure" time="0.002">
+    <testcase classname="🚀 Professional Intelligence Platform - Core Tests 📄 Data Validation should validate event data structure" name="🚀 Professional Intelligence Platform - Core Tests 📄 Data Validation should validate event data structure" time="0.001">
     </testcase>
-    <testcase classname="🚀 Professional Intelligence Platform - Core Tests 📄 Data Validation should validate user data structure" name="🚀 Professional Intelligence Platform - Core Tests 📄 Data Validation should validate user data structure" time="0.001">
+    <testcase classname="🚀 Professional Intelligence Platform - Core Tests 📄 Data Validation should validate user data structure" name="🚀 Professional Intelligence Platform - Core Tests 📄 Data Validation should validate user data structure" time="0">
     </testcase>
     <testcase classname="🚀 Professional Intelligence Platform - Core Tests 📄 Data Validation should validate API response structure" name="🚀 Professional Intelligence Platform - Core Tests 📄 Data Validation should validate API response structure" time="0.001">
     </testcase>
     <testcase classname="🚀 Professional Intelligence Platform - Core Tests ⚡ Performance Validation should measure performance of basic operations" name="🚀 Professional Intelligence Platform - Core Tests ⚡ Performance Validation should measure performance of basic operations" time="0.001">
     </testcase>
-    <testcase classname="🚀 Professional Intelligence Platform - Core Tests ⚡ Performance Validation should validate async operation performance" name="🚀 Professional Intelligence Platform - Core Tests ⚡ Performance Validation should validate async operation performance" time="0.012">
+    <testcase classname="🚀 Professional Intelligence Platform - Core Tests ⚡ Performance Validation should validate async operation performance" name="🚀 Professional Intelligence Platform - Core Tests ⚡ Performance Validation should validate async operation performance" time="0.011">
     </testcase>
     <testcase classname="🚀 Professional Intelligence Platform - Core Tests ⚡ Performance Validation should validate data processing efficiency" name="🚀 Professional Intelligence Platform - Core Tests ⚡ Performance Validation should validate data processing efficiency" time="0.001">
     </testcase>
-    <testcase classname="🚀 Professional Intelligence Platform - Core Tests 🛡️ Error Handling should handle JSON parsing errors gracefully" name="🚀 Professional Intelligence Platform - Core Tests 🛡️ Error Handling should handle JSON parsing errors gracefully" time="0.017">
+    <testcase classname="🚀 Professional Intelligence Platform - Core Tests 🛡️ Error Handling should handle JSON parsing errors gracefully" name="🚀 Professional Intelligence Platform - Core Tests 🛡️ Error Handling should handle JSON parsing errors gracefully" time="0.013">
     </testcase>
     <testcase classname="🚀 Professional Intelligence Platform - Core Tests 🛡️ Error Handling should handle async errors properly" name="🚀 Professional Intelligence Platform - Core Tests 🛡️ Error Handling should handle async errors properly" time="0.001">
     </testcase>
@@ -212,128 +1484,102 @@
     <testcase classname="🚀 Professional Intelligence Platform - Core Tests 🔍 Integration Readiness should validate cache system readiness" name="🚀 Professional Intelligence Platform - Core Tests 🔍 Integration Readiness should validate cache system readiness" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="System Integration Tests" errors="0" failures="0" skipped="0" timestamp="2025-08-17T15:50:11" time="0.073" tests="9">
-    <testcase classname="System Integration Tests should validate system initialization" name="System Integration Tests should validate system initialization" time="0">
+  <testsuite name="Security Module Coverage" errors="0" failures="0" skipped="0" timestamp="2025-09-12T01:27:45" time="0.057" tests="28">
+    <testcase classname="Security Module Coverage Origin Validation should validate allowed origins" name="Security Module Coverage Origin Validation should validate allowed origins" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage Origin Validation should reject blocked origins" name="Security Module Coverage Origin Validation should reject blocked origins" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage Origin Validation should handle wildcard patterns" name="Security Module Coverage Origin Validation should handle wildcard patterns" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage Origin Validation should handle undefined/null origins" name="Security Module Coverage Origin Validation should handle undefined/null origins" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage String Sanitization should remove HTML tags" name="Security Module Coverage String Sanitization should remove HTML tags" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage String Sanitization should decode HTML entities" name="Security Module Coverage String Sanitization should decode HTML entities" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage String Sanitization should handle SQL injection attempts" name="Security Module Coverage String Sanitization should handle SQL injection attempts" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage String Sanitization should handle null/undefined inputs" name="Security Module Coverage String Sanitization should handle null/undefined inputs" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage String Sanitization should preserve normal text" name="Security Module Coverage String Sanitization should preserve normal text" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage CSRF Token Validation should validate correct CSRF tokens" name="Security Module Coverage CSRF Token Validation should validate correct CSRF tokens" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage CSRF Token Validation should reject invalid CSRF tokens" name="Security Module Coverage CSRF Token Validation should reject invalid CSRF tokens" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage CSRF Token Validation should handle missing session token" name="Security Module Coverage CSRF Token Validation should handle missing session token" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage CSRF Token Validation should be case sensitive" name="Security Module Coverage CSRF Token Validation should be case sensitive" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage Rate Limiting should allow requests within limit" name="Security Module Coverage Rate Limiting should allow requests within limit" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage Rate Limiting should block requests over limit" name="Security Module Coverage Rate Limiting should block requests over limit" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage Rate Limiting should handle different client IDs separately" name="Security Module Coverage Rate Limiting should handle different client IDs separately" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage Rate Limiting should reset after time window" name="Security Module Coverage Rate Limiting should reset after time window" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage Request Validation should validate required fields" name="Security Module Coverage Request Validation should validate required fields" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage Request Validation should reject requests missing required fields" name="Security Module Coverage Request Validation should reject requests missing required fields" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage Request Validation should validate request size limits" name="Security Module Coverage Request Validation should validate request size limits" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage Request Validation should validate content types" name="Security Module Coverage Request Validation should validate content types" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage Input Sanitization should sanitize object inputs" name="Security Module Coverage Input Sanitization should sanitize object inputs" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage Input Sanitization should handle nested objects" name="Security Module Coverage Input Sanitization should handle nested objects" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage Input Sanitization should handle arrays" name="Security Module Coverage Input Sanitization should handle arrays" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage Input Sanitization should preserve non-string values" name="Security Module Coverage Input Sanitization should preserve non-string values" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage Error Handling should handle malformed inputs gracefully" name="Security Module Coverage Error Handling should handle malformed inputs gracefully" time="0.001">
+    </testcase>
+    <testcase classname="Security Module Coverage Error Handling should handle circular references" name="Security Module Coverage Error Handling should handle circular references" time="0">
+    </testcase>
+    <testcase classname="Security Module Coverage Error Handling should handle extremely large inputs" name="Security Module Coverage Error Handling should handle extremely large inputs" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="System Integration Tests" errors="0" failures="0" skipped="0" timestamp="2025-09-12T01:27:45" time="0.062" tests="9">
+    <testcase classname="System Integration Tests should validate system initialization" name="System Integration Tests should validate system initialization" time="0.004">
     </testcase>
     <testcase classname="System Integration Tests should handle configuration integration" name="System Integration Tests should handle configuration integration" time="0.001">
     </testcase>
     <testcase classname="System Integration Tests should validate data transformation pipeline" name="System Integration Tests should validate data transformation pipeline" time="0">
     </testcase>
-    <testcase classname="System Integration Tests should handle performance optimization integration" name="System Integration Tests should handle performance optimization integration" time="0.001">
+    <testcase classname="System Integration Tests should handle performance optimization integration" name="System Integration Tests should handle performance optimization integration" time="0.002">
     </testcase>
-    <testcase classname="System Integration Tests should validate networking system integration" name="System Integration Tests should validate networking system integration" time="0">
+    <testcase classname="System Integration Tests should validate networking system integration" name="System Integration Tests should validate networking system integration" time="0.001">
     </testcase>
     <testcase classname="System Integration Tests should handle cache invalidation flow" name="System Integration Tests should handle cache invalidation flow" time="0">
     </testcase>
-    <testcase classname="System Integration Tests should validate event delegation system" name="System Integration Tests should validate event delegation system" time="0.001">
+    <testcase classname="System Integration Tests should validate event delegation system" name="System Integration Tests should validate event delegation system" time="0">
     </testcase>
-    <testcase classname="System Integration Tests should handle professional persona integration" name="System Integration Tests should handle professional persona integration" time="0">
+    <testcase classname="System Integration Tests should handle professional persona integration" name="System Integration Tests should handle professional persona integration" time="0.001">
     </testcase>
     <testcase classname="System Integration Tests should validate cross-conference persistence" name="System Integration Tests should validate cross-conference persistence" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="GPT-5 Foundation API" errors="0" failures="2" skipped="0" timestamp="2025-08-17T15:50:11" time="5.719" tests="14">
-    <testcase classname="GPT-5 Foundation API Health Endpoint should return basic health status" name="GPT-5 Foundation API Health Endpoint should return basic health status" time="0.046">
+  <testsuite name="API Unit Tests" errors="0" failures="0" skipped="0" timestamp="2025-09-12T01:27:45" time="0.056" tests="9">
+    <testcase classname="API Unit Tests should initialize test environment" name="API Unit Tests should initialize test environment" time="0">
     </testcase>
-    <testcase classname="GPT-5 Foundation API Health Endpoint should include CORS headers" name="GPT-5 Foundation API Health Endpoint should include CORS headers" time="0.008">
+    <testcase classname="API Unit Tests should validate basic functionality" name="API Unit Tests should validate basic functionality" time="0.001">
     </testcase>
-    <testcase classname="GPT-5 Foundation API Health Endpoint should respond quickly" name="GPT-5 Foundation API Health Endpoint should respond quickly" time="0.007">
-    </testcase>
-    <testcase classname="GPT-5 Foundation API Parties Endpoint should return parties data" name="GPT-5 Foundation API Parties Endpoint should return parties data" time="0.022">
-      <failure>Error: expected 200 &quot;OK&quot;, got 400 &quot;Bad Request&quot;
-    at Object.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/tests/api-foundation.test.ts:66:10)
-    at Promise.then.completed (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:316:40)
-    at processTicksAndRejections (node:internal/process/task_queues:105:5)
-    at _runTest (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:121:9)
-    at _runTestsForDescribeBlock (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:121:9)
-    at run (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/workspaces/conference-party-microservice/functions/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/workspaces/conference-party-microservice/functions/node_modules/jest-runner/build/runTest.js:444:34)
-----
-    at Test._assertStatus (/workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:309:14)
-    at /workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:365:13
-    at Test._assertFunction (/workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:342:13)
-    at Test.assert (/workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:195:23)
-    at localAssert (/workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:138:14)
-    at Server.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:152:11)
-    at Object.onceWrapper (node:events:632:28)
-    at Server.emit (node:events:518:28)
-    at emitCloseNT (node:net:2419:8)
-    at processTicksAndRejections (node:internal/process/task_queues:89:21)</failure>
-    </testcase>
-    <testcase classname="GPT-5 Foundation API Parties Endpoint should include CORS headers" name="GPT-5 Foundation API Parties Endpoint should include CORS headers" time="0.009">
-      <failure>Error: expected 200 &quot;OK&quot;, got 400 &quot;Bad Request&quot;
-    at Object.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/tests/api-foundation.test.ts:83:10)
-    at Promise.then.completed (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/utils.js:298:28)
-    at new Promise (&lt;anonymous&gt;)
-    at callAsyncCircusFn (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/utils.js:231:10)
-    at _callCircusTest (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:316:40)
-    at processTicksAndRejections (node:internal/process/task_queues:105:5)
-    at _runTest (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:252:3)
-    at _runTestsForDescribeBlock (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:126:9)
-    at _runTestsForDescribeBlock (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:121:9)
-    at _runTestsForDescribeBlock (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:121:9)
-    at run (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/run.js:71:3)
-    at runAndTransformResultsToJestFormat (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
-    at jestAdapter (/workspaces/conference-party-microservice/functions/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
-    at runTestInternal (/workspaces/conference-party-microservice/functions/node_modules/jest-runner/build/runTest.js:367:16)
-    at runTest (/workspaces/conference-party-microservice/functions/node_modules/jest-runner/build/runTest.js:444:34)
-----
-    at Test._assertStatus (/workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:309:14)
-    at /workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:365:13
-    at Test._assertFunction (/workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:342:13)
-    at Test.assert (/workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:195:23)
-    at localAssert (/workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:138:14)
-    at Server.&lt;anonymous&gt; (/workspaces/conference-party-microservice/functions/node_modules/supertest/lib/test.js:152:11)
-    at Object.onceWrapper (node:events:632:28)
-    at Server.emit (node:events:518:28)
-    at emitCloseNT (node:net:2419:8)
-    at processTicksAndRejections (node:internal/process/task_queues:89:21)</failure>
-    </testcase>
-    <testcase classname="GPT-5 Foundation API Sync Endpoint should handle GET requests" name="GPT-5 Foundation API Sync Endpoint should handle GET requests" time="0.006">
-    </testcase>
-    <testcase classname="GPT-5 Foundation API Sync Endpoint should handle POST requests" name="GPT-5 Foundation API Sync Endpoint should handle POST requests" time="0.005">
-    </testcase>
-    <testcase classname="GPT-5 Foundation API Error Handling should handle 404 for unknown endpoints" name="GPT-5 Foundation API Error Handling should handle 404 for unknown endpoints" time="0.007">
-    </testcase>
-    <testcase classname="GPT-5 Foundation API Error Handling should handle internal errors gracefully" name="GPT-5 Foundation API Error Handling should handle internal errors gracefully" time="0.009">
-    </testcase>
-    <testcase classname="GPT-5 Foundation API CORS Handling should handle OPTIONS preflight requests" name="GPT-5 Foundation API CORS Handling should handle OPTIONS preflight requests" time="0.002">
-    </testcase>
-    <testcase classname="GPT-5 Foundation API CORS Handling should set CORS headers for all requests" name="GPT-5 Foundation API CORS Handling should set CORS headers for all requests" time="0.018">
-    </testcase>
-    <testcase classname="GPT-5 Foundation API CORS Handling should handle requests from allowed origins" name="GPT-5 Foundation API CORS Handling should handle requests from allowed origins" time="0.007">
-    </testcase>
-    <testcase classname="GPT-5 Foundation API Performance should respond quickly" name="GPT-5 Foundation API Performance should respond quickly" time="0.007">
-    </testcase>
-    <testcase classname="GPT-5 Foundation API Performance should include response time in health check" name="GPT-5 Foundation API Performance should include response time in health check" time="0.006">
-    </testcase>
-  </testsuite>
-  <testsuite name="API Unit Tests" errors="0" failures="0" skipped="0" timestamp="2025-08-17T15:50:17" time="0.094" tests="9">
-    <testcase classname="API Unit Tests should initialize test environment" name="API Unit Tests should initialize test environment" time="0.001">
-    </testcase>
-    <testcase classname="API Unit Tests should validate basic functionality" name="API Unit Tests should validate basic functionality" time="0">
-    </testcase>
-    <testcase classname="API Unit Tests should handle JSON operations" name="API Unit Tests should handle JSON operations" time="0.001">
+    <testcase classname="API Unit Tests should handle JSON operations" name="API Unit Tests should handle JSON operations" time="0">
     </testcase>
     <testcase classname="API Unit Tests should validate array operations" name="API Unit Tests should validate array operations" time="0">
     </testcase>
     <testcase classname="API Unit Tests should handle async operations" name="API Unit Tests should handle async operations" time="0.001">
     </testcase>
-    <testcase classname="API Unit Tests should validate error handling" name="API Unit Tests should validate error handling" time="0.005">
+    <testcase classname="API Unit Tests should validate error handling" name="API Unit Tests should validate error handling" time="0.003">
     </testcase>
-    <testcase classname="API Unit Tests should handle date operations" name="API Unit Tests should handle date operations" time="0">
+    <testcase classname="API Unit Tests should handle date operations" name="API Unit Tests should handle date operations" time="0.001">
     </testcase>
-    <testcase classname="API Unit Tests should validate configuration loading" name="API Unit Tests should validate configuration loading" time="0.001">
+    <testcase classname="API Unit Tests should validate configuration loading" name="API Unit Tests should validate configuration loading" time="0">
     </testcase>
-    <testcase classname="API Unit Tests should handle performance optimization structures" name="API Unit Tests should handle performance optimization structures" time="0">
+    <testcase classname="API Unit Tests should handle performance optimization structures" name="API Unit Tests should handle performance optimization structures" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>

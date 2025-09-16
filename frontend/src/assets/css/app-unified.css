@@ -81,7 +81,7 @@
   margin: 0 auto;
 }
 
-/* Top Navigation Tabs */
+/* Top Navigation Tabs - Always visible */
 .top-nav {
   display: flex;
   align-items: center;
@@ -121,12 +121,15 @@
 }
 
 @media (max-width: 768px) {
-  .nav-tab span {
-    display: none;
+  /* Keep labels visible on mobile for clarity */
+  .nav-tab {
+    padding: var(--s-2) var(--s-3);
+    font-size: 0.8rem;
   }
   
-  .nav-tab {
-    padding: var(--s-2);
+  .nav-tab svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
@@ -1000,26 +1003,19 @@
 }
 
 /* Bottom Navigation - Mobile Only */
-.bottom-nav {
-  display: none; /* Hidden by default, shown on mobile */
-  grid-template-columns: repeat(5, 1fr);
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
-  backdrop-filter: blur(20px);
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-}
+/* Bottom nav removed - using top nav on all devices */
 
 @media (max-width: 768px) {
-  .bottom-nav {
-    display: grid;
+  /* Keep top nav visible on mobile */
+  .top-nav {
+    display: flex;
+    gap: var(--s-1);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
   
-  /* Hide top nav on mobile - using bottom nav instead */
-  .top-nav {
+  .top-nav::-webkit-scrollbar {
     display: none;
   }
   
@@ -1028,13 +1024,7 @@
   }
 }
 
-.nav-item {
-  display: grid;
-  gap: var(--s-1);
-  justify-items: center;
-  padding: var(--s-3) var(--s-2);
-  background: transparent;
-  border: none;
+/* Removed bottom nav-item styles */
   color: var(--color-text-dim);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -1583,4 +1573,34 @@ button:focus-visible,
   .shimmer {
     animation: none;
   }
+}
+/* Calendar Sync Options */
+.sync-options {
+  display: flex;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.sync-btn--microsoft {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.sync-btn--microsoft:hover {
+  background: #00a4ef;
+  color: white;
+  border-color: #00a4ef;
+}
+
+.sync-btn--mtm {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.sync-btn--mtm:hover {
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
 }

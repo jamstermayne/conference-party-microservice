@@ -34,3 +34,23 @@ functions/package-lock.json @jamstermayne
 # Documentation
 README.md @jamstermayne
 CLAUDE.md @jamstermayne
+
+# CI/CD Workflows (critical for security)
+.github/workflows/ @jamstermayne
+
+# Testing files
+tools/ @jamstermayne
+tests/ @jamstermayne
+*.test.ts @jamstermayne
+*.spec.ts @jamstermayne
+
+# API routes and controllers
+functions/src/routes/ @jamstermayne
+functions/src/middleware/ @jamstermayne
+functions/src/services/ @jamstermayne
+
+# Environment and secrets (high security)
+.env* @jamstermayne
+*.key @jamstermayne
+*.pem @jamstermayne
+*.cert @jamstermayne
